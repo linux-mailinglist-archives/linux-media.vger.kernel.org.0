@@ -1,1932 +1,310 @@
-Return-Path: <linux-media+bounces-66016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66017-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ySoRB5e5Qmr3AAoAu9opvQ
-	(envelope-from <linux-media+bounces-66016-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 20:29:43 +0200
+	id TvAlEt2/QmrqAQoAu9opvQ
+	(envelope-from <linux-media+bounces-66017-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 20:56:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC996DE0D7
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 20:29:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB64E6DE2A0
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 20:56:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=G87E+2LY;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66016-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66016-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=chromium.org header.s=google header.b=KuC6lRCy;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66017-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66017-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=chromium.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 51A3A30464BC
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:27:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 91195304E667
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:55:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3A7A388E51;
-	Mon, 29 Jun 2026 18:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B122DB788;
+	Mon, 29 Jun 2026 18:55:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1C8391829
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 18:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E4137B028
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 18:55:49 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782757623; cv=none; b=QrkEJQNTvH5c5kI4wQa58rsVxs0EnicUCfP56fSHVBAvf1INkfs5/qUIjiNvQC72+lcVqp0qvTGA+KhwpRYlz2YzpWsSBfFWVOYOzXCFBYAEI9IAuAxmmEj9tUPFWm6EyAYysWdZF8FWO7ZmwYqs9LjLSUXbsJk1c9hM9xd0JK4=
+	t=1782759351; cv=none; b=NdklJPshxLdnwPNSMLjExCp4CxeLDQiglo5xtQKRfo58ULGMv/IO9S+ZZGs2ydsN93bOg2r63eBQOsruj85uZXPVwqX1roP+dDfECHs+/XOLhv/Bgwvudi4g13dlaFkqmHdY428+fGkb2IM24FY0j2TRmlox0i68HeOgEcj1d1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782757623; c=relaxed/simple;
-	bh=HAsgYXBlzsMdEdXGZiG7wy1lK/2Du9Gw5hVEJ/9rpIM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uSa5xw/D+ZxVIzXbLUE0MDhersOkhs2GdZjvzmTl/euBfbaFO2YUmYaMav2IlP+DA7+LJflp/KrtALJkuNvfX9AeIh4C+1M42wFucuXvCoF5P7coaPUg+5wb1Q2BYvJV+TVKsVVaAt5/T4KWP52/zB5UZEF8KmtUSbCk888fb6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G87E+2LY; arc=none smtp.client-ip=209.85.210.54
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e9b895ee02so1947594a34.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 11:26:57 -0700 (PDT)
+	s=arc-20240116; t=1782759351; c=relaxed/simple;
+	bh=6XEyvFm45RFpQRmroon/fQJy6RQP6vEOBkY+lsSQYMs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=JK9IiPeiMqJncBdmEW7rwR+njJBIHv/akxROfbM5zyEL2Hz/3+ubYft9ZxWzRNCVRgNjRWqeCcozWDsmbRq30TQDvhzsIf6JshDbbiqPLBmmcncrEpw12f8S56eQe7kwmBBh4fanhc7PNJ5QgrsWnxQxrvuCrvgu0mZS/zp43hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KuC6lRCy; arc=none smtp.client-ip=209.85.208.45
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-698562f10e7so2942027a12.0
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 11:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782757616; x=1783362416; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1782759348; x=1783364148; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DML1XNb16UfeMuYSVLcmLflfUmb954s+76bmr8Q/vog=;
-        b=G87E+2LYubvd9EPHGRoyaQ5m9QqDrcj7MgCMJb633zG4KpmjQ4HpFmTlBdo1Tu9GAs
-         QyFRY5ip2GUb2bCY71xf27It48GozEaGlCQrLZ5vbGUKlBXdI7RkK/lY1Wqmyitv1mQA
-         aWQ2V92N5nboHY0dxE7dADwBeO7u0m2xM6hUEakiiobthx1oiKkHxRbd33dqkALyN4a5
-         2PqOil9+QKw+uGKFrJeBRNd/cUGvf1HYqjlY1dS2g6C6fFHYcHbYDRDqYaPQsLA8vQDN
-         iMy5rad5o5zyQ32wXZ65twCqBgjm1uZh1WrP+9TxZVVweYqJ7VNochvZ0xPiu5SxTFq4
-         nRvw==
+        bh=2OOeKw0Dt0Ml12xsRcK2OOzf5cXKN/GeXGXmRNdKFNY=;
+        b=KuC6lRCyfjm9SCpHGN4Ru5mq4/Qygygx6Ctrka4sJiPBnevcckWJcnBCve5MLhW5CU
+         j9GQaPOcVZrK0Eha7rx/rwNespFhvC9aHa3E3TbT5JPhwgEaeNqZ3s2DexzfoD5apfll
+         oDnbjEUe+uA9QxFnHlfLrmzRHdclVCygAFKoA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782757616; x=1783362416;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1782759348; x=1783364148;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DML1XNb16UfeMuYSVLcmLflfUmb954s+76bmr8Q/vog=;
-        b=ivF2cllbd/50Xevs3JWWEwAYS3LNqNEoFULHidwLXGhWjutrsp+0VhCb2s0IC+ofBk
-         BQkCo6XsF0o5i+bvGcn8eJObF1pHwcHHEp/GNDUGe7AeCOR0QTAanhFdHGvX6kY5gZ3E
-         fTIOJsDtKPznLttOpQ3hLq/51ewhF0skGk+Oq5Tbj7aOngRnLS4bISCd0hASG7a1LhO1
-         FOXzAeWHbRGtwvnfaMFTp4AkVFqksnQYkXtciI+Pi8RFqA4PbcMHOreyMeehwYpa9n27
-         ugLx7FGLJAvPQWFdQ32muF0tG/FFJeroWGAr3cwDo08doBDmPcHg6b4rRBzQkclG8Sj1
-         Iu7A==
-X-Forwarded-Encrypted: i=1; AFNElJ+erDhLv0X/bMnbgrtO6Glp5A96hbD7PJURltS5rA8hnyakWELYrwyvBNjPpv476nDVvAeO495unHlCtw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YycbWZ8+YY1JRmTQtLu2Xg67EckMbLT+3J0SRsGuBsObqGS/SgV
-	wR5AXC9fndMXH4CxMnst9nl/AmH9zCfJ5dlF5cqeyQT3KEAgez56EIwMe8YFDw==
-X-Gm-Gg: AfdE7clVxckBxaxMzTD+FTr4C71wgWnkYuNCdCquaAOWwB+QFCf0ZYJBEY+EGbvEkQ9
-	tK/mgwsrM0h5oNPa7PPPQeP6aqpLs/ClE4FEAptY+9On17gJuf4WY1c+F36wJH+Os7WxjScbWUi
-	SM6iSb7l65wK3hzQdrK3Yc4oHpsPZJ8fQw+9F5Sp+cinUCJidXqAEYBVazGeDL2GHBB2nCO012X
-	YiUaJ5JJBstyd/TPAKce9/5hLHL4qaXXqn/lOhTxCpqsZBZSE8AB+cklJTM8jLOGbnSUYfv7nQJ
-	j2WU9RuS5MDQxOY70ItH4RWpMIty5VP1odtUfbsVtxTkBREajWmbG3TAf7hfGHfWBfIlKGKquoR
-	o1QVErl3e+VDiv2rGG4+S9Pbt/SCym1lGLvxIMO2kdURIJ6omfK1a7FjqKZVYb86UrNE3ZneyFn
-	sBU9RMpfKf5OEPpss3jFh5CFxFCe5EExgiejk50jye9F4GI6UrKRTmL764NE1qxQ==
-X-Received: by 2002:a05:6830:3741:b0:7dc:df37:844b with SMTP id 46e09a7af769-7e9ec5ba8f1mr553367a34.4.1782757615822;
-        Mon, 29 Jun 2026 11:26:55 -0700 (PDT)
-Received: from father (76-224-4-192.lightspeed.clmboh.sbcglobal.net. [76.224.4.192])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9ec2ba18esm396875a34.16.2026.06.29.11.26.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 11:26:55 -0700 (PDT)
-From: hoff.benjamin.k@gmail.com
-To: mchehab@kernel.org,
-	hverkuil+cisco@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v3 5/5] media: hws: add HDMI audio capture support
-Date: Mon, 29 Jun 2026 14:26:49 -0400
-Message-ID: <20260629182649.247879-6-hoff.benjamin.k@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260629182649.247879-1-hoff.benjamin.k@gmail.com>
-References: <20260629182649.247879-1-hoff.benjamin.k@gmail.com>
+        bh=2OOeKw0Dt0Ml12xsRcK2OOzf5cXKN/GeXGXmRNdKFNY=;
+        b=MNJaFiAk6ngMRqCABlpyLOoFaFZZULFsuWoWVVQKZR5o71ANeagMcpbELGWvXvtLBM
+         oY9YNaVAYTvrR+F0EZILo4eHKgVqabNScn9nM/tW+6ESaDBS8ekK8eohkgGz4dKQhqWl
+         /vK+xfpB5HD1ZyAQ1n5+rUH3b8FOix9BUmbmp3CTI3/z3IXDqQUDvT3fLSepUSxShQZ2
+         KgR9SvOrQW7I1SbrpLZQla3wfgI0RAqb7ZYGn727MtMdcnTY3CTfhWe5Hm9MpiGKMHce
+         DZ61cd+Ghj40Mpet/UpYZ0cUrkwT/i7x1a2KqTQTlUFmjJHmp85jeZseGAqavSae5V8f
+         JDWw==
+X-Forwarded-Encrypted: i=1; AHgh+Rolxa0jHgvxNQ6x4CobLaPGMi1DrRXhLQKqrNP1bhLZo93kBnDP/gjKaSS2g2NklbK7s2leY+7uj8nK6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWzp1LcDRGwG2NUfOGK7YsQNDOrJJx2hsbu3i6QzRNsjjBWwsW
+	cFkHE1F2kIFAHk11MR2J9Ud+ZhAZF68wPZDNzpfJVYdDZFiS/PBg9o1yhjCFJDpz2CMc9qG/8uh
+	3wtNLCFje
+X-Gm-Gg: AfdE7cketPVaHzo71faanwaLJMw/W2t3Jb72fXFE4FY4lS0vLG1f7D0njj5At3FEbpr
+	zlbswLebD+qWGprppb3EUiLk8ZrOlZjOl1702DbYhQdHUZuTrO7m4ROCIkrvh4gHscec32p+YBm
+	hX9b8PwqXwr8o/kM3vAL49qZZDjoQ5xxUChvI3aKQ1SbExvwGNDzV4Nts2v7ygKB6qiK70xn8YP
+	O/AQ50TT6hwmAcsQWnwKvqhQdc5wUSEDh7Zh0NEfCuXqoYHU0HQJ1eRr95Ua3xXDXOAB9EW5yVM
+	yOBwMsLU9W5TPTVwZpqifEy8jH2dp4IEfYUE1oGa5qkevMxslxl2vXWxQMIwpU43TiW/uhypqp1
+	wJp7ehwV2AK73IGwkZaN6zmODnIehOPKtJdpdLmPKnhBKzbsrP9CknPgZ5w8JSTmQc2ZvhEfbTB
+	HNV5TUuDJtS5f3r6J+vN8L9ukVqBQsJvacfWmQD5JGxVIg9Rculr+6qtUOpKxo
+X-Received: by 2002:a17:907:6ea4:b0:be2:7f13:8e33 with SMTP id a640c23a62f3a-c128730a922mr22750466b.45.1782759348379;
+        Mon, 29 Jun 2026 11:55:48 -0700 (PDT)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1288d694cfsm5204666b.16.2026.06.29.11.55.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2026 11:55:47 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1274802697so115470666b.3
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 11:55:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8pSrZNbb9L4WUGv7wdmIk+k++dj/ZrUTQWlpE7n1v1zO6ruuX3GeIL+LhE+DXTidheuhOKWL1RDrwGsw==@vger.kernel.org
+X-Received: by 2002:a17:907:3c94:b0:c12:44b4:c8ae with SMTP id
+ a640c23a62f3a-c12873932bemr21730366b.61.1782759345856; Mon, 29 Jun 2026
+ 11:55:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
+ <CANiDSCviTcv6mYmE9Ha8xh7r+kEuwGUoT18sdb2J=HzTFVhLoQ@mail.gmail.com> <CAD0bCtmJ88fC3zXhU5nDxugagjNMmY=FS7sO40x3OsAe41L+qg@mail.gmail.com>
+In-Reply-To: <CAD0bCtmJ88fC3zXhU5nDxugagjNMmY=FS7sO40x3OsAe41L+qg@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 29 Jun 2026 20:55:32 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvQAo940t6son-QHoOdYT3KGHoQMhiNis7HwER+WhiPUQ@mail.gmail.com>
+X-Gm-Features: AVVi8CdCFjbiMd_LoXX23FhHoQCVsdtCvgzrIVV27LBuwVwhXZXklfhUOLmni1E
+Message-ID: <CANiDSCvQAo940t6son-QHoOdYT3KGHoQMhiNis7HwER+WhiPUQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: uvcvideo: add quirks for per-device stream
+ error handling
+To: =?UTF-8?Q?Pol_Fern=C3=A1ndez_Fern=C3=A1ndez?= <fernandezfernandezpol@gmail.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66016-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_ALL(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66017-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_SENDER(0.00)[hoffbenjamink@gmail.com,linux-media@vger.kernel.org];
-	FROM_NEQ_ENVFROM(0.00)[hoffbenjamink@gmail.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:fernandezfernandezpol@gmail.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FROM_NO_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
+	FORGED_SENDER(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_THREE(0.00)[4];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5BC996DE0D7
+X-Rspamd-Queue-Id: AB64E6DE2A0
 
-From: Ben Hoff <hoff.benjamin.k@gmail.com>
+Hi Pol
 
-Add ALSA PCM capture for the HDMI audio streams exposed by the HWS
-hardware. The audio path shares the per-channel scratch DMA arena and BAR
-remap slot with video, handles audio-done interrupts, exposes capture
-constraints through ALSA hw_params, and starts/stops the hardware capture
-engine from the PCM lifecycle.
+On Mon, 29 Jun 2026 at 19:48, Pol Fern=C3=A1ndez Fern=C3=A1ndez
+<fernandezfernandezpol@gmail.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the feedback.
+>
+> The original detection was in MATLAB, and the same corruption is reproduc=
+ible in guvcview. However, the issue is not application-specific: I've conf=
+irmed the same corruption on a second machine running Ubuntu 24 with a stoc=
+k kernel. It does not reproduce on two Windows 11 machines with the same C9=
+20, and does not reproduce with other UVC cameras on the same Linux system =
+(tested with a Logitech BRIO 100 and an HP 950 4K Pro). Capturing in YUYV o=
+n the same system produces zero corruption, confirming the problem is speci=
+fic to the MJPEG encoder path. This points to a specific interaction betwee=
+n this device's firmware and the Linux uvcvideo driver.
 
-Signed-off-by: Ben Hoff <hoff.benjamin.k@gmail.com>
----
- drivers/media/pci/hws/Kconfig     |    3 +-
- drivers/media/pci/hws/Makefile    |    2 +-
- drivers/media/pci/hws/hws.h       |   52 ++
- drivers/media/pci/hws/hws_audio.c | 1183 +++++++++++++++++++++++++++++
- drivers/media/pci/hws/hws_audio.h |   23 +
- drivers/media/pci/hws/hws_irq.c   |   32 +
- drivers/media/pci/hws/hws_pci.c   |  105 ++-
- drivers/media/pci/hws/hws_reg.h   |   42 +-
- drivers/media/pci/hws/hws_video.c |    3 +
- 9 files changed, 1422 insertions(+), 23 deletions(-)
- create mode 100644 drivers/media/pci/hws/hws_audio.c
- create mode 100644 drivers/media/pci/hws/hws_audio.h
+I just sent a patch to guvcview to fix handling the invalid frames:
+https://sourceforge.net/p/guvcview/discussion/general/thread/4af26b96c8/
+I hope they carry it soon.
 
-diff --git a/drivers/media/pci/hws/Kconfig b/drivers/media/pci/hws/Kconfig
-index ab0bbf49ca71..93a1b9188738 100644
---- a/drivers/media/pci/hws/Kconfig
-+++ b/drivers/media/pci/hws/Kconfig
-@@ -1,8 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config VIDEO_HWS
- 	tristate "AVMatrix HWS PCIe capture devices"
--	depends on PCI && VIDEO_DEV
-+	depends on PCI && VIDEO_DEV && SND
- 	select VIDEOBUF2_DMA_CONTIG
-+	select SND_PCM
- 	help
- 	  Enable support for AVMatrix HWS series multi-channel PCIe capture
- 	  devices that provide HDMI video capture.
-diff --git a/drivers/media/pci/hws/Makefile b/drivers/media/pci/hws/Makefile
-index f9c7dc4f2d8d..51aa2a3a0517 100644
---- a/drivers/media/pci/hws/Makefile
-+++ b/drivers/media/pci/hws/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--hws-objs := hws_pci.o hws_irq.o hws_video.o hws_v4l2_ioctl.o
-+hws-objs := hws_pci.o hws_irq.o hws_video.o hws_v4l2_ioctl.o hws_audio.o
- 
- obj-$(CONFIG_VIDEO_HWS) += hws.o
-diff --git a/drivers/media/pci/hws/hws.h b/drivers/media/pci/hws/hws.h
-index 552f0663e5d8..47701e6b4e39 100644
---- a/drivers/media/pci/hws/hws.h
-+++ b/drivers/media/pci/hws/hws.h
-@@ -12,6 +12,10 @@
- #include <linux/spinlock.h>
- #include <linux/sizes.h>
- #include <linux/atomic.h>
-+#include <linux/workqueue.h>
-+
-+#include <sound/pcm.h>
-+#include <sound/core.h>
- 
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-@@ -20,6 +24,8 @@
- 
- #include "hws_reg.h"
- 
-+struct snd_pcm_substream;
-+
- struct hwsmem_param {
- 	u32 index;
- 	u32 type;
-@@ -131,6 +137,46 @@ static inline void hws_set_current_dv_timings(struct hws_video *vid,
- 	};
- }
- 
-+struct hws_audio {
-+	/* linkage */
-+	struct hws_pcie_dev *parent;
-+	int channel_index;
-+
-+	/* ALSA */
-+	struct snd_pcm_substream *pcm_substream;
-+	spinlock_t ring_lock; /* protects ring and period position fields */
-+	snd_pcm_uframes_t ring_size_byframes;
-+	snd_pcm_uframes_t ring_wpos_byframes;
-+	snd_pcm_uframes_t period_size_byframes;
-+	snd_pcm_uframes_t period_used_byframes;
-+	size_t frame_bytes;
-+	size_t hw_packet_bytes;
-+
-+	/* stream state */
-+	bool cap_active;
-+	bool stream_running;
-+	bool stop_requested;
-+	struct mutex scratch_state_lock; /* protects scratch_acquired */
-+	bool scratch_acquired;
-+
-+	/* minimal HW packet tracking */
-+	struct work_struct deliver_work;
-+	spinlock_t pending_lock; /* protects packet_pending/toggle/irq timestamp */
-+	bool packet_pending;
-+	bool xrun_pending;
-+	u8 pending_toggle;
-+	u64 pending_irq_ns;
-+	u8 last_period_toggle;
-+	u32 irq_count;
-+	u32 delivered_count;
-+	u32 dropped_packets;
-+
-+	/* PCM format */
-+	u32 output_sample_rate;
-+	u16 channel_count;
-+	u16 bits_per_sample;
-+};
-+
- struct hws_scratch_dma {
- 	void *cpu;
- 	dma_addr_t dma;
-@@ -141,10 +187,12 @@ struct hws_scratch_dma {
- struct hws_pcie_dev {
- 	/* Core objects */
- 	struct pci_dev *pdev;
-+	struct hws_audio audio[MAX_VID_CHANNELS];
- 	struct hws_video video[MAX_VID_CHANNELS];
- 
- 	/* BAR and workqueues */
- 	void __iomem *bar0_base;
-+	struct workqueue_struct *audio_wq;
- 
- 	/* Device identity and capabilities */
- 	u16 vendor_id;
-@@ -158,14 +206,18 @@ struct hws_pcie_dev {
- 	u32 max_hw_video_buf_sz;
- 	u8 max_channels;
- 	u8 cur_max_video_ch;
-+	/* Independently capturable embedded audio inputs exposed as ALSA PCMs. */
- 	u8 cur_max_audio_ch;
- 	bool start_run;
- 
- 	bool buf_allocated;
-+	u32 audio_pkt_size;
- 
- 	/* V4L2 framework objects */
- 	struct v4l2_device v4l2_device;
- 
-+	struct snd_card *snd_card;
-+
- 	/* Kernel thread */
- 	struct task_struct *main_task;
- 	struct mutex scratch_lock; /* protects scratch DMA arenas and user refs */
-diff --git a/drivers/media/pci/hws/hws_audio.c b/drivers/media/pci/hws/hws_audio.c
-new file mode 100644
-index 000000000000..674d6363a7ff
---- /dev/null
-+++ b/drivers/media/pci/hws/hws_audio.c
-@@ -0,0 +1,1183 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include "hws_audio.h"
-+
-+#include "hws.h"
-+#include "hws_reg.h"
-+
-+#include <sound/core.h>
-+#include <sound/pcm_params.h>
-+#include <sound/control.h>
-+#include <sound/pcm.h>
-+#include <sound/rawmidi.h>
-+#include <sound/initval.h>
-+#include <linux/ktime.h>
-+#include <linux/preempt.h>
-+#include "hws_video.h"
-+
-+static inline void hws_audio_ack_pending(struct hws_pcie_dev *hws,
-+					 unsigned int ch);
-+static void hws_audio_disable_capture_and_ack(struct hws_pcie_dev *hws,
-+					      unsigned int ch);
-+static void hws_audio_clear_pending(struct hws_audio *a);
-+static void hws_audio_deliver_work(struct work_struct *work);
-+static void hws_audio_drain_channel_work(struct hws_audio *a);
-+static void hws_audio_discard_stale_done(struct hws_pcie_dev *hws,
-+					 struct hws_audio *a,
-+					 unsigned int ch);
-+
-+static void hws_audio_reset_ring_state(struct hws_audio *a)
-+{
-+	unsigned long flags;
-+
-+	if (!a)
-+		return;
-+
-+	spin_lock_irqsave(&a->ring_lock, flags);
-+	a->ring_size_byframes = 0;
-+	a->ring_wpos_byframes = 0;
-+	a->period_size_byframes = 0;
-+	a->period_used_byframes = 0;
-+	a->frame_bytes = 0;
-+	spin_unlock_irqrestore(&a->ring_lock, flags);
-+}
-+
-+static void hws_audio_reset_counters(struct hws_audio *a)
-+{
-+	if (!a)
-+		return;
-+
-+	WRITE_ONCE(a->last_period_toggle, 0xFF);
-+	WRITE_ONCE(a->irq_count, 0);
-+	WRITE_ONCE(a->delivered_count, 0);
-+	WRITE_ONCE(a->dropped_packets, 0);
-+}
-+
-+static void hws_audio_reset_runtime_state(struct hws_audio *a)
-+{
-+	if (!a)
-+		return;
-+
-+	hws_audio_clear_pending(a);
-+	hws_audio_reset_ring_state(a);
-+	hws_audio_reset_counters(a);
-+}
-+
-+static bool hws_audio_publish_stopped(struct hws_audio *a)
-+{
-+	unsigned long flags;
-+	bool was_running;
-+
-+	if (!a)
-+		return false;
-+
-+	spin_lock_irqsave(&a->ring_lock, flags);
-+	was_running = READ_ONCE(a->stream_running) ||
-+		      READ_ONCE(a->cap_active);
-+	WRITE_ONCE(a->stream_running, false);
-+	WRITE_ONCE(a->cap_active, false);
-+	WRITE_ONCE(a->stop_requested, true);
-+	spin_unlock_irqrestore(&a->ring_lock, flags);
-+	/*
-+	 * IRQ handlers test these flags before touching scratch buffers or
-+	 * ALSA pointers. Publish the no-stream state before ACAP is disabled
-+	 * and before any teardown clears pcm_substream.
-+	 */
-+	smp_wmb();
-+	return was_running;
-+}
-+
-+static void hws_audio_quiesce_capture(struct hws_pcie_dev *hws,
-+				      unsigned int ch, bool sync_irq)
-+{
-+	struct hws_audio *a;
-+
-+	if (!hws || ch >= hws->cur_max_audio_ch)
-+		return;
-+
-+	a = &hws->audio[ch];
-+	hws_audio_publish_stopped(a);
-+
-+	hws_audio_disable_capture_and_ack(hws, ch);
-+
-+	if (sync_irq && hws->irq >= 0 && !in_interrupt())
-+		synchronize_irq(hws->irq);
-+
-+	if (!in_interrupt())
-+		hws_audio_drain_channel_work(a);
-+
-+	hws_audio_reset_runtime_state(a);
-+}
-+
-+#define HWS_AUDIO_PACKET_BYTES      MAX_DMA_AUDIO_PK_SIZE
-+#define HWS_AUDIO_PERIODS_MIN       4U
-+#define HWS_AUDIO_PERIODS_MAX       16U
-+#define HWS_AUDIO_PERIOD_BYTES_MAX  (HWS_AUDIO_PACKET_BYTES * 4U)
-+#define HWS_AUDIO_BUFFER_BYTES_MAX  (HWS_AUDIO_PACKET_BYTES * HWS_AUDIO_PERIODS_MAX)
-+
-+/*
-+ * Audio DMA completes in fixed-size packets. The driver copies whole packets
-+ * into ALSA's ring, so expose packet-sized period and buffer granularity.
-+ */
-+static const struct snd_pcm_hardware audio_pcm_hardware = {
-+	.info = (SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_INTERLEAVED |
-+		 SNDRV_PCM_INFO_BLOCK_TRANSFER | SNDRV_PCM_INFO_RESUME |
-+		 SNDRV_PCM_INFO_MMAP_VALID),
-+	.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+	.rates = SNDRV_PCM_RATE_48000,
-+	.rate_min = 48000,
-+	.rate_max = 48000,
-+	.channels_min = 2,
-+	.channels_max = 2,
-+	.buffer_bytes_max = HWS_AUDIO_BUFFER_BYTES_MAX,
-+	.period_bytes_min = HWS_AUDIO_PACKET_BYTES,
-+	.period_bytes_max = HWS_AUDIO_PERIOD_BYTES_MAX,
-+	.periods_min = HWS_AUDIO_PERIODS_MIN,
-+	.periods_max = HWS_AUDIO_PERIODS_MAX,
-+};
-+
-+static bool hws_audio_select_buffer(struct hws_pcie_dev *hws, unsigned int ch,
-+				    void **cpu_base, dma_addr_t *dma_base,
-+				    size_t *size)
-+{
-+	struct hws_scratch_dma *scratch;
-+
-+	if (!hws || ch >= hws->cur_max_audio_ch)
-+		return false;
-+
-+	scratch = &hws->scratch_aud[ch];
-+	if (!scratch->cpu || !scratch->size)
-+		return false;
-+
-+	if (cpu_base)
-+		*cpu_base = scratch->cpu;
-+	if (dma_base)
-+		*dma_base = scratch->dma;
-+	if (size)
-+		*size = scratch->size;
-+	return true;
-+}
-+
-+static int hws_guard_audio_video_remap_page(struct hws_pcie_dev *hws,
-+					    unsigned int ch)
-+{
-+	struct hws_video *vid;
-+	dma_addr_t audio_dma;
-+	u32 audio_hi, audio_page;
-+
-+	if (!hws || ch >= hws->cur_max_audio_ch)
-+		return -EINVAL;
-+	if (ch >= hws->cur_max_video_ch)
-+		return 0;
-+
-+	vid = &hws->video[ch];
-+	if (!READ_ONCE(vid->cap_active) || !vid->window_valid)
-+		return 0;
-+
-+	if (!hws_audio_select_buffer(hws, ch, NULL, &audio_dma, NULL))
-+		return -ENOMEM;
-+
-+	audio_hi = upper_32_bits(audio_dma);
-+	audio_page = lower_32_bits(audio_dma) & PCI_E_BAR_ADD_MASK;
-+	if (audio_hi == vid->last_dma_hi && audio_page == vid->last_dma_page)
-+		return 0;
-+
-+	dev_warn_ratelimited(&hws->pdev->dev,
-+			     "audio ch%u DMA page differs from active video remap slot; refusing shared-window conflict (audio=%pad video_hi=0x%08x video_page=0x%08x)\n",
-+			     ch, &audio_dma, vid->last_dma_hi,
-+			     vid->last_dma_page);
-+	return -EBUSY;
-+}
-+
-+static void hws_audio_program_remap_slot(struct hws_pcie_dev *hws,
-+					 u32 table_off, u32 hi, u32 page_lo)
-+{
-+	writel_relaxed(hi, hws->bar0_base + PCI_ADDR_TABLE_BASE + table_off);
-+	writel_relaxed(page_lo, hws->bar0_base + PCI_ADDR_TABLE_BASE + table_off +
-+		       PCIE_BARADDROFSIZE);
-+}
-+
-+static int hws_audio_seed_capture_buffer(struct hws_pcie_dev *hws, unsigned int ch)
-+{
-+	dma_addr_t dma;
-+	u32 lo, hi, pci_addr;
-+	u32 audio_table_off;
-+
-+	if (!hws || ch >= hws->cur_max_audio_ch)
-+		return -EINVAL;
-+
-+	if (!hws_audio_select_buffer(hws, ch, NULL, &dma, NULL))
-+		return -ENOMEM;
-+
-+	lo = lower_32_bits(dma);
-+	hi = upper_32_bits(dma);
-+	pci_addr = lo & PCI_E_BAR_ADD_LOWMASK;
-+	lo &= PCI_E_BAR_ADD_MASK;
-+	audio_table_off = HWS_AUDIO_REMAP_SLOT_OFF(ch);
-+	hws_audio_program_remap_slot(hws, audio_table_off, hi, lo);
-+	writel_relaxed((ch + 1u) * PCIEBAR_AXI_BASE + pci_addr,
-+		       hws->bar0_base + HWS_REG_AUD_DMA_ADDR(ch));
-+	(void)readl(hws->bar0_base + HWS_REG_AUD_DMA_ADDR(ch));
-+	return 0;
-+}
-+
-+void hws_audio_seed_channels(struct hws_pcie_dev *hws)
-+{
-+	unsigned int ch;
-+
-+	if (!hws || !hws->bar0_base)
-+		return;
-+
-+	for (ch = 0; ch < hws->cur_max_audio_ch; ch++) {
-+		int ret;
-+
-+		if (!hws->scratch_aud[ch].cpu)
-+			continue;
-+
-+		ret = hws_audio_seed_capture_buffer(hws, ch);
-+		if (ret)
-+			dev_warn(&hws->pdev->dev,
-+				 "audio seed ch%u failed ret=%d\n", ch, ret);
-+	}
-+}
-+
-+static size_t hws_audio_packet_offset(const struct hws_audio *a, u8 cur_toggle)
-+{
-+	size_t packet = a->hw_packet_bytes;
-+
-+	/*
-+	 * ABUF_TOGGLE reports the half the device is filling now, so the
-+	 * completed packet is the other half.
-+	 */
-+	return cur_toggle ? 0 : packet;
-+}
-+
-+static void hws_audio_clear_pending(struct hws_audio *a)
-+{
-+	unsigned long flags;
-+
-+	if (!a)
-+		return;
-+
-+	spin_lock_irqsave(&a->pending_lock, flags);
-+	a->packet_pending = false;
-+	a->xrun_pending = false;
-+	a->pending_irq_ns = 0;
-+	spin_unlock_irqrestore(&a->pending_lock, flags);
-+}
-+
-+static void hws_audio_report_xrun(struct hws_audio *a)
-+{
-+	struct hws_pcie_dev *hws;
-+	struct snd_pcm_substream *ss;
-+	unsigned long flags;
-+	unsigned int ch;
-+
-+	if (!a)
-+		return;
-+
-+	hws = a->parent;
-+	ch = a->channel_index;
-+	ss = READ_ONCE(a->pcm_substream);
-+
-+	hws_audio_publish_stopped(a);
-+	hws_audio_disable_capture_and_ack(hws, ch);
-+	hws_audio_clear_pending(a);
-+
-+	if (!ss)
-+		return;
-+
-+	snd_pcm_stream_lock_irqsave(ss, flags);
-+	if (ss->runtime && READ_ONCE(a->pcm_substream) == ss)
-+		snd_pcm_stop(ss, SNDRV_PCM_STATE_XRUN);
-+	snd_pcm_stream_unlock_irqrestore(ss, flags);
-+}
-+
-+static void hws_audio_drain_channel_work(struct hws_audio *a)
-+{
-+	if (!a)
-+		return;
-+
-+	if (!in_interrupt())
-+		cancel_work_sync(&a->deliver_work);
-+	hws_audio_clear_pending(a);
-+}
-+
-+static int hws_audio_acquire_scratch(struct hws_audio *a)
-+{
-+	struct hws_pcie_dev *hws;
-+	unsigned int ch;
-+	int ret;
-+
-+	if (!a || !a->parent)
-+		return -EINVAL;
-+
-+	mutex_lock(&a->scratch_state_lock);
-+	if (READ_ONCE(a->scratch_acquired)) {
-+		mutex_unlock(&a->scratch_state_lock);
-+		return 0;
-+	}
-+
-+	hws = a->parent;
-+	ch = a->channel_index;
-+	ret = hws_alloc_channel_scratch(hws, ch);
-+	if (ret) {
-+		mutex_unlock(&a->scratch_state_lock);
-+		return ret;
-+	}
-+
-+	WRITE_ONCE(a->scratch_acquired, true);
-+	mutex_unlock(&a->scratch_state_lock);
-+	return 0;
-+}
-+
-+static void hws_audio_release_scratch(struct hws_audio *a)
-+{
-+	struct hws_pcie_dev *hws;
-+	unsigned int ch;
-+
-+	if (!a)
-+		return;
-+
-+	mutex_lock(&a->scratch_state_lock);
-+	if (!a->scratch_acquired) {
-+		mutex_unlock(&a->scratch_state_lock);
-+		return;
-+	}
-+
-+	WRITE_ONCE(a->scratch_acquired, false);
-+	hws = a->parent;
-+	ch = a->channel_index;
-+	mutex_unlock(&a->scratch_state_lock);
-+
-+	if (hws)
-+		hws_release_channel_scratch(hws, ch);
-+}
-+
-+static bool hws_audio_deliver_packet(struct hws_audio *a, const void *src)
-+{
-+	struct snd_pcm_substream *ss;
-+	struct snd_pcm_runtime *rt;
-+	snd_pcm_uframes_t frames, ring_pos, ring_frames, period_frames;
-+	size_t frame_bytes, packet_bytes, ring_bytes, first;
-+	unsigned long flags;
-+	unsigned int elapsed = 0;
-+	bool delivered = false;
-+	char *dst;
-+
-+	if (!READ_ONCE(a->stream_running) || !READ_ONCE(a->cap_active) ||
-+	    READ_ONCE(a->stop_requested))
-+		return false;
-+
-+	ss = READ_ONCE(a->pcm_substream);
-+	if (!ss)
-+		return false;
-+
-+	rt = ss->runtime;
-+	if (!rt || !rt->dma_area)
-+		return false;
-+
-+	spin_lock_irqsave(&a->ring_lock, flags);
-+	if (!READ_ONCE(a->stream_running) || !READ_ONCE(a->cap_active) ||
-+	    READ_ONCE(a->stop_requested) ||
-+	    READ_ONCE(a->pcm_substream) != ss) {
-+		spin_unlock_irqrestore(&a->ring_lock, flags);
-+		return false;
-+	}
-+
-+	frame_bytes = a->frame_bytes;
-+	packet_bytes = a->hw_packet_bytes;
-+	ring_frames = a->ring_size_byframes;
-+	period_frames = a->period_size_byframes;
-+	if (!frame_bytes || !packet_bytes || !ring_frames || !period_frames)
-+		goto out_unlock;
-+	if (packet_bytes % frame_bytes)
-+		goto out_unlock;
-+
-+	frames = packet_bytes / frame_bytes;
-+	if (!frames)
-+		goto out_unlock;
-+
-+	ring_pos = a->ring_wpos_byframes;
-+	ring_bytes = ring_frames * frame_bytes;
-+	dst = rt->dma_area + ring_pos * frame_bytes;
-+	first = min(packet_bytes, ring_bytes - ring_pos * frame_bytes);
-+	memcpy(dst, src, first);
-+	if (first < packet_bytes)
-+		memcpy(rt->dma_area, (const char *)src + first, packet_bytes - first);
-+	delivered = true;
-+
-+	ring_pos += frames;
-+	if (ring_pos >= ring_frames)
-+		ring_pos %= ring_frames;
-+	a->ring_wpos_byframes = ring_pos;
-+
-+	a->period_used_byframes += frames;
-+	while (a->period_used_byframes >= period_frames) {
-+		a->period_used_byframes -= period_frames;
-+		elapsed++;
-+	}
-+out_unlock:
-+	spin_unlock_irqrestore(&a->ring_lock, flags);
-+
-+	if (!READ_ONCE(a->stream_running) || !READ_ONCE(a->cap_active) ||
-+	    READ_ONCE(a->stop_requested))
-+		return delivered;
-+
-+	while (elapsed--)
-+		snd_pcm_period_elapsed(ss);
-+	return delivered;
-+}
-+
-+static bool hws_audio_packet_stale(struct hws_audio *a, u64 irq_ns)
-+{
-+	u64 packet_ns;
-+	size_t frame_bytes;
-+	u32 rate;
-+	u64 frames;
-+
-+	if (!a || !irq_ns)
-+		return false;
-+
-+	frame_bytes = READ_ONCE(a->frame_bytes);
-+	rate = READ_ONCE(a->output_sample_rate);
-+	if (!frame_bytes || !rate || a->hw_packet_bytes % frame_bytes)
-+		return false;
-+
-+	frames = a->hw_packet_bytes / frame_bytes;
-+	if (!frames)
-+		return false;
-+
-+	packet_ns = div_u64(frames * NSEC_PER_SEC, rate);
-+	return ktime_get_mono_fast_ns() - irq_ns >= packet_ns;
-+}
-+
-+static void hws_audio_deliver_one_packet(struct hws_audio *a, u8 cur_toggle)
-+{
-+	struct hws_pcie_dev *hws;
-+	unsigned int ch;
-+	void *cpu;
-+	size_t size;
-+	size_t offset;
-+
-+	if (!a)
-+		return;
-+
-+	hws = a->parent;
-+	ch = a->channel_index;
-+	if (!hws || ch >= hws->cur_max_audio_ch)
-+		return;
-+
-+	if (!READ_ONCE(a->stream_running) || !READ_ONCE(a->cap_active) ||
-+	    READ_ONCE(a->stop_requested))
-+		return;
-+
-+	if (!hws_audio_select_buffer(hws, ch, &cpu, NULL, &size))
-+		return;
-+
-+	offset = hws_audio_packet_offset(a, cur_toggle);
-+	if (offset + a->hw_packet_bytes > size)
-+		return;
-+
-+	dma_rmb();
-+	if (hws_audio_deliver_packet(a, (char *)cpu + offset))
-+		WRITE_ONCE(a->delivered_count,
-+			   READ_ONCE(a->delivered_count) + 1);
-+}
-+
-+static void hws_audio_deliver_work(struct work_struct *work)
-+{
-+	struct hws_audio *a = container_of(work, struct hws_audio, deliver_work);
-+	unsigned long flags;
-+	u64 irq_ns;
-+	u8 toggle;
-+
-+	for (;;) {
-+		spin_lock_irqsave(&a->pending_lock, flags);
-+		if (a->xrun_pending) {
-+			a->xrun_pending = false;
-+			a->packet_pending = false;
-+			a->pending_irq_ns = 0;
-+			spin_unlock_irqrestore(&a->pending_lock, flags);
-+			hws_audio_report_xrun(a);
-+			break;
-+		}
-+		if (!a->packet_pending) {
-+			spin_unlock_irqrestore(&a->pending_lock, flags);
-+			break;
-+		}
-+		toggle = a->pending_toggle;
-+		irq_ns = a->pending_irq_ns;
-+		a->packet_pending = false;
-+		a->pending_irq_ns = 0;
-+		spin_unlock_irqrestore(&a->pending_lock, flags);
-+
-+		if (hws_audio_packet_stale(a, irq_ns)) {
-+			WRITE_ONCE(a->dropped_packets,
-+				   READ_ONCE(a->dropped_packets) + 1);
-+			hws_audio_report_xrun(a);
-+			break;
-+		}
-+
-+		hws_audio_deliver_one_packet(a, toggle);
-+	}
-+}
-+
-+void hws_audio_queue_interrupt(struct hws_pcie_dev *hws, unsigned int ch, u8 cur_toggle)
-+{
-+	struct workqueue_struct *wq;
-+	struct hws_audio *a;
-+
-+	if (!hws || ch >= hws->cur_max_audio_ch)
-+		return;
-+
-+	a = &hws->audio[ch];
-+	if (!READ_ONCE(a->stream_running) || !READ_ONCE(a->cap_active) ||
-+	    READ_ONCE(a->stop_requested))
-+		return;
-+
-+	wq = READ_ONCE(hws->audio_wq);
-+	if (!wq) {
-+		WRITE_ONCE(a->dropped_packets,
-+			   READ_ONCE(a->dropped_packets) + 1);
-+		return;
-+	}
-+
-+	WRITE_ONCE(a->last_period_toggle, cur_toggle);
-+	spin_lock(&a->pending_lock);
-+	if (a->packet_pending) {
-+		WRITE_ONCE(a->dropped_packets,
-+			   READ_ONCE(a->dropped_packets) + 1);
-+		a->xrun_pending = true;
-+	}
-+	a->pending_toggle = cur_toggle;
-+	a->pending_irq_ns = ktime_get_mono_fast_ns();
-+	a->packet_pending = true;
-+	WRITE_ONCE(a->irq_count, READ_ONCE(a->irq_count) + 1);
-+	spin_unlock(&a->pending_lock);
-+
-+	queue_work(wq, &a->deliver_work);
-+}
-+
-+int hws_audio_init_channel(struct hws_pcie_dev *pdev, int ch)
-+{
-+	struct hws_audio *aud;
-+
-+	if (!pdev || ch < 0 || ch >= pdev->max_channels)
-+		return -EINVAL;
-+
-+	aud = &pdev->audio[ch];
-+	memset(aud, 0, sizeof(*aud));     /* ok: no embedded locks yet */
-+
-+	/* identity */
-+	aud->parent        = pdev;
-+	aud->channel_index = ch;
-+	spin_lock_init(&aud->ring_lock);
-+	spin_lock_init(&aud->pending_lock);
-+	mutex_init(&aud->scratch_state_lock);
-+	INIT_WORK(&aud->deliver_work, hws_audio_deliver_work);
-+
-+	/* defaults */
-+	aud->output_sample_rate = 48000;
-+	aud->channel_count      = 2;
-+	aud->bits_per_sample    = 16;
-+	aud->hw_packet_bytes    = pdev->audio_pkt_size;
-+
-+	/* ALSA linkage */
-+	WRITE_ONCE(aud->pcm_substream, NULL);
-+
-+	/* stream state */
-+	WRITE_ONCE(aud->cap_active, false);
-+	WRITE_ONCE(aud->stream_running, false);
-+	WRITE_ONCE(aud->stop_requested, false);
-+	WRITE_ONCE(aud->scratch_acquired, false);
-+
-+	hws_audio_reset_counters(aud);
-+
-+	return 0;
-+}
-+
-+void hws_audio_cleanup_channel(struct hws_pcie_dev *pdev, int ch, bool device_removal)
-+{
-+	struct hws_audio *aud;
-+	struct snd_pcm_substream *ss;
-+
-+	if (!pdev || ch < 0 || ch >= pdev->cur_max_audio_ch)
-+		return;
-+
-+	aud = &pdev->audio[ch];
-+	hws_audio_quiesce_capture(pdev, ch, true);
-+
-+	/* If device is going away and stream was open, tell ALSA. */
-+	ss = READ_ONCE(aud->pcm_substream);
-+	if (device_removal && ss) {
-+		unsigned long flags;
-+
-+		snd_pcm_stream_lock_irqsave(ss, flags);
-+		if (ss->runtime)
-+			snd_pcm_stop(ss, SNDRV_PCM_STATE_DISCONNECTED);
-+		snd_pcm_stream_unlock_irqrestore(ss, flags);
-+		WRITE_ONCE(aud->pcm_substream, NULL);
-+	}
-+
-+	hws_audio_release_scratch(aud);
-+}
-+
-+static inline bool hws_check_audio_capture(struct hws_pcie_dev *hws, unsigned int ch)
-+{
-+	u32 reg = readl(hws->bar0_base + HWS_REG_ACAP_ENABLE);
-+
-+	return !!(reg & BIT(ch));
-+}
-+
-+static int hws_audio_hw_ready(struct hws_pcie_dev *hws)
-+{
-+	u32 status;
-+
-+	if (!hws || !hws->bar0_base)
-+		return -ENODEV;
-+
-+	status = readl(hws->bar0_base + HWS_REG_SYS_STATUS);
-+	if (status == 0xFFFFFFFF) {
-+		hws->pci_lost = true;
-+		dev_err(&hws->pdev->dev, "PCIe device not responding\n");
-+		return -ENODEV;
-+	}
-+
-+	if (!(status & BIT(0))) {
-+		dev_warn_ratelimited(&hws->pdev->dev,
-+				     "audio start refused while device is not ready (SYS_STATUS=0x%08x)\n",
-+				     status);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hws_start_audio_capture(struct hws_pcie_dev *hws, unsigned int ch)
-+{
-+	struct hws_audio *a;
-+	int ret;
-+
-+	if (!hws || ch >= hws->cur_max_audio_ch)
-+		return -EINVAL;
-+	a = &hws->audio[ch];
-+
-+	/* Already running? Re-assert HW if needed. */
-+	if (READ_ONCE(a->stream_running)) {
-+		if (!hws_check_audio_capture(hws, ch)) {
-+			ret = hws_audio_hw_ready(hws);
-+			if (ret)
-+				return ret;
-+			ret = hws_guard_audio_video_remap_page(hws, ch);
-+			if (ret)
-+				return ret;
-+			ret = hws_audio_seed_capture_buffer(hws, ch);
-+			if (ret)
-+				return ret;
-+			WRITE_ONCE(a->cap_active, false);
-+			smp_wmb(); /* publish inactive before stale ADONE ack */
-+			hws_audio_discard_stale_done(hws, a, ch);
-+			WRITE_ONCE(a->cap_active, true);
-+			smp_wmb(); /* publish active before ACAP_ENABLE */
-+			hws_enable_audio_capture(hws, ch, true);
-+		}
-+		dev_dbg(&hws->pdev->dev, "audio ch%u already running (re-enabled)\n", ch);
-+		return 0;
-+	}
-+
-+	if (!READ_ONCE(a->scratch_acquired))
-+		return -ENOMEM;
-+
-+	ret = hws_audio_hw_ready(hws);
-+	if (ret)
-+		return ret;
-+
-+	ret = hws_guard_audio_video_remap_page(hws, ch);
-+	if (ret)
-+		return ret;
-+
-+	ret = hws_audio_seed_capture_buffer(hws, ch);
-+	if (ret)
-+		return ret;
-+
-+	hws_audio_discard_stale_done(hws, a, ch);
-+	hws_audio_reset_counters(a);
-+
-+	/*
-+	 * ADONE can fire as soon as capture is enabled. Discard any completion
-+	 * latched before this start, then publish the stream state before
-+	 * ACAP_ENABLE so the IRQ path accepts the first fresh packet.
-+	 */
-+	WRITE_ONCE(a->stop_requested, false);
-+	WRITE_ONCE(a->stream_running, true);
-+	WRITE_ONCE(a->cap_active, true);
-+	smp_wmb(); /* publish start state before ACAP_ENABLE */
-+
-+	/* Kick HW */
-+	hws_enable_audio_capture(hws, ch, true);
-+	return 0;
-+}
-+
-+static inline void hws_audio_ack_pending(struct hws_pcie_dev *hws, unsigned int ch)
-+{
-+	u32 abit = HWS_INT_ADONE_BIT(ch);
-+	u32 st;
-+
-+	if (!hws || !hws->bar0_base || ch >= hws->cur_max_audio_ch)
-+		return;
-+
-+	st = readl(hws->bar0_base + HWS_REG_INT_STATUS);
-+
-+	if (st & abit) {
-+		writel(abit, hws->bar0_base + HWS_REG_INT_ACK);
-+		/* flush posted write */
-+		readl(hws->bar0_base + HWS_REG_INT_STATUS);
-+	}
-+}
-+
-+static void hws_audio_discard_stale_done(struct hws_pcie_dev *hws,
-+					 struct hws_audio *a,
-+					 unsigned int ch)
-+{
-+	hws_audio_clear_pending(a);
-+	hws_audio_ack_pending(hws, ch);
-+}
-+
-+static void hws_audio_disable_capture_and_ack(struct hws_pcie_dev *hws,
-+					      unsigned int ch)
-+{
-+	if (!hws || !hws->bar0_base || ch >= hws->cur_max_audio_ch)
-+		return;
-+
-+	hws_enable_audio_capture(hws, ch, false);
-+	readl(hws->bar0_base + HWS_REG_INT_STATUS);
-+	hws_audio_ack_pending(hws, ch);
-+}
-+
-+static inline void hws_audio_ack_all(struct hws_pcie_dev *hws)
-+{
-+	u32 mask = 0;
-+
-+	if (!hws || !hws->bar0_base)
-+		return;
-+
-+	for (unsigned int ch = 0; ch < hws->cur_max_audio_ch; ch++)
-+		mask |= HWS_INT_ADONE_BIT(ch);
-+	if (mask) {
-+		writel(mask, hws->bar0_base + HWS_REG_INT_ACK);
-+		readl(hws->bar0_base + HWS_REG_INT_STATUS);
-+	}
-+}
-+
-+static void hws_stop_audio_capture(struct hws_pcie_dev *hws, unsigned int ch)
-+{
-+	struct hws_audio *a;
-+
-+	if (!hws || ch >= hws->cur_max_audio_ch)
-+		return;
-+
-+	a = &hws->audio[ch];
-+	if (!READ_ONCE(a->stream_running) && !READ_ONCE(a->cap_active))
-+		return;
-+
-+	hws_audio_publish_stopped(a);
-+	hws_audio_disable_capture_and_ack(hws, ch);
-+	hws_audio_clear_pending(a);
-+	dev_dbg(&hws->pdev->dev, "audio capture stopped on ch %u\n", ch);
-+}
-+
-+void hws_enable_audio_capture(struct hws_pcie_dev *hws,
-+			      unsigned int ch, bool enable)
-+{
-+	u32 reg, mask = BIT(ch);
-+
-+	if (!hws || ch >= hws->cur_max_audio_ch || hws->pci_lost)
-+		return;
-+
-+	reg = readl(hws->bar0_base + HWS_REG_ACAP_ENABLE);
-+	if (enable)
-+		reg |= mask;
-+	else
-+		reg &= ~mask;
-+
-+	writel(reg, hws->bar0_base + HWS_REG_ACAP_ENABLE);
-+
-+	dev_dbg(&hws->pdev->dev, "audio capture %s ch%u, reg=0x%08x\n",
-+		enable ? "enabled" : "disabled", ch, reg);
-+}
-+
-+static snd_pcm_uframes_t hws_pcie_audio_pointer(struct snd_pcm_substream *substream)
-+{
-+	struct hws_audio *a = snd_pcm_substream_chip(substream);
-+	snd_pcm_uframes_t pos;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&a->ring_lock, flags);
-+	pos = a->ring_wpos_byframes;
-+	spin_unlock_irqrestore(&a->ring_lock, flags);
-+	return pos;
-+}
-+
-+static int hws_pcie_audio_open(struct snd_pcm_substream *substream)
-+{
-+	struct hws_audio *a = snd_pcm_substream_chip(substream);
-+	struct snd_pcm_runtime *rt = substream->runtime;
-+	int ret;
-+
-+	rt->hw = audio_pcm_hardware;
-+
-+	ret = snd_pcm_hw_constraint_integer(rt, SNDRV_PCM_HW_PARAM_PERIODS);
-+	if (ret < 0)
-+		return ret;
-+	ret = snd_pcm_hw_constraint_step(rt, 0, SNDRV_PCM_HW_PARAM_PERIOD_BYTES,
-+					 HWS_AUDIO_PACKET_BYTES);
-+	if (ret < 0)
-+		return ret;
-+	ret = snd_pcm_hw_constraint_step(rt, 0, SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
-+					 HWS_AUDIO_PACKET_BYTES);
-+	if (ret < 0)
-+		return ret;
-+
-+	WRITE_ONCE(a->pcm_substream, substream);
-+	return 0;
-+}
-+
-+static int hws_pcie_audio_close(struct snd_pcm_substream *substream)
-+{
-+	struct hws_audio *a = snd_pcm_substream_chip(substream);
-+
-+	hws_stop_audio_capture(a->parent, a->channel_index);
-+	hws_audio_drain_channel_work(a);
-+	hws_audio_reset_runtime_state(a);
-+	hws_audio_release_scratch(a);
-+	WRITE_ONCE(a->pcm_substream, NULL);
-+	return 0;
-+}
-+
-+static int hws_pcie_audio_hw_params(struct snd_pcm_substream *substream,
-+				    struct snd_pcm_hw_params *hw_params)
-+{
-+	struct hws_audio *a = snd_pcm_substream_chip(substream);
-+	struct hws_pcie_dev *hws = a->parent;
-+	int pages_changed;
-+	int ret;
-+
-+	if (!hws)
-+		return -ENODEV;
-+
-+	ret = hws_check_card_status(hws);
-+	if (ret)
-+		return ret;
-+
-+	pages_changed = snd_pcm_lib_malloc_pages(substream,
-+						 params_buffer_bytes(hw_params));
-+	if (pages_changed < 0)
-+		return pages_changed;
-+
-+	ret = hws_audio_acquire_scratch(a);
-+	if (ret) {
-+		snd_pcm_lib_free_pages(substream);
-+		return ret;
-+	}
-+
-+	ret = hws_guard_audio_video_remap_page(hws, a->channel_index);
-+	if (ret) {
-+		hws_audio_release_scratch(a);
-+		snd_pcm_lib_free_pages(substream);
-+		return ret;
-+	}
-+
-+	return pages_changed;
-+}
-+
-+static int hws_pcie_audio_hw_free(struct snd_pcm_substream *substream)
-+{
-+	struct hws_audio *a = snd_pcm_substream_chip(substream);
-+	int ret;
-+
-+	hws_stop_audio_capture(a->parent, a->channel_index);
-+	hws_audio_drain_channel_work(a);
-+	hws_audio_reset_runtime_state(a);
-+	hws_audio_release_scratch(a);
-+	ret = snd_pcm_lib_free_pages(substream);
-+	return ret;
-+}
-+
-+static int hws_pcie_audio_prepare(struct snd_pcm_substream *substream)
-+{
-+	struct hws_audio *a = snd_pcm_substream_chip(substream);
-+	struct snd_pcm_runtime *rt = substream->runtime;
-+	unsigned long flags;
-+	size_t frame_bytes;
-+
-+	frame_bytes = snd_pcm_format_physical_width(rt->format) / 8;
-+	frame_bytes *= rt->channels;
-+	if (!frame_bytes || a->hw_packet_bytes % frame_bytes)
-+		return -EINVAL;
-+
-+	spin_lock_irqsave(&a->ring_lock, flags);
-+	a->ring_size_byframes = rt->buffer_size;
-+	a->ring_wpos_byframes = 0;
-+	a->period_size_byframes = rt->period_size;
-+	a->period_used_byframes = 0;
-+	a->frame_bytes = frame_bytes;
-+	spin_unlock_irqrestore(&a->ring_lock, flags);
-+
-+	hws_audio_reset_counters(a);
-+	hws_audio_clear_pending(a);
-+	return 0;
-+}
-+
-+static int hws_pcie_audio_trigger(struct snd_pcm_substream *substream, int cmd)
-+{
-+	struct hws_audio *a = snd_pcm_substream_chip(substream);
-+	struct hws_pcie_dev *hws = a->parent;
-+	unsigned int ch = a->channel_index;
-+
-+	dev_dbg(&hws->pdev->dev, "audio trigger %d on ch %u\n", cmd, ch);
-+
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
-+		return hws_start_audio_capture(hws, ch);
-+	case SNDRV_PCM_TRIGGER_STOP:
-+		hws_stop_audio_capture(hws, ch);
-+		return 0;
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-+		return hws_start_audio_capture(hws, ch);
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-+		hws_stop_audio_capture(hws, ch);
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct snd_pcm_ops hws_pcie_pcm_ops = {
-+	.open      = hws_pcie_audio_open,
-+	.close     = hws_pcie_audio_close,
-+	.ioctl     = snd_pcm_lib_ioctl,
-+	.hw_params = hws_pcie_audio_hw_params,
-+	.hw_free   = hws_pcie_audio_hw_free,
-+	.prepare   = hws_pcie_audio_prepare,
-+	.trigger   = hws_pcie_audio_trigger,
-+	.pointer   = hws_pcie_audio_pointer,
-+};
-+
-+int hws_audio_register(struct hws_pcie_dev *hws)
-+{
-+	struct snd_card *card = NULL;
-+	struct snd_pcm  *pcm  = NULL;
-+	char card_id[16];
-+	char card_name[64];
-+	int i, ret;
-+
-+	if (!hws)
-+		return -EINVAL;
-+	if (!hws->cur_max_audio_ch)
-+		return 0;
-+
-+	/* ---- Create a single ALSA card for this PCI function ---- */
-+	snprintf(card_id, sizeof(card_id), "hws%u", hws->port_id);     /* <=16 chars */
-+	snprintf(card_name, sizeof(card_name), "HWS HDMI Audio %u", hws->port_id);
-+
-+	ret = snd_card_new(&hws->pdev->dev, -1 /* auto index */,
-+			   card_id, THIS_MODULE, 0, &card);
-+	if (ret < 0) {
-+		dev_err(&hws->pdev->dev, "snd_card_new failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	snd_card_set_dev(card, &hws->pdev->dev);
-+	strscpy(card->driver,   KBUILD_MODNAME, sizeof(card->driver));
-+	strscpy(card->shortname, card_name,      sizeof(card->shortname));
-+	strscpy(card->longname,  card->shortname, sizeof(card->longname));
-+
-+	/* ---- Create one PCM capture device per HDMI input ---- */
-+	for (i = 0; i < hws->cur_max_audio_ch; i++) {
-+		char pcm_name[32];
-+
-+		snprintf(pcm_name, sizeof(pcm_name), "HDMI In %d", i);
-+
-+		/* device number = i, so userspace sees hw:X,i */
-+		ret = snd_pcm_new(card, pcm_name, i,
-+				  0 /* playback */, 1 /* capture */, &pcm);
-+		if (ret < 0) {
-+			dev_err(&hws->pdev->dev, "snd_pcm_new(%d) failed: %d\n", i, ret);
-+			goto error_card;
-+		}
-+
-+		pcm->private_data = &hws->audio[i];
-+		strscpy(pcm->name, pcm_name, sizeof(pcm->name));
-+		snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &hws_pcie_pcm_ops);
-+
-+		/*
-+		 * snd_pcm_lib_malloc_pages() requires a valid DMA buffer type.
-+		 * Keep allocation dynamic at HW_PARAMS time, but advertise the
-+		 * maximum buffer size up front for modern ALSA.
-+		 */
-+		ret = snd_pcm_set_managed_buffer_all(pcm,
-+						     SNDRV_DMA_TYPE_DEV,
-+						     &hws->pdev->dev,
-+						     0,
-+						     audio_pcm_hardware.buffer_bytes_max);
-+		if (ret < 0) {
-+			dev_err(&hws->pdev->dev,
-+				"snd_pcm_set_managed_buffer_all(%d) failed: %d\n",
-+				i, ret);
-+			goto error_card;
-+		}
-+	}
-+
-+	/* Register the card once all PCMs are created */
-+	ret = snd_card_register(card);
-+	if (ret < 0) {
-+		dev_err(&hws->pdev->dev, "snd_card_register failed: %d\n", ret);
-+		goto error_card;
-+	}
-+
-+	/* Store the single card handle (optional: also mirror to each channel if you like) */
-+	hws->snd_card = card;
-+	dev_info(&hws->pdev->dev, "audio registration complete (%d HDMI inputs)\n",
-+		 hws->cur_max_audio_ch);
-+	return 0;
-+
-+error_card:
-+	/* Frees all PCMs created on it as well */
-+	snd_card_free(card);
-+	return ret;
-+}
-+
-+void hws_audio_unregister(struct hws_pcie_dev *hws)
-+{
-+	if (!hws)
-+		return;
-+
-+	/* Prevent new opens and mark existing streams disconnected */
-+	if (hws->snd_card)
-+		snd_card_disconnect(hws->snd_card);
-+
-+	for (unsigned int i = 0; i < hws->cur_max_audio_ch; i++) {
-+		struct hws_audio *a = &hws->audio[i];
-+
-+		hws_audio_publish_stopped(a);
-+		hws_enable_audio_capture(hws, i, false);
-+	}
-+
-+	/* Flush ACAP disables before waiting for any running IRQ handler. */
-+	if (hws->bar0_base)
-+		readl(hws->bar0_base + HWS_REG_INT_STATUS);
-+	if (hws->irq >= 0 && !in_interrupt())
-+		synchronize_irq(hws->irq);
-+
-+	hws_audio_drain_work(hws);
-+	hws_audio_ack_all(hws);
-+
-+	for (unsigned int i = 0; i < hws->cur_max_audio_ch; i++) {
-+		struct hws_audio *a = &hws->audio[i];
-+		struct snd_pcm_substream *ss = READ_ONCE(a->pcm_substream);
-+
-+		if (ss) {
-+			unsigned long flags;
-+
-+			snd_pcm_stream_lock_irqsave(ss, flags);
-+			if (ss->runtime)
-+				snd_pcm_stop(ss, SNDRV_PCM_STATE_DISCONNECTED);
-+			snd_pcm_stream_unlock_irqrestore(ss, flags);
-+		}
-+
-+		WRITE_ONCE(a->pcm_substream, NULL);
-+		hws_audio_reset_runtime_state(a);
-+		hws_audio_release_scratch(a);
-+	}
-+
-+	if (hws->snd_card) {
-+		snd_card_free_when_closed(hws->snd_card);
-+		hws->snd_card = NULL;
-+	}
-+
-+	dev_info(&hws->pdev->dev, "audio unregistered (%u channels)\n",
-+		 hws->cur_max_audio_ch);
-+}
-+
-+int hws_audio_pm_suspend_all(struct hws_pcie_dev *hws)
-+{
-+	struct snd_pcm *seen[ARRAY_SIZE(hws->audio)];
-+	int seen_cnt = 0;
-+	int i, j, ret = 0;
-+
-+	if (!hws || !hws->snd_card)
-+		return 0;
-+
-+	/* Iterate audio channels and suspend each unique PCM device */
-+	for (i = 0; i < hws->cur_max_audio_ch && i < ARRAY_SIZE(hws->audio); i++) {
-+		struct hws_audio *a = &hws->audio[i];
-+		struct snd_pcm_substream *ss = READ_ONCE(a->pcm_substream);
-+		struct snd_pcm *pcm;
-+		bool already = false;
-+
-+		if (!ss)
-+			continue;
-+
-+		pcm = ss->pcm;
-+		if (!pcm)
-+			continue;
-+
-+		/* De-duplicate in case multiple channels share a PCM */
-+		for (j = 0; j < seen_cnt; j++) {
-+			if (seen[j] == pcm) {
-+				already = true;
-+				break;
-+			}
-+		}
-+		if (already)
-+			continue;
-+
-+		if (seen_cnt < ARRAY_SIZE(seen))
-+			seen[seen_cnt++] = pcm;
-+
-+		if (!ret) {
-+			int r = snd_pcm_suspend_all(pcm);
-+
-+			if (r)
-+				ret = r;  /* remember first error, keep going */
-+		}
-+
-+		if (seen_cnt == ARRAY_SIZE(seen))
-+			break; /* defensive: shouldn't happen with sane config */
-+	}
-+
-+	return ret;
-+}
-+
-+void hws_audio_pm_resume(struct hws_pcie_dev *hws)
-+{
-+	unsigned int ch;
-+
-+	if (!hws || !hws->bar0_base)
-+		return;
-+
-+	for (ch = 0; ch < hws->cur_max_audio_ch && ch < MAX_VID_CHANNELS; ch++) {
-+		struct hws_audio *a = &hws->audio[ch];
-+
-+		WRITE_ONCE(a->stream_running, false);
-+		WRITE_ONCE(a->cap_active, false);
-+		WRITE_ONCE(a->stop_requested, true);
-+		hws_audio_reset_counters(a);
-+		hws_audio_clear_pending(a);
-+	}
-+	hws_audio_seed_channels(hws);
-+	hws_audio_ack_all(hws);
-+}
-+
-+void hws_audio_drain_work(struct hws_pcie_dev *hws)
-+{
-+	unsigned int ch;
-+
-+	if (!hws)
-+		return;
-+
-+	for (ch = 0; ch < hws->cur_max_audio_ch && ch < MAX_VID_CHANNELS; ch++)
-+		hws_audio_drain_channel_work(&hws->audio[ch]);
-+}
-diff --git a/drivers/media/pci/hws/hws_audio.h b/drivers/media/pci/hws/hws_audio.h
-new file mode 100644
-index 000000000000..749ab2ebbf35
---- /dev/null
-+++ b/drivers/media/pci/hws/hws_audio.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef HWS_AUDIO_PIPELINE_H
-+#define HWS_AUDIO_PIPELINE_H
-+
-+#include <sound/pcm.h>
-+#include "hws.h"
-+
-+int hws_audio_register(struct hws_pcie_dev *dev);
-+void hws_audio_unregister(struct hws_pcie_dev *hws);
-+void hws_audio_seed_channels(struct hws_pcie_dev *hws);
-+void hws_audio_queue_interrupt(struct hws_pcie_dev *hws, unsigned int ch,
-+			       u8 cur_toggle);
-+void hws_audio_drain_work(struct hws_pcie_dev *hws);
-+void hws_enable_audio_capture(struct hws_pcie_dev *hws,
-+			      unsigned int ch,
-+			      bool enable);
-+
-+int hws_audio_init_channel(struct hws_pcie_dev *pdev, int ch);
-+void hws_audio_cleanup_channel(struct hws_pcie_dev *pdev, int ch, bool device_removal);
-+int hws_audio_pm_suspend_all(struct hws_pcie_dev *hws);
-+void hws_audio_pm_resume(struct hws_pcie_dev *hws);
-+
-+#endif /* HWS_AUDIO_PIPELINE_H */
-diff --git a/drivers/media/pci/hws/hws_irq.c b/drivers/media/pci/hws/hws_irq.c
-index e18f018b15c4..c28d78884788 100644
---- a/drivers/media/pci/hws/hws_irq.c
-+++ b/drivers/media/pci/hws/hws_irq.c
-@@ -11,6 +11,7 @@
- #include "hws_reg.h"
- #include "hws_video.h"
- #include "hws.h"
-+#include "hws_audio.h"
- 
- #define MAX_INT_LOOPS 100
- 
-@@ -314,6 +315,36 @@ static bool hws_irq_queue_video(struct hws_pcie_dev *pdx, u32 int_state)
- 	return wake_thread;
- }
- 
-+static void hws_irq_handle_audio(struct hws_pcie_dev *pdx, u32 int_state)
-+{
-+	unsigned int ch;
-+
-+	for (ch = 0; ch < pdx->cur_max_audio_ch; ++ch) {
-+		u32 abit = HWS_INT_ADONE_BIT(ch);
-+		u8 cur_toggle;
-+
-+		if (!(int_state & abit))
-+			continue;
-+
-+		/* Only service running streams */
-+		if (!READ_ONCE(pdx->audio[ch].cap_active) ||
-+		    !READ_ONCE(pdx->audio[ch].stream_running) ||
-+		    READ_ONCE(pdx->audio[ch].stop_requested))
-+			continue;
-+
-+		/*
-+		 * Baseline read ABUF_TOGGLE for every ADONE interrupt.
-+		 * The register reports the half the device is filling now, so
-+		 * the completed packet is the opposite half. Read it in the
-+		 * hard handler so the deferred audio work receives the edge's
-+		 * toggle value, not a later one.
-+		 */
-+		cur_toggle = readl_relaxed(pdx->bar0_base +
-+					   HWS_REG_ABUF_TOGGLE(ch)) & 0x01;
-+		hws_audio_queue_interrupt(pdx, ch, cur_toggle);
-+	}
-+}
-+
- irqreturn_t hws_irq_handler(int irq, void *info)
- {
- 	struct hws_pcie_dev *pdx = info;
-@@ -351,6 +382,7 @@ irqreturn_t hws_irq_handler(int irq, void *info)
- 	dev_dbg(&pdx->pdev->dev, "irq: entry INT_STATUS=0x%08x\n", int_state);
- 
- 	wake_thread = hws_irq_queue_video(pdx, int_state);
-+	hws_irq_handle_audio(pdx, int_state);
- 	hws_irq_ack_status(pdx, int_state);
- 
- 	return wake_thread ? IRQ_WAKE_THREAD : IRQ_HANDLED;
-diff --git a/drivers/media/pci/hws/hws_pci.c b/drivers/media/pci/hws/hws_pci.c
-index b042bbfae350..f83d6d494d25 100644
---- a/drivers/media/pci/hws/hws_pci.c
-+++ b/drivers/media/pci/hws/hws_pci.c
-@@ -19,6 +19,7 @@
- #include <media/v4l2-ctrls.h>
- 
- #include "hws.h"
-+#include "hws_audio.h"
- #include "hws_reg.h"
- #include "hws_video.h"
- #include "hws_irq.h"
-@@ -154,6 +155,7 @@ static void hws_configure_hardware_capabilities(struct hws_pcie_dev *hdev)
- }
- 
- static void hws_stop_device(struct hws_pcie_dev *hws);
-+static void hws_free_seed_buffers(struct hws_pcie_dev *hws);
- 
- static void hws_log_lifecycle_snapshot(struct hws_pcie_dev *hws,
- 				       const char *action,
-@@ -187,6 +189,17 @@ static void hws_log_lifecycle_snapshot(struct hws_pcie_dev *hws,
- 		sys_status, dec_mode);
- }
- 
-+static void hws_init_probe_state(struct hws_pcie_dev *hdev)
-+{
-+	hdev->max_hw_video_buf_sz = MAX_MM_VIDEO_SIZE;
-+	hdev->max_channels = 4;
-+	hdev->buf_allocated = false;
-+	hdev->main_task = NULL;
-+	hdev->audio_pkt_size = MAX_DMA_AUDIO_PK_SIZE;
-+	hdev->start_run = false;
-+	hdev->pci_lost = 0;
-+}
-+
- static int read_chip_id(struct hws_pcie_dev *hdev)
- {
- 	u32 reg;
-@@ -201,13 +214,6 @@ static int read_chip_id(struct hws_pcie_dev *hdev)
- 	hdev->support_yv12 = FIELD_GET(DEVINFO_YV12, reg);
- 	hdev->port_id = FIELD_GET(DEVINFO_PORTID, reg);
- 
--	hdev->max_hw_video_buf_sz = MAX_MM_VIDEO_SIZE;
--	hdev->max_channels = 4;
--	hdev->buf_allocated = false;
--	hdev->main_task = NULL;
--	hdev->start_run = false;
--	hdev->pci_lost = 0;
--
- 	writel(0x00, hdev->bar0_base + HWS_REG_DEC_MODE);
- 	writel(0x10, hdev->bar0_base + HWS_REG_DEC_MODE);
- 
-@@ -271,6 +277,21 @@ static void hws_stop_kthread_action(void *data)
- 	}
- }
- 
-+static void hws_destroy_audio_workqueue(struct hws_pcie_dev *hws)
-+{
-+	struct workqueue_struct *wq;
-+
-+	if (!hws)
-+		return;
-+
-+	wq = hws->audio_wq;
-+	if (!wq)
-+		return;
-+
-+	hws->audio_wq = NULL;
-+	destroy_workqueue(wq);
-+}
-+
- static size_t hws_video_scratch_bytes(void)
- {
- 	return HWS_VIDEO_BOUNCE_SLOTS * ALIGN((size_t)MAX_VIDEO_SCALER_SIZE, 64);
-@@ -516,6 +537,7 @@ static int hws_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
- 	int i, ret, irq;
- 	unsigned long irqf = 0;
- 	bool v4l2_registered = false;
-+	bool audio_registered = false;
- 
- 	/* devres-backed device object */
- 	hws = devm_kzalloc(&pdev->dev, sizeof(*hws), GFP_KERNEL);
-@@ -561,18 +583,38 @@ static int hws_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
- #endif
- 
- 	/* 4) Identify chip & capabilities */
-+	hws_init_probe_state(hws);
- 	read_chip_id(hws);
- 	dev_info(&pdev->dev, "Device VID=0x%04x DID=0x%04x\n",
- 		 pdev->vendor, pdev->device);
- 	hws_init_video_sys(hws, false);
- 
--	/* 5) Init channels (video state, locks, vb2, ctrls) */
-+	/* 5) Init channels (video/audio state, locks, vb2, ctrls) */
- 	for (i = 0; i < hws->max_channels; i++) {
- 		ret = hws_video_init_channel(hws, i);
- 		if (ret) {
- 			dev_err(&pdev->dev, "video channel init failed (ch=%d)\n", i);
- 			goto err_unwind_channels;
- 		}
-+		ret = hws_audio_init_channel(hws, i);
-+		if (ret) {
-+			dev_err(&pdev->dev, "audio channel init failed (ch=%d)\n", i);
-+			hws_video_cleanup_channel(hws, i);
-+			goto err_unwind_channels;
-+		}
-+	}
-+
-+	if (hws->cur_max_audio_ch) {
-+		hws->audio_wq = alloc_workqueue("hws-audio",
-+						WQ_HIGHPRI | WQ_UNBOUND | WQ_MEM_RECLAIM,
-+						0);
-+		if (!hws->audio_wq) {
-+			ret = -ENOMEM;
-+			dev_err(&pdev->dev, "audio workqueue allocation failed\n");
-+			goto err_unwind_channels;
-+		}
-+	} else {
-+		dev_info(&pdev->dev, "audio capture disabled; video-only mode\n");
- 	}
- 
- 	/* 6) Start-run sequence. Scratch DMA is allocated on stream start. */
-@@ -616,13 +658,20 @@ static int hws_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
- 	dev_info(&pdev->dev, "INT_EN_GATE readback=0x%08x\n",
- 		 readl(hws->bar0_base + INT_EN_REG_BASE));
- 
--	/* 11) Register V4L2 */
-+	/* 11) Register V4L2/ALSA */
- 	ret = hws_video_register(hws);
- 	if (ret) {
- 		dev_err(&pdev->dev, "video_register: %d\n", ret);
- 		goto err_unwind_channels;
- 	}
- 	v4l2_registered = true;
-+	ret = hws_audio_register(hws);
-+	if (ret) {
-+		dev_err(&pdev->dev, "audio_register: %d\n", ret);
-+		hws_video_unregister(hws);
-+		goto err_unwind_channels;
-+	}
-+	audio_registered = true;
- 
- 	/* 12) Background monitor thread (managed) */
- 	hws->main_task = kthread_run(main_ks_thread_handle, hws, "hws-mon");
-@@ -644,15 +693,21 @@ static int hws_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
- 
- err_unregister_va:
- 	hws_stop_device(hws);
--	hws_video_unregister(hws);
-+	if (audio_registered)
-+		hws_audio_unregister(hws);
-+	if (v4l2_registered)
-+		hws_video_unregister(hws);
- 	hws_free_seed_buffers(hws);
-+	hws_destroy_audio_workqueue(hws);
- 	return ret;
- err_unwind_channels:
- 	hws_free_seed_buffers(hws);
--	if (!v4l2_registered) {
--		while (--i >= 0)
-+	while (--i >= 0) {
-+		if (!v4l2_registered)
- 			hws_video_cleanup_channel(hws, i);
-+		hws_audio_cleanup_channel(hws, i, true);
- 	}
-+	hws_destroy_audio_workqueue(hws);
- 	return ret;
- }
- 
-@@ -696,7 +751,7 @@ static void hws_stop_dsp(struct hws_pcie_dev *hws)
- 	writel(0x0, hws->bar0_base + HWS_REG_VCAP_ENABLE);
- }
- 
--/* Publish stop so ISR/BH will not touch video buffers anymore. */
-+/* Publish stop so ISR/BH will not touch ALSA/VB2 anymore. */
- static void hws_publish_stop_flags(struct hws_pcie_dev *hws)
- {
- 	unsigned int i;
-@@ -708,6 +763,14 @@ static void hws_publish_stop_flags(struct hws_pcie_dev *hws)
- 		WRITE_ONCE(v->stop_requested, true);
- 	}
- 
-+	for (i = 0; i < hws->cur_max_audio_ch; ++i) {
-+		struct hws_audio *a = &hws->audio[i];
-+
-+		WRITE_ONCE(a->stream_running, false);
-+		WRITE_ONCE(a->cap_active, false);
-+		WRITE_ONCE(a->stop_requested, true);
-+	}
-+
- 	smp_wmb(); /* make flags visible before we touch MMIO/queues */
- }
- 
-@@ -720,14 +783,17 @@ static void hws_drain_after_stop(struct hws_pcie_dev *hws)
- 
- 	/* Mask device enables: no new DMA starts. */
- 	writel(0x0, hws->bar0_base + HWS_REG_VCAP_ENABLE);
-+	writel(0x0, hws->bar0_base + HWS_REG_ACAP_ENABLE);
- 	(void)readl(hws->bar0_base + HWS_REG_INT_STATUS); /* flush */
- 
- 	/* Let any in-flight DMAs finish (best-effort). */
- 	(void)hws_check_busy(hws);
- 
--	/* Ack any latched VDONE. */
-+	/* Ack any latched VDONE/ADONE. */
- 	for (i = 0; i < hws->cur_max_video_ch; ++i)
- 		ackmask |= HWS_INT_VDONE_BIT(i);
-+	for (i = 0; i < hws->cur_max_audio_ch; ++i)
-+		ackmask |= HWS_INT_ADONE_BIT(i);
- 	if (ackmask) {
- 		writel(ackmask, hws->bar0_base + HWS_REG_INT_STATUS);
- 		(void)readl(hws->bar0_base + HWS_REG_INT_STATUS);
-@@ -736,6 +802,7 @@ static void hws_drain_after_stop(struct hws_pcie_dev *hws)
- 	/* Ensure no hard IRQ is still running. */
- 	if (hws->irq >= 0)
- 		synchronize_irq(hws->irq);
-+	hws_audio_drain_work(hws);
- 
- 	dev_dbg(&hws->pdev->dev, "lifecycle:drain-after-stop:done (%lluus)\n",
- 		hws_elapsed_us(start_ns));
-@@ -834,8 +901,10 @@ static void hws_remove(struct pci_dev *pdev)
- 	/* Stop hardware and capture cleanly. */
- 	hws_stop_device(hws);
- 
--	/* Unregister V4L2 resources. */
-+	/* Unregister ALSA resources before V4L2. */
-+	hws_audio_unregister(hws);
- 	hws_video_unregister(hws);
-+	hws_destroy_audio_workqueue(hws);
- 
- 	/* Release seeded DMA buffers */
- 	hws_free_seed_buffers(hws);
-@@ -850,11 +919,16 @@ static int hws_pm_suspend(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct hws_pcie_dev *hws = pci_get_drvdata(pdev);
-+	int aret;
- 	int vret;
- 	u64 start_ns = ktime_get_mono_fast_ns();
- 	u64 step_ns;
- 
- 	dev_info(dev, "lifecycle:pm_suspend begin\n");
-+	aret = hws_audio_pm_suspend_all(hws);
-+	if (aret)
-+		dev_warn(dev, "lifecycle:pm_suspend audio quiesce returned %d\n",
-+			 aret);
- 	vret = hws_quiesce_for_transition(hws, "pm_suspend", false);
- 
- 	step_ns = ktime_get_mono_fast_ns();
-@@ -903,6 +977,7 @@ static int hws_pm_resume(struct device *dev)
- 	/* Re-seed BAR remaps/DMA windows and restart the capture core */
- 	hws_seed_all_channels(hws);
- 	hws_init_video_sys(hws, true);
-+	hws_audio_pm_resume(hws);
- 	hws_irq_clear_pending(hws);
- 	dev_dbg(dev, "lifecycle:pm_resume:chip-reinit (%lluus)\n",
- 		hws_elapsed_us(step_ns));
-diff --git a/drivers/media/pci/hws/hws_reg.h b/drivers/media/pci/hws/hws_reg.h
-index c8d6715fe0c2..ebf95e31993e 100644
---- a/drivers/media/pci/hws/hws_reg.h
-+++ b/drivers/media/pci/hws/hws_reg.h
-@@ -33,9 +33,10 @@
- #define PCI_E_BAR_ADD_MASK 0xE0000000
- #define PCI_E_BAR_ADD_LOWMASK 0x1FFFFFFF
- 
-+#define MAX_DMA_AUDIO_PK_SIZE      (128U * 16U * 2U)
- /*
-  * The legacy driver reserved a 10 KiB hardware capture window per audio
-- * channel even though the delivered packet size is smaller. Keep that headroom
-+ * channel even though the delivered packet size is 4 KiB. Keep that headroom
-  * for the split-buffer DMA engine.
-  */
- #define MAX_AUDIO_CAP_SIZE         (10U * 1024U)
-@@ -88,6 +89,7 @@
- /* Capture enable switches. */
- /* bit0-3: CH0-CH3 video enable */
- #define HWS_REG_VCAP_ENABLE           (CVBS_IN_BASE +  2 * PCIE_BARADDROFSIZE)
-+#define HWS_REG_ACAP_ENABLE           (CVBS_IN_BASE +  3 * PCIE_BARADDROFSIZE)
- /* bits0-3: signal present, bits8-11: interlace */
- #define HWS_REG_ACTIVE_STATUS          (CVBS_IN_BASE +  5  * PCIE_BARADDROFSIZE)
- /* bits0-3: HDCP detected */
-@@ -95,12 +97,28 @@
- #define HWS_REG_DMA_MAX_SIZE   (CVBS_IN_BASE +  9 * PCIE_BARADDROFSIZE)
- 
- /*
-- * Video DMA setup uses one BAR remap-table slot per capture channel. The
-- * remap-table slot supplies the host DMA page, while CVBS_IN_BUF_BASE +
-- * ch * 4 supplies the device-side buffer offset within that page.
-+ * Buffer base registers follow the vendor/baseline layout:
-+ *
-+ *   video base: CVBS_IN_BUF_BASE + ch * 4
-+ *   audio base: CVBS_IN_BUF_BASE + (8 + ch) * 4
-+ *
-+ * Do not add a video doorbell at CVBS_IN_BASE + (26 + ch) * 4.  Those
-+ * offsets alias the audio base bank for low video channel numbers.
-  */
-+/* Per-channel audio DMA address window. */
-+#define HWS_REG_AUD_DMA_ADDR(ch)      (CVBS_IN_BUF_BASE + ((8 + (ch)) * PCIE_BARADDROFSIZE))
-+
- #define HWS_VIDEO_REMAP_SLOT_OFF(ch)  (0x208 + ((ch) * 8))
- 
-+/*
-+ * BAR remap slots are selected by the high bits of the programmed device-side
-+ * base address.  Both video and audio program (ch + 1) * PCIEBAR_AXI_BASE, so
-+ * audio shares the same remap slot as video for that channel.  The audio base
-+ * registers live at CVBS_IN_BUF_BASE + (8 + ch) * 4, but that is a register
-+ * bank offset, not a second remap-table bank.
-+ */
-+#define HWS_AUDIO_REMAP_SLOT_OFF(ch)  HWS_VIDEO_REMAP_SLOT_OFF(ch)
-+
- /* Per-channel live buffer toggles (read-only). */
- #define HWS_REG_VBUF_TOGGLE(ch)       (CVBS_IN_BASE + (32 + (ch)) * PCIE_BARADDROFSIZE)
- /*
-@@ -108,10 +126,18 @@
-  * currently filling for channel *ch* (0-3).
-  */
- 
--/* Per-interrupt bits (video 0-3). */
-+#define HWS_REG_ABUF_TOGGLE(ch)       (CVBS_IN_BASE + (40 + (ch)) * PCIE_BARADDROFSIZE)
-+/*
-+ * Returns 0 or 1 = which half of the audio ring the DMA engine is
-+ * currently filling for channel *ch* (0-3).
-+ */
-+
-+/* Per-interrupt bits (video 0-3, audio 0-3). */
- #define HWS_INT_VDONE_BIT(ch)     BIT(ch)         /* 0x01,0x02,0x04,0x08  */
-+#define HWS_INT_ADONE_BIT(ch)     BIT(8 + (ch))   /* 0x100 .. 0x800 */
- 
--#define HWS_REG_INT_ACK           (CVBS_IN_BASE + 0x4000 + 1 * PCIE_BARADDROFSIZE)
-+/* Legacy hardware clears interrupt bits by W1C on INT_STATUS. */
-+#define HWS_REG_INT_ACK           HWS_REG_INT_STATUS
- 
- /* 16-bit W | 16-bit H. */
- #define HWS_REG_IN_RES(ch)             (CVBS_IN_BASE + (90  + (ch) * 2) * PCIE_BARADDROFSIZE)
-@@ -141,4 +167,8 @@
- #define HWS_REG_VBUF_TOGGLE_CH2       HWS_REG_VBUF_TOGGLE(2)
- #define HWS_REG_VBUF_TOGGLE_CH3       HWS_REG_VBUF_TOGGLE(3)
- 
-+#define HWS_REG_ABUF_TOGGLE_CH0       HWS_REG_ABUF_TOGGLE(0)
-+#define HWS_REG_ABUF_TOGGLE_CH1       HWS_REG_ABUF_TOGGLE(1)
-+#define HWS_REG_ABUF_TOGGLE_CH2       HWS_REG_ABUF_TOGGLE(2)
-+#define HWS_REG_ABUF_TOGGLE_CH3       HWS_REG_ABUF_TOGGLE(3)
- #endif /* _HWS_PCIE_REG_H */
-diff --git a/drivers/media/pci/hws/hws_video.c b/drivers/media/pci/hws/hws_video.c
-index 58bcc2e7030d..13ddd1040387 100644
---- a/drivers/media/pci/hws/hws_video.c
-+++ b/drivers/media/pci/hws/hws_video.c
-@@ -24,6 +24,7 @@
- #include "hws.h"
- #include "hws_reg.h"
- #include "hws_video.h"
-+#include "hws_audio.h"
- #include "hws_irq.h"
- #include "hws_v4l2_ioctl.h"
- 
-@@ -781,12 +782,14 @@ void hws_init_video_sys(struct hws_pcie_dev *hws, bool enable)
- 	/* 1) reset the decoder mode register to 0 */
- 	writel(0x00000000, hws->bar0_base + HWS_REG_DEC_MODE);
- 	hws_seed_dma_windows(hws);
-+	hws_audio_seed_channels(hws);
- 
- 	/* 3) on a full reset, clear all per-channel status and indices */
- 	if (!enable) {
- 		for (i = 0; i < hws->max_channels; i++) {
- 			/* helpers to arm/disable capture engines */
- 			hws_enable_video_capture(hws, i, false);
-+			hws_enable_audio_capture(hws, i, false);
- 		}
- 	}
- 
--- 
-2.54.0
+You need to ping your MATLAB support so they fix their code.
+
+Have you tried with the nodrop parameter?
+
+>
+> The patch series addresses two separate contributing factors:
+>
+> Regarding UVC_QUIRK_NO_FORCE_QUALITY: uvcvideo unconditionally overrides =
+wCompQuality with GET_MAX (61 for this device) during probe negotiation, di=
+scarding the camera's GET_CUR value of 0, which this firmware uses to indic=
+ate adaptive encoding mode. The Windows UVC driver does not perform this ov=
+erride, and the camera works correctly there. Forcing maximum quality incre=
+ases encoder pressure and raises the frequency of UVC_STREAM_ERR events. Th=
+is is a driver-side behavior that contributes to the problem independently =
+of what any application does.
+>
+> Regarding UVC_QUIRK_DROP_STREAM_ERR: uvc_no_drop_param=3D0 would address =
+the symptom, but it applies globally to all UVC cameras on the system. A pe=
+r-device quirk limits the behavior change strictly to the device with the c=
+onfirmed firmware bug.
+
+I do not think there is a firmware bug. It is flagging the invalid
+frames properly; userspace is processing invalid frames.
+
+>
+> Best regards!
+> Pol Fern=C3=A1ndez Fern=C3=A1ndez
+>
+> El lun, 29 jun 2026 a las 18:55, Ricardo Ribalda (<ribalda@chromium.org>)=
+ escribi=C3=B3:
+>>
+>> Hi Pol
+>>
+>> What application are you using to fetch frames? It should not process
+>> frames with the error flag.
+>>
+>> If you cannot fix your application, why don't you set the parameter no_p=
+rod to 0
+>>
+>> Something like:
+>> rmmod uvcvideo
+>> modprobe uvcvideo nodrop=3D0
+>>
+>> Regards!
+>>
+>> On Mon, 29 Jun 2026 at 18:38, Pol Fern=C3=A1ndez Fern=C3=A1ndez
+>> <fernandezfernandezpol@gmail.com> wrote:
+>> >
+>> > The UVC_STREAM_ERR bit in the payload header signals that the device
+>> > could not deliver a frame correctly. By default, uvcvideo delivers
+>> > these frames to userspace with V4L2_BUF_FLAG_ERROR when uvc_no_drop_pa=
+ram
+>> > is set (the default). Applications that rely on strict JPEG decoders
+>> > (e.g. libjpeg) will display gray bands for the incomplete portion of
+>> > the image, since libjpeg fills undecodable MCU rows with a neutral gra=
+y
+>> > when the EOI marker is missing.
+>> >
+>> > Add UVC_QUIRK_DROP_STREAM_ERR to force-drop frames flagged with
+>> > UVC_STREAM_ERR for specific devices, regardless of the uvc_no_drop_par=
+am
+>> > module parameter. This ensures applications never receive truncated fr=
+ames
+>> > from devices known to set UVC_STREAM_ERR on genuine encoding errors.
+>> > The existing uvc_queue_to_stream() helper is used to reach the device
+>> > quirks from within uvc_queue_buffer_complete().
+>> >
+>> > Additionally, uvcvideo unconditionally overrides the camera's probed
+>> > wCompQuality with the maximum value returned by GET_MAX. For devices
+>> > whose firmware treats wCompQuality=3D0 as an adaptive encoding mode (w=
+here
+>> > the encoder adjusts quality dynamically to fit within the available US=
+B
+>> > bandwidth), this override increases encoding pressure and can contribu=
+te
+>> > to UVC_STREAM_ERR events. Add UVC_QUIRK_NO_FORCE_QUALITY to preserve
+>> > the camera's default quality value during probe negotiation.
+>> >
+>> > Signed-off-by: Pol Fern=C3=A1ndez Fern=C3=A1ndez <fernandezfernandezpo=
+l@gmail.com>
+>> > ---
+>> >  drivers/media/usb/uvc/uvc_queue.c | 3 ++-
+>> >  drivers/media/usb/uvc/uvc_video.c | 3 ++-
+>> >  drivers/media/usb/uvc/uvcvideo.h  | 2 ++
+>> >  3 files changed, 6 insertions(+), 2 deletions(-)
+>> >
+>> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/=
+uvcvideo.h
+>> > index XXXXXXX..XXXXXXX 100644
+>> > --- a/drivers/media/usb/uvc/uvcvideo.h
+>> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+>> > @@ -81,6 +81,8 @@
+>> >  #define UVC_QUIRK_INVALID_DEVICE_SOF   0x00010000
+>> >  #define UVC_QUIRK_MJPEG_NO_EOF         0x00020000
+>> >  #define UVC_QUIRK_MSXU_META            0x00040000
+>> > +#define UVC_QUIRK_DROP_STREAM_ERR      0x00080000
+>> > +#define UVC_QUIRK_NO_FORCE_QUALITY     0x00100000
+>> >
+>> >  /* Format flags */
+>> >  #define UVC_FMT_FLAG_COMPRESSED                0x00000001
+>> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc=
+/uvc_video.c
+>> > index XXXXXXX..XXXXXXX 100644
+>> > --- a/drivers/media/usb/uvc/uvc_video.c
+>> > +++ b/drivers/media/usb/uvc/uvc_video.c
+>> > @@ -451,7 +451,8 @@ int uvc_probe_video(struct uvc_streaming *stream,
+>> >                 if (ret < 0)
+>> >                         goto done;
+>> >
+>> > -               probe->wCompQuality =3D probe_max.wCompQuality;
+>> > +               if (!(stream->dev->quirks & UVC_QUIRK_NO_FORCE_QUALITY=
+))
+>> > +                       probe->wCompQuality =3D probe_max.wCompQuality=
+;
+>> >         }
+>> >
+>> >         for (i =3D 0; i < 2; ++i) {
+>> > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc=
+/uvc_queue.c
+>> > index XXXXXXX..XXXXXXX 100644
+>> > --- a/drivers/media/usb/uvc/uvc_queue.c
+>> > +++ b/drivers/media/usb/uvc/uvc_queue.c
+>> > @@ -357,7 +357,8 @@ static void uvc_queue_buffer_complete(struct kref =
+*ref)
+>> >         struct vb2_buffer *vb =3D &buf->buf.vb2_buf;
+>> >         struct uvc_video_queue *queue =3D vb2_get_drv_priv(vb->vb2_que=
+ue);
+>> >
+>> > -       if (buf->error && !uvc_no_drop_param) {
+>> > +       if (buf->error && (!uvc_no_drop_param ||
+>> > +           (uvc_queue_to_stream(queue)->dev->quirks & UVC_QUIRK_DROP_=
+STREAM_ERR))) {
+>> >                 uvc_queue_buffer_requeue(queue, buf);
+>> >                 return;
+>> >         }
+>> > --
+>> > 2.43.0
+>> >
+>>
+>>
+>> --
+>> Ricardo Ribalda
+
+
+
+--=20
+Ricardo Ribalda
 
