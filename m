@@ -1,210 +1,193 @@
-Return-Path: <linux-media+bounces-66004-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66005-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id dJ20GhqpQmpJ/QkAu9opvQ
-	(envelope-from <linux-media+bounces-66004-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 19:19:22 +0200
+	id HX6FIwasQmoK/gkAu9opvQ
+	(envelope-from <linux-media+bounces-66005-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 19:31:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFEAA6DDA25
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 19:19:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C1E6DDBEE
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 19:31:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=baylibre.com header.s=google header.b=XX0YABez;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66004-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66004-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=ozlabs.org header.s=201707 header.b=DrnVVqD2;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66005-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66005-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ozlabs.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id AE39B300D68C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 17:19:20 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A87473066CEC
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 17:28:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C7F3655F1;
-	Mon, 29 Jun 2026 17:19:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFEF47798B;
+	Mon, 29 Jun 2026 17:26:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5533C40D59F
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 17:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC60472789;
+	Mon, 29 Jun 2026 17:26:54 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782753559; cv=none; b=D5jIXwSwH91FJj9e6SjO1C/UK67OCO+NGBBCF/3dorGskcx4Rbq5F2F7RPcQdO2wY+BrBt4cB0uUhiAaWX69wH0LhGWW/nq7cttPOJAIzcx6oGAmnoBejXbH2qsOMu3V/8HIgSoLVEIhpRuZ4iXxkd4Mml/paRBEWq71r+cfx3E=
+	t=1782754017; cv=none; b=rJhMDyYC5bTzbjFxt8uzgW2xioJjimf1qLxFBelxwM0a6NAGQWrHWwQeqw54SKp64Pluf+8yGW/Z1esWBrcoGA+OVi5BlhJ6US2n1NeAJK3zxl6/hWf8rPBV1x9h4bbGSrpTWGJeUdLvV8Lxn6SeizvZURihFhcFDHYg+Jug3Nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782753559; c=relaxed/simple;
-	bh=wAGl3LDn2n7NabivivOLcyysAexn1UG3L3wu8rpmfcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ktJg4+o0YKTLNrmciV6U8xApV6cIp7A10pv4qYOywAhWJnpy027/CEZfe4F5RYUjkG9L+Wp7DRxQDA7B9Iz7NI5XmhFE/r7I0O6pP3lbNcK8eN81IThjcfXUeDfv+qrP/Gi95DM+wLVZr4RG6zT2LNGCaKAf/A8/oIxT9Iznbno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=XX0YABez; arc=none smtp.client-ip=209.85.128.54
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4924593f45dso46915595e9.1
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 10:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782753556; x=1783358356; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2kMwCTD0Z6IkQ3kF/VWnANSSNnaxTm8PFjyixvy0e6Q=;
-        b=XX0YABezXjax4BTSruBXe0ZmoB/uaL7ds7a5bgfQlw2iEqqNZyDh6cxZw+/Y1K7R79
-         mA2yCsd55m3E3AsNAgeLRjNTPGdUuHNIKrwLAyb47fCDliEVSIt73BmMhp68LDxa2GPL
-         +jcSN/fNXGHPDdvOC+d/eFMKW3GWfnX4dTHe+XdaV5Pdet30wm9iUM2m4NjkvasqepYT
-         3ZTvicc08GJkxKw+JegPW1sX6IG6pjB+Fqf8UbVqTSvFHHXCGxF3crzBCno9s3De9nnC
-         t+MY7QqXesz97jEhIBOXaN94XdQtAruBhEDjkASxsPnn6s7sQigzJkA7sFtTGU8xEWCl
-         DNbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782753556; x=1783358356;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2kMwCTD0Z6IkQ3kF/VWnANSSNnaxTm8PFjyixvy0e6Q=;
-        b=siT3S5Rh93D1BiX7qFkFYr4bjrF/GCMglO8Yq9A2C8wQmmrtGRIIZ3410Uq1ZSchBE
-         lronQPZ3Mkj+Jvg4YUGOBKu15QbyrNYd8f4Lo0vPXza39FakfrAhZIZRYcGssbkCVv+a
-         AIxkJSv+L6X5k7Lcf+GuoKvhU2cFzathyiVE9l81Jg+dGrEeDWC6aFi6oWEAADYQcTuS
-         xSOqKEl/HxZ+SPDx2mlkJvXud6RRUI4GpehwDwhdh5WqRbVhmudY+oWdvM927hb06q0r
-         nN0a38uGTCDsfexSDEG4fuiIev77PJ++FZlb84ITJ9+/XExpMHUwvEYOdvO9EgbaM5Wy
-         EFIA==
-X-Forwarded-Encrypted: i=1; AFNElJ+0nMBsREl47qUgJPzF2vIskUtGu0pU0OJoD0qixx6NLmF6Xq6QuXYGAITaCf1/RfseNM9GQl9KopQfsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDJrG0C5DTyu0ASubeTFVAgANYQZt8MvvN6ew4R/2tlDcjERPc
-	wxwYl5SVbTM3566rhi94jSfZ/C12rVEslUyv7TMQ2SEG1sfaeNeuOHQeqKRYf4YE9IE=
-X-Gm-Gg: AfdE7clgtBoOWNuy0U6T0bwnoparHkU4auhg7Ke35J5wLm7XXrgYAYmaaJLcHktMvQd
-	iVQSh63nl3NGhNVK+4PGJgVyz895EF+ugZXYM1XTg9MBmx0B71WHfsPDFF+U8E1+AaVKiejxZ/8
-	5WfvnjS8JALi0BkOVUyRcDRGCxf176GknCJEQUwxiPnAMxxBp/c2iWFhXHJe1fIaUL3oU8v9+VR
-	8FrJUeiYKPmnWsSYsxgA0w5+/E1mOq2tWc90ixLSukWWZq25TN6qusyfFgt9Y+rkObYYJnaDPNO
-	nV13JTc6jdbDvFhQKwzNWXPl+sEp8MERzmMEYaSgCBTHgLlM6yKYmzzrbUjHntwal98FBA6YKdu
-	2R5TLCsL+fuGQY/Ky9kPzB0I4647OaufTT5SIY38kNy963kISkiQHaw7jYfROgkMli1kazs7wkt
-	jJ+r+u9xnfjkW8DhYuEFyKO3zCjMjyjh8zQVUbzirKeESx5AZRHW7GPC7Z8zdYUlynnUrjZ/57F
-	vNK
-X-Received: by 2002:a05:600c:c492:b0:493:b03c:5650 with SMTP id 5b1f17b1804b1-493b82b0d77mr8050895e9.19.1782753555671;
-        Mon, 29 Jun 2026 10:19:15 -0700 (PDT)
-Received: from localhost (p200300f65f47db04294e5bd34a12a699.dip0.t-ipconnect.de. [2003:f6:5f47:db04:294e:5bd3:4a12:a699])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493b8c65f67sm4474505e9.3.2026.06.29.10.19.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 10:19:14 -0700 (PDT)
-Date: Mon, 29 Jun 2026 19:19:12 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Hans Verkuil <hverkuil@kernel.org>, 
-	Andy Walls <awalls@md.metrocast.net>, Yong Zhi <yong.zhi@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Dan Scally <dan.scally@ideasonboard.com>, 
-	Martin Tuma <martin.tuma@digiteqautomotive.com>, Abylay Ospan <aospan@amazon.com>, 
-	Bluecherry Maintainers <maintainers@bluecherrydvr.com>, Ismael Luceno <ismael@iodev.co.uk>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Corentin Labbe <clabbe@baylibre.com>, 
-	Jai Luthra <jai.luthra@linux.dev>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Kees Cook <kees@kernel.org>, Bradford Love <brad@nextdimension.cc>, 
-	Wang Jun <1742789905@qq.com>, Atharv Dubey <atharvd440@gmail.com>, 
-	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Sean Young <sean@mess.org>, Zhaoyang Yu <2426767509@qq.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mjpeg-users@lists.sourceforge.net, 
-	Markus Schneider-Pargmann <msp@baylibre.com>
-Subject: Re: [PATCH] media: pci: Use PCI_DEVICE macros and drop zeros from
- pci_device_id arrays
-Message-ID: <akKouitA4lNoqios@monoceros>
-References: <20260629171254.3470651-2-u.kleine-koenig@baylibre.com>
+	s=arc-20240116; t=1782754017; c=relaxed/simple;
+	bh=4/OzXg1kRwYcddjKntVN/+Mh8XEIs2dYDYalSRkf93E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q9HV9H5Wo7ZGHfieVrm7P+vmFm2WvsFXmOASXHT90TK9nxyoIjmcw8TwQ0wT9b/I3HPImiWzbqsrjcnjE0eGB1UVrAJFmM8eBPG0dynwIAh7PDtFXorI5OROuv8mjLYax0xqqdmvKsb1ZTLMUIqUzhwEZ5B48xyTN9IfQuWh1pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=DrnVVqD2; arc=none smtp.client-ip=150.107.74.76
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
+	s=201707; t=1782754012;
+	bh=y6eTx+9vg9xblvO487zhAd78ZW9yRyedKnZlH9n/Q1A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DrnVVqD25H/vFxEfW5d4xHnG7Pc1MM3ub184VCpBbrQ08+Vf4/gSGAFi9Ztv5RPIp
+	 +DPnMkZN0Rq1BNhf0To8wcmDt8naUQB/8DUZdLPKIhznKdibD3VFtLP4xlygASScPR
+	 jsVI3JtM7hii5yp3iVe3S/QopyVb9AmjDxnbUO6kZpGnB12C8gZHGGf8mnv9GP31s1
+	 jGj2WBAOwoUMmvyKZ0acx9Ot5s11nbcNxJo7i0ahlb/jltZ5HKISUIJeH/IQPiAlDQ
+	 t1Iw8z5AmbdTwwik49LDPiro0BE7UDScxaB0rz4itKI4TL3Oha7z1PZvGdCOzBO/iz
+	 D06sFOHWNMXaA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4gptVs3yzbz4w9j;
+	Tue, 30 Jun 2026 03:26:45 +1000 (AEST)
+Message-ID: <cc4e8b75-5b25-417c-898b-35b3fa41ccb2@ozlabs.org>
+Date: Mon, 29 Jun 2026 18:26:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sn4ibpglpe5vkcxw"
-Content-Disposition: inline
-In-Reply-To: <20260629171254.3470651-2-u.kleine-koenig@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 6/9] vfio/pci: Clean up BAR zap and revocation
+Content-Language: en-GB
+To: "Tian, Kevin" <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>,
+ Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Alex Mastro <amastro@fb.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>
+Cc: Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Pranjal Shrivastava <praan@google.com>, Alistair Popple
+ <apopple@nvidia.com>, "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+References: <20260610154327.37758-1-matt@ozlabs.org>
+ <20260610154327.37758-7-matt@ozlabs.org>
+ <DM6PR11MB3690CA709415069FFA5121838CE52@DM6PR11MB3690.namprd11.prod.outlook.com>
+From: Matt Evans <matt@ozlabs.org>
+In-Reply-To: <DM6PR11MB3690CA709415069FFA5121838CE52@DM6PR11MB3690.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[ozlabs.org,none];
+	R_DKIM_ALLOW(-0.20)[ozlabs.org:s=201707];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:hverkuil@kernel.org,m:awalls@md.metrocast.net,m:yong.zhi@intel.com,m:sakari.ailus@linux.intel.com,m:dan.scally@ideasonboard.com,m:martin.tuma@digiteqautomotive.com,m:aospan@amazon.com,m:maintainers@bluecherrydvr.com,m:ismael@iodev.co.uk,m:ezequiel@vanguardiasur.com.ar,m:clabbe@baylibre.com,m:jai.luthra@linux.dev,m:laurent.pinchart+renesas@ideasonboard.com,m:kees@kernel.org,m:brad@nextdimension.cc,m:1742789905@qq.com,m:atharvd440@gmail.com,m:lihaoxiang@isrc.iscas.ac.cn,m:krzysztof.kozlowski@oss.qualcomm.com,m:sean@mess.org,m:2426767509@qq.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:mjpeg-users@lists.sourceforge.net,m:msp@baylibre.com,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66005-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:kevin.tian@intel.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66004-lists,linux-media=lfdr.de];
-	DMARC_NA(0.00)[baylibre.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[ozlabs.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[baylibre.com:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,md.metrocast.net,intel.com,linux.intel.com,ideasonboard.com,digiteqautomotive.com,amazon.com,bluecherrydvr.com,iodev.co.uk,vanguardiasur.com.ar,baylibre.com,linux.dev,nextdimension.cc,qq.com,gmail.com,isrc.iscas.ac.cn,oss.qualcomm.com,mess.org,vger.kernel.org,lists.sourceforge.net];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,baylibre.com:dkim,baylibre.com:email,baylibre.com:from_mime,monoceros:mid]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,ozlabs.org:dkim,ozlabs.org:email,ozlabs.org:mid,ozlabs.org:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CFEAA6DDA25
+X-Rspamd-Queue-Id: 67C1E6DDBEE
+
+Hi Kevin,
+
+On 16/06/2026 10:18, Tian, Kevin wrote:
+>> From: Matt Evans <matt@ozlabs.org>
+>> Sent: Wednesday, June 10, 2026 11:43 PM
+>>
+>> Previously, vfio_pci_zap_bars() (and the wrapper
+>> vfio_pci_zap_and_down_write_memory_lock()) calls were paired with
+>> calls to vfio_pci_dma_buf_move().
+>>
+>> This commit replaces them with a unified new function,
+>> vfio_pci_zap_revoke_bars() containing both the vfio_pci_dma_buf_move()
+>> and the unmap_mapping_range(), making it harder for callers to omit
+>> one.  It adds a wrapper, vfio_pci_lock_zap_revoke_bars(), which takes
+>> the write memory_lock before zapping, and adds a new
+>> vfio_pci_unrevoke_bars() for the re-enable path.
+> 
+> It's unusual to have three verbs (lock/zap/revoke) in one function name.
+> 
+> I wonder whether it's simpler to have:
+> 	vfio_pci_zap_bars_locked() 	// caller already holds the lock
+> 	vfio_pci_zap_bars()
+> 
+> 'revoke' is just a side-effect of 'zap', not necessarily to highlight it in
+> the name.
+
+(Just found this one unacknowledged, apologies.)  If you reckon it's a
+handful, sure I can shorten them.
+
+As it already has ..._unrevoke_bars(), it makes sense to use
+..._revoke_bars() and ..._lock_revoke_bars().  IMHO the zap is a
+secondary effect, and "revoke the BARs" means to make them inaccessible
+from both DMA and CPU.
+
+I don't want to go down the path of _locked() though right now; I just
+want to tidy the current pattern without pulling new duties up to the
+call sites.
+
+>> As of "vfio/pci: Convert BAR mmap() to use a DMABUF", the
+>> unmap_mapping_range() to zap is no longer performed for vfio-pci since
+>> the DMABUFs used for BAR mappings already zap PTEs when the
+>> vfio_pci_dma_buf_move() occurs.
+>>
+>> However, it must be assumed that VFIO drivers which override the .mmap
+>> op could create mappings _not_ backed by DMABUFs.  So, the zap is
+>> still performed on revoke if .mmap is overridden, using a new
+>> zap_bars_on_revoke flag.  A driver can explicitly opt out; the flag is
+>> cleared by the hisi_acc_vfio_pci driver, since its .mmap just wraps
+>> vfio_pci_core_mmap() and so still uses DMABUFs.
+> 
+> the cost of unmap_mapping_range() is trivial when there is no mmap
+> on the device fd.
+> 
+> so it could be simpler by always doing:
+> 
+> 	vfio_pci_dma_buf_move();
+> 	unmap_mapping_range();
+> 
+> and remove the flag.
+
+I did consider this.  I do agree it's cheap, but I still prefer to avoid
+unnecessary activities (just to decouple and insulate against things
+somehow changing in future).  From previous postings, others didn't seem
+to mind the flag approach, at least.
+
+Thanks,
 
 
---sn4ibpglpe5vkcxw
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] media: pci: Use PCI_DEVICE macros and drop zeros from
- pci_device_id arrays
-MIME-Version: 1.0
+Matt
 
-Hello,
-
-On Mon, Jun 29, 2026 at 07:12:54PM +0200, Uwe Kleine-K=F6nig (The Capable H=
-ub) wrote:
-> Some pci_device_id arrays already used the PCI_DEVICE macros, others
-> used named initializers or list initializers. Unify all to use the
-> PCI_DEVICE macros and (if applicable) a named initializer for
-> .driver_data. Also drop all zeros that the compiler can care for and
-> unify indention and spacing.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@bayl=
-ibre.com>
-> ---
-> Hello,
->=20
-> v2 can be found at https://lore.kernel.org/linux-media/423da5a0ba0c9371c3=
-d30011ed245f596d70b58b.1781020630.git.u.kleine-koenig@baylibre.com
->=20
-> Changes since then:
->    =20
->  - Fix code-styling as pointed out by the Media CI robot (instead of
->    keeping the style as it was) in
->    drivers/media/pci/saa7146/hexium_{gemini,orion}.c
->=20
->  - rebased to next/master
->=20
-> Note I already claimed to have fixed the coding-style in v2, but I
-> failed to commit that. Just mention it to prevent further confusion.
-
-I again failed to send this out properly: I forgot to add "v3" to the
-Subject and to remove the prerequisite-patch-id lines below.
-
-Please tell me if I should resend.
-
-Best regards
-Uwe
-
---sn4ibpglpe5vkcxw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpCqQwACgkQj4D7WH0S
-/k42uQgArec+zHApNoqm7caVJsGyBH1pH+qRfZt9vPK0PULUf4cQTcW8UNSsUpBP
-qE5KoME7nV8ydfaFqjoY0Y5Mj3rz3EdUZeTtdLPJVZc4J0VjrmX3Feelums8q0ih
-o/2U85quGCxtaa7LSRBY/mgyJCcETLEEGlpKe8C4o1eIf8iAjw/82yA9FE/0TlIz
-pQrUDCkrREnArbJvx8S/Wm5bs8JpG+jdnnLA5DJU0fE694Fdq5xR6IJ2Q4buax97
-hTrh0dAEASo8VhtsRyYNNyRgkzkkxrabJkW6xtGe0iY2xDxtAxqoTMb80rRPoQEV
-YwzeHbPiO7ZcDm0YcdqQwRslYea4OQ==
-=BNLm
------END PGP SIGNATURE-----
-
---sn4ibpglpe5vkcxw--
 
