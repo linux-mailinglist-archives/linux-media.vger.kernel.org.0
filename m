@@ -1,310 +1,219 @@
-Return-Path: <linux-media+bounces-66017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66018-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id TvAlEt2/QmrqAQoAu9opvQ
-	(envelope-from <linux-media+bounces-66017-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 20:56:29 +0200
+	id jFigNTLIQmpMBwoAu9opvQ
+	(envelope-from <linux-media+bounces-66018-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 21:32:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB64E6DE2A0
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 20:56:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7527F6DE6B6
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 21:32:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chromium.org header.s=google header.b=KuC6lRCy;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66017-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66017-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=chromium.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=t37XBR2D;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66018-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66018-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 91195304E667
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:55:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3EE88301EC7F
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 19:31:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B122DB788;
-	Mon, 29 Jun 2026 18:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C53B835C1A0;
+	Mon, 29 Jun 2026 19:31:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010038.outbound.protection.outlook.com [52.101.84.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E4137B028
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 18:55:49 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782759351; cv=none; b=NdklJPshxLdnwPNSMLjExCp4CxeLDQiglo5xtQKRfo58ULGMv/IO9S+ZZGs2ydsN93bOg2r63eBQOsruj85uZXPVwqX1roP+dDfECHs+/XOLhv/Bgwvudi4g13dlaFkqmHdY428+fGkb2IM24FY0j2TRmlox0i68HeOgEcj1d1M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782759351; c=relaxed/simple;
-	bh=6XEyvFm45RFpQRmroon/fQJy6RQP6vEOBkY+lsSQYMs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=JK9IiPeiMqJncBdmEW7rwR+njJBIHv/akxROfbM5zyEL2Hz/3+ubYft9ZxWzRNCVRgNjRWqeCcozWDsmbRq30TQDvhzsIf6JshDbbiqPLBmmcncrEpw12f8S56eQe7kwmBBh4fanhc7PNJ5QgrsWnxQxrvuCrvgu0mZS/zp43hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KuC6lRCy; arc=none smtp.client-ip=209.85.208.45
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-698562f10e7so2942027a12.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 11:55:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1782759348; x=1783364148; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2OOeKw0Dt0Ml12xsRcK2OOzf5cXKN/GeXGXmRNdKFNY=;
-        b=KuC6lRCyfjm9SCpHGN4Ru5mq4/Qygygx6Ctrka4sJiPBnevcckWJcnBCve5MLhW5CU
-         j9GQaPOcVZrK0Eha7rx/rwNespFhvC9aHa3E3TbT5JPhwgEaeNqZ3s2DexzfoD5apfll
-         oDnbjEUe+uA9QxFnHlfLrmzRHdclVCygAFKoA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782759348; x=1783364148;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2OOeKw0Dt0Ml12xsRcK2OOzf5cXKN/GeXGXmRNdKFNY=;
-        b=MNJaFiAk6ngMRqCABlpyLOoFaFZZULFsuWoWVVQKZR5o71ANeagMcpbELGWvXvtLBM
-         oY9YNaVAYTvrR+F0EZILo4eHKgVqabNScn9nM/tW+6ESaDBS8ekK8eohkgGz4dKQhqWl
-         /vK+xfpB5HD1ZyAQ1n5+rUH3b8FOix9BUmbmp3CTI3/z3IXDqQUDvT3fLSepUSxShQZ2
-         KgR9SvOrQW7I1SbrpLZQla3wfgI0RAqb7ZYGn727MtMdcnTY3CTfhWe5Hm9MpiGKMHce
-         DZ61cd+Ghj40Mpet/UpYZ0cUrkwT/i7x1a2KqTQTlUFmjJHmp85jeZseGAqavSae5V8f
-         JDWw==
-X-Forwarded-Encrypted: i=1; AHgh+Rolxa0jHgvxNQ6x4CobLaPGMi1DrRXhLQKqrNP1bhLZo93kBnDP/gjKaSS2g2NklbK7s2leY+7uj8nK6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWzp1LcDRGwG2NUfOGK7YsQNDOrJJx2hsbu3i6QzRNsjjBWwsW
-	cFkHE1F2kIFAHk11MR2J9Ud+ZhAZF68wPZDNzpfJVYdDZFiS/PBg9o1yhjCFJDpz2CMc9qG/8uh
-	3wtNLCFje
-X-Gm-Gg: AfdE7cketPVaHzo71faanwaLJMw/W2t3Jb72fXFE4FY4lS0vLG1f7D0njj5At3FEbpr
-	zlbswLebD+qWGprppb3EUiLk8ZrOlZjOl1702DbYhQdHUZuTrO7m4ROCIkrvh4gHscec32p+YBm
-	hX9b8PwqXwr8o/kM3vAL49qZZDjoQ5xxUChvI3aKQ1SbExvwGNDzV4Nts2v7ygKB6qiK70xn8YP
-	O/AQ50TT6hwmAcsQWnwKvqhQdc5wUSEDh7Zh0NEfCuXqoYHU0HQJ1eRr95Ua3xXDXOAB9EW5yVM
-	yOBwMsLU9W5TPTVwZpqifEy8jH2dp4IEfYUE1oGa5qkevMxslxl2vXWxQMIwpU43TiW/uhypqp1
-	wJp7ehwV2AK73IGwkZaN6zmODnIehOPKtJdpdLmPKnhBKzbsrP9CknPgZ5w8JSTmQc2ZvhEfbTB
-	HNV5TUuDJtS5f3r6J+vN8L9ukVqBQsJvacfWmQD5JGxVIg9Rculr+6qtUOpKxo
-X-Received: by 2002:a17:907:6ea4:b0:be2:7f13:8e33 with SMTP id a640c23a62f3a-c128730a922mr22750466b.45.1782759348379;
-        Mon, 29 Jun 2026 11:55:48 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1288d694cfsm5204666b.16.2026.06.29.11.55.47
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 11:55:47 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1274802697so115470666b.3
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 11:55:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8pSrZNbb9L4WUGv7wdmIk+k++dj/ZrUTQWlpE7n1v1zO6ruuX3GeIL+LhE+DXTidheuhOKWL1RDrwGsw==@vger.kernel.org
-X-Received: by 2002:a17:907:3c94:b0:c12:44b4:c8ae with SMTP id
- a640c23a62f3a-c12873932bemr21730366b.61.1782759345856; Mon, 29 Jun 2026
- 11:55:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDCA40D57D;
+	Mon, 29 Jun 2026 19:31:49 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782761511; cv=fail; b=dJOxau4jMeASRSxc/oBcD3q8UqwzZbmCLJD5qRPE1BBho0668zycXyTVGcFmIs1ebzOx8ov2UpqUqfEsvb5HBB1fhBaHSaxhA7VXTMMcenC8fI94nJmHywwICKwU0jwLNnO0K4OHmY4Pzvb5WYtm8mjDYFeyT57iHZc02vXHJAM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782761511; c=relaxed/simple;
+	bh=SCgy1F4Gm1ZNXrzS3LQHg7J+rSndwXSjLawA76actIQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Kco2I0tXtD0s/0zySMlMvi+g5UcfRnBai9NHXqgXdbTTGA6SH8IDdhhMjec5S7VTRuYlh57J77r3oWGYoFvt8TsXdzKSfXN2qWjO8KjDm3cVSZZ5IzP/qkg2X3rLbFtGOPb14FLBZR5893ENcTQ4J4s5lVwd5wEWPkag//zCBTk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=t37XBR2D; arc=fail smtp.client-ip=52.101.84.38
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zFFQL8fW6uGh0eZ9/CVKWG3wkEZp35amhUJ3Rc1KlICGdXCfdZr4obHLdmG3pP/hyE5FBpQF6773If1FI/GUGQGIzbplfTUWx5AtsAHiCUC5gJb7OVVKNrAy2H5lQAMXMygAxKVo2ExrSKcjC627vh0ObP2Gbdym26wEOOaPfmuGD66ghejPkWnlZQjSkCwz1LaXcn/8VvcfxdvGN/RhoBTE7Tfvguhz783InanD9s18KYAQge6IclobXhfH6bKFD9XXxzpS7HEajcZzd0B9/K0/KdpRVrIHW5qKWVeDTDZbn3a1rFc3UDG1/iGeIwP/IQcoIHfr427atxxCHvQemQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BiIJlN7hy0Y2wA9KHHVXP6PM52F7F/YeRuEXYvsOscI=;
+ b=mW16r/Gqh4wXl7fnClg2ueAMgjOvpIYBTzWXk+6pi2mR6FqBANswfjtlVZZ12/2MyT5X5IqJg8SzD5EIDD0uKDkOLvTlgrmTlC+IIu5fRLUWn1RtGZcVttLN7MnzR2WDhfR744BzAdUatZSLSs63HDLKpHNFr+iRq2Wc4oL9o5+gXEqSSSXGuAuORqYbXFvDSPAn8euFN8JrJyuAimfEyWgeqoAYbfTZIqwJX6EFolZ+8yZLAK0pQHZHhpKJ3IHPYIGyU3HntuKo69YKslDcxTX1Fc2f9T4qDf58USuPWsYWgAIXn+2QDVv5FYZgLY2LxQOnuhpQidC9FFJv89Tepg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BiIJlN7hy0Y2wA9KHHVXP6PM52F7F/YeRuEXYvsOscI=;
+ b=t37XBR2DSha+xK3TuTRcEr0+5f9soSdMFoic+VIoy7/RC2e4oOcUEngk+4UIa0cLOYikiGuCL6+lTz0SBFrDoUy610Sv2vdki8NL3GwkEdTpOHDZVMZCp5eS/syinlfECE8UF7J5dz6aXx4zJgD13ydnVcN+eoeMVK5akVrTun39Fyly1+CAe8XfxtGnRUGPG0cR72UF3gqfkDeB8TSdV2tmcepo9ToflootdnU8yuvl5MQWuBGPGfYp3SNOeZOOdsRKvSS+AKy3SB3mtOQ28WAv6iI5xLlD8LOIWM4ikyArkut89R6SqQcGo6JgWJA98zMKwsheL46z4woIfZPcqg==
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by DBAPR04MB7270.eurprd04.prod.outlook.com (2603:10a6:10:1af::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 19:31:46 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Mon, 29 Jun 2026
+ 19:31:46 +0000
+From: Frank.Li@oss.nxp.com
+To: Robby Cai <robby.cai@nxp.com>,
+	Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Martin Kepplinger <martin.kepplinger@puri.sm>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Frank Li <Frank.Li@nxp.com>,
+	imx@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: dt-bindings: nxp,imx8mq-mipi-csi2: Fix example endpoint label typo
+Date: Mon, 29 Jun 2026 15:31:39 -0400
+Message-ID: <178276149121.2421775.16396513414846222417.b4-ty@b4>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260519113824.91533-1-laurent.pinchart@ideasonboard.com>
+References: <20260519113824.91533-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1P222CA0102.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:35e::10) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
- <CANiDSCviTcv6mYmE9Ha8xh7r+kEuwGUoT18sdb2J=HzTFVhLoQ@mail.gmail.com> <CAD0bCtmJ88fC3zXhU5nDxugagjNMmY=FS7sO40x3OsAe41L+qg@mail.gmail.com>
-In-Reply-To: <CAD0bCtmJ88fC3zXhU5nDxugagjNMmY=FS7sO40x3OsAe41L+qg@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Jun 2026 20:55:32 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvQAo940t6son-QHoOdYT3KGHoQMhiNis7HwER+WhiPUQ@mail.gmail.com>
-X-Gm-Features: AVVi8CdCFjbiMd_LoXX23FhHoQCVsdtCvgzrIVV27LBuwVwhXZXklfhUOLmni1E
-Message-ID: <CANiDSCvQAo940t6son-QHoOdYT3KGHoQMhiNis7HwER+WhiPUQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] media: uvcvideo: add quirks for per-device stream
- error handling
-To: =?UTF-8?Q?Pol_Fern=C3=A1ndez_Fern=C3=A1ndez?= <fernandezfernandezpol@gmail.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DBAPR04MB7270:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47665b61-27b6-4482-1b21-08ded6150ec3
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|7416014|366016|1800799024|19092799006|23010399003|22082099003|18002099003|921020|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+ qxZowETPEk5oJc4YnjuZUGYhFtbyDzDt6LQXQJfOythbmVx74cO0vPUgyFlLWMIqv4Kj98pHixv5R13U3Jfb1eoIaSqj5l7oC3j47IYBMlOOkjwtpRHnAzYCQU3pBdPheOMDp2FTdUoSY2mshndK5NkQCRXQtEdPfisAcs+Km6o7p+8M7WmAxQ2Yhma0yr/CvUxLjY7aPmW9eluElT3upr95OZ5SftazWuMNqgXkQw+kknd0JWghNRLbbDahBpAGFcxPhO6E7bEMYZU5LK0ku95ltllBcKEOAjAGp/RzwcfsMZv1/3XOakTSYQavA3cRCGu8eZ+3vNPHkV83PCOzPqtFMLjzqyM9k5DRaiAdwPnqMaNJV7jrN/7Vo16r5DzFWRo57Ij02hlW55EAiMQjcL/E1sQ+DQ1lEG7oDogvVTyHNFkEy6Iw1clsGqMQ0G3Tr8TzuoG46SoLg5XxTFl2aE5g/ou4HPFy3Jw4r9A9eqEjcvzwdBFCfsUBLSQXTVUSgn/7PJH7ZLgtSJR3Y+NyUZuhi/osCBXK43A6bkSBcAnOOtpp1kH+uydvtTUtDPtZOhVSqPivDQz6/adz/sj3W6G8Xl+uyakjY0b83f/TruzFosLvTQpRtoKJ/RbXWM/Azw5DMuiw6U7bBlsRdEy929dLcGmnnA0U9UVE50KrufEe4C85zRnz/tCzpteCit3+W8c7Kvscpy05kXR9rOD6sg==
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(19092799006)(23010399003)(22082099003)(18002099003)(921020)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?YTZ0VDF2NmhhT21XRG4ySXk2MzZTWWpCSENNdFJrMWpVUWNVSnRYWE9jMGlk?=
+ =?utf-8?B?elNHV0FIeWxJaC9wTHRVT0VRc2tmRVBhMU9IVWhKSXhWNVM4cXE2dmdYZ1lU?=
+ =?utf-8?B?ZGJRQ01nTklZUGVrRng1K1ZLRTRmYklkVVZPTSthMk4wd1pQTytZQ3ZvNE13?=
+ =?utf-8?B?YnI0Z3Ezb0lDcDd2WThjRzBPUWFmNnp6SmU5ZkgveDNWdDlRVWxhUkxHb3JI?=
+ =?utf-8?B?TkZ3RmpHb2Y5UEhwOTBObWUxaXZJVFBwdm5PU0U4ZVhFaThMNGVqMTdmUXlk?=
+ =?utf-8?B?WW1GNmh5b1VIcTk1bmZrdVUyYlhlNkZyc3crVExmcktWQTZ4cUpoTmhwVUZK?=
+ =?utf-8?B?NFFjVHptZnlLalZlNnJZYzFNUzl0cHVsNzMzbi9pSDdJLzVCdkpPU0NKbERB?=
+ =?utf-8?B?N2NtaEg2b25BZXh3QXRiUWJ5cTJpZEJ3Z0pNSU5vbTN2U1ptcERheHoydG5V?=
+ =?utf-8?B?OGltd3g3eTlzRVpNenQ4c3FUTUVMUDZCQXh1NGtzNWZqNWF2RWpsemNLT3BB?=
+ =?utf-8?B?RWIvTDhoL1ZUL1dSanY1TmZ3U2ptRS9lQzZaa1NUQXBqTkRBMXE4b1RYNy9V?=
+ =?utf-8?B?R1ljME9EZGlMMlVucWgyVndybTFHejEwbzZwWGZRTDlxeUNteWdVV0E4QW9Q?=
+ =?utf-8?B?WUh2R2hrejlqa3JzU3RBeVpOaUxkU1FLNnZMdTBJSUM3UEJOeEt0VzFPc3Zs?=
+ =?utf-8?B?NFJiaWg2N1NIMEMxV1ZWd0ozK2wvOXJXTFpCS2FoRFBtaVZUc2FEaWNQdTkz?=
+ =?utf-8?B?dzZsV3ozR3QrVHFFZmZyeGZldG5QVS9MSjNZYzA4UlMwelZWczNmVlppRzFt?=
+ =?utf-8?B?dVk3TVhBNjE4RlJRNnpVTUZJL1gycWgvMzFwMktkamJwdjcvallyMTlta1o5?=
+ =?utf-8?B?MUMveUlPV2RybTVNUmRiYnd5SmUyRzc2VFh1dFR2SVBNV2lycVdEMGFnUEsw?=
+ =?utf-8?B?T2FYK3Q0cUVuOWhoakd1YmhhKzB4dlRXazNXMnFIQlhJejBJWFhMYzFOcENs?=
+ =?utf-8?B?MUdIMzZSNGRIY04yS2tlV1lnMjlyTjJsVDMzQ0lyQmJhWjB1ZmpsSWlwRUF1?=
+ =?utf-8?B?U2FHSUowM3hYUmpZNGtPTWNKVS82b2lJeGdSZ0lMTzg0MElEOW1hUWVpY2VP?=
+ =?utf-8?B?T1gyOEp2cVdlTTNqU2pWYmZDN01uVEZtT0hPeUhQekhIS2ZkSjNpVTZUYWs1?=
+ =?utf-8?B?ZjNYbEN6T0ZUYzRnbjcyZ3N4V1NMMlEwazRHUkR5eWg2MDlnWDFFd1Vid2tC?=
+ =?utf-8?B?cmgrSmNsM2JaZVZIZEYzcXp5T0pZVkpOWXdCaVluejI2VmpWMFJWWUdUODNx?=
+ =?utf-8?B?cFJwZTVaeWY1dFErbjNPb3h0WWdCMVQ2Z2RMNHlOZnFUdnFBRWo5THFBZWZW?=
+ =?utf-8?B?N2wyencyWkpGdzNjTXhGbTNXMmk0YmtoTTlSN01UeHN1Z25hZmhsSFlyOEZl?=
+ =?utf-8?B?cncrLzBnRlppSHJQR0VUbzI3ZHcvYWdUMC8yN0ROSDU5TndKWHRlc2hRaGpv?=
+ =?utf-8?B?bzNpNUVEUGkzdW00azQ4dm1HeXNycXJ4NW5EZW1XR3BGeWI5aXdmbENEcFB3?=
+ =?utf-8?B?K3lveExYMWtGOUplVWM3WDBMQWs0SEpGSElBS21MTFlzVFpQd0VWeXBnQXBm?=
+ =?utf-8?B?V0RlUXowU3JMOGVja3k0Z3J5azBvOVFFMzBjaUFFZ0VQdVZvQWZpaWV5clZH?=
+ =?utf-8?B?K1JMTmZyeHhjK3hLVTVnaTFRWW42eVZGdWZLQzZiU0EyN25KTC9GaHV0dlFa?=
+ =?utf-8?B?N0FYRFAvTDlBZ2JaSUVZVmtncDVSeDEyaGNaaW14VEdNQkEzeHpvTTNaVG0x?=
+ =?utf-8?B?UVVKYkpwY3g2K1FNQjFrcnRrSHVBNW9yRHBJOHRrRmJPdEl3MU54OTdhU2FB?=
+ =?utf-8?B?bDR1SE1JYjczZkZFWjNvUEppMXVUc0FwZzZ0d2gwaExVeC9leEl4Y2lRNHZG?=
+ =?utf-8?B?WE9mdWY3MXJnc0lHU1ovY2lOVG83Mkx4Mnh5NEU4Q2kwRW5meDN2bmRwYW4w?=
+ =?utf-8?B?OWtVT0VKd042bE5iSXhZZk45L1Bld1hWdEZlY2dtajJYSWx5aTNiV2h6R09K?=
+ =?utf-8?B?bmp6elo5OW53V0VVS29SOWZFbWltaHZIeFNBUk0xYU10a1ZPam02MlRTTHEz?=
+ =?utf-8?B?ekpCeXhxb0pmb3RFL1lvTC94M2E1bThtRU5YVmtwMU56TzR4RTBTRWtzU2VD?=
+ =?utf-8?B?Tmd2aVZBOXFlZUJ1WFJTT3NBenNNNytjdFdQWjVEeXhUQnBST3lOWmFRaFpw?=
+ =?utf-8?B?QzBZbTB6ZzJzZUlyUXNhVFNmcjU0M1pzbmI0dDlHRmZiU2Q0MVFJYm90UE5z?=
+ =?utf-8?B?V0lCcjRyWjVIQnNHOVRWdDVvQUo3b2Q3S3VrbU1FMFQzUzNWeTB6STd6WmVP?=
+ =?utf-8?Q?SkxZZYJvrUsCWand1RsH6gR0L4t8SLzHuohFp?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47665b61-27b6-4482-1b21-08ded6150ec3
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 19:31:46.6246
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oZq8KyOLA0Wd6vZTEG0a5WSuLMFuzpaeE7jkfPZbkqRzJ+KxLaH/zNAxR+emBK2Qw/dyv0j3MDoBuDwADrnq6KcTl2p5fOiyLnz+eGSx1fJiqwsYUhl6yv2zl6Cj56WA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7270
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+X-Spamd-Result: default: False [2.44 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66017-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robby.cai@nxp.com,m:martink@posteo.de,m:martin.kepplinger@puri.sm,m:rmfrfs@gmail.com,m:kernel@puri.sm,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:laurent.pinchart@ideasonboard.com,m:Frank.Li@nxp.com,m:imx@lists.linux.dev,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:fernandezfernandezpol@gmail.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[Frank.Li@oss.nxp.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	FORGED_SENDER(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_TO(0.00)[nxp.com,posteo.de,puri.sm,gmail.com,kernel.org,pengutronix.de,ideasonboard.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66018-lists,linux-media=lfdr.de];
+	FROM_NEQ_ENVFROM(0.00)[Frank.Li@oss.nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NO_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,NXP1.onmicrosoft.com:dkim,vger.kernel.org:from_smtp,oss.nxp.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: AB64E6DE2A0
+X-Rspamd-Queue-Id: 7527F6DE6B6
 
-Hi Pol
-
-On Mon, 29 Jun 2026 at 19:48, Pol Fern=C3=A1ndez Fern=C3=A1ndez
-<fernandezfernandezpol@gmail.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the feedback.
->
-> The original detection was in MATLAB, and the same corruption is reproduc=
-ible in guvcview. However, the issue is not application-specific: I've conf=
-irmed the same corruption on a second machine running Ubuntu 24 with a stoc=
-k kernel. It does not reproduce on two Windows 11 machines with the same C9=
-20, and does not reproduce with other UVC cameras on the same Linux system =
-(tested with a Logitech BRIO 100 and an HP 950 4K Pro). Capturing in YUYV o=
-n the same system produces zero corruption, confirming the problem is speci=
-fic to the MJPEG encoder path. This points to a specific interaction betwee=
-n this device's firmware and the Linux uvcvideo driver.
-
-I just sent a patch to guvcview to fix handling the invalid frames:
-https://sourceforge.net/p/guvcview/discussion/general/thread/4af26b96c8/
-I hope they carry it soon.
-
-You need to ping your MATLAB support so they fix their code.
-
-Have you tried with the nodrop parameter?
-
->
-> The patch series addresses two separate contributing factors:
->
-> Regarding UVC_QUIRK_NO_FORCE_QUALITY: uvcvideo unconditionally overrides =
-wCompQuality with GET_MAX (61 for this device) during probe negotiation, di=
-scarding the camera's GET_CUR value of 0, which this firmware uses to indic=
-ate adaptive encoding mode. The Windows UVC driver does not perform this ov=
-erride, and the camera works correctly there. Forcing maximum quality incre=
-ases encoder pressure and raises the frequency of UVC_STREAM_ERR events. Th=
-is is a driver-side behavior that contributes to the problem independently =
-of what any application does.
->
-> Regarding UVC_QUIRK_DROP_STREAM_ERR: uvc_no_drop_param=3D0 would address =
-the symptom, but it applies globally to all UVC cameras on the system. A pe=
-r-device quirk limits the behavior change strictly to the device with the c=
-onfirmed firmware bug.
-
-I do not think there is a firmware bug. It is flagging the invalid
-frames properly; userspace is processing invalid frames.
-
->
-> Best regards!
-> Pol Fern=C3=A1ndez Fern=C3=A1ndez
->
-> El lun, 29 jun 2026 a las 18:55, Ricardo Ribalda (<ribalda@chromium.org>)=
- escribi=C3=B3:
->>
->> Hi Pol
->>
->> What application are you using to fetch frames? It should not process
->> frames with the error flag.
->>
->> If you cannot fix your application, why don't you set the parameter no_p=
-rod to 0
->>
->> Something like:
->> rmmod uvcvideo
->> modprobe uvcvideo nodrop=3D0
->>
->> Regards!
->>
->> On Mon, 29 Jun 2026 at 18:38, Pol Fern=C3=A1ndez Fern=C3=A1ndez
->> <fernandezfernandezpol@gmail.com> wrote:
->> >
->> > The UVC_STREAM_ERR bit in the payload header signals that the device
->> > could not deliver a frame correctly. By default, uvcvideo delivers
->> > these frames to userspace with V4L2_BUF_FLAG_ERROR when uvc_no_drop_pa=
-ram
->> > is set (the default). Applications that rely on strict JPEG decoders
->> > (e.g. libjpeg) will display gray bands for the incomplete portion of
->> > the image, since libjpeg fills undecodable MCU rows with a neutral gra=
-y
->> > when the EOI marker is missing.
->> >
->> > Add UVC_QUIRK_DROP_STREAM_ERR to force-drop frames flagged with
->> > UVC_STREAM_ERR for specific devices, regardless of the uvc_no_drop_par=
-am
->> > module parameter. This ensures applications never receive truncated fr=
-ames
->> > from devices known to set UVC_STREAM_ERR on genuine encoding errors.
->> > The existing uvc_queue_to_stream() helper is used to reach the device
->> > quirks from within uvc_queue_buffer_complete().
->> >
->> > Additionally, uvcvideo unconditionally overrides the camera's probed
->> > wCompQuality with the maximum value returned by GET_MAX. For devices
->> > whose firmware treats wCompQuality=3D0 as an adaptive encoding mode (w=
-here
->> > the encoder adjusts quality dynamically to fit within the available US=
-B
->> > bandwidth), this override increases encoding pressure and can contribu=
-te
->> > to UVC_STREAM_ERR events. Add UVC_QUIRK_NO_FORCE_QUALITY to preserve
->> > the camera's default quality value during probe negotiation.
->> >
->> > Signed-off-by: Pol Fern=C3=A1ndez Fern=C3=A1ndez <fernandezfernandezpo=
-l@gmail.com>
->> > ---
->> >  drivers/media/usb/uvc/uvc_queue.c | 3 ++-
->> >  drivers/media/usb/uvc/uvc_video.c | 3 ++-
->> >  drivers/media/usb/uvc/uvcvideo.h  | 2 ++
->> >  3 files changed, 6 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/=
-uvcvideo.h
->> > index XXXXXXX..XXXXXXX 100644
->> > --- a/drivers/media/usb/uvc/uvcvideo.h
->> > +++ b/drivers/media/usb/uvc/uvcvideo.h
->> > @@ -81,6 +81,8 @@
->> >  #define UVC_QUIRK_INVALID_DEVICE_SOF   0x00010000
->> >  #define UVC_QUIRK_MJPEG_NO_EOF         0x00020000
->> >  #define UVC_QUIRK_MSXU_META            0x00040000
->> > +#define UVC_QUIRK_DROP_STREAM_ERR      0x00080000
->> > +#define UVC_QUIRK_NO_FORCE_QUALITY     0x00100000
->> >
->> >  /* Format flags */
->> >  #define UVC_FMT_FLAG_COMPRESSED                0x00000001
->> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc=
-/uvc_video.c
->> > index XXXXXXX..XXXXXXX 100644
->> > --- a/drivers/media/usb/uvc/uvc_video.c
->> > +++ b/drivers/media/usb/uvc/uvc_video.c
->> > @@ -451,7 +451,8 @@ int uvc_probe_video(struct uvc_streaming *stream,
->> >                 if (ret < 0)
->> >                         goto done;
->> >
->> > -               probe->wCompQuality =3D probe_max.wCompQuality;
->> > +               if (!(stream->dev->quirks & UVC_QUIRK_NO_FORCE_QUALITY=
-))
->> > +                       probe->wCompQuality =3D probe_max.wCompQuality=
-;
->> >         }
->> >
->> >         for (i =3D 0; i < 2; ++i) {
->> > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc=
-/uvc_queue.c
->> > index XXXXXXX..XXXXXXX 100644
->> > --- a/drivers/media/usb/uvc/uvc_queue.c
->> > +++ b/drivers/media/usb/uvc/uvc_queue.c
->> > @@ -357,7 +357,8 @@ static void uvc_queue_buffer_complete(struct kref =
-*ref)
->> >         struct vb2_buffer *vb =3D &buf->buf.vb2_buf;
->> >         struct uvc_video_queue *queue =3D vb2_get_drv_priv(vb->vb2_que=
-ue);
->> >
->> > -       if (buf->error && !uvc_no_drop_param) {
->> > +       if (buf->error && (!uvc_no_drop_param ||
->> > +           (uvc_queue_to_stream(queue)->dev->quirks & UVC_QUIRK_DROP_=
-STREAM_ERR))) {
->> >                 uvc_queue_buffer_requeue(queue, buf);
->> >                 return;
->> >         }
->> > --
->> > 2.43.0
->> >
->>
->>
->> --
->> Ricardo Ribalda
+From: Frank Li <Frank.Li@nxp.com>
 
 
+On Tue, 19 May 2026 13:38:23 +0200, Laurent Pinchart wrote:
+> The example in imx8mq-mipi-csi2.yaml uses imx8mm_mipi_csi_{in,out}
+> endpoint labels, which is confusing for an i.MX8MQ binding. The labels
+> could be removed as they are not functionally required in the example,
+> but they have a documentation purpose that brings value to the reader.
+> Rename them mipi_csi_{in,out} to avoid the confusion.
+> 
+> 
+> [...]
 
---=20
-Ricardo Ribalda
+Applied, thanks!
+
+[1/1] media: dt-bindings: nxp,imx8mq-mipi-csi2: Fix example endpoint label typo
+      commit: 733394c59684b8d16c5e4d26d6bf021a3a2d4bed
+
+Best regards,
+-- 
+Frank Li <Frank.Li@nxp.com>
 
