@@ -1,291 +1,230 @@
-Return-Path: <linux-media+bounces-65866-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65867-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Gqk+LHglQmrZ0wkAu9opvQ
-	(envelope-from <linux-media+bounces-65866-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:57:44 +0200
+	id HmzpIYonQmox1AkAu9opvQ
+	(envelope-from <linux-media+bounces-65867-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:06:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB586D73C1
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:57:44 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0981E6D74A7
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:06:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=Uoz2ufnC;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65866-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65866-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="S3/GFQ8Z";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65867-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65867-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 336593119BF4
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:46:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1175E322D0C3
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:47:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFF4F3E3C4C;
-	Mon, 29 Jun 2026 07:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594F1390217;
+	Mon, 29 Jun 2026 07:45:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013015.outbound.protection.outlook.com [40.107.162.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D4D3E1D01;
-	Mon, 29 Jun 2026 07:42:54 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782718981; cv=fail; b=kO1EpMehtv+cZf4F79qocdZRPTnpJJBCVfdOGHmmc5WGY0qSyBYvDRReRQi0NCP2q6VzyCwSCiUG6f17nUMeX36d7rElUmz+4U7Ux8Jxn5xazC8QsMw2kuC38gL/4Qza52CltgXkKf9zr9V3v0OjBGyDHYa2niw12rm/SxmfL80=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782718981; c=relaxed/simple;
-	bh=y3HlLyfdYKZ9IZOiAnU57hESRessYP93Uxv3EImBhTo=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=ZYP2fQG2oLp7eaGJM7V2LK91Ghw+A9boct8RWp2es59OQq4lGTETIyWGw/l04dQQdxie77dU+zPt3J0nAK0cmxhul9wBqZ2tECSmMjpDe9GKd+MMuds2HFd0c05yK2f3AjTCLTkoqmb6eLRKotOlpB5h+sCN2dXlSYZ9fa7CVPk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Uoz2ufnC; arc=fail smtp.client-ip=40.107.162.15
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yVVVTJ8qH8279lOKskO++CestLQ0hzfv6Hbdn/XYSPPPJU50fM9Mur/njRJzgqzI7uZ3l+q0gUR9s9TPTOmnUCBXM/yejB5Cjkftd7cx30CimJFQ6oWL8hJPbQvpzNLQWH4kjGul04+vmnZNxLMzD3C120vIETGUpv6Ze2B3Jd6rd73mGOVli5ZGHwOdGxklFajtVYNA9hlopx30loLmWY2P4g6MmIk9RyeSkaII+oDJ3MS9b7hr67QTawsvaDdaIJdfGDLToZntO3VV5yEdx4K/+cB7uTmZkUc0xegh2SJLpAJGqhWW0IHiEyYINSFqpAgjE7BxJjCqI1qg2Hx8eQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rITp1EdIqvHqqcflxtijdTxOeaG8OlMqVhdNWf0RwzE=;
- b=Ma4iBmoqKcFyBR+GrbLlk8lGjcK25jLizIt+qgH48Z8mtP8nbHN8lhJ2fcMKsFhc8frCZS5lr6oxraeVhNQ9IxFOueOnSvYqLY/k78VgwEt6FKQEH1Ro2aSF5FCi8tl7Rhr3Ga1UrTpRbI+qbzD0dMAEY0bRAaN9+0FqP1T0UhI/MXHDUt/RB58AzG+wGkk9WDOyTqvh3sLfPs1YZKwkVRrfNNoLmmojZZQUif4HsY/3Qr+UXT2wGsc5qDQzFOInHhqZq6ZwYo75PC01k3jzFnOe0YPeqiGuIEo2fy5g825yVgq0Bs3wbO4I8P2bod0xJh05lAFPSyuRA14C7+proQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rITp1EdIqvHqqcflxtijdTxOeaG8OlMqVhdNWf0RwzE=;
- b=Uoz2ufnCi9/1nhafjPHSbfGk6LvSYBmODhQky2vWEJh45PNQTwr6kpJWBethNQyakEQKU6LZCNVklVfhKqgTWzzeFGgeFMyuVbMPsBl0do/UnFu4CMrhJbj//wwzPjBMvtM7pb6h7cshySbWca494nPyE3l/qn773CAKDaqg2hnvMyqNdsQNozt/4bUl3i9w2tFFUTWJV9vTMJnyHIK+BwlUkb9IjTK21iZqXuZuIXP7wMHkFeXW/5pQtXF63SIr2zOf8c7w7pWH+ss/pxfJSFgPN/xEvxWpUIVDjnvVHJnBoI+BG7dmwLXHi+7RbHQI+fJS/3vuke8tdJUCH0V9tw==
-Received: from GV1PR04MB11513.eurprd04.prod.outlook.com (2603:10a6:150:284::9)
- by AM0PR04MB11932.eurprd04.prod.outlook.com (2603:10a6:20b:6fe::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.13; Mon, 29 Jun
- 2026 07:42:47 +0000
-Received: from GV1PR04MB11513.eurprd04.prod.outlook.com
- ([fe80::29e0:98a1:4577:2cc7]) by GV1PR04MB11513.eurprd04.prod.outlook.com
- ([fe80::29e0:98a1:4577:2cc7%3]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
- 07:42:47 +0000
-From: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-Date: Mon, 29 Jun 2026 15:44:59 +0800
-Subject: [PATCH 5/5] media: nxp: imx8-isi: Add additional 32-bit RGB format
- support
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260629-isi-v1-5-deebfdb1b07b@oss.nxp.com>
-References: <20260629-isi-v1-0-deebfdb1b07b@oss.nxp.com>
-In-Reply-To: <20260629-isi-v1-0-deebfdb1b07b@oss.nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Christian Hemp <c.hemp@phytec.de>, 
- Stefan Riedmueller <s.riedmueller@phytec.de>, 
- Jacopo Mondi <jacopo@jmondi.org>
-Cc: Dong Aisheng <aisheng.dong@nxp.com>, Guoniu Zhou <guoniu.zhou@nxp.com>, 
- linux-media@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Guoniu Zhou <guoniu.zhou@oss.nxp.com>, 
- Robert Chiras <robert.chiras@nxp.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782719134; l=3324;
- i=guoniu.zhou@oss.nxp.com; s=20250815; h=from:subject:message-id;
- bh=y3HlLyfdYKZ9IZOiAnU57hESRessYP93Uxv3EImBhTo=;
- b=crUoU84jzRb8WRzuX9Tl4IDLKoC2w5grfAOFDOLBmuantHW6aJK7cfhGvtz26jZ2HeG0OEgkL
- PRm+JX0/yFVAdwAq6fseBit+TQfY/kmH7MP/z1jgBEzwNxFq75H49Pg
-X-Developer-Key: i=guoniu.zhou@oss.nxp.com; a=ed25519;
- pk=MM+/XICg5S78/gs+f9wtGP6yIvkyjTdZwfaxXeu5rlo=
-X-ClientProxiedBy: SI1PR02CA0028.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::6) To GV1PR04MB11513.eurprd04.prod.outlook.com
- (2603:10a6:150:284::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4745D3DD50F;
+	Mon, 29 Jun 2026 07:45:38 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782719144; cv=none; b=ihLZQO181Yxbs3evK1yse5fCzOrDlJUuHZA8b5mWX2nEJYFfw5/oh+cadY3Qps3l3dfSZS7Cu5TXWM7ZunshLu12SoQ3CiNyZttU1NaaNYcGZtWw22mV4HRJQ2nsOGF1RQhFxkPePRa1sFG5+DEMSX5k1wnFSUD4t0qD3aHMnZY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782719144; c=relaxed/simple;
+	bh=GdOSW+9QpbI+GOCh/RF/AckWXho4xoQ8zdx+rrMu8RI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gguaqOJw9w5I4Or3WUgHHTsTM9/oZRP1GpAVPLrLfOa0XFNU/crE9K3GGd51/HS5c/0ceZaN0BwesJzMD04Vmc0QfNmHeFn6UJlyUyodLPIZYfCeY/VoVXqJVfk4QOSs4b4HnaXC1xg58B5C6BEdTJJhfUEMNwmAnxiraLkdEJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3/GFQ8Z; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC5D31F00A3A;
+	Mon, 29 Jun 2026 07:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782719137;
+	bh=X0uYIgycRQfmlWGtZQLMUu7Bf9aoXkgVqzrHIxUISYM=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=S3/GFQ8ZHJP33yNpAHgjlK04oWaIhQn9/JJ7ugdwUgAybIrffOlWXC8gbrimqKxGl
+	 lH5wg/52z9ldIDSLDr5sPVjCD7AV1+F8c//nYYQfZmPSv6ds0vRyEdvvkMy7/eHhCx
+	 D+BShmZcHknlfPmvdVPInaB9rNtxADquwvWimiexfd4hXBzd4p0Xx5UqVsBjj4/TzQ
+	 isfN3oF1XnrNGhFYu2xGB5qabTM7DbJ5H4Ztyp1fAlriprvHMl5SDyT06r7vqtoe/B
+	 xJbBkH9L2FHJpEkQqG3JsshZ4TzvQrtliCUX1e3x5WUmKnUW4Mp8MBP7jToam0Muoh
+	 9m8PnjcrBi5FA==
+Message-ID: <e0c25e65-8e07-41bc-a165-ae5e770a71a2@kernel.org>
+Date: Mon, 29 Jun 2026 09:45:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR04MB11513:EE_|AM0PR04MB11932:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46833a3a-8978-44ce-8c09-08ded5b20328
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|19092799006|23010399003|7416014|18002099003|22082099003|11063799006|6133799003|56012099006|3023799007;
-X-Microsoft-Antispam-Message-Info:
- 0rIgOsxHHNEQkW4JBfvRJFtDHPrd8iExt8u/iHcZIV3ek6jYmzM5q3vsUbYFMNYEV64zo93cA4iS9GKOx1Wz9b1h76g4IQ0sLxWTKraJCODmRdcvlwmuo5Ghv8UC9BvvefixCYXgoVRoC882RynQeCQbFE5NOv6YAmOE8wvFsrdPzorOnDbGaTGzo8G5pmsjCrC/N1YBkcg5Sbtwqd7k/TFdztxN5IuYA6e211PrTj8muZzqh53sfONZ9JzIN2rKNYaq2D20EcrQ2L9Jvw2+RpZJnnvD/HXLBxt+T+qOI/wYyEBkBzd206ca/xhaCqcN2s5wPpUXCBgyKZMy0/k+DW7hAMZs2jOyrcxpaLd9UPIjyiMREhkJxwkE2IhkONk2qhF8QAoC8VeYL7vSyYsFimY5HXivvYMZop7+QGiAUh2ymFn1kw3PF45qHasG7emJHip2kJe39UxAofybMEOwcYFSnZ02TsrJRrqLQl4/+xV+eql+bbtet/JxwLhNrWfczPlteUqs7IHX9HA5YJXqlfcbSw35ZUDvAPuNU7CWGN5QaP1DaOBtMIPzOLkNmLC7gLPp4HE9sRMk+wBRE3MoWm3/p1Q87wFYfIDWH/LFu+KPl5QwtWsEMPKpNQDkk+N2Djnb1zZDynTxMtRylKjvbmjI5CGoSOQwXyTAY5Rcp54=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR04MB11513.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(19092799006)(23010399003)(7416014)(18002099003)(22082099003)(11063799006)(6133799003)(56012099006)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?REgxQzZCNTdySmM5TmhETmVpV25DMU0vOGFyUWhMc1FCWXltNzFIMGltWGRn?=
- =?utf-8?B?cTVCOGhxMFZmOGN6MERUY2dkMnUzY1BIbUtyeC9TNFptcnh5RjgwajhLa3Ax?=
- =?utf-8?B?OVllN1ZKZTlHeFJGSFJjcko5N3ZURC8zVUM0RjhuRmdlL3d6dWpzcXFmVUp6?=
- =?utf-8?B?Qm1Ka0E4YkZIbDM5bG5hT3BaSXliY0orcWV2Sld0VWJNSXFDQUVyb0NybVYv?=
- =?utf-8?B?Rmw2OEVBMWt2WjdkTWJYdEFER0hkMThmMFZrZVpPMG95Q3lRTWU2RXU3UTZx?=
- =?utf-8?B?cmhhV1NydnZaT0dwK053Ui9MbVBkSWhWWWtlVlRtMkhoYzlSd1N0aXE3T2hW?=
- =?utf-8?B?aW4ySlpRbWMrS0hsVFcxVjZMWnpvSkx2Q3pPcjRYT3JLamZFL04zYWMyOHdw?=
- =?utf-8?B?Vjgwa1JWUkprRTMweUNzMXhGZ3V4VTkvcUR2MGM1d2JvM01HYnlLN0wwTGJW?=
- =?utf-8?B?VDJvemlORWc4U0ZycFBLTVBMUmkzYVVLU3Z6TVNVUkdZQ3JDV05FTk9RTzBs?=
- =?utf-8?B?enI3M1J0ZmRPUWlpckw2M3R5T2hOQ01jUnFMTXBxbE1EeWxUQ2crY3FwQ0NK?=
- =?utf-8?B?TDNocnpxQXNqRjIxSDF3azZSL1V2NWh0ZzZvUDlmYjNic25sbHdGQ3ovMmxE?=
- =?utf-8?B?R2g5Y2UzSXVjUTl0ZmpKTHdhRm5Dc211R1ZYUVZFdzd5U2VuZVpSN2htbERY?=
- =?utf-8?B?ZFljcjllU2MwdlVLck92OTZvNm1lOHIvRnRFaDBEdmdvKzg2UHV0dWNiL2ND?=
- =?utf-8?B?dWQyYkE0eUw5WlRWY1JjRU9VdnV2OFZjYmNSMURDb2J1MUpvQnRuMlk5L25w?=
- =?utf-8?B?ZXAwc01RbXVIcHkva01FZ3hKcjZvRFh5S3Y4eWVpNTcrYlpVUTBva1lhZ1Fx?=
- =?utf-8?B?N2dpS3VSbjUyZndEOTBXVnVOb2k3a2NtdnNydGpjMUJLOHRXU2t0U3lRTnlX?=
- =?utf-8?B?QysxaXRDK3FkSFphSCtrZWdQK3NpWlEwOTJ2Q3R1Q1Q3bmYzS2Y1bjdHSVh5?=
- =?utf-8?B?VGJnc2FmbmMzTjZHQjlpQkErZWVpV1N0MWlqTERCY3lxQWVXTFNLcU02bTlS?=
- =?utf-8?B?WmhQZVB6NVZPUU4rQ1gzR0U4dWg3K3VTdmY1RUhqdW42YzJtSXJ0WUJNNS9v?=
- =?utf-8?B?VzM0Zm1Dam01S2FMMlB0QUFVRFVaWEJ2ZGdxbll4bGl3b1B3TTh4cDRYbUJ2?=
- =?utf-8?B?WGh1OElBa3VTckE5ekNPMjg3bWdIODA3VVpvTUxHbG1yRGxzU1RzZGVYOUdH?=
- =?utf-8?B?cHZWY0pYVkhZK3dtdVFQTW94TTMwdTVLemYzdWhhVGlRZU1NQWl3eU9WTy9h?=
- =?utf-8?B?bWlFaEZkNUI1ZlRHVllOUjVOb2tWc2lJSnREZ1JmK1dxQm1hTmE5bGx3bEVu?=
- =?utf-8?B?b09Ecy9sekpsZmtpMXNPZFMyVUFFRTV3L3FuQ3FFRk1GWUw3c05Gbkc0ZTBv?=
- =?utf-8?B?d2FYYVdUd1BXR2tSellJcnViVnZ5QkhhQzBxcGVxZWRTUGdKODBCRUQ4WkR5?=
- =?utf-8?B?WmNaTDZZTG1mNzhrc2J0SFUyZzFMVy9yVUxybklqMktORTJCTU1YbnpvS0sv?=
- =?utf-8?B?Y3VXclQ0MkFSU2ptQnlabWw1Q2tYNE5ISEpxV3VNMElSTHdDV2FsQVY1bEtV?=
- =?utf-8?B?ZzR3WGd4WTc1VzlOd0s0V0prWm9SVTFJSmpTRGoxZCtqZXZ1QmJ1dC9ZaFU3?=
- =?utf-8?B?ZVZVYXJ0Q2JobVVtMDJLK3hoa1hGZEFZUGk4bXpDTHl4TWpNWDdDZk02bTRa?=
- =?utf-8?B?R2xYN2d2VDZGNktLaFRxUlhaTGVBS0oycVl3alB1bExHV2lRcTF5SG9DOVIv?=
- =?utf-8?B?V2IzdDZqalZaUlZiRTd1R0ZLUjAvR2pXUGFaaEpoc0E3eUR1cEVOUnZEc2p5?=
- =?utf-8?B?TlNtNDloWGpacGVVeHJnU0lYWGVnTEpZZEUzRGx6V1ZFNGNCQmZ0SHF2eUhM?=
- =?utf-8?B?TEY4SlJ1dUpPNUphZ0RudElKVXFvYitJTk5QdElMK09NTDdzU2hBVUE5cWpK?=
- =?utf-8?B?NGtiVUVreDZpbkNpMkhCOU5oMXVJcFRuZEJuaXFrL0p4MTNWb0lIODQ2Wmw0?=
- =?utf-8?B?UUN5Zy92Mjk3dVdiSHpUUjNqR0V5TURPTzFBdyt4eHdqNTNjWm5UaGhrRXI0?=
- =?utf-8?B?Z2NkeitZcTZUY2NpRGV2TzM4QTVHa3AxMVNQU1A3ejZVelh0dmFqTVhrSHNy?=
- =?utf-8?B?dGhrbmxtR3lycHM5aEdTOW5sS3hNZXFEcHlLWXFOeisreTFFU1NSRnBuY1N4?=
- =?utf-8?B?R0p1aFpGRk5UeXhaV0pPeWNRMmRHTUplcnZQZzZlMEFjN3MyM2VaaXdyZ2pE?=
- =?utf-8?B?VUtLWmx1UjZEYmxra1VtMUNtM2VUcHNvdGs5cktBeHF2REZxVi9pSTVBWEhk?=
- =?utf-8?Q?sVqAb0WEkvVl7Oj+kGy5WMG05K0byo4NETN3K?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46833a3a-8978-44ce-8c09-08ded5b20328
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR04MB11513.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 07:42:47.0533
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L6KvwWLZk+p499YTZUrB1hhl+KJ4Xygf4wCIZvpflKuMdZPtuBPX4It28SkjvC6JSjAs8GKMpLkX3McDepPYTpCShpeavVhiCrFonYfka7g6MHogn/fqz5/qkGS7PYMY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB11932
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH] media: em28xx: keep device state alive for registered
+ video nodes
+To: Yousef Alhouseen <alhouseenyousef@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Abhishek Kumar <abhishek_sts8@yahoo.com>, stable@vger.kernel.org,
+ syzbot+39ff299961a7c07f00f0@syzkaller.appspotmail.com
+References: <20260628003103.24832-1-alhouseenyousef@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20260628003103.24832-1-alhouseenyousef@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.44 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:c.hemp@phytec.de,m:s.riedmueller@phytec.de,m:jacopo@jmondi.org,m:aisheng.dong@nxp.com,m:guoniu.zhou@nxp.com,m:linux-media@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:guoniu.zhou@oss.nxp.com,m:robert.chiras@nxp.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[ideasonboard.com,kernel.org,nxp.com,pengutronix.de,gmail.com,phytec.de,jmondi.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[guoniu.zhou@oss.nxp.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-65866-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65867-lists,linux-media=lfdr.de,cisco];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:alhouseenyousef@gmail.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil-cisco@xs4all.nl,m:abhishek_sts8@yahoo.com,m:stable@vger.kernel.org,m:syzbot+39ff299961a7c07f00f0@syzkaller.appspotmail.com,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,xs4all.nl,yahoo.com,syzkaller.appspotmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[guoniu.zhou@oss.nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[linux-media,39ff299961a7c07f00f0];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.nxp.com:mid,oss.nxp.com:from_mime,nxp.com:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,NXP1.onmicrosoft.com:dkim]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,appspotmail.com:email,vger.kernel.org:from_smtp,syzkaller.appspot.com:url,linuxtv.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3AB586D73C1
+X-Rspamd-Queue-Id: 0981E6D74A7
 
-Add support for additional 32-bit RGB pixel formats (BGRA32, RGBA32,
-BGRX32, RGBX32, ARGB2101010) and extend existing ABGR32 format with
-full memory-to-memory capabilities to meet Android requirements.
+On 28/06/2026 02:31, Yousef Alhouseen wrote:
+> The V4L2 core takes a video_device reference before invoking the
+> driver open callback. That reference does not protect em28xx state
+> because all three video_device objects are embedded in em28xx_v4l2 and
+> use video_device_release_empty().
+> 
+> If initialization fails after registering a node, the error path can
+> unregister it and drop the last em28xx_v4l2 reference while a concurrent
+> open has passed the core registration check. The open callback then
+> dereferences the freed video_device in video_drvdata(), as observed by
+> KASAN. A disconnect has the same lifetime gap.
+> 
+> Give each successfully registered video node references to both the
+> enclosing V4L2 state and the parent em28xx device. Release those
+> references from the video_device release callback, after the core has
+> drained pending opens and existing file references.
 
-All formats support capture, M2M input, and M2M output operations,
-enabling complete format conversion pipelines.
+This patch series should fix this issue properly:
 
-Signed-off-by: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-Signed-off-by: Robert Chiras <robert.chiras@nxp.com>
----
- .../media/platform/nxp/imx8-isi/imx8-isi-video.c   | 59 +++++++++++++++++++++-
- 1 file changed, 58 insertions(+), 1 deletion(-)
+https://patchwork.linuxtv.org/project/linux-media/list/?series=26968
 
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-index 05b51b98344b..ef638af350fe 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-@@ -160,12 +160,69 @@ static const struct mxc_isi_format_info mxc_isi_formats[] = {
- 	}, {
- 		.mbus_code	= MEDIA_BUS_FMT_RGB888_1X24,
- 		.fourcc		= V4L2_PIX_FMT_ABGR32,
--		.type		= MXC_ISI_VIDEO_CAP | MXC_ISI_VIDEO_M2M_CAP,
-+		.type		= MXC_ISI_VIDEO_CAP | MXC_ISI_VIDEO_M2M_OUT
-+				| MXC_ISI_VIDEO_M2M_CAP,
-+		.isi_in_format	= CHNL_MEM_RD_CTRL_IMG_TYPE_XRGB8,
- 		.isi_out_format	= CHNL_IMG_CTRL_FORMAT_ARGB8888,
- 		.mem_planes	= 1,
- 		.color_planes	= 1,
- 		.depth		= { 32 },
- 		.encoding	= MXC_ISI_ENC_RGB,
-+	}, {
-+		.mbus_code	= MEDIA_BUS_FMT_RGB888_1X24,
-+		.fourcc		= V4L2_PIX_FMT_BGRA32,
-+		.type		= MXC_ISI_VIDEO_CAP | MXC_ISI_VIDEO_M2M_OUT
-+				| MXC_ISI_VIDEO_M2M_CAP,
-+		.isi_in_format	= CHNL_MEM_RD_CTRL_IMG_TYPE_RGBX8,
-+		.isi_out_format	= CHNL_IMG_CTRL_FORMAT_RGBA8888,
-+		.mem_planes	= 1,
-+		.color_planes	= 1,
-+		.depth		= { 32 },
-+		.encoding	= MXC_ISI_ENC_RGB,
-+	}, {
-+		.mbus_code	= MEDIA_BUS_FMT_RGB888_1X24,
-+		.fourcc		= V4L2_PIX_FMT_RGBA32,
-+		.type		= MXC_ISI_VIDEO_CAP | MXC_ISI_VIDEO_M2M_OUT
-+				| MXC_ISI_VIDEO_M2M_CAP,
-+		.isi_in_format	= CHNL_MEM_RD_CTRL_IMG_TYPE_XBGR8,
-+		.isi_out_format	= CHNL_IMG_CTRL_FORMAT_ABGR8888,
-+		.mem_planes	= 1,
-+		.color_planes	= 1,
-+		.depth		= { 32 },
-+		.encoding	= MXC_ISI_ENC_RGB,
-+	}, {
-+		.mbus_code	= MEDIA_BUS_FMT_RGB888_1X24,
-+		.fourcc		= V4L2_PIX_FMT_BGRX32,
-+		.type		= MXC_ISI_VIDEO_CAP | MXC_ISI_VIDEO_M2M_OUT
-+				| MXC_ISI_VIDEO_M2M_CAP,
-+		.isi_in_format	= CHNL_MEM_RD_CTRL_IMG_TYPE_RGBX8,
-+		.isi_out_format	= CHNL_IMG_CTRL_FORMAT_RGBX888,
-+		.mem_planes	= 1,
-+		.color_planes	= 1,
-+		.depth		= { 32 },
-+		.encoding	= MXC_ISI_ENC_RGB,
-+	}, {
-+		.mbus_code	= MEDIA_BUS_FMT_RGB888_1X24,
-+		.fourcc		= V4L2_PIX_FMT_RGBX32,
-+		.type		= MXC_ISI_VIDEO_CAP | MXC_ISI_VIDEO_M2M_OUT
-+				| MXC_ISI_VIDEO_M2M_CAP,
-+		.isi_in_format	= CHNL_MEM_RD_CTRL_IMG_TYPE_XBGR8,
-+		.isi_out_format	= CHNL_IMG_CTRL_FORMAT_XBGR888,
-+		.mem_planes	= 1,
-+		.color_planes	= 1,
-+		.depth		= { 32 },
-+		.encoding	= MXC_ISI_ENC_RGB,
-+	}, {
-+		.mbus_code	= MEDIA_BUS_FMT_RGB888_1X24,
-+		.fourcc		= V4L2_PIX_FMT_ARGB2101010,
-+		.type		= MXC_ISI_VIDEO_CAP | MXC_ISI_VIDEO_M2M_OUT
-+				| MXC_ISI_VIDEO_M2M_CAP,
-+		.isi_in_format	= CHNL_MEM_RD_CTRL_IMG_TYPE_A2RGB10,
-+		.isi_out_format	= CHNL_IMG_CTRL_FORMAT_A2RGB10,
-+		.mem_planes	= 1,
-+		.color_planes	= 1,
-+		.depth		= { 32 },
-+		.encoding	= MXC_ISI_ENC_RGB,
- 	},
- 	/*
- 	 * RAW formats
+Rejecting this patch, manually manipulating refcounts is not the way to go.
 
--- 
-2.34.1
+Regards,
+
+	Hans
+
+> 
+> Fixes: ef74a0b9ff56 ("[media] em28xx: move video_device structs from struct em28xx to struct v4l2")
+> Reported-by: syzbot+39ff299961a7c07f00f0@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=39ff299961a7c07f00f0
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+> ---
+>  drivers/media/usb/em28xx/em28xx-video.c | 35 +++++++++++++++++++++++--
+>  1 file changed, 33 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
+> index da0422c65e5f..4274a9bcb432 100644
+> --- a/drivers/media/usb/em28xx/em28xx-video.c
+> +++ b/drivers/media/usb/em28xx/em28xx-video.c
+> @@ -2289,6 +2289,31 @@ static void em28xx_free_v4l2(struct kref *ref)
+>  	kfree(v4l2);
+>  }
+>  
+> +static void em28xx_vdev_release(struct video_device *vdev)
+> +{
+> +	struct em28xx_v4l2 *v4l2;
+> +	struct em28xx *dev;
+> +
+> +	switch (vdev->vfl_type) {
+> +	case VFL_TYPE_VIDEO:
+> +		v4l2 = container_of(vdev, struct em28xx_v4l2, vdev);
+> +		break;
+> +	case VFL_TYPE_VBI:
+> +		v4l2 = container_of(vdev, struct em28xx_v4l2, vbi_dev);
+> +		break;
+> +	case VFL_TYPE_RADIO:
+> +		v4l2 = container_of(vdev, struct em28xx_v4l2, radio_dev);
+> +		break;
+> +	default:
+> +		WARN_ON_ONCE(1);
+> +		return;
+> +	}
+> +
+> +	dev = v4l2->dev;
+> +	kref_put(&v4l2->ref, em28xx_free_v4l2);
+> +	kref_put(&dev->ref, em28xx_free_device);
+> +}
+> +
+>  /*
+>   * em28xx_v4l2_open()
+>   * inits the device and starts isoc transfer
+> @@ -2554,7 +2579,7 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
+>  static const struct video_device em28xx_video_template = {
+>  	.fops		= &em28xx_v4l_fops,
+>  	.ioctl_ops	= &video_ioctl_ops,
+> -	.release	= video_device_release_empty,
+> +	.release	= em28xx_vdev_release,
+>  	.tvnorms	= V4L2_STD_ALL,
+>  };
+>  
+> @@ -2583,7 +2608,7 @@ static const struct v4l2_ioctl_ops radio_ioctl_ops = {
+>  static struct video_device em28xx_radio_template = {
+>  	.fops		= &radio_fops,
+>  	.ioctl_ops	= &radio_ioctl_ops,
+> -	.release	= video_device_release_empty,
+> +	.release	= em28xx_vdev_release,
+>  };
+>  
+>  /* I2C possible address to saa7115, tvp5150, msp3400, tvaudio */
+> @@ -2965,6 +2990,8 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>  			"unable to register video device (error=%i).\n", ret);
+>  		goto unregister_dev;
+>  	}
+> +	kref_get(&v4l2->ref);
+> +	kref_get(&dev->ref);
+>  
+>  	/* Allocate and fill vbi video_device struct */
+>  	if (em28xx_vbi_supported(dev) == 1) {
+> @@ -2999,6 +3026,8 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>  				"unable to register vbi device\n");
+>  			goto unregister_dev;
+>  		}
+> +		kref_get(&v4l2->ref);
+> +		kref_get(&dev->ref);
+>  	}
+>  
+>  	if (em28xx_boards[dev->model].radio.type == EM28XX_RADIO) {
+> @@ -3012,6 +3041,8 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+>  				"can't register radio device\n");
+>  			goto unregister_dev;
+>  		}
+> +		kref_get(&v4l2->ref);
+> +		kref_get(&dev->ref);
+>  		dev_info(&dev->intf->dev,
+>  			 "Registered radio device as %s\n",
+>  			 video_device_node_name(&v4l2->radio_dev));
 
 
