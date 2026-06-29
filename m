@@ -1,76 +1,78 @@
-Return-Path: <linux-media+bounces-65985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65986-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id A1+fN22OQmrQ9gkAu9opvQ
-	(envelope-from <linux-media+bounces-65985-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 17:25:33 +0200
+	id iQ/2M1eQQmpD9wkAu9opvQ
+	(envelope-from <linux-media+bounces-65986-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 17:33:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8139A6DC9FD
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 17:25:33 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B496DCBA8
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 17:33:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=LjIVLW7y;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65985-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65985-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=oFHMvkvL;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65986-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65986-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 60B07303B9F1
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 15:22:26 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 9235F3045E47
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 15:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB3C426EAB;
-	Mon, 29 Jun 2026 15:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4F96426688;
+	Mon, 29 Jun 2026 15:23:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03FA426D37;
-	Mon, 29 Jun 2026 15:22:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736813EF0A8;
+	Mon, 29 Jun 2026 15:23:10 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782746537; cv=none; b=RqG/JWzC2lJVeNRlCujfkUjJt4miJTzVAlAan0/dzvJ9tG5aQk5vVmaogkDNx/1XXfPY+D4UblgIGXwdrzxpm783sWeMPMbnDkQFnUuKTqkT+1chAwVvmmITVfRJBtKvWNJEMVDIEmnWdKKVy3tCGsJwPxXXjMpQz2vTaBQj9Xw=
+	t=1782746592; cv=none; b=dQrCOIwQDYxKjNYS6yqaN7TSbGREJhDIxzCRJ6LhsHhFCDK7jPNBe/NCYfogUJHMOx3cTMS1fR0rfe6hv0Yf0vofcOYsWMX25J9+7cGS7vE4Nwc7EyDks093fNChm8M4rWPgXM/nCyZu0Ir5jGvnklsbBhlCwNlTYWsZdIVKnAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782746537; c=relaxed/simple;
-	bh=3nhMqATbBpip5vicGHiYjtjkt6pG1SvW6hoLlNxb+lM=;
+	s=arc-20240116; t=1782746592; c=relaxed/simple;
+	bh=Hmw1lJtqV0z5faRyMSz7VQliHrWd+hlBXRedsAOCRvE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m13JhX3WQch0uk+UT8zwtdsNGPqva6w2mt0LbyIf/MO99n+nMIJmoKDbSeN5wzvdGioon1lsALAkTYJ9GAKUiEADYJLt0d+QayXI2fG+YxUdwfM2atpysh4cks6OS20NTNLxMS0pY/0tzc89bYwyHejDeei+F8Ou8S/zkF1CfqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjIVLW7y; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=hqsq0yug1oNjk3c8vlLWHfcaVf7Bf7+kmZUvWmIABiCKVXXLcrnrCoZB2e9XFTygDyuMKTqQbZi0vRMd6a0oE90a1JOGa6kZvnIncMba1RftvFHun52lO2X15Ly56fGZU1VHJXzeGZF+qHeVMNTTiBOc+NexfEOsHoTVkJS0CCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFHMvkvL; arc=none smtp.client-ip=198.175.65.17
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782746537; x=1814282537;
+  t=1782746590; x=1814282590;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3nhMqATbBpip5vicGHiYjtjkt6pG1SvW6hoLlNxb+lM=;
-  b=LjIVLW7yDAIyVf+uVp3GHci2+IhB+4FMsJyScbO3/sFPFlmjjMn/mwtm
-   sfvrE+NEAhMIWejfs6s2gcO30vkgoGD8C5cmiR9sipIC0R1ValePnHqxq
-   p24EsIQkD9XWtx3os9B3jA0SywvLJ7mJa8VEzKGShXYRGuoQW3woC/TGX
-   lq+KHWJtdOYLVGph96ZD1M197E96mQVWc5a3nXNd6xgRGH9jvPWNveB5L
-   4NrC/ku6H4hGy/QhNz/hviwYZRO2e5AeTYOuKzhp5W0n1tGLg2mX7pn3A
-   YMZXkTvA+d2DCDaZ+iW7Nd09Qtf3Oe/7dYMWtQx6JyTMjvNxp7u1gX6QF
-   A==;
-X-CSE-ConnectionGUID: rgBCitxITpC28W9levB0Dw==
-X-CSE-MsgGUID: qDS+S/tbStC1pvk6lPXtRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83315533"
+  bh=Hmw1lJtqV0z5faRyMSz7VQliHrWd+hlBXRedsAOCRvE=;
+  b=oFHMvkvLubD1FixRaXWTxNW+YSH5zE2tqtScxHtGqTr1xbtWO34RE9rr
+   LJYLzH/uBXKQXYCWwzlUmURilVH9VnRYPbVUCsGm1OG2satjww23AGo8E
+   ZhSaCXbhNgxqmqpHm7brQbFn14gRrAtrAlkmAJsYsky2/Ns7CviFBKC1n
+   et9SQGle5xLOPVujGQcMEMJ6d19Fqqlv7cLp1S3fJT/jl/i1pfeP5etpS
+   TwKDxVZEEin4uRZJtpelcQJ38j9WFJy09aRWYnkBB9UMTQJLzGqjp3ROW
+   abTSQjNVbxlRrl/w1rLIQR8sFRmOVlvvrQOFyQ4anRDTzwCuiokICxFkn
+   w==;
+X-CSE-ConnectionGUID: TONsXjJQR9u28wVyk5m6pw==
+X-CSE-MsgGUID: HQgha/hRSVqEJkIjoM0/dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83469266"
 X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="83315533"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:22:16 -0700
-X-CSE-ConnectionGUID: 4LWcxAVJTICeY4WckVwoMg==
-X-CSE-MsgGUID: 6uew36sjSSirYu1kwU6bHw==
+   d="scan'208";a="83469266"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:23:10 -0700
+X-CSE-ConnectionGUID: rFSmfhwZSi+DllYgefUacg==
+X-CSE-MsgGUID: tvIRMopLRzuj/M9fo1u/kA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="247531687"
 Received: from abityuts-desk.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.82])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:22:13 -0700
-Date: Mon, 29 Jun 2026 17:22:04 +0200
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:23:07 -0700
+Date: Mon, 29 Jun 2026 17:22:57 +0200
 From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, stable@vger.kernel.org, 
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>, Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
 	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] media: i2c: os05b10: Use
- pm_runtime_get_if_active() when applying controls
-Message-ID: <akKM6VhoLNep5UZB@mdjait-mobl>
+Subject: Re: [PATCH v2 02/15] media: i2c: os05b10: drop unused group-hold
+ programming
+Message-ID: <akKNsGUaG6xsjVAT@mdjait-mobl>
 References: <20260325114404.95188-1-tarang.raval@siliconsignals.io>
- <20260325114404.95188-2-tarang.raval@siliconsignals.io>
+ <20260325114404.95188-3-tarang.raval@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,7 +81,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325114404.95188-2-tarang.raval@siliconsignals.io>
+In-Reply-To: <20260325114404.95188-3-tarang.raval@siliconsignals.io>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
@@ -87,18 +89,18 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-65985-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65986-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER(0.00)[mehdi.djait@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tarang.raval@siliconsignals.io,m:sakari.ailus@linux.intel.com,m:stable@vger.kernel.org,m:himanshu.bhavani@siliconsignals.io,m:elgin.perumbilly@siliconsignals.io,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:vladimir.zapolskiy@linaro.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tarang.raval@siliconsignals.io,m:sakari.ailus@linux.intel.com,m:himanshu.bhavani@siliconsignals.io,m:elgin.perumbilly@siliconsignals.io,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:vladimir.zapolskiy@linaro.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -110,59 +112,26 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,intel.com:dkim,intel.com:email,vger.kernel.org:from_smtp,linux.intel.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,linux.intel.com:from_mime,vger.kernel.org:from_smtp,intel.com:dkim,intel.com:email,mdjait-mobl:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8139A6DC9FD
+X-Rspamd-Queue-Id: B8B496DCBA8
 
 Hi Tarang,
 
-On Wed, Mar 25, 2026 at 05:13:47PM +0530, Tarang Raval wrote:
-> os05b10_set_ctrl() currently uses pm_runtime_get_if_in_use() to decide
-> whether controls should be applied to hardware.
+On Wed, Mar 25, 2026 at 05:13:48PM +0530, Tarang Raval wrote:
+> Register table included group-hold (0x3208) sequences for
+> groups 6/7/8/9 that only stage alternative tuning values in SRAM but are
+> never launched by the driver. Remove these group-hold blocks.
 > 
-> This is not correct for the intended behavior. If the runtime PM usage
-> count is 0 while the device is still active, pm_runtime_get_if_in_use()
-> returns 0 and the control update is skipped, leaving the software state
-> updated but not the hardware state.
+> Also remove a duplicate register entry for 0x37bf.
 > 
-> Use pm_runtime_get_if_active() instead so controls are applied whenever
-> the device is runtime-active, regardless of the current usage count.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 3aa9296a23ec4("media: i2c: add os05b10 image sensor driver")
 
-A space is missing here after the commit hash.
-See https://docs.kernel.org/process/submitting-patches.html
-
-checkpatch will warn you about it.
-
-with that:
 Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 
 > Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
-> ---
->  drivers/media/i2c/os05b10.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/os05b10.c b/drivers/media/i2c/os05b10.c
-> index e0453c988e4a..5da5b7d21f31 100644
-> --- a/drivers/media/i2c/os05b10.c
-> +++ b/drivers/media/i2c/os05b10.c
-> @@ -531,7 +531,7 @@ static int os05b10_set_ctrl(struct v4l2_ctrl *ctrl)
->  			return ret;
->  	}
->  
-> -	if (pm_runtime_get_if_in_use(os05b10->dev) == 0)
-> +	if (pm_runtime_get_if_active(os05b10->dev) == 0)
-
-small nit: how about
-	if (!pm_runtime_get_if_active(os05b10->dev))
-
-consistent with other drivers using this call but really not important,
-up to you if you want to change it.
 
 --
 Kind Regards
