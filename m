@@ -1,243 +1,206 @@
-Return-Path: <linux-media+bounces-65999-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66000-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id zlzFA0WeQmoB+wkAu9opvQ
-	(envelope-from <linux-media+bounces-65999-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:33:09 +0200
+	id oLX9G5CfQmpK+wkAu9opvQ
+	(envelope-from <linux-media+bounces-66000-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:38:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E153C6DD5D2
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:33:07 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 361676DD696
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:38:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ozlabs.org header.s=201707 header.b=qh88UNuk;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65999-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65999-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ozlabs.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="Zjcx7ts/";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66000-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66000-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 08DF83004635
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:32:50 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9BDB6300C325
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:38:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B4183F5BE5;
-	Mon, 29 Jun 2026 16:32:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90105466B48;
+	Mon, 29 Jun 2026 16:38:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F2737E307;
-	Mon, 29 Jun 2026 16:32:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE8845BD4C
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 16:38:15 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782750761; cv=none; b=pVV/utaa/VKpwMhvnLiTeq79w4on72LeW2u2Ib7oM5KwgfOSZ8rzrTe74zgmqC4CDFH1KsBFu1F5joH3v6LnfOdDWOJbiqW20np7PnYGscemdRfzcgzCoj+FbSXDMyStUaJzpDyqqrzcWjk54iHOUkssUjZ2pzpfE/yh3airN3I=
+	t=1782751097; cv=none; b=pEFfObt9HfZICSfpDI/LqcwtMlZhYrKH2vPOp9Q9lIEGkmiW0hP1N60OMznwadXDWH3iATqYJqROqfs7pACvfavw0paA1f0g2Dw9PuUAdm5iQ23ZDwDKLCK6tKSYJ595nia93X7q2ovkwtJgHmjJ28wLpgfzAlcE/233dLkAoq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782750761; c=relaxed/simple;
-	bh=WIdkcAohK7LeGO5ya6PB5DsiIrkffvVoD27wmvkjpgU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TqjelhlFGnq+U0spdFZSBleTAAaiiyohPCi4QocIsRKd5TTVR/4bG6BqTjQoAxA3IxOgNKbgYfBEbJ7yLsvxORZa/MLezVnBYy1KVavlSxHUbyoJ76E000kELWXVONWNQN6UIeJc541vPc4pnVi3QEeoDbUxOdmhxqfdeS+EiCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=qh88UNuk; arc=none smtp.client-ip=150.107.74.76
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
-	s=201707; t=1782750749;
-	bh=lEyeCapBsVXYSpplIUA0PN6OvGWLHmv5pdfFL1Phu/8=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=qh88UNukwFc6dT9j/eKGL1AmHTkKB4THBoN2h8ulr24M43yQI7H2a3DniuYI4YQU/
-	 y+sEySwE1m/Yf7Z4VFExs88su0MVH5q9LvDDgm3FgbSwSerHA0qE+99HtFGQuSq59g
-	 FxbGAdDGAJa0us+28P1h8SwZbStEfY16odXIDBqOwMFsZRmzUmX3G24DLlJPC9HqMt
-	 AlrhiIGH2v4UHN+lsmYX4xgJg8hyB5WUMln6lluFMWJe2rYqxANowUQAhfaoHNwZ4s
-	 g1DEDbhTRfl1prBKA0d/k+37/uM3L3gfGP5wgLmM81glk8mKfiDysdxeSh8Nd0lNCJ
-	 lz5QMzOgdFabA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4gpsJ43jdmz4x1q;
-	Tue, 30 Jun 2026 02:32:20 +1000 (AEST)
-Message-ID: <57055684-2008-4ba3-bfa8-674317be1a71@ozlabs.org>
-Date: Mon, 29 Jun 2026 17:32:14 +0100
+	s=arc-20240116; t=1782751097; c=relaxed/simple;
+	bh=xS9HXkHQt65kbdNX3PEY/ixQR504OdS8n7/Y+5xz3o4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TavYiWz5mF47yba/Um9X4Z3vf8A6Q4LyJmiawXCpiQeVqhViQAN+HBf2n4QMZYztMBWL5gDp+RsqNugoIkyn57ZEMcOc+kXoC5puI26v7jcUamO3dQ0OLvJInRiHo+PfkwiHd7PVQUWZNe5YL2Cw82KlRrL554av78j5PNc+W2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zjcx7ts/; arc=none smtp.client-ip=209.85.221.50
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4629051c9d1so1953076f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 09:38:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782751094; x=1783355894; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y+CxHy0SCXrpnemjCBAKhWexIpJlnOyaJVCHp2VG4Pg=;
+        b=Zjcx7ts/EqreYudtfUHjHxJZm3wGEJempZOrTfWAC5WIW9tNOgwWLeiwJhSMs4sT9e
+         j4S+lVmQLH6p51/oWstbQb78KFaGYO87aP1o0x6GOj8OcaJMUcPJ505qd1ucDaV4A8u+
+         rge841X0wBv8a3UMIEfwBI6G/oQdaXOTT8agLQ5X8ZjGBr9/9VmgpUDq6NMQkeunZMdx
+         BjZrPPIyJUJYAsUKmAwprgZROcAwtL3EvDF24Vi8aN8MMasNCot1+wN5rWIPoapG+am6
+         XN/6fh2N6TjjIj1LDTKhE2WZsGy8M8541H4f6ChtMtO3bRdkQk9JA/kRNgP1mIu1zl0d
+         8UFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782751094; x=1783355894;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y+CxHy0SCXrpnemjCBAKhWexIpJlnOyaJVCHp2VG4Pg=;
+        b=ZQGzRGkMq8U6R/Jo/lHRO4oMEfymKXblG3WAHfvg0oMXI1l9tRFk8MYXvcuqPsm9Am
+         GrWfqb5cFS6b1c23P3kfL3fFE0ztXVDtdoold4gVXebKGIY6EkR0H1ShacvLy9RoLhKm
+         VjvzajMaGunHKRdDQdYoCasW7I/YXEszbhN1+rZtzDmQVJsdfo+Wf3pj+S66idP2C01j
+         YplkxMPplNbAz2/bnJoRR4Gk2lotJmrjDCRTXu6RV+C1oYmJ4RZ7w3QlCpVgI3lR5Yw6
+         vluFzrEK12516IykXAu6H5NxlkgFPJpc1HW/8MQjJE0vUcDEdFpRluyUimcwRUjr6Uc7
+         8Y1A==
+X-Gm-Message-State: AOJu0YwDSRBGqKzoKLsTML43oYC/FzRqKwvBcr5mDA/jbQyUJ3EQSHJ2
+	LcS6TOc7AoxMjUyCPTrGoRBpO1bEKD73HPm206ReHVe9DF7ZYalqQ7AW47/9JtnX
+X-Gm-Gg: AfdE7cnnewkEmt6r+FPPAS49sLeEZHz5mf4bE44C2vS6kd9GvdNxUJ5W1TszIkAn4oB
+	iOCxSBYrBCmQVO9VGpXs16pBnZGBth8FZQ4aQnsPFBPcDdeWpAUTMDJ96f34D8ADHANAI2VsAVz
+	/5APGcJbL6lFzvcTr/xK/fWumA9zx/olj0hS85VR4Hej2qk7S/CoOvYZXDZ9teZzUOZLlKdBW6V
+	1J6/9itrcMogDB8MiSb/mlw2/MonmZgJ2U688plKGy75EQh+dDO7C6FxcxKS/Yy30WDUteRIPZP
+	yy1irHFzIgFie5PqH9PEvz2xhsaz7baBiefLgJ2RvnK4kahYhuOguOBkT6aAaOjOpNzcajW+4wy
+	nr73nnsr9sx8rfZO4qtZ2VTp/i6Jtk+zhbiYTk7Ekb7Vko8eji1eYr4KyZNFWVPQGKvgx4u9pTK
+	SBjajt1Dv1Xf5jwj5u2oa95Opo3i9CUlAC4TFFkK4lQ2jPrBxLhKnvvkOZ1AkU9DCYXD4RM0k0M
+	/K4ruf/GBuwI6INftmL9zZw
+X-Received: by 2002:a05:600c:800f:b0:493:b243:900f with SMTP id 5b1f17b1804b1-493b8281619mr6983255e9.1.1782751093660;
+        Mon, 29 Jun 2026 09:38:13 -0700 (PDT)
+Received: from helmholtz-coils-PC.nanosat.lab ([147.83.201.139])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4730937e18dsm15765501f8f.21.2026.06.29.09.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 09:38:13 -0700 (PDT)
+From: =?UTF-8?q?Pol=20Fern=C3=A1ndez=20Fern=C3=A1ndez?= <fernandezfernandezpol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Pol=20Fern=C3=A1ndez=20Fern=C3=A1ndez?= <fernandezfernandezpol@gmail.com>
+Subject: [PATCH 1/2] media: uvcvideo: add quirks for per-device stream error handling
+Date: Mon, 29 Jun 2026 18:38:02 +0200
+Message-ID: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/9] vfio/pci: Permanently revoke a DMABUF on request
-Content-Language: en-GB
-From: Matt Evans <matt@ozlabs.org>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
- Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Ankit Agrawal <ankita@nvidia.com>,
- Pranjal Shrivastava <praan@google.com>, Alistair Popple
- <apopple@nvidia.com>, "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-References: <20260610154327.37758-1-matt@ozlabs.org>
- <20260610154327.37758-9-matt@ozlabs.org>
- <DM6PR11MB3690886693898AD755FB246F8CE52@DM6PR11MB3690.namprd11.prod.outlook.com>
- <31d1265b-e264-4dc6-a8c3-1b64dc9867a1@ozlabs.org>
-In-Reply-To: <31d1265b-e264-4dc6-a8c3-1b64dc9867a1@ozlabs.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.57 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ozlabs.org,none];
-	R_DKIM_ALLOW(-0.20)[ozlabs.org:s=201707];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_MIXED_CHARSET(0.59)[subject];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65999-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:kevin.tian@intel.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-66000-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,gmail.com];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[ozlabs.org:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:linux-usb@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:fernandezfernandezpol@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[fernandezfernandezpol@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[fernandezfernandezpol@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,ozlabs.org:dkim,ozlabs.org:email,ozlabs.org:mid,ozlabs.org:from_mime,vger.kernel.org:from_smtp,intel.com:email]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E153C6DD5D2
+X-Rspamd-Queue-Id: 361676DD696
 
-Hi Kevin,
+The UVC_STREAM_ERR bit in the payload header signals that the device
+could not deliver a frame correctly. By default, uvcvideo delivers
+these frames to userspace with V4L2_BUF_FLAG_ERROR when uvc_no_drop_param
+is set (the default). Applications that rely on strict JPEG decoders
+(e.g. libjpeg) will display gray bands for the incomplete portion of
+the image, since libjpeg fills undecodable MCU rows with a neutral gray
+when the EOI marker is missing.
 
+Add UVC_QUIRK_DROP_STREAM_ERR to force-drop frames flagged with
+UVC_STREAM_ERR for specific devices, regardless of the uvc_no_drop_param
+module parameter. This ensures applications never receive truncated frames
+from devices known to set UVC_STREAM_ERR on genuine encoding errors.
+The existing uvc_queue_to_stream() helper is used to reach the device
+quirks from within uvc_queue_buffer_complete().
 
-Digging this one up again,
+Additionally, uvcvideo unconditionally overrides the camera's probed
+wCompQuality with the maximum value returned by GET_MAX. For devices
+whose firmware treats wCompQuality=0 as an adaptive encoding mode (where
+the encoder adjusts quality dynamically to fit within the available USB
+bandwidth), this override increases encoding pressure and can contribute
+to UVC_STREAM_ERR events. Add UVC_QUIRK_NO_FORCE_QUALITY to preserve
+the camera's default quality value during probe negotiation.
 
-On 17/06/2026 17:08, Matt Evans wrote:
-> Hi Kevin,
-> 
-> On 16/06/2026 10:26, Tian, Kevin wrote:
->>> From: Matt Evans <matt@ozlabs.org>
->>> Sent: Wednesday, June 10, 2026 11:43 PM
->>>
->>> Expand the VFIO DMABUF revocation state to three states:
->>> Not revoked, temporarily revoked, and permanently revoked.
->>>
->>> The first two are for existing transient revocation, e.g. across a
->>> function reset, and the DMABUF is put into the last in response to a
->>> new VFIO feature VFIO_DEVICE_FEATURE_DMA_BUF.
->>
->> VFIO_DEVICE_FEATURE_DMA_BUF_REVOKE
->>
->>>
->>> VFIO_DEVICE_FEATURE_DMA_BUF passes a DMABUF by fd and requests that
->>> the DMABUF is permanently revoked.  On success, it's guaranteed that
->>
->> ditto
-> 
-> Argh, thanks for catching these.  Fixed.
-> 
->>> the buffer can never be imported/attached/mmap()ed in future, that
->>> dynamic imports have been cleanly detached, and that all mappings have
->>> been made inaccessible/PTEs zapped.
->>>
->>> This is useful for lifecycle management, to reclaim VFIO PCI BAR
->>> ranges previously delegated to a subordinate client process: The
->>> driver process can ensure that the loaned resources are revoked when
->>> the client is deemed "done", and exported ranges can be safely re-used
->>> elsewhere.
->>
->> probably clarify that re-use by creating a new dmabuf fd as the original
->> one is essentially zombie now.
-> 
-> Reworded this, plus added a note re the change below.
-> 
->>>
->>> +/* Set the DMABUF's revocation status (OK or temporarily/permanently
->>> revoked) */
->>> +static void vfio_pci_dma_buf_set_status(struct vfio_pci_dma_buf *priv,
->>> +					enum vfio_pci_dma_buf_status
->>> new_status)
->>> +{
->>> +	bool was_revoked;
->>> +
->>> +	lockdep_assert_held_write(&priv->vdev->memory_lock);
->>> +
->>> +	if (priv->status == VFIO_PCI_DMABUF_PERM_REVOKED ||
->>> +	    priv->status == new_status) {
->>> +		return;
->>> +	}
->>
->> the only interface to request PERM_REVOKED is via the new ioctl.
->>
->> vfio_pci_core_feature_dma_buf_revoke() returns -EBADFD if
->> it's already in PERM_REVOKED.
->>
->> so this check shouldn't be reached, suggesting a warning.
-> 
-> Good point, both any change to PERM_REVOKED or a double-set of the same
-> state indicate some caller has gone wrong.  Added a warning.
+Signed-off-by: Pol Fernández Fernández <fernandezfernandezpol@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_queue.c | 3 ++-
+ drivers/media/usb/uvc/uvc_video.c | 3 ++-
+ drivers/media/usb/uvc/uvcvideo.h  | 2 ++
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
-Well, after the D0/D3 reset thread, I noticed while testing that a
-double-revoke will naturally happen when cleaning up a buffer that was
-already revoked by a device having previously transitioned to D3.
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index XXXXXXX..XXXXXXX 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -81,6 +81,8 @@
+ #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
+ #define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
+ #define UVC_QUIRK_MSXU_META		0x00040000
++#define UVC_QUIRK_DROP_STREAM_ERR	0x00080000
++#define UVC_QUIRK_NO_FORCE_QUALITY	0x00100000
 
-Similarly, cleaning up a buffer that was explicitly (permanently)
-revoked leads to an attempt to set TEMP whilst PERM, and this is OK too.
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index XXXXXXX..XXXXXXX 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -451,7 +451,8 @@ int uvc_probe_video(struct uvc_streaming *stream,
+ 		if (ret < 0)
+ 			goto done;
 
-So the only "surprising" case is a buffer already in the PERM_REVOKED
-state getting a second PERM_REVOKED (which is weeded out in the caller
-as you point out).  Any new caller asking for PERM_REVOKED repeatedly is
-odd, but still gets what it wants.  I really don't think a warning is
-warranted just for that (it's safe either way).  Sending this
-explanation separately, so you are not too disappointed if v4 reverts to
-this existing condition above...  :)
+-		probe->wCompQuality = probe_max.wCompQuality;
++		if (!(stream->dev->quirks & UVC_QUIRK_NO_FORCE_QUALITY))
++			probe->wCompQuality = probe_max.wCompQuality;
+ 	}
 
+ 	for (i = 0; i < 2; ++i) {
+diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+index XXXXXXX..XXXXXXX 100644
+--- a/drivers/media/usb/uvc/uvc_queue.c
++++ b/drivers/media/usb/uvc/uvc_queue.c
+@@ -357,7 +357,8 @@ static void uvc_queue_buffer_complete(struct kref *ref)
+ 	struct vb2_buffer *vb = &buf->buf.vb2_buf;
+ 	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
 
-Thanks,
-
-
-Matt
-
-
-> 
->>> +
->>> +	dma_buf_invalidate_mappings(priv->dmabuf);
->>> +	dma_resv_wait_timeout(priv->dmabuf->resv,
->>> +			      DMA_RESV_USAGE_BOOKKEEP, false,
->>> +			      MAX_SCHEDULE_TIMEOUT);
->>> +	dma_resv_unlock(priv->dmabuf->resv);
->>
->> It's existing code but while at it let's make above conditional to
->> the actual revoke path. for unrevoked it's not required given the
->> previous revoke already cleans up everything.
-> 
-> I noticed this too though I was consciously trying to keep the diff as
-> small as possible.  But with this feedback from both you and Praan, I'll
-> move this.  It's still pretty readable before/after.
-> 
->> otherwise,
->>
->> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> 
-> 
-> Thank you.
-> 
-> 
-> Matt
-> 
-
+-	if (buf->error && !uvc_no_drop_param) {
++	if (buf->error && (!uvc_no_drop_param ||
++	    (uvc_queue_to_stream(queue)->dev->quirks & UVC_QUIRK_DROP_STREAM_ERR))) {
+ 		uvc_queue_buffer_requeue(queue, buf);
+ 		return;
+ 	}
+--
+2.43.0
 
