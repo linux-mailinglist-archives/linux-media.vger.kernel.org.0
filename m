@@ -1,109 +1,53 @@
-Return-Path: <linux-media+bounces-65837-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65838-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hsyYDRIGQmqjywkAu9opvQ
-	(envelope-from <linux-media+bounces-65837-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:43:46 +0200
+	id ZwZcLnoQQmqQzgkAu9opvQ
+	(envelope-from <linux-media+bounces-65838-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:28:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD17E6D615B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:43:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 305E86D655F
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:28:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ti.com header.s=proofpoint-05-2026 header.b=RTiMP5hv;
-	dkim=pass header.d=ti.com header.s=selector1 header.b=Qkf9Zs3L;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65837-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65837-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=ti.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=XUoHVk1I;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65838-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65838-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0C3833008C0F
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 05:43:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 861B1301186B
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 06:27:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 535C5392C2A;
-	Mon, 29 Jun 2026 05:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6378396D03;
+	Mon, 29 Jun 2026 06:27:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFC539282B;
-	Mon, 29 Jun 2026 05:43:38 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782711821; cv=fail; b=AqSkcuVyfRSfcoxpzsfwWKAhoznJFk/ZItJNPmFbc6ZPLDZIJDyLAab67c3lIRWMCKGLEyFDRnol15gg2HE0Z0F2BSIFbNrbADrrJnqkfutlOrAWctHvf92raZ8chMkmdikKRoXy5wOfewr2kk/QD6z/rxbjaywfaZOpge6UsEQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782711821; c=relaxed/simple;
-	bh=RNUJXHdyTdzEDQMed89fFJOLp5nZp7rZmzxnRYjiJkI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NjGr2FUp83ut329ihfADSLxwiODApeC9CR/teFtmYEDlgB62/JwBtrez57/xnnwkF6Pd1RBdMbyr+oXJUW29ssuLQVToJZovcN0hG6QArYdHWrRQO3o++Bkgp/riSJcAWy4KHi0oAX7WXJzqxscRPPCq6GI6Y230bo5ckY05dB4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=RTiMP5hv; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Qkf9Zs3L; arc=fail smtp.client-ip=148.163.150.75
-Received: from pps.filterd (m0380145.ppops.net [127.0.0.1])
-	by m0380145.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 65T2ctE6870261;
-	Mon, 29 Jun 2026 00:43:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	proofpoint-05-2026; bh=Ql2WOBbBBoxV8z4gWQRe3dFUyZjZPCX8DVZ8v1649
-	8I=; b=RTiMP5hvhU58X6ymT2d99nGVcKgxJRfKcUfeEs0Mcxn22FGsLJsrHhaXN
-	jYNWwpdZsjU54bJPdydYAnTIS/gVmTErW41SGmNjL4i2DIT97RhbvUKA+zrxpzWF
-	C+Y19Sw1wPBVGvr8YCFfzLFVRNiSGvK7pT6/YRV/UMkrAkh7yHX8sKyXVgy76f3y
-	+m3X5upD+CSqN6JxdWge/oKp3rwOJcvcePma86t44785IrCrxHNgOLAHAt6q8nsE
-	n2YrOca1Nx+2m7LxQo6st4tVxCdgKIZshjsbq0hOs0FCGvyOB+IErdJzN4F0YqcN
-	7RPz5uqHZmxzstYnUNqsR5TcFf1Kw==
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012010.outbound.protection.outlook.com [52.101.43.10])
-	by m0380145.ppops.net (PPS) with ESMTPS id 4f2yhmw5yf-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 29 Jun 2026 00:43:22 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XKF5QeSoP4wYvb51zOR++AOX9nux2LssNk5TdXvk5INxSOpd/cJp/lBHn0uefXwz6wvQoZsVK2KMIqEsNiPY7PLptgea5CvdzTm0jnLI8mgw3HT9PLsZCWSOIJKUsAM916nlb/p4bFn7gooED50txOV9KM9RSbb6llFglrcNQjUniODMEd5RO0phc0i6HoBfOX/r957IfLLnIjsrKR4bvsUM69HPs4aoc7Stqe3J6GPLzBtiRcwJRHbHeG8xtkYTSkCvidIh6VSOV9DgTb00jHhgkAEWWVV80YURbimZ85TY/xPRM8Q/I4MigdVq2sftx1e4R4sMm+dubnRfpGbhpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ql2WOBbBBoxV8z4gWQRe3dFUyZjZPCX8DVZ8v16498I=;
- b=DzKkbE04rciSqLnEgzNE4lgXlHnqFL+3KBZqXOfbggWaM3l7TmLWWGKpiePQKgjzQJGtCqF66kyRnqg3VH1pkSNeIRnzh009eZ6b3/hFPMxcY2pREfNdmiuh3f/X0DIx4JyI3bLXvATiZv+sHDGtyjUdDux8J7VP6FJq6YX89hKmKu5yb39ScJmD2IxcBaEOTFw4TFClf2lJI9wVIPxCrXOfqddkpoWYmdtFKX6yBYU4uvllfjLcBHIaMEFmPbs7IQkxTgzf2r0qvgzcz5c6vyIc9YY4BTOmjf/Ak0jXOImKCj4G32riJ92gn0O78w2Go5gj4SBVsDNlD1UM3llYQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ql2WOBbBBoxV8z4gWQRe3dFUyZjZPCX8DVZ8v16498I=;
- b=Qkf9Zs3Lyp/8VEj/mybz6VDamOhcr++Sdkx9HuqPqfqIm+HsO03SthWxgpZ03cSf1E3heO31S6eehU5oWEJPssb6D1W8LK8jlhxLSP+U382XcTIhwEDF92yFF+3DzEnW9/4gNwWfibS/tBGQP5cVLDdDHGBq6rb0YlfR1OWFPcE=
-Received: from MW4PR04CA0345.namprd04.prod.outlook.com (2603:10b6:303:8a::20)
- by CH5PR10MB997718.namprd10.prod.outlook.com (2603:10b6:610:2ee::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.18; Mon, 29 Jun
- 2026 05:43:19 +0000
-Received: from SJ5PEPF000001C9.namprd05.prod.outlook.com
- (2603:10b6:303:8a:cafe::a0) by MW4PR04CA0345.outlook.office365.com
- (2603:10b6:303:8a::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Mon,
- 29 Jun 2026 05:43:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- SJ5PEPF000001C9.mail.protection.outlook.com (10.167.242.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Mon, 29 Jun 2026 05:43:17 +0000
-Received: from DFLE201.ent.ti.com (10.64.6.59) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Mon, 29 Jun
- 2026 00:43:02 -0500
-Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Mon, 29 Jun
- 2026 00:43:02 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE210.ent.ti.com
- (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Mon, 29 Jun 2026 00:43:02 -0500
-Received: from [10.24.51.219] (abhilash-hp.dhcp.ti.com [10.24.51.219])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 65T5gxOm3900009;
-	Mon, 29 Jun 2026 00:43:00 -0500
-Message-ID: <525c55a6-3260-4937-85dd-6fab6b0e6ddf@ti.com>
-Date: Mon, 29 Jun 2026 11:12:58 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DDA389107;
+	Mon, 29 Jun 2026 06:27:54 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782714475; cv=none; b=KN6eS0hUuiTJLd9cvNyHJYY/L4js3Cx76DYzCZTNbQDmwIn44BumrqbRXxGcju3J0/KXhQ1PCk/CsTEzfCytWNzOOkxV4CALlSiKShhFHwf2YMy/fUjKhMq3TpSjDsIylCorYWLGUnJzt32tCSu10GlkSNSRkvASPJSft7EgFvY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782714475; c=relaxed/simple;
+	bh=CEoNdJbM+G0EYznPjnQPpoh429ZsOMIvdd62gxFGavs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eMVOXBIFbFl0+XbG4Ubb1MafbF+8KiFN5j/MqP/punyjIKqtulCpcuf+AH1HMkBHce3nn6RvxbYhlrtHjh2V/uazwlwdwl1HZRtbNX1HTpEtwaWn/YNnDD1pkp0PPJOilz2R4l2MXBB1yscKBO05cZ6BbzbNPGnSA2E2TqjczMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUoHVk1I; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E361F000E9;
+	Mon, 29 Jun 2026 06:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782714473;
+	bh=8diiuVvstmh7e4zfvwC2TUp3d+EiAMlelXELW0j1hjI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XUoHVk1IkDHpBf/rl1gBmvmCwGQXinaUwLcSEq8EvP3XGURvE/T00WCGDMaDt9/Ha
+	 ClQlj6YrvXnwFi6pa2mQYOM69K0jgcIK24NBAjAk1+JOm9DWkAutR2dsUeNNtxdbOS
+	 gq6WMK/Zz9vb8+mVM4lzCx0LF/BC84Lgwd/AsqDWo8s/l9nG/cgz1D+Fus+SQXB8qq
+	 dQ3FWrXaWWDEyfbHi5nHuqSMBPSjfaebnbmkQU+g27mXs33Jn4cPRbf/4AiRWt25Ro
+	 LeieO9Rj3+pCr4LnifXrjcDB2MgHMmur19W0Ki1FDuerhlZKi1gNC92u45zL7+GBLo
+	 4azJoKnYhHOwQ==
+Message-ID: <85cf5045-b52b-4aaa-a038-ca1b856b55f9@kernel.org>
+Date: Mon, 29 Jun 2026 08:27:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -111,153 +55,257 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/16] media: ti: vpe: #include
- <linux/platform_device.h> explicitly
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
-	<u.kleine-koenig@baylibre.com>,
-        Linus Torvalds
-	<torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Danilo Krummrich <dakr@kernel.org>
-References: <cover.1782682124.git.ukleinek@kernel.org>
- <453257c9fa32acc4ab5b3e4c3b010244966a7b9d.1782682124.git.ukleinek@kernel.org>
+Subject: Re: WARNING in usb_free_urb
+To: sanan.hasanou@gmail.com, vbabka@suse.cz, akpm@linux-foundation.org,
+ cl@gentwo.org, rientjes@google.com, roman.gushchin@linux.dev,
+ harry.yoo@oracle.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc: syzkaller@googlegroups.com, contact@pgazz.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <6a3eeead.7fb353d3.354599.b0b0@mx.google.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Content-Language: en-US
-From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-In-Reply-To: <453257c9fa32acc4ab5b3e4c3b010244966a7b9d.1782682124.git.ukleinek@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001C9:EE_|CH5PR10MB997718:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed13c575-3e3a-4f39-a78a-08ded5a15257
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|376014|23010399003|18002099003|22082099003|4143699003|5023799004|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	tvkoor9keUxMFCV5y2jMvQ62yW0GybrDk5g1hZM+Lf17sokNmRP/qz88EPuXX1GHVKGmXLVB877SD540vGZV8TBCytscK4Lv5a/IS9/5cx7B6OfKM09cb2U4SpuZcXnyP3RLDkBfVWlFpqyC5qgR/4AwtZDhuBouR0qbA/f7SeCuGgf116KUXpIMsDA/XxIELj/fVJOEg+3pbBd2akkSGWrs/PCjhTkMxS3PYemNDcau3gOQQCU5Myj62CEkCVJZT4VmnzVSZo2QlN84tmHscJ5BYLRCUQsDwlGpWmT5HURf2rieEUlNA0+2koGHBfY6sVtjGWoXsRG8RxqC+WzSmZex3caM8r8wHHS5DPBTY7G8MHrRO8x4DupEmU3yawTqobKGub06LgCmhqVskj4nK6QGeGH6ZVITq1PGFIXBCpWl8YJEb4Btd7PuKn8jX9+5BMeGJdpcoAgTqot7um7NRWXjThFNss9XtEW2j7J9BxmRuuEcmPvlPYqLgziDzm8hwPYp2auhMJPM6U0vudoXxZlcfY5lqqCbTASmXSKtt+OoUJ8+ZKEIj1Vlw26XyuFlQRhNiotUhvEdwdxUAko0IDSsQbWjnK8wCAjszsb430jjg4n41XEVZzp0TzfPQXM2uzUDCKkbP6R2z1ztOLatqGaPTvXqQF2Q6CEWN0EdD4qNBM/mOuIAvdAu2qQ7x8fJ6LVUyiz41TP31Pt4jmR5wA==
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(376014)(23010399003)(18002099003)(22082099003)(4143699003)(5023799004)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	WtyWQrO1v2FeEKxk2DfCU3hkph7WyBh8t2gfwrnR6iFAdNzVy50sXov5YITQrapQHFlIm/BPRM09X9s6gZcUgRcMtTmnJPZgiMQJA+frUJvkI2QP5m+qm2u0NrigvCPK/Tkkr5kxMB6AtF9dN4/7lwx+6KTaF7dmJXz/vmJwDxCr9ORL3vSd1BloQiu4aLoOv3CyNw3VWc6Mcb55i0HcrPm0I1elHLWj05k7LvRLjJhCOD6N/TKCBV+pERonqY9L/ErHB5jVS8Z3hoBQw+3mwMuYFex7SGDqb+IOZGP9wICr2qKETrrGTwgErbPu+yccsf69EnPAaztf+XuLWO/MLNbvA5hGb6frdXe6vPivEvzkrXAyYMARyv9b9ifQCc/fWuG7xUf+CBdDCVV3VYAIiUm20YYhH4Rt0j9to0lhKQnFSror/i/WiyLrXC5fipf1
-X-Exchange-RoutingPolicyChecked:
-	NP/Q6iheFvC79FHxU37ANrhB3NRehii3yQFownrYf1kSTprFqMlImxWkjnRbA1xCrSFJeVwjH/DJ8OZExoCJtLGrSHTNiYSAxc4DzGCgAar5IPqNpy1ZDyn+zM72f7EaIRHyLXBaomk0S2JqFXXzJf2sR2vURY97ppiIEqs+BBJs2rGImJo/TZNA+pgD2DE9DxUP+IJcJKfUGydqikfGubNbgebC3cScMHrZUjYtsKwG6gx3i6Z3ODTQ+RYvAVat30rjt7S5xAnULen9aWaiSNr2voVlhrpXVLd7c1rUzxsL35Xrnou276RtLTwxrdf2v8uogk+TN3DmwgyjpuDcfw==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 05:43:17.9676
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed13c575-3e3a-4f39-a78a-08ded5a15257
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001C9.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH5PR10MB997718
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDA0NiBTYWx0ZWRfX9DQQBlbNW3Jz
- zHYcYKQqwHtJpmrkI0k+yYRD+bSubdTyyoPjPX/039Qdg3rucpirkEYVVz32GWyF5RqA0i97Vxd
- x0UrYREmk35pcXTJTxLO97/0lnfPY50=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDA0NiBTYWx0ZWRfXxtNOO7uewTZq
- 6z02Jlii0i5AzjrrjWaXFPtxq+98XubV+Gb+g+1OGmKGx0w3ARRPVXOmjyRBG2hbn7ITo4tFDkd
- iSQgI04W30duTicntncE5jPqC9ixgSe2uZAWSqEB0/XM+gaWjUaRoSjHpY45u0waoXuFuyWNYdP
- NhSm8Nv98ABDJOp2K+LbeUxFp6oIsVrTjnyVIoHpNVIneMnAriW1bx9Ki2RQFk65eTv75ICkbVh
- LIw9Hk6UOywjXoW1ElMaRULZDLe3v/hI/rUSA2emLcoarvJ/DrQpA6hEeF/l2KnAKHIMN4FynVJ
- d27Y5FnO/eOA+uB+R/47AgAA3v99e6px9dcn7LcCnlKBUgWYOMvTo7+dSmAKTBmggbgrBSPXpkL
- cVqKpRMZ7dPutF65LJFcfciwdyArOaLOMDBYr/3gAFgFSGAIqU/EpXvX8vRhp/MvoKwGqkk6Y1o
- unyFYKHJ+egKCFpZOjA==
-X-Proofpoint-GUID: 89gDl8TTL2PP5eawlmeA2rCb_kWgRGk8
-X-Proofpoint-ORIG-GUID: 89gDl8TTL2PP5eawlmeA2rCb_kWgRGk8
-X-Authority-Analysis: v=2.4 cv=SK1ykuvH c=1 sm=1 tr=0 ts=6a4205fa cx=c_pps
- a=a15oepxCFtbapkdjUscCyA==:117 a=tJyPKKxUohctrY4NYmUjkA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
- a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
- a=gO1vWkAQAl3rybz1DQOp:22 a=VwQbUJbxAAAA:8 a=IpJZQVW2AAAA:8 a=sozttTNsAAAA:8
- a=67eJ993T6Pk5Setb07MA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=IawgGOuG5U0WyFbmm1f5:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-29_01,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- malwarescore=0 impostorscore=0 spamscore=0 clxscore=1011 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606290046
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <6a3eeead.7fb353d3.354599.b0b0@mx.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[ti.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[ti.com:s=proofpoint-05-2026,ti.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65837-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sanan.hasanou@gmail.com,m:vbabka@suse.cz,m:akpm@linux-foundation.org,m:cl@gentwo.org,m:rientjes@google.com,m:roman.gushchin@linux.dev,m:harry.yoo@oracle.com,m:linux-mm@kvack.org,m:linux-kernel@vger.kernel.org,m:syzkaller@googlegroups.com,m:contact@pgazz.com,m:gregkh@linuxfoundation.org,m:linux-usb@vger.kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:sananhasanou@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:u.kleine-koenig@baylibre.com,m:torvalds@linux-foundation.org,m:gregkh@linuxfoundation.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dakr@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[y-abhilashchandra@ti.com,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[vbabka@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_TO(0.00)[gmail.com,suse.cz,linux-foundation.org,gentwo.org,google.com,linux.dev,oracle.com,kvack.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[ti.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_TWELVE(0.00)[12];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[y-abhilashchandra@ti.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65838-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vbabka@kernel.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,baylibre.com:email,ti.com:dkim,ti.com:email,ti.com:mid,ti.com:from_mime]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BD17E6D615B
+X-Rspamd-Queue-Id: 305E86D655F
 
-Hi,
-Thanks for the patch.
-
-On 29/06/26 03:28, Uwe Kleine-König (The Capable Hub) wrote:
-> The driver uses several symbols and structs defined in that header. The
-> header is currently included transitively via
+On 6/26/26 23:27, sanan.hasanou@gmail.com wrote:
+> Good day, dear maintainers,
 > 
-> 	"vip.h" ->
-> 	<media/v4l2-ctrls.h> ->
-> 	<media/media-request.h> ->
-> 	<media/media-device.h> ->
-> 	<linux/platform_device.h>
-> 
-> which seems to be on the lower end of the scale between random and
-> reliable.
-> 
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+> We found a bug using a modified version of syzkaller.
 
-Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+Subject says "usb_free_urb" but you only CC'd slab maintainers, where slab
+slab is most likely a victim here of e.g. double kfree() or a kfree() of
+otherwise broken pointer.
 
-Thanks and Regards,
-Yemike Abhilash Chandra
+Ccing USB and EM28XX maintainers. But they can feel free to ignore this per
+the next point.
 
-> ---
->   drivers/media/platform/ti/vpe/vip.c | 1 +
->   1 file changed, 1 insertion(+)
+> Kernel Branch: 7.0-rc1
+
+Why use such a version for fuzzing? rc1 will have many bugs that are already
+fixed in 7.0 final. And it's not even latest, 7.1 was released 2 weeks ago too.
+
+> Kernel Config: <https://drive.google.com/open?id=1zJHAs5GUroGFBkxAlzfDaWAd_NVPZTfJ>
+> Unfortunately, we don't have any reproducer for this bug yet.
+> Thank you!
 > 
-> diff --git a/drivers/media/platform/ti/vpe/vip.c b/drivers/media/platform/ti/vpe/vip.c
-> index cb0a5a07a3d4..e56a95f53ea9 100644
-> --- a/drivers/media/platform/ti/vpe/vip.c
-> +++ b/drivers/media/platform/ti/vpe/vip.c
-> @@ -16,6 +16,7 @@
->   #include <linux/interrupt.h>
->   #include <linux/module.h>
->   #include <linux/workqueue.h>
-> +#include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
->   #include <linux/sched.h>
->   #include <linux/mfd/syscon.h>
+> Best regards,
+> Sanan Hasanov
+> 
+> 179683 pages reserved
+> 0 pages cma reserved
+> Memory cgroup min protection 0kB -- low protection 0kB
+> ------------[ cut here ]------------
+> !PageLargeKmalloc(page)
+> WARNING: mm/slub.c:6352 at free_large_kmalloc+0xb3/0x160 mm/slub.c:6352, CPU#1: kworker/1:4/12317
+
+A kfree() was attempted on a pointer that's neither from a slab page nor a
+large kmalloc page. Might be double free or corrupted.
+
+> Modules linked in:
+> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
+> Tainted: [L]=SOFTLOCKUP
+> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> Workqueue: events request_module_async
+> RIP: 0010:free_large_kmalloc+0xb3/0x160 mm/slub.c:6352
+> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
+> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
+> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
+> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
+> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
+> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
+> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
+> FS:  0000000000000000(0000) GS:ffff8880ef136000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fba7e4bf008 CR3: 000000005776b000 CR4: 00000000000006f0
+> Call Trace:
+>  <TASK>
+>  kfree+0xae/0x630 mm/slub.c:6437
+>  urb_destroy drivers/usb/core/urb.c:25 [inline]
+
+static void urb_destroy(struct kref *kref)
+{
+        struct urb *urb = to_urb(kref);
+
+        if (urb->transfer_flags & URB_FREE_BUFFER)
+                kfree(urb->transfer_buffer);  <--- this one
+
+        kfree(urb);
+}
+
+>  kref_put include/linux/kref.h:65 [inline]
+>  usb_free_urb+0xd1/0x120 drivers/usb/core/urb.c:96
+
+USB layer itself is likely also not the root cause.
+
+>  em28xx_uninit_usb_xfer+0x165/0x310 drivers/media/usb/em28xx/em28xx-core.c:833
+>  em28xx_alloc_urbs+0xf2a/0x1130 drivers/media/usb/em28xx/em28xx-core.c:-1
+>  em28xx_dvb_init+0x2b0/0x4a20 drivers/media/usb/em28xx/em28xx-dvb.c:-1
+>  em28xx_init_extension+0x121/0x1d0 drivers/media/usb/em28xx/em28xx-core.c:1117
+
+So it might be this driver doing something wrong?
+
+>  request_module_async+0x5e/0x80 drivers/media/usb/em28xx/em28xx-cards.c:3457
+>  process_one_work kernel/workqueue.c:3275 [inline]
+>  process_scheduled_works+0xae1/0x1800 kernel/workqueue.c:3358
+>  worker_thread+0xa0f/0xf70 kernel/workqueue.c:3439
+>  kthread+0x37d/0x470 kernel/kthread.c:467
+>  ret_from_fork+0x507/0xb90 arch/x86/kernel/process.c:158
+>  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:245
+>  </TASK>
+> 
+> <<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+> 
+> Modules linked in:
+> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
+> Tainted: [L]=SOFTLOCKUP
+> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> Workqueue: events request_module_async
+> RIP: 0010:free_large_kmalloc+0xb3/0x160
+> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
+> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
+> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
+> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
+> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
+> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
+> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
+> FS:  0000000000000000(0000) GS:ffff8880ef136000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fba7e4bf008 CR3: 000000005776b000 CR4: 00000000000006f0
+> Call Trace:
+>  <TASK>
+>  kfree+0xae/0x630
+>  usb_free_urb+0xd1/0x120
+>  em28xx_uninit_usb_xfer+0x165/0x310
+>  em28xx_alloc_urbs+0xf2a/0x1130
+>  em28xx_dvb_init+0x2b0/0x4a20
+>  em28xx_init_extension+0x121/0x1d0
+>  request_module_async+0x5e/0x80
+>  process_scheduled_works+0xae1/0x1800
+>  worker_thread+0xa0f/0xf70
+>  kthread+0x37d/0x470
+>  ret_from_fork+0x507/0xb90
+>  ret_from_fork_asm+0x11/0x20
+>  </TASK>
+> Kernel panic - not syncing: kernel: panic_on_warn set ...
+> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
+> Tainted: [L]=SOFTLOCKUP
+> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> Workqueue: events request_module_async
+> Call Trace:
+>  <TASK>
+>  __dump_stack+0x21/0x30
+>  dump_stack_lvl+0x2b/0x150
+>  dump_stack+0x19/0x20
+>  vpanic+0x53e/0xa20
+>  panic+0xb9/0xc0
+>  __warn+0x320/0x500
+>  __report_bug+0x28d/0x500
+>  report_bug+0x175/0x220
+>  handle_bug+0x9c/0x200
+>  exc_invalid_op+0x1f/0x50
+>  asm_exc_invalid_op+0x1f/0x30
+> RIP: 0010:free_large_kmalloc+0xb3/0x160
+> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
+> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
+> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
+> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
+> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
+> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
+> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
+>  kfree+0xae/0x630
+>  usb_free_urb+0xd1/0x120
+>  em28xx_uninit_usb_xfer+0x165/0x310
+>  em28xx_alloc_urbs+0xf2a/0x1130
+>  em28xx_dvb_init+0x2b0/0x4a20
+>  em28xx_init_extension+0x121/0x1d0
+>  request_module_async+0x5e/0x80
+>  process_scheduled_works+0xae1/0x1800
+>  worker_thread+0xa0f/0xf70
+>  kthread+0x37d/0x470
+>  ret_from_fork+0x507/0xb90
+>  ret_from_fork_asm+0x11/0x20
+>  </TASK>
+> Kernel Offset: disabled
+> Rebooting in 86400 seconds..
+> 
+> <<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
 
 
