@@ -1,232 +1,139 @@
-Return-Path: <linux-media+bounces-65871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65872-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id a6ZGIRouQmqH1QkAu9opvQ
-	(envelope-from <linux-media+bounces-65871-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:34:34 +0200
+	id Hq9WJ34uQmqe1QkAu9opvQ
+	(envelope-from <linux-media+bounces-65872-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:36:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E826D7881
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B506D78BE
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:36:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Us8L6piT;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65871-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65871-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=DuMM4zeD;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65872-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65872-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8280F30262C2
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:30:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D5EC43041AA2
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:32:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF5B53F5BD3;
-	Mon, 29 Jun 2026 08:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A0013F5BF1;
+	Mon, 29 Jun 2026 08:32:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5553F54BB
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 08:30:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46863F58DF
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 08:32:12 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782721848; cv=none; b=RufPmX32h0wZkf7M6/xVBm5YHPsl1XaNYRDmtoc0z48RblmD6diL3mSnOMF90fQg/8fcMez50EJAA0J/OGy8LPBm0LY24au8/AGznhNfvvsHpSouWMXQboViuREIj/iNceGrKO1Wx7RhCWEMDhJxTtTG/PcCQE6j5cWE5MOah70=
+	t=1782721933; cv=none; b=NjdB1eslYQhw67E3wQUyGYMwNYMqFIjKW4pndvBdgtyutJ4zjJ38ooZIVM2eED/rOzVde970vKkAVtVrLdmXD/HTXIJo7DgDw73dNdEWkourabV8fz56O6OJOiKRM9/KjLQstzh66UE5z8vMQX9C6kc8fRVtxG5W5FgwKxqCoRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782721848; c=relaxed/simple;
-	bh=abts/1MRf4sGQNrs+Qra6uETICHxnjs03xjp5k5HK2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q9WOLtdP/aq69YEZAadpE9rRr/skCrLc3VN9QEg05Gpvr2xzGViUPggX/yWy6bs/Zs+rU8nzfPvqF7L3+YaWcnEjFiq82PkcUyLWcz6Ho6W+hXbBYfB8sWdzRMDz+oLNPWKn8QK7ESAKBXCaTg4bG+6pseUwxu6sZzv3ui2zAxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Us8L6piT; arc=none smtp.client-ip=209.85.208.51
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-697bd41a4ecso3707908a12.2
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 01:30:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782721845; x=1783326645; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fq4MrGKf+YRbreREYMtKaIO+6uUYvLSEbh1uxDtYk3E=;
-        b=Us8L6piTaw2CTj5R3lkxiqm27FcURXbi4dsVB3z1Re4Vk/TYMcuoCfHRadZ0noKd9K
-         AV8lxqJFNfUrWAZcQmGKMQN5YCYCx9yEbVpTJfe5JWRH/uk+/elTXIj5asKcKBDrsqHq
-         Uk7lT7RtPHeNSZNnze3Tg9h/QjkfVKDWYvTSbBiS/9AVJtOhPb93gObZl1z+t7Qj7kma
-         pmB/0l9lMphn7DTApJgUajrpMiOD7Dg/e2Mhja43o1EQrFSPmFUzcNxNktj1OzddirxS
-         73HHYfVS5ld19kxJzXdV2ELyG6iR6h7LmcVihtEX+tdOFl1wd4fqHupOcJOx1oM+YHjg
-         v3Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782721845; x=1783326645;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fq4MrGKf+YRbreREYMtKaIO+6uUYvLSEbh1uxDtYk3E=;
-        b=G4lMLK5nec4gQ49BRzKxcfNCqPsov+DfVNZ7ShqIzwPaMseH2xadWDFcL7E0R6TzGE
-         AR6z5GsIUYhLqKD8FL/el/msbHUBwulOQCCp+8h3t0j41G7Z7atUG/hVi2Y0A0Fatbi+
-         9gPVkLIngaB0Ce9qzP8MIA7WQhwZNRsyqEhVjAiMzYORPBMKnt5oljVBS55mSJfGRPeW
-         WkzkyWgrK3mgBnnjNkCTUqfN5JgeoANMqH50f1A2z/s+SyYyRiASU6qbXVAODGtjjrJH
-         0KESjcugY+DPfj1mrgu+VrvcZzJ5jYss6JdqaM56C/c2+vLXhOUGOePVXlnZAovZIOeK
-         BqTg==
-X-Forwarded-Encrypted: i=1; AHgh+RoUrqjtmz66clIoDQ/bB+xD+rEuleGqgwj3yWkeIowRx2DpWbzgfjElXZyQJOgcZZYBc1hBJxGP6OkYjw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxA7eVG66VpiPNzuU9KBg0WMhV4Ukqb3ZnG40G9Km+HxvmrZW9Y
-	vqjsqaSlEZTUEJZalzqQlGqGHMVSerK6fIqXwgzWpruA2y/AHqvjZ1cJ
-X-Gm-Gg: AfdE7clf+2WLjLeTaJfP4b+J1F1xhlaNbOrAHkEg9SszQj8w1wiIqJWa+RZx0KKe/aH
-	cF6Gfac5nQ6wy2bNk6Vh5iAwwgHaPQBb9thFTYPNtJc0LGbS6LhXR3hImvtvQ4Ai/P/6NxJi92M
-	06so+47NPOMTjzOqfWJaVV4A61z/hETVdGUQ0/7hfOEUNFy+KHg/GXDZBEygUgDXYnC7QCmzSV+
-	AlpyXD4x9ms+6LPVqYAhoVsS4815cmJUL0xyN1+/xJsboYWP3N6P58Wy+//vTyO6PB0GEQJg+r6
-	dOVDkrupiCfV2PKLpakc1/0ZoYJ6WJElvUr+UUE3GPzYIPl8VSHekScHtb7eX1cJ09c2m5ZI6JA
-	2CAQpbgh9BqNFIlB/uwxXm0EzO2ex/vqCdXr4Zeho1Mi5Q3KyBJp7O/hhvfIJzSfT6qXZsQ+Hta
-	txMyXOm3X0Jw==
-X-Received: by 2002:a17:906:6206:b0:bed:87c:b24e with SMTP id a640c23a62f3a-c1205eef62emr702909766b.29.1782721845095;
-        Mon, 29 Jun 2026 01:30:45 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:9cf4:43df:e612:817b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1276ec6c96sm39712166b.43.2026.06.29.01.30.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 01:30:44 -0700 (PDT)
-Date: Mon, 29 Jun 2026 11:30:40 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Dawei Feng <dawei.feng@seu.edu.cn>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, gregkh@linuxfoundation.org, azpijr@gmail.com,
-	kees@kernel.org, arnd@arndb.de, pontescpedro@gmail.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
-	zilin@seu.edu.cn
-Subject: Re: [PATCH] media: atomisp: fix CAS scaler descriptor leaks
-Message-ID: <akItMNqgKTDBCGV0@stanley.mountain>
-References: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
+	s=arc-20240116; t=1782721933; c=relaxed/simple;
+	bh=tUuN591Y6fPtcNAmuZEe8Av3aatfOQw1bSLMTeoh7UI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R/iJ9jK7K1F8Uq9dOsFadvOn8W4A50XTFzWt/F0l3PjHGXPhQS17Os86N9ZxGYQo7HzRzufxHSbE/gg4jIUHhuFttKOtt2AYOEfmcK8j3BbV3tY/Ahw62l6uDl2+ClgZao2w+KbiN1Oryh9FR1RNCNg7lhdbo9R9e8ZXBxMWeZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DuMM4zeD; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC6B51F00A3E
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 08:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782721932;
+	bh=tUuN591Y6fPtcNAmuZEe8Av3aatfOQw1bSLMTeoh7UI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=DuMM4zeDirHLDXbGO0dvNYyCS1KEFK/bqfKODIPJf1ksB28atCJWMSU85HvG67HTk
+	 roI5WF7SsRqbv7RRkfW+umO2Xz41tGfPAmEleNpPWFeqNxtT64LjWj7dByPsr7b79d
+	 1m/XQUnE4QGWwZFqvmPqqiIVPB8ANm45+L5DM3pj+xo//4M5HUd78e12yvtn8pMjOQ
+	 1t1UK/WuYq/xVAPYf6Q9Z4TTmvh8DGQ0xoLCstzTqUEZPg4ceQLbOadJagU82+mEUu
+	 OWld2aR0aRTpCL+i9mUPJ8exAgW9WVdhoy1DsLadZNFvWy8JblhmmdAMUneypncW1Y
+	 lbZjnoPlja59Q==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39b1026e171so5102041fa.1
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 01:32:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rr3vZwq9VxlHHhX3U4piZeFlAUMK84Yu0hpS7vfZhE6Btjf6/KsqEWIQmLdXAfuSvUWuTvgJOj8ABRVsw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJ4PTQfILmjEe1U3Mm3tjI0p39gcCyd+/hs9RZs2DVlms1nA5p
+	l63xTtSh5qPkslMCz5KVfkiNiB21u73g3O4lHkZWkKER/o7tuRqDd2bLCdnUO44zGxiuzQrYCxQ
+	eVLfubwx12RDJPIPYK5zCZsb3qQs60ro=
+X-Received: by 2002:ac2:5de5:0:b0:5aa:8823:e311 with SMTP id
+ 2adb3069b0e04-5aea1f55e73mr2561045e87.47.1782721931064; Mon, 29 Jun 2026
+ 01:32:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
+References: <20260618195254.139712-1-devnexen@gmail.com>
+In-Reply-To: <20260618195254.139712-1-devnexen@gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Mon, 29 Jun 2026 10:31:57 +0200
+X-Gmail-Original-Message-ID: <CAD++jLnukur1VqeSurPgCTEQn9BQmgBVOD1Zivsaa1BDnE6Lyw@mail.gmail.com>
+X-Gm-Features: AVVi8Cf2Zm9cQlf0-6MUONGs-3PVu60eg84J8Jx2A_aHPmENqBIdJmOC0tvxgVY
+Message-ID: <CAD++jLnukur1VqeSurPgCTEQn9BQmgBVOD1Zivsaa1BDnE6Lyw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: mali-c55: Fix scaler factor overflow for large
+ crop sizes
+To: David Carlier <devnexen@gmail.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65872-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65871-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:dawei.feng@seu.edu.cn,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:azpijr@gmail.com,m:kees@kernel.org,m:arnd@arndb.de,m:pontescpedro@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-staging@lists.linux.dev,m:jianhao.xu@seu.edu.cn,m:zilin@seu.edu.cn,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linuxfoundation.org,gmail.com,arndb.de,vger.kernel.org,lists.linux.dev,seu.edu.cn];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:devnexen@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[seu.edu.cn:email,vger.kernel.org:from_smtp,stanley.mountain:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D5E826D7881
+X-Rspamd-Queue-Id: 19B506D78BE
 
-On Sat, Jun 27, 2026 at 02:01:51PM +0800, Dawei Feng wrote:
-> load_video_binaries() and load_primary_binaries() create a CAS scaler
-> descriptor before allocating and looking up the YUV scaler binaries.
-> Several failure paths after descriptor creation return without destroying
-> the descriptor, leaking the frame-info arrays owned by it.
-> 
-> Route those exits through a descriptor cleanup label while keeping the
-> existing pipe_settings ownership model. Also clear num_yuv_scaler when
-> capture scaler binary allocation fails, so the existing failure unwind does
-> not iterate a NULL scaler array.
-> 
-> The bug was first flagged by an experimental analysis tool we are
-> developing for kernel memory-management bugs while analyzing
-> v6.13-rc1. The tool is still under development and is not yet publicly
-> available. Manual inspection confirms that the bug is still
-> present in v7.1.1.
-> 
-> An x86_64 allyesconfig build showed no new warnings. As we do not have
-> an Intel Atom ISP camera platform with matching sensor firmware and ACPI
-> camera graph to test with, no runtime testing was able to be performed.
-> 
-> Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> ---
->  drivers/staging/media/atomisp/pci/sh_css.c | 35 ++++++++++++----------
->  1 file changed, 19 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-> index 00082276f1db..d0ff16ba890f 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-> @@ -4528,20 +4528,20 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
->  			  NULL,
->  			  &cas_scaler_descr);
->  		if (err)
-> -			return err;
-> +			goto destroy_cas_scaler_desc;
->  		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
->  		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
->  						       cas_scaler_descr.num_stage);
->  		if (!mycs->yuv_scaler_binary) {
->  			mycs->num_yuv_scaler = 0;
->  			err = -ENOMEM;
-> -			return err;
-> +			goto destroy_cas_scaler_desc;
->  		}
->  		mycs->is_output_stage = kzalloc_objs(bool,
->  						     cas_scaler_descr.num_stage);
->  		if (!mycs->is_output_stage) {
->  			err = -ENOMEM;
-> -			return err;
-> +			goto destroy_cas_scaler_desc;
->  		}
->  		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
->  			struct ia_css_binary_descr yuv_scaler_descr;
-> @@ -4557,10 +4557,13 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
->  			if (err) {
->  				kfree(mycs->is_output_stage);
->  				mycs->is_output_stage = NULL;
-> -				return err;
-> +				goto destroy_cas_scaler_desc;
+On Thu, Jun 18, 2026 at 9:53=E2=80=AFPM David Carlier <devnexen@gmail.com> =
+wrote:
 
-What about freeing mycs->yuv_scaler_binary?  There are a bunch of
-other leaks...  I would prefer a more complete fix.
+> The horizontal and vertical scaling factors multiply the crop dimensions
+> by MALI_C55_RSZ_SCALER_FACTOR, a Q4.20 factor of (1 << 20). Both operands
+> are 32-bit, so the multiplication wraps before the result is stored in
+> the u64 scale variables. For any crop dimension of 4096 or more (the
+> maximum is 8192) the value overflows; an 8192 to 4096 downscale yields a
+> TINC of zero, so the scaler never advances and the output is corrupted.
+>
+> Define MALI_C55_RSZ_SCALER_FACTOR as a 64-bit constant so the
+> multiplication is performed in 64-bit.
+>
+> Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: David Carlier <devnexen@gmail.com>
 
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+LGTM
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-I would probably just do the free before the goto since this is not
-part of the cleanup function.
-
-		if (err) {
-			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
-			goto free_output_stage;
-		}
-
-...
-
-	return 0;
-
-free_output_stage:
-	if (need_scalar) {
-		kfree(mycs->is_output_stage);
-		mycs->is_output_stage = NULL;
-	}
-free_scalar_binary:
-	if (need_scalar) {
-		kfree(mycs->yuv_scaler_binary);
-		mycs->yuv_scaler_binary = NULL;
-	}
-
-etc.
-
-regards,
-dan carpenter
-
+Yours,
+Linus Walleij
 
