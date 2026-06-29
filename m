@@ -1,132 +1,203 @@
-Return-Path: <linux-media+bounces-66009-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66010-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0hjuAZavQmrS/gkAu9opvQ
-	(envelope-from <linux-media+bounces-66009-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 19:47:02 +0200
+	id nQxTE0K4QmqhAAoAu9opvQ
+	(envelope-from <linux-media+bounces-66010-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 20:24:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633F66DDDC5
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 19:47:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A23CD6DE01B
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 20:24:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=aNHnYcSV;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66009-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66009-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=grvNSIBf;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66010-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66010-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A37BE303589E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 17:46:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3DD19302A692
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:23:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A85183803EF;
-	Mon, 29 Jun 2026 17:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D51383983;
+	Mon, 29 Jun 2026 18:23:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C62318EE6;
-	Mon, 29 Jun 2026 17:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37592F2910;
+	Mon, 29 Jun 2026 18:23:50 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782755213; cv=none; b=Q0ysDzH6jen9kxsF7+86nGzDnVvzZp04qzk/ToQnOKjn1c9QzizVakLya/30hnbSPjY8ekJMVyMOerZXA5gwhCOebx4uAhSz1nrsk8T/q7PTWhuEA6FJ0QKji9XUwPT3kAyDm5zlOz7bSUNoNhaZ+xNNDjpsfR5bjMDOT8TC0is=
+	t=1782757432; cv=none; b=FR+mMVhECWy+9VELNFLyhopjP3fRqQtJrxI9TC5hPu3s/fHyn5GeKqq8FcYBP3IaL3f/qWzhlxb5C2lrbq9XaXp63x1/BoY6X+EXpCg18WEPdkJ8ygWE7dDmvuB7R04YkZ5EcPG4TXSdSm6fTMVJv+2Xo9XNCXqsRfSc6vdB5bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782755213; c=relaxed/simple;
-	bh=Gqsw1pW7i6nGU1jNertuHP6roce2PEW69oDsk7J1LiM=;
+	s=arc-20240116; t=1782757432; c=relaxed/simple;
+	bh=1P2OVUAuHOcqUzFU659MHxPQo52FQGXlvTspmoB+nAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZFDWFLc8UeWeNBjWEpEyArWACYJmjUQnTZvVEZ7TWyJ+iejmGQVn/nyR2fJr1HKCjTuUNA/g/SR4efT3vmBsgsxCTqoIbQ93RhcyhfyBT9qof/d5xqWWem24RciqZrRvoFzUm9YK4aj9Rso8P0RuqkfjZj6LjLikueyIYUB8+so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aNHnYcSV; arc=none smtp.client-ip=198.175.65.9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782755212; x=1814291212;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gqsw1pW7i6nGU1jNertuHP6roce2PEW69oDsk7J1LiM=;
-  b=aNHnYcSVCzEJV7NHAVDTc1AtJmamPmTDsXFTxrUQ7xuKT+750YHzZyd8
-   xxt1h1SZPQrSxrc1J0+uf3OYleRH9GDc1ujiuHLpKoxbbUTBN5IEGPyNU
-   c3PUb2DVEBT7ReB4OH0wcTPGLOpX59Xy0LPFk5A5mXfGYosW8SHt8WajK
-   KMRgCV0Opi7iyUm4O/ZPByQo4Pvg7flIR0qX9sVt/8qeep4a81yqPMaZ8
-   Y8r7it3bDsWqY2WwkyuCc34ityPzIsB0PSiaJUgKV1hivH08VBsLLvPeH
-   8Z0vuXc4m8ra29GQZTyAZboiOAclE78c4LsCEwsQCIZfoBGdgHn81HTRE
-   w==;
-X-CSE-ConnectionGUID: +UVjVl90QISvNQWHddZfSg==
-X-CSE-MsgGUID: gUiUADLbS8i35XErHT7yAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="106253864"
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="106253864"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 10:46:45 -0700
-X-CSE-ConnectionGUID: 22+hkID1RIGeSqnEZMg/Dg==
-X-CSE-MsgGUID: 86ddzfK/T5aItVVVW1CvSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="245671320"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 10:46:43 -0700
-Date: Mon, 29 Jun 2026 20:46:41 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGu2W60o7OYkqbqRwDZgpseSOJdmmp7+UyOl4MUk7JI0Xz5Ma+7gtNsvikxBJ2Od4gSoYrcMNp/OE6SiPp5Pu3Iu5nGduUqqnJW58TundVFnxfOuAL3YDch21vAezb89hDASv6S6/j6GT0SWmKAjOw2jiUViCG8Yl3YWVqThXQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=grvNSIBf; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 719F58D4;
+	Mon, 29 Jun 2026 20:23:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782757385;
+	bh=1P2OVUAuHOcqUzFU659MHxPQo52FQGXlvTspmoB+nAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=grvNSIBfkYDSvED3TvPWknia5BuzWXueb7mK3pnVfPRDYcACpbeWgSn4Az1fWkOx8
+	 bTb5TQ3xFTjwSBweCACgTNxBcB3pJ9ZJ22rpOKNo+GvPf5YeNFSstbydh1Qcxan97P
+	 Cf/TCdchk11riDz6vCQpvtXA4IZwFvKszhfv4Vww=
+Date: Mon, 29 Jun 2026 21:23:47 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Pol =?utf-8?B?RmVybsOhbmRleiBGZXJuw6FuZGV6?= <fernandezfernandezpol@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 1/1] media: camif-core: Drop unused include
-Message-ID: <akKvgdXIj4EmKfxs@ashevche-desk.local>
-References: <20260320215910.3236783-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH 1/2] media: uvcvideo: add quirks for per-device stream
+ error handling
+Message-ID: <20260629182347.GI3054459@killaraus.ideasonboard.com>
+References: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260320215910.3236783-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-66010-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:linux-samsung-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:sylvester.nawrocki@gmail.com,m:mchehab@kernel.org,m:sylvesternawrocki@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66009-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:fernandezfernandezpol@gmail.com,m:linux-media@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,linux.intel.com:from_mime,intel.com:dkim,ashevche-desk.local:mid]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 633F66DDDC5
+X-Rspamd-Queue-Id: A23CD6DE01B
 
-On Fri, Mar 20, 2026 at 10:59:10PM +0100, Andy Shevchenko wrote:
-> This driver includes the legacy header <linux/gpio.h> but does
-> not use any symbols from it. Drop the inclusion.
+On Mon, Jun 29, 2026 at 06:38:02PM +0200, Pol Fernández Fernández wrote:
+> The UVC_STREAM_ERR bit in the payload header signals that the device
+> could not deliver a frame correctly. By default, uvcvideo delivers
+> these frames to userspace with V4L2_BUF_FLAG_ERROR when uvc_no_drop_param
+> is set (the default). Applications that rely on strict JPEG decoders
+> (e.g. libjpeg) will display gray bands for the incomplete portion of
+> the image, since libjpeg fills undecodable MCU rows with a neutral gray
+> when the EOI marker is missing.
+> 
+> Add UVC_QUIRK_DROP_STREAM_ERR to force-drop frames flagged with
+> UVC_STREAM_ERR for specific devices, regardless of the uvc_no_drop_param
+> module parameter. This ensures applications never receive truncated frames
+> from devices known to set UVC_STREAM_ERR on genuine encoding errors.
 
-Can anybody take this, please?
+That completely defeats the point of uvc_no_drop_param. The issue should
+be fixed in userspace, where you should ignore frames with the error
+flag set if desired.
+
+> The existing uvc_queue_to_stream() helper is used to reach the device
+> quirks from within uvc_queue_buffer_complete().
+> 
+> Additionally, uvcvideo unconditionally overrides the camera's probed
+> wCompQuality with the maximum value returned by GET_MAX. For devices
+> whose firmware treats wCompQuality=0 as an adaptive encoding mode (where
+> the encoder adjusts quality dynamically to fit within the available USB
+> bandwidth),
+
+The UVC 1.1 specification documents the range wCompQuality values as
+
+"Values for this property range from 0 to 10000 (0 indicates the lowest
+quality, 10000 the highest)."
+
+While the UVC 1.5 specification documents it as
+
+"Values for this property range from 1 to 10000 (1 indicates the lowest
+quality, 10000 the highest)."
+
+There is no mention of 0 being allowed as a magic value. Where did you
+find information about the adaptive encoding mode ?
+
+> this override increases encoding pressure and can contribute
+> to UVC_STREAM_ERR events. Add UVC_QUIRK_NO_FORCE_QUALITY to preserve
+> the camera's default quality value during probe negotiation.
+> 
+> Signed-off-by: Pol Fernández Fernández <fernandezfernandezpol@gmail.com>
+
+Please split this patch in two as it addresses two different issues.
+
+> ---
+>  drivers/media/usb/uvc/uvc_queue.c | 3 ++-
+>  drivers/media/usb/uvc/uvc_video.c | 3 ++-
+>  drivers/media/usb/uvc/uvcvideo.h  | 2 ++
+>  3 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index XXXXXXX..XXXXXXX 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -81,6 +81,8 @@
+>  #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
+>  #define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
+>  #define UVC_QUIRK_MSXU_META		0x00040000
+> +#define UVC_QUIRK_DROP_STREAM_ERR	0x00080000
+> +#define UVC_QUIRK_NO_FORCE_QUALITY	0x00100000
+> 
+>  /* Format flags */
+>  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index XXXXXXX..XXXXXXX 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -451,7 +451,8 @@ int uvc_probe_video(struct uvc_streaming *stream,
+>  		if (ret < 0)
+>  			goto done;
+> 
+> -		probe->wCompQuality = probe_max.wCompQuality;
+> +		if (!(stream->dev->quirks & UVC_QUIRK_NO_FORCE_QUALITY))
+> +			probe->wCompQuality = probe_max.wCompQuality;
+>  	}
+> 
+>  	for (i = 0; i < 2; ++i) {
+> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> index XXXXXXX..XXXXXXX 100644
+> --- a/drivers/media/usb/uvc/uvc_queue.c
+> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> @@ -357,7 +357,8 @@ static void uvc_queue_buffer_complete(struct kref *ref)
+>  	struct vb2_buffer *vb = &buf->buf.vb2_buf;
+>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
+> 
+> -	if (buf->error && !uvc_no_drop_param) {
+> +	if (buf->error && (!uvc_no_drop_param ||
+> +	    (uvc_queue_to_stream(queue)->dev->quirks & UVC_QUIRK_DROP_STREAM_ERR))) {
+>  		uvc_queue_buffer_requeue(queue, buf);
+>  		return;
+>  	}
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Laurent Pinchart
 
