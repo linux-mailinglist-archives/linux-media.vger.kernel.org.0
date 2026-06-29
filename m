@@ -1,199 +1,134 @@
-Return-Path: <linux-media+bounces-65893-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65894-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3BUkMjpHQmq43gkAu9opvQ
-	(envelope-from <linux-media+bounces-65893-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 12:21:46 +0200
+	id /0w3EWtMQmpa4QkAu9opvQ
+	(envelope-from <linux-media+bounces-65894-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 12:43:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3801E6D8D89
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 12:21:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF516D9063
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 12:43:54 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=UXm1Wpqf;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65893-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65893-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=ZePC5gdl;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65894-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65894-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 46C69302440A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:20:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 55EB5300CE55
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F38A3E5579;
-	Mon, 29 Jun 2026 10:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C0E3BAD92;
+	Mon, 29 Jun 2026 10:43:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124273D3CF4;
-	Mon, 29 Jun 2026 10:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC0D30FC1A;
+	Mon, 29 Jun 2026 10:43:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782728451; cv=none; b=lXGfa+X/kUI0VFGxipr+O3cMFqfBbFgPuo8v6Q5hqeYoPi1uuu2AC/Lv4ShWmqEdys7SK/mMpTcuYt9Io7Oz1SWy7T8sM947DpLSXksAfX7pROMY2PWUgA3o2EUCqeNIeMGfkRK5QxOcWfz2+jux+jejBFUCGU/N4DNOyWGVfE8=
+	t=1782729820; cv=none; b=ZAAKx3pAmelzTwZ62nWK/4NqvRYrk1bmtyd8A0qujLgfX90gbbjdh4APyfF8wuzkMyNBuJdbHNX+DkVN2tEk3wc9MV5n1WG32QnJW+RCEQ/9Hk8Bn7O3RF3nNqTSiDWIfiEuwuWegF7qpXriqg073d4akIG7Mnf7AUlZkhGtEDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782728451; c=relaxed/simple;
-	bh=7gujg09bxbT0grkkN3GFmGhgKIh0FHovpcqNURAZ3QU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K0+aqQhoVexuX0xK7GYUbDD/4Cde3WvvNfscigIO9F/YnyMI58cPEm0noxfRQl7T0tkXRxi9JR8uL8A6U03OFhFsgY4plIno6rNRIWyaNsHXeXPj7zG9bwXsGH5G8HO0DUfuirRc9Rq2X5trN9iAjjhRIjfh3vWmj18JZbNWYiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UXm1Wpqf; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E27F12F;
-	Mon, 29 Jun 2026 12:20:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782728405;
-	bh=7gujg09bxbT0grkkN3GFmGhgKIh0FHovpcqNURAZ3QU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UXm1Wpqf+pqCa4FLG7Ox5DvsXP2Z0iVoTcAyvlYVRVQGjEQeiYulvIhFWOqIDHfUc
-	 KrTdkLm1djnkDMJviw2erGw3V/qG8dBckzbG5kNG0D37XAoS+XGHP3xYIs505KRrGQ
-	 SL3hkPsRgK3PVbmcw08iSMedMj85NiS81oSgr5Yc=
-Date: Mon, 29 Jun 2026 13:20:46 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Nayden.Kanchev@arm.com, Konstantin Babin <Konstantin.Babin@arm.com>,
-	Anthony McGivern <anthony.mcgivern@arm.com>,
-	vincenzo.frascino@arm.com, linus.walleij@arm.com,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Subject: Re: [PATCH v3 4/4] media: mali-c55: Implement Gamma block validation
-Message-ID: <20260629102046.GD3054459@killaraus.ideasonboard.com>
-References: <20260627-mali-c55-ccm-gamma-v3-0-113584c05174@ideasonboard.com>
- <20260627-mali-c55-ccm-gamma-v3-4-113584c05174@ideasonboard.com>
+	s=arc-20240116; t=1782729820; c=relaxed/simple;
+	bh=NKXo9kS8UPvQyEKtU98KqOyTUanqfXLW03eEjmWvD6I=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TGv1GkFnOWSNBsNj2Xr7c7nD/x3Fkz8BCMGNNZw8Rr8IE4HsxVGitqVsVi51uTAjwThpTETST/fiyOWs1qAJltjdP6O4g7xB2iW5BqoiDy0TKTQMQ5io/akPvMqDOmICYG4f2XJohdC8m8Bn74FU1Bo6TBCECCR8F6idShZeCho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ZePC5gdl; arc=none smtp.client-ip=80.241.56.152
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gpjYg3zfmz9v78;
+	Mon, 29 Jun 2026 12:43:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782729815; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NKXo9kS8UPvQyEKtU98KqOyTUanqfXLW03eEjmWvD6I=;
+	b=ZePC5gdle9c/KcEU/FYbGda+2I6PpG34VSg5jS1oI8JgrZ4DYtByZwiZmyIRlYjqHM90L6
+	88cfHBWbJXwtxgJxRAWLba+JOsqISencpdXFGXBDXV8RG48OUMnFM6ipDZDObdTMG4BZBU
+	Kz9OMQ9mlXDPUHOBoTHXvChLOSM5Uqz28Me4XbK//lcfDdtNjhiknw7n2mup1zNgkZ8TUI
+	wb/+P7Ovd6uuF9E8c1Ptlueqkbtl/CfUnu4Cz3F0F0KgadF2WXB0atXvhPyjUBqpOVPqvk
+	ve4bd45yRdq/NwFwF5Z2nhGGhcBnoTEjXEE79+wfjEj49O+nB8+q9+YmRP1Ouw==
+Message-ID: <2f4ee171084d82235e23017886662b2d5b3506c0.camel@mailbox.org>
+Subject: Re: [PATCH v2] dma-buf: dma-fence: Fix potential NULL pointer
+ dereference
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
+ Stanner <phasta@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Boris
+ Brezillon	 <boris.brezillon@collabora.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  =?ISO-8859-1?Q?Andr=E9?= Draszik	
+ <andre.draszik@linaro.org>, Danilo Krummrich <dakr@kernel.org>, Gary Guo	
+ <gary@garyguo.net>, "Paul E . McKenney" <paulmck@kernel.org>, Boqun Feng	
+ <boqun@kernel.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Mon, 29 Jun 2026 12:43:29 +0200
+In-Reply-To: <688077c3-903d-4cf5-837f-40621175cb30@amd.com>
+References: <20260629075636.2513214-2-phasta@kernel.org>
+	 <688077c3-903d-4cf5-837f-40621175cb30@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260627-mali-c55-ccm-gamma-v3-4-113584c05174@ideasonboard.com>
+X-MBO-RS-META: fyurinxj6p8ugeguzshhwdjorkkaou3a
+X-MBO-RS-ID: f215f38f57b359d7c56
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65893-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-65894-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:Nayden.Kanchev@arm.com,m:Konstantin.Babin@arm.com,m:anthony.mcgivern@arm.com,m:vincenzo.frascino@arm.com,m:linus.walleij@arm.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:sumit.semwal@linaro.org,m:boris.brezillon@collabora.com,m:tvrtko.ursulin@igalia.com,m:andre.draszik@linaro.org,m:dakr@kernel.org,m:gary@garyguo.net,m:paulmck@kernel.org,m:boqun@kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3801E6D8D89
+X-Rspamd-Queue-Id: 7DF516D9063
 
-On Sat, Jun 27, 2026 at 04:29:16PM +0200, Jacopo Mondi wrote:
-> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> 
-> Implement validation of Gamma block parameters.
-> 
-> Gamma gains are expressed as unsigned 12 bits Q4.8 format and their raw
-> value cannot be higher than 4095 (BIT(12) - 1).
-> 
-> Gamma offsets are 12 bits unsigned integers and their value cannot be
-> higher than 4095 (BIT(12) - 1).
-> 
-> The Gamma LUT table is expected to have 0 as first member and 0xfff
-> as last member.
-> 
-> Validate the parameters provided by userspace using the .block_validate
-> callback of struct v4l2_isp_params_block_type_info.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+On Mon, 2026-06-29 at 10:49 +0200, Christian K=C3=B6nig wrote:
+> On 6/29/26 09:56, Philipp Stanner wrote:
+> > Cc: stable@vger.kernel.org
+> > Fixes: f4cc3ab824d6 ("dma-buf: protected fence ops by RCU v8")
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>=20
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-For the same reasons as 3/4, I'd drop this patch.
+As the maintainer you push that one, don't you Christian?
 
-> ---
-> v3:
-> - new patch
-> ---
->  .../media/platform/arm/mali-c55/mali-c55-params.c  | 34 ++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> index 5857e9c2daf7..e9ab0e2dee15 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> @@ -581,6 +581,38 @@ static int mali_c55_ccm_validate(struct device *dev,
->  	return 0;
->  }
->  
-> +static int mali_c55_gamma_validate(struct device *dev,
-> +				   const struct v4l2_isp_block_header *block)
-> +{
-> +	const struct mali_c55_params_gamma *gamma =
-> +		(const struct mali_c55_params_gamma *)(block);
-> +
-> +	for (unsigned int i = 0; i < 3; i++) {
-> +		/* Gains are 12 bits unsigned Q4.8. */
-> +		if (gamma->gains[i] > 4095) {
-> +			dev_dbg(dev, "Invalid gain value %u\n",
-> +				gamma->gains[i]);
-> +			return -EINVAL;
-> +		}
-> +
-> +		/* Offsets are 12 bits unsigned integers. */
-> +		if (gamma->offs[i] > 4095) {
-> +			dev_dbg(dev, "Invalid offset value %u\n",
-> +				gamma->offs[i]);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	/* Check the first and last gamma lut entries match the expectations. */
-> +	if (gamma->lut[0] != 0 ||
-> +	    gamma->lut[MALI_C55_NUM_GAMMA_LUT_ELEMENTS - 1] != 0xfff) {
-> +		dev_dbg(dev, "Invalid Gamma LUT table\n");
-> +		return -EINVAL;
-> +	}
-
-You can possibly hardcode the first and last values to 0 and 0xfff
-respectively in mali_c55_params_gamma() if you want to guard against
-invalid values being programmed in registers.
-
-> +
-> +	return 0;
-> +}
-> +
->  static const struct v4l2_isp_params_block_type_info
->  mali_c55_params_block_types_info[] = {
->  	[MALI_C55_PARAM_BLOCK_SENSOR_OFFS] = {
-> @@ -622,9 +654,11 @@ mali_c55_params_block_types_info[] = {
->  	},
->  	[MALI_C55_PARAM_BLOCK_GAMMA_FR] = {
->  		.size = sizeof(struct mali_c55_params_gamma),
-> +		.block_validate = mali_c55_gamma_validate,
->  	},
->  	[MALI_C55_PARAM_BLOCK_GAMMA_DS] = {
->  		.size = sizeof(struct mali_c55_params_gamma),
-> +		.block_validate = mali_c55_gamma_validate,
->  	},
->  };
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Regards
+P.
 
