@@ -1,149 +1,151 @@
-Return-Path: <linux-media+bounces-65973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65971-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id q/cJBXd+QmpM8gkAu9opvQ
-	(envelope-from <linux-media+bounces-65973-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:17:27 +0200
+	id IzUbGYt+QmpQ8gkAu9opvQ
+	(envelope-from <linux-media+bounces-65971-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:17:47 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8016DBEDE
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:17:26 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 548F36DBEF0
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:17:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65973-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65973-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=XForSyUP;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65971-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65971-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 196E3319CC1E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 14:09:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6F0BA3020ED0
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 14:04:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77F213B9D84;
-	Mon, 29 Jun 2026 14:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25889340DB0;
+	Mon, 29 Jun 2026 14:03:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12ED4377EA9;
-	Mon, 29 Jun 2026 14:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428FC1F4C8E
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 14:03:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782742149; cv=none; b=ZkwUyBhW5i/JO/LLbzyF73rm0KWbD8kzJ4buUfzfN+GOkuGaeH3um18l6xGBj5Eaj0YsAQPnp46lkKadF+7c3EJjR8OHr9Qm2OcOpNzQ4EkFX+EyGUP1fo7n5Qc6tf4OP4msVppJr+qoFUataiiP9Vam+/85rapgfy3CQZvhC18=
+	t=1782741836; cv=none; b=nm/x5MFyq230PwqQQqNqOPOgDW0D0aaFfsJhaFzAS13IoGKm8DHid2uFohk5MXaH3vTP7h81zs7kfDiAU7EMfGk/LG6ZbnrnEwM1dgLKgOexf/24E+UrlTDd5eg/0qEt+OwyOS8MTvWhWWeRRBrsI2Cdrhl1ilK2hkMTVSAFdjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782742149; c=relaxed/simple;
-	bh=g9dFPNs9RCiJ30PbQ83xQiLIkKE/aoKc7Ch+A3Ps5Fg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ha9GhqP0Hgtd3pKbOvoi+quZWFtEDEc2ohwpM+m0EjfVM2wX/2wbZqb3aRk9ixfkuQz83jzB7WjN02Dys6TON4NGH9mqjmLokOYX5Ri/BDNesjO3v6ECXv9DvCUmZPzU44V5NIUekgTUZ6r8G7UlxYg/s+XHXueN2Pdjrq3RIME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=212.18.0.9
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4gpnxf56FLz1r5hc;
-	Mon, 29 Jun 2026 16:01:10 +0200 (CEST)
-Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4gpnxc5SYXz1r5hL;
-	Mon, 29 Jun 2026 16:01:08 +0200 (CEST)
-Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
-	by mail.m-online.net (Postfix) with ESMTP id 4gpnxb4V3wz1qqlS;
-	Mon, 29 Jun 2026 16:01:07 +0200 (CEST)
-X-Virus-Scanned: amavis at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.6.182])
- by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
- with ESMTP id 0SnzNWDJyvXI; Mon, 29 Jun 2026 16:01:01 +0200 (CEST)
-X-Auth-Info: MEDGnkGkok4HHiiAHx6Yp9YpyEe4vG/D2GYhM3WXSTA4/H/l6K4jcFYiosjPmxQG
-Received: from hawking (unknown [80.255.5.134])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon, 29 Jun 2026 16:01:01 +0200 (CEST)
-From: Andreas Schwab <schwab@linux-m68k.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-gpio@vger.kernel.org,  Arnd Bergmann <arnd@arndb.de>,  Bartosz
- Golaszewski <brgl@kernel.org>,  Andrew Lunn <andrew@lunn.ch>,  Sebastian
- Hesselbarth <sebastian.hesselbarth@gmail.com>,  Gregory Clement
- <gregory.clement@bootlin.com>,  Frank Li <Frank.Li@nxp.com>,  Robert
- Jarzmik <robert.jarzmik@free.fr>,  Krzysztof Kozlowski <krzk@kernel.org>,
-  Greg Ungerer <gerg@linux-m68k.org>,  Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>,  Hauke Mehrtens <hauke@hauke-m.de>,
-  =?utf-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>,  Yoshinori Sato
- <ysato@users.sourceforge.jp>,
-  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,  Linus Walleij
- <linusw@kernel.org>,  Dmitry Torokhov <dmitry.torokhov@gmail.com>,  Jakub
- Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Dominik
- Brodowski <linux@dominikbrodowski.net>,  linux-kernel@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-samsung-soc@vger.kernel.org,
-  patches@opensource.cirrus.com,  linux-m68k@lists.linux-m68k.org,
-  linux-mips@vger.kernel.org,  linux-sh@vger.kernel.org,
-  linux-input@vger.kernel.org,  linux-media@vger.kernel.org,
-  netdev@vger.kernel.org,  linux-sunxi@lists.linux.dev,
-  linux-phy@lists.infradead.org,  linux-rockchip@lists.infradead.org,
-  linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
-In-Reply-To: <20260629132633.1300009-1-arnd@kernel.org> (Arnd Bergmann's
-	message of "Mon, 29 Jun 2026 15:26:20 +0200")
-References: <20260629132633.1300009-1-arnd@kernel.org>
-Date: Mon, 29 Jun 2026 16:01:00 +0200
-Message-ID: <mvmik71win7.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1782741836; c=relaxed/simple;
+	bh=eUQy5dIVkGOPF7LgCqRM5et4TAg7d4dNO2DfxVAJKVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fALpAaP0Lx/5SFBxWaAhcPK/TPnNrh0ixHaaua1Vc4xbvdcrOEfLTRhXnw9HIaikq4xhpBdq3c0dqo9sqWYdvPkOAr62hP1tOFiMocqwuxubBPIkpcP5gqo066cQJJN6g2RGzcH2rQYmlz6Zz26gGNi3eXAv/4Ejr7aGKsDpFNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XForSyUP; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A25608D4;
+	Mon, 29 Jun 2026 16:03:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782741790;
+	bh=eUQy5dIVkGOPF7LgCqRM5et4TAg7d4dNO2DfxVAJKVQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XForSyUPGMN7+8DNu55RkCE0JcWjnalqc6ia/H3Tj9L9tP3q521MY5v5fpA54S8VK
+	 D/bYPSuJYJfqYwEhr7yDfhFFPUXzgH4NHXFNc6gxvZ7h/LuRQOMy/VKV1msLY7RW/t
+	 x5ix2CPC88K4MngLOLziMYXWqHh3ZTub4/ROruKU=
+Date: Mon, 29 Jun 2026 17:03:52 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH] media: cec: extron-da-hd-4k-plus: add sanity check
+Message-ID: <20260629140352.GA3102371@killaraus.ideasonboard.com>
+References: <362ab4a1-6591-4715-ad1e-956a65ec322c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <362ab4a1-6591-4715-ad1e-956a65ec322c@kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65973-lists,linux-media=lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_SENDER(0.00)[schwab@linux-m68k.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	FORGED_RECIPIENTS(0.00)[m:arnd@kernel.org,m:linux-gpio@vger.kernel.org,m:arnd@arndb.de,m:brgl@kernel.org,m:andrew@lunn.ch,m:sebastian.hesselbarth@gmail.com,m:gregory.clement@bootlin.com,m:Frank.Li@nxp.com,m:robert.jarzmik@free.fr,m:krzk@kernel.org,m:gerg@linux-m68k.org,m:tsbogend@alpha.franken.de,m:hauke@hauke-m.de,m:zajec5@gmail.com,m:ysato@users.sourceforge.jp,m:glaubitz@physik.fu-berlin.de,m:linusw@kernel.org,m:dmitry.torokhov@gmail.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux@dominikbrodowski.net,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:patches@opensource.cirrus.com,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-phy@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:sebastianhesselbarth@gmail.com,m:dmitrytor
- okhov@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,arndb.de,kernel.org,lunn.ch,gmail.com,bootlin.com,nxp.com,free.fr,linux-m68k.org,alpha.franken.de,hauke-m.de,users.sourceforge.jp,physik.fu-berlin.de,redhat.com,dominikbrodowski.net,lists.infradead.org,opensource.cirrus.com,lists.linux-m68k.org,lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[schwab@linux-m68k.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65971-lists,linux-media=lfdr.de];
+	TO_DN_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email,suse.de:mid,linux-m68k.org:from_mime,linux-m68k.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp];
-	R_DKIM_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[8]
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,killaraus.ideasonboard.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9F8016DBEDE
+X-Rspamd-Queue-Id: 548F36DBEF0
 
-On Jun 29 2026, Arnd Bergmann wrote:
+Hi Hans,
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The linux/gpio.h header used to be the global definition for the gpio
-> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
-> 130 of those remain, so this series cleans out the rest.
->
-> In each subsystem, we can replace the header either with
-> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
+Thank you for the patch.
 
-A few of them already used <linux/gpio/consumer.h>, and is duplicated
-now.
+On Thu, Jun 18, 2026 at 01:03:19PM +0200, Hans Verkuil wrote:
+> Add check to prevent overflowing msg.msg[] in case the incoming data
+> is malformed.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> ---
+> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> index 3381d86096a1..3c6ce6f3d93e 100644
+> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> @@ -657,7 +657,8 @@ static void extron_process_received(struct extron_port *port, const char *data)
+>  	if (!port || port->disconnected)
+>  		return;
+> 
+> -	if (len < 5 || (len - 2) % 3 || data[len - 2] != '*')
+> +	if (len < 5 || ((len - 2) / 3 > sizeof(msg.msg)) ||
+
+I think you should use ARRAY_SIZE
+
+> +	    (len - 2) % 3 || data[len - 2] != '*')
+
+This seems correct, but I think the code would be easier to read and
+maintain if you wrote
+
+	int len;
+
+	/* The last two bytes are ignored because ... */
+	len = strlen(data) - 2;
+
+	/*
+	 * Ensure the data has at least one message, at most the number
+	 * of messages that fit in msg.msg, and no extra bytes.
+	 */
+	if (len < 3 || len / 3 > ARRAY_SIZE(msg.msg) || len % 3)
+  		goto malformed;
+
+	if (data[len] != '*')
+  		goto malformed;
+
+>  		goto malformed;
+> 
+>  	while (*data != '*') {
+> 
 
 -- 
-Andreas Schwab, schwab@linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
+Regards,
+
+Laurent Pinchart
 
