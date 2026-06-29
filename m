@@ -1,136 +1,149 @@
-Return-Path: <linux-media+bounces-65972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65973-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id F3NBNQx9Qmqt8QkAu9opvQ
-	(envelope-from <linux-media+bounces-65972-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:11:24 +0200
+	id q/cJBXd+QmpM8gkAu9opvQ
+	(envelope-from <linux-media+bounces-65973-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:17:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587646DBCF7
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:11:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8016DBEDE
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:17:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mess.org header.s=2020 header.b=gHgQLEEv;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65972-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65972-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=mess.org;
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65973-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65973-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id BA836303F44A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 14:07:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 196E3319CC1E
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 14:09:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79ED11427A;
-	Mon, 29 Jun 2026 14:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77F213B9D84;
+	Mon, 29 Jun 2026 14:09:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F6E34B68F
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 14:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12ED4377EA9;
+	Mon, 29 Jun 2026 14:09:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782742020; cv=none; b=HjKTUvlkg2ldUdvVROkHw16ZCUSwMJayY047j0k7FAZuaZr60at58SQfI4EKEUV/kL98n6OzbwwXXg+C7/xac80Rqmk9DZELkLUvjuXb8sqAFfRdlrbLg/VjisvWC/JkPxotyvqPLu+1qIHX4g95tioInwr4hbWRDauBrE5CU84=
+	t=1782742149; cv=none; b=ZkwUyBhW5i/JO/LLbzyF73rm0KWbD8kzJ4buUfzfN+GOkuGaeH3um18l6xGBj5Eaj0YsAQPnp46lkKadF+7c3EJjR8OHr9Qm2OcOpNzQ4EkFX+EyGUP1fo7n5Qc6tf4OP4msVppJr+qoFUataiiP9Vam+/85rapgfy3CQZvhC18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782742020; c=relaxed/simple;
-	bh=GDsVR/UNKXv/636mkuVFOiM8B+XsgvIdghmpokwZ2RQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/CH5z1O7YBXyGHnNg7Yr7oDf5P5mARbDVSQsppC2j3JHhwocj5HTvQvYK5QMPnIPGSwaIKA6J+7SyMiNUFUjb0WloIL/RHbawRFtX2KUzMHsMtWGPlTvLPVOEH2xFJa66ptJpLCDRdn14mlxrpVTOCqRtQpoj980adZ84mVtd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=gHgQLEEv; arc=none smtp.client-ip=92.243.27.206
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1782741459; bh=GDsVR/UNKXv/636mkuVFOiM8B+XsgvIdghmpokwZ2RQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gHgQLEEvO3HCpPPeo9xZsJFU3Hi4wtqSo3RHlq/HCMLLCTVb14lJF4RctCCB9NiqA
-	 XXILBtdlXDhrql7OuPwH8mrj2rDO8zU6bmlAaC9YW0qBuM0eYZKn0VvB1826/68nIM
-	 QuJlwUFrbU1esA2DzaQjR9EP70EgHzI40tcjqb1a/izKDQxbWvN5aKjrGVGn4sQMID
-	 nqFvflH7tv8PfnWz6SGVZfvQxLTtp5Rzx8jLfpC15uqkOkF0pn+yz9J8nc5mh6y//S
-	 32QyM/iJXP1Gv13bkkVaZpbJpqv/k+1wq0EnM8obgdX2NScwDc93r4wQd9svk8Kz+H
-	 PYa9tLxT8Kf8A==
-Received: by extorris.mess.org (Postfix, from userid 1001)
-	id D041141CD1; Mon, 29 Jun 2026 14:57:39 +0100 (BST)
-Date: Mon, 29 Jun 2026 14:57:39 +0100
-From: Sean Young <sean@mess.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] media: cec: extron-da-hd-4k-plus: add sanity check
-Message-ID: <akJ506JWu_B3-p2K@extorris.mess.org>
-References: <362ab4a1-6591-4715-ad1e-956a65ec322c@kernel.org>
- <186b19c9-e9f0-42e1-8c40-c594022acd5a@kernel.org>
+	s=arc-20240116; t=1782742149; c=relaxed/simple;
+	bh=g9dFPNs9RCiJ30PbQ83xQiLIkKE/aoKc7Ch+A3Ps5Fg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Ha9GhqP0Hgtd3pKbOvoi+quZWFtEDEc2ohwpM+m0EjfVM2wX/2wbZqb3aRk9ixfkuQz83jzB7WjN02Dys6TON4NGH9mqjmLokOYX5Ri/BDNesjO3v6ECXv9DvCUmZPzU44V5NIUekgTUZ6r8G7UlxYg/s+XHXueN2Pdjrq3RIME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=212.18.0.9
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4gpnxf56FLz1r5hc;
+	Mon, 29 Jun 2026 16:01:10 +0200 (CEST)
+Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4gpnxc5SYXz1r5hL;
+	Mon, 29 Jun 2026 16:01:08 +0200 (CEST)
+Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
+	by mail.m-online.net (Postfix) with ESMTP id 4gpnxb4V3wz1qqlS;
+	Mon, 29 Jun 2026 16:01:07 +0200 (CEST)
+X-Virus-Scanned: amavis at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.6.182])
+ by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
+ with ESMTP id 0SnzNWDJyvXI; Mon, 29 Jun 2026 16:01:01 +0200 (CEST)
+X-Auth-Info: MEDGnkGkok4HHiiAHx6Yp9YpyEe4vG/D2GYhM3WXSTA4/H/l6K4jcFYiosjPmxQG
+Received: from hawking (unknown [80.255.5.134])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon, 29 Jun 2026 16:01:01 +0200 (CEST)
+From: Andreas Schwab <schwab@linux-m68k.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-gpio@vger.kernel.org,  Arnd Bergmann <arnd@arndb.de>,  Bartosz
+ Golaszewski <brgl@kernel.org>,  Andrew Lunn <andrew@lunn.ch>,  Sebastian
+ Hesselbarth <sebastian.hesselbarth@gmail.com>,  Gregory Clement
+ <gregory.clement@bootlin.com>,  Frank Li <Frank.Li@nxp.com>,  Robert
+ Jarzmik <robert.jarzmik@free.fr>,  Krzysztof Kozlowski <krzk@kernel.org>,
+  Greg Ungerer <gerg@linux-m68k.org>,  Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>,  Hauke Mehrtens <hauke@hauke-m.de>,
+  =?utf-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>,  Yoshinori Sato
+ <ysato@users.sourceforge.jp>,
+  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,  Linus Walleij
+ <linusw@kernel.org>,  Dmitry Torokhov <dmitry.torokhov@gmail.com>,  Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Dominik
+ Brodowski <linux@dominikbrodowski.net>,  linux-kernel@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-samsung-soc@vger.kernel.org,
+  patches@opensource.cirrus.com,  linux-m68k@lists.linux-m68k.org,
+  linux-mips@vger.kernel.org,  linux-sh@vger.kernel.org,
+  linux-input@vger.kernel.org,  linux-media@vger.kernel.org,
+  netdev@vger.kernel.org,  linux-sunxi@lists.linux.dev,
+  linux-phy@lists.infradead.org,  linux-rockchip@lists.infradead.org,
+  linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
+In-Reply-To: <20260629132633.1300009-1-arnd@kernel.org> (Arnd Bergmann's
+	message of "Mon, 29 Jun 2026 15:26:20 +0200")
+References: <20260629132633.1300009-1-arnd@kernel.org>
+Date: Mon, 29 Jun 2026 16:01:00 +0200
+Message-ID: <mvmik71win7.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <186b19c9-e9f0-42e1-8c40-c594022acd5a@kernel.org>
+Content-Type: text/plain
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	RCPT_COUNT_TWO(0.00)[2];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-65972-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[sean@mess.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[mess.org:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TAGGED_FROM(0.00)[bounces-65973-lists,linux-media=lfdr.de];
+	DMARC_NA(0.00)[linux-m68k.org];
+	FORGED_SENDER(0.00)[schwab@linux-m68k.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	FORGED_RECIPIENTS(0.00)[m:arnd@kernel.org,m:linux-gpio@vger.kernel.org,m:arnd@arndb.de,m:brgl@kernel.org,m:andrew@lunn.ch,m:sebastian.hesselbarth@gmail.com,m:gregory.clement@bootlin.com,m:Frank.Li@nxp.com,m:robert.jarzmik@free.fr,m:krzk@kernel.org,m:gerg@linux-m68k.org,m:tsbogend@alpha.franken.de,m:hauke@hauke-m.de,m:zajec5@gmail.com,m:ysato@users.sourceforge.jp,m:glaubitz@physik.fu-berlin.de,m:linusw@kernel.org,m:dmitry.torokhov@gmail.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux@dominikbrodowski.net,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:patches@opensource.cirrus.com,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-phy@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:sebastianhesselbarth@gmail.com,m:dmitrytor
+ okhov@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,mess.org:dkim,mess.org:email,mess.org:from_mime,extorris.mess.org:mid]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,arndb.de,kernel.org,lunn.ch,gmail.com,bootlin.com,nxp.com,free.fr,linux-m68k.org,alpha.franken.de,hauke-m.de,users.sourceforge.jp,physik.fu-berlin.de,redhat.com,dominikbrodowski.net,lists.infradead.org,opensource.cirrus.com,lists.linux-m68k.org,lists.linux.dev];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[schwab@linux-m68k.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email,suse.de:mid,linux-m68k.org:from_mime,linux-m68k.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp];
+	R_DKIM_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 587646DBCF7
+X-Rspamd-Queue-Id: 9F8016DBEDE
 
-On Thu, Jun 18, 2026 at 01:16:22PM +0200, Hans Verkuil wrote:
-> On 18/06/2026 13:03, Hans Verkuil wrote:
-> > Add check to prevent overflowing msg.msg[] in case the incoming data
-> > is malformed.
-> > 
-> > Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-> 
-> Fixes: 056f2821b631 ("media: cec: extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver")
-> Cc: stable@vger.kernel.org
+On Jun 29 2026, Arnd Bergmann wrote:
 
-Looks good.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The linux/gpio.h header used to be the global definition for the gpio
+> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+> 130 of those remain, so this series cleans out the rest.
+>
+> In each subsystem, we can replace the header either with
+> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
 
-Reviewed-by: Sean Young <sean@mess.org>
+A few of them already used <linux/gpio/consumer.h>, and is duplicated
+now.
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > ---
-> > diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> > index 3381d86096a1..3c6ce6f3d93e 100644
-> > --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> > +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> > @@ -657,7 +657,8 @@ static void extron_process_received(struct extron_port *port, const char *data)
-> >  	if (!port || port->disconnected)
-> >  		return;
-> > 
-> > -	if (len < 5 || (len - 2) % 3 || data[len - 2] != '*')
-> > +	if (len < 5 || ((len - 2) / 3 > sizeof(msg.msg)) ||
-> > +	    (len - 2) % 3 || data[len - 2] != '*')
-> >  		goto malformed;
-> > 
-> >  	while (*data != '*') {
-> > 
-> 
+-- 
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
 
