@@ -1,207 +1,232 @@
-Return-Path: <linux-media+bounces-65870-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65871-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id zx9lN4woQmpi1AkAu9opvQ
-	(envelope-from <linux-media+bounces-65870-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:10:52 +0200
+	id a6ZGIRouQmqH1QkAu9opvQ
+	(envelope-from <linux-media+bounces-65871-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:34:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE236D752F
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:10:52 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E826D7881
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:34:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=arm.com header.s=foss header.b=RkrN6BLB;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65870-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65870-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=arm.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Us8L6piT;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65871-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65871-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EF921300D1F5
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:10:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8280F30262C2
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:30:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFF1E35AC3C;
-	Mon, 29 Jun 2026 08:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF5B53F5BD3;
+	Mon, 29 Jun 2026 08:30:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71FBC3BED7F;
-	Mon, 29 Jun 2026 08:10:43 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5553F54BB
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 08:30:46 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782720645; cv=none; b=P9MYUUSkgtKPaIqaaB6NrY1Vr0J8ch37vQiUADmupBu5Qlt6ReIZqs96rSXtMmAk6PFote5O4DAo9auSjxeF3m4h2G7/bCwwBokgx+JUfOmHuYYRx6ybdFh6qjGksIT0TzOLmBWYOfaA7DE9onr0wWHySvMaNTCIrFh2HDUaEJQ=
+	t=1782721848; cv=none; b=RufPmX32h0wZkf7M6/xVBm5YHPsl1XaNYRDmtoc0z48RblmD6diL3mSnOMF90fQg/8fcMez50EJAA0J/OGy8LPBm0LY24au8/AGznhNfvvsHpSouWMXQboViuREIj/iNceGrKO1Wx7RhCWEMDhJxTtTG/PcCQE6j5cWE5MOah70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782720645; c=relaxed/simple;
-	bh=PXOv89/+9ybQuJUazvzWRXCKLDWYuD72FGOxWNtRk4I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bBVMs+hG6LnsAUjqSJGUHBEGc1s0g25EZ7E2TzSQ1Xvmr+nh5KEUXTeUOcXt2DGsu8uBlwYOYFRoF6IV5nPGxTGqjKEhdK8oVhGPWhSGEL/KZvH+SJJcxT3PgbMxyrre/uos3BmRCTkIJkLIv6OM8/cVxwZm9O7MG+xYPYR13V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=RkrN6BLB; arc=none smtp.client-ip=217.140.110.172
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEA481A00;
-	Mon, 29 Jun 2026 01:10:37 -0700 (PDT)
-Received: from [192.168.7.252] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDAF63F836;
-	Mon, 29 Jun 2026 01:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782720642; bh=PXOv89/+9ybQuJUazvzWRXCKLDWYuD72FGOxWNtRk4I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RkrN6BLB41AGJNDKp9Ia9eQ8NrrnZNioHKHdFX7yuaFy3nb+scjISiE4/twVniAp5
-	 sCxmr67EFPk6COHmOC6fQnW+BvKrmI+/HUd2T4deE/d1l/WcSyH9h3dlq2kTKRUz6Y
-	 5SRFVLf7owhGzI0sKw8L8s1uIL0C3au4HJytVOpI=
-Message-ID: <79a5548b-39a3-4e64-8c7b-81ed6166a2c5@arm.com>
-Date: Mon, 29 Jun 2026 09:10:39 +0100
+	s=arc-20240116; t=1782721848; c=relaxed/simple;
+	bh=abts/1MRf4sGQNrs+Qra6uETICHxnjs03xjp5k5HK2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q9WOLtdP/aq69YEZAadpE9rRr/skCrLc3VN9QEg05Gpvr2xzGViUPggX/yWy6bs/Zs+rU8nzfPvqF7L3+YaWcnEjFiq82PkcUyLWcz6Ho6W+hXbBYfB8sWdzRMDz+oLNPWKn8QK7ESAKBXCaTg4bG+6pseUwxu6sZzv3ui2zAxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Us8L6piT; arc=none smtp.client-ip=209.85.208.51
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-697bd41a4ecso3707908a12.2
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 01:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782721845; x=1783326645; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fq4MrGKf+YRbreREYMtKaIO+6uUYvLSEbh1uxDtYk3E=;
+        b=Us8L6piTaw2CTj5R3lkxiqm27FcURXbi4dsVB3z1Re4Vk/TYMcuoCfHRadZ0noKd9K
+         AV8lxqJFNfUrWAZcQmGKMQN5YCYCx9yEbVpTJfe5JWRH/uk+/elTXIj5asKcKBDrsqHq
+         Uk7lT7RtPHeNSZNnze3Tg9h/QjkfVKDWYvTSbBiS/9AVJtOhPb93gObZl1z+t7Qj7kma
+         pmB/0l9lMphn7DTApJgUajrpMiOD7Dg/e2Mhja43o1EQrFSPmFUzcNxNktj1OzddirxS
+         73HHYfVS5ld19kxJzXdV2ELyG6iR6h7LmcVihtEX+tdOFl1wd4fqHupOcJOx1oM+YHjg
+         v3Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782721845; x=1783326645;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fq4MrGKf+YRbreREYMtKaIO+6uUYvLSEbh1uxDtYk3E=;
+        b=G4lMLK5nec4gQ49BRzKxcfNCqPsov+DfVNZ7ShqIzwPaMseH2xadWDFcL7E0R6TzGE
+         AR6z5GsIUYhLqKD8FL/el/msbHUBwulOQCCp+8h3t0j41G7Z7atUG/hVi2Y0A0Fatbi+
+         9gPVkLIngaB0Ce9qzP8MIA7WQhwZNRsyqEhVjAiMzYORPBMKnt5oljVBS55mSJfGRPeW
+         WkzkyWgrK3mgBnnjNkCTUqfN5JgeoANMqH50f1A2z/s+SyYyRiASU6qbXVAODGtjjrJH
+         0KESjcugY+DPfj1mrgu+VrvcZzJ5jYss6JdqaM56C/c2+vLXhOUGOePVXlnZAovZIOeK
+         BqTg==
+X-Forwarded-Encrypted: i=1; AHgh+RoUrqjtmz66clIoDQ/bB+xD+rEuleGqgwj3yWkeIowRx2DpWbzgfjElXZyQJOgcZZYBc1hBJxGP6OkYjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxA7eVG66VpiPNzuU9KBg0WMhV4Ukqb3ZnG40G9Km+HxvmrZW9Y
+	vqjsqaSlEZTUEJZalzqQlGqGHMVSerK6fIqXwgzWpruA2y/AHqvjZ1cJ
+X-Gm-Gg: AfdE7clf+2WLjLeTaJfP4b+J1F1xhlaNbOrAHkEg9SszQj8w1wiIqJWa+RZx0KKe/aH
+	cF6Gfac5nQ6wy2bNk6Vh5iAwwgHaPQBb9thFTYPNtJc0LGbS6LhXR3hImvtvQ4Ai/P/6NxJi92M
+	06so+47NPOMTjzOqfWJaVV4A61z/hETVdGUQ0/7hfOEUNFy+KHg/GXDZBEygUgDXYnC7QCmzSV+
+	AlpyXD4x9ms+6LPVqYAhoVsS4815cmJUL0xyN1+/xJsboYWP3N6P58Wy+//vTyO6PB0GEQJg+r6
+	dOVDkrupiCfV2PKLpakc1/0ZoYJ6WJElvUr+UUE3GPzYIPl8VSHekScHtb7eX1cJ09c2m5ZI6JA
+	2CAQpbgh9BqNFIlB/uwxXm0EzO2ex/vqCdXr4Zeho1Mi5Q3KyBJp7O/hhvfIJzSfT6qXZsQ+Hta
+	txMyXOm3X0Jw==
+X-Received: by 2002:a17:906:6206:b0:bed:87c:b24e with SMTP id a640c23a62f3a-c1205eef62emr702909766b.29.1782721845095;
+        Mon, 29 Jun 2026 01:30:45 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:9cf4:43df:e612:817b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1276ec6c96sm39712166b.43.2026.06.29.01.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 01:30:44 -0700 (PDT)
+Date: Mon, 29 Jun 2026 11:30:40 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Dawei Feng <dawei.feng@seu.edu.cn>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org, azpijr@gmail.com,
+	kees@kernel.org, arnd@arndb.de, pontescpedro@gmail.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
+	zilin@seu.edu.cn
+Subject: Re: [PATCH] media: atomisp: fix CAS scaler descriptor leaks
+Message-ID: <akItMNqgKTDBCGV0@stanley.mountain>
+References: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] media: mali-c55: Implement Gamma block validation
-Content-Language: en-GB
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Nayden.Kanchev@arm.com,
- Konstantin Babin <Konstantin.Babin@arm.com>,
- Anthony McGivern <anthony.mcgivern@arm.com>, linus.walleij@arm.com,
- laurent.pinchart@ideasonboard.com,
- Daniel Scally <dan.scally@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-References: <20260627-mali-c55-ccm-gamma-v3-0-113584c05174@ideasonboard.com>
- <20260627-mali-c55-ccm-gamma-v3-4-113584c05174@ideasonboard.com>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-In-Reply-To: <20260627-mali-c55-ccm-gamma-v3-4-113584c05174@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[arm.com:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-65870-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65871-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dawei.feng@seu.edu.cn,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:azpijr@gmail.com,m:kees@kernel.org,m:arnd@arndb.de,m:pontescpedro@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-staging@lists.linux.dev,m:jianhao.xu@seu.edu.cn,m:zilin@seu.edu.cn,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[vincenzo.frascino@arm.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:Nayden.Kanchev@arm.com,m:Konstantin.Babin@arm.com,m:anthony.mcgivern@arm.com,m:linus.walleij@arm.com,m:laurent.pinchart@ideasonboard.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,s:lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linuxfoundation.org,gmail.com,arndb.de,vger.kernel.org,lists.linux.dev,seu.edu.cn];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vincenzo.frascino@arm.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[seu.edu.cn:email,vger.kernel.org:from_smtp,stanley.mountain:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7BE236D752F
+X-Rspamd-Queue-Id: D5E826D7881
 
-Hi Jacopo,
-
-thank you for your patch.
-
-On 27/06/2026 15:29, Jacopo Mondi wrote:
-> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+On Sat, Jun 27, 2026 at 02:01:51PM +0800, Dawei Feng wrote:
+> load_video_binaries() and load_primary_binaries() create a CAS scaler
+> descriptor before allocating and looking up the YUV scaler binaries.
+> Several failure paths after descriptor creation return without destroying
+> the descriptor, leaking the frame-info arrays owned by it.
 > 
-> Implement validation of Gamma block parameters.
+> Route those exits through a descriptor cleanup label while keeping the
+> existing pipe_settings ownership model. Also clear num_yuv_scaler when
+> capture scaler binary allocation fails, so the existing failure unwind does
+> not iterate a NULL scaler array.
 > 
-> Gamma gains are expressed as unsigned 12 bits Q4.8 format and their raw
-> value cannot be higher than 4095 (BIT(12) - 1).
+> The bug was first flagged by an experimental analysis tool we are
+> developing for kernel memory-management bugs while analyzing
+> v6.13-rc1. The tool is still under development and is not yet publicly
+> available. Manual inspection confirms that the bug is still
+> present in v7.1.1.
 > 
-> Gamma offsets are 12 bits unsigned integers and their value cannot be
-> higher than 4095 (BIT(12) - 1).
+> An x86_64 allyesconfig build showed no new warnings. As we do not have
+> an Intel Atom ISP camera platform with matching sensor firmware and ACPI
+> camera graph to test with, no runtime testing was able to be performed.
 > 
-> The Gamma LUT table is expected to have 0 as first member and 0xfff
-> as last member.
-> 
-> Validate the parameters provided by userspace using the .block_validate
-> callback of struct v4l2_isp_params_block_type_info.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> 
-
-Looks good overall. I have just one comment. With this:
-
-Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-
+> Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
 > ---
-> v3:
-> - new patch
-> ---
->  .../media/platform/arm/mali-c55/mali-c55-params.c  | 34 ++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
+>  drivers/staging/media/atomisp/pci/sh_css.c | 35 ++++++++++++----------
+>  1 file changed, 19 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> index 5857e9c2daf7..e9ab0e2dee15 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> @@ -581,6 +581,38 @@ static int mali_c55_ccm_validate(struct device *dev,
->  	return 0;
->  }
->  
-> +static int mali_c55_gamma_validate(struct device *dev,
-> +				   const struct v4l2_isp_block_header *block)
-> +{
-> +	const struct mali_c55_params_gamma *gamma =
-> +		(const struct mali_c55_params_gamma *)(block);
-> +
-> +	for (unsigned int i = 0; i < 3; i++) {
-> +		/* Gains are 12 bits unsigned Q4.8. */
-> +		if (gamma->gains[i] > 4095) {
-> +			dev_dbg(dev, "Invalid gain value %u\n",
-> +				gamma->gains[i]);
-> +			return -EINVAL;
-> +		}
-> +
-> +		/* Offsets are 12 bits unsigned integers. */
-> +		if (gamma->offs[i] > 4095) {
-> +			dev_dbg(dev, "Invalid offset value %u\n",
-> +				gamma->offs[i]);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	/* Check the first and last gamma lut entries match the expectations. */
-> +	if (gamma->lut[0] != 0 ||
-> +	    gamma->lut[MALI_C55_NUM_GAMMA_LUT_ELEMENTS - 1] != 0xfff) {
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+> index 00082276f1db..d0ff16ba890f 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
+> @@ -4528,20 +4528,20 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+>  			  NULL,
+>  			  &cas_scaler_descr);
+>  		if (err)
+> -			return err;
+> +			goto destroy_cas_scaler_desc;
+>  		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+>  		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
+>  						       cas_scaler_descr.num_stage);
+>  		if (!mycs->yuv_scaler_binary) {
+>  			mycs->num_yuv_scaler = 0;
+>  			err = -ENOMEM;
+> -			return err;
+> +			goto destroy_cas_scaler_desc;
+>  		}
+>  		mycs->is_output_stage = kzalloc_objs(bool,
+>  						     cas_scaler_descr.num_stage);
+>  		if (!mycs->is_output_stage) {
+>  			err = -ENOMEM;
+> -			return err;
+> +			goto destroy_cas_scaler_desc;
+>  		}
+>  		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+>  			struct ia_css_binary_descr yuv_scaler_descr;
+> @@ -4557,10 +4557,13 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+>  			if (err) {
+>  				kfree(mycs->is_output_stage);
+>  				mycs->is_output_stage = NULL;
+> -				return err;
+> +				goto destroy_cas_scaler_desc;
 
-I am still learning about these things and might be wrong. Should not we also
-validate that intermediate LUT entries are monotonic and non-decreasing?
+What about freeing mycs->yuv_scaler_binary?  There are a bunch of
+other leaks...  I would prefer a more complete fix.
 
-> +		dev_dbg(dev, "Invalid Gamma LUT table\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static const struct v4l2_isp_params_block_type_info
->  mali_c55_params_block_types_info[] = {
->  	[MALI_C55_PARAM_BLOCK_SENSOR_OFFS] = {
-> @@ -622,9 +654,11 @@ mali_c55_params_block_types_info[] = {
->  	},
->  	[MALI_C55_PARAM_BLOCK_GAMMA_FR] = {
->  		.size = sizeof(struct mali_c55_params_gamma),
-> +		.block_validate = mali_c55_gamma_validate,
->  	},
->  	[MALI_C55_PARAM_BLOCK_GAMMA_DS] = {
->  		.size = sizeof(struct mali_c55_params_gamma),
-> +		.block_validate = mali_c55_gamma_validate,
->  	},
->  };
->  
-> 
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
 
--- 
-Regards,
-Vincenzo
+I would probably just do the free before the goto since this is not
+part of the cleanup function.
+
+		if (err) {
+			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+			goto free_output_stage;
+		}
+
+...
+
+	return 0;
+
+free_output_stage:
+	if (need_scalar) {
+		kfree(mycs->is_output_stage);
+		mycs->is_output_stage = NULL;
+	}
+free_scalar_binary:
+	if (need_scalar) {
+		kfree(mycs->yuv_scaler_binary);
+		mycs->yuv_scaler_binary = NULL;
+	}
+
+etc.
+
+regards,
+dan carpenter
 
 
