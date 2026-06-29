@@ -1,87 +1,87 @@
-Return-Path: <linux-media+bounces-65897-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65898-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id C/VNJhdQQmp44gkAu9opvQ
-	(envelope-from <linux-media+bounces-65897-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 12:59:35 +0200
+	id spAyNyZPQmpC4gkAu9opvQ
+	(envelope-from <linux-media+bounces-65898-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 12:55:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAA06D9224
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 12:59:35 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CF46D91A0
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 12:55:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=foss.st.com header.s=selector2 header.b=Pf1Sn194;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65897-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65897-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=foss.st.com header.s=selector2 header.b=WFWvl6iY;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65898-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65898-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=foss.st.com;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AD60C308C30A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:55:08 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C294C3002F43
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:55:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BD5336CDF2;
-	Mon, 29 Jun 2026 10:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464C936C5B4;
+	Mon, 29 Jun 2026 10:55:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013018.outbound.protection.outlook.com [40.107.159.18])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013033.outbound.protection.outlook.com [40.107.159.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DE1346E40;
-	Mon, 29 Jun 2026 10:55:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E103636C581;
+	Mon, 29 Jun 2026 10:55:05 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782730505; cv=fail; b=GVy248TxPgZsCBSdOPWvwT5xqBnLohq3dd5dQ6m3/xGy8M2TNlkLvP96OBdHlQC/RzejnK64fG5QFsN2PThNqlgrcwS+fj8+nEu7A65DLU8AwPUxjV1ZzdrBW4kjjCJ8YarX6aL8XWEAEMLxC6Mb0jB9+Mu9CUBTJcZqRygDaK8=
+	t=1782730510; cv=fail; b=ZZK7LDGL+4FODp735HTbPN40nMtHqaORWPcuikowl9PqaXoUkk3o2O8b4oInta2tH+sB4aJBEr4e1DX43oagDbGdVIYmaQJg7RH49QUxNZevX4Mberk78XMD5zoLaO4Xyd4tFPi99aWdJWO8p1zFgPA3eAb1bgHAhf67u8qtt9o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782730505; c=relaxed/simple;
-	bh=TfykWEkIVha7oZam1euWLjZnzq33e8FfWYPli2lsBvI=;
+	s=arc-20240116; t=1782730510; c=relaxed/simple;
+	bh=s1LgoL6uwv/5IqXhZXbEREBzDUkAhDRb6kkOG6uH+a0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=kzBvuBuK9DwXYNQvvc8uhfNFb4ppVVaVpbf8rO0SaG4YKXYv3VEbNM/ciPMnChqD0TPP/ROAMYOPLgubodIuxftkIJzDKBTo6PJdt4gm2lohdK2qSiWybI7qgJNWLVHX55Pco8n7E505IVn84zzDr7Ohn+ub8xv89KyIv6YFtzY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Pf1Sn194; arc=fail smtp.client-ip=40.107.159.18
+	 In-Reply-To:To:CC; b=NkO4TeWHUfEzY1byMDuNXPGDYJN2IT50pTlCMIm0L8QDsj6EZOHoIKczo6nay+Zo8sm/HJfH1hqaVXQZEzHAL3lomFeKr/O9uM5010AEfjkhoPEAjHRMoD+fc0QSHPkZbL65VlqgyarL55olR3ALy2fyc+FqXiGzlwseVdLOyvw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=WFWvl6iY; arc=fail smtp.client-ip=40.107.159.33
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HLEmt/c40ACLXiEC4WvxPBfCLZORvE29GMiu/L3vkoMwaSX2LDiqINsLImKMbuOyuoX/tF6NFfm9sm22wr7vtVs2r/PbGCG+kT+b9FLQe0K7+XuvNyedoyUiXNaFH4+By20r5DiHAMriA8UaeEZW0CbI6Mu0njDuNbvcDyowYoaW3MzkXqH94t39apxu0SeYTe/Ud7tVw3SJO99oNuxZRnWGVVT+dhGvgCnFNcTGaM5pBFvshkHTVoHNirF82lZ9SFjlcK775i2fENRA3tP9wmnIkOEdH76yCoNLUfPjTKiLXiz30PjacaMkJNOlQSw7u2MjyozPli96Y98f8pe/8A==
+ b=Pc/lCfhGwGasinOmU63NWKc4Rdz9Cw4l+9PeECFGb8YOFZCK7leBsjPeoYq/WAA0wQLwR/tnZrAbqSusOSqyT3NR8GzxavdanMML0SGeBYNNR/zjW3oGIOmxAIyzc+V3Nbn8ywZZPnWvRwzdYDjeSH75xqYvx95GdDdet8eyVVpl7PlJHqFf2ydnNFdJ1/beNmS5jxpIaIqpvF3dYNhXi/pHFTl0Bcg3dYWCfFw4rt05MH/pBGYdeD7XNTAc7UNIx5ZDgjMC7INnCKWX/hdp9PXMhz8EAvMOpZwfB3dxc3IQc1FwzXZfjOJMH1iOLw9k5ZQ03bBb3jN5uz0ON4/xuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DYrmmwbyNYYxUPLdIm0ivmbDVZVeY6s915qwi4wrOk8=;
- b=KUgEa/tDn1zq32qcx0S7pbUBeDCr6c+f33lU7QXWnpgzsLTTwgf8jjGhULaQ1CK1N01NtOFlN3pvrdEtBo/VavTIHKik5NK2SMxmNgHm+YFCWVtmfVNxnK+SaxvYp7FZ3Y92zgHDa3Rcc0ZtJBcqI2V4JVDE+KswKRQo5Jd2FT+lzAy6LtfPnEiraNMk5/d5Ze8dSaSNpcQJlFIjRZaWrtb+5x+7923YRVEEsDPLZtid9JJHDuDmOYdVJRVXqAJZ2/f86BerPfweTri/CiFdTo421vP42L24eG1rvwNJKYVTW/sSRt5RTmdRTFJ01VuPHRRqlbH7D2z9uikFicaKhQ==
+ bh=bYKEFgf1EibGKZoStYZWGhnMgeYNtNC9RcgqM28v0hc=;
+ b=L0e6ZirTcxkgW0LX+jxk4qSsHBmrPC8m+J0i+pFZTnXHgmx3MlGRFAVVAG8DMuA80mesmcjsR85m7Ff9GHmUep+OsebRPlGq4o0/9dCHX7s77WgdLrujNDkgL09B6okw17Qncx8JdjTgE19qJIDtFpZELDHZQky0ehjNgWRBZ5lMUXRIsC+UJ/DqjY5wKA9DOTfZKHTPJJtbUJT+ozV1GgyYGvSgpPDikoTPU2+jZaoGP/DHaYGc+DOcvVLOy6o6wr+rSqPmM562QHGJNb2mOMPPo2JJoOa2GM7qZ0FyXh+X6O7hokDOo1cM7RfRyoV0pOqwlVkO1a6vOOMQbK1qmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.60) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=foss.st.com;
+ 164.130.1.59) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=foss.st.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DYrmmwbyNYYxUPLdIm0ivmbDVZVeY6s915qwi4wrOk8=;
- b=Pf1Sn194E8qBITAF7jclGKWIh1QRLSBT4pgyOmVYlzfO/1vbvgcEbUCoOORLi6s9KZVf0f8vSx7hUpdZK5EaMy0QxiiKq2fG5ku7liTPJOLinOqQmjtPg3rU+WoJcIpp6hzXB0VfslLRBJ8Iz/drhbmh0zyDKJxMB7keVEmVXiWI9kGkCbNiaWUvjPRadGlX6yGyY2l2vT6DrYBTHu7dYA9YPYnFhl/1IaR149lZY54tH7xOkjQnLq7uWkso8J/QZ4kqGYDkR1i3zI1aBnkHHeKWmqyNdJkFZHtrWEnVRuhnK+SdcBHeYDQ4v9lQCZqUgIIDXy3Oj9U/aUz/m9jTEQ==
-Received: from AS9PR05CA0279.eurprd05.prod.outlook.com (2603:10a6:20b:492::11)
- by DB9PR10MB7196.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:451::19) with
+ bh=bYKEFgf1EibGKZoStYZWGhnMgeYNtNC9RcgqM28v0hc=;
+ b=WFWvl6iYERtKsGmxSPIwOVkb3bSS7ptZGY7wnq4ln7IyrtJdQI89n24HALi1Ys6A8UtusIO/up+VtXKyiph8GtlVWmuI+0Tls9x7GV0rJSfU4x5WJLHxm7n3YZk+6t/SxfedCR1WAVndAk5ub5NCdrTMTJ9lYJsBmqpm8pIzoHhyBjSMeA65E5tNkQAAVfu8pGvfGvrWlbT1MI+UB2pNQ4OAKf3fCGSquZEdP9cvS07zJRaNxaEQ3/BzFFTyDezGdXSyEtFqSdGvHP7Ne7zKnt7yOJwWw2e64pDwWnW/+KCPhk1eETeqNREkYF/NOH/8TGc32835cQ5T0mvT/7AfmQ==
+Received: from CWLP265CA0498.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:18b::12)
+ by DU4PR10MB8513.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:561::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.16; Mon, 29 Jun
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
  2026 10:54:58 +0000
-Received: from AMS1EPF00000047.eurprd04.prod.outlook.com
- (2603:10a6:20b:492:cafe::32) by AS9PR05CA0279.outlook.office365.com
- (2603:10a6:20b:492::11) with Microsoft SMTP Server (version=TLS1_3,
+Received: from AM3PEPF0000A78D.eurprd04.prod.outlook.com
+ (2603:10a6:400:18b:cafe::80) by CWLP265CA0498.outlook.office365.com
+ (2603:10a6:400:18b::12) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Mon,
  29 Jun 2026 10:54:58 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
  smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
 Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.60; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.60) by
- AMS1EPF00000047.mail.protection.outlook.com (10.167.16.135) with Microsoft
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ AM3PEPF0000A78D.mail.protection.outlook.com (10.167.16.116) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Mon, 29 Jun 2026 10:54:57 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
- (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
+ 15.21.181.6 via Frontend Transport; Mon, 29 Jun 2026 10:54:58 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Mon, 29 Jun
- 2026 12:59:12 +0200
+ 2026 12:59:41 +0200
 Received: from localhost (10.130.78.67) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Mon, 29 Jun
  2026 12:54:57 +0200
 From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Date: Mon, 29 Jun 2026 12:51:47 +0200
-Subject: [PATCH v2 2/5] media: i2c: vd55g1: Remove spurious pad format
- update on init_state()
+Date: Mon, 29 Jun 2026 12:51:48 +0200
+Subject: [PATCH v2 3/5] media: i2c: vd55g1: Fix manual digital gain on
+ color variant
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260629-vd55g4_and_fixes-v2-2-ea0a7cf3cd66@foss.st.com>
+Message-ID: <20260629-vd55g4_and_fixes-v2-3-ea0a7cf3cd66@foss.st.com>
 References: <20260629-vd55g4_and_fixes-v2-0-ea0a7cf3cd66@foss.st.com>
 In-Reply-To: <20260629-vd55g4_and_fixes-v2-0-ea0a7cf3cd66@foss.st.com>
 To: Sylvain Petinot <sylvain.petinot@foss.st.com>, Sakari Ailus
@@ -99,56 +99,57 @@ To: Sylvain Petinot <sylvain.petinot@foss.st.com>, Sakari Ailus
 	Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+	<devicetree@vger.kernel.org>, Benjamin Mugnier
+	<benjamin.mugnier@foss.st.com>, <stable@vger.kernel.org>
 X-Mailer: b4 0.15.2
 X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF00000047:EE_|DB9PR10MB7196:EE_
-X-MS-Office365-Filtering-Correlation-Id: d77f39eb-d74c-4a65-7155-08ded5ccdc51
+X-MS-TrafficTypeDiagnostic: AM3PEPF0000A78D:EE_|DU4PR10MB8513:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b353ef3-25f2-49c5-8996-08ded5ccdca5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|23010399003|82310400026|36860700016|376014|1800799024|56012099006|11063799006|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|7416014|23010399003|376014|18002099003|22082099003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	iQQXw0gd0AanITdFzN58eHImQ6BaCj+Bfi3o4Tno0y+1Pxr6OSM5e+xLjNh5OmnT45T5/0kGKL3HEHwLafq0GfMtRFGICAD7FyEe7qDiZa2YJ2myFb7msjhvjLNEHK6MFFQTIeSq4m0STF6fWj6NlmhAC1nm1Vwr86SIwC+jBOu+9l+0rH219L44to6Xx8dAb0jnatb5e0vu4yuKBWxVXbwlqsFK8shlVDpK5B+WAZxamIj1a1flc2gpIq5drRLLRIjVXKMF7n8HTDMUafqFBu9KMBlu7a2LmOHSe6NUf1rxIfXVpL82Pe2R+QYcpyEz7T4exldh/hqIFOvPOG3qtMs3fQh0ojBoKo1bMHyL/inRyuq/rr7tvS/EeMpktCHeRh0FYTy/PANNbmBd6/uLNKtWE12O4yibrnCDZMxY0qGA2GOBNvUXqanSlkkXKT1SbSgaygj0Ws4dMRh5/pnG1paac1hD4gv93fsUxISABYRDh4wOIE8S0bhZ6s8my+fmlAG1hTeKUzIGyolWoaDlOzfvGih+CwT14FBMc8pOaJHi91sn98TGroj0nU1da5GtgBFBRHeKvT8q2LsBToAQ7ZgtiYbD9h+SrSzflh3tj1CK7VIx+/4tmpFyD5okFY93fjJiHJjTo63qUbICY/hrYhx/eSkQlA2uU3VrcRA67TksxTwtQs5LVAqRys3umfhzfXyX4wiefJfGCF4IhaRbeg==
+	J7GjKQU5y+any46l6a1JVEtdl095NcwsyyrDGpK4+Xnq/U93OWCd+C8GotSGn0AdOA5+QuTOvd2Q4Nwzr/aQPNReUXn3zNRcNyvPBLEIKP+ZkptH2/W1RiL6njncQlgOzOwqgTOuDid1v7WeZ9iJ9IRFbgaD3cIZ4YmqZzqjbBGabaly8xapKjh2WJw06TvXQuTxbyuFM53F/ogV2wIs2V02FJeFvMxj8CEuCLl9zfZW/NRLeFs2vkJ72sUYAaGwYjEqkSu577ZnOQg8GadIE9VUbxWP6uW1VHWFeFHhS1O5BaRy4qvUpUvTXkNbbhZhK/2dsJUjvHLiB0YCDCLAHMW4amISKxqsyf2/qJ6OZuh0jqF8D2tbs9NGETFAKn4KnNioZ58NhT9dqOL6SPnMQRLuZ/ANxsi/PFnnkexLcEoKj4rZX6Zvb6YOj14/6WqLJEVOhbkc+PszhJjYZfMhi8cff0XoJsqLWQOLNwK4HNudj2Iw0aF/G4Jock7DPd+0Ym0FAnSzzSwXyyOwBs5tA0CiIurOfWGzzEqAY3xmjBu6LwwtgWf6d2dAVcnKSrpAgmpYXnMpEeWpl3lz10tG+Bdw3BHX6VsEpSRV5xYfb2t2VhEO3ya0slGkG+VzRMDik0VaJ1CrH5TK65Ow6qxURu1MyVblEqajZ6z8qbS3ttq6m3j9euhhv2BqQhJ0WFw5amhnJFWnegak01H1NzAtHQ==
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(82310400026)(36860700016)(376014)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(7416014)(23010399003)(376014)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	6Ua9LyQxhdjaze9mNCzYE877Jmex7ijKKFJoTEb5DkL5LeJdbpqEkHKIyLH06qEDQcojx66ESBgsgSOJbfQA8Vp+Ffo6EYfcLpmjyXHw4thaqb67ZsZvk2j3tBu7OaLsMUAwdehGIffXZTAQrJf8xmtfsOVY+kDG3lHCNUyXwQ0jsQuLEDQKOZPYSg9ipaPrAKMR04dy0XPHg/2a4xeHwKkfdYWC8w6XnLU0mYQv2JX4sOWWcF4O6oAuqPewruQuvm6MCj7fRInGjwjU5M5hdsYJtujw0KXTnqVFAtBN88xmbis+6LnI7qWGAFIJ/icCICFRUKMEq+Gvpl7N/qXJ/6wlzj1ipX2nszFYM2ZIXHomIPIwfdwCv/vqTHjcjmd/s3i0uXgnzacBpbU73+OvpvITpZyyz26h+Kvr4ybfbFhasO1azZ4E49etOCakDnOL
+	WhUANMp8NBqAAl85OMi6XKx39YPEUjHwssW/jSa9wJ/lgQxlqbLJiseB6/EG5x2nevYsT68qOfzJ/nwh92AYCZsafhvEfHbnjb3lUaBB01R0XDxL9wKRn7ySQO5Blrgw+/wvNCcx7Q5o8nwSmENQNoexLOOnsKqhDz+8R8FoYE5WyHwOKmMFeDFh2AvgIjIijVaHhFHT04mIQvsII1OV1NTjssi2RVi8WctkIQPixNffWhUhoQKcl4m8RHLSi2qWCYzmgjsDCyxkcH8EB9leSPrOIeILDEXOucSOuC87owauupgB/vN9Cx7ocJqXkCw6gIX+NrvQAuB1oyFQRy22s3pLJEIbpKnLN2m5FHl1gmKd74z1q01ivgVTFZR0djQQ8aCZEckAF1nN+GGtWGrhKFi+GFjnyEVaKr/yGtbTe2b42IDEDHB2lamaXYmaJxof
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 10:54:57.8634
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 10:54:58.4134
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d77f39eb-d74c-4a65-7155-08ded5ccdc51
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b353ef3-25f2-49c5-8996-08ded5ccdca5
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	AMS1EPF00000047.eurprd04.prod.outlook.com
+	AM3PEPF0000A78D.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB7196
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR10MB8513
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[foss.st.com,none];
 	R_DKIM_ALLOW(-0.20)[foss.st.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65897-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65898-lists,linux-media=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:sylvain.petinot@foss.st.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:benjamin.mugnier@foss.st.com,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sylvain.petinot@foss.st.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:benjamin.mugnier@foss.st.com,m:stable@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER(0.00)[benjamin.mugnier@foss.st.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[st.com:email,foss.st.com:dkim,foss.st.com:mid,foss.st.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ideasonboard.com:email,vger.kernel.org:from_smtp];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,st.com:email,ideasonboard.com:email,foss.st.com:dkim,foss.st.com:mid,foss.st.com:from_mime];
 	DKIM_TRACE(0.00)[foss.st.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -159,42 +160,56 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
 	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0FAA06D9224
+X-Rspamd-Queue-Id: C4CF46D91A0
 
-vd55g1_update_pad_fmt() is called in vd55g1_init_state(). But
-vd55g1_set_pad_fmt(), called at the end of vd55g1_init_state(), also
-calls vd55g1_update_pad_fmt() itself.
+Apply digital gain to all channels, each channel representing a color.
 
-Enhance readability and clear confusion by only preparing the format in
-vd55g1_init_state() and let vd55g1_set_pad_fmt() update it instead,
-effectively calling it only 1 time instead of 2.
-
+Cc: stable@vger.kernel.org
+Fixes: e138e7f00042 ("media: i2c: vd55g1: Add support for vd65g4 RGB variant")
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 ---
- drivers/media/i2c/vd55g1.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/i2c/vd55g1.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/i2c/vd55g1.c b/drivers/media/i2c/vd55g1.c
-index fceb437e19be..22464fe31562 100644
+index 22464fe31562..37d44abd1435 100644
 --- a/drivers/media/i2c/vd55g1.c
 +++ b/drivers/media/i2c/vd55g1.c
-@@ -1365,9 +1365,9 @@ static int vd55g1_init_state(struct v4l2_subdev *sd,
- 		code = vd55g1_mbus_formats_mono[0];
- 	else
- 		code = vd55g1_mbus_formats_bayer[0][0];
--	vd55g1_update_pad_fmt(sensor,
--			      &vd55g1_supported_modes[VD55G1_MODE_IDX_DEF],
--			      vd55g1_get_fmt_code(sensor, code), &fmt.format);
-+	fmt.format.code = vd55g1_get_fmt_code(sensor, code);
-+	fmt.format.width = vd55g1_supported_modes[VD55G1_MODE_IDX_DEF].width;
-+	fmt.format.height = vd55g1_supported_modes[VD55G1_MODE_IDX_DEF].height;
+@@ -60,7 +60,10 @@
+ #define VD55G1_PATGEN_ENABLE				BIT(0)
+ #define VD55G1_REG_MANUAL_ANALOG_GAIN			CCI_REG8(0x0501)
+ #define VD55G1_REG_MANUAL_COARSE_EXPOSURE		CCI_REG16_LE(0x0502)
+-#define VD55G1_REG_MANUAL_DIGITAL_GAIN			CCI_REG16_LE(0x0504)
++#define VD55G1_REG_MANUAL_DIGITAL_GAIN_CH0		CCI_REG16_LE(0x0504)
++#define VD55G1_REG_MANUAL_DIGITAL_GAIN_CH1		CCI_REG16_LE(0x0506)
++#define VD55G1_REG_MANUAL_DIGITAL_GAIN_CH2		CCI_REG16_LE(0x0508)
++#define VD55G1_REG_MANUAL_DIGITAL_GAIN_CH3		CCI_REG16_LE(0x050a)
+ #define VD55G1_REG_APPLIED_COARSE_EXPOSURE		CCI_REG16_LE(0x00e8)
+ #define VD55G1_REG_APPLIED_ANALOG_GAIN			CCI_REG16_LE(0x00ea)
+ #define VD55G1_REG_APPLIED_DIGITAL_GAIN			CCI_REG16_LE(0x00ec)
+@@ -849,9 +852,16 @@ static int vd55g1_update_expo_cluster(struct vd55g1 *sensor, bool is_auto)
+ 		vd55g1_write(sensor, VD55G1_REG_MANUAL_ANALOG_GAIN,
+ 			     sensor->again_ctrl->val, &ret);
  
- 	return vd55g1_set_pad_fmt(sd, sd_state, &fmt);
+-	if (!is_auto && sensor->dgain_ctrl->is_new)
+-		vd55g1_write(sensor, VD55G1_REG_MANUAL_DIGITAL_GAIN,
++	if (!is_auto && sensor->dgain_ctrl->is_new) {
++		vd55g1_write(sensor, VD55G1_REG_MANUAL_DIGITAL_GAIN_CH0,
+ 			     sensor->dgain_ctrl->val, &ret);
++		vd55g1_write(sensor, VD55G1_REG_MANUAL_DIGITAL_GAIN_CH1,
++			     sensor->dgain_ctrl->val, &ret);
++		vd55g1_write(sensor, VD55G1_REG_MANUAL_DIGITAL_GAIN_CH2,
++			     sensor->dgain_ctrl->val, &ret);
++		vd55g1_write(sensor, VD55G1_REG_MANUAL_DIGITAL_GAIN_CH3,
++			     sensor->dgain_ctrl->val, &ret);
++	}
+ 
+ 	return ret;
  }
 
 -- 
