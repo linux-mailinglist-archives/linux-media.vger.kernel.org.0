@@ -1,89 +1,89 @@
-Return-Path: <linux-media+bounces-65992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65993-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id W7MPDdKbQmpu+gkAu9opvQ
-	(envelope-from <linux-media+bounces-65992-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:22:42 +0200
+	id eFCOEV+ZQmqu+QkAu9opvQ
+	(envelope-from <linux-media+bounces-65993-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:12:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9941D6DD499
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:22:41 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 977A96DD2CC
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 18:12:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=fEGMUqRk;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65992-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65992-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=eDVMQYiV;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65993-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65993-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8823C31D4F06
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:03:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C5D27318C438
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 16:03:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7D7441041;
-	Mon, 29 Jun 2026 16:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467A9449EA6;
+	Mon, 29 Jun 2026 16:03:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2201143E4BB
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 16:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB23D43E9ED
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 16:03:10 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782748991; cv=none; b=jB7gLb8jtvaw9izAsnJ9qXq7ewzVez141MjJJ3MaBnu1RGKF2JkVdctOSjuZ5OQpx6acwE8L8I7nD+vxqyv9gGN8t56pe2LZg6kJLrvp626dJSTidYzLBscKFtv+pxR2TrmUbjvIcLwkS7glZ7/jUhOMtrch4SbS0QLgVMgWksc=
+	t=1782748992; cv=none; b=hAv1ZDwdkIafJLGcZ/WZBM55cyyUGjxJE/fmnYw0s0HLsyz/oaH6SHb3ZDKjIiJoIqueKITethBxzRZyyLMFrpcpx89pUuiFy6XMtrfOBL8Ea6LUTzC8tgF+F2Z9TqeR2d/x0t8eGFrhDOtF9xVkAPEXwuolyyHik1YO39vmnk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782748991; c=relaxed/simple;
-	bh=4pBA8FIoNu9D+BaaBupYPp0BfX2tDfj8P9Iu7ahk2WA=;
+	s=arc-20240116; t=1782748992; c=relaxed/simple;
+	bh=BMlYyH3oW+hbSZpbsm7jSeNHQT0gub+aa/Gmx8vqJVQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VGKQe7g4NwDl7jfFL10DQfs2p5unuF6XhpNx9/aWx0Dh5NTz5xsUCZi3TQw0SQnEIDz/zGlAAM2Y0KdtrAlNdEDjpyOfLkA60fCZDlmh7mNRHjLG40MkTA9bOnKsHA5zWmgHNvBLcVKdPvZYQO3dJC+/fChZgg4l+FRpK1ogF0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEGMUqRk; arc=none smtp.client-ip=209.85.160.51
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-43ccd4f6f6eso1970033fac.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 09:03:09 -0700 (PDT)
+	 MIME-Version; b=I4TDnKhGwmjrKBRtxNLBL3wo4On+ek9GuYTiE52qScoMG2IIoQ+2dFZErj09HnLyxujZtGdStic3ntNjsIJL2SvSO9wbWQA5yAblrEQFT+dYCILhutUpRtEvLJU12FlWSARDXDs1qpY3Ieuqw7v0t88bTY7hgMi8hXdO91Z/35M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eDVMQYiV; arc=none smtp.client-ip=209.85.210.51
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7e9ecb1e13bso2795a34.2
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 09:03:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782748989; x=1783353789; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782748990; x=1783353790; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PWGDfvnrOcYCIiY6CoqWWfOA/XRmgdkxSQUH6NuLVJY=;
-        b=fEGMUqRkjsgL1gR9gQP3wtXHEQLRpxBiN48fy3YAhX459POtjoYMnF5V36CvR8NYB1
-         igtHlfElTv+L886KV5HsuLoJCyLBO4Vafon0wbt6HK39p2kc5dvy2VwGc+lZzcjpL+Sk
-         1GWrzTASR5Pv1hYe2mQ3e864o44GimQrGeZDGjf1Bq/bein1kUtQ0txiaWt0xliUDmb0
-         htySL8EOr4kH1Y1xOECxmJ/NdwACNMi7XnH0pFdXQnvUjfvRagXfPkZEhLJz/sYP/VNs
-         /ccAwxrjVn+XIF51A4ye7plKcKT6o32zd5nxJsAr1aeoShi8DmaFzVkw6SQMra2IdWtw
-         Pt+g==
+        bh=pAwvmI41PaKOElye1enoE9GiNMwBp5kB9pZu+rO0jyI=;
+        b=eDVMQYiVigUdTXK1olHTOHsgNQL1m46wHUKxbFnKh7vzK0pVNCzGTz1CkUl2pPMML2
+         j4Zl21BnSkm9hed5pA96XVELTkQpCP1Cmngx+Hu+Zim+R0Lwk8P1frcjyZpT1JO9QsFR
+         5zQRnMJJj9imqa/ngy7uvdR44B9QFbzJuZO6iTVkn8mbnEUQ7VfAEl4wmZGagS/93Lgh
+         DzYCnrTn9zRiCJBtLrowFHEmwC4URpGm3ciPVCfp72OewSyFQxDwuKpC60FMEV0sE5uG
+         mGmY+mEqB2PvcJ26y1lk5nZBN/rnCm+e6HFW2nJn9UKuXJ56kgHmmz50nu0wty1wQbAi
+         UvfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782748989; x=1783353789;
+        d=1e100.net; s=20251104; t=1782748990; x=1783353790;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PWGDfvnrOcYCIiY6CoqWWfOA/XRmgdkxSQUH6NuLVJY=;
-        b=FITzWM9+6fX3NpedgJopWUWrpBzOAF1xRu9ZiadXyeHLPQ4ggTge5Ic/8Uld8yXNoz
-         UQSoEn7SywyUSEA1fKimxce2DXnFDRT3nngaAm7kZ24/MdvlsSfMfoCHYIPnHk3hF4ir
-         a3zxaREPRW2sJqOrn2jinpWLrkTRSGKnwbbYRe48rLOOLmlvCTQ32Wz+MNa+ZihVoWai
-         XTs23BsFTP1zneCC/JyV9syrZ1E8llab+N0uUkPH/FcDaJlQ+WNP8wwujZ4HFInLbSaU
-         m8E4Qor7x5NOBcNqBJGq415ezwKNZ6zyh7fm6b04L/gpOIGUdxL2qBhlsY2g4slPrOX3
-         tpPA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro4l4ElKaEiNybH1nRr3+uPvTgYsbOzoy4v45EKWO4iVa+RHIZ3YQ8kSBhhBrGIgJ8ayWx4iMVEjFEscQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1Z98vXb4VuN/F20LpDkcPzVEsMYbqHo53XOIu6bpamUXEcto0
-	7/vryKduSK9zgyuIHgmoSMaULDS1dvsw+ZfoYRseIVPVWULKhVLlWk2EmHKTTQ==
-X-Gm-Gg: AfdE7ck6cjWJPtJAoAOJZ2RmTSZzNR+QFAPhQBJy2leSf2NhbOvQTJqagnjGUNmh/zR
-	OXpuQBcH40SDYPgU/kRaSMceopGKDB+HknBw1fxuQ+zjSKXcJ0FuUyAwqtezxXL1J1YQc55pB1K
-	YTv8Sqfq7srFZ9WgpWIFG9dTmuQ3RgTJ+DJJtgAubnucI+63HvDMIMDrFGXhty3KD1GN70EPWlS
-	70hSKtle3o88C7xut7BKK39s2AFdk+r8QizlcA1kBNPuymVd0Ef+k9Ccd8/UYcPsALf1R7nyvQI
-	xAMV0FGxDcLwd0VUn0QECeIgKerkNvn8qQSyRf4+5CuXUhAR2mvqUEPrsQbCKxaQTPIod3gPWP4
-	LIQNHxPqq5drVXf/d7k/cmYGq90ZPr/hEaltEXLw6B0kdu8uDnw69lTP2bg0zTUHONKXrHtITKm
-	xdMncyJht56vTFcqYk4iIShjZMe/Pe4gksFe9KGajStuHTTpM0rynaC5n7VWf53Q==
-X-Received: by 2002:a05:6871:7c01:b0:448:558e:84f1 with SMTP id 586e51a60fabf-448dcaa4efcmr81233fac.43.1782748988423;
-        Mon, 29 Jun 2026 09:03:08 -0700 (PDT)
+        bh=pAwvmI41PaKOElye1enoE9GiNMwBp5kB9pZu+rO0jyI=;
+        b=GQWa23ZGrYCdYHtJjMg6de+FCcCVlbXXO11X5SzstZ1qgmhqTC/NfJNGaAHpcI5vJU
+         GaE81g52ueLWuK+qPrnbypBiOSeX5qzfoUTbZOwNsr1LqsJk4y1geSGkVICsvUW7GD79
+         CMjRfE3Vcwh24/iLMk3GhB5tMCzuXulrt77e9p64Ee66LobEw7KmYyVqciN3ZWsRsJUO
+         VlewBYx0w3P54s1NJPW4yY8PHymySJMBuup7FLGkP6uTBCsw5ZgJUxO3yZoF3uJoE/Ty
+         fATEJK9kUoV9Tni4Vo52cBy6VodYxdGfsRkJQpGu7abiysUCxjEG3vk9MmXyW+3/4b3v
+         ZFtw==
+X-Forwarded-Encrypted: i=1; AHgh+RqbF9pmHA8795quPvii9hC/1+fxHl/I0Ep/r3LmGVTOpe6JpNrU9VkQDjFZRcrRIQW8IWBfZEGmpEU+vw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS0tbY2sncYMDrETI2R2Gcrp/9PxWcGRWIQit6qZa4nT8umgK2
+	u/queaIGsQjocqiItl/tkm/m5G3Wk1BQPyWTYagNATPEGvfR4dKw3phJnJNEpQ==
+X-Gm-Gg: AfdE7cmtcXn4URO2ttWZcmxBsId0775mKoine4VqOIAp+o44c59C5gQaXI+cZzJoeeY
+	ZCL/YKBShej/vO38IbQpJWw38E/zlSizJycvKSQkmBOn0JiAkFeeMHdP2L4WdvI65Q1b6eYTPp3
+	l79LeNgHCdlx1xDfoxNg4mn8ajboe2oLMmZhbVP06FWMFlHe522c4N2G4jx6mwtgbYTRRRj9RdN
+	yx65mqYjMWdZsb4m5VcB0lvUm1TiyMqWJg0LbMm+wWh1jPlW/GzDeY9nz8dvmgvo+1C4JrIE6ci
+	Y+CZ5YT0GlWeqtuZod5d/G28+8K7k7VU0s66xDnO/Auuhuw1Y+GBetZD+1kjNdnXHx660kggMK8
+	zlbVTndmfo8YpCOGP2lM2QV81yLE7r2z9y6UGp6OU6pFvkg5CYrbK+1zfHZNTx1LoSIVRhNzNax
+	gmnO3erh6gCe38fuR0CC78DWXXsltVIyA/92CdsT1n3J/wzFheJ0qHxReVxtjmuA==
+X-Received: by 2002:a05:6871:53c4:b0:42c:4c8:4a5a with SMTP id 586e51a60fabf-448dc92a7cfmr111543fac.28.1782748989464;
+        Mon, 29 Jun 2026 09:03:09 -0700 (PDT)
 Received: from father (76-224-4-192.lightspeed.clmboh.sbcglobal.net. [76.224.4.192])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-448db9370c9sm145868fac.1.2026.06.29.09.03.07
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-448db9370c9sm145868fac.1.2026.06.29.09.03.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 09:03:07 -0700 (PDT)
+        Mon, 29 Jun 2026 09:03:08 -0700 (PDT)
 From: hoff.benjamin.k@gmail.com
 To: mchehab@kernel.org,
 	hverkuil+cisco@kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v2 1/5] media: hws: program video DMA through remap windows
-Date: Mon, 29 Jun 2026 12:03:00 -0400
-Message-ID: <20260629160304.154046-2-hoff.benjamin.k@gmail.com>
+Subject: [PATCH v2 2/5] media: hws: add shared scratch DMA arena
+Date: Mon, 29 Jun 2026 12:03:01 -0400
+Message-ID: <20260629160304.154046-3-hoff.benjamin.k@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260629160304.154046-1-hoff.benjamin.k@gmail.com>
 References: <20260629160304.154046-1-hoff.benjamin.k@gmail.com>
@@ -100,11 +100,11 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65992-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65993-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -125,224 +125,445 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9941D6DD499
+X-Rspamd-Queue-Id: 977A96DD2CC
 
 From: Ben Hoff <hoff.benjamin.k@gmail.com>
 
-Video capture DMA setup uses the BAR remap table plus per-channel device
-buffer offsets. Drop the stale direct writes to the legacy DMA address
-register and share the remap slot offset between probe-time seeding and
-runtime programming.
----
- drivers/media/pci/hws/hws_irq.c   |  6 ++----
- drivers/media/pci/hws/hws_pci.c   | 11 +++++------
- drivers/media/pci/hws/hws_reg.h   | 11 ++++++-----
- drivers/media/pci/hws/hws_video.c | 31 +++++++------------------------
- drivers/media/pci/hws/hws_video.h |  2 --
- 5 files changed, 20 insertions(+), 41 deletions(-)
+Replace the probe-time seed buffer allocation with a per-channel coherent scratch arena that is acquired by stream users and released by refcount. The arena reserves video bounce space first and an audio capture window after it, and validates that the full allocation fits within the single 512 MiB BAR remap page shared by the channel.
 
-diff --git a/drivers/media/pci/hws/hws_irq.c b/drivers/media/pci/hws/hws_irq.c
-index eebb4b8a5cd5..a79cc10720d7 100644
---- a/drivers/media/pci/hws/hws_irq.c
-+++ b/drivers/media/pci/hws/hws_irq.c
-@@ -60,7 +60,7 @@ static int hws_arm_next(struct hws_pcie_dev *hws, u32 ch)
- 	dev_dbg(&hws->pdev->dev, "arm_next(ch=%u): picked buffer %p\n", ch,
- 		buf);
+Reset cached video DMA window state when freeing a channel arena so the next stream reprograms the hardware from a clean state.
+
+Signed-off-by: Ben Hoff <hoff.benjamin.k@gmail.com>
+---
+ drivers/media/pci/hws/hws.h       |  28 +++++
+ drivers/media/pci/hws/hws_pci.c   | 192 ++++++++++++++++++++++++------
+ drivers/media/pci/hws/hws_reg.h   |   7 ++
+ drivers/media/pci/hws/hws_video.c |  17 +--
+ 4 files changed, 198 insertions(+), 46 deletions(-)
+
+diff --git a/drivers/media/pci/hws/hws.h b/drivers/media/pci/hws/hws.h
+index 8fbe1fe27844..c0541190c047 100644
+--- a/drivers/media/pci/hws/hws.h
++++ b/drivers/media/pci/hws/hws.h
+@@ -8,6 +8,7 @@
+ #include <linux/kthread.h>
+ #include <linux/pci.h>
+ #include <linux/list.h>
++#include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ #include <linux/sizes.h>
+ #include <linux/atomic.h>
+@@ -52,6 +53,8 @@ struct hwsvideo_buffer {
+ 	int slot;
+ };
  
--	/* Publish descriptor(s) before doorbell/MMIO kicks. */
-+	/* Publish descriptor(s) before MMIO capture updates. */
- 	wmb();
++#define HWS_VIDEO_BOUNCE_SLOTS 2
++
+ struct hws_video {
+ 	/* Linkage */
+ 	struct hws_pcie_dev *parent;
+@@ -104,6 +107,7 @@ struct hws_video {
+ 	u32 last_dma_page;
+ 	u32 last_pci_addr;
+ 	u32 last_half16;
++	u8 next_bounce_slot;
  
- 	/* Avoid MMIO during suspend */
-@@ -79,13 +79,11 @@ static int hws_arm_next(struct hws_pcie_dev *hws, u32 ch)
- 		return -EBUSY;
- 	}
+ 	/* Misc counters */
+ 	int signal_loss_cnt;
+@@ -130,6 +134,7 @@ struct hws_scratch_dma {
+ 	void *cpu;
+ 	dma_addr_t dma;
+ 	size_t size;
++	bool owned;
+ };
  
--	/* Also program the DMA address register directly */
-+	/* Program the video DMA window for the selected buffer. */
- 	{
- 		dma_addr_t dma_addr =
- 		    vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
- 		hws_program_dma_for_addr(hws, ch, dma_addr);
--		iowrite32(lower_32_bits(dma_addr),
--			  hws->bar0_base + HWS_REG_DMA_ADDR(ch));
- 	}
+ struct hws_pcie_dev {
+@@ -152,6 +157,7 @@ struct hws_pcie_dev {
+ 	u32 max_hw_video_buf_sz;
+ 	u8 max_channels;
+ 	u8 cur_max_video_ch;
++	u8 cur_max_audio_ch;
+ 	bool start_run;
  
- 	dev_dbg(&hws->pdev->dev, "arm_next(ch=%u): programmed buffer %p\n", ch,
+ 	bool buf_allocated;
+@@ -161,7 +167,10 @@ struct hws_pcie_dev {
+ 
+ 	/* Kernel thread */
+ 	struct task_struct *main_task;
++	struct mutex scratch_lock; /* protects scratch DMA arenas and user refs */
++	unsigned int scratch_users[MAX_VID_CHANNELS];
+ 	struct hws_scratch_dma scratch_vid[MAX_VID_CHANNELS];
++	struct hws_scratch_dma scratch_aud[MAX_VID_CHANNELS];
+ 
+ 	bool suspended;
+ 	int irq;
+@@ -170,4 +179,23 @@ struct hws_pcie_dev {
+ 	int pci_lost;
+ };
+ 
++static inline bool hws_dma_fits_remap_window(dma_addr_t dma, size_t size)
++{
++	dma_addr_t end;
++
++	if (!size)
++		return false;
++
++	end = dma + size - 1;
++	if (end < dma)
++		return false;
++
++	return upper_32_bits(dma) == upper_32_bits(end) &&
++	       (lower_32_bits(dma) & PCI_E_BAR_ADD_MASK) ==
++	       (lower_32_bits(end) & PCI_E_BAR_ADD_MASK);
++}
++
++int hws_alloc_channel_scratch(struct hws_pcie_dev *hws, unsigned int ch);
++void hws_release_channel_scratch(struct hws_pcie_dev *hws, unsigned int ch);
++
+ #endif
 diff --git a/drivers/media/pci/hws/hws_pci.c b/drivers/media/pci/hws/hws_pci.c
-index 30bb7d34465b..10af6c30566a 100644
+index 10af6c30566a..589d4840e116 100644
 --- a/drivers/media/pci/hws/hws_pci.c
 +++ b/drivers/media/pci/hws/hws_pci.c
-@@ -315,12 +315,11 @@ static void hws_seed_channel(struct hws_pcie_dev *hws, int ch)
+@@ -11,6 +11,7 @@
+ #include <linux/err.h>
+ #include <linux/ktime.h>
+ #include <linux/math64.h>
++#include <linux/minmax.h>
+ #include <linux/pm.h>
+ #include <linux/freezer.h>
+ #include <linux/pci_regs.h>
+@@ -101,22 +102,30 @@ static void hws_configure_hardware_capabilities(struct hws_pcie_dev *hdev)
+ 	case 0x8504:
+ 	case 0x6504:
+ 		hdev->cur_max_video_ch = 4;
++		hdev->cur_max_audio_ch = 4;
+ 		break;
+ 	case 0x8532:
+ 		hdev->cur_max_video_ch = 2;
++		hdev->cur_max_audio_ch = 2;
+ 		break;
+ 	case 0x8512:
+ 	case 0x6502:
+ 		hdev->cur_max_video_ch = 2;
++		hdev->cur_max_audio_ch = 0;
+ 		break;
+ 	case 0x8501:
+ 		hdev->cur_max_video_ch = 1;
++		hdev->cur_max_audio_ch = 0;
+ 		break;
+ 	default:
+ 		hdev->cur_max_video_ch = 4;
++		hdev->cur_max_audio_ch = 0;
+ 		break;
+ 	}
  
- 	lo &= PCI_E_BAR_ADD_MASK;
++	if (hdev->cur_max_audio_ch > hdev->cur_max_video_ch)
++		hdev->cur_max_audio_ch = hdev->cur_max_video_ch;
++
+ 	/* universal buffer capacity */
+ 	hdev->max_hw_video_buf_sz = MAX_MM_VIDEO_SIZE;
  
--	/* Program 64-bit BAR remap entry for this channel (table @ 0x208 + ch * 8) */
--	writel_relaxed(hi, hws->bar0_base +
--			    PCI_ADDR_TABLE_BASE + 0x208 + ch * 8);
--	writel_relaxed(lo, hws->bar0_base +
--			    PCI_ADDR_TABLE_BASE + 0x208 + ch * 8 +
--			    PCIE_BARADDROFSIZE);
-+	/* Program 64-bit BAR remap entry for this channel. */
-+	writel_relaxed(hi, hws->bar0_base + PCI_ADDR_TABLE_BASE +
-+		       HWS_VIDEO_REMAP_SLOT_OFF(ch));
-+	writel_relaxed(lo, hws->bar0_base + PCI_ADDR_TABLE_BASE +
-+		       HWS_VIDEO_REMAP_SLOT_OFF(ch) + PCIE_BARADDROFSIZE);
+@@ -255,55 +264,164 @@ static void hws_stop_kthread_action(void *data)
+ 	}
+ }
  
- 	/* Program capture engine per-channel base/half */
- 	writel_relaxed((ch + 1) * PCIEBAR_AXI_BASE + pci_addr,
+-static int hws_alloc_seed_buffers(struct hws_pcie_dev *hws)
++static size_t hws_video_scratch_bytes(void)
+ {
+-	int ch;
+-	/* 64 KiB is plenty for a safe dummy; hardware needs 64-byte alignment. */
+-	const size_t need = ALIGN(64 * 1024, 64);
++	return HWS_VIDEO_BOUNCE_SLOTS * ALIGN((size_t)MAX_VIDEO_SCALER_SIZE, 64);
++}
+ 
+-	for (ch = 0; ch < hws->cur_max_video_ch; ch++) {
++static size_t hws_audio_scratch_bytes(void)
++{
++	return ALIGN((size_t)MAX_AUDIO_CAP_SIZE, 64);
++}
++
++static void hws_clear_scratch(struct hws_scratch_dma *scratch)
++{
++	scratch->cpu = NULL;
++	scratch->dma = 0;
++	scratch->size = 0;
++	scratch->owned = false;
++}
++
++static void hws_free_channel_scratch_locked(struct hws_pcie_dev *hws,
++					    unsigned int ch)
++{
++	struct hws_scratch_dma *vid;
++	struct hws_scratch_dma *aud;
++
++	if (!hws || ch >= MAX_VID_CHANNELS)
++		return;
++
++	vid = &hws->scratch_vid[ch];
++	aud = &hws->scratch_aud[ch];
++
++	if (ch < hws->cur_max_video_ch) {
++		hws->video[ch].window_valid = false;
++		hws->video[ch].last_dma_hi = 0;
++		hws->video[ch].last_dma_page = 0;
++		hws->video[ch].last_pci_addr = 0;
++		hws->video[ch].last_half16 = 0;
++		hws->video[ch].next_bounce_slot = 0;
++	}
++	hws->scratch_users[ch] = 0;
++
++	if (aud->cpu && aud->owned)
++		dma_free_coherent(&hws->pdev->dev, aud->size, aud->cpu,
++				  aud->dma);
++	hws_clear_scratch(aud);
++
++	if (vid->cpu && vid->owned)
++		dma_free_coherent(&hws->pdev->dev, vid->size, vid->cpu,
++				  vid->dma);
++	hws_clear_scratch(vid);
++}
++
++int hws_alloc_channel_scratch(struct hws_pcie_dev *hws, unsigned int ch)
++{
++	size_t aud_off = hws_video_scratch_bytes();
++	size_t arena_need = aud_off;
++	bool has_audio;
++
++	if (!hws || ch >= max_t(unsigned int, hws->cur_max_video_ch,
++				hws->cur_max_audio_ch))
++		return -EINVAL;
++
++	has_audio = ch < hws->cur_max_audio_ch;
++	if (has_audio)
++		arena_need = ALIGN(aud_off + hws_audio_scratch_bytes(), 64);
++
++	/*
++	 * One coherent per-channel arena backs both fallback video DMA and audio
++	 * DMA. The video bounce slots live first; the audio capture window starts
++	 * at aud_off. The whole arena must fit inside a single 512 MiB remap page
++	 * because video and audio share the channel remap slot.
++	 */
++	mutex_lock(&hws->scratch_lock);
++	if (hws->scratch_vid[ch].cpu) {
++		hws->scratch_users[ch]++;
++		mutex_unlock(&hws->scratch_lock);
++		return 0;
++	}
++
++	{
+ #if defined(CONFIG_HAS_DMA) /* normal on PCIe platforms */
+-		void *cpu = dma_alloc_coherent(&hws->pdev->dev, need,
+-					       &hws->scratch_vid[ch].dma,
+-					       GFP_KERNEL);
++		dma_addr_t dma = 0;
++		void *cpu = NULL;
++		int attempt;
++
++		for (attempt = 0; attempt < 8; attempt++) {
++			cpu = dma_alloc_coherent(&hws->pdev->dev, arena_need,
++						 &dma, GFP_KERNEL);
++			if (!cpu)
++				break;
++			if (!hws_dma_fits_remap_window(dma, arena_need)) {
++				dev_dbg(&hws->pdev->dev,
++					"scratch arena: retry ch=%u dma=%pad size=%zu crosses remap window\n",
++					ch, &dma, arena_need);
++				dma_free_coherent(&hws->pdev->dev, arena_need,
++						  cpu, dma);
++				cpu = NULL;
++				continue;
++			}
++			break;
++		}
+ #else
+ 		void *cpu = NULL;
++		dma_addr_t dma = 0;
+ #endif
+ 		if (!cpu) {
+ 			dev_warn(&hws->pdev->dev,
+-				 "scratch: dma_alloc_coherent failed ch=%d\n", ch);
+-			/* not fatal: free earlier ones and continue without seeding */
+-			while (--ch >= 0) {
+-				if (hws->scratch_vid[ch].cpu)
+-					dma_free_coherent(&hws->pdev->dev,
+-							  hws->scratch_vid[ch].size,
+-							  hws->scratch_vid[ch].cpu,
+-							  hws->scratch_vid[ch].dma);
+-				hws->scratch_vid[ch].cpu = NULL;
+-				hws->scratch_vid[ch].size = 0;
+-			}
++				 "scratch arena: dma_alloc_coherent failed ch=%u\n",
++				 ch);
++			mutex_unlock(&hws->scratch_lock);
+ 			return -ENOMEM;
+ 		}
+-		hws->scratch_vid[ch].cpu  = cpu;
+-		hws->scratch_vid[ch].size = need;
++
++		hws->scratch_vid[ch].dma = dma;
++		hws->scratch_vid[ch].cpu = cpu;
++		hws->scratch_vid[ch].size = arena_need;
++		hws->scratch_vid[ch].owned = true;
++
++		if (has_audio) {
++			hws->scratch_aud[ch].dma = dma + aud_off;
++			hws->scratch_aud[ch].cpu = (u8 *)cpu + aud_off;
++			hws->scratch_aud[ch].size = hws_audio_scratch_bytes();
++			hws->scratch_aud[ch].owned = false;
++		}
+ 	}
++	hws->scratch_users[ch] = 1;
++
++	dev_dbg(&hws->pdev->dev,
++		"scratch arena: allocated ch=%u size=%zu audio=%d\n",
++		ch, arena_need, has_audio);
++	mutex_unlock(&hws->scratch_lock);
+ 	return 0;
+ }
+ 
++void hws_release_channel_scratch(struct hws_pcie_dev *hws, unsigned int ch)
++{
++	if (!hws || ch >= MAX_VID_CHANNELS)
++		return;
++
++	mutex_lock(&hws->scratch_lock);
++	if (hws->scratch_users[ch] > 0)
++		hws->scratch_users[ch]--;
++	if (!hws->scratch_users[ch])
++		hws_free_channel_scratch_locked(hws, ch);
++	mutex_unlock(&hws->scratch_lock);
++}
++
+ static void hws_free_seed_buffers(struct hws_pcie_dev *hws)
+ {
+ 	int ch;
+ 
+-	for (ch = 0; ch < hws->cur_max_video_ch; ch++) {
+-		if (hws->scratch_vid[ch].cpu) {
+-			dma_free_coherent(&hws->pdev->dev,
+-					  hws->scratch_vid[ch].size,
+-					  hws->scratch_vid[ch].cpu,
+-					  hws->scratch_vid[ch].dma);
+-			hws->scratch_vid[ch].cpu = NULL;
+-			hws->scratch_vid[ch].size = 0;
+-		}
+-	}
++	if (!hws)
++		return;
++
++	/* Teardown-only force-free path; normal streams use release refcounts. */
++	mutex_lock(&hws->scratch_lock);
++	for (ch = 0; ch < MAX_VID_CHANNELS; ch++)
++		hws_free_channel_scratch_locked(hws, ch);
++	mutex_unlock(&hws->scratch_lock);
+ }
+ 
+ static void hws_seed_channel(struct hws_pcie_dev *hws, int ch)
+@@ -326,11 +444,11 @@ static void hws_seed_channel(struct hws_pcie_dev *hws, int ch)
+ 		       hws->bar0_base + CVBS_IN_BUF_BASE +
+ 		       ch * PCIE_BARADDROFSIZE);
+ 
+-	/* Half size: use either the current format's half or half of scratch. */
++	/* Half size: use either the current format or the video arena. */
+ 	{
+ 		u32 half = hws->video[ch].pix.half_size ?
+ 			hws->video[ch].pix.half_size :
+-			(u32)(hws->scratch_vid[ch].size / 2);
++			(u32)(MAX_VIDEO_SCALER_SIZE / 2);
+ 
+ 		writel_relaxed(half / 16,
+ 			       hws->bar0_base + CVBS_IN_BUF_BASE2 +
+@@ -400,6 +518,7 @@ static int hws_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
+ 	hws->pdev = pdev;
+ 	hws->irq = -1;
+ 	hws->suspended = false;
++	mutex_init(&hws->scratch_lock);
+ 	pci_set_drvdata(pdev, hws);
+ 
+ 	/* 1) Enable device + bus mastering (managed) */
+@@ -448,12 +567,7 @@ static int hws_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
+ 		}
+ 	}
+ 
+-	/* 6) Allocate scratch DMA and seed BAR table + channel base/half (legacy SetDMAAddress) */
+-	ret = hws_alloc_seed_buffers(hws);
+-	if (!ret)
+-		hws_seed_all_channels(hws);
+-
+-	/* 7) Start-run sequence. */
++	/* 6) Start-run sequence. Scratch DMA is allocated on stream start. */
+ 	hws_init_video_sys(hws, false);
+ 
+ 	/* A) Force legacy INTx; legacy used request_irq(pdev->irq, ..., IRQF_SHARED) */
 diff --git a/drivers/media/pci/hws/hws_reg.h b/drivers/media/pci/hws/hws_reg.h
-index e4fb4af44434..344cb8d011a9 100644
+index 344cb8d011a9..c8d6715fe0c2 100644
 --- a/drivers/media/pci/hws/hws_reg.h
 +++ b/drivers/media/pci/hws/hws_reg.h
-@@ -87,11 +87,12 @@
- #define HWS_REG_HDCP_STATUS            (CVBS_IN_BASE +  8  * PCIE_BARADDROFSIZE)
- #define HWS_REG_DMA_MAX_SIZE   (CVBS_IN_BASE +  9 * PCIE_BARADDROFSIZE)
+@@ -33,6 +33,13 @@
+ #define PCI_E_BAR_ADD_MASK 0xE0000000
+ #define PCI_E_BAR_ADD_LOWMASK 0x1FFFFFFF
  
--/* Buffer addresses (written once during init/reset). */
--/* Base of host-visible buffer. */
--#define HWS_REG_VBUF1_ADDR            (CVBS_IN_BASE + 25 * PCIE_BARADDROFSIZE)
--/* Per-channel DMA address. */
--#define HWS_REG_DMA_ADDR(ch)          (CVBS_IN_BASE + (26 + (ch)) * PCIE_BARADDROFSIZE)
 +/*
-+ * Video DMA setup uses one BAR remap-table slot per capture channel. The
-+ * remap-table slot supplies the host DMA page, while CVBS_IN_BUF_BASE +
-+ * ch * 4 supplies the device-side buffer offset within that page.
++ * The legacy driver reserved a 10 KiB hardware capture window per audio
++ * channel even though the delivered packet size is smaller. Keep that headroom
++ * for the split-buffer DMA engine.
 + */
-+#define HWS_VIDEO_REMAP_SLOT_OFF(ch)  (0x208 + ((ch) * 8))
++#define MAX_AUDIO_CAP_SIZE         (10U * 1024U)
++
+ #define MAX_VID_CHANNELS            4
  
- /* Per-channel live buffer toggles (read-only). */
- #define HWS_REG_VBUF_TOGGLE(ch)       (CVBS_IN_BASE + (32 + (ch)) * PCIE_BARADDROFSIZE)
+ #define MAX_MM_VIDEO_SIZE            SZ_4M
 diff --git a/drivers/media/pci/hws/hws_video.c b/drivers/media/pci/hws/hws_video.c
-index 18e4bc6901d3..b1af81d1368a 100644
+index b1af81d1368a..1531d703f6d8 100644
 --- a/drivers/media/pci/hws/hws_video.c
 +++ b/drivers/media/pci/hws/hws_video.c
-@@ -26,7 +26,6 @@
- #include "hws_irq.h"
- #include "hws_v4l2_ioctl.h"
+@@ -306,6 +306,7 @@ int hws_video_init_channel(struct hws_pcie_dev *pdev, int ch)
  
--#define HWS_REMAP_SLOT_OFF(ch)   (0x208 + (ch) * 8)	/* one 64-bit slot per ch */
- #define HWS_BUF_BASE_OFF(ch)     (CVBS_IN_BUF_BASE  + (ch) * PCIE_BARADDROFSIZE)
- #define HWS_HALF_SZ_OFF(ch)      (CVBS_IN_BUF_BASE2 + (ch) * PCIE_BARADDROFSIZE)
+ 	vid->queued_count = 0;
+ 	vid->window_valid = false;
++	vid->next_bounce_slot = 0;
  
-@@ -59,21 +58,13 @@ module_param_named(dma_window_verify, dma_window_verify, bool, 0644);
- MODULE_PARM_DESC(dma_window_verify,
- 		 "Read back DMA window registers after programming (debug)");
+ 	/* Default format. */
+ 	vid->pix.width = 1920;
+@@ -556,17 +557,18 @@ static void hws_seed_dma_windows(struct hws_pcie_dev *hws)
+ 				       hws->bar0_base + CVBS_IN_BUF_BASE +
+ 				       ch * PCIE_BARADDROFSIZE);
  
--void hws_set_dma_doorbell(struct hws_pcie_dev *hws, unsigned int ch,
--			  dma_addr_t dma, const char *tag)
--{
--	iowrite32(lower_32_bits(dma), hws->bar0_base + HWS_REG_DMA_ADDR(ch));
--	dev_dbg(&hws->pdev->dev, "dma_doorbell ch%u: dma=0x%llx tag=%s\n", ch,
--		(u64)dma, tag ? tag : "");
--}
--
- static void hws_program_dma_window(struct hws_video *vid, dma_addr_t dma)
- {
- 	const u32 addr_mask = PCI_E_BAR_ADD_MASK;
- 	const u32 addr_low_mask = PCI_E_BAR_ADD_LOWMASK;
- 	struct hws_pcie_dev *hws = vid->parent;
- 	unsigned int ch = vid->channel_index;
--	u32 table_off = HWS_REMAP_SLOT_OFF(ch);
-+	u32 table_off = HWS_VIDEO_REMAP_SLOT_OFF(ch);
- 	u32 lo = lower_32_bits(dma);
- 	u32 hi = upper_32_bits(dma);
- 	u32 pci_addr = lo & addr_low_mask;
-@@ -170,8 +161,6 @@ void hws_prime_next_locked(struct hws_video *vid)
- 	vid->next_prepared = next;
- 	dma = vb2_dma_contig_plane_dma_addr(&next->vb.vb2_buf, 0);
- 	hws_program_dma_for_addr(hws, vid->channel_index, dma);
--	iowrite32(lower_32_bits(dma),
--		  hws->bar0_base + HWS_REG_DMA_ADDR(vid->channel_index));
- 	dev_dbg(&hws->pdev->dev,
- 		"ch%u pre-armed next buffer %p dma=0x%llx\n",
- 		vid->channel_index, next, (u64)dma);
-@@ -183,7 +172,7 @@ static bool hws_force_no_signal_frame(struct hws_video *v, const char *tag)
- 	unsigned long flags;
- 	struct hwsvideo_buffer *buf = NULL, *next = NULL;
- 	bool have_next = false;
--	bool doorbell = false;
-+	bool programmed = false;
- 
- 	if (!v)
- 		return false;
-@@ -239,12 +228,11 @@ static bool hws_force_no_signal_frame(struct hws_video *v, const char *tag)
- 	if (have_next && next) {
- 		dma_addr_t dma =
- 		    vb2_dma_contig_plane_dma_addr(&next->vb.vb2_buf, 0);
+-			/* Half-frame length in /16 units.
+-			 * Prefer the current channel's computed half_size if available.
+-			 * Fall back to half of the probe-owned scratch buffer.
++			/*
++			 * Half-frame length in /16 units. Prefer the current
++			 * format and fall back to the video bounce window,
++			 * not the full per-channel arena that also contains audio.
+ 			 */
+ 			{
+ 				u32 half_bytes = hws->video[ch].pix.half_size ?
+-				    hws->video[ch].pix.half_size :
+-				    (u32)(hws->scratch_vid[ch].size / 2);
++					hws->video[ch].pix.half_size :
++					(u32)(MAX_VIDEO_SCALER_SIZE / 2);
 +
- 		hws_program_dma_for_addr(hws, v->channel_index, dma);
--		hws_set_dma_doorbell(hws, v->channel_index, dma,
--				     tag ? tag : "nosignal_zero");
--		doorbell = true;
-+		programmed = true;
+ 				writel_relaxed(half_bytes / 16,
+-					       hws->bar0_base +
+-					       CVBS_IN_BUF_BASE2 +
++					       hws->bar0_base + CVBS_IN_BUF_BASE2 +
+ 					       ch * PCIE_BARADDROFSIZE);
+ 			}
+ 		}
+@@ -1166,6 +1168,7 @@ static int hws_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		}
+ 		return ret;
  	}
--	if (doorbell) {
-+	if (programmed) {
- 		wmb(); /* ensure descriptors visible before enabling capture */
- 		hws_enable_video_capture(hws, v->channel_index, true);
- 	}
-@@ -534,7 +522,6 @@ static void hws_seed_dma_windows(struct hws_pcie_dev *hws)
- {
- 	const u32 addr_mask = PCI_E_BAR_ADD_MASK;
- 	const u32 addr_low_mask = PCI_E_BAR_ADD_LOWMASK;
--	u32 table = 0x208;	/* one 64-bit entry per channel */
- 	unsigned int ch;
++
+ 	(void)hws_read_active_state(hws, v->channel_index,
+ 				       &v->pix.interlaced);
  
- 	if (!hws || !hws->bar0_base)
-@@ -544,7 +531,7 @@ static void hws_seed_dma_windows(struct hws_pcie_dev *hws)
- 	if (!hws->cur_max_video_ch || hws->cur_max_video_ch > hws->max_channels)
- 		hws->cur_max_video_ch = hws->max_channels;
- 
--	for (ch = 0; ch < hws->cur_max_video_ch; ch++, table += 8) {
-+	for (ch = 0; ch < hws->cur_max_video_ch; ch++) {
- 		if (!hws->scratch_vid[ch].cpu)
- 			continue;
- 
-@@ -554,6 +541,7 @@ static void hws_seed_dma_windows(struct hws_pcie_dev *hws)
- 			u32 lo = lower_32_bits(p) & addr_mask;
- 			u32 hi = upper_32_bits(p);
- 			u32 pci_addr_low = lower_32_bits(p) & addr_low_mask;
-+			u32 table = HWS_VIDEO_REMAP_SLOT_OFF(ch);
- 
- 			writel_relaxed(hi,
- 				       hws->bar0_base + PCI_ADDR_TABLE_BASE +
-@@ -1128,8 +1116,6 @@ static void hws_buffer_queue(struct vb2_buffer *vb)
- 		dma_addr = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
- 		hws_program_dma_for_addr(vid->parent, vid->channel_index,
- 					 dma_addr);
--		iowrite32(lower_32_bits(dma_addr),
--			  hws->bar0_base + HWS_REG_DMA_ADDR(vid->channel_index));
- 
- 		wmb(); /* ensure descriptors visible before enabling capture */
- 		hws_enable_video_capture(hws, vid->channel_index, true);
-@@ -1214,9 +1200,6 @@ static int hws_start_streaming(struct vb2_queue *q, unsigned int count)
- 
- 			dma_addr = vb2_dma_contig_plane_dma_addr(prog_vb2, 0);
- 			hws_program_dma_for_addr(hws, v->channel_index, dma_addr);
--			iowrite32(lower_32_bits(dma_addr),
--				  hws->bar0_base +
--				  HWS_REG_DMA_ADDR(v->channel_index));
- 			dev_dbg(&hws->pdev->dev,
- 				"start_streaming: ch=%u programmed buffer %p dma=0x%08x\n",
- 				v->channel_index, to_program,
-diff --git a/drivers/media/pci/hws/hws_video.h b/drivers/media/pci/hws/hws_video.h
-index 4feaf5b2f5a9..fcd3eca0b0c3 100644
---- a/drivers/media/pci/hws/hws_video.h
-+++ b/drivers/media/pci/hws/hws_video.h
-@@ -20,8 +20,6 @@ void hws_init_video_sys(struct hws_pcie_dev *hws, bool enable);
- void hws_program_dma_for_addr(struct hws_pcie_dev *hws,
- 			      unsigned int ch,
- 			      dma_addr_t dma);
--void hws_set_dma_doorbell(struct hws_pcie_dev *hws, unsigned int ch,
--			  dma_addr_t dma, const char *tag);
- 
- int hws_video_quiesce(struct hws_pcie_dev *hws, const char *reason);
- void hws_video_pm_resume(struct hws_pcie_dev *hws);
 -- 
 2.54.0
 
