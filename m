@@ -1,50 +1,49 @@
-Return-Path: <linux-media+bounces-66039-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66040-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Wi0OIUpvQ2qHYQoAu9opvQ
-	(envelope-from <linux-media+bounces-66039-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:24:58 +0200
+	id PmxpLJpvQ2qZYQoAu9opvQ
+	(envelope-from <linux-media+bounces-66040-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:26:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75916E11B8
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:24:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0372C6E11EC
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:26:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
 	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66039-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66039-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66040-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66040-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1189630AC073
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 07:20:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 65263307C824
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 07:21:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BC3F39A7E1;
-	Tue, 30 Jun 2026 07:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCB039A7E1;
+	Tue, 30 Jun 2026 07:21:36 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E65A384CDC;
-	Tue, 30 Jun 2026 07:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F5637DEA2;
+	Tue, 30 Jun 2026 07:21:34 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782804028; cv=none; b=SHMg5So6zPEHpsAelMV0/S2xqSSugz5GdwARTj50tI+Q7bieUwA9f3Y73hbvPaabTz0dcnHpLF5jkavy2FcKRycUGd86S43sadKC6ImIk33zIaeQVQgaB0sUqFPFMPVtU0Ybqx5z/RHgUJKQnOLineI78dJ+EztjOAPj0ukGZXs=
+	t=1782804096; cv=none; b=T1245FEz5C6dQOZu0hX2bYr1C61tjx/U04lyGNL7c+ch4dcIRNchifaxVGUEp60+w2TvXWvO6IWV3URp1Xv7+Afm0ESLC3+uVzOBRUfwmCWNVyHWn3UZPp41Qz/5Un8TmpHIOAnmm0Qew/rnKCCjDWZWiFnLY0dnDjxKCJeqaZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782804028; c=relaxed/simple;
-	bh=nnf6JJlH3VdJWHHz8Stv9iX0lE05CbtO8CXMVoxiusw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r0c0suGwXejokGAiR8Aafu9YIGPhcyuF6lXh3HeDREYODC7g4MfJV1hT/8pRWayymJLy/+vpBwQYa2e+IYRZWz/ZoV5X2+pEo63QOD1SlDaYLatiaNasXOaBpJ/D1Z6sBT4zNmMBKx+ppRm/HtEKrWQFFY146W4ATTLStzNj27A=
+	s=arc-20240116; t=1782804096; c=relaxed/simple;
+	bh=VkuBAsJl9ZPr9WpzDTh3ZaAomyp3BX117NfVFNQjIw8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HUj1bh5Uz6vlSHC7rhJTylo1vwwzdC59cIjLDoOFbABZ+DuQKDJIn5G88GWRFuKzy0bSeisrOwLFauuPld5ZPgi7hpSE1lcMDTJ1eHawOTWb+OIE+zCrDrI30kGZVPxRZrE3DZvMHnPdsdGuzRQTRuRrk1DdI8qefT50Y7nt3Jc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Received: from 0015-media-ivtv-stop-VBI-start-code-scan-before-short-tail.eml (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowAAXXcA0bkNqZ0EkFg--.23110S2;
-	Tue, 30 Jun 2026 15:20:20 +0800 (CST)
+Received: from 0017-media-s2255-validate-firmware-trailer-size.eml (unknown [111.196.245.140])
+	by APP-05 (Coremail) with SMTP id zQCowAAnoPN7bkNqGE4kFg--.14444S2;
+	Tue, 30 Jun 2026 15:21:31 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Andy Walls <awalls@md.metrocast.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: "open list:IVTV VIDEO4LINUX DRIVER" <linux-media@vger.kernel.org>,
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "open list:MEDIA INPUT INFRASTRUCTURE V4L/DVB" <linux-media@vger.kernel.org>,
 	open list <linux-kernel@vger.kernel.org>,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH] media: ivtv: stop VBI start-code scan before short tail
-Date: Tue, 30 Jun 2026 15:19:33 +0800
-Message-ID: <2026063008027101.2-ccfa108-0015-media-ivtv-stop-VBI-start-c-pengpeng@iscas.ac.cn>
+Subject: [PATCH] media: s2255: validate firmware trailer size
+Date: Tue, 30 Jun 2026 15:20:20 +0800
+Message-ID: <2026063008039694.3-ccfa108-0017-media-s2255-validate-firmwa-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,80 +52,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAXXcA0bkNqZ0EkFg--.23110S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruw47Zry3GFy5XrW7CFW5trb_yoWfGrX_ur
-	95XrnrZF15Cr4DWF1fJrWruF9aq398WFy8uaySyrWfJryUCFy8GrZ8ZF1DCF1kZrsI9FyD
-	Ka4fXr17C34xKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbc8FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+X-CM-TRANSID:zQCowAAnoPN7bkNqGE4kFg--.14444S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4kKF4kJF4DCrWDJryfCrg_yoWfKwcE9r
+	15ur1kW3WjkFy5ur42kr1SvryrA397uFy8ZFn2qw45JFyvq3W3XrWqv3W3uw1UGF42kF1D
+	J3s8XF4fuwn8WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbFAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
-	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
-	cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
-	ACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_JF0_Jw1l
-	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
-	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
-	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYNVyDUUUU
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxC2
+	0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+	0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+	14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20x
+	vaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8
+	JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb3rc3UUUUU==
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.46 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
 	TO_DN_ALL(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66039-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:awalls@md.metrocast.net,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:pengpeng@iscas.ac.cn,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66040-lists,linux-media=lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:pengpeng@iscas.ac.cn,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	R_DKIM_NA(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,iscas.ac.cn:email,iscas.ac.cn:mid,iscas.ac.cn:from_mime]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,iscas.ac.cn:email,iscas.ac.cn:mid,iscas.ac.cn:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C75916E11B8
+X-Rspamd-Queue-Id: 0372C6E11EC
 
-compress_sliced_buf() scans one byte at a time while testing a four-byte
-VBI start code.  The final iterations can read beyond the remaining
-buffer tail.
+s2255_probe() reads the marker and version from the last eight bytes of
+the firmware image.  A shorter image makes those trailer reads
+underflow.
 
-Stop the scan once fewer than four bytes remain.
+Reject firmware images shorter than the required trailer before reading
+it.
 
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- drivers/media/pci/ivtv/ivtv-vbi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/s2255/s2255drv.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/pci/ivtv/ivtv-vbi.c b/drivers/media/pci/ivtv/ivtv-vbi.c
-index ae7a00f..af086c4 100644
---- a/drivers/media/pci/ivtv/ivtv-vbi.c
-+++ b/drivers/media/pci/ivtv/ivtv-vbi.c
-@@ -330,7 +330,7 @@ static u32 compress_sliced_buf(struct ivtv *itv, u32 line, u8 *buf, u32 size, u8
- 	unsigned lines = 0;
- 
- 	/* find the first valid line */
--	for (i = 0; i < size; i++, buf++) {
-+	for (i = 0; i + 3 < size; i++, buf++) {
- 		if (buf[0] == 0xff && !buf[1] && !buf[2] && buf[3] == sav)
- 			break;
+diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
+index 0b8182e..b19f541 100644
+--- a/drivers/media/usb/s2255/s2255drv.c
++++ b/drivers/media/usb/s2255/s2255drv.c
+@@ -2277,6 +2277,12 @@ static int s2255_probe(struct usb_interface *interface,
  	}
+ 	/* check the firmware is valid */
+ 	fw_size = dev->fw_data->fw->size;
++	if (fw_size < 8) {
++		dev_err(&interface->dev, "Firmware invalid.\n");
++		retval = -ENODEV;
++		goto errorFWMARKER;
++	}
++
+ 	pdata = (__le32 *) &dev->fw_data->fw->data[fw_size - 8];
+ 
+ 	if (*pdata != S2255_FW_MARKER) {
 
 
