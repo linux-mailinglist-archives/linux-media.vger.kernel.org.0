@@ -1,175 +1,169 @@
-Return-Path: <linux-media+bounces-66048-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66049-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id E2WBGzJ3Q2qyYwoAu9opvQ
-	(envelope-from <linux-media+bounces-66048-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:58:42 +0200
+	id kMCUMtd3Q2r3YwoAu9opvQ
+	(envelope-from <linux-media+bounces-66049-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 10:01:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6696E177C
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEB16E17DD
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 10:01:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=kbYfARoA;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66048-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66048-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="gKfZm/55";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66049-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66049-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B4854301EB65
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 07:58:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A8D6F301E776
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 08:01:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6438A3DE45C;
-	Tue, 30 Jun 2026 07:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A27D33AB272;
+	Tue, 30 Jun 2026 08:01:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B4D3E5A0A
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 07:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B338525A33F
+	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 08:01:22 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782806288; cv=none; b=NZv3ZTASMM1PybBluKTm3yySBkUVxoJX53ASXI7bQRBcTzMAVmwxUDP8y6iT+4tb537XqAC2rqeoElcoWyoRuFCcpIGmzuxvVNi4Vdzu1zwrghdfcWEtycG5BQ4SbnLO14gfuX5QVuyrtUKerYLiKx1fjDF97QoDdy2e/Vy5Eu4=
+	t=1782806484; cv=none; b=t4jNCuJgSp/+SKQNkAccWmXq+Slm5mkvcqus8UwgmsxBIntwCy4iTnBtUNWgL/Uwly5n/u+pMgG7P4XJ16YMuwUTl/E5PDxV12+tVXRH0gP1kGvX3ROJ6kPw7or6sJZbaAwEqvXGJQ4EN6lVJ5zqVWeEwHbuqiih8r7Sf5zbk5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782806288; c=relaxed/simple;
-	bh=q1PynG58t9h4o2HtbeoHkswViSz1UylYOiJy0jbbSMM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EjOLZ+lieqegAs1ePXkbmbupZxITVTZpsSBZksC9Xl3i/IASis4iRNVuSB0srcJhMmRKbCjNj74aZzNzvgOIi6nPTGSebt33RAL+5AxDxVoCqk6LnoTLjA2eMvkoyQaWuZGP1J62p+ydQt5EshPX8yO7XjZgIXEydG1i7pr0oec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kbYfARoA; arc=none smtp.client-ip=192.198.163.19
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782806287; x=1814342287;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q1PynG58t9h4o2HtbeoHkswViSz1UylYOiJy0jbbSMM=;
-  b=kbYfARoAiXUixl173eaXZvGeqq1v//9d37UsnW/cJxFKGqXqeDXKcxXU
-   t11euMUptVFgS6+7+eWp7DsHG3JlgVFS8aRTRZxYkactfTfKNOHKQN6vz
-   aXwNA/9Cvd4ph/gCFlZ+epwKmPD8++bzckhaYShqDOFqe9VUZy4N2cIak
-   if21nqhXgdG2jnHnBvH4WxQ2uFoLe3N3qPh08W0BzDxOkayBW4xQkhDDn
-   yDbtSdv5tDdWnngVOoU15bLUj0fKEYb+KIEetKrayhl8Rk5GbbPDAmAL1
-   ZLUsj8eqk1I1aFuh2SjS5x0RRccfFPMdeX+1FXMdYb43EsY6450odKoNy
-   g==;
-X-CSE-ConnectionGUID: T5EOJe2DTH6n/GGbsJ77xw==
-X-CSE-MsgGUID: uWk+vmviRN6zTj98f3Lhyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="82501257"
-X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
-   d="scan'208";a="82501257"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 00:58:06 -0700
-X-CSE-ConnectionGUID: b+I+lHdSRnOVNyU3Rl5tzg==
-X-CSE-MsgGUID: aZ54DkhRS0GuOSgqkHAOPQ==
-X-ExtLoop1: 1
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.116])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 00:58:05 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1C35911FAA5;
-	Tue, 30 Jun 2026 10:58:06 +0300 (EEST)
-Date: Tue, 30 Jun 2026 10:58:06 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	Mauricio Faria de Oliveira <mfo@igalia.com>
-Subject: Re: [PATCHv3 1/6] media: core: v4l2-async.c: unreg subdev if
- asc_list is empty
-Message-ID: <akN3DglbD4LPxES1@kekkonen.localdomain>
-References: <cover.1782716154.git.hverkuil+cisco@kernel.org>
- <2cf4473a9c16d0715aa081e234bb36c70fefce3c.1782716154.git.hverkuil+cisco@kernel.org>
+	s=arc-20240116; t=1782806484; c=relaxed/simple;
+	bh=bA5jsLeRjSO3pvqvsJ8DbBQ0juWtpfLNWdNJGf18D2E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=COjFMajelwvI+Jt57ZgXZiMZw3Jr9Nf7Vew2JiVqUzgjVXV+d0zYEY/wWAoTgS2shAdzq6A/QOE+ixi4ja+tsYvi6kSMWFrcuyF1Bd1guJKwDa90J9TwdEi3JxfpBoT0qlt1UNv95gutDSwudidPu9W5bDanh+zDz5RsK3vJpco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gKfZm/55; arc=none smtp.client-ip=209.85.221.53
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4631679f204so172964f8f.0
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 01:01:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782806481; x=1783411281; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YI/jgLaFSFJaOYv0jGHZTjandLkO9uhSh+X6he+epaA=;
+        b=gKfZm/558gDCbn5yt1b1X6EeDT2HM2DYmPxF5IA84kyr2jRvurkXTWZEI7+I1If+LP
+         ufYBxj2RGAbw7USP4b5CwcIOTdu6zwTLxlstGAIPnbmt+iP/ckC51LKPOrGOtgnPWh9O
+         04XQInBACM4bCXXZ1WuUurE97E5ES2EeDDWCfo2saJ1S4WtlHpxBwneOuu8/TbC2kSBQ
+         et5b8U0MvzKnkHiolIFT2aX98TbETMGUJk/FWCpGhc0MiU9a1TJUt+OwTQa6nDNXYcac
+         +ECvDRPKE6sv5d6Wz6KtfylNjl8mb0mi/7MosEE6Nx7fhVffLiT20ozHRiEZ+p7/yVJL
+         oiMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782806481; x=1783411281;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YI/jgLaFSFJaOYv0jGHZTjandLkO9uhSh+X6he+epaA=;
+        b=Lw872kWxWi5esfyvZg344Ba6DwVZRCxbLjD3VDyYXVWaBr8diFkjo7FZJq6qdk0tV5
+         g24gWvfucEPZrgMrx3mMg7Ayd7OSMnxhoiLfTAgHSphibxD0EvDsWm6gE7QhlTm0WXPk
+         ieRQxMvmA+UC9qNM3KjuPGFOL5kSTvlJBFbBfS8ENQwxSJFFdtF6FP1hLGR0gQFm19nL
+         8OFstCC5Cl7DOK7CcI8xrQhb0ZkBdZup5itcIVNqdG6Q7aP1ohkKrWiS2BmEdTYeP0Bc
+         8IDseRubWNhfi2hqmIXVPDE/pQYtwKAfvcVGKFwBd4en7v8osow3TF00OZtbfL2kNPMX
+         u9Yg==
+X-Forwarded-Encrypted: i=1; AHgh+RoxlHcvXqlaov+b9bavWHDbIVUXC2Ry40xtBE+kInqC7SqWnWA//e8USNWmbWvGBao5rRUuEWrxBgkIyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfRdvAsfTBulvStCS6XCyWDxH1mQAjdOxbTB8bMvCbEeBMsrnb
+	5fqVVPRxkbe3IdmTG1XlitU3tUYSEgxzvmXJ20lSckFLY03mjaVmXmk1
+X-Gm-Gg: AfdE7clwU7cq/uoqFxAcIt1Ek0NZQQeVIFcAmeqlcyd7HaqrOZcoTR7du8KhF/ia7sr
+	nvfPiE8YFPddsUAQLvslV5lKDh4v0hUHpH0kwfpKHOgrvTPcBDlTrKqnbOWpUfnfN/t3xoJIEQm
+	aPd0OejLWN4Wl2HwhLkZlekLkgrW0WCl8JnGLRweFaExvBUVNjlrQPM+iVy44erz63eFHsFwqq6
+	omeu+HMzauHsvUM+n3VEJ5V9VStgHF4Em/3ONG/w+fFAhVstsrvBNe6jUtv1azjfazJqpbHVA++
+	zEQd46D8HXzhUnVvuor9RDxCfhIAApLVPFEPsFlnL7umBT04fPkNM9zZhYxkMdb7qci1Fassm7T
+	p7ncVnF4tTC2rdKczRGoCTtbUcZEjbg4ANmeZ3bH8GUBHADJbckCIj5m//Bf6QHl3jlPb3e8NR0
+	vvwx2jjOMs8SdjjHWEiCSBNIikjROiYOM=
+X-Received: by 2002:a05:6000:46c7:b0:472:1424:fc7c with SMTP id ffacd0b85a97d-475de54e182mr792784f8f.10.1782806480868;
+        Tue, 30 Jun 2026 01:01:20 -0700 (PDT)
+Received: from laptop.fritz.box (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-475671d0403sm5651837f8f.29.2026.06.30.01.01.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 01:01:20 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To: sumit.semwal@linaro.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	lizhi.hou@amd.com,
+	Max.Zhen@amd.com,
+	Mario.Limonciello@amd.com,
+	airlied@gmail.com,
+	karol.wachowski@linux.intel.com
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] dma-buf: explicitely forbid exposing pages from get_user_pages()
+Date: Tue, 30 Jun 2026 10:01:12 +0200
+Message-ID: <20260630080112.1117341-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2cf4473a9c16d0715aa081e234bb36c70fefce3c.1782716154.git.hverkuil+cisco@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-66048-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:mfo@igalia.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66049-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:lizhi.hou@amd.com,m:Max.Zhen@amd.com,m:Mario.Limonciello@amd.com,m:airlied@gmail.com,m:karol.wachowski@linux.intel.com,m:christian.koenig@amd.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[ckoenigleichtzumerken@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[linaro.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,amd.com,gmail.com,linux.intel.com];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,intel.com:dkim,kekkonen.localdomain:mid]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ckoenigleichtzumerken@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,amd.com:mid,amd.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2D6696E177C
+X-Rspamd-Queue-Id: BCEB16E17DD
 
-Hi Hans,
+We recently had another incident where two drivers put pages they got from
+get_user_pages() into a DMA-buf and cause quite a number of problems.
 
-Thanks for the patch.
+Explicitely document that this is not something exporters can do.
 
-On Mon, Jun 29, 2026 at 08:55:49AM +0200, Hans Verkuil wrote:
-> In v4l2_device_unregister_subdev(), if sd->asc_list is empty,
-> then v4l2_device_unregister_subdev() is never called, but that
-> should still happen.
-> 
-> This causes crashes with em28xx that uses tvp5150: that i2c
-> module uses v4l2_async, but em28xx does not as it predates
-> v4l2_async.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/dma-buf.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Isn't the sub-device unregistered via v4l2_device_unregister() or do I miss
-something? em28xx_v4l2_fini() calls it.
-
-Or do you mean the issue happens at tvp5150 unbind time?
-
-> 
-> So if sd->asc_list is empty, then just call
-> v4l2_device_unregister_subdev().
-> 
-> Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
-> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 888a2e213b08..d7437c958028 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -898,9 +898,13 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->  	sd->subdev_notifier = NULL;
->  
->  	if (sd->asc_list.next) {
-> -		list_for_each_entry_safe(asc, asc_tmp, &sd->asc_list,
-> -					 asc_subdev_entry) {
-> -			v4l2_async_unbind_subdev_one(asc->notifier, asc);
-> +		if (list_empty(&sd->asc_list)) {
-> +			v4l2_device_unregister_subdev(sd);
-> +		} else {
-> +			list_for_each_entry_safe(asc, asc_tmp, &sd->asc_list,
-> +						 asc_subdev_entry) {
-> +				v4l2_async_unbind_subdev_one(asc->notifier, asc);
-> +			}
->  		}
->  	}
->  
-
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 71f37544a5c6..aa5af4f439c2 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -685,6 +685,14 @@ static struct file *dma_buf_getfile(size_t size, int flags)
+  *
+  * For the detailed semantics exporters are expected to implement see
+  * &dma_buf_ops.
++ *
++ * It is explicitely forbidden for exporters to expose buffers they don't "own"
++ * as DMA-buf. This includes pages acquired by get_user_pages() or other import
++ * mechanism. Not following this rule can create numerous security problems.
++ *
++ * It is also strongly discouraged to expose the same backing store through
++ * multiple DMA-bufs at the same time. This eventually creates aliasing and
++ * cache coherency problems which are extremely hard to debug and fix.
+  */
+ 
+ /**
 -- 
-Kind regards,
+2.43.0
 
-Sakari Ailus
 
