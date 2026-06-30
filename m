@@ -1,181 +1,220 @@
-Return-Path: <linux-media+bounces-66059-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66060-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id UJY3JUWOQ2rDbgoAu9opvQ
-	(envelope-from <linux-media+bounces-66059-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 11:37:09 +0200
+	id FuUBHoWQQ2qJcAoAu9opvQ
+	(envelope-from <linux-media+bounces-66060-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 11:46:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4DB6E2454
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 11:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F05D6E2677
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 11:46:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=baylibre.com header.s=google header.b=QNwTO0M4;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66059-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66059-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ol5j1g7E;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66060-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66060-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DC341302CA9E
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:30:49 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A20923110AF0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:38:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5A283F9287;
-	Tue, 30 Jun 2026 09:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 810783AB5DA;
+	Tue, 30 Jun 2026 09:38:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D503F788D
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 09:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B0F396588
+	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 09:38:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782811550; cv=none; b=Kh/v2paglMa74M4tqpkCUbfNpxLzcRWO/l1xyqaAjETdrScpHqKSxXrlwPyuxVSxUjziWp/C4m6gIecokvzi9MEZ2+Cakjdu1xtINrfS+hvHCp7R0Yyg51ZDjJuBem+cRJOGTt+bV4gOlRUx7RIHiUZ1QIqdB665TfxK4CNJslo=
+	t=1782812302; cv=none; b=ss0rzVUi3qb1cp8q+knXGTNvf8fXhwu2vXyDxo4KuLr1aUtwQ8zyl/PMQRdiXe3RzLgbkt0eKz1hoUSoX5AGfIPahJG5Cws7mHKLZJqTFKHRJA14fXa07tM25R91FnfoBK+FiPtxT5rkXVvbfzokAqi8eNQ7tewel46FZtb7xMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782811550; c=relaxed/simple;
-	bh=busqlJ0274t3/BPXZX8dUCt6vR+uEyrvfGNkr9d6lvE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JymMVY77wtHGA9LwsQAu6HFSjM6q65vJnJAZrBJZd8Qt0I44mbw6zH9qH8SSUBa4cEoYDkLCEW32yUywbKQsuqZYcxCUlOI3TqilKhWnRuMrQJp9ZcOwNJrR0nalXuuc7WXwg+kT8ig5Euf/9i4s5GagSg1BpDzhjc4yJwQy1IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=QNwTO0M4; arc=none smtp.client-ip=209.85.221.52
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-471eeac43bfso2703489f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 02:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782811547; x=1783416347; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W/rCC6H/PubQs56FOFh3BNffnWCFrCQpZD8Knhkq+Tw=;
-        b=QNwTO0M4W3nv8eJPyQLxK6IEb//ScrqrEK25ktImO+3VZd0szBGjU9fth4Pj4ZF9Tr
-         t4NYWOHcBr/FhnqNGnuSoWVcEyk7s93GwPWOHLQ0cBuA+lNdmIb/sWj4P72O821NMLvj
-         dJRT025c5Zz3wD8+bnJk/GbDHWFmm7ny6xI4HDVr/LiyezBOVxmAKFP1FGhwhuHainrE
-         A7qqvIPngIB6pXm2uqfpdXBd0gQVWZvImTzcJ9jgH7ZR3NqGNqxjj3szyuZUCG+lKK+k
-         XqH43K1ReQvlyrDoo2RxIrz7NXoXj2kjqgR/atDcORDWcsWWP8iOeo0FbWs0yN5xqjDc
-         ijHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782811547; x=1783416347;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W/rCC6H/PubQs56FOFh3BNffnWCFrCQpZD8Knhkq+Tw=;
-        b=DKcmuXwYgF3/kgq3YvZI2aTPo4rQ/7xR3mjDfx0oAWeO50r2EHzNIpobbiVx/CiKlb
-         xqh6JfTs1NP5w5xEYH4UIkAGEDjwC0bmG+svwt+Bl4X47945Z72pC/wsFylFE2gn2MAL
-         J52XJp+u0zZj6Z+Bpozq2GYzZ4lutxn3Zn+ZpKMQRel8rLXfe1rOE4malHA6+L+Kmj0b
-         xaPTJXjL9kI45QN2tNlbmepIyCHWjvSnTouKnY74pmLYpPZq/icfxPaE/hg+aJK4ghPm
-         SW0bzXfxTWbU+SF0px3yQEQKM/oWewWnIoSm4ncVFKzHGkoL4tGvA2P4uDFTLmJVBZIl
-         1IsA==
-X-Forwarded-Encrypted: i=1; AHgh+RphVyXuJLZIm+4quAUovh1aPwPz0K31gQtTygQYxCAVn1NocYWQwerGkT2HVZ+xUxZ4Riop+lNoq3cWnw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8ZoT0oxmQheiUKTz5k3R42TgPDW3u1ql1ORsdabaj3s2U+MGD
-	fD+P3bXp4lhXMMrXuQSPPT2CUkWhjKpmIInOqt0qGx9VBg6fh4UVfngrQP+Ga7TvogPl5MPrz8B
-	9XnX2
-X-Gm-Gg: AfdE7clVByppoFJPjRglNCXYDTZIjrngGtKfKGi3nzgVmRxa+KvOefIvlDIqUx11ack
-	HJPJGsWfwLeHmhv+NHnQMmUnQ+qBRaMGYZ7NUavl+eTkDJ7dO7que/9xDXHyv2XC3/aFiPHvSHn
-	+aWI7wk3N+UTwchHQKZ47mxTpNNVpSKpL6O0j9FPjYcCKMkAGcqM9YC4preHht29pie+enQKSvu
-	k2+b6RYW7ZAvT+4r2rGk9Wai7DY/EfwdhwmhJSCxZ1aKX2Oa5kgVHES/nKHNcVQbJ7vIrAC34EK
-	WPo8UTOXtG6lEW8S5HpvzYXdrAwKLIg7DJhHO4Dov3MFUcOS/wH7v02Drod3LoHAP6gNSOs+UJw
-	+ljL+w86swLZ/8orHPbsDCWFVcWuPcioh/LPyFsgMxMFjgJV4pHtnPjUbABoyZvnVKibD98SLkf
-	kEw1zd0ZBtLID7LBPqLbhC8sf4Dz97npP2wbsRnRi+lfKwEizJvC/cYnwhSijCsTaZyL0aL7att
-	l6s
-X-Received: by 2002:a05:6000:2dca:b0:474:6a5b:85f4 with SMTP id ffacd0b85a97d-4755021c1e7mr3384420f8f.5.1782811546773;
-        Tue, 30 Jun 2026 02:25:46 -0700 (PDT)
-Received: from localhost (p200300f65f47db042c439d749f38355a.dip0.t-ipconnect.de. [2003:f6:5f47:db04:2c43:9d74:9f38:355a])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4756636cdccsm5535940f8f.24.2026.06.30.02.25.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 02:25:46 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Subject: [PATCH v4 14/17] media: em28xx: Add include for struct usb_device_id
-Date: Tue, 30 Jun 2026 11:24:33 +0200
-Message-ID: <e72de5b4b9f1aa77a3c19a5e698a195dfd81ae0b.1782808461.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1782808460.git.u.kleine-koenig@baylibre.com>
-References: <cover.1782808460.git.u.kleine-koenig@baylibre.com>
+	s=arc-20240116; t=1782812302; c=relaxed/simple;
+	bh=BZ+CmHNAvZxpUlhOggkH18h+UlSwgi7KOcmLlgn2JUU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hwgQEaHDx091nav9+OOb4QtkolgtNOZRoIJl5Y3ERcP1oPhq0E2FnmwDYzSf8daVC7eQKPHPZ1HX236loHEPbRQ4XzqfBr20fo/35qxDP/ObcEaIPKhBPj1HMxplxle4gR8rVEkJgAqsGuwpsJQCUwv/T7y9zZnkJJPI87xgGeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ol5j1g7E; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D89581F000E9;
+	Tue, 30 Jun 2026 09:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782812300;
+	bh=L/7JrjTZq46uBc4qYwssiuG3pchQnOhrmG2mFJqROJE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ol5j1g7EqPOTsSKTmiqMOVDfS/jRs3F3Ui4xpXRS5NINr+igi1znsQQIZ9TO3gX4f
+	 66xARd4G0TQjuo1HWWNMmkGtoTMSISmsFenIJU4qx2qd1ybhvrEBObIGWqYYwPjbHI
+	 qpRwVMxnAas+eU0t/mjJAd5Wxk+DRapzJM6BjVVoJpfSmv67vxUvYiPe1vJ4WHuWqj
+	 sq9jeXA8ywPdehbcVAn5RxMR01VKmaRXDpEBIPoMy60cU280vPqcUfbqGo1FQTF3CO
+	 LHqt2b7ChtmsO/O4QgX4uqY139dC8GlY95LAeSqyxtyzidcYr8Y6TFfyuNNIVXMLhe
+	 Rc5/alvxlAKsg==
+Message-ID: <0e26135c-129d-464b-bd83-daeaf3150e25@kernel.org>
+Date: Tue, 30 Jun 2026 11:38:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3 1/6] media: core: v4l2-async.c: unreg subdev if asc_list
+ is empty
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Mauricio Faria de Oliveira <mfo@igalia.com>
+References: <cover.1782716154.git.hverkuil+cisco@kernel.org>
+ <2cf4473a9c16d0715aa081e234bb36c70fefce3c.1782716154.git.hverkuil+cisco@kernel.org>
+ <akN3DglbD4LPxES1@kekkonen.localdomain>
+ <3fc7cf62-c7eb-45c0-a961-af2e47f0b589@kernel.org>
+ <akOCNKRVeRlebCI1@kekkonen.localdomain>
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Content-Language: en-US
+In-Reply-To: <akOCNKRVeRlebCI1@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1448; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=busqlJ0274t3/BPXZX8dUCt6vR+uEyrvfGNkr9d6lvE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqQ4ts8zLxjENiWAAmhECkbj4eY4/UuP9VPF6hM RBOBuvFtwqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakOLbAAKCRCPgPtYfRL+ TlwNB/4se/M65IDlDb0ks5IxrWNfQHtG5owdacvrkb5dOsenhpYf9v0LY7VELqDzyr1tiWeDZTU 9DsS6IHZhXphaX5b47OAdsX3rZaxjyBi4JtZEoKzWIkEDgOF3SQUGG4RRQnOfTSwX/yPSFOLYL6 GkQR+Pf7fT2vYS/XN7A+LZRX2g/od8c6g1Gp6z1XGlw5tei/N5lWAgtZTYLxm9T/o4L+bvdV/nB QRF4Kgk2muqr4h7TttASFfhT8xcM2WMVMoT5SHmYir3sKfIW6c65vB6+0x8ooT+vbhE0JDE6f8E 1i3Zs2a+zuyc6RsNJp7XQndyf6uZf3+JGxIvsBBEt3CQ9JFJ
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	URIBL_MULTI_FAIL(0.00)[sto.lore.kernel.org:server fail,vger.kernel.org:server fail];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:torvalds@linux-foundation.org,m:gregkh@linuxfoundation.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dakr@kernel.org,m:o-takashi@sakamocchi.jp,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
-	DMARC_NA(0.00)[baylibre.com];
-	TAGGED_FROM(0.00)[bounces-66059-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-66060-lists,linux-media=lfdr.de,cisco];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:mfo@igalia.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[baylibre.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,sakamocchi.jp:email,baylibre.com:dkim,baylibre.com:email,baylibre.com:mid,baylibre.com:from_mime,msgid.link:url,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2D4DB6E2454
+X-Rspamd-Queue-Id: 1F05D6E2677
 
-Traditionally <linux/mod_devicetable.h> was a header defining a plethora
-of structs, among them struct usb_device_id. This was split now with the
-objective that only the relevant bits are included.
+On 6/30/26 10:45, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> On the subject -- I'd write this as, to align with the existing practice:
+> 
+> media: v4l2-async: Unregister sub-device if asc_list is empty
+> 
+> On Tue, Jun 30, 2026 at 10:32:20AM +0200, Hans Verkuil wrote:
+>> On 6/30/26 09:58, Sakari Ailus wrote:
+>>> Hi Hans,
+>>>
+>>> Thanks for the patch.
+>>>
+>>> On Mon, Jun 29, 2026 at 08:55:49AM +0200, Hans Verkuil wrote:
+>>>> In v4l2_device_unregister_subdev(), if sd->asc_list is empty,
+> 
+> s/device/async/
+> 
+> ?
 
-Currently <linux/mod_devicetable.h> is transitively included in
-drivers/media/usb/em28xx/em28xx.h via:
+Yes. Oops, that's a confusing typo!
 
-	drivers/media/usb/em28xx/em28xx.h ->
-	<linux/i2c.h> ->
-	<linux/acpi.h> ->
-	<linux/device.h> ->
-	<linux/device/driver.h> ->
-	<linux/mod_devicetable.h
+> 
+>>>> then v4l2_device_unregister_subdev() is never called, but that
+>>>> should still happen.
+>>>>
+>>>> This causes crashes with em28xx that uses tvp5150: that i2c
+>>>> module uses v4l2_async, but em28xx does not as it predates
+>>>> v4l2_async.
+>>>
+>>> Isn't the sub-device unregistered via v4l2_device_unregister() or do I miss
+>>> something? em28xx_v4l2_fini() calls it.
+>>>
+>>> Or do you mean the issue happens at tvp5150 unbind time?
+>>
+>> Yes, that's when it happens. The tvp5150 driver is removed, it calls
+>> v4l2_async_unregister_subdev(), but that never calls
+>> v4l2_device_unregister_subdev() since em28xx doesn't use v4l2-async
+>> and so sd->asc_list is empty.
+>>
+>> This happens when unplugging the USB device.
+> 
+> Ack.
+> 
+> Could you add this to the commit message? It'd help understanding what
+> really goes on here. I'd also add a comment, see below.
 
-To keep struct usb_device_id available once <linux/device/driver.h>
-stops including <linux/mod_devicetable.h>, include it the header
-providing that struct explictly.
+OK.
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
-Acked-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Link: https://patch.msgid.link/b859817d9f6ec7450302a231e093a5ad5852cb91.1782682124.git.ukleinek@kernel.org
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- drivers/media/usb/em28xx/em28xx.h | 1 +
- 1 file changed, 1 insertion(+)
+> 
+>>
+>>>
+>>>>
+>>>> So if sd->asc_list is empty, then just call
+>>>> v4l2_device_unregister_subdev().
+>>>>
+>>>> Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
+>>
+>> It was introduced by commit 28a1295795d8, before that commit this was done correctly.
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+>>>> ---
+>>>>  drivers/media/v4l2-core/v4l2-async.c | 10 +++++++---
+>>>>  1 file changed, 7 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+>>>> index 888a2e213b08..d7437c958028 100644
+>>>> --- a/drivers/media/v4l2-core/v4l2-async.c
+>>>> +++ b/drivers/media/v4l2-core/v4l2-async.c
+>>>> @@ -898,9 +898,13 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+>>>>  	sd->subdev_notifier = NULL;
+>>>>  
+>>>>  	if (sd->asc_list.next) {
+>>>> -		list_for_each_entry_safe(asc, asc_tmp, &sd->asc_list,
+>>>> -					 asc_subdev_entry) {
+>>>> -			v4l2_async_unbind_subdev_one(asc->notifier, asc);
+>>>> +		if (list_empty(&sd->asc_list)) {
+> 
+> How about:
+> 
+> 			/*
+> 			 * If the sub-device was registered through other means
+> 			 * than v4l2-async, there are no async connections but
+> 			 * the sub-device may still well be registered.
+> 			 * Unregister it now.
+> 			 */
+> 
+>>>> +			v4l2_device_unregister_subdev(sd);
+>>>> +		} else {
+>>>> +			list_for_each_entry_safe(asc, asc_tmp, &sd->asc_list,
+>>>> +						 asc_subdev_entry) {
+>>>> +				v4l2_async_unbind_subdev_one(asc->notifier, asc);
+>>>> +			}
+> 
+> These braces are redundant.
+> 
+>>>>  		}
+>>>>  	}
+>>>>  
+>>>
+>>
+> 
 
-diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
-index 21c912403efc..711f281613f5 100644
---- a/drivers/media/usb/em28xx/em28xx.h
-+++ b/drivers/media/usb/em28xx/em28xx.h
-@@ -23,6 +23,7 @@
- #include <linux/mutex.h>
- #include <linux/kref.h>
- #include <linux/videodev2.h>
-+#include <linux/device-id/usb.h>
- 
- #include <media/videobuf2-v4l2.h>
- #include <media/videobuf2-vmalloc.h>
--- 
-2.47.3
+I'll prep a v4.
 
+Regards,
+
+Hans
 
