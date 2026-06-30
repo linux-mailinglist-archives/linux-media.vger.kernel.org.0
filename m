@@ -1,243 +1,159 @@
-Return-Path: <linux-media+bounces-66140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66141-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id y+NmOAcvRGraqAoAu9opvQ
-	(envelope-from <linux-media+bounces-66140-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 23:03:03 +0200
+	id buRmFr83RGrMqgoAu9opvQ
+	(envelope-from <linux-media+bounces-66141-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 23:40:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E92D6E7FDE
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 23:03:03 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E16756E82C0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 23:40:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=eZmKz5nk;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66140-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66140-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linaro.org;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=hvKTMsSL;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66141-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66141-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A144B3034A39
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 21:02:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D63493051560
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 21:40:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5C9230E85B;
-	Tue, 30 Jun 2026 21:02:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AB843264FF;
+	Tue, 30 Jun 2026 21:40:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DBB2FB965
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 21:02:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01B131E107
+	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 21:40:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782853370; cv=none; b=blBDEWu/OHC6nDyhtNYAL1+9wPeghnJ4/Aw7AkFQVXhqhcsSRYgwEndmAwB+FqANWIBgAmmGgjnI3M1+JkKWaXQMnAz6LroHl9myUUj7qU4lq02lOSD3A3hk/uqHN1avtDWaShRz1m5eNpOfmCXelZTNcQrTBdecefBk9SU8QwY=
+	t=1782855608; cv=none; b=gaRxoCNO7sE3U2BaCUOxxZ4zTtMGGkfOtBRZJlxO1wEwnoPcJ6xGeWU3S8YWNh8itc+lIQZuL7FqMYnlNM+VT1CIpXtP1fV8q6qmUxLoNlCEKqulrntg3ak2u6A7mEqBKlfwe6RXukVX8Vl+OM3d5rCiNT6l6G2cq6cvxNq+Tig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782853370; c=relaxed/simple;
-	bh=am/loPvYVzdyGkax/MQb7j+deiZ5J2fIhC8Mv3BpdnM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cCXzILjdRHNV+l+C7BZEB8pQKTlxLc4zsWj9YFaLUrYuwGpndKYlfR4FCbw/jSG4Dk2S1lxwGA2c61g9xSvWbrByg3N15fLUt2P0VqNnvrGrm/WfVGmOS50crKLPnRVHo8kMJi0IdKGYr/RkiPOs8C2+zZRQJAVDRG/emyAZdEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eZmKz5nk; arc=none smtp.client-ip=209.85.167.47
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aebf96bc89so172786e87.0
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 14:02:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1782853367; x=1783458167; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=JBDyBnY0nJ7RYEFWtLzKwV49v5iiA3WOTXV6Ek5GG04=;
-        b=eZmKz5nkrP8o7yh/aBVfRf8KW+qF3wfDn89cOEievA1uf9SzjM+Pdm2cFBzyRshy3w
-         7RQMI1mBBW7c625Zeq+B8s3Z7ilBLCxizBscKHGLnTUD7ylmExciv/5H/qz7SsJvB+Da
-         s1H3tZiLvXNli2bJaQl+SROwHeNVzeegfYhRXNcwMUgfg3FZAXxhzsIXIrmjwtaTROKV
-         Zw2kBrt96NPxBmhuLDefSshUeB4rj8LkojRXxdhG+VKxY0+KpxZIOIJzPhiF/66XyK0F
-         AvTDbpbDtuK11/LVU8+tcWZS5UxFNkCJTs4oTNC7dNG0PBwtJN0NSowKNsd+k0dtaTRe
-         GMGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782853367; x=1783458167;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JBDyBnY0nJ7RYEFWtLzKwV49v5iiA3WOTXV6Ek5GG04=;
-        b=osr2ZmQBCp4yxokPL/sfYbIV6N7ME3KQ65yEeQIo+pshMHsZuB4P6bVqgiFZxdRIDd
-         MmVLr/KSvKNXkN2dO9+LVY/Le/j8PFl2VF253Pi6wc4Orz0qgONF9u6u01PNgLMf2zlE
-         qtkFLN0WLtfWlsbA3QWUOZR14Z0Sh5/mOAeJVvrO45tn73HF4LdqFKQ2eDqvrZM03WzP
-         OLKTZnIHG2COegUgY8EYfnlCMhCnowxbsQy9dBB47N6Hwpv3T8EZ1LAUP8RUxs8v2XM4
-         Z+4uuiVM2ts4JZ465vVv80I1i0knM7KRGJVOp09jWH8HYkiMkq3+bt+bsPYmIG5NM5tJ
-         SSJg==
-X-Forwarded-Encrypted: i=1; AHgh+Rrz6pydQWSfyIEYD22sl8+wJCciA1wEdsNbh0shMg71ZIkjJzWKlR6mvp/argjoi6WzVR/ITZ5lhTvgiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzicFmrdCHGsNikji9uAmNKaFdYA1tDtHQxITczcurV1f2G58wM
-	jOZCoITS1wkIgrAck3+fTaOEEc9tCYec0AiGe2aFVUP0hjLDaZ+ZzyCrEYGNTFdra1Eq/1qMUJq
-	hLo9r46w=
-X-Gm-Gg: AfdE7cmisCRixt4KETZf8S7ypyqB2XpLbAPKcafU/+5PVoKh92y0rpC+ivbaPyPVpXi
-	nI0EnEOR6RRIzsPvgIxxRtnEVn7QrS4BKLpi+B8WeECL96QnJKqOVvUhuKkHrDl2zB7zrkiQQ4X
-	jKLJ2GmDqv7E7IOGgmp+UfSL3c3FU+dMMyOFP3Yhpe8LUbj9C9OCRForf63WEacXK7w1M2e40U+
-	zrDOOV3dpkB9bbRaRKCHuGKG8GkWvQaFD6FC59EaifGbOibSDHV/nGFsbLylI5857sH+LHPMDt1
-	GLgM8vgul/8Bv42O5oOxdgQuK6/Mks6BgT2VBc98l2N3dSsa6Jsug5coQYQasMCEa4VaqEwojv9
-	E6wM/BHvYBRehT6oeacAFSyV0KAWpNP0bepVU2JbpsxUzuFB+by1EKN9+2dd9zOFsuc34x0KonI
-	/n4QfNaKOusuw85N27h4ZaLrB+VPTZL6JOTyfBAJ/LgozHOxiNUDTo6p73C8ajKsuMZtlgMv3BV
-	OBtew==
-X-Received: by 2002:a05:6512:8353:b0:5ae:a6fc:171c with SMTP id 2adb3069b0e04-5aebdba8241mr427628e87.3.1782853366845;
-        Tue, 30 Jun 2026 14:02:46 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aebe4a884dsm814235e87.67.2026.06.30.14.02.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 14:02:45 -0700 (PDT)
-Message-ID: <a77f2042-8dad-4b6c-bcd8-b317f464f0f3@linaro.org>
-Date: Wed, 1 Jul 2026 00:02:45 +0300
+	s=arc-20240116; t=1782855608; c=relaxed/simple;
+	bh=La2xNvf/TCB9nBGYKaS8YDOIJOCNSEjb9+oJx13QQCM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N2mGiIUtTYxTAwC9g1OKWXyWcFbdgk4STfw4g4DtS1NxM1g4dfAuC4bcPF5eewH6dz+onW2PNc9SzPfEknsMkz8GOphIvU9dWDq6VGg/tRNMSjxJ+fJFcHa2xUIHU+kfcNIJU/Xz0kOsaawY1KxU+sUXVg+nfLcw9viY9eXnRRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvKTMsSL; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8951F01560
+	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 21:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782855606;
+	bh=La2xNvf/TCB9nBGYKaS8YDOIJOCNSEjb9+oJx13QQCM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=hvKTMsSLWpQ7iwnKPdGvgwo9HJsX1KaQ0ubrkEyF6jRtv6mdeKaQvRSrk8mJbQzxW
+	 ig6k3MT8xKA+lTAcOlkAAOJcWdXKrFmGykfXLZNsJrC4ZUwxYU8idfhr4PDNNRiJQl
+	 dL4jtvbz1PpTkasUpdlMtraBeP+0Obg7Sy1MnUWXzAfKz9u+WjtyjvDJMWkxSdE48F
+	 JlrnDpUpZ2kdUZnpGkFx0rw7VpM4s3JAFfKvDSckb101eyILjgH9sF32uBzeJUlAqw
+	 rc0o03G7Elsp6K6Z1gVl7D5Bnr8tmbDdWDEdfx3fznr2bRRsBeoZllbucPhSQwYNf0
+	 zkw1ib+Apn52w==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aeb2bc82ccso3526977e87.2
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 14:40:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrQ6E0SKGsTEWMkr/9OaeQrN/QiCvVFLDSxnr0ARbB1QWgsEtwmwhtgnVJMH6pAPvb1WMsS+Phc4D6Xfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwR4EZhlQKqedazR4U+eFDFIzowEWwOupWTpgemGDIPMJQ6vOV5
+	JPYyNgJ6MHTcW9J/i0bSGbXpe4m/tWzxfxbbRO/+TyPzp48MzQPG9wlI5R8+CpZ+goqRqBteQ/1
+	m882+ce5VnCbdUcuW7OoUuGwD5bnn3XU=
+X-Received: by 2002:a05:6512:3d19:b0:5ae:b604:4c9 with SMTP id
+ 2adb3069b0e04-5aebdbc9489mr1240118e87.65.1782855605213; Tue, 30 Jun 2026
+ 14:40:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: media: qcom: Add JPEG encoder binding
-To: Bryan O'Donoghue <bod.linux@nxsw.ie>,
- Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, andersson@kernel.org, quic_vgarodia@quicinc.com,
- quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260629121750.3469292-1-atanas.filipov@oss.qualcomm.com>
- <20260629121750.3469292-3-atanas.filipov@oss.qualcomm.com>
- <_zZ7OLAmvphzTdIURTW71m_LKDwA-DEQ-a40gIiLYSqgDrdOOEf1bElz53zTbmSaDoqc8PDFyQXa7bycFaSTXw==@protonmail.internalid>
- <569539db-b079-439a-bd05-cb97c30141c1@linaro.org>
- <fbc018f5-c025-4747-85f2-53b45b0f0496@nxsw.ie>
- <IDwf-TUUNejblXqaFbAmpHIv49qp0PH0KB_H5HGcm1Wlj5zYf-q8Sota7H77GgDFcvhI2RHMCYmKRaDn0Q09fg==@protonmail.internalid>
- <0161b69d-62fb-46b8-a43a-df0c8af4956a@linaro.org>
- <257f9f48-4831-4f36-84c0-f7e6c257dd3a@nxsw.ie>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <257f9f48-4831-4f36-84c0-f7e6c257dd3a@nxsw.ie>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260629132633.1300009-1-arnd@kernel.org>
+In-Reply-To: <20260629132633.1300009-1-arnd@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Tue, 30 Jun 2026 23:39:50 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkpTa4hxNRscbiFFKZTM28ThuJMo1f3SX96LheC8L5BEQ@mail.gmail.com>
+X-Gm-Features: AVVi8CfBoAND9VanduyO4lm3tElbURSYx2nmpdkO8PSRH7aiVql7RmWg2jM4Qb0
+Message-ID: <CAD++jLkpTa4hxNRscbiFFKZTM28ThuJMo1f3SX96LheC8L5BEQ@mail.gmail.com>
+Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-gpio@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Greg Ungerer <gerg@linux-m68k.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Dominik Brodowski <linux@dominikbrodowski.net>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66140-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:bod.linux@nxsw.ie,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:quic_vgarodia@quicinc.com,m:quic_jesszhan@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66141-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:arnd@kernel.org,m:linux-gpio@vger.kernel.org,m:arnd@arndb.de,m:brgl@kernel.org,m:andrew@lunn.ch,m:sebastian.hesselbarth@gmail.com,m:gregory.clement@bootlin.com,m:Frank.Li@nxp.com,m:robert.jarzmik@free.fr,m:krzk@kernel.org,m:gerg@linux-m68k.org,m:tsbogend@alpha.franken.de,m:hauke@hauke-m.de,m:zajec5@gmail.com,m:ysato@users.sourceforge.jp,m:glaubitz@physik.fu-berlin.de,m:dmitry.torokhov@gmail.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux@dominikbrodowski.net,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:patches@opensource.cirrus.com,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-phy@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:sebastianhesselbarth@gmail.com,m:dmitrytorokhov@gmail.com,s:li
+ sts@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,arndb.de,kernel.org,lunn.ch,gmail.com,bootlin.com,nxp.com,free.fr,linux-m68k.org,alpha.franken.de,hauke-m.de,users.sourceforge.jp,physik.fu-berlin.de,redhat.com,dominikbrodowski.net,lists.infradead.org,opensource.cirrus.com,lists.linux-m68k.org,lists.linux.dev];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4E92D6E7FDE
+X-Rspamd-Queue-Id: E16756E82C0
 
-On 6/30/26 23:24, Bryan O'Donoghue wrote:
-> On 30/06/2026 14:32, Vladimir Zapolskiy wrote:
->> On 6/30/26 16:19, Bryan O'Donoghue wrote:
->>> On 29/06/2026 14:38, Vladimir Zapolskiy wrote:
->>>>> +                interconnects =
->>>>> +                    <&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_CAMERA_CFG 0>,
->>>>> +                    <&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI_CH0 0>,
->>>>> +                    <&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI_CH0 0>,
->>>>> +                    <&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI_CH0 0>;
->>>>> +                interconnect-names = "cpu-cfg",
->>>>> +                                     "hf-mnoc",
->>>>> +                                     "sf-mnoc",
->>>>> +                                     "icp-mnoc";
->>>> Since the proper option for describing this hardware is to have it as
->>>> a child device tree node of CAMSS device tree node, which should serve
->>>> or be percepted as a bus, it makes no sense to repeat and moreover rename
->>>> bus/parent's resources, here is the list:
->>>>
->>>> * "hf_axi", "sf_axi", "core_ahb", "cpas_ahb" and "cnoc_axi" clocks,
->>>> * Titan GDSC power domain and all four interconnects.
->>>>
->>>> Only "jpeg" clock and iommus are left specific to the hardware description
->>>> of this IP under CAMSS, right? Thus, it should be reflected like this in
->>>> the dt description as well, and the complexity of shared resource management
->>>> has to be done in the driver, which might be tedious unfortunately, but
->>>> certainly doable.
->>>
->>> JPEG should be able to vote for its individual NoC / CamNoC dependencies
->>> / requirements.
->>
->> There is no individual interconnects, JPEG interconnects are equal to
->> bus/parent CAMSS ones.
-> 
-> Not true.
+On Mon, Jun 29, 2026 at 3:26=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
+te:
 
-This is exactly what is present in the dt binding, if it has to be changed,
-please report it to the author of the change.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The linux/gpio.h header used to be the global definition for the gpio
+> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+> 130 of those remain, so this series cleans out the rest.
+>
+> In each subsystem, we can replace the header either with
+> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
+> or linux/gpio/legacy.h for the few remaining users of the old number
+> based interface.
+>
+> All patches in this series can get applied independently, so my
+> preference would be for each subsystem maintainer to apply these
+> directly, with the rest going into the gpio tree at some point.
+>
+> The final patch here obviously needs to wait for all the others
+> to get merged first.
 
-> As a matter of fact, the JPEG encoder has no use-case for the ICP MNOC,
-> now that I look at this again.
-> 
-> Even if the list is identical the clocks, bandwidth, opp tables
-> represent individual consumers with individual votes.
+This is helpful.
+The series:
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-I cannot parse "the clocks etc. represent individual consumers".
-
-Anyway, it has no contradiction with what I've said above, all shared
-"CAMSS bus" specific resources should get description in the CAMSS device
-tree node, all individual subdevice resources should get description
-in their own device tree nodes, that's so simple.
-
-There might be no SM8250 CAMSS subcomponent, which operates without Titan
-GDSC or cpas and bus clocks, then these are "CAMSS bus" resources, then it
-is immediately known that every CAMSS child needs to acquire these resources
-from the bus/parent, and it means there is no any single reason to repeat
-them in each of 20 CAMSS subnodes.
-
->>>
->>> Both GDSCs and interconnects should be described in the sub-node.
->>
->> Why to do it in each child, if GDSCs and interconnects are CAMSS bus/domain
->> specific? There is no acceptable explanation so far.
-> 
-> As we've already established some of the power-domains are function
-> specific - for example MXA in the PHYs.
-> 
-
-It has no contradiction with what I've said earlier.
-
->>> There's no functional linkage between CAMSS/IFE and JPEG - they are
->>> peers within the CAMSS power-island. Over time we will migrate to
->>
->> I do not refer to any "functional linkage".
->>
->>> individual nodes for IFE CSID and these too will appear inside of the
->>> CAMSS "bus" -> JPEG etc should describe their nocs and power-domains
->>> individually.
->>>
->>> camss@X{
->>> 	camnoc@{}
->>> 	csid@{
->>> 		interconnects = <gem_noc>, <cam_noc>;
->>> 	};
->>> 	jpeg@ {
->>> 		interconnects = <gem_noc>, <cam_noc>;
->>> 	};
->>> 	ife@ {
->>> 		interconnects = <gem_noc>, <cam_noc>;
->>> 	};
->>> };
->>
->> It makes sense only if the lists of interconnects are different, this
->> is not the case.
-
--- 
-Best wishes,
-Vladimir
+Yours,
+Linus Walleij
 
