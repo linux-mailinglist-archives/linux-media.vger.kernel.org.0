@@ -1,244 +1,183 @@
-Return-Path: <linux-media+bounces-66116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66117-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id rvcoJz3XQ2rQjwoAu9opvQ
-	(envelope-from <linux-media+bounces-66116-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 16:48:29 +0200
+	id 8gdUHd3aQ2o4kQoAu9opvQ
+	(envelope-from <linux-media+bounces-66117-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 17:03:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14EA6E58F4
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 16:48:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD32E6E5B19
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 17:03:56 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=jsCIUDvv;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66116-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66116-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=mailbox.org;
+	dkim=pass header.d=windriver.com header.s=PPS06212021 header.b=VFHn8EGe;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66117-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66117-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=windriver.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 920F6303E4AB
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 14:46:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D0B093157592
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 14:55:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B8AC42EEBC;
-	Tue, 30 Jun 2026 14:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C937943DA28;
+	Tue, 30 Jun 2026 14:54:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F37367B9A
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 14:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7361142EEBC;
+	Tue, 30 Jun 2026 14:54:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782830776; cv=none; b=mtoLVdyLevd+CcTTq2QdqW5sSkNASZaqpSxmyufLBYhcw2byZEy5igWX8SknanT2cTSB2xkeq29/K52ySvVAEnsOTcTA0d+LHgxg7+7kCRzSXom5hwV+CS2vnGqoQTa75ktRp1utygT9lGnYS45Cl1klnTloc6cI+CKu+oq2Umw=
+	t=1782831287; cv=none; b=F5JYpfn7FGTCleYSZR92dZvWAbSgu8tJBhzUvaEWTH/+yVwpcHTuBchrIemYZBs9dDku/JGThipO/4cp5Xu0nvXHYCD0RL+cIq3a0HZNIoLJ3Fcz53KvCyDUKSlUTi2AoEbqQdum8hoScl58I5SuYEv4T2J9O7lVf3v8EhmmdzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782830776; c=relaxed/simple;
-	bh=9rRBmN2zaa2Zox5mEYJJMBr45BEme3Q2lT6x/LNC/eo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=B0mBQz/E1Pt14QcR/Iq1fHox3WLoT5wCYdZtSislxJvi6FqamqnJp7nJiuHJkdTA9n8PFnjKBFwsdD2K22mjIwvTRzuMCnZfGuucSNAa9SyClwFOb0DGuUBRrNMk21OZ0CaoOVf2i//nb7zaMsulq5YgSd4eeIs9jju84QQyicI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jsCIUDvv; arc=none smtp.client-ip=80.241.56.161
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gqQtz6KCbz9tyS;
-	Tue, 30 Jun 2026 16:46:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782830763; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=td3tFB9mSbocKcY7wsrXfJgzOu/KGrhFsokIWvDAN8c=;
-	b=jsCIUDvvhEKgYl+MF20FP+zp/TLtbQUxVls8a/aE7NFdWKVYaYgIlHDFJdgBVojaACnt1O
-	P1GdHwCmaodxogBlvs7DoHeB0H4M25ET7o4S6Y5pXgkfvyJ0gr7A6CLkAOHLhRHwXpYAV/
-	NFrS6BBGQtjgI/NGI3LW8egco2Fc5JurYTihQHhoZbhMmsJmc2QHbnyMx1nNbycHydpowg
-	vwmxT4mIbZJP1L7pEt9yMyRn+bcdGUrw97+vku9ytuJ7O9CtlHGPoczdPGdaB2yhc0EqGX
-	zVzqcNoJ9lXvGajnUF1eMWiRh8ox+hZhACP7Li7mLqoW8PjgA/YokK9H80dPnA==
-Message-ID: <11eddeafe60facdeac31779f36a7e4d52967bba3.camel@mailbox.org>
-Subject: Re: [PATCH 03/10] drm/amdgpu: use dma_fence_test_signaled_flag()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: christian.koenig@amd.com, phasta@kernel.org, simona@ffwll.ch, 
-	sumit.semwal@linaro.org, tvrtko.ursulin@igalia.com, dakr@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org
-Date: Tue, 30 Jun 2026 16:45:59 +0200
-In-Reply-To: <20260624122917.2483-4-christian.koenig@amd.com>
-References: <20260624122917.2483-1-christian.koenig@amd.com>
-	 <20260624122917.2483-4-christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1782831287; c=relaxed/simple;
+	bh=31CobtgGDUskTMKMIeed5Y760SonZt5k5n1PT8zDtGU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VQbqwXv+zeIXlQvegkAv7O/6KKN/Co0JCiS8Wo7lpPNetSxKkp03mW8U2/yICAA3azarbtnGiS0p4xgB/u25GFNJl3yete4n2eJaem9qZGgjp6QVP+CBXYhYQJZAuOGfdpZo3UugDwd8+b4+e6O5nIxpZ6Atn0eSIPD/VeKLUik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=VFHn8EGe; arc=none smtp.client-ip=205.220.166.238
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65UEHpO91232927;
+	Tue, 30 Jun 2026 07:54:37 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=fBNK2rn7Y
+	DHqv3zBBH9/xAyj4fay8+kR1znDxOPRjSg=; b=VFHn8EGeTyLKxvHCZREgCk2jC
+	KQnIL3w3zC0PKLmaQG6K62loAMAA4Mi97pnAznu/Kdi1rBwJ4eLTZH3iolu/zjH4
+	A3Q/+GfIHkOhcEn/UbaiQFHszCtpoUAM8LxC2i/KGPEKwBMk2RDyX+SfD5/wP9lh
+	yJEjHGidD1XDFnJYSJiy2hv7cpF6EkceTbUDa1urdyPdi34tj+xE0tj5iGofRjIl
+	uIM0OB5jiAfEgMLTcsD7iXR2d6JRWGPV5eGQQqvtqeOkvA4v+IwEqO9S1g0hBnHw
+	iPB7DfrhuY/asU6rEH28zb+RLpjcoNWhiz8B1v6a3t6gcIh1BsjkGmIRulp4Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f2e1gus4a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 30 Jun 2026 07:54:37 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 30 Jun 2026 07:54:36 -0700
+Received: from pek-lpd-ccm4.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 30 Jun 2026 07:54:35 -0700
+From: Jiangong.Han <jiangong.han@windriver.com>
+To: <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <jiangong.han@windriver.com>
+Subject: [PATCH] media: em28xx: fix use-after-free of dev_next->devlist on disconnect
+Date: Tue, 30 Jun 2026 22:54:34 +0800
+Message-ID: <20260630145434.695696-1-jiangong.han@windriver.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: h6ibeto89pym1n4ypemmh4s8ym4z38jc
-X-MBO-RS-ID: 1559734c5a0b76028f8
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: -WmzrRJBMBaafV3zUouwnKTO3-KehRLp
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDEzOSBTYWx0ZWRfXyec4rvXpLk7r
+ waL4BfXVo4Ntub0GRvhDNX2JuizVKF2RPtQGwgh1DcSYmGfhuqthtagZlzeQR2IHIv1ctCBasjr
+ /y+fEjNEOkqLR7alKLO8SRFeTn+xbHOmi1dyE6RYLrNGX83mSE39
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDEzOSBTYWx0ZWRfX3BN5I0vb10Rj
+ r/4I1ekrsD3+wlrdcyQCj6VFt6z5q/kcKtaHrWBjFQyq/HuzW3W4v+edEx1fCZjIv8S4XD7WmIQ
+ 7GzxrwO3bj/cXFGVAG6/G3q21gRAYahTUMbeCSyT09F2ZiDXaL5AI8dcMXVHmE58QGcb96tSFBa
+ lhv4Bwgi0mYITKIeBNnUwuwa0a0LsvtaGgEhZAnW62j1+Uq/1DYDAvvyoZ3SFw/MEgKLn0LlxLX
+ +XIDBpLbqiyU8ImmsteJ/Q7D+3qskJxnE33wEypq5ki8JZ766v6F5OgrFT/Xpho5aWvWtqqHeC2
+ 20UabBLwOFaaEo/r6dFGB41BrlMlLOZZr/kN3ty6GmqsweCvUh3yGFUmVyS9V4yiZDY3pSxNuYb
+ EK+dtOExR2WUHKlensC+YO4UO46FLhS0T01CyiUOx9zf7u6kSw0nYiuynOQoUnwn3FxbxvgvdzE
+ NAnL0SGcRqq/KPu1UQA==
+X-Proofpoint-GUID: -WmzrRJBMBaafV3zUouwnKTO3-KehRLp
+X-Authority-Analysis: v=2.4 cv=GsByPE1C c=1 sm=1 tr=0 ts=6a43d8ad cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=edf1wS77AAAA:8 a=VwQbUJbxAAAA:8 a=hSkVLCK3AAAA:8
+ a=t7CeM3EgAAAA:8 a=PL0YVfiCWiXKjdacPdcA:9 a=DcSpbTIhAlouE1Uv7lRv:22
+ a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-30_04,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 clxscore=1011 bulkscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606300139
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[windriver.com,reject];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[windriver.com:s=PPS06212021];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66116-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:tvrtko.ursulin@igalia.com,m:dakr@kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-66117-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jiangong.han@windriver.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[jiangong.han@windriver.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jiangong.han@windriver.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	PRECEDENCE_BULK(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,syzkaller.appspot.com:url,appspotmail.com:email];
+	TO_DN_NONE(0.00)[];
+	DKIM_TRACE(0.00)[windriver.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,amd.com:email,mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F14EA6E58F4
+X-Rspamd-Queue-Id: DD32E6E5B19
 
-On Wed, 2026-06-24 at 13:13 +0200, Christian K=C3=B6nig wrote:
-> Instead of dma_fence_is_signaled_locked() use
-> dma_fence_test_signaled_flag().
->=20
-> The extra polling check seems unecessary for those use cases.
+When a device with has_dual_ts=1 is probed and the is_audio_only path
+is taken, both dev and dev->dev_next are added to the global
+em28xx_devlist via em28xx_init_extension(). However, during disconnect,
+em28xx_close_extension(dev) only calls list_del(&dev->devlist), leaving
+dev->dev_next->devlist still linked in the global list. When dev_next is
+subsequently freed via kref_put(), its devlist entry becomes a dangling
+pointer in em28xx_devlist. The next device probe that calls
+em28xx_init_extension() triggers a list corruption BUG when list_add_tail
+detects the freed node.
 
-In this [1] recent discussion with Tvrtko I point out that we (i.e.,
-DRM) would really greatly benefit from more verbose commit messages.
-What is completely natural and self-explanatory to us might be far less
-intuitive for those coming in 5 years.
+This bug was exposed by commit a368ecde8a50 ("USB: core: Fix duplicate
+endpoint bug by clearing reserved bits in the descriptor") which clears
+reserved bits in bEndpointAddress during endpoint parsing. This causes
+fuzzed endpoint addresses like 0xf3 to be normalized to 0x83, which
+em28xx interprets as a vendor audio endpoint, enabling the
+is_audio_only + has_dual_ts code path that was previously unreachable
+with such descriptors.
 
-You and I, we understand that dma_fence_is_signaled() can actively poll
-a fence. I still think it is not intuitive, but it's a complex API. And
-you personally also understand why an opportunistic poll is not
-necessary for amdgpu. A new contributor, like a hacker who cares about
-gaming on AMD hardware, who wants to help improve your driver, does not
-know that.
+Fix this by removing dev->dev_next->devlist from the global list in
+em28xx_close_extension() before the device is freed.
 
-Someone git-blaming one of those lines in a few years would just see
-that a function was replaced with a function with a basically identical
-name, and would not understand why the change was made.
+Fixes: f410b4093fdd ("media: em28xx: split up em28xx_dvb_init to reduce stack size")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+99d6c66dbbc484f50e1c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+Signed-off-by: Jiangong.Han <jiangong.han@windriver.com>
+---
+ drivers/media/usb/em28xx/em28xx-core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The commit simply says "seems unnecessary". Why :)
+diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
+index 5bbb082dbed9..3d6b196b8483 100644
+--- a/drivers/media/usb/em28xx/em28xx-core.c
++++ b/drivers/media/usb/em28xx/em28xx-core.c
+@@ -1265,6 +1265,8 @@ void em28xx_close_extension(struct em28xx *dev)
+ 			ops->fini(dev);
+ 		}
+ 	}
++	if (dev->dev_next)
++		list_del(&dev->dev_next->devlist);
+ 	list_del(&dev->devlist);
+ 	mutex_unlock(&em28xx_devlist_mutex);
+ }
+-- 
+2.37.3
 
-I think fleshing it out more in the classical pattern (description of
-current situation, description of the problem, then description of the
-action the patch takes) is indeed more work for the author (to whom it
-might appear like a waste of time to describe sth obvious), but would
-also greatly benefit you personally, since it could reduce the amount
-of times we have to tell folks "I don't know, there was a reason =E2=80=93 =
-go
-ask Christian" ;)
-
-
-Gr=C3=BC=C3=9Fe,
-Philipp
-
-
-[1] https://lore.kernel.org/dri-devel/9f7fa57610d3d94324e09dc936f5f7f3c3d39=
-0d3.camel@mailbox.org/
-
-
->=20
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
-> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 8 ++++----
-> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 2 +-
-> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c | 2 +-
-> =C2=A03 files changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_fence.c
-> index ea69b1bac7c6..1192b9800ff2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -652,7 +652,7 @@ void amdgpu_fence_driver_set_error(struct amdgpu_ring=
- *ring, int error)
-> =C2=A0
-> =C2=A0		fence =3D rcu_dereference_protected(drv->fences[i],
-> =C2=A0						=C2=A0 lockdep_is_held(&drv->lock));
-> -		if (fence && !dma_fence_is_signaled_locked(fence))
-> +		if (fence && !dma_fence_test_signaled_flag(fence))
-> =C2=A0			dma_fence_set_error(fence, error);
-> =C2=A0	}
-> =C2=A0	spin_unlock_irqrestore(&drv->lock, flags);
-> @@ -677,7 +677,7 @@ void amdgpu_fence_driver_force_completion(struct amdg=
-pu_ring *ring,
-> =C2=A0
-> =C2=A0		fence =3D rcu_dereference_protected(drv->fences[i],
-> =C2=A0						=C2=A0 lockdep_is_held(&drv->lock));
-> -		if (fence && !dma_fence_is_signaled_locked(fence)) {
-> +		if (fence && !dma_fence_test_signaled_flag(fence)) {
-> =C2=A0			if (fence =3D=3D timedout_fence)
-> =C2=A0				dma_fence_set_error(fence, -ETIME);
-> =C2=A0			else
-> @@ -738,7 +738,7 @@ void amdgpu_ring_set_fence_errors_and_reemit(struct a=
-mdgpu_ring *ring,
-> =C2=A0		rcu_read_lock();
-> =C2=A0		unprocessed =3D rcu_dereference(*ptr);
-> =C2=A0
-> -		if (unprocessed && !dma_fence_is_signaled_locked(unprocessed)) {
-> +		if (unprocessed && !dma_fence_test_signaled_flag(unprocessed)) {
-> =C2=A0			fence =3D container_of(unprocessed, struct amdgpu_fence, base);
-> =C2=A0			is_guilty_fence =3D fence =3D=3D guilty_fence;
-> =C2=A0			is_guilty_context =3D fence->context =3D=3D guilty_fence->contex=
-t;
-> @@ -802,7 +802,7 @@ void amdgpu_ring_backup_unprocessed_commands(struct a=
-mdgpu_ring *ring,
-> =C2=A0		rcu_read_lock();
-> =C2=A0		unprocessed =3D rcu_dereference(*ptr);
-> =C2=A0
-> -		if (unprocessed && !dma_fence_is_signaled(unprocessed)) {
-> +		if (unprocessed && !dma_fence_test_signaled_flag(unprocessed)) {
-> =C2=A0			fence =3D container_of(unprocessed, struct amdgpu_fence, base);
-> =C2=A0
-> =C2=A0			amdgpu_ring_backup_unprocessed_command(ring, fence);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_ring.c
-> index d6bee5c30073..ae9d6a2eefab 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-> @@ -460,7 +460,7 @@ bool amdgpu_ring_soft_recovery(struct amdgpu_ring *ri=
-ng, unsigned int vmid,
-> =C2=A0		return false;
-> =C2=A0
-> =C2=A0	dma_fence_lock_irqsave(fence, flags);
-> -	if (!dma_fence_is_signaled_locked(fence))
-> +	if (!dma_fence_test_signaled_flag(fence))
-> =C2=A0		dma_fence_set_error(fence, -ENODATA);
-> =C2=A0	dma_fence_unlock_irqrestore(fence, flags);
-> =C2=A0
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gp=
-u/drm/amd/amdgpu/amdgpu_userq_fence.c
-> index a41fb72dba94..2cc6552a6399 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-> @@ -426,7 +426,7 @@ amdgpu_userq_fence_driver_set_error(struct amdgpu_use=
-rq_fence *fence,
-> =C2=A0
-> =C2=A0	f =3D rcu_dereference_protected(&fence->base,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lockdep_is_held(&fence_drv->fenc=
-e_list_lock));
-> -	if (f && !dma_fence_is_signaled_locked(f))
-> +	if (f && !dma_fence_test_signaled_flag(f))
-> =C2=A0		dma_fence_set_error(f, error);
-> =C2=A0	spin_unlock_irqrestore(&fence_drv->fence_list_lock, flags);
-> =C2=A0}
 
