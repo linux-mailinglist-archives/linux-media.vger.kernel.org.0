@@ -1,154 +1,207 @@
-Return-Path: <linux-media+bounces-66110-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66111-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id b3w5Is3GQ2okhgoAu9opvQ
-	(envelope-from <linux-media+bounces-66110-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 15:38:21 +0200
+	id 3NdYNsHGQ2obhgoAu9opvQ
+	(envelope-from <linux-media+bounces-66111-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 15:38:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAAD6E4EE6
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 15:38:20 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D476E4ED5
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 15:38:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=PQ9vA1uQ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66110-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66110-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=linaro.org header.s=google header.b=HmQxxYiS;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66111-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66111-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linaro.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DA1673027863
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 13:32:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D34113137272
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 13:32:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAAFF33343B;
-	Tue, 30 Jun 2026 13:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C283368D68;
+	Tue, 30 Jun 2026 13:32:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49417267B89
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 13:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7113B282F02
+	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 13:32:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782826333; cv=none; b=pDOujjgXMQEySI6twyH6HvuFMSJpHgayLSpIdFM+17GmwZx9HUvV2Ujj4MkAwiu1YfcxFFt9+kSDNnE99pCF6YK1nFGavgunU6yu8n9ZzI6zgg6b3SyHf4Qu7akWJZP/Kl3YpsU+KsbF6+nt6rSVFJR4pFdGAcbSEkrJav51gbk=
+	t=1782826335; cv=none; b=qqS+RL3yC/dvQPQiGZiSx4GTYHrWsbnfEjkPHSy2m4OR3OQuc6FpDjXUaBlTg+Y5U6Yz75EVdy0UkcRI7Hnu9DXo5rRXrIVYRHpDpzymeZpsYhZ0AkUERinaLHi3l1oHv8nVl3P07ZdVZdk//p1aJr5ET54vR+AAQjKFHhrZOk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782826333; c=relaxed/simple;
-	bh=7bw+O5WLaToHP2tSBli+IIhJTmS788eghpGopgDx+l4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uYZyAgLvIh1h4OcZWcsrN/pAFMAlCcf3F4d+UZzFkX0GgIUHc9rYjbx7ica4PuSUEiimOBJpCZ5vQprr5GAh6FQEaA47XWqKOpos/t0E+GSolFNuu0D0l7ykM3zqD0YL+z1/D4s281jgyqgZU1yN0C7FUT4SoTa7aktM9whODbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PQ9vA1uQ; arc=none smtp.client-ip=209.85.221.170
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5bd742ef278so1206921e0c.2
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 06:32:12 -0700 (PDT)
+	s=arc-20240116; t=1782826335; c=relaxed/simple;
+	bh=xpPMmV2m6fv5jfNde38a5Ol4Pz7X2NWCQ/YN94erzc0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HQDbRTZl8oJ0NwBBd87gnxGkpjIraH3DdhN9HRqFvHYLsDygcGv32Bna++H4cCjz+Y7vqZYUBiT2dKQdbWES5imOgKXvM84e11JI80E50udu+FDkV32oElgB+F+O41NvisJaqzWjh5VwUTtC8sjKfWFTZtXlYSSS4YR65NXP81Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HmQxxYiS; arc=none smtp.client-ip=209.85.167.42
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeb8cf8134so90828e87.1
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 06:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782826331; x=1783431131; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4FUqC2k9DGG9C47+8sXljTM7/f1XaSgmpyp+bRm68aI=;
-        b=PQ9vA1uQV4ui4G2t3Hv3EC6nEnaL2pvCe9OxRpUzoGzZXsHL23TGgg1zwA3AeTFqWR
-         pN6vQG/ZLwdkRTjLBjKTE+edgE20HtzsFo/rEd0jyvRSqch0ZyDIGKqr+xpaiqZHxKYM
-         YCKJxmSvYxhPF3BNMJLlev5tgymBMlGLo8UvD3uDuFQgpDma8HwCQYgkyTUBmUGXohqS
-         bdxFZ5yVLgkZp2D0Wz4dSiLZpZuXmXc2kknncvmE+dvco00DKT3pb1vBmu5iVg8F6fvo
-         1kr9f5vLZWHEgH9x46bib81MPUFNstNBRWhyXBrCIoptuaeRAEj5kX/K1UxH3LLnd+jW
-         YHYQ==
+        d=linaro.org; s=google; t=1782826332; x=1783431132; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3k0gXgFqIFH85+EiNZcDCFD94DA0SXlTQoMWB+Asgdc=;
+        b=HmQxxYiSA9I3I84UF5tJvaZ9OzFJm6BEfoirCpUNuEjqlaLZlM1EAhsysznRY/m4mf
+         PzqVTHZN+fr1oRqSWmDSEh5pQdW4qDQ82nLCyRnaix7onaiQ4J4OWXs+KxEtp5X/9xyj
+         556m5Ptmthq5QQDsTPXQjqdvSD5n0EMF7UUsXxA78kqiKR+s926E+adgmi65GBIrjkrH
+         yGheD0Hrkp0Fi7RznYdSQi1l+GK/WYvjcjxMHm53jM5GtuFmtnnGWB5saWSxbjni+JCz
+         OXax9syPSHhl+TpNV6ZsAPNwhTUY3rIl4OpbHkPLoGNrbvTH/8LZcHDs4eZWFvyBnIlJ
+         FCng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782826331; x=1783431131;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4FUqC2k9DGG9C47+8sXljTM7/f1XaSgmpyp+bRm68aI=;
-        b=RqTwm2pKXwQMFnI/v2bq16eLN1MqbssbEtJtbe33jWcysnYCWGG+wUP6GiLSsoEewe
-         afERWYI7mgHlDWLPK+tMMUXGB6Oqn+8A2dL9PE3soehaureqeDFsblkmuk/vsxV5BqV1
-         vpITuFM0jzXQOOkT5H8N6wrwXIX8LnXqwIS9Ms8Wwnxe86svK5kFBDxKL6NEaUvlIOdY
-         zglL+kL8rB7JgSVgL3u+MwkYU5ybmQlcMmzZsyvHVBgNwUnq9kVb/nq13CEjvG9+8p5b
-         PnqYCI6VvZ3prD71FwLjLR5q0H8JVKE15ogp890euiRHaknK8D92TqWG4vUBypEU4GU3
-         O5EQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoPUEI/dwv0eIgXL+h7CV6aCz/KysQs8IdD/P/BM5WReIUftsd3LeZaa7LrsKpgoDpffzhoG/e2rywpXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFDIdw2kpMsUSyaJczkKC/rb+ShHoihdMlys30WMS8MQrQJreJ
-	vpfSJ5xCplP1WrwOKKwNLEpb9UGo2H0B+vGM8WqRVO4S8Ybrp6VBkHUX
-X-Gm-Gg: AfdE7cmGzWMg7Uw39mCfWutVgb/sbUXXC07kfSpfgtxeGbn5yeDvh2iGwFnGGGn8qCa
-	fdKgn/bqPKUjtTFeo6qVpDYE6wcqZvHCaMH/pccFTIE3I46g3EoRShv/CundUMzLylY6cevPwtc
-	6Ui97LbckyxFc758rMuIzKg7Y7na+G0/qNUOLOLlVBO/hH8LxTE4iUvlBcJbrP1pd246iRHk7Vn
-	Y5iNpIcXdfwf8twKTSsNBICldPDr7PPTlKBL0R3vkhJH0aWJf6DlcrGAsUapNZ1buyJQ7FjPuLq
-	GW5m9u4d+tEh4tU4kSJSCf+O+vomUcsQhwLDeApnQeAruIxz10eaK9L86EavLWhhPQ103RtP/sH
-	gw5+zIasQ+AIUDtRUnLiAkdaTgGGiSx3FkXFJg8nCnLIPGt8+RUWnQtaXYf+zd337+IbbyquzUr
-	qxmbpd
-X-Received: by 2002:a05:6122:8299:b0:5a2:5c65:850f with SMTP id 71dfb90a1353d-5bdcf5d4cbcmr195881e0c.10.1782826331326;
+        d=1e100.net; s=20251104; t=1782826332; x=1783431132;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3k0gXgFqIFH85+EiNZcDCFD94DA0SXlTQoMWB+Asgdc=;
+        b=moIg91o8svQhFChsprjTvzt/BThRdMqjAyQgpwnL9LFxEZGO8KeSytgqJEdxcFxrc2
+         4ornhaFe87fuDCJwEqSV8glkBvawfOq17Os3kFH4DcFGcCoxDHru6LxEmfyJC9SlMkOv
+         6Z7+FMsS1kPE2DG5bD/fJbKKXLq//CCGrqNWwk7Lgn3O3Q7gfIFw+wsBa7xzM2J34fef
+         wGG2xNaDogVZCYt9h5hgkLogQdL25ejOabRzeigPa9AO/+xVrHNs9edIwWyYkeEQIl4n
+         0WtQf2zEviZKSWTCjNqU8nt0H/xgaf3jJ/26ww+if2c5ZERPV+CFhV13leYkfpX7JNzx
+         D/Vg==
+X-Forwarded-Encrypted: i=1; AHgh+RogzEEh729GxUhNbArAir7175o3h8MES788+0wskMSbdlEfjrc01FuBDIUL7krjDG50LgbfQb4Gi6RpCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgVjwVWgLgp9cdmdfSolDEdzagJdFZ8XoqS2p1e2eRg7v1x8MF
+	PRpVNAfifLYuKs5hRwD7qAQLCjuQOGKUrqNeoDyXu54xiD/zoioB4GRzo8iS/1Dfu0g=
+X-Gm-Gg: AfdE7cmoPEySrtrmz9lru+qfddwEP5rc6ebLwblWl6UqeHFVcqv+PvpFKdzvf1+2J7t
+	bq8C7j6cQXdof+BR6NSvtKj3Efq1mH9lD89W+CWjtiaU2QXgNeNYPlc1sVSpZmn760VdRcIU5yI
+	KDGj120TdbCdapUjUh2+YYyamcYwwTvRCgui0eYM3+tvVW5Cd1crYA0kRIL7sS/KHP1tfNhldfh
+	W26x+0KsIX1TZiihN0lpeu6e3xJdt2IL1WyJCiIgmr2HSMti2ol8Y8xBVG03u8piVE/1ueg230M
+	1MmYOi065gKmW8+Hl7aUvoOQjfW57ruMn11sQykZqXqY4UKYcRuLVu7OnVoPFXIUMFfxDpKgffU
+	DHzJsgWurcMuF0VvRTYyHPa95yc2OdrAwvosd/P3CRkf6tQZNV6uP3wemLij3ed3/WhDTdCpioM
+	Cy8sdaucrsz4V58xi/655rlzrydIYDR8bDB/023hZkB6HsAHNVKmTxOalKn/kC2ErstdNYIOWPV
+	4BWNg==
+X-Received: by 2002:a05:6512:8396:b0:5ae:b9fd:a0b4 with SMTP id 2adb3069b0e04-5aebdbd8724mr438715e87.7.1782826331545;
         Tue, 30 Jun 2026 06:32:11 -0700 (PDT)
-Received: from localhost ([74.80.182.83])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bdc1a8d959sm1359638e0c.10.2026.06.30.06.32.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aebe33ce5asm564051e87.21.2026.06.30.06.32.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Tue, 30 Jun 2026 06:32:10 -0700 (PDT)
-Date: Tue, 30 Jun 2026 16:32:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	andy@kernel.org, sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: atomisp: fix block comment formatting style
-Message-ID: <akPFVbUVbdb7-9j7@stanley.mountain>
-References: <20260630132631.25762-1-bohdandmarcus@gmail.com>
+Message-ID: <0161b69d-62fb-46b8-a43a-df0c8af4956a@linaro.org>
+Date: Tue, 30 Jun 2026 16:32:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630132631.25762-1-bohdandmarcus@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] dt-bindings: media: qcom: Add JPEG encoder binding
+To: Bryan O'Donoghue <bod.linux@nxsw.ie>,
+ Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
+Cc: mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, andersson@kernel.org, quic_vgarodia@quicinc.com,
+ quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260629121750.3469292-1-atanas.filipov@oss.qualcomm.com>
+ <20260629121750.3469292-3-atanas.filipov@oss.qualcomm.com>
+ <_zZ7OLAmvphzTdIURTW71m_LKDwA-DEQ-a40gIiLYSqgDrdOOEf1bElz53zTbmSaDoqc8PDFyQXa7bycFaSTXw==@protonmail.internalid>
+ <569539db-b079-439a-bd05-cb97c30141c1@linaro.org>
+ <fbc018f5-c025-4747-85f2-53b45b0f0496@nxsw.ie>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <fbc018f5-c025-4747-85f2-53b45b0f0496@nxsw.ie>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66110-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66111-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:bohdandmarcus@gmail.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:andy@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:bod.linux@nxsw.ie,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:quic_vgarodia@quicinc.com,m:quic_jesszhan@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp,checkpatch.pl:url,stanley.mountain:mid]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linaro.org:dkim,linaro.org:mid,linaro.org:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7DAAD6E4EE6
+X-Rspamd-Queue-Id: 49D476E4ED5
 
-On Tue, Jun 30, 2026 at 04:26:31PM +0300, Bohdan D. Marcus wrote:
-> Fix a block comment formatting warning reported by checkpatch.pl in atomisp_cmd.c to conform to the Linux kernel coding style.
+On 6/30/26 16:19, Bryan O'Donoghue wrote:
+> On 29/06/2026 14:38, Vladimir Zapolskiy wrote:
+>>> +                interconnects =
+>>> +                    <&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_CAMERA_CFG 0>,
+>>> +                    <&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI_CH0 0>,
+>>> +                    <&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI_CH0 0>,
+>>> +                    <&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI_CH0 0>;
+>>> +                interconnect-names = "cpu-cfg",
+>>> +                                     "hf-mnoc",
+>>> +                                     "sf-mnoc",
+>>> +                                     "icp-mnoc";
+>> Since the proper option for describing this hardware is to have it as
+>> a child device tree node of CAMSS device tree node, which should serve
+>> or be percepted as a bus, it makes no sense to repeat and moreover rename
+>> bus/parent's resources, here is the list:
+>>
+>> * "hf_axi", "sf_axi", "core_ahb", "cpas_ahb" and "cnoc_axi" clocks,
+>> * Titan GDSC power domain and all four interconnects.
+>>
+>> Only "jpeg" clock and iommus are left specific to the hardware description
+>> of this IP under CAMSS, right? Thus, it should be reflected like this in
+>> the dt description as well, and the complexity of shared resource management
+>> has to be done in the driver, which might be tedious unfortunately, but
+>> certainly doable.
 > 
+> JPEG should be able to vote for its individual NoC / CamNoC dependencies
+> / requirements.
 
-Run checkpatch on your patch.
+There is no individual interconnects, JPEG interconnects are equal to
+bus/parent CAMSS ones.
 
-> Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
-> ---
+> 
+> Both GDSCs and interconnects should be described in the sub-node.
 
-There is a specific format for v2 patches.
+Why to do it in each child, if GDSCs and interconnects are CAMSS bus/domain
+specific? There is no acceptable explanation so far.
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+> There's no functional linkage between CAMSS/IFE and JPEG - they are
+> peers within the CAMSS power-island. Over time we will migrate to
 
-But the main thing is to wait a day between resends otherwise it's
-overwhelming for reviewers.
+I do not refer to any "functional linkage".
 
-regards,
-dan carpenter
+> individual nodes for IFE CSID and these too will appear inside of the
+> CAMSS "bus" -> JPEG etc should describe their nocs and power-domains
+> individually.
+> 
+> camss@X{
+> 	camnoc@{}
+> 	csid@{
+> 		interconnects = <gem_noc>, <cam_noc>;
+> 	};
+> 	jpeg@ {
+> 		interconnects = <gem_noc>, <cam_noc>;
+> 	};
+> 	ife@ {
+> 		interconnects = <gem_noc>, <cam_noc>;
+> 	};
+> };
 
+It makes sense only if the lists of interconnects are different, this
+is not the case.
+
+-- 
+Best wishes,
+Vladimir
 
