@@ -1,179 +1,154 @@
-Return-Path: <linux-media+bounces-66137-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66138-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id QvIIEFYnRGrZpgoAu9opvQ
-	(envelope-from <linux-media+bounces-66137-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 22:30:14 +0200
+	id umeSKO8nRGoQpwoAu9opvQ
+	(envelope-from <linux-media+bounces-66138-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 22:32:47 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904E66E7D54
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 22:30:13 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA546E7D9E
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 22:32:47 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=nxsw.ie (policy=quarantine);
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66137-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66137-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=eVWvFp6S;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66138-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66138-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=redhat.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 02F2930AADD6
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 20:24:53 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E544D3031FF0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 20:32:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCCF347AF5F;
-	Tue, 30 Jun 2026 20:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEADF382368;
+	Tue, 30 Jun 2026 20:32:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AAE364EB0;
-	Tue, 30 Jun 2026 20:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7932135C5
+	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 20:32:39 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782851090; cv=none; b=qOjQa4rdZOa9frK04sRq8yr6Wml91c/HQcCOMJGbhWGv28mphFbJwp1I7optRtDvTb3+LWI/85X5KsOSPy2eBk7G9hOMbYiRRmfICMaDR2VqzspGPMdrLFeiHriWkrwm/bFza91R1Od3jze0GJ+5bBBVaGOZiqk24cIU1goiDbQ=
+	t=1782851561; cv=none; b=guYOrLj4CwwgdLCf9VdUO+HOLsYqjqS+wxatnx2tiS/r/0zU+kppi29dxJg8bWZsoUQvQifXpfB9hR+DCR06EU2UyzlzzV+Cd6c64vjcDL2qm9af5lVRYgirBrE7Bs5mmWARhoB5F9I+gwTnaRONEBAn2LweNCV1NbtT6MmE80s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782851090; c=relaxed/simple;
-	bh=QjzGeGn2v3vp9cZJ6THBq4bWtJ/VoJClOZkMvZ8MTzA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dx7vccxDE302aS7E2YuPCoHZ7yMhHAIUA7shZ38qXBVMZ0i9A7qOrL5EJiWZTtv50oG7PIdQZyOBTNeGd5RwNHeo7VGOKr9jWLnZpsrxVKuk5/u5BlKxWSP8b1Z3VcvAndTDBpCLUDJQGGrdDw1ey+9nZwExBQhWoXy9NL3dCl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6747B1F000E9;
-	Tue, 30 Jun 2026 20:24:46 +0000 (UTC)
-Message-ID: <257f9f48-4831-4f36-84c0-f7e6c257dd3a@nxsw.ie>
-Date: Tue, 30 Jun 2026 21:24:44 +0100
+	s=arc-20240116; t=1782851561; c=relaxed/simple;
+	bh=TP621yHWwXkn5FMjcTwR3PqkZFVTbmLIPKfhuh27df0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mVEhb6ZTw9tbQQgWvxrEzdHw/CthhmSpWMIcmQdSEu8HT05IsFQpVHB/rWHxBRb+t40Qecb05BZWmrJCPW36O7zc+x3ho/Op/zyzebgV9gHEzc8HVNMYsTdsb0dvj+iORcB9jYIewqW2eHragKU1sGIfeeev13J0TRasL6elbYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eVWvFp6S; arc=none smtp.client-ip=170.10.129.124
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782851559;
+	h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
+	bh=/eF0xrFSmEysuPA8eTvDUwliNyRVDCLqqcDvqn/3e7Y=;
+	b=eVWvFp6S5cMVKdnJBU5k9U1opiDBS6Tksu450m0HOjdBcoL9BYeKKoZ39cIpjY6ok4e/gX
+	fXbKKzNnE+5yrs42lGLeCjA1RM5lzYIp+ctCRM1VgtG3AOPFsqq9NSVZVMK1KCXif3ocRo
+	b0C7+3HaEf/yP039zzARKobU6J4cdg8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-547-VmvQVT--O_eaiTgOuCgLLA-1; Tue,
+ 30 Jun 2026 16:32:34 -0400
+X-MC-Unique: VmvQVT--O_eaiTgOuCgLLA-1
+X-Mimecast-MFC-AGG-ID: VmvQVT--O_eaiTgOuCgLLA_1782851553
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A645E184A0B4;
+	Tue, 30 Jun 2026 20:32:32 +0000 (UTC)
+Received: from localhost (unknown [10.22.81.100])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C86B236512;
+	Tue, 30 Jun 2026 20:32:31 +0000 (UTC)
+Date: Tue, 30 Jun 2026 16:32:30 -0400
+From: Derek Barbosa <debarbos@redhat.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Matthieu Baerts <matttbe@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Steven Rostedt <rostedt@goodmis.org>, users@kernel.org, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: Linking Patchwork with Sashiko?
+Message-ID: <akQlPSNfGEllNVhe@debarbos-thinkpadt14gen5.rmtusma.csb>
+Reply-To: debarbos@redhat.com
+References: <7E971C76-0568-43EF-9EE7-C8DB78C45CA1@linux.dev>
+ <20260530200017.0fe7f685@foz.lan>
+ <20260530204945.22ac92c6@foz.lan>
+ <20260530205351.19847fc8@foz.lan>
+ <ah7dpsLKd0Jf1Ir0@debarbos-thinkpadt14gen5.rmtusma.csb>
+ <7ia4tsrkn1k4.fsf@castle.c.googlers.com>
+ <20260602223936.27def657@foz.lan>
+ <b9f7ca3a-fa72-4a8e-94bd-9991a0882f10@kernel.org>
+ <20260604085201.177ad537@foz.lan>
+ <20260607195656.02788791@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: media: qcom: Add JPEG encoder binding
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, andersson@kernel.org, quic_vgarodia@quicinc.com,
- quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260629121750.3469292-1-atanas.filipov@oss.qualcomm.com>
- <20260629121750.3469292-3-atanas.filipov@oss.qualcomm.com>
- <_zZ7OLAmvphzTdIURTW71m_LKDwA-DEQ-a40gIiLYSqgDrdOOEf1bElz53zTbmSaDoqc8PDFyQXa7bycFaSTXw==@protonmail.internalid>
- <569539db-b079-439a-bd05-cb97c30141c1@linaro.org>
- <fbc018f5-c025-4747-85f2-53b45b0f0496@nxsw.ie>
- <IDwf-TUUNejblXqaFbAmpHIv49qp0PH0KB_H5HGcm1Wlj5zYf-q8Sota7H77GgDFcvhI2RHMCYmKRaDn0Q09fg==@protonmail.internalid>
- <0161b69d-62fb-46b8-a43a-df0c8af4956a@linaro.org>
-From: Bryan O'Donoghue <bod.linux@nxsw.ie>
-Content-Language: en-US
-In-Reply-To: <0161b69d-62fb-46b8-a43a-df0c8af4956a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260607195656.02788791@foz.lan>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.54 / 15.00];
-	DMARC_POLICY_QUARANTINE(1.50)[nxsw.ie : SPF not aligned (relaxed), No valid DKIM,quarantine];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66137-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:quic_vgarodia@quicinc.com,m:quic_jesszhan@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER(0.00)[bod.linux@nxsw.ie,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-66138-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[debarbos@redhat.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod.linux@nxsw.ie,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:mchehab+huawei@kernel.org,m:matttbe@kernel.org,m:roman.gushchin@linux.dev,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[debarbos@redhat.com,linux-media@vger.kernel.org];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,nxsw.ie:mid,nxsw.ie:from_mime]
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	HAS_REPLYTO(0.00)[debarbos@redhat.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,debarbos-thinkpadt14gen5.rmtusma.csb:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 904E66E7D54
+X-Rspamd-Queue-Id: 3FA546E7D9E
 
-On 30/06/2026 14:32, Vladimir Zapolskiy wrote:
-> On 6/30/26 16:19, Bryan O'Donoghue wrote:
->> On 29/06/2026 14:38, Vladimir Zapolskiy wrote:
->>>> +                interconnects =
->>>> +                    <&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_CAMERA_CFG 0>,
->>>> +                    <&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI_CH0 0>,
->>>> +                    <&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt SLAVE_EBI_CH0 0>,
->>>> +                    <&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt SLAVE_EBI_CH0 0>;
->>>> +                interconnect-names = "cpu-cfg",
->>>> +                                     "hf-mnoc",
->>>> +                                     "sf-mnoc",
->>>> +                                     "icp-mnoc";
->>> Since the proper option for describing this hardware is to have it as
->>> a child device tree node of CAMSS device tree node, which should serve
->>> or be percepted as a bus, it makes no sense to repeat and moreover rename
->>> bus/parent's resources, here is the list:
->>>
->>> * "hf_axi", "sf_axi", "core_ahb", "cpas_ahb" and "cnoc_axi" clocks,
->>> * Titan GDSC power domain and all four interconnects.
->>>
->>> Only "jpeg" clock and iommus are left specific to the hardware description
->>> of this IP under CAMSS, right? Thus, it should be reflected like this in
->>> the dt description as well, and the complexity of shared resource management
->>> has to be done in the driver, which might be tedious unfortunately, but
->>> certainly doable.
->>
->> JPEG should be able to vote for its individual NoC / CamNoC dependencies
->> / requirements.
+On Sun, Jun 07, 2026 at 07:56:56PM +0200, Mauro Carvalho Chehab wrote:
+> Added both global and per-project permissions to add CI checks:
 > 
-> There is no individual interconnects, JPEG interconnects are equal to
-> bus/parent CAMSS ones.
+> 	https://github.com/getpatchwork/patchwork/pull/653
+> 
+> Tested on a docker container created on the top of current
+> upstream, with the database imported from linuxtv.org and
+> migrated to the new permissions model.
 
-Not true.
+Hi Mauro,
 
-As a matter of fact, the JPEG encoder has no use-case for the ICP MNOC, 
-now that I look at this again.
+Patchwork integration has been cleaned up and the original issues filed against
+the Sashiko project have been resolved.
 
-Even if the list is identical the clocks, bandwidth, opp tables 
-represent individual consumers with individual votes.
->>
->> Both GDSCs and interconnects should be described in the sub-node.
-> 
-> Why to do it in each child, if GDSCs and interconnects are CAMSS bus/domain
-> specific? There is no acceptable explanation so far.
+Any progress on your work for the permissions modifications (or enabling it for
+media)?
 
-As we've already established some of the power-domains are function 
-specific - for example MXA in the PHYs.
+Cheers,
 
->> There's no functional linkage between CAMSS/IFE and JPEG - they are
->> peers within the CAMSS power-island. Over time we will migrate to
-> 
-> I do not refer to any "functional linkage".
-> 
->> individual nodes for IFE CSID and these too will appear inside of the
->> CAMSS "bus" -> JPEG etc should describe their nocs and power-domains
->> individually.
->>
->> camss@X{
->> 	camnoc@{}
->> 	csid@{
->> 		interconnects = <gem_noc>, <cam_noc>;
->> 	};
->> 	jpeg@ {
->> 		interconnects = <gem_noc>, <cam_noc>;
->> 	};
->> 	ife@ {
->> 		interconnects = <gem_noc>, <cam_noc>;
->> 	};
->> };
-> 
-> It makes sense only if the lists of interconnects are different, this
-> is not the case.
-> 
-> --
-> Best wishes,
-> Vladimir
+-- 
+Derek <debarbos@redhat.com>
 
 
