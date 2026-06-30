@@ -1,106 +1,57 @@
-Return-Path: <linux-media+bounces-66055-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66056-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ijZ+GtCJQ2q1agoAu9opvQ
-	(envelope-from <linux-media+bounces-66055-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 11:18:08 +0200
+	id nt8zDf2LQ2pMbAoAu9opvQ
+	(envelope-from <linux-media+bounces-66056-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 11:27:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29E66E206B
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 11:18:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EA76E2294
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 11:27:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=kBm8GQ9H;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=WkqZiYXo;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66055-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66055-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=TUzh68XO;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66056-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66056-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 05EC6305B713
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:14:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 251C1305C115
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 09:24:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30F993E6389;
-	Tue, 30 Jun 2026 09:13:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F05638839E;
+	Tue, 30 Jun 2026 09:23:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454B63E638E
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 09:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F321385D80;
+	Tue, 30 Jun 2026 09:23:50 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782810837; cv=none; b=eWqjs5GMGbXZ1TptgmZND52nxd7A/6mMeQbm8Gj3KXPCbLW3xwmN0yOeGDF7eX8A/0PZb9cUW1adjvF2FWW4M4zXNNCKkYW2yu8+KST8crR87LHiyir87/xd9UbrqKZ3gi7qWAhG2id2/gnKwz0NgncoLxy2vHcBbs/DCrOxUOQ=
+	t=1782811434; cv=none; b=PLDLRg7cVSVXIAz3ho8uqc9o2dJC7eZ8ZeLZ0r9ve1HXPgkZaKLbQBZ0E99Ojdkhzzvjs/WQjX7ASMgbqF6X+cu79wUL1l2n7InYS08I63ek0JMke6rQ13dVccAaeU/hm7DfGD8wxQpq/aBYG3V9jHDCgYV3a5R23QGimM/NYbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782810837; c=relaxed/simple;
-	bh=d+mLD1x2hxZDlUEdb98SKIREx2londngUqrUjv7sJ5g=;
+	s=arc-20240116; t=1782811434; c=relaxed/simple;
+	bh=GD8uUv1Sbu/HQUA/5J7LkGvk9c9U43WQlIues+zO+qY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ft8MvQxp5OmXZZ1TLWhBhgdeSw7k9Y0uxiuRI6LNCl4alGYvXTgN6bEHIQdRKE6xnjGdoUOnA6U1OIDqRtJvDvSaFWIZBjIzwt/ANGp6HQkcwMfM7qY3rqUno8IpoHwCijkHd5QHs9erBMAbP/9zE3+4GRygMYjUTnjEKVXV5eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kBm8GQ9H; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WkqZiYXo; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65U6CID21055974
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 09:13:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zjAH6qXKIxIZlt0DR1HdruARu0yYHLdBvO2fRNVwJK0=; b=kBm8GQ9HH3km03Ef
-	HsaOF6dZw3mgIp6zp0NSEyXrNfz1S87nnA32TqLfDZqW+5ZKMRORKhZY6bAPdMHN
-	yU5FVOcNo7tqZqgb8Ag5h+tyAnNuZD0WOveSrNGHuyfyE49fJch6R3Qan2W/aqlm
-	eOABFZ+m+X6X6jOZSaHdrrQMTcN7f7oNdJh8tmKokkzSk0Xmov0GhN49LSQXZ6GX
-	BDEyJLF4ZmVyyZC5U0833HcI4JT7Zfpjj/jXdyt05hJ0FBQWpuceOl9BZ8rGQWIN
-	S2rvFmAwPplMkbyKYyzszkN8cMRbD8CzkLtnnUBrNf3l7FaYIvKs7VpDzdtZR8A9
-	jmO+pQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f46861auj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 09:13:55 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92e66fe6152so9807285a.1
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 02:13:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782810835; x=1783415635; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zjAH6qXKIxIZlt0DR1HdruARu0yYHLdBvO2fRNVwJK0=;
-        b=WkqZiYXoot60CmKgV/5VTXRxdYZ/Ee4oYkpVvmKYK/YqonJY3aTyWrDQLX9eTrhnEl
-         oQgN5Y+FH5/Zj35/Oo+mG0INbqhFPFz6fjXwu90mgSsbbKe187Q4TXjimTIHyhzOuRKj
-         MMyuB0JB6S7FwEn547UIC86LlXC7IEpzdBMPFgrzoBo17i2z13g/0DCWuQULqBVPCkU2
-         yC9sMfSqe8jQagu/zwSx57ahP20M/h5LBnSHD5Y1VxaP7Tm9UyM4YVuvCNL34nYuM5ru
-         r2hVH1ndiA9QZ20jXG+gxvBbNwVYThoyexe907P/JZKnKhHbJOttmGwzibgMFHV0uDe1
-         Nb2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782810835; x=1783415635;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zjAH6qXKIxIZlt0DR1HdruARu0yYHLdBvO2fRNVwJK0=;
-        b=QWwSwV4EE9bxIwAcZqrI575s0HQzYHRQtEuqIdojzF4Oo+cCZguw1weRP0VN+CK2L5
-         fzYqq9ONpJcTx+4C94hKZA5aPE+rLAKofhEGCWqVPpp6hxAQUDPng3o61BKqzwobeFYE
-         UDI36DGUkZRbYk0++00/yMUl8y5tREnlrpY6qarUpqunQhbWwxWcnYebXdiGXa+35rOe
-         I/KelXmBHKD6lNifOufFwehOB01u3Bxo4QXxveQOE06/lrjtpZ3yp7GQbqj3TzpMIRIr
-         9klJBa17RYXLxFLvCHN5oYOrjtqNXxMsda9h9oMQlvUOSLhQTBEsBh5OUXEWgLKeTJvA
-         GqhA==
-X-Forwarded-Encrypted: i=1; AFNElJ+90vsmRkbFLQG06OgOOfhaBGFLBvwJC1fxVDjikQJ4RvUjq8OEn8GhoDxjlGJm4PJ7ubbWvonk5VTbsw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBmMacmuteOFJTQ3CGi4WFWjCtYaQTHm/Hqf1OgiYmoyV7/RfG
-	3efTn9Qk4OsQucUUpw7sjU1A0lmZD8ItnVuWWOvpOwwS/IXzq7vTAt2cLtg2Fq9bAUSiGl3CuSa
-	F7bbpoE/4G2sabdXyWBezCh3XUY/V94q6oyu2eAWU2L9S2KDNQK1AB1eQDnsAdUNKpziO/rLdLA
-	==
-X-Gm-Gg: AfdE7cmJBY9YM4mDbUWjczyHWJcmk2OMGbZHnzN2KV1FgEOdhh+sOziQ6RicecHzIw+
-	8FSNCbDH3bKr0HmW/lxCCLTcYGyuDyaT66BvIsJTijJHXoVow6G5woAyqrk1h4NfgE+36ISFU53
-	ve5voG8uqCbJmgoUxJN63NvUs13r11OM+LtiuUxXVVLpxtCvY8TyH/bu32PEauVk1CXbvbumASl
-	TDTLd0woXjTEEymegGajWxdBpaoqBlXP6cQlxDZwjNb81SBvBKkI1iNuwTQ8SCdyOMdcj4mfDnj
-	76kf+JXnlsNWCKa84JEhIA5zeGtgUytIVjJe8akMno/rnqHoLVF+tOezVMGwyY5+f6YzSWtsY0C
-	Ml69r8t32mGzQvLx311HclsaB8X7MK9aTePY=
-X-Received: by 2002:a05:620a:2b4e:b0:92b:7420:bd58 with SMTP id af79cd13be357-92e622c0c59mr284172485a.0.1782810834548;
-        Tue, 30 Jun 2026 02:13:54 -0700 (PDT)
-X-Received: by 2002:a05:620a:2b4e:b0:92b:7420:bd58 with SMTP id af79cd13be357-92e622c0c59mr284170685a.0.1782810834107;
-        Tue, 30 Jun 2026 02:13:54 -0700 (PDT)
-Received: from [192.168.120.170] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1288d16b06sm91084266b.8.2026.06.30.02.13.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 02:13:53 -0700 (PDT)
-Message-ID: <62ce45b8-5ffc-47e5-8424-f1472a2fddb3@oss.qualcomm.com>
-Date: Tue, 30 Jun 2026 11:13:50 +0200
+	 In-Reply-To:Content-Type; b=RDY99QaBykubiB9naceX1UxrRzh9hHRvdB/gqmTZt11Mnqv+7lYBVX1mB9WJa8CJZMNcY0lY5DSSTuw9raOhmur0uZhxUqc2Ro50BjGUMV2LBZ32u3WIY0d0HNoq2Q642YWvFfM1qh/NGaxzFjuTpKpd5sllzQbMnvksW6eGMjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=TUzh68XO; arc=none smtp.client-ip=213.97.179.56
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=5sd5P0AgIaXL9cs7YYNoFr4XV/WIbMgV1+mcnz0bD+k=; b=TUzh68XOuz5in6pfG8PF1xuxW8
+	y51qMVfPk2b2kGUtr7kY8Mn/QEsswHGWbJ+R/MBNR34Y/pSAIKF0jSb/pQaSRFd9cRUbPR8t3GJri
+	UcKmm6O2NZmCn394IZjYTKzKll0MC7DXwbbr45vGNiuCZt6Y+RMUJDMuczqpWdFJv21uwtkLW6M7h
+	+6eSq3s+1tO8nMA0V+NZe0nG7QvdbMBpSbnXS45JsG3lmqWheOrEWT5CkP05i52ONcv+YIbzVZiIE
+	NovVlArqY1i8AQmsbzXcIToj2nDV81iojE7SEX9tazkLP5LwrpSYmEfIrXTEWi/OKGqTasiSHQArD
+	zlMfyA6g==;
+Received: from [90.240.106.137] (helo=[192.168.0.116])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1weUgf-0071Kn-Fb; Tue, 30 Jun 2026 11:23:25 +0200
+Message-ID: <1941b3c5-2ef1-4da9-aa20-a11d771274f1@igalia.com>
+Date: Tue, 30 Jun 2026 10:23:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -108,114 +59,279 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] media: qcom: jpeg: Add Qualcomm JPEG V4L2 encoder
-To: Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
-        linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, andersson@kernel.org, quic_vgarodia@quicinc.com,
-        quic_jesszhan@quicinc.com, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260629121750.3469292-1-atanas.filipov@oss.qualcomm.com>
- <20260629121750.3469292-5-atanas.filipov@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260629121750.3469292-5-atanas.filipov@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: qZtl2CkorSvkawcQL1nqYnIusDsqWSpE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDA4MiBTYWx0ZWRfX7eObArF4cJKY
- qTbP4/k5+O5dLvPOtaIUd36jC8+IR6VgaA0tEo5+FSKWFQtiWnmdWTGQTCCcXzDHn8PVoTZFKRu
- SqQhgq3DuBGSYlG7E0HaDSICd67SFKNFYAe9gn6Nm1lWp4TysS3JTqq1LDL6V+aUEKo+AWL6Sp+
- gf7YOjIn24Z01YA+ktl6yp/jZWQoGwPO/D+sDBIP58Ad5Txmu24LPvhWIJJmkS9QeoYY8im8oOW
- C54OtD/ezUv/gjeWxXNHpfpylARtrY9nljx7pZnzWxbWK7zcPicA5aDTCAXrN4v7TL0AkbbEiqp
- K4uqHiNC8dybNq9NCyTNo5VwgdIW+87riQSXOjHKi0fEilDM/sebafqfS7caPxTbCs6w8l4Snxb
- +WjVD1PPIKrT8GCPJP0w8fqQjsFPbFcHWn7IIHi4ZJBI8MCHAn9itT9rzCvqi1NfV+33PY3r8kN
- Kit1tWvnOF0ywD0+/1w==
-X-Proofpoint-GUID: qZtl2CkorSvkawcQL1nqYnIusDsqWSpE
-X-Authority-Analysis: v=2.4 cv=FbcHAp+6 c=1 sm=1 tr=0 ts=6a4388d3 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=S8WVJQRO9DNrYap-pUMA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDA4MiBTYWx0ZWRfX8BK9gp0dZHL0
- vzV3uXZ8Ei9SZGbGUxCeVuUVzFTgaW0fh/uPgVL01zibI7o0XfTPbnjSrupZqULKYiiQLYLUTwD
- sVWi+eOy02dxwi7YZJnyVDYqd8ixM5w=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-30_02,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 bulkscore=0 adultscore=0 phishscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606300082
+Subject: Re: [PATCH v2] drm/sched: Protect entity->last_scheduled with
+ spinlock
+To: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20260626081942.2122144-2-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20260626081942.2122144-2-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66055-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66056-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:matthew.brost@intel.com,m:dakr@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,qualcomm.com:dkim,qualcomm.com:email];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_RECIPIENTS(0.00)[m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:quic_vgarodia@quicinc.com,m:quic_jesszhan@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,intel.com,gmail.com,linux.intel.com,suse.de,ffwll.ch,linaro.org];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,amd.com:email,igalia.com:mid,igalia.com:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F29E66E206B
+X-Rspamd-Queue-Id: 99EA76E2294
 
-On 6/29/26 2:17 PM, Atanas Filipov wrote:
-> Add a Qualcomm JPEG encoder driver implemented on top of the
-> V4L2 mem2mem framework.
-> 
-> The driver wires vb2 queue handling, format negotiation, JPEG header
-> handling, interrupt-driven job completion, and runtime PM/clock/ICC
-> integration for the standalone JPEG encode hardware block.
-> 
-> This series targets SM8250 (Kona) platforms.
-> 
-> The jpeg-encoder node is described as a child node of the CAMSS block
-> and is probed automatically via of_platform_populate() in camss_probe().
-> 
-> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
-> 
-> media: qcom: jpeg: restore JPEG_ENCODE_H1V1 for CAPTURE format lookup
-> 
-> V4L2_PIX_FMT_JPEG must remain in jpeg_encode_fmt[] with JPEG_ENCODE_H1V1
-> so that jpeg_get_encode_fmt() and jpeg_get_memory_fmt() resolve correctly
-> for the Write Engine (CAPTURE queue) path.
-> 
-> The corresponding jpeg_mcu_blocks[H1V1] entry is also restored.
-> 
-> V4L2_PIX_FMT_JPEG is not present in jpeg_src_formats[] so it cannot be
-> set as a SOURCE format by userspace.
-> 
-> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
-> 
-> fixup! media: qcom: jpeg: Add Qualcomm JPEG V4L2 encoder
 
-I recommend "git config --global rebase.autoSquash true"
+On 26/06/2026 09:19, Philipp Stanner wrote:
+> The entity->last_scheduled field has always been set and read with
+> special RCU functions in addition to memory barriers. There is no
+> obvious reason for that, since the entity lock is available and taken at
+> all places that evaluate the last_scheduled field. The only exception is
+> drm_sched_entity_error(), which is not performance critical in any way.
 
-Konrad
+I agree this looks odd since all call sites apart from 
+drm_sched_entity_error() use 
+"rcu_dereference_check(entity->last_scheduled, true);" ie. "ignore" the RCU.
+
+Btw this was added in:
+
+commit 70102d77ff22dd88a0111b1c3bac5099ac5d0425
+Author: Christian König <christian.koenig@amd.com>
+Date:   Mon Apr 17 17:32:11 2023 +0200
+
+     drm/scheduler: add drm_sched_entity_error and use rcu for 
+last_scheduled
+
+You may want to add this as a reference in the commit message.
+
+I guess it relied on dma-fence RCU destruction to enable lockless 
+lookups from the AMD submit path. Given how many other locks we have in 
+those paths it is probably noise to have one more so maybe it is a win 
+to remove some barriers and those rcu_dereference_check-true lines. I 
+think Christian will need to comment.
+
+> Improve robustness, readability and maintainability by replacing RCU and
+> barriers with the lock.
+> 
+> As a preparational step, while at it, also guard spsc_queue_pop() with
+> the lock, since spsc_queue is deprecated and supposed to be replaced
+> with a locked list.
+
+You would have said to split the logical changes into separate patches.
+
+> 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+> Changes since v1:
+>    - Add a helper variable to drop the last_scheduled reference without
+>      the entity lock being held; just to be more robust.
+>    - Write additional comment to detail the WRITE_ONCE().
+> ---
+>   drivers/gpu/drm/scheduler/sched_entity.c | 58 +++++++++++++-----------
+>   include/drm/gpu_scheduler.h              |  9 ++--
+>   2 files changed, 35 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index c51101ec70c1..12fd695c6d46 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -135,7 +135,6 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>   	entity->num_sched_list = num_sched_list;
+>   	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
+>   	entity->rq = &sched_list[0]->rq;
+> -	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+>   	RB_CLEAR_NODE(&entity->rb_tree_node);
+>   	init_completion(&entity->entity_idle);
+>   
+> @@ -201,10 +200,10 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+>   	struct dma_fence *fence;
+>   	int r;
+>   
+> -	rcu_read_lock();
+> -	fence = rcu_dereference(entity->last_scheduled);
+> +	spin_lock(&entity->lock);
+> +	fence = entity->last_scheduled;
+>   	r = fence ? fence->error : 0;
+> -	rcu_read_unlock();
+> +	spin_unlock(&entity->lock);
+>   
+>   	return r;
+>   }
+> @@ -288,8 +287,10 @@ void drm_sched_entity_kill(struct drm_sched_entity *entity)
+>   	wait_for_completion(&entity->entity_idle);
+>   
+>   	/* The entity is guaranteed to not be used by the scheduler */
+> -	prev = rcu_dereference_check(entity->last_scheduled, true);
+> +	spin_lock(&entity->lock);
+> +	prev = entity->last_scheduled;
+>   	dma_fence_get(prev);
+> +	spin_unlock(&entity->lock);
+>   	while ((job = drm_sched_entity_queue_pop(entity))) {
+>   		struct drm_sched_fence *s_fence = job->s_fence;
+>   
+> @@ -381,8 +382,12 @@ void drm_sched_entity_fini(struct drm_sched_entity *entity)
+>   		entity->dependency = NULL;
+>   	}
+>   
+> -	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+> -	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+> +	dma_fence_put(entity->last_scheduled);
+> +	/*
+> +	 * Normally all users should be gone now, but since drm_sched has
+> +	 * experienced many layering violations in the past, better be safe.
+> +	 */
+> +	WRITE_ONCE(entity->last_scheduled, NULL);
+>   	drm_sched_entity_stats_put(entity->stats);
+>   }
+>   EXPORT_SYMBOL(drm_sched_entity_fini);
+> @@ -507,6 +512,10 @@ drm_sched_job_dependency(struct drm_sched_job *job,
+>   
+>   struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>   {
+> +	/* Helper to avoid dropping the reference while the entity lock is held,
+> +	 * just to have some more robustness.
+> +	 */
+> +	struct dma_fence *prev_last_scheduled;
+>   	struct drm_sched_job *sched_job;
+>   
+>   	sched_job = drm_sched_entity_queue_peek(entity);
+> @@ -523,19 +532,20 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>   	if (entity->guilty && atomic_read(entity->guilty))
+>   		dma_fence_set_error(&sched_job->s_fence->finished, -ECANCELED);
+>   
+> -	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+> -	rcu_assign_pointer(entity->last_scheduled,
+> -			   dma_fence_get(&sched_job->s_fence->finished));
+> +	spin_lock(&entity->lock);
+> +	prev_last_scheduled = entity->last_scheduled;
+> +	entity->last_scheduled = dma_fence_get(&sched_job->s_fence->finished);
+>   
+> -	/*
+> -	 * If the queue is empty we allow drm_sched_entity_select_rq() to
+> -	 * locklessly access ->last_scheduled. This only works if we set the
+> -	 * pointer before we dequeue and if we a write barrier here.
+> +	/* A recent rework required taking the spinlock above. Since spsc_queue
+> +	 * is scheduled for removal as per the DRM-TODO-list, we access it here
+> +	 * locked already to prepare for that cleanup.
+> +	 *
+> +	 * TODO: Fully replace spsc_queue with a locked (h)list.
+>   	 */
+> -	smp_wmb();
+> -
+>   	spsc_queue_pop(&entity->job_queue);
+> +	spin_unlock(&entity->lock);
+>   
+> +	dma_fence_put(prev_last_scheduled);
+>   	drm_sched_rq_pop_entity(entity);
+
+Notice the entity->lock ends up cycled twice for no good reason (second 
+is in drm_sched_rq_pop_entity()). So I would suggest you somehow reduce 
+that to once. Probably just pull out entity->lock out of the 
+drm_sched_rq_pop_entity() to drm_sched_entity_pop_job()?
+
+I guess if you do that then the "while at it" part of the commit message 
+can be "upgraded" to "spsc_queue_pop() being under the lock as a 
+consequence of the rework" and then no need to split it.
+
+>   
+>   	/* Jobs and entities might have different lifecycles. Since we're
+> @@ -561,21 +571,15 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>   	if (spsc_queue_count(&entity->job_queue))
+>   		return;
+>   
+> -	/*
+> -	 * Only when the queue is empty are we guaranteed that
+> -	 * drm_sched_run_job_work() cannot change entity->last_scheduled. To
+> -	 * enforce ordering we need a read barrier here. See
+> -	 * drm_sched_entity_pop_job() for the other side.
+> -	 */
+> -	smp_rmb();
+> -
+> -	fence = rcu_dereference_check(entity->last_scheduled, true);
+> +	spin_lock(&entity->lock);
+> +	fence = entity->last_scheduled;
+>   
+>   	/* stay on the same engine if the previous job hasn't finished */
+> -	if (fence && !dma_fence_is_signaled(fence))
+> +	if (fence && !dma_fence_is_signaled(fence)) {
+> +		spin_unlock(&entity->lock);
+
+Have you tried with lockdep to see if there are any hidden lock 
+inversions with this?
+
+I also wonder if we could demote this to a flag check only and remove 
+any doubt. I don't think opportunistic signalling matter in this code path.
+
+Regards,
+
+Tvrtko
+
+>   		return;
+> +	}
+>   
+> -	spin_lock(&entity->lock);
+>   	sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+>   	rq = sched ? &sched->rq : NULL;
+>   	if (rq != entity->rq) {
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index d61c19e78182..176ff1f936cd 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -100,7 +100,8 @@ struct drm_sched_entity {
+>   	 * @lock:
+>   	 *
+>   	 * Lock protecting the run-queue (@rq) to which this entity belongs,
+> -	 * @priority and the list of schedulers (@sched_list, @num_sched_list).
+> +	 * @priority, @last_scheduled and the list of schedulers (@sched_list,
+> +	 * @num_sched_list).
+>   	 */
+>   	spinlock_t			lock;
+>   
+> @@ -202,11 +203,9 @@ struct drm_sched_entity {
+>   	/**
+>   	 * @last_scheduled:
+>   	 *
+> -	 * Points to the finished fence of the last scheduled job. Only written
+> -	 * by drm_sched_entity_pop_job(). Can be accessed locklessly from
+> -	 * drm_sched_job_arm() if the queue is empty.
+> +	 * Points to the finished fence of the last scheduled job.
+>   	 */
+> -	struct dma_fence __rcu		*last_scheduled;
+> +	struct dma_fence		*last_scheduled;
+>   
+>   	/**
+>   	 * @last_user: last group leader pushing a job into the entity.
+
 
