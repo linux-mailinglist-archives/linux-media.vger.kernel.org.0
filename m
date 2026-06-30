@@ -1,159 +1,184 @@
-Return-Path: <linux-media+bounces-66141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66142-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id buRmFr83RGrMqgoAu9opvQ
-	(envelope-from <linux-media+bounces-66141-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 23:40:15 +0200
+	id c8JrFoI9RGqnrAoAu9opvQ
+	(envelope-from <linux-media+bounces-66142-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 00:04:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16756E82C0
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 23:40:14 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B416E843E
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 00:04:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=hvKTMsSL;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66141-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66141-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=linaro.org header.s=google header.b=HFHkydXl;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66142-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66142-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linaro.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D63493051560
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 21:40:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8E0D23019AA6
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 22:04:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AB843264FF;
-	Tue, 30 Jun 2026 21:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8F323264F5;
+	Tue, 30 Jun 2026 22:04:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01B131E107
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 21:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843CF2D46C0
+	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 22:03:58 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782855608; cv=none; b=gaRxoCNO7sE3U2BaCUOxxZ4zTtMGGkfOtBRZJlxO1wEwnoPcJ6xGeWU3S8YWNh8itc+lIQZuL7FqMYnlNM+VT1CIpXtP1fV8q6qmUxLoNlCEKqulrntg3ak2u6A7mEqBKlfwe6RXukVX8Vl+OM3d5rCiNT6l6G2cq6cvxNq+Tig=
+	t=1782857041; cv=none; b=qlIF9Gpf5/9fr148usMJWqE18CstmzhdLJYp07Msc16l7kgkwHFYZ4kmnJnOKfynKbgeSL82KmCxrZAhIGFkB5TE5gcmQuNfKvoXalNVDvk07Ly9CoUwxQfsI33y6ohnvXHN7tQvpQUAmK26Wk4omPsSb/xbAUljpiD9xN2fpeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782855608; c=relaxed/simple;
-	bh=La2xNvf/TCB9nBGYKaS8YDOIJOCNSEjb9+oJx13QQCM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N2mGiIUtTYxTAwC9g1OKWXyWcFbdgk4STfw4g4DtS1NxM1g4dfAuC4bcPF5eewH6dz+onW2PNc9SzPfEknsMkz8GOphIvU9dWDq6VGg/tRNMSjxJ+fJFcHa2xUIHU+kfcNIJU/Xz0kOsaawY1KxU+sUXVg+nfLcw9viY9eXnRRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvKTMsSL; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8951F01560
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 21:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782855606;
-	bh=La2xNvf/TCB9nBGYKaS8YDOIJOCNSEjb9+oJx13QQCM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=hvKTMsSLWpQ7iwnKPdGvgwo9HJsX1KaQ0ubrkEyF6jRtv6mdeKaQvRSrk8mJbQzxW
-	 ig6k3MT8xKA+lTAcOlkAAOJcWdXKrFmGykfXLZNsJrC4ZUwxYU8idfhr4PDNNRiJQl
-	 dL4jtvbz1PpTkasUpdlMtraBeP+0Obg7Sy1MnUWXzAfKz9u+WjtyjvDJMWkxSdE48F
-	 JlrnDpUpZ2kdUZnpGkFx0rw7VpM4s3JAFfKvDSckb101eyILjgH9sF32uBzeJUlAqw
-	 rc0o03G7Elsp6K6Z1gVl7D5Bnr8tmbDdWDEdfx3fznr2bRRsBeoZllbucPhSQwYNf0
-	 zkw1ib+Apn52w==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aeb2bc82ccso3526977e87.2
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 14:40:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrQ6E0SKGsTEWMkr/9OaeQrN/QiCvVFLDSxnr0ARbB1QWgsEtwmwhtgnVJMH6pAPvb1WMsS+Phc4D6Xfw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwR4EZhlQKqedazR4U+eFDFIzowEWwOupWTpgemGDIPMJQ6vOV5
-	JPYyNgJ6MHTcW9J/i0bSGbXpe4m/tWzxfxbbRO/+TyPzp48MzQPG9wlI5R8+CpZ+goqRqBteQ/1
-	m882+ce5VnCbdUcuW7OoUuGwD5bnn3XU=
-X-Received: by 2002:a05:6512:3d19:b0:5ae:b604:4c9 with SMTP id
- 2adb3069b0e04-5aebdbc9489mr1240118e87.65.1782855605213; Tue, 30 Jun 2026
- 14:40:05 -0700 (PDT)
+	s=arc-20240116; t=1782857041; c=relaxed/simple;
+	bh=8ymipuRB9D5DQq6+y2O9ynj1qRZr8UbXvBj3NoQCjs0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tgrZno3KOLlaKRxEVMin+Ht1oDVz5DDZ3S/ReKeS3jOFrFyD9dGeYSPlq9H/M/EIFbSzIUjim8BQNe25Vb3RCgq0izMom79hf6iqZpNu2bVN+FB8Bc2pGSglmzEhosh+f/Bim3+WESr8lYRm5TuIJWSRqPOTIjNy7TDT6zGujcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HFHkydXl; arc=none smtp.client-ip=209.85.128.54
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493a7bd27c2so25660795e9.3
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 15:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1782857037; x=1783461837; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tw2gpsI3jiI4P6kujg/K3R9aQhlaG+bVbRj+g5z/Ff4=;
+        b=HFHkydXl9qNzDuK2ivnsAQd2h53E0oIA57kLA0rrCp747uvtzYeaf9cjaQnc/F3glZ
+         ta0KhSbJKwXq5FoisQqw05UFsVizPp5hTwbk1YBuU95WQOj1gAxp9khcgRDmzQMtTyXY
+         1cUl7fD9mY9hSYmj1gQ7/YPYth8KxdNxaGf2GTHjXyTI9WOtyrgV/GZ46EQDBhrOh2E+
+         NXc8WZLNAQm4ly8FIv8HZ/5hwl8UF+g7IsLc0ZKsDM51ghSL89fD+2aPqJblSDZ81c5O
+         DmpugiOO12AHfavcKcH6nFCMC732wtx8SFZ8XVtiRPlpG57KBqgoWUqkfRn5VhChvdRw
+         R/wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782857037; x=1783461837;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tw2gpsI3jiI4P6kujg/K3R9aQhlaG+bVbRj+g5z/Ff4=;
+        b=AtP8MnkBaretyBCrEv7kcnwvzF+83Wz15A+pBopgDqN8JewDJ8uFWwcQsUBJXKOsJH
+         LImMNBlBxOpvSCOi4ylFauUjmnuhvl6kMrdUdWH/RGenrZdYqg4XBLXCyQ9t3PeY3xsN
+         StlZiUjB8i2P6hgjW2TIalAM8OXP3gYhYQX134/X58Dq5wwdpa21i88rrN6kfkTh0twx
+         EAlmn5f71RXhwo0yhqmzFmg0YtgSK3u5YT4+G47xrfzIPLGjKDiQP8s1QuywkVzJQOey
+         6yL4Ta9vBDc/sSadO3YC2bmqHcvFdZRFpnMyHuugXGd62OYl9Ur+it4iOm+z1i06rB76
+         Jlog==
+X-Forwarded-Encrypted: i=1; AFNElJ9hMj7Fq/7cL55tdBvTtKrtdWl+VmLkyuX8CR/V/41/w8b01yHaVU48f8h2kHPamWQQlTpfS5bxT+qWMQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLXFDE851xYiAIdW8p3xIB1yoAllQyN7G1+f8zLINtyl9/31Kw
+	IooGTzrj8tfLyyLFDtEKjBx7EE1ahP80C9FYtTFNzvkxaXWvRZ1HPdjXSKBGJRydsVg=
+X-Gm-Gg: AfdE7cn65GCbNwcs7EcYdnRCqZCUzDFAQMhviSpoLR/kbX2r9RTrpGR/Dei04ZhejqS
+	bYC9j69g1BeHpItXQnxoB8e95ycJUdSFcalLLWPdyM8ewFM8O2L9hFJGiB2Z8Q5wabkH2xwvLni
+	JSIyNXRP87fJfFe++cZeVZNInT2+HRNriaJEwLNj/4qTH5jM9csvUEU0vRWz4pWMInEYm6vLYLU
+	o3tK+LJ9QQY4peGjiCQLuleR3FLSD77Uk/GC3+UUFoP2lMVwSCr7hir014bjf3JGRXxJJB+fwo5
+	hjwh1aTD1n/b2pvZus4FT08MlTj+nm23R2UBjlfIlDp6bLidT8vs+Zk8jpAl7nrPoFq4Wwsegqs
+	/lxWkKCKIGy5/KHAz6tS0A6j14/3a/K2dCyXqwC+bI6dyFvCW9MGp+Zfg3GIPVWzCHK4x/VY+Qk
+	1ynazbWEB41c2Jxp1aA283gebNlA==
+X-Received: by 2002:a05:600c:6290:b0:492:40f2:4d78 with SMTP id 5b1f17b1804b1-493b827ee28mr76178765e9.2.1782857036849;
+        Tue, 30 Jun 2026 15:03:56 -0700 (PDT)
+Received: from [192.168.0.101] ([109.76.103.114])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-475643cd85dsm10663533f8f.15.2026.06.30.15.03.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2026 15:03:56 -0700 (PDT)
+Message-ID: <9898d7cd-45fb-478d-affb-d3cf0e7df8b7@linaro.org>
+Date: Tue, 30 Jun 2026 23:03:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629132633.1300009-1-arnd@kernel.org>
-In-Reply-To: <20260629132633.1300009-1-arnd@kernel.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 30 Jun 2026 23:39:50 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkpTa4hxNRscbiFFKZTM28ThuJMo1f3SX96LheC8L5BEQ@mail.gmail.com>
-X-Gm-Features: AVVi8CfBoAND9VanduyO4lm3tElbURSYx2nmpdkO8PSRH7aiVql7RmWg2jM4Qb0
-Message-ID: <CAD++jLkpTa4hxNRscbiFFKZTM28ThuJMo1f3SX96LheC8L5BEQ@mail.gmail.com>
-Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-gpio@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Greg Ungerer <gerg@linux-m68k.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Dominik Brodowski <linux@dominikbrodowski.net>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] media: qcom: iris: use disable_irq() during power-off
+To: Hungyu Lin <dennylin0707@gmail.com>, linux-media@vger.kernel.org
+Cc: vikash.garodia@oss.qualcomm.com, abhinav.kumar@linux.dev,
+ mchehab@kernel.org, konrad.dybcio@oss.qualcomm.com,
+ dmitry.baryshkov@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <sum692CaNq_kIywmtjVJ3z0iG8qBK0eOdmOPYUaivwH3v6h9GxZZqm2_7vgbCrCOAZs-K0K9PejQsRXj1za4VA==@protonmail.internalid>
+ <20260630152617.568-1-dennylin0707@gmail.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20260630152617.568-1-dennylin0707@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[34];
+	TAGGED_FROM(0.00)[bounces-66142-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66141-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:arnd@kernel.org,m:linux-gpio@vger.kernel.org,m:arnd@arndb.de,m:brgl@kernel.org,m:andrew@lunn.ch,m:sebastian.hesselbarth@gmail.com,m:gregory.clement@bootlin.com,m:Frank.Li@nxp.com,m:robert.jarzmik@free.fr,m:krzk@kernel.org,m:gerg@linux-m68k.org,m:tsbogend@alpha.franken.de,m:hauke@hauke-m.de,m:zajec5@gmail.com,m:ysato@users.sourceforge.jp,m:glaubitz@physik.fu-berlin.de,m:dmitry.torokhov@gmail.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux@dominikbrodowski.net,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:patches@opensource.cirrus.com,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-phy@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:sebastianhesselbarth@gmail.com,m:dmitrytorokhov@gmail.com,s:li
- sts@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,arndb.de,kernel.org,lunn.ch,gmail.com,bootlin.com,nxp.com,free.fr,linux-m68k.org,alpha.franken.de,hauke-m.de,users.sourceforge.jp,physik.fu-berlin.de,redhat.com,dominikbrodowski.net,lists.infradead.org,opensource.cirrus.com,lists.linux-m68k.org,lists.linux.dev];
+	FORGED_RECIPIENTS(0.00)[m:dennylin0707@gmail.com,m:linux-media@vger.kernel.org,m:vikash.garodia@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:mchehab@kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,mail.gmail.com:mid]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E16756E82C0
+X-Rspamd-Queue-Id: 61B416E843E
 
-On Mon, Jun 29, 2026 at 3:26=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
-te:
+On 30/06/2026 16:26, Hungyu Lin wrote:
+> The IRQ is registered as a threaded IRQ.
+> 
+> Using disable_irq_nosync() in iris_vpu_power_off() does not wait
+> for an already queued threaded IRQ handler to complete before
+> returning.
+> 
+> As a result, a threaded IRQ handler may still run after the VPU has
+> been powered down and access hardware registers after power-off.
+> 
+> Replace disable_irq_nosync() with disable_irq() so the power-off path
+> waits for any in-flight threaded IRQ handler to complete before
+> returning.
+> 
+> Fixes: bb8a95aa038e ("media: iris: implement power management")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>   drivers/media/platform/qcom/iris/iris_vpu_common.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> index 69e6126dc4d9..538659284c7b 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> @@ -236,7 +236,7 @@ void iris_vpu_power_off(struct iris_core *core)
+>   	iris_unset_icc_bw(core);
+> 
+>   	if (!iris_vpu_watchdog(core, core->intr_status))
+> -		disable_irq_nosync(core->irq);
+> +		disable_irq(core->irq);
+>   }
+> 
+>   int iris_vpu_power_on_controller(struct iris_core *core)
+> --
+> 2.34.1
+> 
+> 
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The linux/gpio.h header used to be the global definition for the gpio
-> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
-> 130 of those remain, so this series cleans out the rest.
->
-> In each subsystem, we can replace the header either with
-> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
-> or linux/gpio/legacy.h for the few remaining users of the old number
-> based interface.
->
-> All patches in this series can get applied independently, so my
-> preference would be for each subsystem maintainer to apply these
-> directly, with the rest going into the gpio tree at some point.
->
-> The final patch here obviously needs to wait for all the others
-> to get merged first.
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-This is helpful.
-The series:
-Reviewed-by: Linus Walleij <linusw@kernel.org>
-
-Yours,
-Linus Walleij
+---
+bod
 
