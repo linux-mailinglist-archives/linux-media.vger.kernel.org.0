@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-66122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66123-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hMGwAaXfQ2pakwoAu9opvQ
-	(envelope-from <linux-media+bounces-66122-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 17:24:21 +0200
+	id V1aXOmfgQ2qTkwoAu9opvQ
+	(envelope-from <linux-media+bounces-66123-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 17:27:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0EC6E5E6D
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 17:24:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 360CB6E5EC6
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 17:27:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=f8WYt1Ll;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66122-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66122-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=dnD1kzoG;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66123-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66123-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 01808304C772
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 15:24:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A7253302ED45
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 15:26:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D44E370AD4;
-	Tue, 30 Jun 2026 15:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E32A377EA2;
+	Tue, 30 Jun 2026 15:26:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59525331EC4;
-	Tue, 30 Jun 2026 15:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A661B374A1C;
+	Tue, 30 Jun 2026 15:26:15 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782833051; cv=none; b=btXDhJFX/u/GjKUBm09XQY/wx0NTBWvPm6axuOpdPKl5Z2vaJsBVxNom35jr8TIbpSsc3IQUx2PPE7QN5V/w1U0BftXlaRGbtOSJ/5eRLPVCeSe/rRHe1PCPBNbf/p3fiTQQZIEwa+dyZ18GyBEX4NNVE9iIgOPEgyLw4CGht/U=
+	t=1782833177; cv=none; b=XytTjJUBKLfABV4cgBC0uESvGFJHdGbmMP6blMiJY+cdt+ZGZ4iW0FuyhbGog4zZmZ6z00S5ZSJ0EJSRUXVBpzzF8vWBZquijRVOdids4rqF+PF79Czn7DWZG9kqHnIUdoHITpUzcr7RjjMc2gEXwly+sAySnis9LiHV7i80Rbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782833051; c=relaxed/simple;
-	bh=rffeOx1ZNGZ/71pnrS5g5M7MX9Nh/43FzsVfPNKxPXo=;
+	s=arc-20240116; t=1782833177; c=relaxed/simple;
+	bh=o/KAIttV6Re63XhGjKoqkqWZrj57tKWBDS5l0Xz1KgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KbizKhPsZOyFsY2l+EJRrYKmJZ7Q21cO6TgrH/pnKsFmuQO+cOUTH/XIFeu+ahAMmVYYb7rAmqeRPxQtFHJhesQKvaw1mQ4B/Nlf6eNem7y4OK8KFpaWwKigoXimzQ2a0b4mnDXxPosXG6/KJGGUZwNCAwPRrYeq2Xm4NiuxOpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f8WYt1Ll; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=rlhpaKMSrRUS2zuY7L65n572ey4WPJBhg0wGeqBupSdhnPs0iQth9OPJPRXRS2pBewZ8/YtbAJ8KPC/uJVNy10WO0kdfeinJNzoHxCQD+R0Z6Uu1t2yLzVEzlI1Sfb0l70JUarM6QSlHSl74cF52oX3yKTPPD81aDeCj6kdvg78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnD1kzoG; arc=none smtp.client-ip=198.175.65.9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782833050; x=1814369050;
+  t=1782833176; x=1814369176;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rffeOx1ZNGZ/71pnrS5g5M7MX9Nh/43FzsVfPNKxPXo=;
-  b=f8WYt1LlplxgSXrvhX+Vy7hKvTDjUpq8sUrNa3CNP3L5+V3nKhrEMQHU
-   9nwvRuiyPGVEPPxU45RX6AszO47po5AXdbVNwPe2Vs7JlOD3LPV8Z0PTJ
-   f+inO5qsbiFq820RyiCpXh4xsVdpY0RNVv8nn0OwUtEUeVAQbNt2f/0QG
-   WOZd+WCQTBY6ALDxbKgjiUJRad0dn/qlXVvWXun2Aqs2wCnBydUU2bR5X
-   ykzDeizoBMFRv8yNztwwbRctyDtbe4qIEMiQclPJn9QF7s4AG1frPwjeP
-   l6qQZ5akwyeYPSvhEo6WJrQU1LUdT6ez/BeOgvlMkRXQIUK/Crxz0Y57I
-   w==;
-X-CSE-ConnectionGUID: 3GpNtapRQie6Jr3uOtlYqA==
-X-CSE-MsgGUID: nOLVOUXfSuW35Lt/bI7MJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="95053253"
+  bh=o/KAIttV6Re63XhGjKoqkqWZrj57tKWBDS5l0Xz1KgI=;
+  b=dnD1kzoG/WBfEj0lTww2nWQqS+PBNBViPJdp0QJ5dzcv3UPM5lVNEHmn
+   n63Ae6TkszYYUdiBH3ge8B01Zzlyb54bARr0cxFv/urpz+GP46xk3BvHG
+   TMK5VPRxgx5ysmHflD/CWty8XIATQvNlxJE1R/QMIg4fyfm8vrPgCz7Hp
+   h8XuBv4Fe3Vg/LrjoNIYWkD1Rq4HIhdTCFblU5cdZEzbCN4LxG2kN0BNU
+   9bWYczEwh4AGIKyKKgD4A82y2LT9g0bdb9RQVsPIQ3BB87Ux31AixiS7G
+   z/SpduEQBNN1oPRhKTtCue46ifmuNgUeXt4v9hu1T7D77EyMNdZHlPLCy
+   g==;
+X-CSE-ConnectionGUID: y7xHLG0CReuqT+vZcNA4AQ==
+X-CSE-MsgGUID: qRoJVzRbS8+S0uwziNi7JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="106341813"
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="95053253"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 08:24:10 -0700
-X-CSE-ConnectionGUID: sKtIce60T7OZ38UwmOE+Qw==
-X-CSE-MsgGUID: LzRQ8voRSf24oUL9Ro6r1w==
+   d="scan'208";a="106341813"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 08:26:15 -0700
+X-CSE-ConnectionGUID: 02MX0A4UTt691Pv/02updg==
+X-CSE-MsgGUID: 3rMI2kktQvKxdbtHYkFFiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,234,1774335600"; 
-   d="scan'208";a="254200766"
+   d="scan'208";a="290418674"
 Received: from slindbla-desk.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.241])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 08:24:07 -0700
-Date: Tue, 30 Jun 2026 17:24:00 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 08:26:13 -0700
+Date: Tue, 30 Jun 2026 17:25:43 +0200
 From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: Tarang Raval <tarang.raval@siliconsignals.io>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -70,9 +70,10 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 04/15] media: i2c: os05b10: split common and
  mode-specific init registers
-Message-ID: <akPfZLgX7zTVWt_6@mdjait-mobl>
+Message-ID: <akPf3JJebqr-pEY6@mdjait-mobl>
 References: <20260325114404.95188-1-tarang.raval@siliconsignals.io>
  <20260325114404.95188-5-tarang.raval@siliconsignals.io>
+ <akPfZLgX7zTVWt_6@mdjait-mobl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,7 +82,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325114404.95188-5-tarang.raval@siliconsignals.io>
+In-Reply-To: <akPfZLgX7zTVWt_6@mdjait-mobl>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
@@ -89,13 +90,13 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-66122-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66123-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER(0.00)[mehdi.djait@linux.intel.com,linux-media@vger.kernel.org];
@@ -113,25 +114,24 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linux.intel.com:from_mime,intel.com:dkim,intel.com:email,mdjait-mobl:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim,intel.com:email,vger.kernel.org:from_smtp,linux.intel.com:from_mime,mdjait-mobl:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5A0EC6E5E6D
+X-Rspamd-Queue-Id: 360CB6E5EC6
 
 Hi Tarang,
 
-On Wed, Mar 25, 2026 at 05:13:50PM +0530, Tarang Raval wrote:
-> Separate common initialization registers from mode-specific settings.
-> Move resolution-dependent registers into a per-mode register list and
-> program them during stream enable.
+On Tue, Jun 30, 2026 at 05:24:09PM +0200, Mehdi Djait wrote:
+> Hi Tarang,
 > 
+> On Wed, Mar 25, 2026 at 05:13:50PM +0530, Tarang Raval wrote:
+> > Separate common initialization registers from mode-specific settings.
+> > Move resolution-dependent registers into a per-mode register list and
+> > program them during stream enable.
+> > 
+> 
+> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 
-Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-
-> Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
-
---
-Kind Regards
-Mehdi Djait
+Please ignore this, this was meant for the patch 05
 
