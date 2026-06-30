@@ -1,85 +1,92 @@
-Return-Path: <linux-media+bounces-66126-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66127-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pzt+MaLqQ2oLlgoAu9opvQ
-	(envelope-from <linux-media+bounces-66126-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 18:11:14 +0200
+	id D6E9NVvrQ2pJlgoAu9opvQ
+	(envelope-from <linux-media+bounces-66127-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 18:14:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2220D6E6494
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 18:11:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4972D6E6528
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 18:14:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amd.com header.s=selector1 header.b=Hp9+9Unj;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66126-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66126-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=amd.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="Hc/qVpMD";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66127-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66127-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9CE0E30FB42C
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 16:04:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4A283312FC65
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 16:06:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8292736D4F1;
-	Tue, 30 Jun 2026 16:04:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E2F47277C;
+	Tue, 30 Jun 2026 16:06:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012044.outbound.protection.outlook.com [40.107.209.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lr2-f2.google.com (mail-lr2-f2.google.com [74.125.230.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506FB46AEF1
-	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 16:04:39 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782835482; cv=fail; b=ZbgOb+RBDKf6J46lERo5RirnjaoFiZXoE7gLPtr0209stKZSJUpKwRpY5wkeTWXIjQ1kH0Me8KMWDkPAh/BgBvT35rq7nY25wPQqBRrQ1pBdrf+JP8gU2y8BkB9qaWLL+8rhD7P8nsJsUB9tDb6v7giqAKzRHtTZfTmr/T2sq7g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782835482; c=relaxed/simple;
-	bh=x/k4kpHbXA7aRmlQXdDyvqLxP+aTGeuwdH70ZqjSaCI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iKjugaBE/SSsynRezXlyNAW36uiX2vrCECZZgsgOpm4nvzqdUwlBv9Q9BpASDnUWaW92rM0dlwbZyG+okw9KJXNPXSzeYYWohMFJ+KhOfClQcfYizqFwfrZLCrczY4jRXJ5aiOg3zlCUUy7FPXEHRWf5CX77ikh6H3gv5JuOjug=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Hp9+9Unj; arc=fail smtp.client-ip=40.107.209.44
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B8q+UgXu1+vn2/6pX+yoAyuXnrTEAL9tqmg2Wb6gY1+RHsu4UUFP8PRtDRvndOrHQzYgA18YOTUtr7r5Q/HRym4FC2HzVecHKFfX/a5UQ3NTSOHQhQq1/gxlTiNpfv1Rp5PYPkhNblRnsme74JrIWizcScqxiVol+ZzgnFgv5YJExvS/8j+Rn3gHP5ea+MW/tpTSQuxgIEM+5uAvXhQuC4IDJ/CGnPMD5DmP6CEnYsDB/DJwpjbTWeFa1YPCAx7LuXSiTm7ea44Jo9kXEz99gAjeW9YzN53feCUMEotQ9mg7y2be5RdhHBKm8qio2gsNf+VZpvT5mgnVBD7jJHTKfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UJAfV8ugprdkrLND+nsWF7e8BS0VEqFPZlOfFofj8oY=;
- b=sjcpEO5LypC8DFkBtuKauB8DXi2R/o025MJq+KKevs59JsAUlzkqPeKKDIpNKIWwSo7ERAkM/QRjWWDX11hTIU4GBimIATqfFtNAeMIAvlKcjh4rBXgYcmRh7/ZyNpcLABs0cgOJlcRFroSM7Ue0bEXUaA0V6MnEPL6buSpq0rW2zAgDfLyEjG/Qr7n6M2JZqeSARz+CSlB+d1NSRe606lAUq7Hsr8SPq4gFERoDLK/vVig0EQDiI5pUOqfGVwS4uxYvbXwXdsF4glkQlzDkZGPS1s6cX7RLQLKbS2GR2aOkAHfzRKNftcNTNcJS1g1R8u5/n77KHzoopaeTwmmOeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UJAfV8ugprdkrLND+nsWF7e8BS0VEqFPZlOfFofj8oY=;
- b=Hp9+9Unj47oW4J3gxxs7hJABoRI/dt+RGPzIfpbihDa4SHa3eCbzwI/2LjeGtn2tEqUjxT9QFl1GE0YnRBcjW0xwq0u/WG4RI+pqGPDMW/eC+zUt7r0DLlw/NHrnD9xiK3BWAlwCoJR7Zt97g2sKEecZ2ZHFZM4eD6RofEdXd9o=
-Received: from CH2PR03CA0026.namprd03.prod.outlook.com (2603:10b6:610:59::36)
- by DS4PR12MB9748.namprd12.prod.outlook.com (2603:10b6:8:29e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
- 2026 16:04:37 +0000
-Received: from CH3PEPF0000000E.namprd04.prod.outlook.com
- (2603:10b6:610:59:cafe::7) by CH2PR03CA0026.outlook.office365.com
- (2603:10b6:610:59::36) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Tue,
- 30 Jun 2026 16:04:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CH3PEPF0000000E.mail.protection.outlook.com (10.167.244.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Tue, 30 Jun 2026 16:04:37 +0000
-Received: from amd-desktop.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 30 Jun
- 2026 11:04:22 -0500
-From: Shahyan Soltani <shahyan.soltani@amd.com>
-To: <christian.koenig@amd.com>, <sumit.semwal@linaro.org>
-CC: <phasta@mailbox.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH] dma_buf: change unsigned int and int types into size_t
-Date: Tue, 30 Jun 2026 12:04:01 -0400
-Message-ID: <20260630160401.67544-1-shahyan.soltani@amd.com>
-X-Mailer: git-send-email 2.54.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E6E45104C
+	for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 16:06:05 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782835567; cv=none; b=lfoEFypFL07mGQn70U4FBMFKRi4gj7YXuBrfrbl6ith6cX7UAJHdBZz7tg2UH2ZTHyEeNC8Y4AeR/Jv/kkakcU7jjXP+2aZAYDpw+58vM+vC0HBzmLKARODCVHzUmeFfSdmIGnSiL+UQewi0jp+azX7Jdqz/NUXvKWkwKf2wTsU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782835567; c=relaxed/simple;
+	bh=m3vAsK5slw0dcrp5GIzrlVJVX/5gpHWYHdhD9DgaINk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IkDDGol6+x+/8CPSnL/vHbZ8zyq2OKWplIrPjzqlmgTNNeT1SQtkmFJBB9HMj5zLN7fHK974FG/M8aOWMhr93PBYmNeaM4BVJbzxtkPuwteGnRLIYeKm27+H/RCJxwhUT/nfyZJZ1SeCai61EaKauGQlSPp5Y0LfSZRp7LvubmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hc/qVpMD; arc=none smtp.client-ip=74.125.230.66
+Received: by mail-lr2-f2.google.com with SMTP id 38308e7fff4ca-39ac6d46512so2010671fa.1
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2026 09:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782835564; x=1783440364; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GdkkU1grf9UGW9t3296G0fSDCaf7b9DnqBxsaoQmFhc=;
+        b=Hc/qVpMDjWrW56IK9q0nSistwy8d+DHo3yQ5tj5ondmlS7tCfl0p/6M5oAJd8yepez
+         RpzmY6wwYcjIOTZWmVp9E2WUSEd01A3fQcZSCIANeHZuNc24BZ++ufnjsQ4J7UPcFaZq
+         1ToA2LyB9n1m07T7/ZmDY8hfknFyH5/1XkiY4LkGEgGhBeMQQojvoQKZXjmxJ94hsMpf
+         bNIuBU7Y4mcYfa/5QSw9vrRd+4Bhxfjxri38nGnyeO8zugrZlTq5Y0rGMsNFlqRX5M9y
+         TbyROdRHy2kSeoNxdTEkvVhcZw3kmzO/sBG8aP5fa79k9YZhI5N6rnSDUdpfKFNi2uOx
+         56CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782835564; x=1783440364;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GdkkU1grf9UGW9t3296G0fSDCaf7b9DnqBxsaoQmFhc=;
+        b=G9sK47HsIHfK5hR+2CSEiuMnpuXJtZg79aozOQKbHlDou/dVO2gAnqTJflo+9c3ZN6
+         iPrGt8BC/vxHHCZSWYBVAXOZxlqPHPR5DM2ePS1vUcFc8mFw0TqTOQxig42k8R1zBNz8
+         ChTO5XxHh9SJexNpK8HOCfA2DMu6fWdRui45zNIB8R3ku/6eFd9mBgJzUp6wTimh2R0e
+         DsMi970XJ8oXAHjaoGc9pNbGakJjOQS6+Ek16WuMtVnHRkHqgxodhvf92GlDsWgCOQMc
+         qZlKHZdC0MuYiAWRbmbZpqo8FRUtjKNoI+QjNUlpFBuW3+PehnFWMMss+RrkIv0KAAfL
+         5PzA==
+X-Forwarded-Encrypted: i=1; AHgh+Row68Rm0159GTu2FMTQwk0q7vVQfEbmqyHREJHt9wumCOvHuPztPVhT4XP3+OJf6cQW79G9DzPArYY5qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUMhB4Z1bLMhgVwuZu9KmS62ZmDNySVLC5ZOAyFRR16pMxDZuB
+	DnP9T0Yg50pUQjamM7CAuCRlgZcfODWk9JhXCkKitee8j5o9yG1z+95F
+X-Gm-Gg: AfdE7cm5Hh7FmSbAJHnlVHJUELaMOQ+81/KmDxrxxGO54hHNgy/C7GtR5Wag6QrxW11
+	+OL7GiCrURh4qwUbsSph6G6dKYRNxRVaIIZKJF2tqpN9v4SIFMiBnxhwghTs0kj3mGG3ESbVq2+
+	+7NmpVTFkjQ6ZrVOjkoJKSIqBnLisMSFVryb4VZD8Njiw42TYOueayI9U9APes0l4rJk4ieFFRg
+	rvLx3evzf4N/TWnwDM8AKiqTSSKq+1/u9ck5LNHa6INqTTBLTY9OaS3IT3tbfcEKhOzg+zUS5ef
+	okdlQK0jH6A1Hn+k3u5vjr+fCH2fPUJzdiMIxeV2n/cab6bt4VfCX9fYcuj3HS5wjiY30nwJrh/
+	r+/1ULrGTcyGgLcW+YmldkFRQ611cpVBT80MtzXBGucBtX9AT/ZRKv6Ie4SjVLQxs58SLmA==
+X-Received: by 2002:a05:6512:61d1:20b0:5ae:bf21:22bc with SMTP id 2adb3069b0e04-5aec10c070bmr311853e87.30.1782835563310;
+        Tue, 30 Jun 2026 09:06:03 -0700 (PDT)
+Received: from arch ([93.177.236.219])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aebe498645sm673045e87.39.2026.06.30.09.06.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 09:06:02 -0700 (PDT)
+From: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: andy@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>
+Subject: [PATCH v3] media: atomisp: fix block comment formatting style
+Date: Tue, 30 Jun 2026 19:04:35 +0300
+Message-ID: <20260630160435.3293-1-bohdandmarcus@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,148 +94,73 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF0000000E:EE_|DS4PR12MB9748:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8baf8129-eb53-4759-0e99-08ded6c14911
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|82310400026|1800799024|23010399003|18002099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	HvVezq+rI/yWU5vN6HEDqr3Ke7VIl0P2835bHU+fnywxLCQTicGgyxNZdzkbLmXQ7MEtjf4dHMpjeUWbes/Bv1Ew/Tv1OfReb6JHX459DIEHDXKgosNUA1+wLj8bek7TgNubVn/14y3KLCHvf4SCuCYUY/yoVtZd24E6jhfpR413y6uLzTUwzkYItIqN7TetyfAXPuF9/hFQ2ZtU3Zolcpo+q5vNIwKM8gCmbh6mjfC5hTjYgYljkN4wsMBgQHH7KzMhQ52oDpXvMzg5vi+2c78h6hrbSFWmBBGc6ROpjP5Y32NpJK8hf52IX3GaRC70A3RPJlRJsQKDp9Qr5Ne7W+OzPEKrw1pdugUgoNAfQB6K68XcM+7zYEzBsissZ3w0PBQU9kdgISQTS3am6cC60psv8SwTTHfeBPzkHj3gudnyO4OIiuO3+Z3VfvkmNrXtx3zAllZ1NFwjuo++OOYRzCdBk9O0QU2jKJfhFCzXZG57jO8oVXZIxJ1NA+rTUeEnU5oyl8V75CpmMd238AeF9erh5uXTbqh5XkEkm4MgJVcGkyRXA5OGjL2PT3QoOLmZ2URPT3bTCdc6DBfl/rN35tXsk8KijjiaRhEdeWE8ikpfmC+2tGPAXmYOY/jLO+pZE2QgQR1whKQ3gNnAH4PuqH3MgLb5teyPBua07nk839NvAghW0bo3O3JUdOW2xLYAOLwQn3BBoyUw+SPESS5a6Q==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(1800799024)(23010399003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	BP25YUpcvSMYVvF1McUX4dlCoXzXtO3Cmv4za4+hr3s77Os+6gDtyDKdzSIP8ltl/+OnjF8f1iSIouPSa8hgL0yoODTKGpV1d8y24BrKbUYbDUTIRqmGJcRuRw82R+gBb9ikVmZN8gqQORgYmwOEvSvIW2Ph9jXzTjfAcdkKMs00k6Bh8rbHiVn109+uzbWbdn9VcYvpvw9IEuQqkR2OV4oD4JKIKm7jj9I3XV4VjQyEbTgdEvu+Z/lxPXw5jnQJKdub4BA7pa4AJnr92XpeMRnjQCSJAJMg2sQe8b36KwxvnWNX16pzbUI9XlNBwhREGJkx0KHVEXl1YSDxxa4GZU9sOy7HraeINPQkIvhYxRUMydEDu9nImzdOS9WVH3DULsurmBJQiFXi5WAFEo0Z4/Im7E0kSfejX1pa+R0lQMH6aUNl6fJkJi3MO27j+vgw
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 16:04:37.5758
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8baf8129-eb53-4759-0e99-08ded6c14911
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF0000000E.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9748
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:sumit.semwal@linaro.org,m:phasta@mailbox.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66127-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[bohdandmarcus@gmail.com,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66126-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[shahyan.soltani@amd.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:andy@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:bohdandmarcus@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shahyan.soltani@amd.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	TO_DN_NONE(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bohdandmarcus@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2220D6E6494
+X-Rspamd-Queue-Id: 4972D6E6528
 
-The num_fences, count, i, and j variables in dma_fence_dedup_array() and
-__dma_fence_unwrap_merge() have inconsistent integer types, mixing both
-unsigned int and int.
+Fix a block comment formatting warning reported by
+checkpatch.pl in atomisp_cmd.c to conform to the
+Linux kernel coding style.
 
-Use type size_t consistently for these instead, and update the return
-type of dma_fence_dedup_array() accordingly.
-
-Signed-off-by: Shahyan Soltani <shahyan.soltani@amd.com>
-Suggested-by: Philipp Stanner <phasta@mailbox.org>
+Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
 ---
-The rest of the subsystems (dma_resv_reserve_fences, drm_exec, drm_gpuvm,
-xe, nouveau, etc) uses "unsigned int" for num_fences, for example the
-amdgpu caller in amdgpu_userq_fence.c.
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
- drivers/dma-buf/dma-fence-unwrap.c | 8 ++++----
- include/linux/dma-fence-unwrap.h   | 6 ++++--
- 2 files changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
-index 53bb40e70b27..65e87d263c3a 100644
---- a/drivers/dma-buf/dma-fence-unwrap.c
-+++ b/drivers/dma-buf/dma-fence-unwrap.c
-@@ -93,9 +93,9 @@ static int fence_cmp(const void *_a, const void *_b)
-  *
-  * Return: Number of unique fences remaining in the array.
-  */
--int dma_fence_dedup_array(struct dma_fence **fences, int num_fences)
-+size_t dma_fence_dedup_array(struct dma_fence **fences, size_t num_fences)
- {
--	int i, j;
-+	size_t i, j;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 6cd500d9fd26..20abc2c0de80 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -2520,9 +2520,12 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
+ 		if (sizeof(*cur) != sizeof(dvs2_coefs.grid) ||
+ 		    memcmp(&dvs2_coefs.grid, cur, sizeof(dvs2_coefs.grid))) {
+ 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
+-			/* If the grid info in the argument differs from the current
+-			grid info, we tell the caller to reset the grid size and
+-			try again. */
++						/*
++						 * If the grid info in the argument differs
++						 * from the current grid info, we tell the
++						 * caller to reset the grid size and try
++						 * again.
++						 */
+ 			return -EAGAIN;
+ 		}
  
- 	sort(fences, num_fences, sizeof(*fences), fence_cmp, NULL);
- 
-@@ -115,14 +115,14 @@ int dma_fence_dedup_array(struct dma_fence **fences, int num_fences)
- EXPORT_SYMBOL_GPL(dma_fence_dedup_array);
- 
- /* Implementation for the dma_fence_merge() marco, don't use directly */
--struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
-+struct dma_fence *__dma_fence_unwrap_merge(size_t num_fences,
- 					   struct dma_fence **fences,
- 					   struct dma_fence_unwrap *iter)
- {
- 	struct dma_fence *tmp, *unsignaled = NULL, **array;
- 	struct dma_fence_array *result;
- 	ktime_t timestamp;
--	int i, count;
-+	size_t i, count;
- 
- 	count = 0;
- 	timestamp = ns_to_ktime(0);
-diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
-index 62df222fe0f1..7bfacdf79de2 100644
---- a/include/linux/dma-fence-unwrap.h
-+++ b/include/linux/dma-fence-unwrap.h
-@@ -8,6 +8,8 @@
- #ifndef __LINUX_DMA_FENCE_UNWRAP_H
- #define __LINUX_DMA_FENCE_UNWRAP_H
- 
-+#include <linux/types.h>
-+
- struct dma_fence;
- 
- /**
-@@ -48,11 +50,11 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor);
- 	for (fence = dma_fence_unwrap_first(head, cursor); fence;	\
- 	     fence = dma_fence_unwrap_next(cursor))
- 
--struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
-+struct dma_fence *__dma_fence_unwrap_merge(size_t num_fences,
- 					   struct dma_fence **fences,
- 					   struct dma_fence_unwrap *cursors);
- 
--int dma_fence_dedup_array(struct dma_fence **array, int num_fences);
-+size_t dma_fence_dedup_array(struct dma_fence **array, size_t num_fences);
- 
- /**
-  * dma_fence_unwrap_merge - unwrap and merge fences
 -- 
-2.54.0
+2.55.0
 
 
