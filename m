@@ -1,53 +1,57 @@
-Return-Path: <linux-media+bounces-66182-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66183-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 1DO4ImzYRGr41woAu9opvQ
-	(envelope-from <linux-media+bounces-66182-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:05:48 +0200
+	id jelKNG3aRGqf2AoAu9opvQ
+	(envelope-from <linux-media+bounces-66183-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:14:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121616EB705
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:05:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCE86EB825
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:14:21 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=eCRLF34e;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66182-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66182-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=DsTVFV9J;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66183-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66183-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 30316300E276
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 09:03:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B3CF9303FFA1
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 09:14:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A5683644C5;
-	Wed,  1 Jul 2026 09:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 615CA3EF0A4;
+	Wed,  1 Jul 2026 09:14:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEA93EE1E0
-	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 09:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4513C108E
+	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 09:14:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782896586; cv=none; b=o3dm3+q2I0tcx/zDMHkVgFrrKyh9FF0lTlFOsPVBM9iTIqY3RqfzO5biW/0r6pQxq/4D16UZhtkoJbI2CQdDxi/O5wrSGIY34nuunGAaenwejL9V3qy9pokpDuwlrlDgrhpzDoUheJgqVw7bTHIeyNkJz4ck/CAx/rUoHD9FL8M=
+	t=1782897255; cv=none; b=BhoxDcILgSWHSZ5cIBSicAuBkbR05w+YAvDlqllM3pg0SGAM3kIyZNOpzzvjSKSXFaJDDzN8YlQDGHXPCpy42I+e43lTtluS6UCTMKXJ02PIxgS8J77TDxfZhBspmY3oGFBHz/hmj0YX4vF6qzlUeC0mMbANGvZq2lmjTTU1D1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782896586; c=relaxed/simple;
-	bh=R9uULzp0C+6c8usDkmUHCpuUMCd58rIgV2Hh/1C2SdI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bWkKnuJRxEE9AWaAer6HyIGs0GmexMRNZQ1aQu6B4n+Gif+NrBH+66HZxTE4RD2nDxN72uyu4Z2N6lwoSW/EQb+6gRY1S1jHQc+StZEK5zpFoM1Gy/ohvuTlfRt7Rl/20YiONoYmLBRahKRVNDLRnkZ8DxC5i4phjt31LqejgzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eCRLF34e; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49A911F000E9;
-	Wed,  1 Jul 2026 09:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782896585;
-	bh=+Y4fC8ZtSFnU7d7Z3vzJwUYZFX7DbcdhPfRjFOCgpK4=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=eCRLF34exSpjKMPq3zo6vOvUDSCmhp5vmTwxJAuRAIvKqaVZL0AhgSw9irk9HWQ8U
-	 BGdSGbYriwdRu5c60jV3xvlLzpXh4Xtsncmb6s64aJmxD3bl7+ZvFcYMYDfCzXhRJY
-	 GK4vzvbUcY9I3gcvRjxhIeyBnHeb/io7YdFRmy8AN4PUYNa/4UqHB2CybBCEZ7vgUy
-	 +oDdbs6YUmmC7pdQxK3j9VDrKy/T/afqh214L9ZUZaGj6RDQBcHR3h8He8oIhVVAb4
-	 XxmeN/ZFQ39V1vG91rTnZP7nQdrRGFRij9gwlqcQzVGodMnqtGrfl1T1Z3UTmDAEhY
-	 mKBD9v0TIi9AQ==
-Message-ID: <440e969e-425a-4ed1-9aaa-85addb332278@kernel.org>
-Date: Wed, 1 Jul 2026 11:03:01 +0200
+	s=arc-20240116; t=1782897255; c=relaxed/simple;
+	bh=mt3K3KMOZkxYLbEU/3GzgWQsbBpn0u8yFoIItmgAUrk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TkG63JfGosB4EGJexkmyjK3InksQok4k1US0428Etz6OkeAYTIYEhHyZNN7zXLvNoxF2/DhrGjpyrE70mOChtQSr1ofm4q8hJM1VaJHQSl7kqbbojy+Xx9+Kwwhw4kd6NfvA6MABiENYvs2pdSZuoXglsvZY1oWegZZajokGD7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=DsTVFV9J; arc=none smtp.client-ip=213.97.179.56
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=1TYMgFbsZk3C4VsIV6cOCwS3sYW9gqVKz0hDjm9HJmM=; b=DsTVFV9JoWtCweWr6kX9IAi8At
+	PwNORQnTyasxMakqw37DYc/UVQ78O17cKXNxZ78IJt58z4QiyS+D7s8qeiICGF/rV/U3sjRAitSk7
+	9X6TxB4wf3rOtAEoHXcXYVDtq3RBpjRxQfIfyJ2qXMhyCu40vQL23TqECUXg6F7pIE6KsFz9gpNW5
+	IeG225lYq2xAtjbZXpVKALwhGO6x+Go/V3cMnbAWcTONjC6CL72iB4Gohkcwl/+jLpbKEvzMh9lmc
+	+zqeRXiFunlgCIalJED+qTMcV8VJm4GlbsCHSQRmAbsMn2DQpAN6g0nIrTkcS1LULjrvKYOjkYqbz
+	E+jl5jLA==;
+Received: from [90.240.106.137] (helo=[192.168.0.116])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1wer1C-007UF9-1h; Wed, 01 Jul 2026 11:14:06 +0200
+Message-ID: <6f4a8e96-db41-4609-8c84-54d847911857@igalia.com>
+Date: Wed, 1 Jul 2026 10:14:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,169 +59,158 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] media: v4l2-ctrls: document expected validation scope
-To: Linus Walleij <linusw@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Nayden Kanchev <nayden.kanchev@arm.com>,
- Konstantin Babin <Konstantin.Babin@arm.com>,
- Daniel Scally <dan.scally@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-References: <20260701-v4l2-doc-v1-1-9cce64b7a1c2@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20260701-v4l2-doc-v1-1-9cce64b7a1c2@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 03/10] drm/amdgpu: use dma_fence_test_signaled_flag()
+To: christian.koenig@amd.com, phasta@kernel.org, simona@ffwll.ch,
+ sumit.semwal@linaro.org, dakr@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260624122917.2483-1-christian.koenig@amd.com>
+ <20260624122917.2483-4-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20260624122917.2483-4-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66182-lists,linux-media=lfdr.de,cisco];
-	FORGED_RECIPIENTS(0.00)[m:linusw@kernel.org,m:laurent.pinchart@ideasonboard.com,m:vincenzo.frascino@arm.com,m:jacopo.mondi@ideasonboard.com,m:nayden.kanchev@arm.com,m:Konstantin.Babin@arm.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	TAGGED_FROM(0.00)[bounces-66183-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:dakr@kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_NONE(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,amd.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 121616EB705
+X-Rspamd-Queue-Id: 2CCE86EB825
 
-On 01/07/2026 10:11, Linus Walleij wrote:
-> After discussion on the mailing list it became clear that these
-> validations are not expected to be exhaustive.
+
+On 24/06/2026 12:13, Christian König wrote:
+> Instead of dma_fence_is_signaled_locked() use
+> dma_fence_test_signaled_flag().
 > 
-> Link: https://lore.kernel.org/linux-media/20260629133209.GG3054459@killaraus.ideasonboard.com/
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
+> The extra polling check seems unecessary for those use cases.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->  Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c       | 8 ++++----
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c        | 2 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c | 2 +-
+>   3 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> index b8698b85bd80..58184b6e386f 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> @@ -118,6 +118,18 @@ correct. This prevents the situation where only some of the controls
->  were set/get. Only low-level errors (e. g. a failed i2c command) can
->  still cause this situation.
->  
-> +The validation of controls is not expected to be exhaustive, for example
-> +custom controls under ``V4L2_CTRL_CLASS_USER`` would become very voluminous.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> index ea69b1bac7c6..1192b9800ff2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> @@ -652,7 +652,7 @@ void amdgpu_fence_driver_set_error(struct amdgpu_ring *ring, int error)
+>   
+>   		fence = rcu_dereference_protected(drv->fences[i],
+>   						  lockdep_is_held(&drv->lock));
+> -		if (fence && !dma_fence_is_signaled_locked(fence))
+> +		if (fence && !dma_fence_test_signaled_flag(fence))
+>   			dma_fence_set_error(fence, error);
+>   	}
+>   	spin_unlock_irqrestore(&drv->lock, flags);
+> @@ -677,7 +677,7 @@ void amdgpu_fence_driver_force_completion(struct amdgpu_ring *ring,
+>   
+>   		fence = rcu_dereference_protected(drv->fences[i],
+>   						  lockdep_is_held(&drv->lock));
+> -		if (fence && !dma_fence_is_signaled_locked(fence)) {
+> +		if (fence && !dma_fence_test_signaled_flag(fence)) {
+>   			if (fence == timedout_fence)
+>   				dma_fence_set_error(fence, -ETIME);
+>   			else
+> @@ -738,7 +738,7 @@ void amdgpu_ring_set_fence_errors_and_reemit(struct amdgpu_ring *ring,
+>   		rcu_read_lock();
+>   		unprocessed = rcu_dereference(*ptr);
+>   
+> -		if (unprocessed && !dma_fence_is_signaled_locked(unprocessed)) {
+> +		if (unprocessed && !dma_fence_test_signaled_flag(unprocessed)) {
+>   			fence = container_of(unprocessed, struct amdgpu_fence, base);
+>   			is_guilty_fence = fence == guilty_fence;
+>   			is_guilty_context = fence->context == guilty_fence->context;
+> @@ -802,7 +802,7 @@ void amdgpu_ring_backup_unprocessed_commands(struct amdgpu_ring *ring,
+>   		rcu_read_lock();
+>   		unprocessed = rcu_dereference(*ptr);
+>   
+> -		if (unprocessed && !dma_fence_is_signaled(unprocessed)) {
+> +		if (unprocessed && !dma_fence_test_signaled_flag(unprocessed)) {
+>   			fence = container_of(unprocessed, struct amdgpu_fence, base);
+>   
+>   			amdgpu_ring_backup_unprocessed_command(ring, fence);
 
-CLASS_USER has nothing to do with this. I'd rephrase this as:
+No fence->ops->signaled so all good.
 
-"...compound controls can be very complex."
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+> index d6bee5c30073..ae9d6a2eefab 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
+> @@ -460,7 +460,7 @@ bool amdgpu_ring_soft_recovery(struct amdgpu_ring *ring, unsigned int vmid,
+>   		return false;
+>   
+>   	dma_fence_lock_irqsave(fence, flags);
+> -	if (!dma_fence_is_signaled_locked(fence))
+> +	if (!dma_fence_test_signaled_flag(fence))
+>   		dma_fence_set_error(fence, -ENODATA);
+>   	dma_fence_unlock_irqrestore(fence, flags);
 
-> +The expected behaviour is to reject settings that could:
-> +
-> +1. Pose stability issues, such as turning the hardware unresponsive requiring
-> +   a hard reset, such controls must be rejected.
-> +
-> +2. Pose security issues, such as compromising unrelated kernel-contained
-> +   data to userspace.
-> +
-> +Extended validation of control values should be performed in userspace.
-> +
+A bit of an odd function? With this change it becomes:
 
-I don't like this. If drivers do not validate controls well enough, and so allow
-stability or security issues, then that's simply a bug. Ideally that check is done
-when the controls are set, but this is not always possible. Sometimes this is only
-possible when e.g. streaming is in progress.
+	dma_fence_lock_irqsave(fence, flags);
+	if (!dma_fence_test_signaled_flag(fence))
+		dma_fence_set_error(fence, -ENODATA);
+	dma_fence_unlock_irqrestore(fence, flags);
 
-And what "Extended validation" actually means is rather vague.
+	while (!dma_fence_is_signaled(fence) &&
+	       ktime_to_ns(ktime_sub(deadline, ktime_get())) > 0)
+		ring->funcs->soft_recovery(ring, vmid);
 
-I would actually prefer to make some changes elsewhere in this file:
+	ret = dma_fence_is_signaled(fence);
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-index b8698b85bd80..d78328152b75 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-@@ -72,12 +72,6 @@ partial array, all elements have to be set or retrieved. The total size
- is calculated as ``elems`` * ``elem_size``. These values can be obtained
- by calling :ref:`VIDIOC_QUERY_EXT_CTRL <VIDIOC_QUERYCTRL>`.
+Does this flow make sense?
 
--To change the value of a set of controls applications initialize the
--``id``, ``size``, ``reserved2`` and ``value/value64/string/ptr`` fields
--of each struct :c:type:`v4l2_ext_control` and call
--the :ref:`VIDIOC_S_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` ioctl. The controls will only be set if *all*
--control values are valid.
--
- To check if a set of controls have correct values applications
- initialize the ``id``, ``size``, ``reserved2`` and
- ``value/value64/string/ptr`` fields of each struct
-@@ -86,6 +80,15 @@ initialize the ``id``, ``size``, ``reserved2`` and
- values are automatically adjusted to a valid value or if an error is
- returned.
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+> index a41fb72dba94..2cc6552a6399 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+> @@ -426,7 +426,7 @@ amdgpu_userq_fence_driver_set_error(struct amdgpu_userq_fence *fence,
+>   
+>   	f = rcu_dereference_protected(&fence->base,
+>   				      lockdep_is_held(&fence_drv->fence_list_lock));
+> -	if (f && !dma_fence_is_signaled_locked(f))
+> +	if (f && !dma_fence_test_signaled_flag(f))
+>   		dma_fence_set_error(f, error);
+>   	spin_unlock_irqrestore(&fence_drv->fence_list_lock, flags);
+>   }
 
-+To change the value of a set of controls applications initialize the
-+``id``, ``size``, ``reserved2`` and ``value/value64/string/ptr`` fields
-+of each struct :c:type:`v4l2_ext_control` and call
-+the :ref:`VIDIOC_S_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` ioctl.
-+:ref:`VIDIOC_S_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` will implicitly call
-+:ref:`VIDIOC_TRY_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` first and return an
-+error if that fails. So the controls will only be set if *all*
-+control values are valid.
-+
- When the ``id`` or ``which`` is invalid drivers return an ``EINVAL`` error
- code. When the value is out of bounds drivers can choose to take the
- closest valid value or return an ``ERANGE`` error code, whatever seems more
-
-The main change here is that it explicitly states that S_EXT_CTRLS implies
-a call to TRY_EXT_CTRLS is called. Something that was never clearly stated
-before, but it's important to know this. Because of this change the TRY_EXT_CTRLS
-and S_EXT_CTRLS paragraphs are swapped since S_EXT_CTRLS now refers to
-TRY_EXT_CTRLS.
-
-And the TRY_EXT_CTRLS documentation already says that: "It is up to the driver
-whether wrong values are automatically adjusted to a valid value or if an error is
-returned."
-
-I just saw Jacopo's reply that the discussion was for parameter buffers, not
-for extended controls, but the reasoning is the same: the driver must validate
-at some point (ideally when the buffer is queued up so userspace gets the error
-immediately), and ensure there are no security or stability issues. But if there
-are, then that's just a driver bug.
+amdgpu_userq_fence_signaled does exists so is there any scope for this 
+to open a false positive window?
 
 Regards,
 
-	Hans
-
->  .. tabularcolumns:: |p{6.8cm}|p{4.0cm}|p{6.5cm}|
->  
->  .. c:type:: v4l2_ext_control
-> 
-> ---
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> change-id: 20260701-v4l2-doc-c60195d38d00
-> 
-> Best regards,
-> --  
-> Linus Walleij <linusw@kernel.org>
-> 
-> 
+Tvrtko
 
 
