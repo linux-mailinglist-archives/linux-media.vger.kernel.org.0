@@ -1,147 +1,161 @@
-Return-Path: <linux-media+bounces-66162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66163-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ZJXWGG3BRGp00QoAu9opvQ
-	(envelope-from <linux-media+bounces-66162-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 09:27:41 +0200
+	id c3MqEqvERGpi0goAu9opvQ
+	(envelope-from <linux-media+bounces-66163-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 09:41:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55656EAA12
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 09:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F3D6EAC4B
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 09:41:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="fp1/dCNA";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66162-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66162-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=EZXazlFd;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66163-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66163-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EF444305652E
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 07:25:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 37B5D313D118
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 07:35:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFA323B8BD8;
-	Wed,  1 Jul 2026 07:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C81AC3BFAEA;
+	Wed,  1 Jul 2026 07:35:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F45F386C24;
-	Wed,  1 Jul 2026 07:25:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC863BBFBC;
+	Wed,  1 Jul 2026 07:35:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782890717; cv=none; b=Uqcma6R4wO8CO2HjpSpdnK7qmMiLlln3HI7TeEfDqjiKl8Ik1/dp8gdSL5iMkBiAeYLOz8pJthknfzKdlDi8Y93yQs6TsAsJYuLDX1RJ7LVF1ANCqHcrXDdKbcfyLh89IzXX2RMwQc2pGVCEe1rQZmHkX5GV1d9IpUrPLadeSOE=
+	t=1782891331; cv=none; b=aRSwdz/JYBuTVA4VVGNuHHBfoLFXNvVP8z2RJwMxDxroc0fBVpTTDsJK9jZKyFho+vY0xr7r28XJqSkjDpayr1yB9flORckADEoHDogdkydpNMjw4v2R4jgYBv17peXK3OZWqHl/1nyGEeeqAuxvAZFG3nt8wZzZ96KQXufyFGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782890717; c=relaxed/simple;
-	bh=+ufJvxZgZDFPdQo3hb4/7dMPs1csoec+xF9tmmfpo84=;
+	s=arc-20240116; t=1782891331; c=relaxed/simple;
+	bh=AS/o9NhNXcOqBn4KHzybhUDDFTKtJyf5CY6etHArtWc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g30ute2w+qGcR1RdnhBem0ovddcP+f9BAKZDvpLOYhTXDdqLsxcMOLbrk/jpbwBGDlrq0g7olp5dbtpk2NmiXnl7NWBqOiAEv6EsYJeXz6IFPAo8+byesgPERWSDn5uweYbb2tfd3Nhp8RZKVHdd6Piz9oOGCslh+DN4Io8sLIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fp1/dCNA; arc=none smtp.client-ip=213.167.242.64
-Received: from ideasonboard.com (mob-5-90-48-115.net.vodafone.it [5.90.48.115])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E007E91;
-	Wed,  1 Jul 2026 09:24:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782890669;
-	bh=+ufJvxZgZDFPdQo3hb4/7dMPs1csoec+xF9tmmfpo84=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fp1/dCNApYTJnSu7WmZCi8HAzgMvG1llURp7Gjq34XLKpPA4GJkd9+XuzOsdbw0yD
-	 c9sv6B09uzTQCsW7vk7rmNyuhlyHm5Xdr9MVD8cYIQ9L47vWGJOXrBOE+p+XlU/jdv
-	 aqz9qnv355LkWRxHSTj92WbD/gE1e/WneehrVVYo=
-Date: Wed, 1 Jul 2026 09:25:09 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: David Carlier <devnexen@gmail.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: mali-c55: Fix clock leak on reset deassert failure
-Message-ID: <akTAgKuI0CvMy1t-@zed>
-References: <20260609113747.39592-1-devnexen@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RblTjHInc8NU7TXw/KM/oMN3Y0H+l6LS+aq6bl5JSaw8ZLzSYNDy/KDR1SnSt+jfEeOVKnCrVtj5Z54lgQeS2M43NxM+5hgf1OobkEpKd2W1eK0ZPPeMvNGvp0hPD3p8lD1MLuPpMVhUce9LFWhX8qgEwy/3d5tQOCOD+oHkdmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZXazlFd; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 644DB1F000E9;
+	Wed,  1 Jul 2026 07:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782891329;
+	bh=kGEf3SeZYgm8dFwF9x3Ecpp2cSEz1doIyoAXcK2ExLk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EZXazlFdkvJYULlF2W57c/IBuIHM5bksnlkhn4JZaEZIsV9u2rxfmgVZDWz/sZzM9
+	 TqD+fNJP5Gg69c84izlEtOmv1hXtdA+ae6nzZAfzliStrhO5HzV2wLG4qKigklMyQv
+	 q28Z1sdgYOeeXbjkxyXoJBjXn2qaEFZMf68fviUkyMhpHgkLiOBmo+aVmig+ldi9vy
+	 o6htvUykVi39Ey/ZaVPRgmG7pTTIyJ8j7dR3CBapLqAzJnt7VK0UPPNcDN8kaUUbyn
+	 XLt68BOXBx0lyB/fVegvFbVv6Y+rwjzrNI8Hs+1xo1QRp6g/qlg07x/zc2QicnMnSz
+	 GHT3VNckuu4Qw==
+Date: Wed, 1 Jul 2026 13:05:12 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: andersson@kernel.org, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, konradybcio@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	robin.clark@oss.qualcomm.com, sean@poorly.run,
+	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+	bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
+	mathieu.poirier@linaro.org, trilokkumar.soni@oss.qualcomm.com,
+	mukesh.ojha@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
+	jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
+	vignesh.viswanathan@oss.qualcomm.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+	skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v8 04/14] remoteproc: qcom_q6v5_pas: Switch over to
+ generic PAS TZ APIs
+Message-ID: <akTDMOvu5H9qMDUK@sumit-xelite>
+References: <20260626133440.692849-1-sumit.garg@kernel.org>
+ <20260626133440.692849-5-sumit.garg@kernel.org>
+ <594cf827-819e-4262-9dff-a35c7f69f86b@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260609113747.39592-1-devnexen@gmail.com>
+In-Reply-To: <594cf827-819e-4262-9dff-a35c7f69f86b@oss.qualcomm.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:devnexen@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[48];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66162-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:andersson@kernel.org,m:linux-arm-msm@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-wireless@vger.kernel.org,m:ath12k@lists.infradead.org,m:linux-remoteproc@vger.kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:vikash.garodia@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:elder@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:jjohnson@kernel.org,m:mathieu.poirier@linaro.org,m:trilokkumar.soni@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:pavan.kondeti@oss.qualcomm.com,m:jorge.ramirez
+ @oss.qualcomm.com,m:tonyh@qti.qualcomm.com,m:vignesh.viswanathan@oss.qualcomm.com,m:srinivas.kandagatla@oss.qualcomm.com,m:amirreza.zarrabi@oss.qualcomm.com,m:jens.wiklander@linaro.org,m:op-tee@lists.trustedfirmware.org,m:apurupa@qti.qualcomm.com,m:skare@qti.qualcomm.com,m:linux-kernel@vger.kernel.org,m:sumit.garg@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66163-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,zed:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sumit-xelite:mid,vger.kernel.org:from_smtp,qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A55656EAA12
+X-Rspamd-Queue-Id: D0F3D6EAC4B
 
-Hi David
+On Tue, Jun 30, 2026 at 02:34:59PM +0200, Konrad Dybcio wrote:
+> On 6/26/26 3:34 PM, Sumit Garg wrote:
+> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > 
+> > Switch qcom_q6v5_pas client driver over to generic PAS TZ APIs. Generic PAS
+> > TZ service allows to support multiple TZ implementation backends like QTEE
+> > based SCM PAS service, OP-TEE based PAS service and any further future TZ
+> > backend service.
+> > 
+> > Since qcom_q6v5_pas depends on MDT loader for PAS firmware loading, it
+> > has to be switched over to generic PAS APIs in this commit to avoid any
+> > build issues.
+> > 
+> > Reviewed-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> > Tested-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com> # Lemans
+> > Tested-by: Vignesh Viswanathan <vignesh.viswanathan@oss.qualcomm.com> # IPQ9650
+> > Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > ---
+> 
+> I assume that the leftover qcom_scm_assign_mem() will be handled
+> in a separate effort, presumably through something like FF-A lend
+> on the backend
 
-On Tue, Jun 09, 2026 at 12:37:47PM +0100, David Carlier wrote:
-> __mali_c55_power_on() enables the clocks before deasserting the resets,
-> but bails out on a deassert failure without disabling them again. Both
-> callers treat a failed power-on as already cleaned up, so the clocks are
-> left enabled.
->
-> Disable them on the error path.
->
-> Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
+The qcom_scm_assign_mem() is already handled as a SiP call in TF-A.
 
-Fixes need to Cc stable
+> 
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
 
-> Signed-off-by: David Carlier <devnexen@gmail.com>
+Thanks.
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Could you please Cc: stable@vger.kernel.org on a new version so the
-patch hits the stable list as well ?
-
-Thanks
-   j
-
-> ---
->  drivers/media/platform/arm/mali-c55/mali-c55-core.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> index ee4a42674..fb81141d1 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> @@ -699,6 +699,8 @@ static int __mali_c55_power_on(struct mali_c55 *mali_c55)
->  					  mali_c55->resets);
->  	if (ret) {
->  		dev_err(mali_c55->dev, "failed to deassert resets\n");
-> +		clk_bulk_disable_unprepare(ARRAY_SIZE(mali_c55->clks),
-> +					   mali_c55->clks);
->  		return ret;
->  	}
->
-> --
-> 2.53.0
->
->
+-Sumit
 
