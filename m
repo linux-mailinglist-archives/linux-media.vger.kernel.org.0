@@ -1,138 +1,175 @@
-Return-Path: <linux-media+bounces-66169-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66170-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Bmn8CybRRGpm1QoAu9opvQ
-	(envelope-from <linux-media+bounces-66169-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 10:34:46 +0200
+	id 1641MHfURGpC1goAu9opvQ
+	(envelope-from <linux-media+bounces-66170-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 10:48:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEDE6EB28C
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 10:34:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1006EB433
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 10:48:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66169-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66169-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=CNK8dPCz;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66170-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66170-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id AB02E3023339
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 08:32:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3AF833120970
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 08:45:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53DB8344D80;
-	Wed,  1 Jul 2026 08:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06E9F3EDE52;
+	Wed,  1 Jul 2026 08:45:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30933E9C23;
-	Wed,  1 Jul 2026 08:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520AA3B2FF6
+	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 08:45:03 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782894757; cv=none; b=fjPoZN1bRQL8GnnywOrMFb4ZHVi2Ql7vfDgcr5D3hm5SBzLR151QOVH6TW7ph9WL04QHEBmqs6Up0kEIzulCdqoeEm3BqnagDDw9m3ZorYilRtNfSl8ERpicUGYfjPL5ebY5mO/OoJCB8F3elk4wSFTy5Ou79HTeSQYN3A907lM=
+	t=1782895506; cv=none; b=UyW/GIeO0lQ17GISoEj1KDT7vYfAIvlDnc3b4d17USsG/jLws+tlTmzkX6j/T88dKWWfPJkqw9kDYoB4oIt7gSAKdLe2fkj8JIRvjtX61yukyrHEnFDuQZCLrSzUlZzkq0mr3bHIFMVm6vVMldam3aWGJ0QRInqNllizURRZiR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782894757; c=relaxed/simple;
-	bh=K5aRILGqfW33axMqxqXmKZLDHZXKDHb+0xVUs357G3U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gNvVT/rgBrCMNSG31TOIP0zrZgkiCt9R9EH2dioSXhhoQmdPAlzlOKI+jdyJ60Av0MHPOPDcRnXHIu+iyPrvdtWZy8JgO1lpnQQhPxiU8hgfujrfOwvUzokJpk0Dku5rFcWXaWe1XdIV3WFdEVWm4TbHNkWq3U7ycvTaxtXYlOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-X-UUID: 65ae710e752711f1aa26b74ffac11d73-20260701
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:38914f79-ecbe-4097-a507-5b59f06b703d,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:15e978aa05b7c80c36885be80d512c66,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|865|898,TC:nil,Content:0|15|50,EDM:-
-	3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
-	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 65ae710e752711f1aa26b74ffac11d73-20260701
-X-User: pengcan@kylinos.cn
-Received: from lenovo [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <pengcan@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1873626414; Wed, 01 Jul 2026 16:32:29 +0800
-From: Can Peng <pengcan@kylinos.cn>
-To: aospan@amazon.com,
-	mchehab@kernel.org,
-	suzuki.katsuhiro@socionext.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Can Peng <pengcan@kylinos.cn>
-Subject: [PATCH] media: dvb-frontends: helene: Fix double free on release
-Date: Wed,  1 Jul 2026 16:32:23 +0800
-Message-ID: <20260701083223.90137-1-pengcan@kylinos.cn>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1782895506; c=relaxed/simple;
+	bh=Vz239xCltOhkTgeoGvaIFg6rYZjKGMrz8jDBpeqAEpU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lBjy++g/qkEosTYUt/flhiuqKW/82RIi62XMhjJqhuiarareP+2ye5JBb8xgqhgLvRGw/0XEQoy1h/mlMIHgJD/XaeD5Xwp4ibIdAAnSg/oOtgEH6yiebNOT1N3AcO1dphtjZBqJ7wmruDcWlud45npaQazGv1iuUNlTYb/Mem4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=CNK8dPCz; arc=none smtp.client-ip=213.97.179.56
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Vcr9hDLfN5srlwZ5qfiqQl9LSdudUQDmJHBwn+BWzxc=; b=CNK8dPCzUY0KTxowYj9l/wPf5V
+	Xq4Lh9DqMwr/uiu0tjxHrFyffPmPDpMlIQ0woTTCjARljDZaocyLZ/4bfNEMG+92YQ5X7QtBHGt+Z
+	ekSNdDbXziQzudZ8pDOSDjkPJZUY0q5IDh2E+IYHn6NC6DwDs37HFtIvp4Jh9qobyZG6epO1SUSf+
+	Fcku8rZcAme5wPNLexwQHBEiJQ3+C5KstkLiklRE1FKM5ySzcWTSrolioRughWoWWxl7l9QpFObQU
+	ybpv9aBxSgoxOe8hSI5EZir4Ski7mJ6HmdHV18l/FPYq4njK14Xwe5mdPCi+qBiJhHhso+dTLbPU3
+	Ut03HdTg==;
+Received: from [90.240.106.137] (helo=[192.168.0.116])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1weqYt-007Tf1-I4; Wed, 01 Jul 2026 10:44:51 +0200
+Message-ID: <d30b496e-2971-429d-b49d-4fe6e15a1830@igalia.com>
+Date: Wed, 1 Jul 2026 09:44:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/10] dma-buf: use dma_fence_test_signaled_flag()
+To: christian.koenig@amd.com, phasta@kernel.org, simona@ffwll.ch,
+ sumit.semwal@linaro.org, dakr@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260624122917.2483-1-christian.koenig@amd.com>
+ <20260624122917.2483-3-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20260624122917.2483-3-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DMARC_NA(0.00)[kylinos.cn];
-	FORGED_RECIPIENTS(0.00)[m:aospan@amazon.com,m:mchehab@kernel.org,m:suzuki.katsuhiro@socionext.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:pengcan@kylinos.cn,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:dakr@kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66169-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[pengcan@kylinos.cn,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-66170-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pengcan@kylinos.cn,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	R_DKIM_NA(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,kylinos.cn:email,kylinos.cn:mid,kylinos.cn:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1EEDE6EB28C
+X-Rspamd-Queue-Id: 1C1006EB433
 
-helene_probe() allocates priv with devm_kzalloc() and stores it in
-fe->tuner_priv. It also installs helene_tuner_ops, whose release callback
-frees fe->tuner_priv with kfree(). If the frontend release path runs, the
-devm allocation can be freed manually and later again by devres.
 
-The legacy attach paths still use regular allocations and need
-helene_release(), so keep the callback for those paths. For the i2c-managed
-probe path, clear the copied release callback, matching other tuner drivers
-such as mt2060.
+On 24/06/2026 12:13, Christian König wrote:
+> Instead of dma_fence_is_signaled_locked() use
+> dma_fence_test_signaled_flag().
+> 
+> The extra polling check seems unecessary for those use cases.
 
-Fixes: 817dc4b579d8 ("media: helene: add I2C device probe function")
-Signed-off-by: Can Peng <pengcan@kylinos.cn>
----
- drivers/media/dvb-frontends/helene.c | 1 +
- 1 file changed, 1 insertion(+)
+I echo the comment that better commit messages are needed in this 
+series. Also, the patch affects two really different areas so should be 
+split in two.
 
-diff --git a/drivers/media/dvb-frontends/helene.c b/drivers/media/dvb-frontends/helene.c
-index 993280fefc2c..8cf6e1823605 100644
---- a/drivers/media/dvb-frontends/helene.c
-+++ b/drivers/media/dvb-frontends/helene.c
-@@ -1091,6 +1091,7 @@ static int helene_probe(struct i2c_client *client)
- 
- 	memcpy(&fe->ops.tuner_ops, &helene_tuner_ops,
- 	       sizeof(struct dvb_tuner_ops));
-+	fe->ops.tuner_ops.release = NULL;
- 	fe->tuner_priv = priv;
- 	i2c_set_clientdata(client, priv);
- 
--- 
-2.53.0
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/sw_sync.c | 2 +-
+>   include/linux/dma-fence.h | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> index 8df20b0218a9..243991bc1506 100644
+> --- a/drivers/dma-buf/sw_sync.c
+> +++ b/drivers/dma-buf/sw_sync.c
+> @@ -262,7 +262,7 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+>   	INIT_LIST_HEAD(&pt->link);
+>   
+>   	spin_lock_irq(&obj->lock);
+> -	if (!dma_fence_is_signaled_locked(&pt->base)) {
+> +	if (!dma_fence_test_signaled_flag(&pt->base)) {
+>   		struct rb_node **p = &obj->pt_tree.rb_node;
+>   		struct rb_node *parent = NULL;
+>   
+
+I am not familiar with the implementation but this looks safe to me. It 
+appears the point is to just not allow userspace inserting past fences 
+into the internal tracking structures.
+
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 158cd609f103..803e10ca76e3 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -658,7 +658,7 @@ static inline struct dma_fence *dma_fence_later(struct dma_fence *f1,
+>    */
+>   static inline int dma_fence_get_status_locked(struct dma_fence *fence)
+>   {
+> -	if (dma_fence_is_signaled_locked(fence))
+> +	if (dma_fence_test_signaled_flag(fence))
+>   		return fence->error ?: 1;
+>   	else
+>   		return 0;
+
+This one has more callers.
+
+1. sync_fence - should be fine.
+2. amdgpu - Smallish false positive race on reset? But possibly okay. 
+Your call.
+3. Selftests - single threaded so okay.
+4. Nouveau - looks like some sort of a last gasp check for signaled 
+status when wait expired. It's a 15 second timeout so I guess fine as well.
+
+So in summary, changes look fine to me. But I would split sw_sync and 
+get_status and improve the commit message for both.
+
+Regards,
+
+Tvrtko
 
 
