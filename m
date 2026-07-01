@@ -1,182 +1,241 @@
-Return-Path: <linux-media+bounces-66221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66222-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9Q4oHnwLRWoB5woAu9opvQ
-	(envelope-from <linux-media+bounces-66221-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 14:43:40 +0200
+	id UGB+C40TRWov6goAu9opvQ
+	(envelope-from <linux-media+bounces-66222-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 15:18:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CE36ED7DF
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 14:43:39 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C426EDF9C
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 15:18:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=c1s43w+g;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66221-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66221-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=none ("invalid DKIM record") header.d=siliconsignals.io header.s=selector1 header.b="KyHNh/q0";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66222-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66222-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=siliconsignals.io (policy=quarantine);
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1DAE2303A531
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 12:40:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3D51D327A378
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 12:40:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66C6948C3F1;
-	Wed,  1 Jul 2026 12:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A9D348C8AD;
+	Wed,  1 Jul 2026 12:36:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020100.outbound.protection.outlook.com [52.101.225.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9939A48BD47
-	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 12:36:46 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782909407; cv=none; b=cnKdcch/XFZ2VWCocJK6ENZL0tYNk+7ocN+Ryqege+moCB6s8Vd7ZDsI30GKDETlJukCPOM3TPsqDn/yD+Ba5neEumv/9GGGT+iXIHXFhE9LoG0D23SAqTtXyGLMWu9IaZm//2EAwZDmKBz72RzUJff4+MKS0I0tzCY25MALXsQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782909407; c=relaxed/simple;
-	bh=qxvk4YJQ6XSShJzJ2XbQlAWBWrG98CnV0/FfhF1YheQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A2+NDsELV0aOdi31rX0GSOhZh+XjOA4R1VxU2BzxFCxOBCLhkFZSyhJdyJ+YU3H/04Zo8o5xB+yELXDmqvteOv4zCY1gRBVhwqIFstVpH5edc3Uhe+00Wke62IjsgYC0EByAesEoRmXlgIPs+kUFseTLdYJKA+4gMLQqPYERGM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c1s43w+g; arc=none smtp.client-ip=209.85.215.169
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c9aea40d799so221956a12.0
-        for <linux-media@vger.kernel.org>; Wed, 01 Jul 2026 05:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782909406; x=1783514206; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kRZ5y6jv3qLE+/HG/vpjw07aIlvGDyFsle/4yejj/PA=;
-        b=c1s43w+g5xhF0FHIxMlSJUPrquox7PYjpd3KhWbLR2onLUKv4t+uYRjRMbYzgGnweS
-         Qe345rejr+A6SZxojFw7TEdy824RdCx3G1m3plGwAFA78LdO9DnUl1EfIKH4+a3P7CeD
-         58qPudyxTj4VcDxahzzSbrugdUZvLLSQBDoBF3KePISrn2SbOx0H9QolwZY7/17PlM7L
-         YG5W4AHcGRgd/crDnjbGV5kNLWSi+VoE/nQjpcI+U85oDXWY4rMPDVtr8EIe+0Ionw9t
-         WeSgfgHWSw2uOyx5FvUGHyjgShK0rbGLg5fg37u0dwER7mvcRrKY4H9UUEiBZ+F6LR5b
-         LVaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782909406; x=1783514206;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kRZ5y6jv3qLE+/HG/vpjw07aIlvGDyFsle/4yejj/PA=;
-        b=AfMsWnyrlTYWyhTV3ai2MwND8p9E2CisOuMdyybEHL7SZVGhK3Gb1+4BDtmVU+SkCL
-         JBVtyC1OoLjhsr8dWxzhx59iYKBhIiybnQNynz4JXwWx5HOvFekHUhXfSjIZMY5arRLg
-         iw/XDBuWfhJctUlI451dkCNxQzrRIWExsjxBqIFkMM4iCHKyglzDT8y/PuzQim+YqNoL
-         vPATfTiM8dg/D8FZO+6JGbOifXdnpbwgNmUUjmACWOzD9/ctEULSog8tCm4C3WA4YNAI
-         ukfGdF5IibMGjTEWyyzr/foPTQr7tN4oq1mGYqkv2YxSmNDbEFRgUnMJH+Rqqu31yglv
-         dx3Q==
-X-Gm-Message-State: AOJu0YwScyuApV75TeQzaR4StbR+6tIQi+VsIxDkTPhnfjc4z+4ymrSH
-	EsKuODFMw/ybdu2v5M5N/TAe2/9sPCHlKG7ImUQKDqq5ENBqF1AHNaiI3fyTZg==
-X-Gm-Gg: AfdE7cm7GfNIoDB0904ff8O4/A8PirKdRibX522tbooCtx7KOyPxJWIAYkWgMdPvlJF
-	SSH35NNcv5rT/2XryoN3Ok1oJD5xAAA08+lNDNup2Kjyb3KczFVmRjR5avGnH0txf3wwRHQmFFh
-	WnJICblkJ27UGa6vW8UMSq3M5jSfKaMvlCjyRfjZEOYrEpJp23sfGgre9M7f5xA3Q9gu/7uB0KX
-	e+f2si13SpP6Qg+yIHZUsWvQ6unYoB85TaREzmDjUsz64pPrXx3IHwIp4gkHcAZSnJD+Wpsvyrv
-	+sg88TywCavjY7BFcqJC9Vv2Yy3JPokYN7UDkbptWk++shf0QYI1e0vrSc51hfLMrgEe8G2NoPi
-	SRnI+OJfRlz5nZd3th2fDkg28d/FMIxHyciz/iaptkEjNUIE1f+B0KqqrSAt/SN11ZsWiGG/6ie
-	eFQAB7Coc97dXclFfZstSijh9US5yCCogUa+9Rcw==
-X-Received: by 2002:a05:6300:670a:b0:3bf:6c07:b2ed with SMTP id adf61e73a8af0-3bff42dc827mr598754637.48.1782909405833;
-        Wed, 01 Jul 2026 05:36:45 -0700 (PDT)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9bbf95be56sm3025872a12.16.2026.07.01.05.36.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 05:36:45 -0700 (PDT)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Jasmin Jessich <jasmin@anw.at>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: cxd2099: bound the CAM reply length in read_data
-Date: Wed,  1 Jul 2026 20:36:41 +0800
-Message-Id: <20260701123641.1674982-1-maoyixie.tju@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1C048C3F7;
+	Wed,  1 Jul 2026 12:36:48 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782909410; cv=fail; b=BAziQwThdi3nHjQnIvtT0HGuT1ep7k+PGtF035ZJ51l5dU8x9pHgGfaxPb42pHGWdkaBiXdLEfxbXTF5d7VGaTucHwZo+15vu+1LYamwcUB+0xZqvDMl0BvL3jYJ0mgxH9cHVjKMJMoY4cdzEao8G5CyTzpoN/pZwyux3fO+ET0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782909410; c=relaxed/simple;
+	bh=LuY7p/VV1nrG0u2ZLTaCxEFzY4ojm2wLfCV6EB2xTFI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ulK+IXYZl2alqOaCaGCELxdeG7Lh4ApsxDtCuA9iWSGFogMdhOrTJdTxtSIfWEpY2+mkjUNm0QJKQLPxCBpBB8B09xIndxkscp90DUMluUVSmn+zzb9xsNRhU9yn8SkdKZBs5ZPSglOJBrwn6naeBF1+nGmHsXGjYKKtKYcMl7o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=fail (0-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=KyHNh/q0 reason="key not found in DNS"; arc=fail smtp.client-ip=52.101.225.100
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PVTW+A/jGkq+E5mHWYFdzW96fuoT86ep0iY89g/ZCOjhw11kz8xmeeMMA6XOTZdk5l0SncC5Z5Zt1+WpvF7AZhAoKk6cOLN+DL8uFtXOdv4llQPRTMcRQ5m5QmE++PXG4o4r13j0HCFPxmL6ZB8LVEBkOnueoySNfRSym+adR2ZWNH9Ej5l9e38HyMW0Chx+EYtRpKP9ueN9uNYEeSJOwEXpwJVfJVId3gRU/DHviXtuF6SKHdl4aPu/hYP3p8MkZJqhb07kWu8U5tZJh0zdXmiciepFurZ+HISK5VKxbWbkSYn33lZEfPcTPvdh+D4BjQVwF5QivODAjdc5Xl3SOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WLsfNyXPaXXRFFK56+CO2v9qZSvpjftcm+qVXLvYJo0=;
+ b=ObKf0PyghBqRO77grmyyLTaAo2pxdbYxs9UUCVk+jXTf3gg0gBk4R6KMiJ8Xm24AmDoVhq/FDPRpyDfCnHzmfnrD2Y+TUQ6HIpTtwwSMGoivSIaw6PNF8IzNcSsXyluKaUQNZOm+x9/TZQMWassRtsyTRuB6w2VWG6Lor+bL4/GjvqW/Zv2Xl2HW4GsHhuW/LcwM/9iW9hUdfXJ6MY70RawP8tFScydi3Ieesxg+uNMot7hK80ko+6ilBCuwtSRHJUuM8rodx9Su0/fzR3bbGs2xJDA2gjK6NUUWaGFaFjA6UcayqEeUmlUBUs0qqCj9B2Y5P2byl5/ao7cXJUP4UQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WLsfNyXPaXXRFFK56+CO2v9qZSvpjftcm+qVXLvYJo0=;
+ b=KyHNh/q0ZUonTc1R6YjasYHsU/Ezw3wqgiIJUlmXIr/apCvbz5ZHmoyd5+pUfsy90zmR5dPO2NsO1Uq1CqaMu6T7YOJoW6k9ROzSjVSvh0UOEKkvA8tcebAhq226ewbDyDdzsUS2Vm9HStCzlk8SGqR3tBQpNVqd8kBWoK+cyFHChUkYFqvdiq3AMSH5qBHcg3VazuzEn01bfKZ7a09RhBwyx3CjuTpSIfd8rPEAmzN/MJBaLOd3sOU5JG2o2lEAXlbOKEcKESOWZxBBOYFTGPBDyZMHJlNBmOFWTaFOMNHiX8ie72QX3Dj4OMYbWm3jAIppJOFY11E7KDGJLREaxQ==
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b8::9)
+ by PN3P287MB0815.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:176::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
+ 12:36:43 +0000
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432]) by PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432%6]) with mapi id 15.21.0181.008; Wed, 1 Jul 2026
+ 12:36:43 +0000
+From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"luca.weiss@fairphone.com" <luca.weiss@fairphone.com>
+CC: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+	<konradybcio@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, Hans de
+ Goede <johannes.goede@oss.qualcomm.com>, Vladimir Zapolskiy
+	<vladimir.zapolskiy@linaro.org>, Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Walter Werner Schneider
+	<contact@schnwalter.eu>, Kate Hsuan <hpa@redhat.com>, Svyatoslav Ryhel
+	<clamor95@gmail.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: Add Sony
+ IMX576 front camera support
+Thread-Topic: [PATCH v2 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: Add Sony
+ IMX576 front camera support
+Thread-Index: AQHc/+rpvZzMTRXyLkO/gzC6xhvmXLZVfMMAgAMvzLI=
+Date: Wed, 1 Jul 2026 12:36:43 +0000
+Message-ID:
+ <PN0P287MB201945BA5173A17EA963C4D29AF62@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
+References: <20260619125439.55311-1-himanshu.bhavani@siliconsignals.io>
+ <20260619125439.55311-4-himanshu.bhavani@siliconsignals.io>
+ <c0cc8b08-b468-4120-b79d-2ab9ef4d0aa5@oss.qualcomm.com>
+In-Reply-To: <c0cc8b08-b468-4120-b79d-2ab9ef4d0aa5@oss.qualcomm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN0P287MB2019:EE_|PN3P287MB0815:EE_
+x-ms-office365-filtering-correlation-id: 7efe3160-740d-4bee-af75-08ded76d6858
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|18002099003|22082099003|38070700021|56012099006|4143699003;
+x-microsoft-antispam-message-info:
+ C6WUqtIZ0V3J+HcIuxLYoi+0720yyD4kEMNqz3BtU7FSoNe/659VJB8AbuGcyHsQxGk9q2x595GfvFfacsOxCcutJJtR/X7hPgb9ZJdSXW8LaGI2olqJmgUk0wQXziYm2q+6tSpra957bobALsQhcPNYT3ymuU9E6MVSaCkw9mseprHuDFHQlkD6YVYyGnbhTi6fLVmTfn4macGNA4U8vYE6MyZtHXTta9r5/MQzF+kOwLpk4SftnedSeRRee3Y0ByAzVA49p2dOdDFMBJIAzw9G/HfYtkcVuANlgLvvuJ6IWOqbp0UK4r6mNzW0PC8TUBBOBPTsmzxqJUadhWHBrRilh7/du3ez+3QGgEH0r+tl51MoqaTK9HCdq80093irLlKi2XyoWt/CNYgYMgUPIOVE0pqErlHs5+e/LpXO3B4BVRxw41B79f2OyCPdp4f3lV4q5NpDyl79WapQamSSFmpCJrR/aCRG++lTxMgs4Iupkez/33Z+5RVhD42LsSbl/Q4Dwt4ySLnqiYfxMv7ZERr6eBKxr7DYU8xaD5nDtEC+TkkWCBY7QL5k93wqGmdIURVxOjat9p2q+uoxJsDuzASt+klY366gg36PYrpqaNesWo5N2IYQfXQ/FNAqCVyf09ufRHxlj0A29OTyKQ8XSh4cv8uPt8ZgNRZr6qO11rtp24gagn7iBHZ6Jd/fKs6xEl6l5pPkkA0Y2vS/bYkcAhqe8UX3vTdNqZrM470CW5Y=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB2019.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(18002099003)(22082099003)(38070700021)(56012099006)(4143699003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?qzk33pn05EEpY3DUTdxFSL4FIVaFbQA/30Y3zD9farkMP718Iv09vp4gDI?=
+ =?iso-8859-1?Q?i5iWsVTVhKUpKF4O+IGCWzqFrJKWJMxJC9+xGca8CJBOxjFFj7soRuW1Tg?=
+ =?iso-8859-1?Q?uICQ6gu75dGjQTGRCe4UfQ1KwAq9/wIu9I92EAiWu5LTOOHvLUlwV1zkii?=
+ =?iso-8859-1?Q?WdEUgBACA6RE4/p8WlKiHwae5AhWba4jDlTS9GVxtDo7+dTVKDbu84Z8Fx?=
+ =?iso-8859-1?Q?5RNARRRbSNohKF10pchiz4Co/6m3HzBQPYb2xmS7mi0eZUT4uPBdWO1IOL?=
+ =?iso-8859-1?Q?JXB4FlchOyl0/vWK9jL+uVOuXOzBKdsjJ+zvaDBDy8Q+eEdyZr3POf8/gq?=
+ =?iso-8859-1?Q?iItXNGIdgR6Fjhj57lRc9Sbbo4YSRJosYO3Zhzaz70co4CId310XgpklZu?=
+ =?iso-8859-1?Q?056uY3cyv6YxIF3PdXqaas65XXhDCnDEYqJgcYsw7HgFkQGqNvvGieiw6h?=
+ =?iso-8859-1?Q?aitGiXeEJS4DQAa5LhHeHO5OjXceZIvJJYsbeEuD851n+itZavoOoXW8pg?=
+ =?iso-8859-1?Q?qFIJSwGQ20vdOyuXMbhI2MOAZmkpQ0d1MFrDHqqTQd2szUTGZ7rzVhCqDm?=
+ =?iso-8859-1?Q?sle7Y9aOqEM4evpQs4/aWDxfknmkPZUqTEA40IMC3VuESr6OmyClFtkrjS?=
+ =?iso-8859-1?Q?cTpcyhTwYz5A9gWsoBsmC2lhhGUl0CYMtqO7n0wmVbjPwc13UWii1Ef4x3?=
+ =?iso-8859-1?Q?Ff49muUBsuzw769llUNkDAiDbHlGnVdNJqPLUJsFqNf/8QjHTVvNQdqc/r?=
+ =?iso-8859-1?Q?pZsgF1A3qkW2vhIq83EhYLqVWte2i84vIjgWapIZVA0wLXzkM5F8kGmd2K?=
+ =?iso-8859-1?Q?j0lev8D2fqIHbLqb81YwHzpGyoIsq7xfzVFra1OHH1tEwYRvgpvYU/2QYj?=
+ =?iso-8859-1?Q?5ep3BuCRY/a0tN+Fxn7qrRne7RI37vyq/sY+X83IxxsNVEO/rW9wnJJIUC?=
+ =?iso-8859-1?Q?uo7aSQOEBoEu4+nKVyd8ihctzbuyuAGRKvVNZe2bJEZihGEmVVFCEvfzZc?=
+ =?iso-8859-1?Q?IqVvniGDRZbZFHfNcMaMp9pBZtT868mVudFQWIr1lgJKaulX8CcKzwpMYF?=
+ =?iso-8859-1?Q?lwHXtF+m04s2mBbuF+PeU4VPYQ+hQP4p4hZli2MQDnl6rB4C8bEdDDlZoq?=
+ =?iso-8859-1?Q?9MZwmMeV1/xmZpAHKkqbPMXSAddvc4iHwLW9HPcjIXaZkcLOuJOIHhbq0R?=
+ =?iso-8859-1?Q?p1YCEf/wzVgTwk64qOMMRa/vsCxWfsHfUnWTiNiZQ0VfMW5VtWS6SJXPsC?=
+ =?iso-8859-1?Q?rzY5lsbbkf8PsbXbyiDMkqUPtIe/wSxQl6A7GCBrb8J/H/QM8iSJ4ID5pq?=
+ =?iso-8859-1?Q?TxUEUnu2EexRbgedUobWS/gnzJN/vFQKqZDmb/pkAJG2f7AksnCwlt2Tiq?=
+ =?iso-8859-1?Q?IGOu0+ivRYag3s84wbANcoELUJtErk1LIFqN6amwNm/HnQXsmoFLyCDVci?=
+ =?iso-8859-1?Q?RlWmsmj+/hzOWb/EsywTHRV992Nmw9/PfYOZ5UCToBMs4d5nt0OLvNBsmM?=
+ =?iso-8859-1?Q?HwCtdiLDhoVuwov8bIBCNBvH6Jn67xFNeveUV4XtXcCU2zW5+xtdlNDBpO?=
+ =?iso-8859-1?Q?lmmakpz+DIiR+Y8wq91q6OzVli1cMj1rlmIBfuohEciWXZDmQlkKVAPPEC?=
+ =?iso-8859-1?Q?yMd2KJC6GsCxDZSk8U1UyvUGTgujQPZ6tppoovpHKZNQBwu+7/PN7orGL2?=
+ =?iso-8859-1?Q?rGBnbU4N4jXTv7HGAzOPJCp8NSKiefj+TUUQPjM/z7TKSDXqt6M+eKEEjC?=
+ =?iso-8859-1?Q?Y6SrJS3nr2vJ6whrilHGL+eVsX8JRXLGzbU1OEe8nFoxeARsa+tuiGC/jl?=
+ =?iso-8859-1?Q?mniXJMOh3LuTl1ZdAyjaZb2A2M/5dec=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7efe3160-740d-4bee-af75-08ded76d6858
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2026 12:36:43.4822
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: W9h42+Zvaaw8pDGX0jVSmZ6vbsJcZMVY2KW5ClBFdKZEghP4dVgmX8fWQyRSaAzHPe//BHkuq0F+7+XR91JEjecLBDn0PDUiAkGyjJZSxuOKnGw7tGyWUF50ZBZJacWX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB0815
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [3.54 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[siliconsignals.io : SPF not aligned (relaxed),quarantine];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66221-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jasmin@anw.at,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[maoyixietju@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-66222-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:sakari.ailus@linux.intel.com,m:luca.weiss@fairphone.com,m:hardevsinh.palaniya@siliconsignals.io,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:mehdi.djait@linux.intel.com,m:elgin.perumbilly@siliconsignals.io,m:laurent.pinchart@ideasonboard.com,m:contact@schnwalter.eu,m:hpa@redhat.com,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[himanshu.bhavani@siliconsignals.io,linux-media@vger.kernel.org];
+	R_DKIM_PERMFAIL(0.00)[siliconsignals.io:s=selector1];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FREEMAIL_CC(0.00)[siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,linux.intel.com,ideasonboard.com,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_NEQ_ENVFROM(0.00)[maoyixietju@gmail.com,linux-media@vger.kernel.org];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_TRACE(0.00)[siliconsignals.io:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[himanshu.bhavani@siliconsignals.io,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	MISSING_XM_UA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,siliconsignals.io:from_mime,siliconsignals.io:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,PN0P287MB2019.INDP287.PROD.OUTLOOK.COM:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 72CE36ED7DF
+X-Rspamd-Queue-Id: C4C426EDF9C
 
-read_data() drains the CAM FIFO into ci->rbuf with a length the CAM
-controls:
-
-	len = ((u16)msb << 8) | lsb;
-	if (len > ecount || len < 2) {
-		/* read it anyway or cxd may hang */
-		read_block(ci, 0x12, ci->rbuf, len);
-
-msb and lsb come from two CAM registers, so len can be as large as 65535.
-ci->rbuf is u8 rbuf[1028], and wbuf[1028] follows it as the last member of
-struct cxd. read_block() advances the destination pointer for each chunk it
-reads, and it never checks the buffer size. A len above 1028 runs past rbuf
-into wbuf, then off the end of the struct.
-
-The drain branch runs whenever len is larger than ecount, and the caller
-caps ecount at 512. A CAM length from 1029 to 65535 writes up to about 63KB
-past the buffer.
-
-This only happens with buffermode=1, which is not the default. A faulty CAM
-reaches the path the same as a malicious one.
-
-Three sibling frontends already guard this. s5h1420, stb0899 and tda10071
-bound the device length to the destination before they copy. read_data()
-now clamps len to sizeof(ci->rbuf) before the drain read. The FIFO still
-drains and the write stays in bounds.
-
-Fixes: 2748e76ddb29 ("media: staging: cxd2099: Activate cxd2099 buffer mode")
-Cc: stable@vger.kernel.org
-Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
-Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
-Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
----
-I do not have the hardware. The out-of-bounds write was shown with a small
-harness that models the rbuf and wbuf tail, not on a real device.
-
- drivers/media/dvb-frontends/cxd2099.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/dvb-frontends/cxd2099.c b/drivers/media/dvb-frontends/cxd2099.c
-index f95950a613..67b2ac4464 100644
---- a/drivers/media/dvb-frontends/cxd2099.c
-+++ b/drivers/media/dvb-frontends/cxd2099.c
-@@ -560,6 +560,8 @@ static int read_data(struct dvb_ca_en50221 *ca, int slot, u8 *ebuf, int ecount)
- 	len = ((u16)msb << 8) | lsb;
- 	if (len > ecount || len < 2) {
- 		/* read it anyway or cxd may hang */
-+		if (len > sizeof(ci->rbuf))
-+			len = sizeof(ci->rbuf);
- 		read_block(ci, 0x12, ci->rbuf, len);
- 		mutex_unlock(&ci->lock);
- 		return -EIO;
--- 
-2.34.1
-
+Hi Konrad,=0A=
+ =0A=
+>On 6/19/26 2:54 PM, Himanshu Bhavani wrote:=0A=
+>> From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>=0A=
+>>=0A=
+>> Add device tree support for the Sony IMX576 front camera=0A=
+>> sensor and connect it to CAMSS via CSIPHY3.=0A=
+>>=0A=
+>> Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.i=
+o>=0A=
+>> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>=0A=
+>> ---=0A=
+>=0A=
+>[...]=0A=
+>=0A=
+>>  &cci1_i2c0 {=0A=
+>> -	/* Front cam (Sony IMX576) @ 0x10 */=0A=
+>> +	camera@10 {=0A=
+>> +		compatible =3D "sony,imx576";=0A=
+>> +		reg =3D <0x10>;=0A=
+>> +=0A=
+>> +		vana-supply =3D <&vreg_l3p>;=0A=
+>> +		vif-supply =3D <&vreg_l6p>;=0A=
+>> +		vdig-supply =3D <&vreg_32m_cam_dvdd_1p05>;=0A=
+>> +=0A=
+>> +		clocks =3D <&camcc CAMCC_MCLK1_CLK>;=0A=
+>> +		assigned-clocks =3D <&camcc CAMCC_MCLK1_CLK>;=0A=
+>> +		assigned-clock-rates =3D <24000000>;=0A=
+>> +=0A=
+>> +		reset-gpios =3D <&tlmm 35 GPIO_ACTIVE_LOW>;=0A=
+>> +		pinctrl-0 =3D <&cam_mclk1_default>;=0A=
+>> +		pinctrl-names =3D "default";=0A=
+>> +=0A=
+>> +		orientation =3D <0>; /* Front facing */=0A=
+>=0A=
+>Please include the new define from:=0A=
+>=0A=
+>https://lore.kernel.org/all/20260628-kbingham-orientation-v3-0-4ed92968aff=
+8@ideasonboard.com/=0A=
+ =0A=
+Sure, I'll include it in the next revision.=0A=
+ =0A=
+Best Regards,=0A=
+Himanshu=
 
