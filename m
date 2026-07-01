@@ -1,212 +1,202 @@
-Return-Path: <linux-media+bounces-66223-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66224-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bRqsEjQTRWoU6goAu9opvQ
-	(envelope-from <linux-media+bounces-66223-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 15:16:36 +0200
+	id 0HwRO9sWRWoo6woAu9opvQ
+	(envelope-from <linux-media+bounces-66224-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 15:32:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1C96EDF49
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 15:16:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B486EE241
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 15:32:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="BC/9e4nY";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66223-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66223-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Yz5xnWC+;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66224-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66224-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A263D323E7BA
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 13:00:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D308731B7CC6
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 13:03:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F902481FD2;
-	Wed,  1 Jul 2026 12:57:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBEF848B36A;
+	Wed,  1 Jul 2026 12:59:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5950F48B36D
-	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 12:57:49 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782910670; cv=none; b=jReDe8rIL6FOzpJ08du7d741Uv2CNU79nc29xmfCXdp4fMJg1Myr3oCqgigdenvN7sS3agacuYHJO5hOf3+3pgaXb58C/9xj3+9qT0zJyoaq8wnmWeMLQ4uC6AI2TlZmT/WO41L+rsDGSzgeGjNpz8e1JrzHgKLYveEf5/ZGY7k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782910670; c=relaxed/simple;
-	bh=H7mKrhs3dR62pLwn9IOckqVu033msifC1M1GZ/jJKMY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=omMBLhPQ0BE7VcuqJzhWCy/ssFc6LzmjSSAnLa+EmAR9D3GXVUogjTIfys8e9RD8RNrBPm5mYnhpcDSOrcQ8AZkByipMbXeoOb03lme77EN9YhNK4CDOPHKo/+6Awyca/sR6BIDyQOmfS2gLDY21ARq8mTyBAwxX0RGx03pmoyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BC/9e4nY; arc=none smtp.client-ip=209.85.216.52
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3804e42ad5fso497221a91.2
-        for <linux-media@vger.kernel.org>; Wed, 01 Jul 2026 05:57:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A903CF1FA
+	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 12:59:21 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782910762; cv=pass; b=PREZg9bM++zOGBvzk1o0XPKFrKskRfjnIoBWKZSX6njSTLnG8GCtavjwSk3HtvfH7qnNV4D5yHZSLTHQeNwkv8bhXWbTtKQggih1N7EWrbv8bG/Yp0V9RaDOLaZpViJTHNO6EzRTg768BVCVDLVq9H2e31huDAcbapnDDSHgeXw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782910762; c=relaxed/simple;
+	bh=w7T4l3H+ZghFEqzqhnUEQ7w1i+tAgsSes+v6k/i/RAU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fuoid9OssPDvcJlOCMLxhBRqSyIZYYbeGVuiTElEfkHcNu6D/vNK6JzvVZsG7bDnmORXqkUX9JqzrGZZVQoRKR6cVrYob6f2CQqtlk59CFunYKxnUf0x0adYo+VyrOzBJ6mYSEvVH02rPDqY0nRa8aV6hEK8uUkcZeO5O3ObM7w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yz5xnWC+; arc=pass smtp.client-ip=209.85.222.180
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-922ff615c14so52977985a.3
+        for <linux-media@vger.kernel.org>; Wed, 01 Jul 2026 05:59:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782910760; cv=none;
+        d=google.com; s=arc-20260327;
+        b=O955swd5+oAzzAtAXVbuNhEvtKgQvQqdphIbbr5+bAmLnucq3QvfR7ygEzo1Yxq3qn
+         dXQpPisdVQGHSN0bqH3QvdJy9Rnt+oreHXnSGNUHNYB+IcNlSgVlOz3bso8RK3Lj9Ouu
+         RUpXUMPV1usxZJPwY9GTlYUyMSBO+f4kkdes023f5QjVE+v48VoD5eX6vlLpxngaKtol
+         bpPSHyLRLPDwL3LNUd/JjfYJmhHImCIi5jC7lNVniYiiIZdx/+ovnUhymfL+EMWxz4rS
+         gIaUHLmKLIPLD132TTB9U3FGcaJ408Cr6YP7A845l+VWjdOLHBle0ke+iYtnIR13Yh9e
+         nc3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=I12u05M04GIJMyEzopRm5q+ddLjVLgxkEu9AiNHFTQ4=;
+        fh=XssiLLdeD1yWZ227bsDoIvImuVXpdr3MYKwLVASPrns=;
+        b=qL64IJKhW7wSvsfSOs8XxNrSXSW90TA581osb1zyVi7cCt64YW/Xwj3o4sFmjZxWF9
+         +Pku4yi/7E0RbBgBhebaQPa9oyyDSgvrzh8tnCE4RI0X3Vg/Mxm2oUvR7iCPvmr4MBkB
+         mRwvGsucj8rbKjkijknwiGJ6RLlBIAM8YpNSIwGAAgdGB8LDfGMocttPxz4Y55DuXBlV
+         QX20sgzaEDtltjOvudyWNpoLWnnedG5agqoC0AemVdFTeq699tnsZcfw9AUt3nWGZDYN
+         BBRBADzo/Hu2Wz1simsM6+O6jFgtzGhRzkwW1qonEL89QqvLKQUQJVot7I7eu6dl4k17
+         CatA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782910668; x=1783515468; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WJy96jzCfjKqCU6bDuPUUrm0AXO+B20B1H6OT1/qUxY=;
-        b=BC/9e4nY0kos9ejBtyh3Om0yPz72dnmiyGBhA6sBO5G2XK7JbxgyflwpZzGavxMgUb
-         MMzEzjfqxniVu2agOOi5sREXx10tMSsNJGG+hOpcQSMseWRHruBkpedvPTqntGwrKg/S
-         MLVXVKLjXgJ+o6xgmz/DS+eCwSuYFuDql4WAg7nos3o4JRuRW2wzZRZ+FgamUUbCeZRS
-         XgmQ+zKQapvhAmYol1k9eV8oBoUfokLNGOKGzYxC/xdLDLtJxJ1TJ3kHnCWKOUvefwtB
-         ggI4uICwe+UMikeEKLY5HtD48JjHJexIcOQUegw+YAmku5WbSDDtTZbkroTGAhXEGG9+
-         rrwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782910668; x=1783515468;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782910760; x=1783515560; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WJy96jzCfjKqCU6bDuPUUrm0AXO+B20B1H6OT1/qUxY=;
-        b=cH+qRLqWXQNsU9NfnAvADDAz21RaYSxDMRbJW5IZ5qU6lJVJjNO+VRUyCNFwjiDWpn
-         4loOIqIFWiAGNWvwSLlx4EN4LKg4xzEqccPhS8wGD3KALouEESP1S73BiafHkhNlBUNd
-         lPSgwWtjSAFdc+lny0q0DhgxDZJE+kwYR7DMt4tI+Zib6WQZh/xpM15tbHJNj4+je9hd
-         4hjb564C0BYfYZ0WVFWdkzuzJ+VPOs8kkNgrtMCKDuAMB4G39Q3vAG2WWXQWSSnZyHHF
-         abvEhgHno5hDTal+x+OxATqWcdDmLtRWfLkR/vRG9/pTd4FT0pdVaXBd1GDlbTLXlNcO
-         SFaw==
-X-Gm-Message-State: AOJu0YwP/sNNlK+HZg3XnO/DyRi2010N1NlOFrllN3R+XTxz0Nx2KaB9
-	+dNnRrC16igehiTljiHqznLekgmrGeOA1x/c1E3oRmb6Ca7Kj4ZuTMJr
-X-Gm-Gg: AfdE7ckMbFaPjyBqmxISuR5BSNqaVq43y+9UxaLE3xhH65ca9+FHtThiEUAvkclNh8u
-	l0gtPuhFKRtocwyBVTYGvJYM/GalvatAywg9RtBVJobz+Ii8yyTI0bv8UWp2bNSM86bO17iUGTF
-	q1ggkyxaT/ADyIMlVsD4J+jSW4NyhNHKqCzqXjBK1PvCzsjxDm2BtZwY9GRSaN6YxTiEY38TioN
-	lFgvIexjbmLOAH3tTi7OLZL38PkG+6+RByDXKVxJjSAYU2MB/OjukoDHCDINc/qi5CiMYY2xku4
-	Y5SSXJlBK7FklEwPvdERTzRh9LEyk5K4NmB07Wh5OK8myE8iquHkkXYpACu4HBTB6ZQy89B5bDi
-	qOEk1uFRsIXYekRsI/VglD8uNOZXleAzmFOhuf+HGhGw6bdgeoY4VnefRObTIU5peaiTX7Vs0NJ
-	Bjqt+M9Xd9jHEC8ajI2pSNZEWezgADWquQTmsGIg==
-X-Received: by 2002:a17:90b:4c84:b0:37f:9ce1:cda4 with SMTP id 98e67ed59e1d1-380baa74659mr638284a91.26.1782910668536;
-        Wed, 01 Jul 2026 05:57:48 -0700 (PDT)
-Received: from x1c ([2405:9800:b670:b64b:adee:3e1d:849b:494a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca6853f616sm14197275ad.37.2026.07.01.05.57.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 05:57:48 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	jai.luthra@ideasonboard.com,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH v3] media: imx219: add test patterns
-Date: Wed,  1 Jul 2026 19:57:38 +0700
-Message-ID: <20260701125738.6384-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=I12u05M04GIJMyEzopRm5q+ddLjVLgxkEu9AiNHFTQ4=;
+        b=Yz5xnWC+gmrtrHxAjfJk+6Hl9SSLW6BAzxn87+tPH63tNyPKO9neePaAXutSPluUC8
+         J2fGqM+W4W1vy/ZuGpZCAszW8U/MArlaXbDEpEHfkNq8PxogBU0Te7bZUyL4ifP19yLL
+         /xjI4cukkCzr87afEue0oEQMf86MRrCUlgRlKKG47cwf+4EbjcDIXgNaNdfcIp4JYW4g
+         ap7wcB0gHMNAa4kTN/r/eaye7tBKqvMVW8OLcrTeoB2QEDO0Ed9Re4LUGmyaBMaqv7zp
+         UNHPBSq1yA8qGmTwZy9yuTEECPijqbnkIKlfph4NFSGCl2E634UEbXfdNZf/5F7LItqm
+         2exg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782910760; x=1783515560;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=I12u05M04GIJMyEzopRm5q+ddLjVLgxkEu9AiNHFTQ4=;
+        b=tWXW42bbROnz/17Yu+GmSx6YGZlFYZuxgNxTGzWeglJHf86jn0JxyjAJqkcfhytlkL
+         FKW7BP5AVzUG+R87/RxcIvpunG3wpPFbeNY51iWDLbGHQSxRc5DLFusElk8iCSokKXVh
+         dm1G5VzckASI50oAgbTNVFFGa78Xo6jjMQl0zNX/UVHr++xhCZCoWfFhnaJeha6Q1+Hs
+         LqwBIYQF+4n14LmzvXQKyeT5F9c0W01v7zKVVdAYp0kgQHvrTmyh0pxnf//vVzLuxCqI
+         GgJXBtftx+gVn6taDSdg04oL59OOuHV0LAPZfam+3uERLSdwqjzP8tc8L7X/u0642OaG
+         dbLA==
+X-Forwarded-Encrypted: i=1; AFNElJ9+ntNr9Il1pyAHTcJ84OcbKBRkMmOUZVGmhPk0O7/t/z2nZsflqCvG0+Id42+G4TuXNjQyjZeTOVgpCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUy0fe1mnUcETo2M22DKBOt8IoPUlC+dT5HAJyMKmOm7jCGOiA
+	GdRskMXezLpPnnxBSK4tvsky5iZhZpmJnXJLlLoAKDrDlAsmcmLZjB7OufYn6XJgDXnUPoJr702
+	F8g8o3fgDaittuvgZgVtA4tJw/FgK63E=
+X-Gm-Gg: AfdE7ck79FomWtTuukaQYOft0V2tSB6NB0T/0wIGq0NcijxIMKjF9dZ6dtfGs9VZ5rm
+	ZIBRZx91D0AUIQuv1cROsV6QsyeMSlaGJAbfARiS/XiuYn9EbqFNH45vXsXqaan5Ju+lhQRRRv7
+	7/hEubVvvX3YnP3IDn68TVGwNrgAd7QXiQqzN7kmv/qgE9RiZjp5g+l6tM1Md/GbL1irBIj4oG/
+	JS6hlGVl+E1WmVOHKHhBuMHM/hyBGqqER4O/RuoCakhmginxotlloeavPqPhDapA7zRPIm+62rN
+	yLeEwP/rf4DmX0oxwgn72aWZeEaOLLIqh6yAvVd26Og0NFDezJR6ajwIhFsgGk0=
+X-Received: by 2002:a05:620a:d89:b0:92b:6805:91b4 with SMTP id
+ af79cd13be357-92e78502506mr218279285a.60.1782910760182; Wed, 01 Jul 2026
+ 05:59:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260625160228.59672-1-tharitt97@gmail.com> <178246824177.1799417.1678746966574660598@freya>
+ <CACak8wPuBaGCBbBrpoPQ5ftQRtqwijvN_VJoRGs7FzYBGck-iA@mail.gmail.com> <178288879026.1799417.14880182647984884282@freya>
+In-Reply-To: <178288879026.1799417.14880182647984884282@freya>
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Date: Wed, 1 Jul 2026 19:59:08 +0700
+X-Gm-Features: AVVi8CefPUI_1MZTpUYM1EfQ4-7Zg3GwL1pgE8KRzv8SKnVNIdtoEvFAF9edydc
+Message-ID: <CACak8wPrxewpdvcqX2eCPPAaA_WaTfqtGshrZ7qTDcqpbdmX=g@mail.gmail.com>
+Subject: Re: [PATCH] media: imx219: fix test pattern ordering and add patterns
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linuxfoundation.org,lists.linux.dev,ideasonboard.com,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-66223-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:dave.stevenson@raspberrypi.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:linux-kernel-mentees@lists.linux.dev,m:jai.luthra@ideasonboard.com,m:tharitt97@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	TAGGED_FROM(0.00)[bounces-66224-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:linux-kernel-mentees@lists.linux.dev,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ideasonboard.com:email,vger.kernel.org:from_smtp,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9F1C96EDF49
+X-Rspamd-Queue-Id: E6B486EE241
 
-Add 5 missing test patterns to complete the available
-hardware test patterns.
+>Yes please do so.
 
-The original mapping for color bars and solid color in the menu
-is preserved to prevent existing userspace application and automated
-vendor capture tests.
+Thank you. I have sent the v3.
 
-The changes were validated on a raspberry pi 5 with an imx219 sensor
-using v4l2-ctl and rpicam-still.
+Best,
+Tharit
 
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
----
-Changes in v3:
-	- Revert the change to the original test pattern mapping
-	to avoid breaking userspace applications
-Changes in v2:
-	- Fix typo in commit message: correct the color bars index
-	to 1 and solid color to 2
-	- No code changes from v1
- drivers/media/i2c/imx219.c | 27 +++++++++++++++++++++------
- 1 file changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 223d3753c..9571f3622 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -110,11 +110,16 @@
- 
- /* Test Pattern Control */
- #define IMX219_REG_TEST_PATTERN		CCI_REG16(0x0600)
--#define IMX219_TEST_PATTERN_DISABLE	0
--#define IMX219_TEST_PATTERN_SOLID_COLOR	1
--#define IMX219_TEST_PATTERN_COLOR_BARS	2
--#define IMX219_TEST_PATTERN_GREY_COLOR	3
--#define IMX219_TEST_PATTERN_PN9		4
-+#define IMX219_TEST_PATTERN_DISABLE			0
-+#define IMX219_TEST_PATTERN_SOLID_COLOR			1
-+#define IMX219_TEST_PATTERN_COLOR_BARS			2
-+#define IMX219_TEST_PATTERN_GREY_COLOR			3
-+#define IMX219_TEST_PATTERN_PN9				4
-+#define IMX219_TEST_PATTERN_16SPLIT_COLOR_BARS		5
-+#define IMX219_TEST_PATTERN_16SPLIT_INV_COLOR_BARS	6
-+#define IMX219_TEST_PATTERN_COLUMN_COUNTER		7
-+#define IMX219_TEST_PATTERN_INV_COLUMN_COUNTER		8
-+#define IMX219_TEST_PATTERN_PN31			9
- 
- /* Test pattern colour components */
- #define IMX219_REG_TESTP_RED		CCI_REG16(0x0602)
-@@ -238,7 +243,12 @@ static const char * const imx219_test_pattern_menu[] = {
- 	"Color Bars",
- 	"Solid Color",
- 	"Grey Color Bars",
--	"PN9"
-+	"PN9",
-+	"16 Split Color Bars",
-+	"16 Split Inverted Color Bars",
-+	"Column Counter",
-+	"Inverted Column Counter",
-+	"PN31"
- };
- 
- static const int imx219_test_pattern_val[] = {
-@@ -247,6 +257,11 @@ static const int imx219_test_pattern_val[] = {
- 	IMX219_TEST_PATTERN_SOLID_COLOR,
- 	IMX219_TEST_PATTERN_GREY_COLOR,
- 	IMX219_TEST_PATTERN_PN9,
-+	IMX219_TEST_PATTERN_16SPLIT_COLOR_BARS,
-+	IMX219_TEST_PATTERN_16SPLIT_INV_COLOR_BARS,
-+	IMX219_TEST_PATTERN_COLUMN_COUNTER,
-+	IMX219_TEST_PATTERN_INV_COLUMN_COUNTER,
-+	IMX219_TEST_PATTERN_PN31
- };
- 
- /* regulator supplies */
--- 
-2.53.0
-
+On Wed, Jul 1, 2026 at 1:53=E2=80=AFPM Jai Luthra <jai.luthra@ideasonboard.=
+com> wrote:
+>
+> Hi Tharit,
+>
+> Quoting Tharit Tangkijwanichakul (2026-06-26 18:08:20)
+> > Hi Jai,
+> >
+> > Thanks for the review
+> >
+> > > Do you have a strong reason to switch this to the datasheet values?
+> >
+> > I must say there is no strong reason. I'm totally new here and come fro=
+m
+> > the perspective of someone studying how to write a camera sensor driver=
+.
+> > The datasheet says that writing 0x1 to reg 0x0601 will set the mode to =
+solid
+> > color test pattern. So it is "natural" to expect that I should set
+> > test_pattern=3D1 to do so via v4l2-ctl.
+> >
+> > > I ask because this might break what userspace applications expect
+> > > (libcamera) and also automated capture tests (that compare md5sums of=
+ the
+> > > test pattern) in vendor board-farms.
+> >
+> > This was totally oblivious to me when I made the change.
+> > I agree with you on this point. Breaking userspace does not sound like
+> > a good idea.
+> >
+> > I'm open to making a v3 patch and only introduce new test patterns to
+> > the driver.
+> >
+>
+> Yes please do so.
+>
+> Thanks,
+>     Jai
+>
+> > Best,
+> > Tharit
 
