@@ -1,182 +1,161 @@
-Return-Path: <linux-media+bounces-66192-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66193-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NY7uM9n0RGr93woAu9opvQ
-	(envelope-from <linux-media+bounces-66192-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 13:07:05 +0200
+	id xJFCAkr1RGoV4AoAu9opvQ
+	(envelope-from <linux-media+bounces-66193-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 13:08:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6876EC8F1
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 13:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8106EC939
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 13:08:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=TK5agZAt;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66192-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66192-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=gFxGPz6u;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66193-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66193-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D6B5D30A6680
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 11:02:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A5D7630D04E7
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 11:03:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3BEE43D50C;
-	Wed,  1 Jul 2026 11:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 294F5449EC2;
+	Wed,  1 Jul 2026 11:03:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF8A439006;
-	Wed,  1 Jul 2026 11:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38A843E48B
+	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 11:03:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782903724; cv=none; b=ExsGmqVTEvyZZ3oTr1O24I/OWNzpqYqSA5hM6/hDQbGCxgCD/d8Qk/qFOAgi6xqv/X2b0PdKAZehubmS/5e748cmSlIdALKdBaoh4exZ4N4Vp+KqOYrFxRdeSubtGFzOnEBqLrDsh58SLjdvjFQCDEqhMCx4/sY8821OvSCiIEs=
+	t=1782903790; cv=none; b=gHZIxfEmmTs58EvCGsYMmeSZ/0EfSjBfHr4MhJbJ0C7x+CBAF2ciRIiW/ZglVg7graW8na/VUW+MCIE4kbNL5UhGIcSteERmuKipK3vgAPFC/kUF1HFDpjYvqobdpr5SXCP9AlkiD/6MBNrKOSEM/RkZgVtI7Zroc43Pq/BRhLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782903724; c=relaxed/simple;
-	bh=gPauPI/9fhjKIv+zHh4InusR8yG4d8qr+Y3ucsd24m4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pxz+60but4bM6/9FUpHMzNlNkyZfh7evyyjevJcfd2S4cL+9FNDddoCrtHGIkpP5M3h5GbvJo9EYk+RpvkmAvjVFyRUNewFWtdGWzR0xzeTTVqvVUQmMNSCOZGTf7YbbivkUXbNFNqw8UVMZvS5LVJ6+grG7DF/Ej1x84s734xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TK5agZAt; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85E8A1F000E9;
-	Wed,  1 Jul 2026 11:02:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782903723;
-	bh=YykEavimjxgypRXCeyiKw76UjGkQVu2lKItLt5Z0LKg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TK5agZAtNpG68duqFSm/sqXzBv8eAKmTUVmJHy6Os4m7zEavHpJJxgptE/0CnC9dk
-	 RujUhNe3tHfkBhRfi4Q5Y4UikruNO45bpkXRosSpJYecgFhPGrPV57nteTIk+yfeCJ
-	 Jdn7PXA+rQoNTRBSTne/cULuL4zYhXBZBdeNu6fWhgiP+5ftGXkB+47zTts3uPJnMN
-	 ThW9AJ3zsc+KF7wHkR+bTc9K+NmH3agnRBf7ZLTaaKwoaEy4Nde8o9flgl8q9jwsHh
-	 YvsEXCn7LSw1vI5znqEz2Qd7k59Q+DxSQei6ucwILoGHsFz10hvfMjJY+DIa5BDSJG
-	 6DDtYOKb4CmoA==
-Message-ID: <c7634571-4682-41d5-aa9d-8b965d641d51@kernel.org>
-Date: Wed, 1 Jul 2026 13:01:58 +0200
+	s=arc-20240116; t=1782903790; c=relaxed/simple;
+	bh=CW1sBGcXapxAElV48j+/oQiG1BhCRHnqzbDsyoNg1wo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T3QhatwEVh8j8/8M8oDPl3ZySyVduZCFBMoyk2wqfcvToBzJnHteiVWVtDnup3mhfkjrXkkosVqGjXuTF3LKQxVHUn72AEyCpFn6z5cHFLnUREkL8sS0rxE0LE1CYEHjWfd/JaPt8q+VxK4KFOawRkzWUAFBRGsT0xRVvHhJqds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gFxGPz6u; arc=none smtp.client-ip=213.167.242.64
+Received: from ideasonboard.com (mob-109-113-102-68.net.vodafone.it [109.113.102.68])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAACA1E48;
+	Wed,  1 Jul 2026 13:02:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782903741;
+	bh=CW1sBGcXapxAElV48j+/oQiG1BhCRHnqzbDsyoNg1wo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gFxGPz6uV9LduFogwd4ZDrdTq3mYGuN0KYUTjR7PZJROdU3ooyo9l0tOR1uyZ3/Ke
+	 kvhQhHBgpwbNqRnTL9d8cKqa5BPI6NBrkK0yJIi3OxzB0m7dVlWLH7WvB5FLgDsD4Y
+	 nX9+RSsH5zCpP4JrRN/WdNL5rIObLngrDkyhu5qE=
+Date: Wed, 1 Jul 2026 13:03:01 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: David Carlier <devnexen@gmail.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: mali-c55: fix dropped last AEC histogram zone
+ weight
+Message-ID: <akTwVMepaJ8HgEgj@zed>
+References: <20260602185305.30759-1-devnexen@gmail.com>
+ <20260602190943.1B01E1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] platform: int3472: discrete: con_id vana for Sony
- IMX471 as power enable
-To: Tarang Raval <tarang.raval@siliconsignals.io>, Kate Hsuan
- <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil+cisco@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Serin Yeh
- <serin.yeh@intel.com>, Damjan Georgievski <gdamjan@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: computman <anis@talbi.fr>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Daniel Scally <dan.scally@ideasonboard.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-References: <20260629074026.35490-1-hpa@redhat.com>
- <20260629074026.35490-4-hpa@redhat.com>
- <PN3P287MB18292C819793395D643D426A8BF72@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <49257d09-a2fd-4a9d-9479-4d2b5e0fb8a6@kernel.org>
- <PN3P287MB182945B5747452110940BEA08BF62@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <PN3P287MB182945B5747452110940BEA08BF62@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260602190943.1B01E1F00893@smtp.kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66192-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[siliconsignals.io,redhat.com,kernel.org,linux.intel.com,intel.com,gmail.com,ideasonboard.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:tarang.raval@siliconsignals.io,m:hpa@redhat.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:sakari.ailus@linux.intel.com,m:serin.yeh@intel.com,m:gdamjan@gmail.com,m:kieran.bingham@ideasonboard.com,m:anis@talbi.fr,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dan.scally@ideasonboard.com,m:ilpo.jarvinen@linux.intel.com,m:platform-driver-x86@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-66193-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS(0.00)[m:sashiko-reviews@lists.linux.dev,m:devnexen@gmail.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3D6876EC8F1
+X-Rspamd-Queue-Id: 6D8106EC939
 
-Hi,
+Hi David
 
-On 1-Jul-26 08:19, Tarang Raval wrote:
-> Hi Hans,                                                                       
->                                                                                
->> On 30-Jun-26 09:32, Tarang Raval wrote:                                      
->>> Hi Kate,                                                                   
->>>                                                                            
->>>> Update the con_id for the Sony IMX471 sensor to "vana" to serve as the    
->>>> power enable. Additionally, the HID values SONY471A and TBE20A0, both     
->>>> associated with the IMX471 image sensor, have been identified on Lenovo   
->>>> laptops.                                                                  
->>>>                                                                           
->>>> Signed-off-by: Kate Hsuan <hpa@redhat.com>                                
->>>                                                                            
->>> Thanks, looks good.                                                        
->>>                                                                            
->>> Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>                 
->>                                                                              
->> Hmm, the imx471 driver is still pending upstream:                            
->>                                                                              
->> https://lore.kernel.org/linux-media/20260629074026.35490-5-hpa@redhat.com/   
->>                                                                              
->> As part of this series.                                                      
->>                                                                              
->> Please just use the standardized "avdd" in that driver instead               
->> of "vana" (which also seems to refer to the analog supply vdd,               
->> which is what avdd stands for).                                              
->>                                                                              
->> Then this whole patch is unnecessary and can be dropped from                 
->> this series.                                                                 
->                                                                                
-> The regulator name "vana" comes directly from the Sony IMX471 sensor           
-> datasheet, which typically refers to the analog supply voltage. Using the      
-> datasheet name helps keep the driver consistent with the hardware              
-> documentation and makes it easier to cross-reference.                          
->                                                                                
-> as per my understanding, the more standardized way is to use the regulator     
-> name as per the sensor datasheet. Therefore, I respectfully disagree with 
-> your suggestion.                                                           
+On Tue, Jun 02, 2026 at 07:09:42PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+>
+> New issues:
+> - [Medium] Endianness bug places the last AEC histogram zone weight in the wrong hardware register byte on big-endian architectures.
+>
+> Pre-existing issues:
+> - [High] Casting the unaligned `zone_weights` byte array to `u32 *` causes undefined behavior and alignment faults.
+> --
+>
+> commit 731a31e43f59014f133f6c66b9d8861ce15cfc76
+> Author: David Carlier <devnexen@gmail.com>
+>
+> media: mali-c55: fix dropped last AEC histogram zone weight
+>
+> The 15x15 AEC histogram metering grid has 225 per-zone weights, packed
+> by userspace as a u8 array. The driver writes the first 56 registers
+> (zones 0 through 223) in a loop, then handles the final register on its
+> own to keep static analysers from flagging the array access.
+>
+> > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> > index de0e9d898db7b..33e2232ec8f5b 100644
+> > --- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> > @@ -212,6 +212,7 @@ mali_c55_params_aexp_hist_weights(struct mali_c55 *mali_c55,
+>
+> [ ... ]
+>
+> >  	for (unsigned int i = 0; i < 56; i++) {
+> >  		val = ((u32 *)params->zone_weights)[i]
+> >  			    & MALI_C55_AEXP_HIST_ZONE_WEIGHT_MASK;
+>
+> [Severity: High]
+> This isn't a bug introduced by this patch, but could this cast in
+> mali_c55_params_aexp_hist_weights() in
+> drivers/media/platform/arm/mali-c55/mali-c55-params.c trigger an alignment
+> fault on strict architectures?
+>
+> The zone_weights array is located at offset 10 within struct
+> mali_c55_params_aexp_weights. Because the configuration block resides at a
+> 4-byte aligned offset within the V4L2 buffer, the zone_weights array starts
+> at an address that is only 2-byte aligned.
+>
+> Casting this unaligned pointer to a 32-bit pointer and dereferencing it
+> inside the loop triggers undefined behavior in C. On strict architectures
+> like ARM with SCTLR.A enabled, or when auto-vectorized by the compiler,
+> this can trigger kernel alignment faults.
 
-As shown by the need for this patch on x86 at least because there
-is no devicetree it greatly helps if all Linux sensor drivers use
-standardized names for their regulators rather then using the exact name
-from the datasheet which often is not very consistent.
+This comment from the bot, even if not severe as it think it is,
+actually identifies a possible issue.
 
-And "avdd" is the name we've standardized on for this, so lets use that:
+As far as I can read unaligned access to device memory doesn't cause a
+fault on ARMv8 but it is not guaranteed to be atomic and will be
+realized by multiple loads (I'm sure it's more complicated than this ...)
 
-hans@shalem:~/projects/linux$ grep -l '"vana"' drivers/media/i2c/*.c | wc -l
-4
-hans@shalem:~/projects/linux$ grep -l '"avdd"' drivers/media/i2c/*.c | wc -l
-36
-
-The alternative is needing to add more and more quirks as different
-sensors are used, which is not great.
-
-Regards,
-
-Hans
-
-
+Would you be interested in addressing the above comment and send a
+patch to access params->zone_weights as a u8 * ?
 
