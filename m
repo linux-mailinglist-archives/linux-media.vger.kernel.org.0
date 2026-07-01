@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-66251-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66252-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XAV1Now/RWpv9QoAu9opvQ
-	(envelope-from <linux-media+bounces-66251-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 18:25:48 +0200
+	id 8xbKNdFCRWpc9goAu9opvQ
+	(envelope-from <linux-media+bounces-66252-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 18:39:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C12F6EFC3B
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 18:25:48 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728CD6EFE06
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 18:39:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=jKEnOKty;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66251-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66251-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=KNrFpbwi;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66252-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66252-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 02559317781E
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 16:17:58 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A2B3830A91F5
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 16:38:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4D393563F0;
-	Wed,  1 Jul 2026 16:17:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52FE8370AC9;
+	Wed,  1 Jul 2026 16:38:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010017.outbound.protection.outlook.com [52.101.84.17])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013060.outbound.protection.outlook.com [52.101.72.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A957A2253EC
-	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 16:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCC436C5B4
+	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 16:38:03 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782922676; cv=fail; b=AtJ4cs3a7qLZhxWpqtMI59XgkZ+tsKlJLmP1nxHt3u2aY3IwhRSx9Qp/v7rXnTOfFlW9YYL1sSUlDaD9v5yZo5jh5uvbnsvTqyDZPuJ9yYljdE+nGC8Y3Nhvws11ZO264wzC0kzz2lA+7YJCuf4HBBJ5JKRhYJWiQklKX99dzVw=
+	t=1782923885; cv=fail; b=mQm7TAFWCOq0Qd9+QtlmuR2DF7UGvJSfMDU4U3VyqJMeSNUtqNsrFQ9Y0xmsk3BI7thKD4Ay0XmxliG4TYnpVPer3tlMvLTHAg9QCwstOyI7NhDj59tNNoXebvb0kuFpox+/34uYBcQLCG50jb3mOJTnxh+6qQA+7PeNpEa+9Ng=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782922676; c=relaxed/simple;
-	bh=YfQHfcVqHePLzaZVN6ysi8++/t4mjjblBR2eNCCFW+A=;
+	s=arc-20240116; t=1782923885; c=relaxed/simple;
+	bh=yUZ+pK3G91m57qhnqxaheH0hUMQFvhMycioOeYc+UC4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=sbnT+atd6orwpBpyddiBwQAW9+GEsHiXa9iakWBOeTPlNI7slcSSL2vy3rqLv0eFV2r7xtXdYmHDRmtztgFIClagNJQk8kiSpOBvD+uNzBihdDxlsci7D1RgBqmwcBUjezEAdS3hOPqdaDvMMEyWQlnlahYpLgrp8euUAOfZIQ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=jKEnOKty; arc=fail smtp.client-ip=52.101.84.17
+	 Content-Disposition:In-Reply-To:MIME-Version; b=OGGt3wd1y4Z0IN7FTPdAhrgS9UgX4ceD6ghbDb6MwFZxJ5dVEjviEvOn8qAfwigwwzfnXBsNeGgmoEvGPE7oJc1ZRy9gfkR9vOkPEiKBFxh0NydxRck7Uv7yxt6QYikBbSx2A5JABTphI1rZNesuQ0ggARa/bii9ubYwbw66/1o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=KNrFpbwi; arc=fail smtp.client-ip=52.101.72.60
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BeenkKrFB0XdUPEDK5uA6rGrGAboL1fY5maz+1wj5yeAV+P9pmwXmrng9vrHD/k7itHAeP11qJ/a7tyvT996W7/PU8I02Nka4b/3/BiujECRpyY4uWjC3vKnbdX7zcwDvk3IAZQf3jcqVP4QdZc1+wkNIIqh3UQAS/jknLXbEFI5ltdVr5WVqIkLvVOmHN6UGt91mlQ/ZSYZhpkLUwq7MkGijhMZqhiiS52FcAOEE1gCTqQ5eBpVFiyWvfs/tzC6MKVF763ZgzlHyDolP1sVmvMR8c8wSIouEMtZFBXWlxiyJWP+IqRUvPwg0gVJPHbbvkKEijeT6dpazmUlPiIe1Q==
+ b=JVKGuHX22iVV8FwrxC73BrKbrV2jaYf7zVZqgyzMqYuPPByyfiqcEmABWGDZnvlUA4EG9pJ84+GnNmD1XHuee0Y9C/6XYCbBDdNUK7c+NHlDcAzJK21HXQBs1ae2AnMD52vaG8vyfaOiB81Pi2nR4Ofxlv1kPmsp0J9eVQw5/o8PwKu42TImZk5d9YMtfZ8LD6V5ZSAotz+EG0ZeEi9cRz1kHKbtokHXWCqWrPLI7VOzuX0xFHIY5Zh+9aqUTpXdZY4QX+V8iU1ZZnoa6spzrfTkcgAIp/0mcIiZDlEGL1q6FjQPeC5RfiJ4ibhLCh16AzQGlT9t9+AtdLS9H5+Pzg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vh60GtwBblEHg99SPr3/DxDt/YpaR4RRDMlS6XQtlWE=;
- b=a1cGkqXXJmEOGdCJGxkLQCO3G7S8V/ghsVP+cfpp/f0/jVuUzGlb1Lm3Q/MYtoEYQUKXRfauGWeSzeqtB2iIqh4YwSMuTERiJuZO6On2khxr+91NgXtgqoISH38snYpnsPopnLANPHMZRFymY21Yv7seX1a3TFZ7QCnvhVRZdDfcSyGNUVyxtvXUMUU2roIu97mGUpNoDZZ2t0V74pbDulTYsNVS2YlVcAy7mmMCfvPDSFrnbUN2tRtd+s4QZ9Ept09Z3FbX+cfRm+d3+apz41eoJc9DTxxlIaqQLRo3SxLvYXR7T61q/5G5RnDKw1deAsXQroH+m4avVBqXQ1pL7A==
+ bh=vXChY5R0wPJ3mS0/4OafSrGR/Wx2z3VVYkvcFeIpr2k=;
+ b=ezSyUb7eeGfMBywEsJxYy+eJLrZkF8LW/snMkm8vvlRX/CaELH2ljRlQiaBuQ7zVAB9FBJ+jpfMy2K+q860NTVyyM3oeJrvyVbwedkxSILBEaa0oTMPOVVlh7TuUwdye6CY/dpYiv2rV+R0/9AqLTpHILLLFAT9Qa9Kbuy9c+ZeF8UypHURJD3HVPBfuVgBp5/BjjK1Q+6coFPDFr0EDd22QXXDW9tQaFlZmg4u1xaTjnfhWiT808tEitpCz7BJOmdV2ZhlPN293R5WOzMWAS/Pw/m7Xo1jVRJAo0lbYuOg1IzNprluGaExWhaztj4V1g/8f6hb6bcptBiIIRSq7fg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vh60GtwBblEHg99SPr3/DxDt/YpaR4RRDMlS6XQtlWE=;
- b=jKEnOKtyV6kBeXHJj74Rx/vs16WQ662fp72/z0TKemqKd9izdut3Bbuj4Swus9rrlvCbH9RxXx0upHDs+ThwhLBzaulzWj7XMtQn0IvEUkZyU/KM7GzeR8/XB2IWIIXocfH9phoKb2UOcbS+WVtCVWZmLxePXy7kv+eGL/35MZDjaQEIts10sOtPSklcnw3LgHBN/zluMUe/XIuJaGkm0Jz/hLSDBOz3PDCWhznN1lhTpWV9JqUC+IFUfWAiYpGTkNdYu/6AsDD10fb6st1bhYs2iB62psVEqrqimtEIK/xFYaGbkrkzNqMDon6/nCla9oFNmLwjnrsr/b1DsvFdPw==
+ bh=vXChY5R0wPJ3mS0/4OafSrGR/Wx2z3VVYkvcFeIpr2k=;
+ b=KNrFpbwiesJkJFbPFwGfeUjve5oPh27gpjkeeXGGSl+KF1NgZeOBfNEuwKbSOB5ItzkJeOCprXVbPdCPMDYbbKfHnkvGMkq2xwhalC1Cqwn+sM4S+2O6vLmPwDaGe9QVGfl5pRZUxK/gzcTqbFU/h4CLe4W9OspslwGb455pM3t5EjGDg0xuEd3Z7tNoLuiDY6Bz7QhbeGh0dQGEs/6M1zEisjqCoB9eZNQfFDpcxTgbAUukds21aevoOduq8taGlIMKx/gZQfELZyVN5YIRN4Rv+/VEW+ofMvDWRhH64LT67Odfv2q58v6Pkm8z916z9Dxd/UENjn0rOctF+9ErYA==
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by VI0PR04MB12350.eurprd04.prod.outlook.com (2603:10a6:800:30f::9) with
+ by PAWPR04MB11570.eurprd04.prod.outlook.com (2603:10a6:102:50c::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Wed, 1 Jul
- 2026 16:17:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
+ 16:38:00 +0000
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Wed, 1 Jul 2026
- 16:17:50 +0000
-Date: Wed, 1 Jul 2026 12:17:40 -0400
+ 16:38:00 +0000
+Date: Wed, 1 Jul 2026 12:37:48 -0400
 From: Frank Li <Frank.li@oss.nxp.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
@@ -87,16 +87,16 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v6 07/16] media: v4l2-subdev: Move subdev client
- capabilities into a new struct
-Message-ID: <akU9pDAt_-AypCFW@lizhi-Precision-Tower-5810>
+Subject: Re: [PATCH v6 08/16] media: v4l2-subdev: Move op check to sub-device
+ op wrappers
+Message-ID: <akVCXOP8Nwsv8Ji2@lizhi-Precision-Tower-5810>
 References: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
- <20260701122634.1728782-7-sakari.ailus@linux.intel.com>
+ <20260701122634.1728782-8-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260701122634.1728782-7-sakari.ailus@linux.intel.com>
-X-ClientProxiedBy: SN7PR04CA0219.namprd04.prod.outlook.com
- (2603:10b6:806:127::14) To GV2PR04MB11799.eurprd04.prod.outlook.com
+In-Reply-To: <20260701122634.1728782-8-sakari.ailus@linux.intel.com>
+X-ClientProxiedBy: SJ0PR13CA0131.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::16) To GV2PR04MB11799.eurprd04.prod.outlook.com
  (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -105,73 +105,73 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|VI0PR04MB12350:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20cda35e-9276-41c9-f5b9-08ded78c4bec
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PAWPR04MB11570:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7dee3484-a201-4f70-c279-08ded78f1d3d
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|19092799006|1800799024|376014|7416014|23010399003|18002099003|22082099003|6133799003|4143699003|11063799006|56012099006;
+ BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|19092799006|18002099003|22082099003|56012099006|11063799006|4143699003;
 X-Microsoft-Antispam-Message-Info:
- z56tlW3duwyRxH3A56Ffoo/xADX3g2SsNjQkGR6LCG2aI6eHuf69mAA0zvwltYnzE/sb2kgI47i4eJXa/iA+ZN4Ie93ebygT0GhbD0e/rVRAmIleDR2pEPH7rmvxsdAwn609k0WshXTHBBr+gnVxz321ZS8KhrWobqOFMOGJKCbsl2jjNVNks4YlX2xoyYfot4A9P5Do3uodXAxomFADkBdGqtckC+rY+HqOyYMAa2RJW2qQ2oIQB4cZW3MF+La9ULK9/At2HF93I2VHZsofGpj9J0LfuFJtcFXmzY0NoH08PGr3Wt+mF4jgcKIMwnShPfOX8+kEn6RHrMXcfKpEOTnDLVctYPGA48jeneReVA8MQVDOUCJQAutdDOC3X9BFSC3bf9gcIT4dWrcq40zHlILgAA19al8rbt3dkYmBdevWF5EupxE8LHH5zqIcH6sAvqJBMrQX1FhqySH5hgfIT+zmaPjql0TvXQ/Dxo3Rd55JYaPZfIWeouQqtY7CXKQxGnMYBUqDtU5oCmnz1shCd0+18ZMEnNIBzkdJ4SyNk/Uo26SQsjwjx5eWXF5QtelfMrgcalacYSIM68p8l5JL0Y5ePeCBeSDxwH7sMLtS3gOox1Zgq163DgkZaLYOAdNlmys1Om6gMdpCzFo1wf3AdX9nyJTxakfIRF2b1nuJ6zs=
+ +Cpep0JrtVHx4uJwuwdg4evkckaF1+6NJpbLc/NkhS4TPxgB73C765M3071CBJYBHjIAz0Zqsqwag9XmTxT1rfNIuKkx6V7YU87TOwPxn7+oRO3LOqV44Y1SHdsztmffZt+1bjt+aR5po3Vzj/zKqGrldUEzRmk6PIXiRhTiDvOGeCYG4uAKG5QZBF2AX6MIpozQ0MDaP6RGQQocXSvAcMGKxGVpbuXkZrZz9P+hO+CS4EYugr3npqmrQxz4QRiHUzKpU8bAZwYEexXKoxXhA9+HhPChPfHVr7ntgnl2LzQTFYN8tKEt7Y3NNO+OikDHJr+eJnWnGEAXym1uPjW9pK/VR1CJTrahAoC/fNwEyfhXypesE3qFRfqIGOsiaBFik6nv/1uf+ddBtUnYQVT+2T9c7TIuTUV6Fs/fc/7ixZgRTguCv+0v8Dzgv3KGqDpqQFzJRz3xXiu039j3QYr7h6ZD57INcjXu/Dlwc7+usK7uZVCpOPtpVXpVOwsr8pw/dPDxf5CfZJNVMJo1PODCZaQ+xeD2d9RWzUNr2lF6OL0b+gImRzROEoeaDiygpuvGoqU8cgLmUzBl7tpY65MGLzoj5e5PF6uVvLa+h3NjiAkcWEZi/UElpFhlirR9T4IUUrByjqxG+xmX6m6hwgPlKugKZvzDzeM9JXXVz7AfX/g=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(1800799024)(376014)(7416014)(23010399003)(18002099003)(22082099003)(6133799003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(19092799006)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?amkKoHyKhIKeJ+OniI2dh8EfLW5AD7qLjZLPXOKisg7dDx8xnlnyig+fiakE?=
- =?us-ascii?Q?8kUuMQEnlzLTJHaQgt+2DDjtfbowP4kYfIS9u44ipRBwL2QghTmrN5+8hGqc?=
- =?us-ascii?Q?Khva2jz0yggfVDUURcMNd3b0o7gBzn2BrAiShupG4QtkIMEl7SXDxs6ZiHcl?=
- =?us-ascii?Q?iZkgGZMXYFp3JZv9rx8WYrjZJQakyzp85t0aPjO9MlOektoMI8s8UDL1ro+7?=
- =?us-ascii?Q?7NXom3cHkiKXGyLyUodRK6RC8GHeLjsSnPo/BuvDUzWJ4TnajvK9cPr/UWam?=
- =?us-ascii?Q?1Caz1T/8WSgyyuvx9vcCiCGh2I+tehUwfRdh+LzR0by9Z5XrYDqMvxoPPneD?=
- =?us-ascii?Q?dwTGAF1Ad8QXdPpEkU1EsFC8Jh06oz79elStVSxmUeb1XG3zqSuDJ3pgd+3m?=
- =?us-ascii?Q?EAIXcEe4Ad5EfGOWqTMg6ctLpGAUaYjEyUESGLZG9IsbVw5RwoxYfd99M6RD?=
- =?us-ascii?Q?mg4kH5N2TV2Vhbjrk6FDQHjjGe+mrbKvArVSpCQDCKsQF9eE9poSvkw1QgN+?=
- =?us-ascii?Q?z1cAAcIsbeVGaEPEluv4mlAKWV88ac5lV+tlCMTQkVcjlPitaIjbisqXnDkS?=
- =?us-ascii?Q?PJCUOyTmcyhpKACH7fycQSkHIX/kh4+PAROp2QwtFXB9NrykgkvpGol5Vvzp?=
- =?us-ascii?Q?se7v5NwPJmo1HI2f02W3uI3CftiIrGd1+7CkMu1NEwm392WORhJd+GWhmA+I?=
- =?us-ascii?Q?fRfJp/vV1T6O85iGMvi5UzUUybxYaEv3Rrok2COMsgrrWMiw/WT8wOfR74XG?=
- =?us-ascii?Q?QMMfLtBNdE41v8Ixc38ZM6s+g0yw9tfECpP9CCxcyLcQi63HCoLglthLuAQf?=
- =?us-ascii?Q?MYDuflcr1msVw+6u2P4NNodIOduBDf1m8OoJdOoFcdhkD6evOhxSQmZ/zs9B?=
- =?us-ascii?Q?Rf3ZK011hL0JtcPzUjns6XShF9v2alz9OHI9GzloU7oLX14LDR+XoPEvZJVY?=
- =?us-ascii?Q?pgGg6NyNTlwi2FFjMffGkDngZ0+WFLbpu26mkxlSgRcEk/UT+RBUldOQWyA+?=
- =?us-ascii?Q?RxbLh+xb2+gh68isDtgXJqJuhDyE2nxot7zrZYw5Z3EiIFhSKLjNWCEBRN6Z?=
- =?us-ascii?Q?Pab6RNcKaVNPZF+69nSAdHD22STLCM8sXVNTNgAMpCNTdJipMs4FreMhcCQZ?=
- =?us-ascii?Q?+dwqZxfi1pQiZeJwpTse5xG5M7eHeJNcCTh+aFQIHKF+MuoWTNrp5RXAou2K?=
- =?us-ascii?Q?SBYBVByNTq4EUh7KWBv3260F5yov4UGibrPibsasN+xXweYjjyFQ6joGqFo+?=
- =?us-ascii?Q?4yFXuNbfKz0f5ZDHgZwDkqAmwshMVXmga0sxBFxAaS4rEuoRtkJkW7uIgWIs?=
- =?us-ascii?Q?XUTcFQr6ir+sMbEXaj6u6ty5hqJydu44fmYmbohC5mVZKhOaP7zKMsYZiOH/?=
- =?us-ascii?Q?oEVNRXNLODuJLeeo+15FrBn7uBGRsXMsjyhGZnRWC3DAZCepefT4rF0o14mA?=
- =?us-ascii?Q?cg5jyXuE5SPAHtdAcwSehJ7b02diRST+jenoHXcBWqkG0yGwQxVqVdHjHIn2?=
- =?us-ascii?Q?SN2SpyoXlhbQS/B7UJBXOpfZyBkECKdzyUsdqq74I10A6xWum3xSSa3rvIwA?=
- =?us-ascii?Q?eSKA0pBmkAIyZXfe+mssQ164If5eOQjDuS7nLmKisSrOSj6n74QzYTgnzf1a?=
- =?us-ascii?Q?g+ssJFkuma31Az+lJFJvgNXEGvJo5Cjf6a5/RLm+bz0sw4ZggiMaaR5oNXj2?=
- =?us-ascii?Q?NtEVMmNMSeLp0rKSuc4wwYlo7XYLX4piecrR8F+kSi/INOCAUng/PkfJ+QE0?=
- =?us-ascii?Q?G2tgCT0HJB3M8RXhC5AN6mWH7GAXn+hIx/klgm+UDetx6ntAVsUg?=
+ =?us-ascii?Q?ZPrsrLfTn0bvA6EodjAxUCANwREvII/2umNgIbVqw89hs6q6WM8XuuGpkW8P?=
+ =?us-ascii?Q?mCXPnjlqsp51IR0r+LCcVhk7w1ddPL5REhcwZXaPwOzSu8NGP1Z0h26H0OLu?=
+ =?us-ascii?Q?631Bmwy6nKxsRltdXc6ihpHFVP8oCjyPTLSvZmVT9nZynwZjKafC6xlUI3gj?=
+ =?us-ascii?Q?nFQiQ3nO91lOU9f3SPc/Acuwthfhj0Le2mUB4D/M9TGUjPDjmddhI/gl/hkL?=
+ =?us-ascii?Q?JGBR8gFP8bBpnaGGhI3IQGqyDTCwnCWzXGF/3dkNbMAsWcY+euQhn3U/av1a?=
+ =?us-ascii?Q?/VBtZmQdrU4rGX1moKmRg5cBx0BJDcv17JMiHTQoAiilBiCWzTVbCVXR2Nq2?=
+ =?us-ascii?Q?mb52CdtNTch+iLpEMbcUV+u3Zja+r/IeVQ2GBd93LY0QU4BjQKYjyFHUWXfA?=
+ =?us-ascii?Q?JKrv6pE6I1oszAdnvvOaV6dKgPQER7T3psNeWc9+Yx7BOTwRXXIJOmbnlsAh?=
+ =?us-ascii?Q?UmBIM0WvRmxAERYyCMzvg7IvBCu0NR2a/Hx7ENvKybTPO3h9SjlBQG4hsWV5?=
+ =?us-ascii?Q?T5zGDlynSuCPjQTm5Jqx5aUC/DMkRSS6tmnITZ1Akq4MbUVsMUBZoqSskCtc?=
+ =?us-ascii?Q?Kr3BeB796O6n3xq1KNOzXPInSolB9eu9G6YHw7+go0ltJCAn5vJQqzL09YYl?=
+ =?us-ascii?Q?+XLNcQLaIjrj486JJke/7FVS6o0lQkMbuinZ5CtMYFV8QILFt/8+IWX2XQjA?=
+ =?us-ascii?Q?3gN+xHtvcNFagSvzNAE31KwYRkAOjaPQzpul2lyNDwgWiE0TmQqUmG+Afioi?=
+ =?us-ascii?Q?yHg/fmisM30mxWLrRXQVgCyb4qS6A3WziphprFZ1PGWcjd+qRf+HsfJmUs5c?=
+ =?us-ascii?Q?ll9s8gmMBfp6s9sS6Gjm8TWGqhumwlVUzVvDBzgR8AKFtd1OOZ/zW5Z0t7f5?=
+ =?us-ascii?Q?DWkoRuReTNGznIdJ4UNXYmcMau6Z5xLg0FYwZk+ozfQiRrNvfI0k3n/mTsk3?=
+ =?us-ascii?Q?4rWFUZi6n35ZaflwEopRbgLQIn7XYD8n7EZfDLBzb7b0p7pHm3Fryji73Rj8?=
+ =?us-ascii?Q?++an9IaFdOP84IipCAVuVgJRlREAmN5Z5vUqXEGH2GQiQh6wslF5helOridB?=
+ =?us-ascii?Q?dAvZweNtk34WL0BQbvq4BTBWFN9zj5pU44LAaS8IlvMvfPfFtEvBmf0MIcIR?=
+ =?us-ascii?Q?LbIdNcX4uqJvgEJ3JqpwEQDRAReM7JrwXPDNGFh653GFpK2LiF4FnLA+3TgX?=
+ =?us-ascii?Q?GxcVb2FrCQEY5A2vjyf2f1iMODu8/WgTXgRePk+AntVFM9jy6wB52u0C7Qkx?=
+ =?us-ascii?Q?eHJ5+DhJMtn+3ZAPpSj9/dn5eE+W5s2SVp+7yTV3+mERwq0Lb595tqPWJ85v?=
+ =?us-ascii?Q?T+ZuopGs6/xoGuq62Di50e7ME4IGU0fwp4raqz7B0DWyzIaamMgGcuJPmTKv?=
+ =?us-ascii?Q?bjjW8Upldc8BwPgzWG/9kZjBakXapavSy9x3AdDDNzp8bWQcTtfTLuHubKsz?=
+ =?us-ascii?Q?nO7KJP8tvKeoEcekorrPIrP1zye2qDQeou8hSZVqYDJmxV/t0L59bqk1AU6P?=
+ =?us-ascii?Q?0NBMXREV9adBhVxO4AxQQ6/XWppaR+B91JAnB5BrJLn8rL5KanckKoWxzbMe?=
+ =?us-ascii?Q?FiJJes/SNn/RYbUsC+QNwBDx8CRrC2WGt+D6ys9k2Ai7UzRRuMEvWpH5lpRT?=
+ =?us-ascii?Q?6csVStbjyq9VPCWsgi/bD6nZBigKKDczLCtIiaeR0NY37vgM4Q/c7fSU92JP?=
+ =?us-ascii?Q?p0RX5sFnkWWBzNfQII42t2wgr0aCRK+5k8T0VMZer4/WycS8aTtiF0JyuN7U?=
+ =?us-ascii?Q?wryZISnIuS3R9NMq081zFMtGNlfID9SgEn+7n8JG9VdKzgSp7LTS?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20cda35e-9276-41c9-f5b9-08ded78c4bec
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7dee3484-a201-4f70-c279-08ded78f1d3d
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 16:17:50.4831
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 16:38:00.5847
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B012gLpxksbsjCr0Hg0HrfJJ07CaK5XRgSaDpsfkYaCI76fjGqDfOiX2YJ45UBCdEcFmWMJsVSkjWAmH7/CYNxITdvfrfC1LrWRXPsJzqnRaGLrKT8SUOvO2wZ3HOzuF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB12350
+X-MS-Exchange-CrossTenant-UserPrincipalName: nGCULsn/a1WD50LhA/KKF3mKdmkox/mvsHwPtkWxY0vUuMtY8rXYn8+XmwsqRYWZJEeRwH6CWJr7lVuwPVBIwnYx0jrDoaaH2smjle2ifmEyUNGPh2QM8m2Ly/XSUenY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB11570
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [2.44 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66251-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66252-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[29];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -191,110 +191,110 @@ X-Spamd-Result: default: False [2.44 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,nxp.com:email,NXP1.onmicrosoft.com:dkim,vger.kernel.org:from_smtp,oss.nxp.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,lizhi-Precision-Tower-5810:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,intel.com:email,vger.kernel.org:from_smtp,NXP1.onmicrosoft.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3C12F6EFC3B
+X-Rspamd-Queue-Id: 728CD6EFE06
 
-On Wed, Jul 01, 2026 at 03:26:24PM +0300, Sakari Ailus wrote:
-> Add struct v4l2_subdev_client_info to hold sub-device client capability
-> bits that used to be stored in the client_caps field of struct
-> v4l2_subdev_fh. The intent is to enable passing this struct to sub-device
-> pad operation callbacks for capability information. The main reason why
-> this is a new struct instead of a u64 field is that modifying the callback
-> arguments requires touching almost every sub-device driver and that is
-> desirable to avoid in the future, should more than the client capability bits
-> need to be known to the callbacks.
+On Wed, Jul 01, 2026 at 03:26:25PM +0300, Sakari Ailus wrote:
+> In anticipation of performing work for sub-device operation when the
+> driver doesn't implement one, move the check of operation existence to the
+> wrapper itself.
 >
-> To be squashed to the previous patch.
+> No functional change intended.
+>
+> Many drivers implement set_fmt() pad op that simply returns the format
+> just as get_fmt() would do, usually because the driver only supports a
+> single one. The arguments to set_fmt() and get_fmt() are about to get
+> differentiated so call get_fmt() always if set_fmt() isn't supported by
+> the driver. This avoids changing drivers now and allows removing
+> boilerplate code from existing drivers.
 >
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 > ---
-
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-
->  drivers/media/v4l2-core/v4l2-subdev.c |  8 ++++----
->  include/media/v4l2-subdev.h           | 12 ++++++++++--
->  2 files changed, 14 insertions(+), 6 deletions(-)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 117 ++++++++++++++++++--------
+>  include/media/v4l2-subdev.h           |   6 +-
+>  2 files changed, 84 insertions(+), 39 deletions(-)
 >
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index e9f81b9be9e2..070a9e607fe3 100644
+> index 070a9e607fe3..86be4d51c9a5 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -611,7 +611,7 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
->  	case VIDIOC_SUBDEV_S_FRAME_INTERVAL: {
->  		struct v4l2_subdev_frame_interval *fi = arg;
+> @@ -244,20 +244,24 @@ static inline int check_format(struct v4l2_subdev *sd,
+>  	       check_state(sd, state, format->which, format->pad, format->stream);
+>  }
 >
-> -		if (!(subdev_fh->client_caps &
-> +		if (!(subdev_fh->ci.client_caps &
->  		      V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH))
->  			fi->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+...
 >
-> @@ -650,7 +650,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
->  	bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
->  	bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
-> -	bool client_supports_streams = subdev_fh->client_caps &
-> +	bool client_supports_streams = subdev_fh->ci.client_caps &
->  				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
->  	int rval;
+> -	return check_which(code->which) ? : check_pad(sd, code->pad) ? :
+> -	       check_state(sd, state, code->which, code->pad, code->stream) ? :
+> -	       sd->ops->pad->enum_mbus_code(sd, state, code);
+> +	/*
+> +	 * FIXME: Convert the check below to use the ternary operator once
+> +	 * smatch can handle it.
+> +	 */
+> +	return do_subdev_call(sd,
+> +			      ({
+> +				      int ret = check_which(code->which);
+> +				      if (!ret)
+> +					      ret = check_pad(sd, code->pad);
+> +				      if (!ret)
+> +					      ret = check_state(sd, state, code->which,
+> +								code->pad, code->stream);
+> +				      ret;
+> +			      }), pad, enum_mbus_code, state, code);
+>  }
 >
-> @@ -1117,7 +1117,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  	case VIDIOC_SUBDEV_G_CLIENT_CAP: {
->  		struct v4l2_subdev_client_capability *client_cap = arg;
+>  static int call_enum_frame_size(struct v4l2_subdev *sd,
+> @@ -279,9 +294,20 @@ static int call_enum_frame_size(struct v4l2_subdev *sd,
+>  	if (!fse)
+>  		return -EINVAL;
 >
-> -		client_cap->capabilities = subdev_fh->client_caps;
-> +		client_cap->capabilities = subdev_fh->ci.client_caps;
+> -	return check_which(fse->which) ? : check_pad(sd, fse->pad) ? :
+> -	       check_state(sd, state, fse->which, fse->pad, fse->stream) ? :
+> -	       sd->ops->pad->enum_frame_size(sd, state, fse);
+> +	/*
+> +	 * FIXME: Convert the check below to use the ternary operator once
+> +	 * smatch can handle it.
+> +	 */
+> +	return do_subdev_call(sd,
+> +			      ({
+> +				      int ret = check_which(fse->which);
+> +				      if (!ret)
+> +					      ret = check_pad(sd, fse->pad);
+> +				      if (!ret)
+> +					      ret = check_state(sd, state, fse->which,
+> +								fse->pad, fse->stream);
+> +				      ret;
+> +			      }), pad, enum_frame_size, state, fse);
+
+>  }
 >
->  		return 0;
->  	}
-> @@ -1137,7 +1137,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  		client_cap->capabilities &= (V4L2_SUBDEV_CLIENT_CAP_STREAMS |
->  					     V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH);
+>  static int call_enum_frame_interval(struct v4l2_subdev *sd,
+> @@ -291,9 +317,20 @@ static int call_enum_frame_interval(struct v4l2_subdev *sd,
+>  	if (!fie)
+>  		return -EINVAL;
 >
-> -		subdev_fh->client_caps = client_cap->capabilities;
-> +		subdev_fh->ci.client_caps = client_cap->capabilities;
->
->  		return 0;
->  	}
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index d9dca6905b33..b797923738b6 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -734,6 +734,14 @@ struct v4l2_subdev_state {
->  	struct v4l2_subdev_stream_configs stream_configs;
->  };
->
-> +/**
-> + * struct v4l2_subdev_client_info - Sub-device client information
-> + * @client_caps: bitmask of ``V4L2_SUBDEV_CLIENT_CAP_*``
-> + */
-> +struct v4l2_subdev_client_info {
-> +	u64 client_caps;
-> +};
-> +
->  /**
->   * struct v4l2_subdev_pad_ops - v4l2-subdev pad level operations
->   *
-> @@ -1130,14 +1138,14 @@ struct v4l2_subdev {
->   * @vfh: pointer to &struct v4l2_fh
->   * @state: pointer to &struct v4l2_subdev_state
->   * @owner: module pointer to the owner of this file handle
-> - * @client_caps: bitmask of ``V4L2_SUBDEV_CLIENT_CAP_*``
-> + * @ci: sub-device client info related to this file handle
->   */
->  struct v4l2_subdev_fh {
->  	struct v4l2_fh vfh;
->  	struct module *owner;
->  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->  	struct v4l2_subdev_state *state;
-> -	u64 client_caps;
-> +	struct v4l2_subdev_client_info ci;
->  #endif
->  };
->
-> --
-> 2.47.3
->
+> -	return check_which(fie->which) ? : check_pad(sd, fie->pad) ? :
+> -	       check_state(sd, state, fie->which, fie->pad, fie->stream) ? :
+> -	       sd->ops->pad->enum_frame_interval(sd, state, fie);
+> +	/*
+> +	 * FIXME: Convert the check below to use the ternary operator once
+> +	 * smatch can handle it.
+> +	 */
+> +	return do_subdev_call(sd,
+> +			      ({
+> +				      int ret = check_which(fie->which);
+> +				      if (!ret)
+> +					      ret = check_pad(sd, fie->pad);
+> +				      if (!ret)
+> +					      ret = check_state(sd, state, fie->which,
+> +								fie->pad, fie->stream);
+> +				      ret;
+> +			      }), pad, enum_frame_interval, state, fie);
+
+look like similar with above check logic, can you use helper funciton
+or macro to reduce duplicate and easy to read.
+
+Frank
 
