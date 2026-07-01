@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-66218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66219-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id rS/wH7ELRWoc5woAu9opvQ
-	(envelope-from <linux-media+bounces-66218-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 14:44:33 +0200
+	id YWtqBbALRWoa5woAu9opvQ
+	(envelope-from <linux-media+bounces-66219-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 14:44:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8426ED80C
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 14:44:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9E66ED806
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 14:44:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=WI8nVBzS;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66218-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66218-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=VyW2Pf3B;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66219-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66219-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B8DCA31D9A1F
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 12:33:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8A8AF3237B53
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 12:33:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B9E23F86E2;
-	Wed,  1 Jul 2026 12:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D22EE492536;
+	Wed,  1 Jul 2026 12:23:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FC5492536
-	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 12:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59313481257
+	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 12:23:32 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782908619; cv=none; b=W7IBg/jAlu6Vsx4FjTdRYigu7Pe7TtreSMnu/AmBkXzcoFrt7Mj5j1iyhEyhl7/2Tv0KZkRTRrUQqsV73WXTiHmgmeLSln6Rss+ScCBVoJ3nEj/Px1t+DXma6vau+lZALy5fEDt8uqwZbrDVeEb/iVSELEMk5a0DCHTtRqW7Vd4=
+	t=1782908621; cv=none; b=VlyroiC9O3yHWaPf9s+Z838ez03tx4ezni8ozvXCUSPwTPOqS8U21d10LwM0k7RT9rilWbgZmm8VPKgytOyJBZ5qvFMJu3t5b/rhqwHYQH90ZLYlhCeFif86zJ3fn246U8zh1OpcLEsvYZnjNVY4zWhc5CwlWsIWsJTh/53pDgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782908619; c=relaxed/simple;
-	bh=O8LAOX5ApaZ/5xl982V2hDBhCv5gzFR9e212LDepHOI=;
+	s=arc-20240116; t=1782908621; c=relaxed/simple;
+	bh=ZFUEK3qaIAkhz9g9HI5Au/m5muw6otIqnnGoQhxU5uM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vw7kS+DAYiNRY0QBLOzAh/FA44s77i2jyKW41ZkPXFEs1ygyi/FyQ+gO72Ht0DccJ+rXO9kjAkQRPoa/0yO11FcVrE+jahfqK/N5lk3h9yDX9ITRyOnMK4SpFzS9WHEM5OKICIQBb014ENdkSo8bIxtg66cA8qj2iN1E8K3R5e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WI8nVBzS; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=deZBxRYFXlKoQEvinxWI0RzXYACXIn9o3orZefmcl+av7bQYo7NWKWJxj2H+48A/7MLemW1l4uyT6onk/LArdI4FjY2JqJjyRZsK3/QgpHAatGmQ458sVpKW0vrJH4kVlvr1I4Tl9D7MF4suW5tKszuJGNHJRvmI8dGnMcE1dDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VyW2Pf3B; arc=none smtp.client-ip=192.198.163.11
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782908611; x=1814444611;
+  t=1782908612; x=1814444612;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=O8LAOX5ApaZ/5xl982V2hDBhCv5gzFR9e212LDepHOI=;
-  b=WI8nVBzShWQ0fQUWN0kGMoam0unNoe8oJJJRSJxhiWxNsqUO+okF2pfO
-   fGTLtPa5q1ShvVvPa5msdUrTqaOTDsTlDi6Nzrze+bkSCggXhLihZMvl3
-   HmqNLmRAnrr01vnLbr8nu2uLZyplZApGwjfNr6oQYF4iH9y27C0a6ZpBi
-   7u3LXvqLwv3Trzw86Xg9vdvppH+wynpTdhJ9KXGgOGgyWDa1Yj5GerxFU
-   ds39TcjhjElTsPsShhAr1LT1w6xw1gFW0mzgTH+HhNvXfpw5axQFPZFlp
-   j99XLSYp+vnaPPdJwQxbXqNBSJEbzFopIN+P7i1lUBOVTBbKuDnnzucKD
-   w==;
-X-CSE-ConnectionGUID: YvWr0lguTguUIZra5i7PIA==
-X-CSE-MsgGUID: GYEbyTZeRBytTbvLhPTdJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="94239254"
+  bh=ZFUEK3qaIAkhz9g9HI5Au/m5muw6otIqnnGoQhxU5uM=;
+  b=VyW2Pf3BNMWxVZ3TOyETRvKykyc8RQoOQ6gO56TMqy6+Pl+q5io2/tlo
+   BbesN3g0G+7x1LnuzDz4XiyoehSTbh1Nq248YAYMjEV6d17HtnjVK1kEI
+   ffRt+IoSHDDF5PhA06UUZdeJvxbkcZLI8SSfbk2g1rPACoGt1UlRtba72
+   i7SDt1beWnZrbKyTtTPSPyHn+XF4uqsM+lLzH3tYsIOXQU2H44qJL2zJq
+   JcgQIa2i1n+4oj6HNg0kPJRa+4oMgGQN3d9Jn/XrIWI+YlK0tsSg3s4Vt
+   mp9S/GoLd+uKMPxpBZjqtp/tDm6TvEJnYUx6YTJu3x49YbGNUMG8JJDyA
+   Q==;
+X-CSE-ConnectionGUID: 2DCwfjAcQA+G5gLZ7+laXQ==
+X-CSE-MsgGUID: 5AE1X+7eQMeyDQK0LlfWRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="94239268"
 X-IronPort-AV: E=Sophos;i="6.25,141,1779174000"; 
-   d="scan'208";a="94239254"
+   d="scan'208";a="94239268"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 05:23:28 -0700
-X-CSE-ConnectionGUID: Gez71+qhSYq+7bo2BHsqmA==
-X-CSE-MsgGUID: JGV6ihGIQL+Uct9A4AJZ+g==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 05:23:29 -0700
+X-CSE-ConnectionGUID: 1K/lacz2TZGCIk2+DcdHnQ==
+X-CSE-MsgGUID: AYKm5U2AR7ezN+I6/vJwDA==
 X-ExtLoop1: 1
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.62])
   by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 05:23:22 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0DF16121D24;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 195D0121D2C;
 	Wed, 01 Jul 2026 15:23:05 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1weu1S-00000007FlM-3Kiq;
+	id 1weu1S-00000007FlQ-3RtZ;
 	Wed, 01 Jul 2026 15:26:34 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -96,9 +96,9 @@ Cc: hans@jjverkuil.nl,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: [PATCH v6 15/15] media: v4l2-subdev: Add struct v4l2_subdev_client_info pointer to pad ops
-Date: Wed,  1 Jul 2026 15:26:33 +0300
-Message-ID: <20260701122634.1728782-16-sakari.ailus@linux.intel.com>
+Subject: [PATCH v6 16/16] media: v4l2-subdev: Add struct v4l2_subdev_client_info pointer to pad ops
+Date: Wed,  1 Jul 2026 15:26:34 +0300
+Message-ID: <20260701122634.1728782-17-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
 References: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
@@ -118,7 +118,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -126,7 +126,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[28];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66218-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66219-lists,linux-media=lfdr.de];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
@@ -138,15 +138,15 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,linux.intel.com:mid,linux.intel.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim,intel.com:email,sel.target:url];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,linux.intel.com:mid,linux.intel.com:from_mime,intel.com:dkim,intel.com:email,sel.target:url];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7F8426ED80C
+X-Rspamd-Queue-Id: 0D9E66ED806
 
 Add a pointer to const struct v4l2_subdev_client_info to the get_fmt,
 set_fmt, get_selection and set_selection sub-device pad ops. The client
@@ -684,12 +684,12 @@ index 8e25f970fd12..1cc4350856fd 100644
  	default:
  		ret = -EINVAL;
 diff --git a/drivers/media/i2c/cvs/v4l2.c b/drivers/media/i2c/cvs/v4l2.c
-index 3a1ec0059ef7..fbbe0a34aac9 100644
+index 32e4bf74aa1d..24f1a6a5eee3 100644
 --- a/drivers/media/i2c/cvs/v4l2.c
 +++ b/drivers/media/i2c/cvs/v4l2.c
-@@ -198,6 +198,7 @@ static int cvs_csi_init_state(struct v4l2_subdev *sd,
-  * Return: 0.
-  */
+@@ -152,6 +152,7 @@ static int cvs_csi_init_state(struct v4l2_subdev *sd,
+ }
+ 
  static int cvs_csi_set_fmt(struct v4l2_subdev *sd,
 +			   const struct v4l2_subdev_client_info *ci,
  			   struct v4l2_subdev_state *state,
@@ -4912,7 +4912,7 @@ index 3c270ef00752..21a0dfbd455e 100644
  	}
  
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 35d646849d06..48939cfb682e 100644
+index c2be59e4c4a7..88280be29515 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
 @@ -257,12 +257,13 @@ static int call_get_fmt(struct v4l2_subdev *sd,
@@ -4930,7 +4930,7 @@ index 35d646849d06..48939cfb682e 100644
  		sd->ops->pad->get_fmt ?
  		sd->ops->pad->get_fmt(sd, state, format) : -ENOIOCTLCMD;
  }
-@@ -321,19 +322,21 @@ static inline int check_selection(struct v4l2_subdev *sd,
+@@ -348,19 +349,21 @@ static inline int check_selection(struct v4l2_subdev *sd,
  }
  
  static int call_get_selection(struct v4l2_subdev *sd,
@@ -4954,7 +4954,7 @@ index 35d646849d06..48939cfb682e 100644
  }
  
  static inline int check_frame_interval(struct v4l2_subdev *sd,
-@@ -542,6 +545,21 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+@@ -569,6 +572,21 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
  			v4l2_subdev_unlock_state(state);                   \
  		return ret;                                                \
  	}
@@ -4976,7 +4976,7 @@ index 35d646849d06..48939cfb682e 100644
  
  #else /* CONFIG_MEDIA_CONTROLLER */
  
-@@ -553,15 +571,24 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+@@ -580,15 +598,24 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
  		return call_##f(sd, state, arg);                     \
  	}
  
@@ -5004,7 +5004,7 @@ index 35d646849d06..48939cfb682e 100644
  
  static const struct v4l2_subdev_pad_ops v4l2_subdev_call_pad_wrappers = {
  	.get_fmt		= call_get_fmt_state,
-@@ -836,7 +863,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+@@ -863,7 +890,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
  
  		memset(format->reserved, 0, sizeof(format->reserved));
  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
@@ -5014,7 +5014,7 @@ index 35d646849d06..48939cfb682e 100644
  	}
  
  	case VIDIOC_SUBDEV_G_CROP: {
-@@ -853,8 +881,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+@@ -880,8 +908,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
  		sel.stream = crop->stream;
  		sel.target = V4L2_SEL_TGT_CROP;
  
@@ -5025,7 +5025,7 @@ index 35d646849d06..48939cfb682e 100644
  
  		crop->rect = sel.r;
  
-@@ -879,8 +907,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+@@ -906,8 +934,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
  		sel.target = V4L2_SEL_TGT_CROP;
  		sel.r = crop->rect;
  
@@ -5036,7 +5036,7 @@ index 35d646849d06..48939cfb682e 100644
  
  		crop->rect = sel.r;
  
-@@ -950,8 +978,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+@@ -977,8 +1005,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
  			sel->stream = 0;
  
  		memset(sel->reserved, 0, sizeof(sel->reserved));
@@ -5047,7 +5047,7 @@ index 35d646849d06..48939cfb682e 100644
  	}
  
  	case VIDIOC_SUBDEV_S_SELECTION: {
-@@ -964,8 +992,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+@@ -991,8 +1019,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
  			sel->stream = 0;
  
  		memset(sel->reserved, 0, sizeof(sel->reserved));
