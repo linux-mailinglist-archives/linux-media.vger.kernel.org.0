@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-66180-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66181-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id /7WpNe7XRGrE1woAu9opvQ
-	(envelope-from <linux-media+bounces-66180-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:03:42 +0200
+	id pZDWCkXXRGqU1woAu9opvQ
+	(envelope-from <linux-media+bounces-66181-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:00:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632C36EB6C2
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:03:42 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1090E6EB67C
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:00:48 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=CETJ7gX6;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66180-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66180-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=FS3Ejs7T;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66181-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66181-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DC5C630917ED
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 09:00:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E10993050BCC
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 09:00:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 175073F1AA1;
-	Wed,  1 Jul 2026 08:59:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E8C53F20FF;
+	Wed,  1 Jul 2026 08:59:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864EF3F0AA6;
-	Wed,  1 Jul 2026 08:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DD03F0A85;
+	Wed,  1 Jul 2026 08:59:56 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782896393; cv=none; b=uOHUOpaVmj7CuX7bXoNIeqddv93a8pHK1AwJHVeMMCSG/DhuFErW4qmrBygsBlHObRzMZq3pmBglN1R2oa/pr5lvxo/54OcwEQ+l0ktM4YzczqeakJZ0WniHIO6H7Mxo/ZiMkuoRvo8ke6ysoI7AjyYelKFifAD0be+vzJ8JE1c=
+	t=1782896397; cv=none; b=NI0dJlwhmZ+xUQnSKvH4FHO5FBXdHYRlwcahIUQt9ykqPjlsRBYBBkQBPTe7DM0ds4kkKbR5BXqIzg6SkU6x5S6Iq/3KqN4aHhz7Pa+x1Hc4Z/SwoBlwJTDa8IsctE4O0+ykxtdQ2N2m8MbFw+5PYszaQx27rbW2wq697pLNT9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782896393; c=relaxed/simple;
-	bh=DUXBH4VomADaw3N2GJeajxEyoT/NZgMiLLIfu9ICN70=;
+	s=arc-20240116; t=1782896397; c=relaxed/simple;
+	bh=5N/IFJPEpeM9l+vd9YrRmXphyIfOwIAp27+WTTgr0q8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jet/g8FOJ89M9ly6OCkHgvkwIEGf31782npOQsSU67aK6mbNxFMUyQkpmZ2oABwpC6oZKnHGJ6+Pnqt7V6ZvkfD9FAdGj5/qXTnV/vaDpN48XToMASTlqT/g625b4RM1B6xPT7IP3guNGT55Z6h0cMvlIh0neuL+TqbExsCJ3R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CETJ7gX6; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 590441F00A3D;
-	Wed,  1 Jul 2026 08:59:48 +0000 (UTC)
+	 MIME-Version; b=duNQHwi2sYhIwBJ9IS5S4f+SJsRGm2xWS/x3Ykc9A2+9eTKyi8dZbXOXVY7973SF/74FmZf5HuMVEeOEHrxTJnEJjBEcdhTmyZ3ywFg9vkkD+4DHzQeyC5JNSkdAxb3RLTSZXcwMuJDIlU8LsqSt/uj7zIsQYlK0JZsAGI2MZWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FS3Ejs7T; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BDAE1F000E9;
+	Wed,  1 Jul 2026 08:59:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782896392;
-	bh=6pYIN2YqJMmrthBPue021Qa1ABPy6rMhZOJ/H9QgS6c=;
+	s=k20260515; t=1782896396;
+	bh=sq9yVGjU7Aarfc6/TDWlud/Yv0zasvTjRqyAyAYsNn8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CETJ7gX6hGI9ozgiHscGMmVToBNdT8eFOFnk42ccTe/Vsisl7n2uRKnNrDyTiYINe
-	 bAzVpUTje+cA5/SS6TsJKqd94HQLh73OO0qgzkg2mzudTdsd+NrOVmTWEU9jNpMlqu
-	 LEPpt3v3j6jFgkf9WimVvPXf2kvNUVUvSZ2Dnoqtm7uw8nSXnD4PwcPY/IZB0byIs1
-	 0bm2XEa6KOzlTcu1yZ6VlDv1V08xZxuHN9EE/lkZHz7GqmBNB795TwJ3FaapOoqqix
-	 r1d0rS3IiPl/FMBagGzvGjm+GB2xeV38Fq7ccixKQRu9EZHWZlRTWkUQrhbA/tIlyH
-	 aUTyxcxSxTBGQ==
+	b=FS3Ejs7TaXikZXz8JLom3RSefBMT3XBVPlGPTXvLeXtyZUzWj+4NsQCLhY5PtnSit
+	 PojGDW5OawhX02JGW8tT7ydJpl+PEDueaHbP5NaUpxAExsk97vmKW1YZWx8d/Zmkus
+	 UDFmmAPMVqXhSRse5AMD0vpyzb9GQCbSgujG8vYWhbhcr+hAmKzoUvzGZcA/Kn4fp3
+	 1IsHiz6/kdnP74rgQ9HbTqyYhrKrvVCm7ETD2JGZuh+K52k63QS90MSt46vDPVyivM
+	 P/M/oAlZ9LxYFoG97BQQsY2KsA/s6zQGcs7S2otWihWlN1sEGT66nGAinRfaxRZgaA
+	 kOJDXt2R5v+xQ==
 From: Philipp Stanner <phasta@kernel.org>
 To: Matthew Brost <matthew.brost@intel.com>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -64,9 +64,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 4/5] drm/sched: Lock drm_sched_entity_is_idle()
-Date: Wed,  1 Jul 2026 10:59:20 +0200
-Message-ID: <20260701085920.3253248-6-phasta@kernel.org>
+Subject: [PATCH 5/5] drm/sched: Remove entity->entity_idle
+Date: Wed,  1 Jul 2026 10:59:21 +0200
+Message-ID: <20260701085920.3253248-7-phasta@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260701085920.3253248-2-phasta@kernel.org>
 References: <20260701085920.3253248-2-phasta@kernel.org>
@@ -83,23 +83,23 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[intel.com,kernel.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,linaro.org,linux.dev,igalia.com,collabora.com];
-	FORGED_SENDER(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_RECIPIENTS(0.00)[m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:marco.pagani@linux.dev,m:tvrtko.ursulin@igalia.com,m:boris.brezillon@collabora.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66181-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66180-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:marco.pagani@linux.dev,m:tvrtko.ursulin@igalia.com,m:boris.brezillon@collabora.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[intel.com,kernel.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,linaro.org,linux.dev,igalia.com,collabora.com];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -109,54 +109,108 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
+	RSPAMD_EMAILBL_FAIL(0.00)[phasta@kernel.org:query timed out];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 632C36EB6C2
+X-Rspamd-Queue-Id: 1090E6EB67C
 
-drm_sched_entity_is_idle() contains a badly documented memory barrier
-and an invalid lockless access to entity->stopped.
+The completion entity->entity_idle only existed because the entity was
+not properly locked through it's spinlock. The completion served to
+inform waiters about whether the entity is actually idle, which is
+something locking (previously added to drm_sched_entity_is_idle()) can
+fully achieve.
 
-This function is in no way performance critical, so it is safer, more
-readable and more maintainable to take the spinlock. This also enables
-future cleanup work where the entity can be fully synchronized via its
-spinlock.
-
-Add locking to drm_sched_entity_is_idle().
+Remove the surplus completion.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/scheduler/sched_entity.c | 9 ---------
+ drivers/gpu/drm/scheduler/sched_main.c   | 2 --
+ drivers/gpu/drm/scheduler/sched_rq.c     | 1 -
+ include/drm/gpu_scheduler.h              | 7 -------
+ 4 files changed, 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 0fc1213a0d3f..cb03d6a36578 100644
+index cb03d6a36578..23536dcfa96a 100644
 --- a/drivers/gpu/drm/scheduler/sched_entity.c
 +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -178,14 +178,18 @@ EXPORT_SYMBOL(drm_sched_entity_modify_sched);
+@@ -136,10 +136,6 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
+ 	entity->rq = &sched_list[0]->rq;
+ 	RB_CLEAR_NODE(&entity->rb_tree_node);
+-	init_completion(&entity->entity_idle);
+-
+-	/* We start in an idle state. */
+-	complete_all(&entity->entity_idle);
  
- static bool drm_sched_entity_is_idle(struct drm_sched_entity *entity)
- {
--	rmb(); /* for list_empty to work without lock */
-+	bool idle = false;
-+
-+	spin_lock(&entity->lock);
+ 	spin_lock_init(&entity->lock);
+ 	spsc_queue_init(&entity->job_queue);
+@@ -285,12 +281,7 @@ void drm_sched_entity_kill(struct drm_sched_entity *entity)
+ 	spin_lock(&entity->lock);
+ 	entity->stopped = true;
+ 	drm_sched_rq_remove_entity(entity->rq, entity);
+-	spin_unlock(&entity->lock);
  
- 	if (list_empty(&entity->list) ||
- 	    spsc_queue_count(&entity->job_queue) == 0 ||
- 	    entity->stopped)
--		return true;
-+		idle = true;
+-	/* Make sure this entity is not used by the scheduler at the moment */
+-	wait_for_completion(&entity->entity_idle);
+-
+-	spin_lock(&entity->lock);
+ 	prev = entity->last_scheduled;
+ 	dma_fence_get(prev);
+ 	spin_unlock(&entity->lock);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index d2ca01b31ee4..b90220794a14 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -997,7 +997,6 @@ static void drm_sched_run_job_work(struct work_struct *w)
  
--	return false;
-+	spin_unlock(&entity->lock);
-+
-+	return idle;
- }
+ 	sched_job = drm_sched_entity_pop_job(entity);
+ 	if (!sched_job) {
+-		complete_all(&entity->entity_idle);
+ 		drm_sched_run_job_queue(sched);
+ 		return;
+ 	}
+@@ -1013,7 +1012,6 @@ static void drm_sched_run_job_work(struct work_struct *w)
+ 	 * refcount has been incremented for the scheduler already.
+ 	 */
+ 	fence = sched->ops->run_job(sched_job);
+-	complete_all(&entity->entity_idle);
+ 	drm_sched_fence_scheduled(s_fence, fence);
  
- /**
+ 	if (!IS_ERR_OR_NULL(fence)) {
+diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/scheduler/sched_rq.c
+index 97363f9ef8bc..54aba1ef0d7a 100644
+--- a/drivers/gpu/drm/scheduler/sched_rq.c
++++ b/drivers/gpu/drm/scheduler/sched_rq.c
+@@ -373,7 +373,6 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+ 				return ERR_PTR(-ENOSPC);
+ 			}
+ 
+-			reinit_completion(&entity->entity_idle);
+ 			break;
+ 		}
+ 	}
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 176ff1f936cd..55260cbe880a 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -221,13 +221,6 @@ struct drm_sched_entity {
+ 	 */
+ 	bool 				stopped;
+ 
+-	/**
+-	 * @entity_idle:
+-	 *
+-	 * Signals when entity is not in use, used to sequence entity cleanup in
+-	 * drm_sched_entity_fini().
+-	 */
+-	struct completion		entity_idle;
+ 
+ 	/**
+ 	 * @oldest_job_waiting:
 -- 
 2.54.0
 
