@@ -1,180 +1,185 @@
-Return-Path: <linux-media+bounces-66184-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66185-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id d4l2As7eRGqk2QoAu9opvQ
-	(envelope-from <linux-media+bounces-66184-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:33:02 +0200
+	id wEVnHDzfRGqx2QoAu9opvQ
+	(envelope-from <linux-media+bounces-66185-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:34:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0016EB9EF
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD896EBA19
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 11:34:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=eVbCqeJt;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66184-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66184-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b="KX/VdJNn";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66185-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66185-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1BFA6304EBBA
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 09:30:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EE434302573D
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 09:33:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B9C23F076E;
-	Wed,  1 Jul 2026 09:30:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49BBF3EE1D4;
+	Wed,  1 Jul 2026 09:33:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606AD32470A;
-	Wed,  1 Jul 2026 09:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7025228CF6F
+	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 09:33:00 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782898256; cv=none; b=bSbCThKEFPLATAtvgt6MnKDhHZWjy6hIV/Zd6CtF0X78tGGcWSSJcQXwac6UW+t1nAvf/pewFzLKjyqvHKsTayx8gQ/GcrA7pPwNXWAqGRNZDplXhs8GkLwR/koxykgVkAhnF9lfIKXEaoyzEMyHHULSj3X7FOBT2kllRzDwmMA=
+	t=1782898382; cv=none; b=oflOESYz+erIE4fLrzJUUxWaFPVs1dL47oTGN/3YOty+i7+QHFJ30gEonWIGC6Xjk+bAlBTEv8hG7it1kDAxV9dYOH/AyefeqAHXhg9qbCYEc7V7Wr1P3sUSDuV9+BWQyWj3b0d3jDa9fdS2j6vHwC2ql0SqsMlN5o4B77AjWIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782898256; c=relaxed/simple;
-	bh=zxdlH1FR6khQMS+6yKVEt4UheNLI9wZOoLU6TFR9BOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i6Ke/bEK8FM/1Snfdu+4SZGCMhenyFjJhL+qOPjn/e/TMLpsGSAIV4m1wMqFBwcIy+/fizsQdO5mP6rf7yXWNG3ULz9s/W0CklK8U3w1PU651KMPGR9lUHQJUXiVn2FLI4r4xXVNbUZ7yI72tXWdQ/lKHa2Uec3N1TBN28JUcRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eVbCqeJt; arc=none smtp.client-ip=192.198.163.16
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782898255; x=1814434255;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=zxdlH1FR6khQMS+6yKVEt4UheNLI9wZOoLU6TFR9BOI=;
-  b=eVbCqeJtKWm1p5EzNDYJkTafMfbjm1jFfBaE4sQ+fkqKxwVZ/FYtQbxY
-   ubRhkWI7FWVMGa4qQXp39pAPIfJRWx/paK9Yd4FinBHpVkDMrCn9FDGvH
-   Tgl4jHj5tn+VjdJTNd3I7FnTKIcgPTkCN4Rvb3y5CP4H9JxF+z42H68pY
-   +9cnsKi7hqnxERJLyKbqQB0dNqfKzEJvyv+f3v0LOHP95L/2K+tDzaDn6
-   iznh7UjLy9fhqyC/N6glqqMT6OVWhwmmjMawnpqiET3cx0hFqAADYiBCV
-   8qPyV4nX9j/wWJ4jcNF7Url9btbNVx7TCMj7r6/OEJRwcen04L+rjVImo
-   w==;
-X-CSE-ConnectionGUID: XL+DVbBhQuOEYNRWmJZ+SA==
-X-CSE-MsgGUID: jFK+LGw/ROee3XNrFLuYyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="71150578"
-X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="71150578"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 02:30:55 -0700
-X-CSE-ConnectionGUID: IG6YrvELQtayc+DmRhZEeQ==
-X-CSE-MsgGUID: X4PJDEzmRS+/ArkfpiivJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="248537020"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.65])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 02:30:52 -0700
-Date: Wed, 1 Jul 2026 12:30:50 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Bohdan Derkach <bohdandmarcus@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, hansg@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org, andy@kernel.org,
-	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] media: atomisp: fix block comment formatting style
-Message-ID: <akTeSuxmA8PesfAt@ashevche-desk.local>
-References: <20260630160435.3293-1-bohdandmarcus@gmail.com>
- <CAHp75VdX_DmiWXc_pYCgZd88cO3=yB7vFsgHx_8HLAJtaJOHow@mail.gmail.com>
- <CANqab03_SQFDb38wkXBMUiJ1Xk-g9_ZpqvOUo+nQyR+SsVnsFQ@mail.gmail.com>
- <CANqab0096R4gKrwfKF78iyQt2aM0qQJoSwrBKBqMiZxna60rsg@mail.gmail.com>
+	s=arc-20240116; t=1782898382; c=relaxed/simple;
+	bh=9a7xC+sXlochPyC5zgUbvWrHcRVdRCW4pBtcZHxIsFo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y/Y1f5kMwu/gdfz31y4B0CNfD2cbapGJW6PicH32azmVpJfmKzzLkst3JEiH2sc4qD2y3eQqyTp8HaSMcr4TW5B0mW9Ez0x7ng6EK9rzPo/VlmVM3/kNltT5OENVMXpc03CAwohFl8x9nBiaVuQ37P5b4w58eCwc2qXUKBpXiNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=KX/VdJNn; arc=none smtp.client-ip=213.97.179.56
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=lm2Lg0hziBPY14rNCyh+OlmQO8mTF2pGDV9lHYkkkSw=; b=KX/VdJNnQ0IWoRI8RlRbfGpInE
+	7aC6wxDtZNSnwF/1iEyDH21N5CMR/+Lpco0mzVAxxyAOBBdE8iw37SEydgRNK3oKLduLsALL/wxZx
+	oHTBJvg+O10p1V9TRuSBA7NMUPmwJgA6zkVbvp7DuZuidR1m8qMMXz+/OwfnhJIbMXZtEpVCn6iwy
+	IrmQCM5E73J5lqw4jBUcoWkNXxMbDZ3S6CohGeds2sYw4UUvMcKWMNHEbpzMnN7myb0wvoiBDa+Sy
+	x+MiRQi9NWST2pKnShCfvcG0fANhBmcsoDQ4nmX3p6RrPRLzLvrdZXuPc3Leuc65SFLlqK6AwEUms
+	LuOUNcgA==;
+Received: from [90.240.106.137] (helo=[192.168.0.116])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1werJM-007Udi-K1; Wed, 01 Jul 2026 11:32:52 +0200
+Message-ID: <2c80b1d3-88f1-414d-a401-29ba56a6132b@igalia.com>
+Date: Wed, 1 Jul 2026 10:32:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/10] dma-buf: remove dma_fence_is_signaled_locked()
+To: christian.koenig@amd.com, phasta@kernel.org, simona@ffwll.ch,
+ sumit.semwal@linaro.org, dakr@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260624122917.2483-1-christian.koenig@amd.com>
+ <20260624122917.2483-8-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20260624122917.2483-8-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANqab0096R4gKrwfKF78iyQt2aM0qQJoSwrBKBqMiZxna60rsg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66184-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:bohdandmarcus@gmail.com,m:andy.shevchenko@gmail.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:andy@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:andyshevchenko@gmail.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linuxfoundation.org,linux.intel.com,vger.kernel.org,lists.linux.dev];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ALIAS_RESOLVED(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	TAGGED_FROM(0.00)[bounces-66185-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:dakr@kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_NONE(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,intel.com:dkim,intel.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,checkpatch.pl:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,amd.com:email,igalia.com:email,igalia.com:mid,igalia.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2E0016EB9EF
+X-Rspamd-Queue-Id: BAD896EBA19
 
-On Wed, Jul 01, 2026 at 11:51:43AM +0300, Bohdan Derkach wrote:
 
-First of all, do not top-post!
+On 24/06/2026 12:13, Christian König wrote:
+> Finally remove one of the biggest trouble makers in the dma_fence
+> handling.
+> 
+> The signaled callback is now consistently called without holding the
+> dma_fence lock.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   include/linux/dma-fence.h | 36 ------------------------------------
+>   1 file changed, 36 deletions(-)
+> 
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 803e10ca76e3..ad69acbea218 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -493,40 +493,6 @@ dma_fence_test_signaled_flag(struct dma_fence *fence)
+>   	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
+>   }
+>   
+> -/**
+> - * dma_fence_is_signaled_locked - Return an indication if the fence
+> - *                                is signaled yet.
+> - * @fence: the fence to check
+> - *
+> - * Returns true if the fence was already signaled, false if not. Since this
+> - * function doesn't enable signaling, it is not guaranteed to ever return
+> - * true if dma_fence_add_callback(), dma_fence_wait() or
+> - * dma_fence_enable_sw_signaling() haven't been called before.
+> - *
+> - * This function requires &dma_fence.lock to be held.
+> - *
+> - * See also dma_fence_is_signaled().
+> - */
+> -static inline bool
+> -dma_fence_is_signaled_locked(struct dma_fence *fence)
+> -{
+> -	const struct dma_fence_ops *ops;
+> -
+> -	if (dma_fence_test_signaled_flag(fence))
+> -		return true;
+> -
+> -	rcu_read_lock();
+> -	ops = rcu_dereference(fence->ops);
+> -	if (ops && ops->signaled && ops->signaled(fence)) {
+> -		rcu_read_unlock();
+> -		dma_fence_signal_locked(fence);
+> -		return true;
+> -	}
+> -	rcu_read_unlock();
+> -
+> -	return false;
+> -}
+> -
+>   /**
+>    * dma_fence_is_signaled - Return an indication if the fence is signaled yet.
+>    * @fence: the fence to check
+> @@ -540,8 +506,6 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>    * operation is complete, it makes it possible to prevent issues from
+>    * wraparound between time of issue and time of use by checking the return
+>    * value of this function before calling hardware-specific wait instructions.
+> - *
+> - * See also dma_fence_is_signaled_locked().
+>    */
+>   static inline bool
+>   dma_fence_is_signaled(struct dma_fence *fence)
 
-Second, do not send HTML, the only plain text is what is considered.
+Assuming the rest of the series plays out to this point:
 
-> On Wed, Jul 1, 2026 at 11:42 AM Bohdan Derkach <bohdandmarcus@gmail.com> wrote:
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-> > You are completely right about the indentation and line wraps. Dan
-> > Carpenter also pointed this out to me yesterday, and I have already
-> > prepared a v4 that fixes all of these issues perfectly. I am strictly
-> > following the rule to wait a full 24 hours between sending versions, so I
-> > will send v4 later today.
-> >
-> > Regarding your question about whether this is the only issue in the driver:
-> > I understand that sending a patch for a single block comment in a 100k LoC
-> > driver is a very small contribution. Since this is my very first patch to
-> > the Linux kernel, my main goal was to learn the correct workflow (git
-> > send-email, formatting versions, acting on feedback) before sending larger
-> > patch series.
-> >
-> > Once this v4 is accepted and I am confident that my setup is correct, my
-> > next step is to grep through the rest of atomisp to fix similar block
-> > comments and submit them as a proper patch series.
+Regards,
 
-It really doesn't matter if this is a single place fix or not, the part of
-the process is to try to fix the whole class of the problems at once.
-
-Also check that your code is based on latest and greatest maintainer's tip.
-(It's located somewhere on git.linuxtv.org with atomisp in the tree name.)
-
-> > Thank you for your patience and for guiding a newcomer!
-
-You're welcome.
-
-> > On Wed, Jul 1, 2026 at 11:31 AM Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> >>
-> >> On Tue, Jun 30, 2026 at 7:06 PM Bohdan D. Marcus
-> >> <bohdandmarcus@gmail.com> wrote:
-> >> >
-> >> > Fix a block comment formatting warning reported by
-> >> > checkpatch.pl in atomisp_cmd.c to conform to the
-> >> > Linux kernel coding style.
-> >>
-> >> Almost the same comments as per v2. Please, slow down, read other
-> >> comments and act accordingly.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Tvrtko
 
 
