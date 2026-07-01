@@ -1,52 +1,51 @@
-Return-Path: <linux-media+bounces-66229-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66230-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id D/xRBQ0mRWpQ7woAu9opvQ
-	(envelope-from <linux-media+bounces-66229-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 16:37:01 +0200
+	id IOjQKFMuRWoz8QoAu9opvQ
+	(envelope-from <linux-media+bounces-66230-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 17:12:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A446EED45
-	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 16:37:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F056EF249
+	for <lists+linux-media@lfdr.de>; Wed, 01 Jul 2026 17:12:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ovS+y22N;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66229-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66229-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=arm.com header.s=foss header.b=TxaJ3D1y;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66230-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66230-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=arm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7C55D30F143D
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 14:27:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E99D530CE257
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jul 2026 15:06:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FFBB345729;
-	Wed,  1 Jul 2026 14:25:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF6C73F485E;
+	Wed,  1 Jul 2026 15:06:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E752475D0
-	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 14:25:05 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAF863E0C53
+	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 15:05:57 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782915906; cv=none; b=sUeP0ofrKbUSlvNhwnyK/ablpelvlkMkkdOS3+wMNdQDOEWFvQsTVNAVsXyQno+4bXsde1GL/LJGDq9DGv2ffV2uBKFOsT6paYmf03EEKWIAkbS2AfxmyolYOsZSwQiXkwP49hDDheDWCXcBOLX7xmi4LEYvmjfMnxibXItZpFE=
+	t=1782918361; cv=none; b=TNHzWNZHN/XDfIDJE4Y78usamV4eimvVAkdu3AGeaS7vFaB+bT/r7Os0cxF6XV5JeIBIPG2tV1k4FPa6lHSpdLyr5kdaekpI6I0o7Zw/hHOT8Qo+TCLexozbet/PQiCprYCCnQRSP+Pr14mfF2Ejcm3CVU7hbIOTwyVG6m5U9n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782915906; c=relaxed/simple;
-	bh=LKGPjADtpWQ6d27vaS6e0Qznkr48KUNr5mdPr4jcS0k=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=Wi1qQnyhiWvJDwhciAoEMBuxLrKdEH+g6XOSFk/LSY5UTqtqYNLbwjkUEO6/AHbjmgYtAp7apW4kHFJxqFDNR1QWHPvnU1si0G2ZxL/c8Yjn3cvlvrLO/18waFalM44t6VElxm5t7Qb22PxNxBq+nvTH2VqSn7BvOPmV9rgfujU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ovS+y22N; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 085DF1F000E9
-	for <linux-media@vger.kernel.org>; Wed,  1 Jul 2026 14:25:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782915905;
-	bh=l18msAJT4DY5NOFrtxNDdumudhSI3oFRdRLaoXb17v4=;
-	h=Date:From:Subject:To;
-	b=ovS+y22NYKzJ517LdVPLu+fNlY6j1WLsxoXYm/iXFYAQKi+HGbWY8upwCDDyzts/a
-	 SN1mWiZ8D8h01p2gwCrazhxn9lqnhJ2DgkBsSLNcgvpFLZrxoHDo8UzTYyWPIkBGXd
-	 gbk/avRaULq3xdE9wgDg873N0DQCY2y0Mq41tbm6YOWBS0Hx/rFlGGhfRaf6e02O+7
-	 cvGFulxIOMyqNWm7fUyWAcxWT5zBucVwNxpka9s/mrutUbzxAzWocnCNhDkaHP4oa1
-	 fyXgaJl/tJfIGtf/1GfzPluEL4kEYLo1lzKpqr4Y4ABe9SlmXJ2RgcF5Tf0yuwz2eN
-	 mg6wnD74Ivppg==
-Message-ID: <48124a09-873d-4f24-a6ad-523aba7cfa98@kernel.org>
-Date: Wed, 1 Jul 2026 16:25:03 +0200
+	s=arc-20240116; t=1782918361; c=relaxed/simple;
+	bh=18zI0uDNXCdZC0YCPtSLa7z9JgEmzrvmewbjBUWwyj4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H1himEJcz8m5knY23M5kF/zICLUo6AhFqIRVIOq+QfY3+g3Fchhl2og+uuYEBRLb5boe7FWEjevR6E/E3ix3BYDlJ90yJUI2Z9ecniTIk6txePsUvrowh9nPr63IgSwKgzPXiXMSS6jqANhFODCQMdS5+mOR7Os51OovBxIAfjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=TxaJ3D1y; arc=none smtp.client-ip=217.140.110.172
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF6FB2309;
+	Wed,  1 Jul 2026 08:05:52 -0700 (PDT)
+Received: from [10.2.200.62] (e119884-lin.cambridge.arm.com [10.2.200.62])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48F9C3F85F;
+	Wed,  1 Jul 2026 08:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1782918357; bh=18zI0uDNXCdZC0YCPtSLa7z9JgEmzrvmewbjBUWwyj4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TxaJ3D1yKU6P/dCCIkctiv2SN0i1xv/dkieLr16Qd5J+f6/r/nA8Te5ha1ofY/ejO
+	 Myc1Ccf69BdOPm+JBG88iMVeDHrM9zK3ee1dJKuvQauhE+pHPx3R5bPPMO8YNcOEHj
+	 JVmXAxZwLhwrbhitwDZ5VPid86twmZUA0afzDbUA=
+Message-ID: <05776c6a-d5be-41ae-8e27-b87cb063f251@arm.com>
+Date: Wed, 1 Jul 2026 16:05:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,127 +53,110 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Content-Language: en-US, nl
-Subject: [PATCH] media: vivid: always allow meta output streaming
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH] media: v4l2-ctrls: document expected validation scope
+To: Linus Walleij <linusw@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Nayden Kanchev <nayden.kanchev@arm.com>,
+ Konstantin Babin <Konstantin.Babin@arm.com>,
+ Daniel Scally <dan.scally@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+References: <20260701-v4l2-doc-v1-1-9cce64b7a1c2@kernel.org>
+Content-Language: en-US
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+In-Reply-To: <20260701-v4l2-doc-v1-1-9cce64b7a1c2@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[arm.com:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-66229-lists,linux-media=lfdr.de,cisco];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66230-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER(0.00)[vincenzo.frascino@arm.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:linusw@kernel.org,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:nayden.kanchev@arm.com,m:Konstantin.Babin@arm.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vincenzo.frascino@arm.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:dkim,arm.com:email,arm.com:mid,arm.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A4A446EED45
+X-Rspamd-Queue-Id: D6F056EF249
 
-The vivid metadata output emulation only works if the
-video input is configured for a webcam. That makes no sense,
-and it is in fact a copy-and-paste from the metadata capture
-support.
 
-Always allow metadata output, just make sure that when the
-metadata is processed it only sets the brightness/saturation/
-hue/contrast controls if they have been defined: if vivid was
-instantiation without video capture support, then those controls
-are missing.
 
-This change ensures that the test-media regression script correctly
-tests metadata output streaming.
+On 01/07/2026 09:11, Linus Walleij wrote:
+> After discussion on the mailing list it became clear that these
+> validations are not expected to be exhaustive.
+> 
+> Link: https://lore.kernel.org/linux-media/20260629133209.GG3054459@killaraus.ideasonboard.com/
+> Signed-off-by: Linus Walleij <linusw@kernel.org>
 
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
----
- .../media/test-drivers/vivid/vivid-meta-out.c | 23 +++++--------------
- 1 file changed, 6 insertions(+), 17 deletions(-)
+Thank you Linus for posting this. With the suggested additions would have
+certainly helped my understanding.
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-meta-out.c b/drivers/media/test-drivers/vivid/vivid-meta-out.c
-index 55e5e5dec2f2..ca913b808225 100644
---- a/drivers/media/test-drivers/vivid/vivid-meta-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-meta-out.c
-@@ -17,12 +17,8 @@ static int meta_out_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
- 				unsigned int *nplanes, unsigned int sizes[],
- 				struct device *alloc_devs[])
- {
--	struct vivid_dev *dev = vb2_get_drv_priv(vq);
- 	unsigned int size =  sizeof(struct vivid_meta_out_buf);
+With this:
+Acked-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
--	if (!vivid_is_webcam(dev))
--		return -EINVAL;
--
- 	if (*nplanes) {
- 		if (sizes[0] < size)
- 			return -EINVAL;
-@@ -127,11 +123,6 @@ const struct vb2_ops vivid_meta_out_qops = {
- int vidioc_enum_fmt_meta_out(struct file *file, void  *priv,
- 			     struct v4l2_fmtdesc *f)
- {
--	struct vivid_dev *dev = video_drvdata(file);
--
--	if (!vivid_is_webcam(dev))
--		return -EINVAL;
--
- 	if (f->index > 0)
- 		return -EINVAL;
+> ---
+>  Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index b8698b85bd80..58184b6e386f 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -118,6 +118,18 @@ correct. This prevents the situation where only some of the controls
+>  were set/get. Only low-level errors (e. g. a failed i2c command) can
+>  still cause this situation.
+>  
+> +The validation of controls is not expected to be exhaustive, for example
+> +custom controls under ``V4L2_CTRL_CLASS_USER`` would become very voluminous.
+> +The expected behaviour is to reject settings that could:
+> +
+> +1. Pose stability issues, such as turning the hardware unresponsive requiring
+> +   a hard reset, such controls must be rejected.
+> +
+> +2. Pose security issues, such as compromising unrelated kernel-contained
+> +   data to userspace.
+> +
+> +Extended validation of control values should be performed in userspace.
+> +
+>  .. tabularcolumns:: |p{6.8cm}|p{4.0cm}|p{6.5cm}|
+>  
+>  .. c:type:: v4l2_ext_control
+> 
+> ---
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> change-id: 20260701-v4l2-doc-c60195d38d00
+> 
+> Best regards,
+> --  
+> Linus Walleij <linusw@kernel.org>
+> 
 
-@@ -143,12 +134,8 @@ int vidioc_enum_fmt_meta_out(struct file *file, void  *priv,
- int vidioc_g_fmt_meta_out(struct file *file, void *priv,
- 			  struct v4l2_format *f)
- {
--	struct vivid_dev *dev = video_drvdata(file);
- 	struct v4l2_meta_format *meta = &f->fmt.meta;
-
--	if (!vivid_is_webcam(dev) || !dev->has_meta_out)
--		return -EINVAL;
--
- 	meta->dataformat = V4L2_META_FMT_VIVID;
- 	meta->buffersize = sizeof(struct vivid_meta_out_buf);
- 	return 0;
-@@ -159,10 +146,12 @@ void vivid_meta_out_process(struct vivid_dev *dev,
- {
- 	struct vivid_meta_out_buf *meta = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-
--	v4l2_ctrl_s_ctrl(dev->brightness, meta->brightness);
--	v4l2_ctrl_s_ctrl(dev->contrast, meta->contrast);
--	v4l2_ctrl_s_ctrl(dev->saturation, meta->saturation);
--	v4l2_ctrl_s_ctrl(dev->hue, meta->hue);
-+	if (dev->brightness) {
-+		v4l2_ctrl_s_ctrl(dev->brightness, meta->brightness);
-+		v4l2_ctrl_s_ctrl(dev->contrast, meta->contrast);
-+		v4l2_ctrl_s_ctrl(dev->saturation, meta->saturation);
-+		v4l2_ctrl_s_ctrl(dev->hue, meta->hue);
-+	}
-
- 	dprintk(dev, 2, " %s brightness %u contrast %u saturation %u hue %d\n",
- 		__func__, meta->brightness, meta->contrast,
 -- 
-2.53.0
+Regards,
+Vincenzo
 
 
