@@ -1,83 +1,84 @@
-Return-Path: <linux-media+bounces-66313-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66314-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id k/6lCrcURmrsJQsAu9opvQ
-	(envelope-from <linux-media+bounces-66313-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 09:35:19 +0200
+	id fAYqKocWRmpvJgsAu9opvQ
+	(envelope-from <linux-media+bounces-66314-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 09:43:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49566F43C7
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 09:35:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 151AE6F44D1
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 09:43:03 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=oo6Y6IIY;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66313-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66313-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=OeTpNOKT;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66314-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66314-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id BF6F2301A131
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 07:34:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6E11330C7078
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 07:35:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D559039446D;
-	Thu,  2 Jul 2026 07:34:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E461D3932C3;
+	Thu,  2 Jul 2026 07:34:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AD63932D4
-	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 07:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F89E3932D5
+	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 07:34:50 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782977688; cv=none; b=ZWvqPLAf4XHLZHbdA84R7H10SQR5B0BgJqe5ZWlmj3+TCsSdwmS/kzpColwuu0hVis8bR7+S1c4KnWOK76bfMtiaTdks9GU35ol0qMZIi3viW1zb/ZS+S31gXEChQGWoP7Egv9uYnOJZI+/vTwacPAiyKKMztbelo5usTWB2Zr4=
+	t=1782977692; cv=none; b=Z7K4PLfU/FrI87Rk92cme6jH8qY14b6OVbRdIEjH2PJMzbr7mePOEVYCxrAxri0qCimGWiCw0B66qJwt92c31wvH4j+CQJq3kRGUn34ZFGa83nFZTtIfNHghDqUN1FNLSsh170CGv9LSdNgLDf3mNWw96qjI+jKX6asOd7R5mu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782977688; c=relaxed/simple;
-	bh=GuZJr6R3RQg8VP+qVT3c581P7ve8Wl09bRgKEwEKgxc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mc4SlBBSL07zUGirXZttlhs/GEhTOtbl6ndyxtmB4v4Qb8Abb6MrZx/HcPe6nF5VZJd2UwRaw3EwETmoWcvP9XH0/JpoSi8Fb2pUMr9+fI+M3HjVmdNmGOWMUAva/K5HOlJalUT6Nkh0g03kTrLRnOvWsz/SH9gZ9QBAbstKuLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oo6Y6IIY; arc=none smtp.client-ip=209.85.215.182
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c8894387780so762096a12.2
-        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 00:34:45 -0700 (PDT)
+	s=arc-20240116; t=1782977692; c=relaxed/simple;
+	bh=cv9nHvHq94cyshMFED23S0p/8n2aHyuezbgSJ8p2hTw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=UT9hPOn0hVI2fFf0p8Wgv8fPP34TIgjR13T3bN1VUb4oBmmv58EyWZ65QYUsy7KJXagXLNlruKh1YPE2awv4gg013HZSac2LI8Pv288u5SEFVm4DJzRY8UHsusAMIHa8nP2DEy+XwWITBIRpmJUdeSJYbjkZzCHVRf9/89ItqD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OeTpNOKT; arc=none smtp.client-ip=209.85.215.173
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c9672e02e05so653020a12.3
+        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 00:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782977685; x=1783582485; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3/xamfdBRxwo750A4SZz8/bTalsmZfMjyVafbFf87xU=;
-        b=oo6Y6IIY1HJ4rjfdaV7ech7rR/Rxm9l7fQQj24kHqYsureNB3Eup6ZTw6sIbJHX8/F
-         usbYzW8kc6Z6Jn4StLNrEJ2CztJFe6OrshUhOgBq0Ca++C24z+mw26oykvAIHd+WOjWg
-         R+PmyjPmAALWHSbpdVgIcUp/BBfhW3GdAlY6zLQrhWlv2jfTplnMlMt8zKmNXbQqiiUP
-         QK/b+2nZ6ZJJog+yH18LGHSVI+P3U4rSwpyYrhWy/7isltO322PM8afJONNQT31QxeIf
-         bEFxtG9mhO+slOy67pKo00jmhIBLjqyMzrIVKViKFms0MmfrXKiZ7oC3Zm4Fwn/p4MIp
-         t0vg==
+        d=gmail.com; s=20251104; t=1782977690; x=1783582490; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UUB+0in7NeYsVonwfzqEHaDpNUcQJFtKaqdplo8pdwM=;
+        b=OeTpNOKTae7qQ6WylJnAxyCZFrtGbpi3z6oDqkXaUa1FODb74pZbXjjm302Ok5ADZ4
+         uSv8iqfYfFxyy5B/y0aAD25FDHykzdQyorHbB+1/q0OIYZ16V8qZjRGrkcHhdwM1oZBR
+         Vag6kVrzlvk6yrnxKhS+XyfI2gaaCgLbZIxLC5j4jGPhIKrBQfR6MwAvys9zAVyIa4hQ
+         ZCLWUIwflGZTZ2oTqv8UMhGk+L0O0iGz/SPOz7C4IwUXgjx8xEbwIqDoeNPdYihH6WPn
+         GAgGrYCDtvYB4+wlpLxdXwby8daMUkJjkx6/jD8xs2bwiH4GZT7s5tf3QSDwP1W5hfvw
+         waTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782977685; x=1783582485;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3/xamfdBRxwo750A4SZz8/bTalsmZfMjyVafbFf87xU=;
-        b=OuFZqNDL5hGv0OLPo326tPMB4o8a4JweZUjOm1QGsTJZEkn+bVzXbWV5Qfh96RqZKy
-         XfYX+zUZRQbQEmA1HFOJoxu5Puy2vMXpAROka8bGnK6e24OIMsHuGvqFJw3ZHV6gH6Xp
-         5vDKs3ANRvF/LXmqMJv4t8f57/fzALnIM+nZziUgXDXkY9FraUZDrMUM7I3s5my+whJQ
-         cCHvy/B3g7n+EAWPdV/L6N3aXHb4vhnJPPpk/iWyZUMxlpWdXEXxd/pCtJnTCRImXatG
-         jIZ3q4iLxAwjRAKDUYOV6nwm56spwRiEWlAksqA52fllTEMuPK+QoZRo0ZqjaeEjH2Xl
-         KdXQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+v2N8ooHKBAwqo6OaiFak7MSA1mXKSGNaILs1e2YjpVaYDPdroPDKBfG/g4oOQD3nai3jQQ38anwxqcg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqqwHDTwZeuutDx1Nhn8tGpuTvvDKP9OvAZnXiym+tuXzszic6
-	ws9D3gcYKbIHzTJUosWXugZvJ3Wsvv2EEeejDjM1eyTUDVb6O4ZFZc4RfU7Og+5r8jdqww==
-X-Gm-Gg: AfdE7ckWEAXtzVoL4xhPFePM0cUSdZCdxoSqRW080A50ZXlJ0QHkafJO/aYmlARpKIs
-	2ThuSqIzw6aVnYgLxRkhqp/uZUnbG8AFLg5Pp9ynrg+gZdO2bRIWHBVk/fJLfpTGCsZYT4Qzkdm
-	34q3ro4uNichJUgx6eMBEvhdOP2NoiiqeVlXFxEZx6LtaNX8NOhKOzOOLc1L1YaJxK9qI1Ixku9
-	C1HO76DgzSgmbWAB3yHSYB/F3HzgQe+MdTqBqZ3cdvq4OFt+xgz1yZTNDbMP/twiURK+l7JFK4b
-	VyovfI/R6PbM+uj8F3dkxvdcvDnJp1+GiMEvEib1EJy9bJccaUnTUQ7j5IJyBLHRZJK5gAxJLmA
-	YOy5MwqxovOCLmI+B1RCvhGyXq5y8yjI9k+jAay8eKrPGWsXhZ6p99USqCSU/PaLZwMEYl0fLCn
-	s+fWaLGt6AyVUTNytOgA==
-X-Received: by 2002:a05:6a21:7d06:b0:3bf:a624:decb with SMTP id adf61e73a8af0-3bff4120bbbmr4943948637.27.1782977684904;
-        Thu, 02 Jul 2026 00:34:44 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782977690; x=1783582490;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UUB+0in7NeYsVonwfzqEHaDpNUcQJFtKaqdplo8pdwM=;
+        b=pGEfWulyKlDPGuNd/XX3aCfkyDvy4pGd3WkP6pfxfayCz8SGpt+viLhUkUqxr6cltr
+         7Ie1rFdLrI0caF0THx0R1gvGacDx/aRrFgoeFCw13mz8KrDNdEzhgefSft2wliUmMEff
+         OKBJG4PfJBFkiJeQzjrOF5Juhr3pCCLpQT9ORikbsFagQMXSgAzxVJ6fR0Y5tRFMSkTz
+         SPqrSKQ75AoxVgkHCmneh/XylzcqmNbLeVm6Vf8RjIXIxCIykbDrCj3VG8mLYaCBG8cz
+         57LtgEZJQRUaAiHmmJy43L5vQmneFlvcvLEwzqRkyEaIel/PB2GtUg7J/f6GmgHpOLz4
+         4npA==
+X-Forwarded-Encrypted: i=1; AFNElJ/LcM735isZvfrq+ot/Fy5vc8OsFwp5N+fpmpnhSSn7ASfn3W0cvH0HGfV2iUNA8RhHYx95mcidGak9gw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywr9yyDypDViQ47+QrUQL6GMkSl4ZIsjiCGAip2rWjf03Ju6YJN
+	KWXhYDcoXHDzTbigqfYZ7aup4ovM42YEitLf8h6VS2dbmcPYENdbdurXZzAI8SApyEtteA==
+X-Gm-Gg: AfdE7ckc6j+MsNDvgZV2021fT+xU/+PQEEmn4qPdPIUrTofsteDSNm2+u4Rw5TFe1TL
+	q60W4W/eplCeoKWQsFt7T40OgzDTvwFp+q/Su7+5Vd/8DdMZxA0LeZKv7LfRjd1RW5LgV0Osq4M
+	0sUzRZZVKBXiRglgibIiO/XWdx5cH8rMLKxALBa8V37hxVMOHq9eCXffi6AoHBgvSOrWbRP1ImH
+	PFppIBSDXtVs3hVT00KhGAFxR1wVxSlJe7lRpVK78j0uIRVqbk58PyZmOdnnf0ry7/H2nHTgq8j
+	rq0lvVdP3lss10yiWwNHBsVN+4EJn7RcBOG239OzHOukq8DjlkkXMd5wmQ7v/v+bRt1uawFwoPO
+	0J2J1W1IHF9VEj0abiwvxJZjndDnVCS/7JAZUnpzwybMRi7wsfk6+zn8pfFBSSS93Ww21mQKu/p
+	q4ltENAIdZ6ZwVj80JKw==
+X-Received: by 2002:a05:6a21:3987:b0:3bf:ae43:4d26 with SMTP id adf61e73a8af0-3bfed0e1385mr5829279637.5.1782977690185;
+        Thu, 02 Jul 2026 00:34:50 -0700 (PDT)
 Received: from [127.0.1.1] ([2401:4900:8901:272a:b5f0:4094:eeda:86b5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0bb84405sm8461440eec.17.2026.07.02.00.34.39
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0bb84405sm8461440eec.17.2026.07.02.00.34.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 00:34:44 -0700 (PDT)
+        Thu, 02 Jul 2026 00:34:49 -0700 (PDT)
 From: Ramshouriesh R <rshouriesh@gmail.com>
-Subject: [PATCH v3 0/2] media: Add Himax HM1092 mono NIR sensor driver
-Date: Thu, 02 Jul 2026 13:04:24 +0530
-Message-Id: <20260702-hm1092-driver-v3-0-85faa7ff4fec@gmail.com>
+Date: Thu, 02 Jul 2026 13:04:25 +0530
+Subject: [PATCH v3 1/2] media: dt-bindings: Add Himax HM1092 NIR sensor
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,11 +87,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12NwQ6CMBAFf8X0bE13ixU8+R/GQ6FbqBEwLTYaw
- r9b4EI4TvJm3sgCeUeBXQ8j8xRdcH2XQB4PrGp0VxN3JjFDgUooyHnTgiiQG+8iea6VRa2NsSi
- AJeftybrv0rs/Vg6f8knVMEfmRePC0Pvfchhh3q3ti4BdOwIX3EBpciCUsjzf6la716nqWza3I
- 25t3NuY7MwWVqrCKJ3lW3uapj9Ett6S+gAAAA==
-X-Change-ID: 20260618-hm1092-driver-a6f2aaddf201
+Message-Id: <20260702-hm1092-driver-v3-1-85faa7ff4fec@gmail.com>
+References: <20260702-hm1092-driver-v3-0-85faa7ff4fec@gmail.com>
+In-Reply-To: <20260702-hm1092-driver-v3-0-85faa7ff4fec@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Sakari Ailus <sakari.ailus@linux.intel.com>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -102,20 +101,20 @@ Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
  linux-kernel@vger.kernel.org, Ramshouriesh R <rshouriesh@gmail.com>, 
  Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2741; i=rshouriesh@gmail.com;
- h=from:subject:message-id; bh=GuZJr6R3RQg8VP+qVT3c581P7ve8Wl09bRgKEwEKgxc=;
- b=owEBbQKS/ZANAwAKARWVil4RHAXeAcsmYgBqRhSOqJgZmly3kFAQapm34oPBjL23M51+E7F43
- 75Zs7sn7WmJAjMEAAEKAB0WIQS/0QuzNKVfvUNlNAkVlYpeERwF3gUCakYUjgAKCRAVlYpeERwF
- 3lfIEACDpHm7y4mfKErxOjdPOwyilb48kkGckjSR7w/y2tMChkOJwsdW/KpavWbbMPG5ie+5IYd
- bf9ABv643OzxIjuv1jWTehX/xeyDEwoEHM0LcATpiNsbVMoSgpJxP1pvbi9sMbq+XUMqIHQtOrF
- VLTjdWaClBu0Eucs2CxeawfvFILHp2pO8Z+zr3KrNh+8vgO/gcKXU0pD2U1ALLVgnjhdljzf1is
- EZOWyDwhdVmSzr+itUJM2Pkx0x0nHS7vvLfZLch+6o4BWwcnyHp+XqzT7GDNI9MLqHyf1o5ULmV
- WdMeDwJMtw9y5w0fxw/0sWPWK3cyfWf7hw4WCdlRSh7rqLRev8/BqIZ2mCCOXLrFc4Qv6Z9H7xQ
- mS2KpmxDzAthUx4fE+N6dNsnUt2gvvT/9m2Vx4VBpg3EaI6wLLI2oY6E2acu47zb+edeC+Vfw1Z
- VuYIdOnZdyZFEt2WANNXNOOP7M4geG0a2JaeVx5Fhpyo5F9TZ1ToCWXk9s5MgZa+XJbL789zoBi
- CBVtn7xa4W+lVqmJZTLx+dJ9GWyR31w5sLXAxbB3GgEu9dARdg19QXDV3ugDD8uKZRBJLY0d0bk
- /ZPQLS5W63UV6IgeW8uQD+qC6barL5vxUdF0DcaJjbKnO1KAQidkU0GYt62Z/WD8TG+c4U7yJHF
- wlQ3fgNw56M/5iw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3376; i=rshouriesh@gmail.com;
+ h=from:subject:message-id; bh=cv9nHvHq94cyshMFED23S0p/8n2aHyuezbgSJ8p2hTw=;
+ b=owEBbQKS/ZANAwAKARWVil4RHAXeAcsmYgBqRhSOvrhFFntHdwL1IfH/M2DJ/suFQtVp1GNzN
+ tXJbZ/fct+JAjMEAAEKAB0WIQS/0QuzNKVfvUNlNAkVlYpeERwF3gUCakYUjgAKCRAVlYpeERwF
+ 3vJnD/9u2KhvXVZQZPSkBj7pGF1AhbbU4d1PYu3MYS3oVrLvj+y7VSSQ3wEgqXdgEwY3lYi7o2W
+ +wB6M1TW321w/dtIbP6xmuinc8xacAYIitZe3uGmdIojdlBOzocQyd6iG8mcvjDfNiElP+pROJe
+ SO51L4wcO3eQHbUf2rVMRVM2daON5gsWDV+5bbXQCfmPPZ0I7kIZRdVl1s/5C/E/8Bp08hzTVlf
+ qlMMO5yX09pZ5uaj/Nyssh5uAnbGkXMOa34eOM1b7XR8SiFuPRmFyT0zxb3pv7+ONH94Bg+IVcf
+ Exib6H7n5p01v214xZBsxLCg29S1n64/tb1Wy6Jc9l/GXfpJ3NNwgMo2aiSFrBgfCSDpvsmqFrX
+ pt4nP4blLcpVvFn0L8pozjtWwNHCc9LJdlf9YDErI3wcx9zi5/EKdE64LxfOU/gEkAkQG/SFf5T
+ w2ohi7rZmSfV9tJ73yB8xNaRYX28x4cElnkEYmPR9JVZUnq+PfXfksateYlb39pHfu0yV2MxmoU
+ sJmPudaBoB2MovvnYn+wbsbYiMT1tTpo1fKrsjrsf6ZnESHN7cqlWRLq+Ms7MluJN2O7LlaQhKu
+ gSbDmH8+lzp1YlvjHNyYJDp1gwk8L7wOezkdFOBn8sU4Dp9v4rmBMm//PtbY0kAuP7Rz5bX14FK
+ HvWTQrtohoXOL6g==
 X-Developer-Key: i=rshouriesh@gmail.com; a=openpgp;
  fpr=BFD10BB334A55FBD4365340915958A5E111C05DE
 X-Rspamd-Action: no action
@@ -124,11 +123,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66313-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66314-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rshouriesh@gmail.com,m:conor.dooley@microchip.com,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[rshouriesh@gmail.com,linux-media@vger.kernel.org];
@@ -148,75 +147,140 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,microchip.com:email,devicetree.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C49566F43C7
+X-Rspamd-Queue-Id: 151AE6F44D1
 
-This adds a V4L2 subdev driver and DT binding for the Himax HM1092, a
-1 megapixel monochrome near-infrared image sensor. On laptops it sits
-behind the IR camera used for face unlock. It speaks a single MIPI CSI-2
-data lane and outputs 10-bit RAW at 560x360.
+Add a dt-binding schema for the Himax HM1092, a 1 megapixel monochrome
+near-infrared CMOS image sensor used as the face-authentication IR
+camera on laptops. The sensor streams 10-bit RAW over a single MIPI
+CSI-2 data lane.
 
-The driver exposes that one native mode, a test pattern control and the
-standard fwnode properties (orientation, rotation). It has been tested on
-real hardware (an ASUS Zenbook A14): the sensor probes, streams, and the
-on-chip test pattern comes through the full CSI-2 pipeline.
-
-The sensor driver and its binding are SoC-neutral, so they are sent on
-their own through the media tree. The board-level device tree and PHY
-work that wires this camera up on the ASUS Zenbook A14 will be sent as
-its own series.
-
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Ramshouriesh R <rshouriesh@gmail.com>
 ---
-Changes in v3:
-- dt-bindings: add the Reviewed-by tag from Conor Dooley.
-- hm1092: initialize RAW colorimetry fields in the pad format helper so
-  userspace values cannot leak into subdevice state.
-- hm1092: return -ENXIO when the required firmware graph endpoint is
-  absent instead of deferring probe indefinitely.
-- Link to v2: https://patch.msgid.link/20260702-hm1092-driver-v2-0-4f9f369d6a48@gmail.com
+ .../bindings/media/i2c/himax,hm1092.yaml           | 107 +++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
 
-Changes in v2:
-- hm1092: use pm_ptr() instead of pm_sleep_ptr() for the dev_pm_ops
-  pointer. The ops come from DEFINE_RUNTIME_DEV_PM_OPS(), so gating them
-  on CONFIG_PM_SLEEP dropped runtime PM on a CONFIG_PM=y, PM_SLEEP=n
-  build.
-- hm1092: free the control handler on the error paths in
-  hm1092_init_controls(); the fwnode-parse and ctrl_hdlr->error returns
-  leaked the handler.
-- Link to v1: https://patch.msgid.link/20260701-hm1092-driver-v1-0-d1bd81e233b5@gmail.com
+diff --git a/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml b/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml
+new file mode 100644
+index 000000000000..d324569836af
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml
+@@ -0,0 +1,107 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/himax,hm1092.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Himax HM1092 Monochrome NIR Sensor
++
++maintainers:
++  - Ramshouriesh R <rshouriesh@gmail.com>
++
++description:
++  The Himax HM1092 is a 1 megapixel monochrome near-infrared CMOS image
++  sensor with a MIPI CSI-2 interface, commonly used as the IR camera for
++  face authentication on laptops. It outputs 10-bit RAW over a single
++  MIPI CSI-2 data lane.
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    const: himax,hm1092
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  avdd-supply:
++    description: Analogue circuit voltage supply.
++
++  dovdd-supply:
++    description: I/O circuit voltage supply.
++
++  dvdd-supply:
++    description: Digital circuit voltage supply.
++
++  reset-gpios:
++    maxItems: 1
++    description: Active low GPIO connected to the XSHUTDOWN pad.
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            maxItems: 1
++
++        required:
++          - data-lanes
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - avdd-supply
++  - dovdd-supply
++  - dvdd-supply
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera@24 {
++            compatible = "himax,hm1092";
++            reg = <0x24>;
++
++            reset-gpios = <&tlmm 109 GPIO_ACTIVE_LOW>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&cam_ir_default>;
++
++            clocks = <&camcc 1>;
++            assigned-clocks = <&camcc 1>;
++            assigned-clock-rates = <24000000>;
++
++            orientation = <0>;
++
++            avdd-supply = <&vreg_l7m_2p9>;
++            dvdd-supply = <&vreg_l7m_2p9>;
++            dovdd-supply = <&vreg_l4m_1p8>;
++
++            port {
++                hm1092_ep: endpoint {
++                    data-lanes = <1>;
++                    link-frequencies = /bits/ 64 <400000000>;
++                    remote-endpoint = <&camss_csiphy0_inep>;
++                };
++            };
++        };
++    };
++...
 
-To: Ramshouriesh R <rshouriesh@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-
----
-Ramshouriesh R (2):
-      media: dt-bindings: Add Himax HM1092 NIR sensor
-      media: i2c: hm1092: add Himax HM1092 mono NIR sensor driver
-
- .../bindings/media/i2c/himax,hm1092.yaml           | 107 +++
- MAINTAINERS                                        |   7 +
- drivers/media/i2c/Kconfig                          |  11 +
- drivers/media/i2c/Makefile                         |   1 +
- drivers/media/i2c/hm1092.c                         | 794 +++++++++++++++++++++
- 5 files changed, 920 insertions(+)
----
-base-commit: be5c93fa674f0fc3c8f359c2143abce6bbb422e6
-change-id: 20260618-hm1092-driver-a6f2aaddf201
-
-Best regards,
---  
-Ramshouriesh R <rshouriesh@gmail.com>
+-- 
+2.53.0
 
 
