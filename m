@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-66301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66306-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id HUqGAuYSRmr8JAsAu9opvQ
-	(envelope-from <linux-media+bounces-66301-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 09:27:34 +0200
+	id HrqKDY0TRmpqJQsAu9opvQ
+	(envelope-from <linux-media+bounces-66306-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 09:30:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDF86F4283
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 09:27:33 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A836F42EA
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 09:30:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mediatek.com header.s=dk header.b=GcIWB3Qb;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66301-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66301-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mediatek.com header.s=dk header.b=M+4yfa2q;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66306-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66306-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=mediatek.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 13CE83042F17
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 07:26:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AFB78308DCCA
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 07:27:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 477C7391E73;
-	Thu,  2 Jul 2026 07:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EBE939891F;
+	Thu,  2 Jul 2026 07:26:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819D93909A5;
-	Thu,  2 Jul 2026 07:26:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6EC3914ED;
+	Thu,  2 Jul 2026 07:26:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782977195; cv=none; b=kv8I5PFocgnyyUoJvIGb5IG0QlOP1Q2zMbOaLRVpv2jnO1mMThYxlv+LlfABrNeSxNVzF8zEXFetoGKQCwZHAfqm/PsheWH2maTmruxYWj/DElZQZlbu0JsS4BHvboWXYg4RYUxMjqEbhK2gzR5jfpSrr7K4bdSmZzz4WkoVOr4=
+	t=1782977200; cv=none; b=qoayF12BE5pQ2jt8r/AXU2aKeqg5cl8iYc1dRR0e1jBfsYcQ5Z488Ky1U7HUhfRED9Vj6Jo0mukB2PTAb20tfpQe4qpABvRtAz2qsJLgKg7O40RaxkeaIgatZkpEzhHH2PNguaWXkM7DTB2r2USG1b6vISb+YgoFNR1YMxtpIIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782977195; c=relaxed/simple;
-	bh=s/dq7bwmw5VMZN30ZBb+2VCcW61KD7ENnl8Lx91aNnE=;
+	s=arc-20240116; t=1782977200; c=relaxed/simple;
+	bh=xnuiii9zq94ZjQ33C5+BwNfuGZD5x+YdWMy1IteqJZU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aLqJTN6eqKICIGyjml9ghwGjI12UoHmYRw2hrUdaDSbS0XPai9IyeVVk7tgzvTs+Xnt/Wec30VZG0/2ACdwfh4TQsaI3ofpdCValojxPa5X7ojDL+e4b4dPxWo1UFx6UrFLl677VDWnGCLWTiXFpvYC4G2Jz7/q0z00Ndwup0bM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=GcIWB3Qb; arc=none smtp.client-ip=210.61.82.184
-X-UUID: 567fcb7275e711f18dc8c9802ae25ab1-20260702
+	 MIME-Version:Content-Type; b=T4tFb8SYUQ5QRMq4UN/LRBKFsRQKEsoFC31t/xysSNA6A5lEDkwGwHJe/JDEFzVy331Xr5fYNyAAK7l74bQTryGo2MQwEmY3vlyRewb0bepjwyp9QU1taSynbzwj7VVvahYpFdtZ5ot6rI8M1NGzVn5H2e1oSKibtVFksgsmCwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=M+4yfa2q; arc=none smtp.client-ip=60.244.123.138
+X-UUID: 5769d74e75e711f1b1788b6acf885367-20260702
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=4o/P+C0jNzf2JiOQyXN2IxeKhOI4k26hisBucaHo4zk=;
-	b=GcIWB3Qba5TllTJJUhb0DW87H8C8QNU1b8tynDfXZEB+2nsx6ftVabnPIQOMFpXalSKFPyS+7pfNMQyP4hNMqsCKVyJEm4IDtCtEnAjl2+GJG7rs0r8aWf2zALP8zYIJhAyc/b9tP+lGOTu8dWyzkVxd8erZcsVDTksYIkXOMr8=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=l86b3wFQLp7qqyYC3UYkYG48yFwPuGR6BvkHaLpMrlk=;
+	b=M+4yfa2qCIQtETaNbWqwYakf6NPlnmwz5ttGbQIo6No8qg7GE8UgbGnMLAVTQaTYT2TxqGo97o2wYMmfg8/ZWvTb2ZXYNVNtpuZsxSW2ZADPqFOzafhd8RpOMWsvvbe/zMaxbD6DoiUvJn2YIncTcwv8EceUQ1mnHCccLz4ws68=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.17,REQID:f35eb790-0bc1-4a10-b6d0-ead88649e1b0,IP:0,U
+X-CID-O-INFO: VERSION:1.3.17,REQID:837d28b9-ef98-450a-a0f4-5b40626a451b,IP:0,U
 	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:-5
-X-CID-META: VersionHash:d497b38,CLOUDID:6698b4c4-4062-4a8f-9776-acbccc936972,B
+X-CID-META: VersionHash:d497b38,CLOUDID:be8ea514-ea64-44d4-98db-4e1fb89955a3,B
 	ulkID:nil,BulkQuantity:0,SF:81|82|102|836|865|888|898,TC:-5,Content:0|15|5
 	0|99|100|102|158,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,
 	COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
@@ -50,15 +50,15 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 567fcb7275e711f18dc8c9802ae25ab1-20260702
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
+X-UUID: 5769d74e75e711f1b1788b6acf885367-20260702
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
 	(envelope-from <kyrie.wu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1827465714; Thu, 02 Jul 2026 15:26:27 +0800
+	with ESMTP id 1377281321; Thu, 02 Jul 2026 15:26:28 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
  MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 2 Jul 2026 15:26:26 +0800
+ 15.2.2562.29; Thu, 2 Jul 2026 15:26:27 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
  15.2.2562.29 via Frontend Transport; Thu, 2 Jul 2026 15:26:26 +0800
@@ -73,9 +73,9 @@ To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>
 CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v15 09/12] media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgdec compatible
-Date: Thu, 2 Jul 2026 15:26:09 +0800
-Message-ID: <20260702072614.10373-10-kyrie.wu@mediatek.com>
+Subject: [PATCH v15 10/12] media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgenc compatible
+Date: Thu, 2 Jul 2026 15:26:10 +0800
+Message-ID: <20260702072614.10373-11-kyrie.wu@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20260702072614.10373-1-kyrie.wu@mediatek.com>
 References: <20260702072614.10373-1-kyrie.wu@mediatek.com>
@@ -96,12 +96,12 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[mediatek.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[mediatek.com:s=dk];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66301-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66306-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_TO(0.00)[xs4all.nl,kernel.org,collabora.com,gmail.com,mediatek.com,vger.kernel.org,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
@@ -119,35 +119,35 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linaro.org:email,mediatek.com:dkim,mediatek.com:email,mediatek.com:mid,mediatek.com:from_mime,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mediatek.com:dkim,mediatek.com:email,mediatek.com:mid,mediatek.com:from_mime,linaro.org:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6BDF86F4283
+X-Rspamd-Queue-Id: 94A836F42EA
 
 Compared to the previous generation IC, the MT8196 uses SMMU
 instead of IOMMU and supports features such as dynamic voltage
-and frequency scaling. Therefore, add "mediatek,mt8196-jpgdec"
+and frequency scaling. Therefore, add "mediatek,mt8196-jpgenc"
 compatible to the binding document.
 
 Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../bindings/media/mediatek,mt8195-jpegdec.yaml           | 8 ++++++--
+ .../bindings/media/mediatek,mt8195-jpegenc.yaml           | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
-index e5448c60e3eb..28a9a9bfdbf8 100644
---- a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
-+++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
+index 596186497b68..e2d772ea0fb0 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
 @@ -14,7 +14,9 @@ description:
  
  properties:
    compatible:
--    const: mediatek,mt8195-jpgdec
+-    const: mediatek,mt8195-jpgenc
 +    enum:
-+      - mediatek,mt8195-jpgdec
-+      - mediatek,mt8196-jpgdec
++      - mediatek,mt8195-jpgenc
++      - mediatek,mt8196-jpgenc
  
    power-domains:
      maxItems: 1
@@ -155,10 +155,10 @@ index e5448c60e3eb..28a9a9bfdbf8 100644
  
      properties:
        compatible:
--        const: mediatek,mt8195-jpgdec-hw
+-        const: mediatek,mt8195-jpgenc-hw
 +        enum:
-+          - mediatek,mt8195-jpgdec-hw
-+          - mediatek,mt8196-jpgdec-hw
++          - mediatek,mt8195-jpgenc-hw
++          - mediatek,mt8196-jpgenc-hw
  
        reg:
          maxItems: 1
