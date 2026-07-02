@@ -1,231 +1,218 @@
-Return-Path: <linux-media+bounces-66375-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66376-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vb+FH7dvRmo8VAsAu9opvQ
-	(envelope-from <linux-media+bounces-66375-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 16:03:35 +0200
+	id wQhTHVduRmoEUwsAu9opvQ
+	(envelope-from <linux-media+bounces-66376-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 15:57:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA9C6F8A96
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 16:03:34 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E47A16F89DB
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 15:57:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=kxwzWZoe;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66375-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66375-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=raspberrypi.com header.s=google header.b=BE+o5wxi;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66376-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66376-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=raspberrypi.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9493D3137205
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 13:56:36 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A140C301AC14
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 13:57:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 098AC4ADDAF;
-	Thu,  2 Jul 2026 13:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F2EC4ADDA3;
+	Thu,  2 Jul 2026 13:57:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lr2-f2.google.com (mail-lr2-f2.google.com [74.125.230.66])
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6FD4ADDA8
-	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 13:56:23 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783000585; cv=none; b=ZvcZr/TiTlCfXAhBolTtMSn5msX+ew66roemMmFUxbep0VL+b3HGVZKDyqLY0KpowCLvfhFSNvhTuJ3G7J0SKe4+A1Zc+bLS7y4VeXTdGtAq2NXTPK+l8TNkVoxkoEzVfRiz++QhLSgNDzZXey3qJSb+cH06vRpVdhbEV7uwxoY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783000585; c=relaxed/simple;
-	bh=BfrxHYuUlb5DTUkfLTDPjkNjucBPhZj68vtPs+di8C8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G7uFZVeTAjMexRVcc16iu6jBT+G903oPF9gBFHWO+E8/EpGnMh0J6rQ5NKskmFpEyVmKqXNIT5u/EaupJa/0igMTC6TKaZIXFgIVvZY51PvvnPn3wnqrlfHEwFW5A+VwF3KpqiNKl86UPb0s12d0INfbg8LSxXGA3IRAJGXKBXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kxwzWZoe; arc=none smtp.client-ip=74.125.230.66
-Received: by mail-lr2-f2.google.com with SMTP id 38308e7fff4ca-39b430545e3so1171881fa.1
-        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 06:56:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A31D4ADDB5
+	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 13:57:35 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783000657; cv=pass; b=oMVz3JmYtbfoWYnDcqTitzbUHgE1KWIUyjrBKizlyjbeRzSkpAVUeqA3M9TtyqbtN6/na7ljF1gWQDTj/r/+XuOnfF/i7mojLevpLHFOTsef3VkaHu8rnJCIV1VBSIbx5K1kIUjjZHI2duDdR+iU0F9M2ucRf46vH9wfDpfdGFE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783000657; c=relaxed/simple;
+	bh=CgLVwhzuaGigELUUyn93ur1slsiWDZCpISB6BacqHgk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B9mZ9pSUjmBuvbkn8NJr9uj/2Talt0rdzy6ouyUkcSpWFow7I7Hupi2tZ2LlTqLoNmKfCV8CcAJe/W/VxH7grcjAvNrwf5/Mq2twhHWW6FMob9AbLHlhxhMixGd1aVue+dsTHw/hhayVWS5KtIeI4g17h/fF+O1Z52e3DGLtKYc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=BE+o5wxi; arc=pass smtp.client-ip=74.125.224.49
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-6651bc5730dso2739767d50.2
+        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 06:57:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783000654; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Qsmk1Tiv6M4GCFrjJPmCmNlrwMDZBPaQsGAnZ/LTE5rvYDWeOUxmJxsHp3ZsAlruQJ
+         FQ9e0NR6IsOSZ+iFTXDY7tTY70IX+kWStLZhHT7cmu09W+btA/sWQF2TIS/GO6jfuHyz
+         tjmMxfxeo2qWbn2e7BfhTY+Rgh1/64xJ7MWuS9twgICrdbpSganMzaWEr5IZMe6j51av
+         LGiLuapUgsWVDi5guN2EaVRN6UYFm9tPCwuYU2ERnsk47clf6JvHHi6c2wfEH3CpiuxR
+         w9y/jh7KA+rSudEIRjXZMzDOnIBuFkew7ZEMAzLkcjgmt0cgtE/3lpZpEA73ecw5ozu9
+         Mb2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZpVM98wv+peEQ4O6jXgP6XKpYw+FjbF84JaJw4nFIQY=;
+        fh=wCgf29w5Tfiwiv5ySPc/k82f0CcZCa01Bp13MVBRgUA=;
+        b=GuY/FpdLmh1G6HoEHAO0M8+VfjMtC5vSncYqRlItCw9ik264gK4EI9/WUzBirNuc0C
+         hWOfgiSoV1OSeCnUhStI8XvEkiVUUsphysvD96tbLJ6DJ6UWYmtpyChzIPidpHJAu6Jz
+         9tU1R1x89ecx4D7lqAtG6+M6v1ee3Ang6PSzB/gsZDYzh0SHUbbaRMA3SHseizC/fMy2
+         k3TzaqNsi7KTnt/9PTob5m6t0Oy970Km+ChxWiKAvFwwRwdOl688IxZMpxT+bahCwidY
+         nLqS2i1maqd6t9HVwE+p+yNmGJ37F/MG/FOgME62wJyXcob4GrZGwJRpLxCWVk95RwN6
+         ktcg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783000582; x=1783605382; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y9TmNXT3Wq8aMPD04wKa9UiOCYJMfbSBZuVN/NXn9rA=;
-        b=kxwzWZoexKIViQs9tsgic7YpqPvOaET0duP8GXF4dSzvlxS9oiCu4j3fAbETcsx90B
-         yB5Vhs2HLbhEtPUD9h0m1MHjRDWCo6qxXyqseYSnRaTuGpwzd9yRd5TWsvIDp6cNlAeU
-         Ss+l3MIO6MFh+rgtk/S7ee+NiQxUfM5fkdQ8eI2aYnwwHMVD6b2zy3NcIPKX3l5oLE3m
-         Ry384IpIbVfC4hsrWrsimp45jUlhz8fxN7E0HPjoH24e6UWwZLsNdmrM/M9LxCO49RmN
-         piXqJQ0WHLoUBP1RxxfdamuIqhEzN6GpCGSCnMFPVQ2nLK47Qst0iCp/S7Yv9Ph1oLmQ
-         3Ylg==
+        d=raspberrypi.com; s=google; t=1783000654; x=1783605454; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZpVM98wv+peEQ4O6jXgP6XKpYw+FjbF84JaJw4nFIQY=;
+        b=BE+o5wxi9lVYc2MHthhLNNJsZLB94H6fp4tYuklXffkLf1CXUo7tqbZRCplPdm/sGv
+         kk2YiDUIq+Wr+SlBmrwyTta4dXSLC7LCXmBlrXS1AsumWjy47D2E+FwKOfbjH6QXgjmh
+         bPwTYpjHGN88HZ7rwGKJmCkik4yXGGNtWo3nTO2gFgr/ziqFhphrX+LQZq7eq6yxxfbj
+         PpNEZPcSwJc0R4mRY5E4KW5wOt6u4Fqu9RhNHa6zKiPMmA9QLR09Iu9vmp41ih48nYF5
+         /Vc/gfkMS5phP18uej1hswPpzotBrc+WdEzJLzT0CNnfFvJCy86KHzArS0bou48yx3GX
+         HzYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783000582; x=1783605382;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=y9TmNXT3Wq8aMPD04wKa9UiOCYJMfbSBZuVN/NXn9rA=;
-        b=K+rt/Fo0Vv9A70Zoe0KS8iKQEVDP8/MFehNd+3JTQrIjIfNB//b2e3+NwJiux6UMZw
-         3tA347GR7hMXfMt9iY1XUJ763yI3AHLsL301YuKG7tS4Iq6jug+v+9RAxFFAvHMrqa30
-         mryuMg35oIHfi0SBwbclFwqdrYi29I3Kt/S3ectWtMKJyHbiwTusFapfJHOW/5x0C0WA
-         Y3Mrce2lZRJlUVYIlMus2P4cQezzyQoYJP4vasKgvSncO4vNagcvrAUXeHAI9pPHBcp4
-         o6u/iUi1WZgl16YsStG8/fGc6Sbf9PlBCK/WG6noFTyeLojJkPYj0sGklpU6LdMSQwb8
-         vx6w==
-X-Gm-Message-State: AOJu0YxJzLNigziaX+HjnyTKhL7BgslikJ7sDrWaCzZyuQje760Ch6FJ
-	nXFi+o4HQobLxFIS8eSocQVIQJGnjftADj6BE+zzWTSvDTxaRlTCX2EP
-X-Gm-Gg: AfdE7cn/uYS5oO/jl4dhDyRc2PNFnJPkSL6rlZW6verW7aysGO0bjTYaL4oyL/w32vc
-	3sdMm4DvdetMjVn30qmWzyCreA3wflp8Je/lD5Kd3TCOj75+XPzXd9vyS7vkhtKWdyHn2QdNQm1
-	xVdCWqDc71tWq5/897bQQIEKdNrkgY4hH7fdN+R5YSpoiSN1mUT1XDmSkEThMw3YvxZp1VdPkI7
-	hIXCvMqmgQbBKTZCeryeUyC/BkAI72D/O3RCZQdIH1IXfL9tR7sJz2ITz4Lh3kMFEivz8Y8hjKi
-	9GC5kAcPdtWD7fnlV25gY9EkrMlYIpSaFj9BZRU5B9M1WQaWqc3o2rzwfCu/ARdHzd2yGa68AvK
-	ExVHmzt05XXjSFbHYwwG54xnDCDOtLzJZzrVA2vZyyQ3VYaz7MG4hTndU7plQ3WhmEzSwbkyini
-	S8Twx1Y4np
-X-Received: by 2002:a05:6512:1194:b0:5ad:6989:ab36 with SMTP id 2adb3069b0e04-5aec8005b33mr1591640e87.29.1783000581724;
-        Thu, 02 Jul 2026 06:56:21 -0700 (PDT)
-Received: from arch ([93.177.236.219])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aec89919bcsm720820e87.11.2026.07.02.06.56.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 06:56:20 -0700 (PDT)
-From: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-Subject: [PATCH 3/3] media: atomisp: fix block comment formatting in ia_css_timer.h
-Date: Thu,  2 Jul 2026 16:52:30 +0300
-Message-ID: <20260702135230.19030-4-bohdandmarcus@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260702135230.19030-1-bohdandmarcus@gmail.com>
-References: <20260702135230.19030-1-bohdandmarcus@gmail.com>
+        d=1e100.net; s=20251104; t=1783000654; x=1783605454;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZpVM98wv+peEQ4O6jXgP6XKpYw+FjbF84JaJw4nFIQY=;
+        b=p7icvwd51dAz6ESaWJBCXZ+wI7LBmb9oEbas1d/42/lvqFx4mFXK9VeXsaNAXmgC/L
+         j3iiBkJjhBiAJKpzE9VPZ51aL8F+Mcno4S/dOsUPnHUB+yACp2GO62Wok/rbMgOTSrA2
+         2v4v7u8M1KC9J98fWWHRGE51fdND+iPn8tyhemmIVvek+/EYnTuXodUNOq7fbDLyF5SE
+         Tp89jLWYosZwFcHnY22I0pnUKMadzpJsSotZll6DdOPXhrEk6x0Zh44hPsh/q8P6c2OM
+         qJIDPiALXutMq/pANFd1TtVN3leGuvYbF4AAJSH2tUdHx4asboDG7EynlwnUvCRTLpov
+         BfFQ==
+X-Gm-Message-State: AOJu0YxC2YlIDTOts3XB5eRJKCOdIcFKwE80G+Wa86gJ0MBN1unOCHEX
+	xGk/dyOqS642xqJ70InlgWp6B7f+V19ZIhY7OsTxtFj95XB3hh/L6u+7eC9/wkzRC33tcJo2w/S
+	Xm6gZi90LYRU6rd90Im0eRK7SUCgq25SkJrgL9Aa4pg==
+X-Gm-Gg: AfdE7cnFSI4ozd67wXOIHPpJuFdEYorQykmYvL+CdVS73voCliFQzHaJ6s0Bee21L5v
+	x5/AVgS7vcbMXjYE8LA5n5/fyw5xAA6myqx4/OUUyGSwynKGhwQQdCl5XOjZX03pWf7M7mFXrNC
+	hYI2LxQeHPaZUyIXfFAltBkKW+10rA+VtUtK/YTsNptfpfReKiDuTZNWh49quF6Ns7u1vkHJLF8
+	Q9ChYeb8ghsXn6wJAIBdajid+0XWabYaVDsEW3PyeIe29Di2cPFS6KOCZQ9sCLN1alEIrS7NXFO
+	Z36QjOShccv8ccIcouXgnEhOcMzk6oagiqSCWISl9IFExh1s0yvP3Vn9xzRWLDwbN3KP+S0T2ma
+	GrMxILZFdSmnfTg==
+X-Received: by 2002:a05:690e:488e:10b0:664:8836:fec1 with SMTP id
+ 956f58d0204a3-66521a09df6mr4593085d50.36.1783000654534; Thu, 02 Jul 2026
+ 06:57:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260607215356.842932-1-sakari.ailus@linux.intel.com> <20260701122634.1728782-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260701122634.1728782-4-sakari.ailus@linux.intel.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 2 Jul 2026 14:57:18 +0100
+X-Gm-Features: AVVi8CeEY5CUICm-LUzdhYjKJU3T90fEdiPBmxV88zvaqLW_fwB5jqcW9jktQ00
+Message-ID: <CAPY8ntBYXtnfNqpy6g9fscmk2iqXxuZHyC=utqYdq-7rH-bhRQ@mail.gmail.com>
+Subject: Re: [PATCH v6 04/16] media: imx219: The horizontal blanking step is 8
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66376-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-66375-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:andriy.shevchenko@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:bohdandmarcus@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[bohdandmarcus@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bohdandmarcus@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,raspberrypi.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,checkpatch.pl:url,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,intel.com:email,mail.gmail.com:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,raspberrypi.com:dkim,raspberrypi.com:email,raspberrypi.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5FA9C6F8A96
+X-Rspamd-Queue-Id: E47A16F89DB
 
-Fix block comment formatting issues reported by checkpatch.pl
-in ia_css_timer.h by ensuring block comments use '*' on subsequent
-lines and aligning them properly to conform to the Linux kernel
-coding style guidelines. Also, remove misplaced Kernel-doc tags
-from macro definitions and correct function signature formatting.
+On Wed, 1 Jul 2026 at 13:23, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> The step for horizontal blanking on imx219 is 8. Take this into account in
+> creating and modifying the horizontal blanking control. The minimum line
+> length in pixels as well as the horizontal blanking values are already
+> divisible by 8.
 
-Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
----
- .../staging/media/atomisp/pci/ia_css_timer.h  | 49 +++++++++++--------
- 1 file changed, 28 insertions(+), 21 deletions(-)
+I can't find this referenced in any of the docs, but experimentally it
+does seem to be the case
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_timer.h b/drivers/staging/media/atomisp/pci/ia_css_timer.h
-index da752834adf4..2e555b39bc25 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_timer.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_timer.h
-@@ -1,23 +1,28 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /**
--Support for Intel Camera Imaging ISP subsystem.
--Copyright (c) 2010 - 2015, Intel Corporation.
--
--*/
-+ * Support for Intel Camera Imaging ISP subsystem.
-+ * Copyright (c) 2010 - 2015, Intel Corporation.
-+ */
- 
- #ifndef __IA_CSS_TIMER_H
- #define __IA_CSS_TIMER_H
- 
--/* @file
-+/*
-+ * @file
-  * Timer interface definitions
-  */
--#include <type_support.h>		/* for uint32_t */
-+#include <type_support.h>       /* for uint32_t */
- #include "ia_css_err.h"
- 
--/* @brief timer reading definition */
-+/*
-+ * @brief timer reading definition
-+ */
- typedef u32 clock_value_t;
- 
--/* @brief 32 bit clock tick,(timestamp based on timer-value of CSS-internal timer)*/
-+/*
-+ * @brief 32 bit clock tick, (timestamp based on timer-value of
-+ * CSS-internal timer)
-+ */
- struct ia_css_clock_tick {
- 	clock_value_t ticks; /** measured time in ticks.*/
- };
-@@ -38,24 +43,26 @@ enum ia_css_tm_event {
- 
- /* @brief code measurement common struct */
- struct ia_css_time_meas {
--	clock_value_t	start_timer_value;	/** measured time in ticks */
--	clock_value_t	end_timer_value;	/** measured time in ticks */
-+	clock_value_t   start_timer_value;  /** measured time in ticks */
-+	clock_value_t   end_timer_value;    /** measured time in ticks */
- };
- 
--/**@brief SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT checks to ensure correct alignment for struct ia_css_clock_tick. */
-+/*
-+ * SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT checks to ensure correct
-+ * alignment for struct ia_css_clock_tick.
-+ */
- #define SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT sizeof(clock_value_t)
--/* @brief checks to ensure correct alignment for ia_css_time_meas. */
-+
-+/* checks to ensure correct alignment for ia_css_time_meas. */
- #define SIZE_OF_IA_CSS_TIME_MEAS_STRUCT (sizeof(clock_value_t) \
- 					+ sizeof(clock_value_t))
- 
--/* @brief API to fetch timer count directly
--*
--* @param curr_ts [out] measured count value
--* @return 0 if success
--*
--*/
--int
--ia_css_timer_get_current_tick(
--    struct ia_css_clock_tick *curr_ts);
-+/*
-+ * @brief API to fetch timer count directly
-+ *
-+ * @param curr_ts [out] measured count value
-+ * @return 0 if success
-+ */
-+int ia_css_timer_get_current_tick(struct ia_css_clock_tick *curr_ts);
- 
- #endif  /* __IA_CSS_TIMER_H */
--- 
-2.55.0
+> Fixes: cd5e2fd89923 ("media: i2c: imx219: make HBLANK r/w to allow longer exposures")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> ---
+>  drivers/media/i2c/imx219.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 2aab6e7180d4..52a4bd9c4fd3 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -78,6 +78,7 @@
+>  #define IMX219_LLP_MIN                 0x0d78
+>  #define IMX219_BINNED_LLP_MIN          0x0de8
+>  #define IMX219_LLP_MAX                 0x7ff0
+> +#define IMX219_LLP_STEP                        8
+>
+>  #define IMX219_REG_X_ADD_STA_A         CCI_REG16(0x0164)
+>  #define IMX219_REG_X_ADD_END_A         CCI_REG16(0x0166)
+> @@ -578,7 +579,8 @@ static int imx219_init_controls(struct imx219 *imx219)
+>         imx219->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+>                                            V4L2_CID_HBLANK,
+>                                            IMX219_LLP_MIN - mode->width,
+> -                                          IMX219_LLP_MAX - mode->width, 1,
+> +                                          IMX219_LLP_MAX - mode->width,
+> +                                          IMX219_LLP_STEP,
+>                                            IMX219_LLP_MIN - mode->width);
+>         exposure_max = mode->fll_def - IMX219_EXPOSURE_OFFSET;
+>         exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+> @@ -920,7 +922,8 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                                   IMX219_BINNED_LLP_MIN : IMX219_LLP_MIN;
+>                 ret = __v4l2_ctrl_modify_range(imx219->hblank,
+>                                                llp_min - mode->width,
+> -                                              IMX219_LLP_MAX - mode->width, 1,
+> +                                              IMX219_LLP_MAX - mode->width,
+> +                                              IMX219_LLP_STEP,
+>                                                llp_min - mode->width);
+>                 if (ret)
+>                         return ret;
+> --
+> 2.47.3
+>
 
