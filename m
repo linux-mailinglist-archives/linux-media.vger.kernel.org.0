@@ -1,398 +1,448 @@
-Return-Path: <linux-media+bounces-66393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66394-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id VMRiMViQRmqZYgsAu9opvQ
-	(envelope-from <linux-media+bounces-66393-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 18:22:48 +0200
+	id N7NSBbOTRmqqYwsAu9opvQ
+	(envelope-from <linux-media+bounces-66394-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 18:37:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211DA6FA1DE
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 18:22:48 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3E26FA4B9
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 18:37:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="dxdAH/ca";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66393-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66393-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=k1cXbi23;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66394-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66394-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0176A30C6BEF
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 16:15:30 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1876E3029667
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 16:34:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64BF43164C5;
-	Thu,  2 Jul 2026 16:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46748346E60;
+	Thu,  2 Jul 2026 16:31:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A143B298CAF;
-	Thu,  2 Jul 2026 16:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5615D35F8D2;
+	Thu,  2 Jul 2026 16:31:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783008925; cv=none; b=ew42toFQU40HShkoa3EmwYaSJLNDOvXQJkG7NBj8y61za381J/6k9M9Qn26cZKXAwPSmxpP1V1SerZH4A8PB8e2TTnYr+272kubM+dD33pYFNZ0eZNVaccSAhCGi7xMd6l8gtBlKemPbBCG32Yi525I8OLFlfsA+NsckygayKDI=
+	t=1783009869; cv=none; b=fk4CPYiuDdD7lfYxF/u4gAuxJdJ8/lNr5KLiAe0E0hdku47ea6LjFBTA3lw9BXXWq2IjFB3CkJKCZwlXOqHU89+zSXrWjgrD7oWkCtAJKYQAGQgGWLsBJGr37jz7xBD22jnuz2reANS8DtYXtFX0SPGFN1O1K3QdyQfbV0E1+6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783008925; c=relaxed/simple;
-	bh=FaARUEjrFyJuj8uGntTCA4eGDykM1s2cESVLncfkhos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZIATyPluZdbjG1cnsWCaGNsN0rwXaszVfHKvniGsjeQ1QzmwoRxEjgPFJwdtd30UiZw4BW/gy0vQbbXiBr/5JlG/N+DFByUXIUoJkSg9wUcvW4jCi4fMJL5N9EZrojMshxZQSrq2dyHjUl/M2gLbi1sBzgS9poBUWVumstFL8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dxdAH/ca; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B8C88CB;
-	Thu,  2 Jul 2026 18:14:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783008875;
-	bh=FaARUEjrFyJuj8uGntTCA4eGDykM1s2cESVLncfkhos=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dxdAH/caapOtAKAs+fQGBJuECOgXbJMXWbNP6VbeHZ4/7smBFbzgFixqa/HlBNRMQ
-	 yGEADDco/OnHTJ3Xh+etq/6dTqCa3ui6QzWcT8gfpqSzVPpk2lxS8hYR/MB8QMSHm1
-	 KLsVLKDhjEu64NJFHfqsi8O3S4vG0DDKwsYPknRw=
-Date: Thu, 2 Jul 2026 19:15:19 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank.Li@oss.nxp.com
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Riesch <michael.riesch@collabora.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Martin Kepplinger-Novakovic <martink@posteo.de>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	Guoniu Zhou <guoniu.zhou@nxp.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v7 2/8] media: subdev: Add media_async_register_subdev()
- helper
-Message-ID: <20260702161519.GI3534761@killaraus.ideasonboard.com>
-References: <20260702-imx8qxp_pcam-v7-0-b47d9e363400@nxp.com>
- <20260702-imx8qxp_pcam-v7-2-b47d9e363400@nxp.com>
+	s=arc-20240116; t=1783009869; c=relaxed/simple;
+	bh=wLqHajWW4D5V8MZjcHXthOGsL88hjN0jRmTPIpP/cQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Sxr7ly77bpDrRP1jxRzpB2VVbc3gj1Tjs5YYUIVzS7WUjyIbGEQxCLPcTQCYlQd11bXJVfVL6hhwKatNPryQwAzzcLzVJ+cIm1tHoRSKr5TdYTxqfTUpEzNvoHEE2X1zVU9RJFcG5q8SQT3rlPW6xYok0tucXszfiW3eAFiUviQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1cXbi23; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F5051F00A3A;
+	Thu,  2 Jul 2026 16:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783009868;
+	bh=lSrN+Wx3FLNVPc6Y2o+2IKzHFYXr2wdNW6krzZiWHGE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=k1cXbi23WiS4HBFv8PvIjLxLGyvVxzVkljd6Z3ANdNFlz83pqsAg6bhHLRWu9lOZx
+	 reIbkKrah43h1WdCDrgSdbVGLgM3XQugpWp6RfAjryvhGJ7FKxC2ujPtAMek30yDXN
+	 ZWOSBm7Miq8gf9s8gCbnhY5eLb00dPrcKiAh0r3SHAnvrx6VDBsn9BKWHv4oanWGmI
+	 KUOSXAgq5Zo9Bc1euSOwCzL9g4hRVlGmxaBsLGiUQuYbpIokhiYLq9R0xlOH1NNE+K
+	 jc/rc2/hjGpjUoCkEs7we6XD+Wm9O9egscQv+u/lbWAhinZ0ktlicit7XB2QQUigHI
+	 5bfiS05RKJxFw==
+Message-ID: <5019684c-ace6-4202-97ca-98016df77d86@kernel.org>
+Date: Thu, 2 Jul 2026 17:31:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260702-imx8qxp_pcam-v7-2-b47d9e363400@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] media: i2c: og0ve1b: Introduce per-sensor data
+ structure
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260702-og0va1b-v2-0-0071442caa2a@oss.qualcomm.com>
+ <ihkKqIy-tPImrDpB18hIeI3IQpv1F5GAZ2S7cNWB9n_LlHh3vVMT7G4bGeCBPJDT9GCPPtyA7s_raKqOiG69ng==@protonmail.internalid>
+ <20260702-og0va1b-v2-2-0071442caa2a@oss.qualcomm.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <20260702-og0va1b-v2-2-0071442caa2a@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-66394-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66393-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@oss.nxp.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:michael.riesch@collabora.com,m:Frank.Li@nxp.com,m:martink@posteo.de,m:rmfrfs@gmail.com,m:kernel@puri.sm,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:guoniu.zhou@nxp.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,collabora.com,nxp.com,posteo.de,gmail.com,puri.sm,pengutronix.de,vger.kernel.org,lists.linux.dev,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:wenmeng.liu@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sakari.ailus@linux.intel.com,m:vladimir.zapolskiy@linaro.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,nxp.com:email,intel.com:email,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:from_mime,killaraus.ideasonboard.com:mid]
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,qualcomm.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 211DA6FA1DE
+X-Rspamd-Queue-Id: 9C3E26FA4B9
 
-Hi Frank,
-
-Have you missed the comment in v6 ?
-
-https://lore.kernel.org/all/20260629084654.GB3054459@killaraus.ideasonboard.com/
-
-On Thu, Jul 02, 2026 at 12:03:58PM -0400, Frank.Li@oss.nxp.com wrote:
-> From: Frank Li <Frank.Li@nxp.com>
+On 02/07/2026 11:52, Wenmeng Liu wrote:
+> In preparation for supporting further OmniVision sensors that share most
+> of this driver, move the sensor-specific parameters (chip id, MCLK
+> frequency, test pattern register, link frequency menu and the list of
+> supported modes) into a new struct og0ve1b_sensor_data, selected through
+> i2c_get_match_data() at probe time.
 > 
-> Add media_async_register_subdev(), a helper to register a V4L2 sub-device
-> with the asynchronous sub-device framework.
-> 
-> The helper requires each port to contain a single endpoint, with port
-> addresses starting at 0 and increasing consecutively.
-> 
-> During registration it parses the firmware graph, creates media pads for
-> all endpoints, and registers common asynchronous notifiers for sink
-> endpoints. These notifiers automatically create media links when the
-> corresponding remote source devices become available.
-> 
-> The set_pad_by_ep() callback allows drivers to determine the media pad
-> associated with a firmware endpoint and identify whether the endpoint
-> represents a sink pad.
-> 
-> By centralizing firmware graph parsing, media pad creation, notifier
-> registration, and link creation, this helper reduces duplicated code and
-> simplifies error handling in V4L2 sub-device drivers.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
 > ---
-> change in v7
-> - don't use saved vep informaiton from media pand
-> - fix sashiko report problem
+>   drivers/media/i2c/og0ve1b.c | 101 +++++++++++++++++++++++++++++---------------
+>   1 file changed, 67 insertions(+), 34 deletions(-)
 > 
-> change in v6
-> - new patch
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 169 ++++++++++++++++++++++++++++++++++
->  include/media/v4l2-async.h            |  39 ++++++++
->  2 files changed, 208 insertions(+)
+> diff --git a/drivers/media/i2c/og0ve1b.c b/drivers/media/i2c/og0ve1b.c
+> index 84a28cdcade10f8fbcf945999e88f84641b9bc0d..acc06b10bf896f734926289099a70fbc2bb628d5 100644
+> --- a/drivers/media/i2c/og0ve1b.c
+> +++ b/drivers/media/i2c/og0ve1b.c
+> @@ -66,10 +66,21 @@ struct og0ve1b_mode {
+>   	u32 hts;	/* Horizontal timing size */
+>   	u32 vts;	/* Default vertical timing size */
+>   	u32 bpp;	/* Bits per pixel */
+> +	u32 code;	/* MEDIA_BUS_FMT code */
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 62a3a452f7884..4e15adc1af065 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -26,6 +26,7 @@
->  
->  #include <media/v4l2-async.h>
->  #include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-mc.h>
->  #include <media/v4l2-subdev.h>
->  
->  #include "v4l2-subdev-priv.h"
-> @@ -1302,6 +1303,174 @@ int __v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd, struct module *m
->  }
->  EXPORT_SYMBOL_GPL(__v4l2_async_register_subdev_sensor);
->  
-> +static int v4l2_common_notifier_bound(struct v4l2_async_notifier *notifier,
-> +				      struct v4l2_subdev *sd,
-> +				      struct v4l2_async_connection *asd)
-> +{
-> +	struct media_pad *pad = NULL;
-> +	struct fwnode_endpoint ep;
+>   	const struct og0ve1b_reg_list reg_list;	/* Sensor register setting */
+>   };
+> 
+> +struct og0ve1b_sensor_data {
+> +	u64 chip_id;
+> +	unsigned long mclk_freq;
+> +	u32 test_pattern_reg;
+> +	const s64 *link_freq_menu;
+> +	int num_link_freqs;
+> +	const struct og0ve1b_mode *modes;
+> +	int num_modes;
+> +};
+> +
+>   static const char * const og0ve1b_test_pattern_menu[] = {
+>   	"Disabled",
+>   	"Vertical Colour Bars",
+> @@ -97,8 +108,7 @@ struct og0ve1b {
+>   	struct v4l2_ctrl *exposure;
+>   	struct v4l2_ctrl_handler ctrl_handler;
+> 
+> -	/* Saved register value */
+> -	u64 pre_isp;
+> +	const struct og0ve1b_sensor_data *sensor;
+>   };
+> 
+>   static const struct cci_reg_sequence og0ve1b_640x480_120fps_mode[] = {
+> @@ -254,6 +264,7 @@ static const struct og0ve1b_mode supported_modes[] = {
+>   		.hts = 792,
+>   		.vts = 568,
+>   		.bpp = 8,
+> +		.code = MEDIA_BUS_FMT_Y8_1X8,
+>   		.reg_list = {
+>   			.regs = og0ve1b_640x480_120fps_mode,
+>   			.num_regs = ARRAY_SIZE(og0ve1b_640x480_120fps_mode),
+> @@ -261,23 +272,39 @@ static const struct og0ve1b_mode supported_modes[] = {
+>   	},
+>   };
+> 
+> +static const struct og0ve1b_sensor_data og0ve1b_data = {
+> +	.chip_id	= OG0VE1B_CHIP_ID,
+> +	.mclk_freq	= OG0VE1B_MCLK_FREQ_24MHZ,
+> +	.test_pattern_reg = OG0VE1B_REG_PRE_ISP,
+> +	.link_freq_menu	= og0ve1b_link_freq_menu,
+> +	.num_link_freqs	= ARRAY_SIZE(og0ve1b_link_freq_menu),
+> +	.modes		= supported_modes,
+> +	.num_modes	= ARRAY_SIZE(supported_modes),
+> +};
+> +
+>   static int og0ve1b_enable_test_pattern(struct og0ve1b *og0ve1b, u32 pattern)
+>   {
+> -	u64 val = og0ve1b->pre_isp;
+> +	u32 reg = og0ve1b->sensor->test_pattern_reg;
+> +	u64 val;
 > +	int ret;
 > +
-> +	if (asd->match.type != V4L2_ASYNC_MATCH_TYPE_FWNODE)
-> +		return -EINVAL;
-> +
-> +	if (!asd->match.fwnode)
-> +		return -EINVAL;
-> +
-> +	struct fwnode_handle *remote __free(fwnode_handle) =
-> +		fwnode_graph_get_remote_endpoint(asd->match.fwnode);
-> +
-> +	ret = fwnode_graph_parse_endpoint(remote, &ep);
+> +	ret = cci_read(og0ve1b->regmap, reg, &val, NULL);
 > +	if (ret)
-> +		return -EINVAL;
-> +
-> +	for (int i = 0; i < notifier->sd->entity.num_pads; i++) {
-> +		if (notifier->sd->entity.pads[i].index == ep.port) {
-> +			pad = &notifier->sd->entity.pads[i];
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!pad) {
-> +		dev_err(notifier->sd->dev, "failed to find sink pad\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = v4l2_create_fwnode_links_to_pad(sd, pad, MEDIA_LNK_FL_ENABLED);
-> +	if (ret) {
-> +		dev_err(sd->dev, "failed to link source pad\n");
 > +		return ret;
-> +	}
+> 
+>   	if (pattern)
+>   		val |= OG0VE1B_TEST_PATTERN_ENABLE;
+>   	else
+>   		val &= ~OG0VE1B_TEST_PATTERN_ENABLE;
+> 
+> -	return cci_write(og0ve1b->regmap, OG0VE1B_REG_PRE_ISP, val, NULL);
+> +	return cci_write(og0ve1b->regmap, reg, val, NULL);
+>   }
+> 
+>   static int og0ve1b_set_ctrl(struct v4l2_ctrl *ctrl)
+>   {
+>   	struct og0ve1b *og0ve1b = container_of(ctrl->handler, struct og0ve1b,
+>   					       ctrl_handler);
+> -	const struct og0ve1b_mode *mode = &supported_modes[0];
+> +	const struct og0ve1b_mode *mode = &og0ve1b->sensor->modes[0];
+>   	s64 exposure_max;
+>   	int ret;
+> 
+> @@ -333,7 +360,8 @@ static const struct v4l2_ctrl_ops og0ve1b_ctrl_ops = {
+>   static int og0ve1b_init_controls(struct og0ve1b *og0ve1b)
+>   {
+>   	struct v4l2_ctrl_handler *ctrl_hdlr = &og0ve1b->ctrl_handler;
+> -	const struct og0ve1b_mode *mode = &supported_modes[0];
+> +	const struct og0ve1b_mode *mode = &og0ve1b->sensor->modes[0];
+> +	const struct og0ve1b_sensor_data *sensor = og0ve1b->sensor;
+>   	s64 exposure_max, pixel_rate, h_blank, v_blank;
+>   	struct v4l2_fwnode_device_properties props;
+>   	struct v4l2_ctrl *ctrl;
+> @@ -343,12 +371,12 @@ static int og0ve1b_init_controls(struct og0ve1b *og0ve1b)
+> 
+>   	ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr, &og0ve1b_ctrl_ops,
+>   				      V4L2_CID_LINK_FREQ,
+> -				      ARRAY_SIZE(og0ve1b_link_freq_menu) - 1,
+> -				      0, og0ve1b_link_freq_menu);
+> +				      sensor->num_link_freqs - 1,
+> +				      0, sensor->link_freq_menu);
+>   	if (ctrl)
+>   		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> 
+> -	pixel_rate = og0ve1b_link_freq_menu[0] / mode->bpp;
+> +	pixel_rate = sensor->link_freq_menu[0] / mode->bpp;
+>   	v4l2_ctrl_new_std(ctrl_hdlr, &og0ve1b_ctrl_ops, V4L2_CID_PIXEL_RATE,
+>   			  0, pixel_rate, 1, pixel_rate);
+> 
+> @@ -407,7 +435,7 @@ static int og0ve1b_init_controls(struct og0ve1b *og0ve1b)
+>   static void og0ve1b_update_pad_format(const struct og0ve1b_mode *mode,
+>   				      struct v4l2_mbus_framefmt *fmt)
+>   {
+> -	fmt->code = MEDIA_BUS_FMT_Y8_1X8;
+> +	fmt->code = mode->code;
+>   	fmt->width = mode->width;
+>   	fmt->height = mode->height;
+>   	fmt->field = V4L2_FIELD_NONE;
+> @@ -421,8 +449,8 @@ static int og0ve1b_enable_streams(struct v4l2_subdev *sd,
+>   				  struct v4l2_subdev_state *state, u32 pad,
+>   				  u64 streams_mask)
+>   {
+> -	const struct og0ve1b_reg_list *reg_list = &supported_modes[0].reg_list;
+>   	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+> +	const struct og0ve1b_reg_list *reg_list = &og0ve1b->sensor->modes[0].reg_list;
+>   	int ret;
+> 
+>   	ret = pm_runtime_resume_and_get(og0ve1b->dev);
+> @@ -484,13 +512,14 @@ static int og0ve1b_set_pad_format(struct v4l2_subdev *sd,
+>   				  struct v4l2_subdev_state *state,
+>   				  struct v4l2_subdev_format *fmt)
+>   {
+> +	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+>   	struct v4l2_mbus_framefmt *format;
+>   	const struct og0ve1b_mode *mode;
+> 
+>   	format = v4l2_subdev_state_get_format(state, 0);
+> 
+> -	mode = v4l2_find_nearest_size(supported_modes,
+> -				      ARRAY_SIZE(supported_modes),
+> +	mode = v4l2_find_nearest_size(og0ve1b->sensor->modes,
+> +				      og0ve1b->sensor->num_modes,
+>   				      width, height,
+>   				      fmt->format.width,
+>   				      fmt->format.height);
+> @@ -505,10 +534,12 @@ static int og0ve1b_enum_mbus_code(struct v4l2_subdev *sd,
+>   				  struct v4l2_subdev_state *sd_state,
+>   				  struct v4l2_subdev_mbus_code_enum *code)
+>   {
+> +	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
 > +
+>   	if (code->index > 0)
+>   		return -EINVAL;
+> 
+> -	code->code = MEDIA_BUS_FMT_Y8_1X8;
+> +	code->code = og0ve1b->sensor->modes[0].code;
+> 
+>   	return 0;
+>   }
+> @@ -517,15 +548,18 @@ static int og0ve1b_enum_frame_size(struct v4l2_subdev *sd,
+>   				   struct v4l2_subdev_state *sd_state,
+>   				   struct v4l2_subdev_frame_size_enum *fse)
+>   {
+> -	if (fse->index >= ARRAY_SIZE(supported_modes))
+> +	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+> +	const struct og0ve1b_sensor_data *sensor = og0ve1b->sensor;
+> +
+> +	if (fse->index >= sensor->num_modes)
+>   		return -EINVAL;
+> 
+> -	if (fse->code != MEDIA_BUS_FMT_Y8_1X8)
+> +	if (fse->code != sensor->modes[fse->index].code)
+>   		return -EINVAL;
+> 
+> -	fse->min_width = supported_modes[fse->index].width;
+> +	fse->min_width = sensor->modes[fse->index].width;
+>   	fse->max_width = fse->min_width;
+> -	fse->min_height = supported_modes[fse->index].height;
+> +	fse->min_height = sensor->modes[fse->index].height;
+>   	fse->max_height = fse->min_height;
+> 
+>   	return 0;
+> @@ -534,13 +568,14 @@ static int og0ve1b_enum_frame_size(struct v4l2_subdev *sd,
+>   static int og0ve1b_init_state(struct v4l2_subdev *sd,
+>   			      struct v4l2_subdev_state *state)
+>   {
+> +	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+>   	struct v4l2_subdev_format fmt = {
+>   		.which = V4L2_SUBDEV_FORMAT_TRY,
+>   		.pad = 0,
+>   		.format = {
+> -			.code = MEDIA_BUS_FMT_Y8_1X8,
+> -			.width = supported_modes[0].width,
+> -			.height = supported_modes[0].height,
+> +			.code = og0ve1b->sensor->modes[0].code,
+> +			.width = og0ve1b->sensor->modes[0].width,
+> +			.height = og0ve1b->sensor->modes[0].height,
+>   		},
+>   	};
+> 
+> @@ -586,18 +621,13 @@ static int og0ve1b_identify_sensor(struct og0ve1b *og0ve1b)
+>   		return ret;
+>   	}
+> 
+> -	if (val != OG0VE1B_CHIP_ID) {
+> -		dev_err(og0ve1b->dev, "chip id mismatch: %x!=%llx\n",
+> -			OG0VE1B_CHIP_ID, val);
+> +	if (val != og0ve1b->sensor->chip_id) {
+> +		dev_err(og0ve1b->dev, "chip id mismatch: %llx!=%llx\n",
+> +			og0ve1b->sensor->chip_id, val);
+>   		return -ENODEV;
+>   	}
+> 
+> -	ret = cci_read(og0ve1b->regmap, OG0VE1B_REG_PRE_ISP,
+> -		       &og0ve1b->pre_isp, NULL);
+> -	if (ret)
+> -		dev_err(og0ve1b->dev, "failed to read pre_isp: %d\n", ret);
+> -
+> -	return ret;
 > +	return 0;
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations v4l2_common_notifier_ops = {
-> +	.bound = v4l2_common_notifier_bound,
-> +};
-> +
-> +/*
-> + * The only one endpoint under one port. And all ports number is continues.
-> + */
-> +static int
-> +v4l2_async_nf_parse_fwnode(struct device *dev, struct media_pad *pads, u32 pads_count,
-> +			   struct v4l2_async_notifier *notifier)
-> +{
-> +	struct v4l2_subdev *sd = notifier->sd;
-> +	struct v4l2_async_connection *asd;
-> +	struct v4l2_fwnode_endpoint vep;
-> +	struct media_pad *pad;
-> +	int ret;
-> +
-> +	if (!sd->internal_ops || !sd->internal_ops->set_pad_by_ep)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "Missed set_pad_by_ep() callback\n");
-> +	pad = pads;
-> +
-> +	fwnode_graph_for_each_endpoint_scoped(dev_fwnode(dev), ep) {
-> +		u32 flags;
-> +
-> +		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "failed to parse endpoint\n");
-> +
-> +		if (vep.base.port >= pads_count)
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "port number bigger than pad number\n");
-> +
-> +		pad = pads + vep.base.port;
-> +
-> +		ret = sd->internal_ops->set_pad_by_ep(sd, pad, &vep);
-> +		if (ret < 0)
-> +			return dev_err_probe(dev, ret, "Can support endpoint\n");
-> +
-> +		flags = pad->flags;
-> +
-> +		if (flags & MEDIA_PAD_FL_SOURCE)
-> +			continue; /* Bypass source port */
-> +
-> +		notifier->ops = &v4l2_common_notifier_ops;
-> +
-> +		asd = v4l2_async_nf_add_fwnode_remote(notifier, ep,
-> +						      struct v4l2_async_connection);
-> +		if (IS_ERR(asd))
-> +			return dev_err_probe(dev, PTR_ERR(asd),
-> +					      "failed to add notifier\n");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void media_async_subdev_cleanup(struct v4l2_subdev *sd)
-> +{
-> +	v4l2_async_unregister_subdev(sd);
-> +	v4l2_subdev_cleanup(sd);
-> +	media_entity_cleanup(&sd->entity);
-> +	v4l2_async_nf_unregister(sd->subdev_notifier);
-> +	v4l2_async_nf_cleanup(sd->subdev_notifier);
-> +	kfree(sd->entity.pads);
-> +}
-> +EXPORT_SYMBOL_GPL(media_async_subdev_cleanup);
-> +
-> +int __media_async_register_subdev(struct v4l2_subdev *sd, struct module *module)
-> +{
-> +	struct device *dev = sd->dev;
-> +	u32 ep_count;
-> +	int ret;
-> +
-> +	if (WARN_ON(!sd->dev))
+
+The one thing that is not immediately clear to me is if we get 
+equivalent logic WRT OG0VE1B_REG_PRE_ISP after this change.
+
+
+>   }
+> 
+>   static int og0ve1b_check_hwcfg(struct og0ve1b *og0ve1b)
+> @@ -624,8 +654,8 @@ static int og0ve1b_check_hwcfg(struct og0ve1b *og0ve1b)
+>   	ret = v4l2_link_freq_to_bitmap(og0ve1b->dev,
+>   				       bus_cfg.link_frequencies,
+>   				       bus_cfg.nr_of_link_frequencies,
+> -				       og0ve1b_link_freq_menu,
+> -				       ARRAY_SIZE(og0ve1b_link_freq_menu),
+> +				       og0ve1b->sensor->link_freq_menu,
+> +				       og0ve1b->sensor->num_link_freqs,
+>   				       &freq_bitmap);
+> 
+>   	v4l2_fwnode_endpoint_free(&bus_cfg);
+> @@ -686,6 +716,9 @@ static int og0ve1b_probe(struct i2c_client *client)
+>   		return -ENOMEM;
+> 
+>   	og0ve1b->dev = &client->dev;
+> +	og0ve1b->sensor = i2c_get_match_data(client);
+> +	if (!og0ve1b->sensor)
 > +		return -ENODEV;
-> +
-> +	struct v4l2_async_notifier *notifier __free(kfree) = kzalloc_obj(*notifier);
-> +	if (!notifier)
-> +		return -ENOMEM;
-> +
-> +	v4l2_async_subdev_nf_init(notifier, sd);
-> +
-> +	ep_count = fwnode_graph_get_endpoint_count(dev_fwnode(dev),
-> +						   FWNODE_GRAPH_DEVICE_DISABLED);
-> +	if (!ep_count)
-> +		return dev_err_probe(dev, -EINVAL, "No connected endpoints\n");
-> +
-> +	struct media_pad *pads __free(kfree) = kzalloc_objs(struct media_pad, ep_count);
-> +	if (!pads)
-> +		return -ENOMEM;
-> +
-> +	ret = v4l2_async_nf_parse_fwnode(dev, pads, ep_count, notifier);
-> +	if (ret < 0)
-> +		goto out_cleanup;
-> +
-> +	ret = media_entity_pads_init(&sd->entity, ep_count, pads);
-> +	if (ret)
-> +		goto out_cleanup;
-> +
-> +	ret = v4l2_async_nf_register(notifier);
-> +	if (ret < 0)
-> +		goto out_cleanup;
-> +
-> +	ret = v4l2_subdev_init_finalize(sd);
-> +	if (ret)
-> +		goto out_unregister;
-> +
-> +	ret = __v4l2_async_register_subdev(sd, module);
-> +	if (ret < 0)
-> +		goto out_unregister;
-> +
-> +	sd->subdev_notifier = no_free_ptr(notifier);
-> +	retain_and_null_ptr(pads);
-> +
-> +	return 0;
-> +
-> +out_unregister:
-> +	v4l2_async_nf_unregister(notifier);
-> +	v4l2_subdev_cleanup(sd);
-> +out_cleanup:
-> +	v4l2_async_nf_cleanup(notifier);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(__media_async_register_subdev);
-> +
->  MODULE_DESCRIPTION("V4L2 fwnode binding parsing library");
->  MODULE_LICENSE("GPL");
->  MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index 54a2d9620ed5b..ca41820f776c5 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -345,4 +345,43 @@ __v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd, struct module *modul
->   * @sd: pointer to &struct v4l2_subdev
->   */
->  void v4l2_async_unregister_subdev(struct v4l2_subdev *sd);
-> +
-> +enum v4l2_subdev_1to1_pads {
-> +	V4L2_SUBDEV_1TO1_PADS_SINK,
-> +	V4L2_SUBDEV_1TO1_PADS_SOURCE,
-> +	V4L2_SUBDEV_1TO1_PADS_TOTAL,
-> +};
-> +
-> +/**
-> + * media_async_register_subdev - registers a sub-device to the asynchronous
-> + *				 sub-device framework and parse set up common
-> + *				 related devices
-> + *
-> + * @sd: pointer to struct &v4l2_subdev
-> + *
-> + * Register a V4L2 sub-device with the asynchronous sub-device framework.
-> + * In addition to v4l2_async_register_subdev(), this function parses the
-> + * firmware graph, creates media pads for the endpoints, and registers common
-> + * notifiers to create media links between connected devices.
-> + *
-> + * This function also init media_pads.
-> + *
-> + * The sub-device is unregistered and cleanup by media_async_subdev_cleanup()
-> + *
-> + * While registered, the subdev module is marked as in-use.
-> + *
-> + * An error is returned if the module is no longer loaded on any attempts
-> + * to register it.
-> + */
-> +#define media_async_register_subdev(sd_1to1) \
-> +	 __media_async_register_subdev(sd_1to1, THIS_MODULE)
-> +
-> +int __media_async_register_subdev(struct v4l2_subdev *sd_1to1, struct module *module);
-> +
-> +/**
-> + * media_async_subdev_cleanup - unregistered and cleanup subdev and media pads
-> + * @sd_1to1: pointer to struct &v4l2_subdev_1to1
-> + */
-> +void media_async_subdev_cleanup(struct v4l2_subdev *sd_1to1);
-> +
->  #endif
+> 
+>   	v4l2_i2c_subdev_init(&og0ve1b->sd, client, &og0ve1b_subdev_ops);
+> 
+> @@ -700,7 +733,7 @@ static int og0ve1b_probe(struct i2c_client *client)
+>   				     "failed to get XVCLK clock\n");
+> 
+>   	freq = clk_get_rate(og0ve1b->xvclk);
+> -	if (freq && freq != OG0VE1B_MCLK_FREQ_24MHZ)
+> +	if (freq && freq != og0ve1b->sensor->mclk_freq)
+>   		return dev_err_probe(og0ve1b->dev, -EINVAL,
+>   				     "XVCLK clock frequency %lu is not supported\n",
+>   				     freq);
+> @@ -819,7 +852,7 @@ static const struct dev_pm_ops og0ve1b_pm_ops = {
+>   };
+> 
+>   static const struct of_device_id og0ve1b_of_match[] = {
+> -	{ .compatible = "ovti,og0ve1b" },
+> +	{ .compatible = "ovti,og0ve1b", .data = &og0ve1b_data },
+>   	{ /* sentinel */ }
+>   };
+>   MODULE_DEVICE_TABLE(of, og0ve1b_of_match);
+> 
+> --
+> 2.34.1
+> 
+> 
 
--- 
-Regards,
+Other than that LTGM.
 
-Laurent Pinchart
+---
+bod
 
