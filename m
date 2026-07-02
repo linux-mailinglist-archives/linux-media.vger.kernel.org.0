@@ -1,247 +1,492 @@
-Return-Path: <linux-media+bounces-66364-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66365-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ivtRC1ZmRmrxSgsAu9opvQ
-	(envelope-from <linux-media+bounces-66364-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 15:23:34 +0200
+	id Zd/gN9RmRmocSwsAu9opvQ
+	(envelope-from <linux-media+bounces-66365-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 15:25:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DF86F849A
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 15:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406496F8505
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 15:25:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=ILsiVUfg;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66364-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66364-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=linaro.org header.s=google header.b=CgvhbN3R;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66365-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66365-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linaro.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F0500304C60C
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 13:13:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 722033021B2F
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 13:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC75E47DFB4;
-	Thu,  2 Jul 2026 13:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30A1496913;
+	Thu,  2 Jul 2026 13:16:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE60A42E8E5
-	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 13:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4124968E1
+	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 13:16:46 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782997979; cv=none; b=JReSLX5t0JvSTgi8jowpl36UgJnS36x7k40Krhft1F/SPKjJOcU2JMYxuhAgPO2IGXP77XEd4lct7OQyG0DEfU+tD0/JSH2+I2XOMmj5MV5lIrtbKvFE1pZuEcGk7M6fZ8i1k90q4IYxlZP2G7kJEEkYYERRmYoqmttKpX1/cG0=
+	t=1782998208; cv=none; b=EY/ccbPqR7/St74WxcYvYKrnw3ceEFt7mfiRXvoVyqflh+Lf4DO9kk1a/on4Z6E3d9NNy/JbBxR6Vzqs0KLEWacTox3RnD9d9xLSb7QegUe4GE+SA9c6uWs1/xwNxz8hAvgtQxw73YMiuS3/C9NNZU2JL5w8Z/1dPkvyDkJDfzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782997979; c=relaxed/simple;
-	bh=2dNe4t9FImP9d9XV3XrVS+GcyjEWABTPQeLrTNCKCCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtzBeKyqkSXbs3uDYXLRpTEg9p2pYXaG5RWbQtWhylfvZXOxzhMC/fjIj5W38D2H1opmCKi2HT53r9pgTA0Fenk1zQg4fKzZDGmhV5D2SHKEPKeKXU8AfQjFH3dr2QZz7esFiIdJw0kghjQPVbRHpN86/Ym27hvpaPxLu5KKxjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ILsiVUfg; arc=none smtp.client-ip=198.175.65.17
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782997977; x=1814533977;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2dNe4t9FImP9d9XV3XrVS+GcyjEWABTPQeLrTNCKCCs=;
-  b=ILsiVUfgm6YxoyDDAhBSNSIz5Wqci1nsUHNwzXOjHpo++8ZGI15Jw/g0
-   XTSygSzxti4a3r2NMTKJYe8n07RACrdFFjs4C+vcShw+hEVPC9S9i1egW
-   8Bq7eVqd0RN0xvfGzDfPYbPsjI6DoTi7LaxKDZ7XCHOsZJud2VrYLEtku
-   x3VBONchERyoIWUiiphDz3/Jgu172XfJuixiY3CvklOJUoWIGr36L+cgs
-   EpR8yorJoASjYu2claX0nGkPDZXNCKQHqEolMZMWiREIedbPLG37VZdol
-   ssy+IKWNMNS6mcF2G53dvoWYcxeqEVeioDPIxItmH0xyOFirI+nrm6oIy
-   A==;
-X-CSE-ConnectionGUID: mutx4c3TQ3OdWhs6i8hDQQ==
-X-CSE-MsgGUID: DSODh3MBTxaf6TtD3C2VVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="83783128"
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="83783128"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 06:12:57 -0700
-X-CSE-ConnectionGUID: TyRMvM6PRBa5cw6i3Erphg==
-X-CSE-MsgGUID: MUIukMYgSDW41RGEL7p5mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="253521961"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.229])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 06:12:52 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0AEF7121C2C;
-	Thu, 02 Jul 2026 16:12:48 +0300 (EEST)
-Date: Thu, 2 Jul 2026 16:12:47 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	" Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v12 27/86] media: uapi: Add V4L2_CID_BINNING control for
- binning configuration
-Message-ID: <akZjz4T184PwoOGK@kekkonen.localdomain>
-References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
- <20260409201501.975242-28-sakari.ailus@linux.intel.com>
- <178128831650.1799417.3287316914483188867@freya>
+	s=arc-20240116; t=1782998208; c=relaxed/simple;
+	bh=MyNgPgi4VTa/Eh7rf74k4K7gJeg5J1GOT+xkEcfOW70=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OYeoSUNrya+LTQ/eqwadvU0sNrPeffXrj3ZC+6j45zHWJOPkpLkyJ4+UR+Uzhnm9FMew2glwA2kHp0nvYtrvQc5O940Emdb+tjJdRYKqlz5hvf2kkWUts846uucoAM8FPRmqfiE9AjEdoOGjUT2RO4jlSM61w/ISuYmI4r3HRAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CgvhbN3R; arc=none smtp.client-ip=209.85.167.51
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aebd7da975so229148e87.2
+        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 06:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1782998205; x=1783603005; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ZtKHWG50Be6Ag56YyRc9bmaoYqyMW9eXnUtOgDLozMk=;
+        b=CgvhbN3R+KBCZphNmqJZixHJEB5CW676HiuDGdPtE66h3oKOqN+kLRk9WBrXIfPzGv
+         PaHV0WwJ1eYD8R3gRKGnXe9JqOrbG4mVMwd1MJs0lWcXn6BhbUVHwJgJmNIaTrRZtx/q
+         fT6tfCvYo+E5jWdaZgIJ852sKkK/XWCZGTpdd4vIszGc3ITZyV3lsaErxpNkuww/FOWq
+         2bnXFiLM7vdN18hHboK0xl2LiVl4GBGxLcVe52CdpfPSScLoCIWBYzcU91WyTlpPogGK
+         8CPO1xU4raeLmold9TXGe0lWPFX85SoqkZsM3RLy4vA3UZWiuwUs3gr7nEox1zyYVrFV
+         E63Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782998205; x=1783603005;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZtKHWG50Be6Ag56YyRc9bmaoYqyMW9eXnUtOgDLozMk=;
+        b=hFLRewppPdLnav6TIQwYZJ537HgN6Mcv+2WzzDPXfChBoeOmEtALao7JZnIRL4A65i
+         0chW7p24RTIIEBkrqM+k1QLqblbJZiKTAllOxF0W9886utWnZaUJpc8uLJVxwsfPCU2r
+         n6li0d3Mra9RL2o1uaYfw66DZAfxQfZHuwCFiJrYYeCyGWldUKihqbZ7Hh4WT5l1Msrn
+         jeuwdVM3b34m91TwaZOy8SrXrmprnHIoOwLZ75C3LUKV0M0BCazH04f3Cs4AGXF2ieM0
+         Sg2bAvYHlFBT2KeH0fyzGS6BMLpZNGSVv0AfmKsdvinLBh3W9SkmtmP5p3GCwMaHpSeg
+         fDzw==
+X-Gm-Message-State: AOJu0Yz/4XO4EfzHoxo/CqEYGK7NT1gmKKHTsWADAxrXsggTMSYPEo1Q
+	h4MoJzOKhGCGNEkSu3xAUsJ2Mh76698Srs4SshaR60Z6dF+AAZ/uhh0tsMKUSAXoQKc=
+X-Gm-Gg: AfdE7cnWKjx8fqcMbeW4lXWSW9rqaBw0qu3xAqmmXeYCqBGktSzeUCiNoOK1rrjil9n
+	9Dcszo6RTmjo4sbvZhGiEB9/aPcARNpwuQMjhIDQblUeaf6gtPJZKPomUv8KfwTeSAJA78fIlIf
+	pkgIatcB+HKujNLXSJLkOL6A95IsB3Ck8/48/gFyRt4Oj/jYLaDUhyKArg1kLq6vM9vH/idoBd4
+	J+EA00eB18WcdYeFrGpVbc0K7QavhPGv6FanvMe19ckC6DnbUMdFrUGEkGg/ECR6FleJr5xLo4n
+	wwzkQN+n+IubbpeGjiH43H820zVIP5e1uz2yi0R8FXR0sAwapRiZuwNul3CT+bUnJF905hs0PCI
+	KAskA5u8+rkIy5yh8GgycfBSwtec489YaKGB6evKeDTFrkR+ljyn1A9jWwru8JyoJeCB1fsQ2tp
+	IxoqtSQqfaCSEm8FqUzpSkamzwittxCDT9F5mCrDbeeBB0WA67dhMf8Mclx4OvH72VKNs=
+X-Received: by 2002:a05:6512:3190:b0:5ae:a6fc:171c with SMTP id 2adb3069b0e04-5aec6d7ee11mr836503e87.3.1782998204639;
+        Thu, 02 Jul 2026 06:16:44 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aec899a311sm684822e87.20.2026.07.02.06.16.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jul 2026 06:16:43 -0700 (PDT)
+Message-ID: <1cb443d2-e4a7-4756-a6aa-af5c34ca7d51@linaro.org>
+Date: Thu, 2 Jul 2026 16:16:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178128831650.1799417.3287316914483188867@freya>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] media: i2c: og0ve1b: Add support for OmniVision
+ OG0VA1B
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260702-og0va1b-v2-0-0071442caa2a@oss.qualcomm.com>
+ <20260702-og0va1b-v2-3-0071442caa2a@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20260702-og0va1b-v2-3-0071442caa2a@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66364-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	FORWARDED(0.00)[lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66365-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:wenmeng.liu@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	ALIAS_RESOLVED(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 72DF86F849A
+X-Rspamd-Queue-Id: 406496F8505
 
-Hi Jai,
-
-Thank you for the review.
-
-On Fri, Jun 12, 2026 at 11:48:36PM +0530, Jai Luthra wrote:
-> Hi Sakari,
+On 7/2/26 13:52, Wenmeng Liu wrote:
+> The OmniVision OG0VA1B is a monochrome image sensor closely related to
+> the OG0VE1B. It shares the SCCB control interface, power supplies and
+> the single-lane MIPI D-PHY description, and differs in its chip id, the
+> test pattern register, the register programming and the output format
+> (10-bit RAW instead of 8-bit).
 > 
-> Quoting Sakari Ailus (2026-04-10 01:44:02)
-> > Add V4L2_CID_BINNING control for configuring binning and enumerating a
-> > camera sensor's binning capabilities. The control combines horizontal and
-> > vertical binning into a single control as the two are generally related.
-> > 
-> > New drivers should use this control to configure binning.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  .../media/drivers/camera-sensor.rst           | 12 ++++++++
-> >  .../media/v4l/ext-ctrls-image-source.rst      | 30 +++++++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 ++
-> >  include/uapi/linux/v4l2-controls.h            |  2 ++
-> >  4 files changed, 46 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > index d8ba809486c5..12f075379bc8 100644
-> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > @@ -120,6 +120,18 @@ values programmed by the register sequences. The default values of these
-> >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> >  independently of the sensor's mounting rotation.
-> >  
-> > +Binning
-> > +-------
-> > +
-> > +Binning has traditionally been configured using :ref:`the compose selection
-> > +rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
-> > +<image_source_control_binning_factors>` control is also available for binning
-> > +configuration and users should use it when it's available. Drivers supporting
-> > +the control shall also support the compose rectangle, albeit the rectangle may
-> > +be read-only when the control is present.
-> > +
-> > +Binning isn't affected by flipping.
-> > +
-> >  .. _media_using_camera_sensor_drivers_embedded_data:
-> >  
-> >  Embedded data
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > index 490cd16186cd..0ef76b02a6e1 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > @@ -160,3 +160,33 @@ Image Source Control IDs
-> >      interface for metadata streams. The control is used in conjunction with
-> >      :ref:`generic metadata formats <media-bus-format-generic-meta>` formats to
-> >      specify the layout of the data.
-> > +
-> > +.. _image_source_control_binning_factors:
-> > +
-> > +``V4L2_CID_BINNING_FACTORS (integer menu)``
-> > +
-> > +    This control determines horizontal and vertical binning factors. Binning
-> > +    combines several horizontal, vertical or both pixel values into a single
-> > +    pixel. It is a way to scale an image. Binning typically produces fairly good
-> > +    quality output.
-> > +
-> > +    Determines both horizontal and vertical binning factors for a camera
-> > +    sensor. The values are encoded in the following way:
-> > +
-> > +.. flat-table::
-> > +    :header-rows:  1
-> > +    :stub-columns: 0
-> > +
-> > +    * - Bits
-> > +      - Synopsis
-> > +    * - 48--63
-> > +      - Horizontal binning numerator.
-> > +    * - 32--47
-> > +      - Horizontal binning denominator.
-> > +    * - 16--31
-> > +      - Vertical binning numerator.
-> > +    * - 0--15
-> > +      - Vertical binning denominator.
-> > +
-> > +For instance, a value of ``0x0001000300020003`` indicates binning by 3
-> > +(horizontally) * 3/2 (vertically).
+> Add an og0ve1b_sensor_data entry describing the OG0VA1B together with
+> its 640x480 60fps register sequence.
 > 
-> Shouldn't the value here be ``0x0003000100030002`?
-
-Fixed for v13.
-
+> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+> ---
+>   drivers/media/i2c/og0ve1b.c | 234 +++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 230 insertions(+), 4 deletions(-)
 > 
-> With that fixed,
-> Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> diff --git a/drivers/media/i2c/og0ve1b.c b/drivers/media/i2c/og0ve1b.c
+> index acc06b10bf896f734926289099a70fbc2bb628d5..f1f4fcd195c4e2dd69f78ba3f01f768a052e6c5d 100644
+> --- a/drivers/media/i2c/og0ve1b.c
+> +++ b/drivers/media/i2c/og0ve1b.c
+> @@ -17,8 +17,12 @@
+>   #define OG0VE1B_LINK_FREQ_500MHZ	(500 * HZ_PER_MHZ)
+>   #define OG0VE1B_MCLK_FREQ_24MHZ		(24 * HZ_PER_MHZ)
+>   
+> +#define OG0VA1B_LINK_FREQ_480MHZ	(480 * HZ_PER_MHZ)
+> +#define OG0VA1B_MCLK_FREQ_19_2MHZ	(19200 * HZ_PER_KHZ)
+> +
+>   #define OG0VE1B_REG_CHIP_ID		CCI_REG24(0x300a)
+>   #define OG0VE1B_CHIP_ID			0xc75645
+> +#define OG0VA1B_CHIP_ID			0xc75641
 
-Thank you.
+Please keep the list alphabetically sorted, also it's fine if
+"OG0VE1B_REG_CHIP_ID" is reduced to "OG0V_REG_CHIP_ID".
+
+>   
+>   #define OG0VE1B_REG_MODE_SELECT		CCI_REG8(0x0100)
+>   #define OG0VE1B_MODE_STANDBY		0x00
+> @@ -45,8 +49,9 @@
+>   #define OG0VE1B_REG_VTS			CCI_REG16(0x380e)
+>   #define OG0VE1B_VTS_MAX			0xffff
+>   
+> -/* Test pattern */
+> +/* Test pattern - OG0VE1B uses 0x5e00, OG0VA1B uses 0x5100 */
+>   #define OG0VE1B_REG_PRE_ISP		CCI_REG8(0x5e00)
+> +#define OG0VA1B_REG_TEST_PATTERN	CCI_REG8(0x5100)
+>   #define OG0VE1B_TEST_PATTERN_ENABLE	BIT(7)
+>   
+>   #define to_og0ve1b(_sd)			container_of(_sd, struct og0ve1b, sd)
+> @@ -55,6 +60,10 @@ static const s64 og0ve1b_link_freq_menu[] = {
+>   	OG0VE1B_LINK_FREQ_500MHZ,
+>   };
+>   
+> +static const s64 og0va1b_link_freq_menu[] = {
+> +	OG0VA1B_LINK_FREQ_480MHZ,
+> +};
+> +
+>   struct og0ve1b_reg_list {
+>   	const struct cci_reg_sequence *regs;
+>   	unsigned int num_regs;
+> @@ -72,9 +81,14 @@ struct og0ve1b_mode {
+>   };
+>   
+>   struct og0ve1b_sensor_data {
+> +	const char *name;
+>   	u64 chip_id;
+>   	unsigned long mclk_freq;
+>   	u32 test_pattern_reg;
+> +	/* Exposure register unit: OG0VE1B 1/16 line (4), OG0VA1B whole lines (0). */
+> +	unsigned int exposure_shift;
+> +	/* Pixel rate multiplier: OG0VA1B uses CSI-2 DDR (2), OG0VE1B keeps 1. */
+> +	unsigned int pixel_rate_mul;
+>   	const s64 *link_freq_menu;
+>   	int num_link_freqs;
+>   	const struct og0ve1b_mode *modes;
+> @@ -272,16 +286,223 @@ static const struct og0ve1b_mode supported_modes[] = {
+>   	},
+>   };
+>   
+> +static const struct cci_reg_sequence og0va1b_640x480_60fps_mode[] = {
+> +	{ CCI_REG8(0x0302), 0x31 },
+> +	{ CCI_REG8(0x0303), 0x02 },
+> +	{ CCI_REG8(0x0304), 0x01 },
+> +	{ CCI_REG8(0x0305), 0x90 },
+> +	{ CCI_REG8(0x0306), 0x00 },
+> +	{ CCI_REG8(0x0323), 0x02 },
+> +	{ CCI_REG8(0x0325), 0x68 },
+> +	{ CCI_REG8(0x0326), 0xd8 },
+> +	{ CCI_REG8(0x3006), 0x0e },
+> +	{ CCI_REG8(0x300d), 0x08 },
+> +	{ CCI_REG8(0x3018), 0xf0 },
+> +	{ CCI_REG8(0x301c), 0xf0 },
+> +	{ CCI_REG8(0x3020), 0x20 },
+> +	{ CCI_REG8(0x3040), 0x0f },
+> +	{ CCI_REG8(0x3022), 0x01 },
+> +	{ CCI_REG8(0x3107), 0x40 },
+> +	{ CCI_REG8(0x3216), 0x01 },
+> +	{ CCI_REG8(0x3217), 0x00 },
+> +	{ CCI_REG8(0x3218), 0xc0 },
+> +	{ CCI_REG8(0x3219), 0x55 },
+> +	{ CCI_REG8(0x3506), 0x01 },
+> +	{ CCI_REG8(0x3507), 0x50 },
+> +	{ CCI_REG8(0x3508), 0x01 },
+> +	{ CCI_REG8(0x3509), 0x00 },
+> +	{ CCI_REG8(0x350a), 0x01 },
+> +	{ CCI_REG8(0x350b), 0x00 },
+> +	{ CCI_REG8(0x350c), 0x00 },
+> +	{ CCI_REG8(0x3541), 0x00 },
+> +	{ CCI_REG8(0x3542), 0x40 },
+> +	{ CCI_REG8(0x3605), 0x90 },
+> +	{ CCI_REG8(0x3606), 0x41 },
+> +	{ CCI_REG8(0x3612), 0x00 },
+> +	{ CCI_REG8(0x3620), 0x08 },
+> +	{ CCI_REG8(0x3630), 0x17 },
+> +	{ CCI_REG8(0x3631), 0x99 },
+> +	{ CCI_REG8(0x3639), 0x88 },
+> +	{ CCI_REG8(0x3668), 0x00 },
+> +	{ CCI_REG8(0x3674), 0x00 },
+> +	{ CCI_REG8(0x3677), 0x3f },
+> +	{ CCI_REG8(0x368f), 0x06 },
+> +	{ CCI_REG8(0x36a2), 0x19 },
+> +	{ CCI_REG8(0x36a4), 0xf1 },
+> +	{ CCI_REG8(0x36a5), 0x2d },
+> +	{ CCI_REG8(0x3706), 0x30 },
+> +	{ CCI_REG8(0x370d), 0x72 },
+> +	{ CCI_REG8(0x3713), 0x86 },
+> +	{ CCI_REG8(0x3715), 0x03 },
+> +	{ CCI_REG8(0x3716), 0x00 },
+> +	{ CCI_REG8(0x376d), 0x24 },
+> +	{ CCI_REG8(0x3770), 0x3a },
+> +	{ CCI_REG8(0x3778), 0x00 },
+> +	{ CCI_REG8(0x37a8), 0x03 },
+> +	{ CCI_REG8(0x37a9), 0x00 },
+> +	{ CCI_REG8(0x37df), 0x7d },
+> +	{ CCI_REG8(0x3800), 0x00 },
+> +	{ CCI_REG8(0x3801), 0x00 },
+> +	{ CCI_REG8(0x3802), 0x00 },
+> +	{ CCI_REG8(0x3803), 0x00 },
+> +	{ CCI_REG8(0x3804), 0x02 },
+> +	{ CCI_REG8(0x3805), 0x8f },
+> +	{ CCI_REG8(0x3806), 0x01 },
+> +	{ CCI_REG8(0x3807), 0xef },
+> +	{ CCI_REG8(0x3808), 0x02 },
+> +	{ CCI_REG8(0x3809), 0x80 },
+> +	{ CCI_REG8(0x380a), 0x01 },
+> +	{ CCI_REG8(0x380b), 0xe0 },
+> +	{ CCI_REG8(0x380c), 0x01 },
+> +	{ CCI_REG8(0x380d), 0x78 },
+> +	{ CCI_REG8(0x380e), 0x08 },
+> +	{ CCI_REG8(0x380f), 0x30 },
+> +	{ CCI_REG8(0x3810), 0x00 },
+> +	{ CCI_REG8(0x3811), 0x08 },
+> +	{ CCI_REG8(0x3812), 0x00 },
+> +	{ CCI_REG8(0x3813), 0x08 },
+> +	{ CCI_REG8(0x3814), 0x11 },
+> +	{ CCI_REG8(0x3815), 0x11 },
+> +	{ CCI_REG8(0x3816), 0x00 },
+> +	{ CCI_REG8(0x3817), 0x01 },
+> +	{ CCI_REG8(0x3818), 0x00 },
+> +	{ CCI_REG8(0x3819), 0x05 },
+> +	{ CCI_REG8(0x3820), 0x40 },
+> +	{ CCI_REG8(0x3821), 0x04 },
+> +	{ CCI_REG8(0x3823), 0x00 },
+> +	{ CCI_REG8(0x3826), 0x00 },
+> +	{ CCI_REG8(0x3827), 0x00 },
+> +	{ CCI_REG8(0x382b), 0x52 },
+> +	{ CCI_REG8(0x384a), 0xa2 },
+> +	{ CCI_REG8(0x3858), 0x00 },
+> +	{ CCI_REG8(0x3859), 0x00 },
+> +	{ CCI_REG8(0x3860), 0x00 },
+> +	{ CCI_REG8(0x3861), 0x00 },
+> +	{ CCI_REG8(0x3866), 0x0c },
+> +	{ CCI_REG8(0x3867), 0x07 },
+> +	{ CCI_REG8(0x3884), 0x00 },
+> +	{ CCI_REG8(0x3885), 0x08 },
+> +	{ CCI_REG8(0x3888), 0x50 },
+> +	{ CCI_REG8(0x3893), 0x6c },
+> +	{ CCI_REG8(0x3898), 0x00 },
+> +	{ CCI_REG8(0x389a), 0x04 },
+> +	{ CCI_REG8(0x389b), 0x01 },
+> +	{ CCI_REG8(0x389c), 0x0b },
+> +	{ CCI_REG8(0x389d), 0xdc },
+> +	{ CCI_REG8(0x38b1), 0x04 },
+> +	{ CCI_REG8(0x38b2), 0x00 },
+> +	{ CCI_REG8(0x38b3), 0x08 },
+> +	{ CCI_REG8(0x38c1), 0x46 },
+> +	{ CCI_REG8(0x38c9), 0x02 },
+> +	{ CCI_REG8(0x38d4), 0x06 },
+> +	{ CCI_REG8(0x38d5), 0x5a },
+> +	{ CCI_REG8(0x38d6), 0x08 },
+> +	{ CCI_REG8(0x38d7), 0x3a },
+> +	{ CCI_REG8(0x391f), 0x00 },
+> +	{ CCI_REG8(0x3920), 0xaa },
+> +	{ CCI_REG8(0x3921), 0x00 },
+> +	{ CCI_REG8(0x3922), 0x00 },
+> +	{ CCI_REG8(0x3923), 0x00 },
+> +	{ CCI_REG8(0x3924), 0x00 },
+> +	{ CCI_REG8(0x3925), 0x00 },
+> +	{ CCI_REG8(0x3926), 0x00 },
+> +	{ CCI_REG8(0x3927), 0x00 },
+> +	{ CCI_REG8(0x3928), 0x10 },
+> +	{ CCI_REG8(0x3929), 0x01 },
+> +	{ CCI_REG8(0x392a), 0xb4 },
+> +	{ CCI_REG8(0x392b), 0x00 },
+> +	{ CCI_REG8(0x392c), 0x10 },
+> +	{ CCI_REG8(0x392d), 0x01 },
+> +	{ CCI_REG8(0x392e), 0x78 },
+> +	{ CCI_REG8(0x392f), 0x4a },
+> +	{ CCI_REG8(0x391e), 0x01 },
+> +	{ CCI_REG8(0x389f), 0x08 },
+> +	{ CCI_REG8(0x38a0), 0x00 },
+> +	{ CCI_REG8(0x38a1), 0x00 },
+> +	{ CCI_REG8(0x3a06), 0x06 },
+> +	{ CCI_REG8(0x3a07), 0x78 },
+> +	{ CCI_REG8(0x3a08), 0x08 },
+> +	{ CCI_REG8(0x3a09), 0x80 },
+> +	{ CCI_REG8(0x3a52), 0x00 },
+> +	{ CCI_REG8(0x3a53), 0x01 },
+> +	{ CCI_REG8(0x3a54), 0x0c },
+> +	{ CCI_REG8(0x3a55), 0x04 },
+> +	{ CCI_REG8(0x3a58), 0x0c },
+> +	{ CCI_REG8(0x3a59), 0x04 },
+> +	{ CCI_REG8(0x4000), 0xcf },
+> +	{ CCI_REG8(0x4003), 0x40 },
+> +	{ CCI_REG8(0x4008), 0x04 },
+> +	{ CCI_REG8(0x4009), 0x13 },
+> +	{ CCI_REG8(0x400a), 0x02 },
+> +	{ CCI_REG8(0x400b), 0x34 },
+> +	{ CCI_REG8(0x4010), 0x71 },
+> +	{ CCI_REG8(0x4042), 0xc3 },
+> +	{ CCI_REG8(0x4306), 0x04 },
+> +	{ CCI_REG8(0x4307), 0x12 },
+> +	{ CCI_REG8(0x4500), 0x70 },
+> +	{ CCI_REG8(0x4509), 0x00 },
+> +	{ CCI_REG8(0x450b), 0x83 },
+> +	{ CCI_REG8(0x4604), 0x68 },
+> +	{ CCI_REG8(0x481b), 0x44 },
+> +	{ CCI_REG8(0x481f), 0x30 },
+> +	{ CCI_REG8(0x4823), 0x44 },
+> +	{ CCI_REG8(0x4825), 0x35 },
+> +	{ CCI_REG8(0x4837), 0x11 },
+> +	{ CCI_REG8(0x4f00), 0x04 },
+> +	{ CCI_REG8(0x4f10), 0x04 },
+> +	{ CCI_REG8(0x4f21), 0x01 },
+> +	{ CCI_REG8(0x4f22), 0x00 },
+> +	{ CCI_REG8(0x4f23), 0x54 },
+> +	{ CCI_REG8(0x4f24), 0x51 },
+> +	{ CCI_REG8(0x4f25), 0x41 },
+> +	{ CCI_REG8(0x5000), 0x3f },
+> +	{ CCI_REG8(0x5001), 0x80 },
+> +	{ CCI_REG8(0x500a), 0x00 },
+> +	{ CCI_REG8(0x5100), 0x00 },
+> +	{ CCI_REG8(0x5111), 0x20 },
+> +};
+> +
+> +static const struct og0ve1b_mode og0va1b_supported_modes[] = {
+> +	{
+> +		.width = 640,
+> +		.height = 480,
+> +		.hts = 752,
+> +		.vts = 2096,
+> +		.bpp = 10,
+> +		.code = MEDIA_BUS_FMT_Y10_1X10,
+> +		.reg_list = {
+> +			.regs = og0va1b_640x480_60fps_mode,
+> +			.num_regs = ARRAY_SIZE(og0va1b_640x480_60fps_mode),
+> +		},
+> +	},
+> +};
+> +
+>   static const struct og0ve1b_sensor_data og0ve1b_data = {
+> +	.name		= "og0ve1b",
+>   	.chip_id	= OG0VE1B_CHIP_ID,
+>   	.mclk_freq	= OG0VE1B_MCLK_FREQ_24MHZ,
+>   	.test_pattern_reg = OG0VE1B_REG_PRE_ISP,
+> +	.exposure_shift	= 4,
+> +	.pixel_rate_mul	= 1,
+>   	.link_freq_menu	= og0ve1b_link_freq_menu,
+>   	.num_link_freqs	= ARRAY_SIZE(og0ve1b_link_freq_menu),
+>   	.modes		= supported_modes,
+>   	.num_modes	= ARRAY_SIZE(supported_modes),
+
+Can you please rename "supported_modes" to "og0ve1b_supported_modes"?
+Likely it should be done in 2/3 change, but it's up to you.
+
+>   };
+>   
+> +static const struct og0ve1b_sensor_data og0va1b_data = {
+> +	.name		= "og0va1b",
+> +	.chip_id	= OG0VA1B_CHIP_ID,
+> +	.mclk_freq	= OG0VA1B_MCLK_FREQ_19_2MHZ,
+> +	.test_pattern_reg = OG0VA1B_REG_TEST_PATTERN,
+> +	.exposure_shift	= 0,
+> +	.pixel_rate_mul	= 2,
+> +	.link_freq_menu	= og0va1b_link_freq_menu,
+> +	.num_link_freqs	= ARRAY_SIZE(og0va1b_link_freq_menu),
+> +	.modes		= og0va1b_supported_modes,
+> +	.num_modes	= ARRAY_SIZE(og0va1b_supported_modes),
+> +};
+
+First og0va1b_data, then og0ve1b_data declaration to keep the natural order.
+
+> +
+>   static int og0ve1b_enable_test_pattern(struct og0ve1b *og0ve1b, u32 pattern)
+>   {
+>   	u32 reg = og0ve1b->sensor->test_pattern_reg;
+> @@ -334,7 +555,8 @@ static int og0ve1b_set_ctrl(struct v4l2_ctrl *ctrl)
+>   		break;
+>   	case V4L2_CID_EXPOSURE:
+>   		ret = cci_write(og0ve1b->regmap, OG0VE1B_REG_EXPOSURE,
+> -				ctrl->val << 4, NULL);
+> +				ctrl->val << og0ve1b->sensor->exposure_shift,
+> +				NULL);
+>   		break;
+>   	case V4L2_CID_VBLANK:
+>   		ret = cci_write(og0ve1b->regmap, OG0VE1B_REG_VTS,
+> @@ -376,7 +598,8 @@ static int og0ve1b_init_controls(struct og0ve1b *og0ve1b)
+>   	if (ctrl)
+>   		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>   
+> -	pixel_rate = sensor->link_freq_menu[0] / mode->bpp;
+> +	pixel_rate = sensor->link_freq_menu[0] * sensor->pixel_rate_mul /
+> +		     mode->bpp;
+>   	v4l2_ctrl_new_std(ctrl_hdlr, &og0ve1b_ctrl_ops, V4L2_CID_PIXEL_RATE,
+>   			  0, pixel_rate, 1, pixel_rate);
+>   
+> @@ -721,6 +944,8 @@ static int og0ve1b_probe(struct i2c_client *client)
+>   		return -ENODEV;
+>   
+>   	v4l2_i2c_subdev_init(&og0ve1b->sd, client, &og0ve1b_subdev_ops);
+> +	v4l2_i2c_subdev_set_name(&og0ve1b->sd, client,
+> +				 og0ve1b->sensor->name, NULL);
+>   
+>   	og0ve1b->regmap = devm_cci_regmap_init_i2c(client, 16);
+>   	if (IS_ERR(og0ve1b->regmap))
+> @@ -853,6 +1078,7 @@ static const struct dev_pm_ops og0ve1b_pm_ops = {
+>   
+>   static const struct of_device_id og0ve1b_of_match[] = {
+>   	{ .compatible = "ovti,og0ve1b", .data = &og0ve1b_data },
+> +	{ .compatible = "ovti,og0va1b", .data = &og0va1b_data },
+>   	{ /* sentinel */ }
+>   };
+>   MODULE_DEVICE_TABLE(of, og0ve1b_of_match);
+> @@ -870,5 +1096,5 @@ static struct i2c_driver og0ve1b_i2c_driver = {
+>   module_i2c_driver(og0ve1b_i2c_driver);
+>   
+>   MODULE_AUTHOR("Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>");
+> -MODULE_DESCRIPTION("OmniVision OG0VE1B sensor driver");
+> +MODULE_DESCRIPTION("OmniVision OG0VE1B/OG0VA1B sensor driver");
+>   MODULE_LICENSE("GPL");
+> 
+
+Looks good, thank you!
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Best wishes,
+Vladimir
 
