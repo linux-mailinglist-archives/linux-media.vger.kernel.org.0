@@ -1,169 +1,213 @@
-Return-Path: <linux-media+bounces-66286-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66287-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 2tgbK4esRWr2DgsAu9opvQ
-	(envelope-from <linux-media+bounces-66286-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 02:10:47 +0200
+	id TBWAHfa/RWqXEgsAu9opvQ
+	(envelope-from <linux-media+bounces-66287-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 03:33:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D17F6F2934
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 02:10:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AEA6F2C0D
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 03:33:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=hIuLyYnp;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66286-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66286-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Gh4RtV2H;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66287-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66287-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E2A743043991
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 00:10:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 15D8E304B993
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 01:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AA6014EC73;
-	Thu,  2 Jul 2026 00:10:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BF6C1E8826;
+	Thu,  2 Jul 2026 01:33:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F411C2FF;
-	Thu,  2 Jul 2026 00:10:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACB12147E5
+	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 01:33:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782951015; cv=none; b=LHzv5vKx/xOMwmr9M0lVHEhN/b3W9SQ7/ipr7RMzehFEiEpx+zE/mH26voV/VvSfXtX7c6X7bWRJCG0mktXRmwWe68H+z94D+7q403ThzRdXXlZtKgbDytlIjfyLXaq4snXHlcT8CJ6x28uxPQkWu/w2GsY0LUkprb0cs35g5gc=
+	t=1782955996; cv=none; b=vAkv5tExGVZiiSU7+gpB4yv7NHMNWEFTPGCEaxCjj4gEyCrCpV9EjUkHAnQT8PNk14nfvS3tWnKPmshHAe4MFtd04sQfnLx+bqDu9vYc8rIrS4pr8VxtATi5Ca0ChBVottshdLfovW+ypSHBqpZkpcrVJezFmLACIThWEtDXzdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782951015; c=relaxed/simple;
-	bh=jcy4LXzM7O6FO0QrcS8/v6xZrmZKq9/MRZ1Fpv8nfvg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mW9AiWlEvgEPZmM2XlSvKRfkG6qhCHhIzsTbJxjyv5LtzL8IREiW7Kn3UXg6Z5SocCKi3jy/mQvIsc3warvP49u2ySMnH0ZZ1jciBMAhehi+6yr3EpdGid09ZBOTIGZ2lajFQRpyMSniK/TAYV5QVa+aH3S5tFGK4iNWY6WD2sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hIuLyYnp; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72B381F000E9;
-	Thu,  2 Jul 2026 00:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782951013;
-	bh=jcy4LXzM7O6FO0QrcS8/v6xZrmZKq9/MRZ1Fpv8nfvg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hIuLyYnpVwEqV+MPtgJ5/qKS2q6nid1U4+hpA+Prt7bLZDeZUdUKEfRec1kVJERa8
-	 3P4ec2/H9/TPo2JGSzVBptYD5HIzGoGnVaxj52eMnmj8j4IGp6y9rlufBX3Yt5DnYB
-	 J1dxa3pWptBmMHSf/PmBMUl5sV1m0exj7n6mqZeRLjLyH06masRsPpoMSnk5KFGpvM
-	 6pzQQeALGv8QMoHX9OFBSgUJ9hPp0seqMYx+RGY3G6vmKn5oJK5mpsvL18dX5Ia5IG
-	 qpmJTp3TyMY50WNUR1euak+je0NlzS5PHlqYabiRfpk7lgvmRdNuMupPgStUkMP3Au
-	 tilKi33E8/hXQ==
-Message-ID: <b75f099a-dd70-432c-9202-bc3b1aa126f6@kernel.org>
-Date: Thu, 2 Jul 2026 01:10:10 +0100
+	s=arc-20240116; t=1782955996; c=relaxed/simple;
+	bh=CWSDyiWjt/ugnMSYwwO5OPf9zuN/+Wou/ffegX64CzM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=R3Mm67eflilagSF2qTsbdTeXsv2d7TdlSXw9mJ5MhAVMAgiBSAwcful5AOEdghMUvyigG5E0yDxF4YYLi3UvtHOwYtNKOfFZJf76tUO/v3itQCYPh4GlMjoYA2ZBSai2rJM/9/rnkYTswX3gc4a3iXy/dBS6Caa/GFlRrB/K1hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gh4RtV2H; arc=none smtp.client-ip=209.85.216.51
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-37e11438c66so662789a91.3
+        for <linux-media@vger.kernel.org>; Wed, 01 Jul 2026 18:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782955993; x=1783560793; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ul6MTos/9fbbByspAuoFqlFzSIa8RflOxwEJD5MGu+M=;
+        b=Gh4RtV2Hadf0BB+UVUdMH5aLcf+ua5lvkBMdtVEXwHPiFRiYyFdZl72fo3cTMVW+1b
+         MztANYx1kk9kYQ25sB+GLYyq02FkxUoVhZfqh0uHK1UXDnFGgNEQ4PJubxb1Jw/e0KDe
+         fMfD2udtl6R2XdWXtCfrcyqfZA1zC26eHi3KuJlEZp16MZm+hpXYXz+nFn+m+IuHxeSF
+         t6O+f7peZHJfLaTqeXJ8QWTcChO/F9P+j7verIlsjNtg5BE0DF192dXOGeglEoC8CVN7
+         mBv28dSgGhXXzOOu06Yvc5urPDQyW6RDl+YaKItingWc8cjWDxd7Q9wXiOCXQXM6o39U
+         H1Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782955993; x=1783560793;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ul6MTos/9fbbByspAuoFqlFzSIa8RflOxwEJD5MGu+M=;
+        b=aCs+Z4DwhdXuEXX7GnjHzoUzrJwb5dzq9hHJk2MtyK4b4lXEvA10FOx0ru3NfSKIBa
+         3ryaC/SToSjTKWN8taT2uTe+VVo0+XNRNvxmr0vzbj5HIbW36CL04yfzad2BDrj5G5Qe
+         yoZqBEwl0YIwJ2KEkOb/B7o43JMPk28ZJnRcZgYyjaBY92h7KJK3kQ5cihG47Z7ennfk
+         HpZPw9uxDgd/2aAL0oSf5GihGMkMdzwnhlTqXrLgIOjnA935rl8BM+attGGxzIWvQAjC
+         N2ctxPIMGTAbPE1ssDHBWpHcjFqVyUzaGxwWJrra7ti2YSR4+0Gxtb28OWE3ZlIRnCHY
+         1nyw==
+X-Forwarded-Encrypted: i=1; AHgh+RqJcwNgTUoZD8HQaV/i4qBo4Lk7/FqiLmJzMBBE3b/DvyvJ1e+MKE9ZDWrw270twPAE6Ey/95b/YEY/FA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZoeWiYsgrlyx5DJK83d5Wl7VK+t0Sm4wIO8c754YLB0RDUiO4
+	nqAxFt/s2ECUHbj7dxpBz3dp0Q+swo6i4jC0+hQpLJaKBREKxNneSCVfemTxizK9RDk=
+X-Gm-Gg: AfdE7cmSy4CWqwEa3DXN0QbekYcq2yc4FnW12+N0VhRk0tJzq0e+WZtPjM44e1dhYK4
+	39O2t6NTqyMuMVKDIMHHfNWm2FVIWVPfsuDn//pVw0Vqqox+0S6mKMj4HOcxoDquK+qHQKpB/wK
+	z8qEd5WgTeXNOJIYeeiar9FplQDJaJjHkeo/QwD6Y8grkmQCMMXyU5kyBWmEeb1wpmY6oRkM6Zy
+	2n6KtHqgyOp4GcbzilQJwTS57ARjFsTz1awoQufeZi6uIIcdRstMacIdtnN3sIW3WJ97C4WA/e/
+	HvR/lA3CqSFg75hPQXsa6u3H0MSMdonzXwYr/N6VnSxYFOFiUr3BO7/o4rt1ymJNd0dl0tnLj4m
+	69iEKYFJIn56wR5DH0ehxikiIU34zS+4ObnkI2XiXPBFrg/oY+eLQJm6/gk0H3U536enDbLtKSi
+	Zp4pg/6u/Y9d1HT7iueA==
+X-Received: by 2002:a17:90b:4e84:b0:37f:eda5:5169 with SMTP id 98e67ed59e1d1-380aa127da8mr3897035a91.13.1782955992994;
+        Wed, 01 Jul 2026 18:33:12 -0700 (PDT)
+Received: from [127.0.1.1] ([2401:4900:8901:272a:3379:8697:e33b:cbe6])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f116065c5sm540377eec.11.2026.07.01.18.33.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 18:33:12 -0700 (PDT)
+From: Ramshouriesh R <rshouriesh@gmail.com>
+Subject: [PATCH v2 0/2] media: Add Himax HM1092 mono NIR sensor driver
+Date: Thu, 02 Jul 2026 07:02:36 +0530
+Message-Id: <20260702-hm1092-driver-v2-0-4f9f369d6a48@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
- <20260523-x1e-csi2-phy-v8-1-a85668459521@linaro.org>
- <rpnNMsR9GY8gbynzeBO8Zm61JAOq3ubt6sp0x3WDPPwkMAJzlcofECD1kabN-IUoK6sSwP5P6l28UIZLFCOpjQ==@protonmail.internalid>
- <dda32577-04e0-4507-acaf-a5694f4f31b3@linaro.org>
- <7c564df8-5c5a-4b43-806e-5e017e5c51db@kernel.org>
- <ae3a381b-5697-43ee-bdfd-aaf2d22ceedf@linaro.org>
- <nD45n5ZmIuteEOWZh07Nb504mYGv8rgHFnBJP5CvVR9n8v1Nb61MOJFqfLcl4fI_nLy-HtFKGY2XzhBZjQZ66Q==@protonmail.internalid>
- <6b6492a4-7610-4dce-a81c-8dc0387a4061@linaro.org>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <6b6492a4-7610-4dce-a81c-8dc0387a4061@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12NQQ6CMBBFr0JmbU1niIiuvIdhUegUxgiYFhsN4
+ e4W2Ll8yfvvzxDYCwe4ZjN4jhJkHBLQIYOmM0PLSmxiIE2FLrBUXY/6Qsp6ieyVKRwZY60jjZA
+ 2L89OPlvvXu0c3vWDm2mNrEYnYRr9dzuMuHp7+6zxrx1RaWWxtiUy5Xl9urW9keexGXuolmX5A
+ Sgu2qW8AAAA
+X-Change-ID: 20260618-hm1092-driver-a6f2aaddf201
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Hans Verkuil <hverkuil+cisco@kernel.org>, 
+ Bryan O'Donoghue <bod@kernel.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ramshouriesh R <rshouriesh@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2325; i=rshouriesh@gmail.com;
+ h=from:subject:message-id; bh=CWSDyiWjt/ugnMSYwwO5OPf9zuN/+Wou/ffegX64CzM=;
+ b=owEBbQKS/ZANAwAKARWVil4RHAXeAcsmYgBqRb/SbkC1CmTytrb/LjMBQW0MFUYC1S3yfd3K5
+ Zl57cqWKvWJAjMEAAEKAB0WIQS/0QuzNKVfvUNlNAkVlYpeERwF3gUCakW/0gAKCRAVlYpeERwF
+ 3trWEACZS4ShE7KbMfuvn22NL4vJmU9pf1RExD/TSpDVynuDv9nGRExJZlr5nUGoQg4BYDwo9KJ
+ cGwMUiP03Hih4VV4PGZsuJUM/UmlWliM5e7eJmz846vijueqWjFYVF7Qtx1r6SPOGNBLz1P0Fd/
+ ffzGC0ZDAr+TjkkyoxOFx0p8YQaRQPc1ypBTk9ZzSIh8TSt/Zn8hDD37eZIUmHtebN6GwjPFTGP
+ 0tJEra6AKELrTUZjgZVkLU1Z+PEgbx7lsi5+mQLj1bQUVP42GDZ22nrC3FzV4FMZMBnH2P4Wv6J
+ Elr7JhkH1mRwsuCa5ML48hUNd3CLB9we3+UbvxyLxoTn+2Zkqmr33Y0JVM+x2q0dLLKQ6Zccz0F
+ i81XDjtXEAOxsfDb344aLDzkbUMOpPnRtXYu4Jn3G5kshbA2l6CV6zue8zk2wE21aRTAYcBaUmh
+ 7a3PBZFk+cLCBPxYrdGVSytGAZSK05ZIsR48k2W9DhrHpUv4N4W9IOrPU1200Cpa25huwnkM0M9
+ NItQcFdwAb+j4MYebWuiZfiPZPY34HzAsw+WKkDZXo6CsMrNv+qjkci2O0BQ2dTqwXC+6KP0A/e
+ 8zHDk2IuWo2uFBfoiBwz77Riq861zm7LdREAKmg6d3v/YpB0i40qsgVDfsFUZ6qwb7U+1Mxr6bW
+ 1Myv2awKNIHW32Q==
+X-Developer-Key: i=rshouriesh@gmail.com; a=openpgp;
+ fpr=BFD10BB334A55FBD4365340915958A5E111C05DE
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66287-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rshouriesh@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[rshouriesh@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-66286-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,vger.kernel.org,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[rshouriesh@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0D17F6F2934
+X-Rspamd-Queue-Id: D1AEA6F2C0D
 
-On 02/07/2026 01:08, Bryan O'Donoghue wrote:
-> Happy to revisit if the DT the Gods so command.
+This adds a V4L2 subdev driver and DT binding for the Himax HM1092, a
+1 megapixel monochrome near-infrared image sensor. On laptops it sits
+behind the IR camera used for face unlock. It speaks a single MIPI CSI-2
+data lane and outputs 10-bit RAW at 560x360.
 
-lol "the DT Gods"
+The driver exposes that one native mode, a test pattern control and the
+standard fwnode properties (orientation, rotation). It has been tested on
+real hardware (an ASUS Zenbook A14): the sensor probes, streams, and the
+on-chip test pattern comes through the full CSI-2 pipeline.
 
-I'm an Athiest anyway ;)
+The sensor driver and its binding are SoC-neutral, so they are sent on
+their own through the media tree. The board-level device tree and PHY
+work that wires this camera up on the ASUS Zenbook A14 will be sent as
+its own series.
+
+Signed-off-by: Ramshouriesh R <rshouriesh@gmail.com>
+---
+Changes in v2:
+- hm1092: use pm_ptr() instead of pm_sleep_ptr() for the dev_pm_ops
+  pointer. The ops come from DEFINE_RUNTIME_DEV_PM_OPS(), so gating them
+  on CONFIG_PM_SLEEP dropped runtime PM on a CONFIG_PM=y, PM_SLEEP=n
+  build.
+- hm1092: free the control handler on the error paths in
+  hm1092_init_controls(); the fwnode-parse and ctrl_hdlr->error returns
+  leaked the handler.
+- Link to v1: https://patch.msgid.link/20260701-hm1092-driver-v1-0-d1bd81e233b5@gmail.com
+
+To: Ramshouriesh R <rshouriesh@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 
 ---
-bod
+Ramshouriesh R (2):
+      media: dt-bindings: Add Himax HM1092 NIR sensor
+      media: i2c: hm1092: add Himax HM1092 mono NIR sensor driver
+
+ .../bindings/media/i2c/himax,hm1092.yaml           | 107 +++
+ MAINTAINERS                                        |   7 +
+ drivers/media/i2c/Kconfig                          |  11 +
+ drivers/media/i2c/Makefile                         |   1 +
+ drivers/media/i2c/hm1092.c                         | 790 +++++++++++++++++++++
+ 5 files changed, 916 insertions(+)
+---
+base-commit: be5c93fa674f0fc3c8f359c2143abce6bbb422e6
+change-id: 20260618-hm1092-driver-a6f2aaddf201
+
+Best regards,
+--  
+Ramshouriesh R <rshouriesh@gmail.com>
+
 
