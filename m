@@ -1,241 +1,208 @@
-Return-Path: <linux-media+bounces-66404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66405-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vaBXNqOoRmq7bAsAu9opvQ
-	(envelope-from <linux-media+bounces-66404-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 20:06:27 +0200
+	id 844WJuOwRmrbbgsAu9opvQ
+	(envelope-from <linux-media+bounces-66405-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 20:41:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF776FBD69
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 20:06:27 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A296FC35F
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 20:41:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=RpsT4Vr9;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66404-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66404-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=dcLJNoUq;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66405-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66405-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 19A1C3071E64
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 18:05:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0245931A66EA
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 18:11:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 263073A5438;
-	Thu,  2 Jul 2026 18:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9DDE39B972;
+	Thu,  2 Jul 2026 18:11:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011044.outbound.protection.outlook.com [52.101.70.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE0D39DBD4;
-	Thu,  2 Jul 2026 18:05:29 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783015530; cv=none; b=sEN2/LjKnvu7DvaYrHrjTJ81sETq215fPT6hcAXsQefb1vYPWR9dcNNTe0TZwfaeuW6sYTdf7tj/4Vyr+pNvIbJ5c7M588NE8pPpAYsxRgqgGX+6w3B2Qjir7lFcu6oZ1cB9J17K09E/ewBGd5hyWdIHWrbmpRxd1J59IPmRLyg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783015530; c=relaxed/simple;
-	bh=0dVNCTm51DdK5VWtlEP7rb79qihsr0VCN1qu719df8w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RFBIdQDjS0Tx3qsOs8isqv0PaZ7leM7bV3ZMN8kQadaUjT/jhXYMMsu8iDrLROwFnmpNQT80VJToagN5H4gkMyeUdojspBqUP1naYOOBvpJH/xv2dKAVbqWky/jCebBcDmbFpdD1QdCqJxaP8v9eAQE5z4Dd97dCKdtCRrARmW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RpsT4Vr9; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96B111F000E9;
-	Thu,  2 Jul 2026 18:05:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783015529;
-	bh=4YdgxBQuf7BVv5lkRPcTKn7mihP6VUcURlQnZnrJw1U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RpsT4Vr9aW5tFGH0rg38tZQPFisIQsNBnRlBOKHWODvdeHsdyNAHgavaHfCbIneVc
-	 rCWkYV3WGXsQnWPeWANZhrYZTl7z0Aio34b+16r58W7oGwNim0Rzzu/lWIUTBZamVX
-	 LU/xnAUZa3mkYqZFjAxF2f6GeRbSYxGIxImcErlkA9dPSAIG/BgrFiA7deodGzEKGt
-	 W1iZJko5+BMAtgqT4/bIhuRZlL7yQBMyR5GOfQ5SjbP8EG5sCp3G0MuPSfzkDlmYKO
-	 LcYf8vM1gYO3kl/js2yoacryGKhEo7gHZbzPW3Ab3aZfjKrD8+BjJHG3zqZHXDkbvD
-	 q5fqomCvhP4OA==
-Message-ID: <d59e796b-fe53-4103-a94b-5ffba53246b9@kernel.org>
-Date: Thu, 2 Jul 2026 20:05:25 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092F23612F1;
+	Thu,  2 Jul 2026 18:11:16 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783015878; cv=fail; b=R/RHM0m08n0pbZP5w+CYklqqEK5Bt4/+gBlIqAZ16NlZ4L6UAQlhpHUXgqov18M6KXkUGgHg1IdGPvXYYCi2F0kkTfx2Q9bkFpxPcivKQ3A8PibcTZyxIdWvLCtfCvxTWvO44x0POmXbIHRchZ/+KhrjUlDvXWsPzZjncoTYqow=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783015878; c=relaxed/simple;
+	bh=+kcc7JmCArazoWT+M7xiMOM9LpDbgZOGSbaEZExtzbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=GGktPolojxyZBXBPEJxree0DXr6VhfARk7Tqn7KXrAt4iWB6sfurOhn09DPxwRPdBYIbv+xC7POpE7QUdM51KIsh0czXhb4HLj3C4GaVNoUu693tDERgmS7BUF8rOGHgfLHhXXVTLa+5MwozVCQq8xwbXdHr5kr1OXdKJYtw3nw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=dcLJNoUq; arc=fail smtp.client-ip=52.101.70.44
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZcFO/8x/Oj8NHYiuHNkVYv4eP9etbrOjxv4La1/tLCHonpkM2vyXfvYq7nT0pqbeOjAgLjpyNdSyA9M/TQhoF6zQEYJ8Wkzc5TeGzbs70XbGDdR3X0SXYRYdpETD3GCUYgWHCLCmHe6NcBQswxY2JPRu9KGlrU+s4VjOKuEtWx/7+4cTaSroAiWrZFpkWjDZRJIzcihE27aFggn/2l9zwGlDW9Wr0DPbbsgOQWWjVwfJWWavsAkqxbiJNJFOBGUmtHxNq0NQDCK1RXyXSR9fWaxFiFSZ8EPF7DONB3cDmGe3jaNHwf9wHSrccLBBH4cv4SDJo1xfY32c8y2NWSXhqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+kcc7JmCArazoWT+M7xiMOM9LpDbgZOGSbaEZExtzbU=;
+ b=VI3GwquH7JzCbyn5kc2uKJ2SQgtdbNWp9TXIWYMVpGSCt1TeFCM9O6PmcdlhTEedQ9HOktLZHVNazwtioUPVCXVGu4xzGp2XaCz4F/TLy+ttTNEoHNqYCnWztR/LdYTO6Ve9ygbp6mFNf3/GtGS6WodZlhCF+0hJqIUC3ktwP0idkUQukmgMR9pkRwN6t60OCQPEx4Kyfg7/xX4wLPRuAtXN6ME8vyalSYziqPJrOXiEjnulV3oeoLiIcVTARUq4RB41ayD1sNtaBjwXzmJty5EXE6JvAlUJYyisvncKVno854Rgfif44hpJjhKa2P1df97XOlqKAGR+joCebKA1yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+kcc7JmCArazoWT+M7xiMOM9LpDbgZOGSbaEZExtzbU=;
+ b=dcLJNoUq1C3tDDQMtBuvZZCJps+y/wvzBK5JJu2Tiue4WZ3YVKtgFQ6Zh6ZOOPLtD5LwIYOjqmmoAFHQi/2Ko3qZsvWbLp/+xwGFOedgd2n+grPnnKi6wGQbl4wcEouGEK7ZU1/a+s2RtwpB2hRwo/LnxKr0xN1Fan+XwteBqOVgx5NDbZ+95ECxopmfyjvyrjOmrdkprR3bWoqWDZjtwhKByYkA2RLaZhXVIJ4f9WQuC7W//rwxtLxk7dvayg7mme2FgeblPOU0bjEllXJkmgJoxzooz02csDgVyky+0DiAxHNJuyVcxQCizyUBo8PLQL9xl/Ty7COCN3kley6D1g==
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by DBBPR04MB7884.eurprd04.prod.outlook.com (2603:10a6:10:1f2::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
+ 2026 18:11:14 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Thu, 2 Jul 2026
+ 18:11:13 +0000
+Date: Thu, 2 Jul 2026 13:11:03 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Riesch <michael.riesch@collabora.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	Guoniu Zhou <guoniu.zhou@nxp.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v7 2/8] media: subdev: Add media_async_register_subdev()
+ helper
+Message-ID: <akapt6v_DBJSAnj0@SMW015318>
+References: <20260702-imx8qxp_pcam-v7-0-b47d9e363400@nxp.com>
+ <20260702-imx8qxp_pcam-v7-2-b47d9e363400@nxp.com>
+ <20260702161519.GI3534761@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702161519.GI3534761@killaraus.ideasonboard.com>
+X-ClientProxiedBy: PH0P220CA0016.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:d3::19) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] platform: int3472: discrete: con_id vana for Sony
- IMX471 as power enable
-To: Tarang Raval <tarang.raval@siliconsignals.io>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil+cisco@kernel.org>, Serin Yeh <serin.yeh@intel.com>,
- Damjan Georgievski <gdamjan@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>, computman <anis@talbi.fr>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Daniel Scally <dan.scally@ideasonboard.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
-References: <20260629074026.35490-1-hpa@redhat.com>
- <20260629074026.35490-4-hpa@redhat.com>
- <PN3P287MB18292C819793395D643D426A8BF72@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <49257d09-a2fd-4a9d-9479-4d2b5e0fb8a6@kernel.org>
- <PN3P287MB182945B5747452110940BEA08BF62@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <c7634571-4682-41d5-aa9d-8b965d641d51@kernel.org>
- <akT2CSCbaR0a3BMA@kekkonen.localdomain>
- <PN3P287MB18296E80E1786B05F5ACF37E8BF62@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <PN3P287MB18296E80E1786B05F5ACF37E8BF62@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DBBPR04MB7884:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfeb13fb-0f1b-4446-b86c-08ded8654d2e
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|7416014|23010399003|1800799024|19092799006|376014|4143699003|18002099003|22082099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+ vvAmrEg+799HzW8zXxFXjqnKFp+T/acahTlGDXa48r8lXV8a2cgspSZHtQhblpXIH+2P8b963uIy4Fom4mJNzbG6Oc/kO4nyjus/Fq7EprI/ZOh0JImdjehyzolOS90r9J1ZxRBEeobqSxHqvdSTrxix8NE/wxvoFldNM4NL5Ahc+OkNcIGKOz+L1cMClZdpFMY0R66JMOiG5WlzuNuB0l1ewSuzECNHiw4GrSYV/Fy8Xo1nk4BS6zg42luuyai3CUjyd+RNVlAqKNNSXwwl7qSvACYSkAGKq3Ll6c0fqZwN2XvlhFVGvyrxZu4Q1PZ7fNvaKrCVRNagz/O5vG4DdOr/93WTjRklardQkRVVXaKqCnZQhJwBmke0aFBu4YGaKEOOC0UfCQ2TMufLZ0le8FPJqDG8lhyUNp4StTBfPcJJc5YDQT9vzv+pPOQj0tvYoQtSWL4j+qtdMfQhXt93sgL6eKvDCXIZ6tLvrt6jxmCnuvqAzGTR3nGPvhhA1Pesxx5r7QPBTt3eng9ecboKVPf508+flZGWC8H9djFMl3E/LMiI5iKMz/SOkFeAdmKMCR5znhnMFt98J1Taz6srjAPcjOWz9xHYPSQB2mFQz9wWRLpBc2V8jOIthCFMNFo2OE708m2GtBk9ysF8f+ZEHDrQ6BflgkL2Y+cDVVYZme4=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(23010399003)(1800799024)(19092799006)(376014)(4143699003)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?4MCu/T6Wdvng5+hfgKLBq1TzQQh67vXK/jw2VQgo2NG+m2iYWXiJJ+h6Y3Wg?=
+ =?us-ascii?Q?vqJLVqfRh8A2sotFau3CKRz4WCcE96VYlFC8xZ80E/FF74VowJ3wZ0fLWEmE?=
+ =?us-ascii?Q?W++oeVrx+Y9tZCrma1lVgu4mPQlKFpQW1noC8/DtpYt7nsI6KUvgJuQL3koF?=
+ =?us-ascii?Q?nAu/XBT4dZt9mazhFxpznuTUIQwkPGHZoASUqg8jGwvWrcZdPhgopRuXcu64?=
+ =?us-ascii?Q?ZpGAaCtASvgRKHQuYZ3reoo5TcDuONHxKsMa7kGOIZPTCeziUjQZAmSgAsnk?=
+ =?us-ascii?Q?mLwMW+KWfoDqeVcnN0w3ZGsC5a86MAY9SY7H6mBQeChxQuIZxfHz+6Q7eUgO?=
+ =?us-ascii?Q?DYaGcc35WT4Q0TCFjueUsxqj5C0FhkZGBo5f3e2rb79fW6bSSAqw08Mt2PsM?=
+ =?us-ascii?Q?9Lcf8gKupVWzQOWyOoSiByGCRgCSdASUBCMRcPP6rTxyun4AkjrMrE53RqE9?=
+ =?us-ascii?Q?lxXjRrAXMYJVh3zz35woVaXnCAs07SwD/MXKuqTqkXaAnBDb1ancnEVoihoY?=
+ =?us-ascii?Q?RN2n4whoozvAMNJ70LFZsk8bbgZBq0aG6nbFxhXdeS3Rgnw3f1b1yxt/qHDR?=
+ =?us-ascii?Q?SEsTcg2V/8L+J4Q98g5GdwN2H+Kr9fMVepMIIcwr3o+BRShBASgW5pHGmMdc?=
+ =?us-ascii?Q?DFbRdwCQEXtGRRCStT6qm9hW+fJjXykvo3zkabF8FQECUgejm08JzyfMOAWX?=
+ =?us-ascii?Q?s1wmtvGHwzjZv3+eBNbOTQP+mFcJ6Pf7+kQmJQFW1N9NQyurCjIceg17uqpd?=
+ =?us-ascii?Q?mr4lmI3RWSbiPVMfuKQ5sytekqN+a8tWhk9YbU+HL6YbaEe4LN+jZpjK+e/W?=
+ =?us-ascii?Q?AYpMUg7eD3vDL8UF66eROhE5v3k4dkY5eZPRHrz0DnbAqEJ4FqKZMTUPoiT4?=
+ =?us-ascii?Q?cr5Eq/9eyla9yMKMfX7hxPJs3fVdzU3LnWOTvtue+XuxF0x+A67tMx0QLZII?=
+ =?us-ascii?Q?38fw4uCHf7HYzwfWqbtnS8BpBudWYT5aHPafKOiGyzqJ6wAN3lyd71XOQr2N?=
+ =?us-ascii?Q?rEpsbKNXsgp+GnJNbhaTd7qvkaKt5ezkdE83zr8JGFmbtalCfU/PNfer8W5i?=
+ =?us-ascii?Q?R2Y10FC2p7Ybgz2S4M/fOWQ57njMMK4If/gIu5f6dzbVNe7LCPUh2J1wFlfn?=
+ =?us-ascii?Q?ntk8uNL/PxKbch352P4mAdM91AJwCVBZC+AinRghGoPOQJCxrqRkHdEbriaY?=
+ =?us-ascii?Q?QwiIaGD58Peapep1L+/tiOf4BflTRWPBdwj+i4lsj87rgygjGamQ+TymYBv+?=
+ =?us-ascii?Q?7OTR2RLWkBfYgo022EdyQ7GadBt2MBmstQSoC8N8vLcVF85ZdtLUyjjigRSG?=
+ =?us-ascii?Q?u+QxABGt18YBuhMSeYAZi2fQ2lEwGFEd1YZqQ9oPYDiWpwaXD6sMAOwNws+v?=
+ =?us-ascii?Q?iS25EraQBP2SGGyBpGON5ZHWM9s/P/v4V728jrkITXCgMtmSjNxAfaa0PCT4?=
+ =?us-ascii?Q?DzzL00PqvtiLdEJGI5qrvfDKrixWA6CPg4XjGzf2oOhyQVlwrydBPucWSBOR?=
+ =?us-ascii?Q?0UC7K2fbccw8gKyMNw7C4K5imqNyPL7SEKuFYkkD+rt1OY52jKBN//iLSMCR?=
+ =?us-ascii?Q?5+2317h9L2zTGVA5A7hFwOTFa1KEb6jqHWd40OZirwOGMi3Skc1zyd5OO+4C?=
+ =?us-ascii?Q?8vFjkXmUNtab5HFZ1g96EvbwSMgWRdLfLNVAi5YSLnRMH6dsgpMdMmzYnw9X?=
+ =?us-ascii?Q?8EzTT/aL4x8N9GsCJ1JEAdgU3f/0hH7dCaIDVjg+k971gKjdn7ce6FKltbZc?=
+ =?us-ascii?Q?L6TPEoA9cA+VF7weu8ww1XMBuMANgDK8O36ADkVRsOvcWKXfZilg?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfeb13fb-0f1b-4446-b86c-08ded8654d2e
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 18:11:13.5139
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uNm85SBzc8w7TgpxYkuW8vtn1tARL5/irmTg6C3Tx9eLIxzOecqm/1mb5a178al5aZs5596QJMgCX8mvlwxyPhdYVs651s0IfxXM4YDFKXT4T7U2xZ+oj5lKGWP/MGLV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7884
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [2.44 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66404-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:tarang.raval@siliconsignals.io,m:sakari.ailus@linux.intel.com,m:hpa@redhat.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:serin.yeh@intel.com,m:gdamjan@gmail.com,m:kieran.bingham@ideasonboard.com,m:anis@talbi.fr,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dan.scally@ideasonboard.com,m:ilpo.jarvinen@linux.intel.com,m:platform-driver-x86@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66405-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[redhat.com,kernel.org,intel.com,gmail.com,ideasonboard.com,talbi.fr,vger.kernel.org,linux.intel.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:michael.riesch@collabora.com,m:Frank.Li@nxp.com,m:martink@posteo.de,m:rmfrfs@gmail.com,m:kernel@puri.sm,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:guoniu.zhou@nxp.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[Frank.li@oss.nxp.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@oss.nxp.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,collabora.com,nxp.com,posteo.de,gmail.com,puri.sm,pengutronix.de,vger.kernel.org,lists.linux.dev,lists.infradead.org];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,siliconsignals.io:email]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,NXP1.onmicrosoft.com:dkim,SMW015318:mid,oss.nxp.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4FF776FBD69
+X-Rspamd-Queue-Id: A9A296FC35F
 
-Hi,
+On Thu, Jul 02, 2026 at 07:15:19PM +0300, Laurent Pinchart wrote:
+> Hi Frank,
+>
+> Have you missed the comment in v6 ?
+>
+> https://lore.kernel.org/all/20260629084654.GB3054459@killaraus.ideasonboard.com/
 
-On 1-Jul-26 14:33, Tarang Raval wrote:
-> Hi Hans, Sakari
-> 
->> On Wed, Jul 01, 2026 at 01:01:58PM +0200, Hans de Goede wrote:
->>> Hi,
->>>
->>> On 1-Jul-26 08:19, Tarang Raval wrote:
->>>> Hi Hans,
->>>>
->>>>> On 30-Jun-26 09:32, Tarang Raval wrote:
->>>>>> Hi Kate,
->>>>>>
->>>>>>> Update the con_id for the Sony IMX471 sensor to "vana" to serve as the
->>>>>>> power enable. Additionally, the HID values SONY471A and TBE20A0, both
->>>>>>> associated with the IMX471 image sensor, have been identified on Lenovo
->>>>>>> laptops.
->>>>>>>
->>>>>>> Signed-off-by: Kate Hsuan <hpa@redhat.com>
->>>>>>
->>>>>> Thanks, looks good.
->>>>>>
->>>>>> Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>
->>>>>
->>>>> Hmm, the imx471 driver is still pending upstream:
->>>>>
->>>>> https://lore.kernel.org/linux-media/20260629074026.35490-5-hpa@redhat.com/
->>>>>
->>>>> As part of this series.
->>>>>
->>>>> Please just use the standardized "avdd" in that driver instead
->>>>> of "vana" (which also seems to refer to the analog supply vdd,
->>>>> which is what avdd stands for).
->>>>>
->>>>> Then this whole patch is unnecessary and can be dropped from
->>>>> this series.
->>>>
->>>> The regulator name "vana" comes directly from the Sony IMX471 sensor
->>>> datasheet, which typically refers to the analog supply voltage. Using the
->>>> datasheet name helps keep the driver consistent with the hardware
->>>> documentation and makes it easier to cross-reference.
->>>>
->>>> as per my understanding, the more standardized way is to use the regulator
->>>> name as per the sensor datasheet. Therefore, I respectfully disagree with
->>>> your suggestion.
->>>
->>> As shown by the need for this patch on x86 at least because there
->>> is no devicetree it greatly helps if all Linux sensor drivers use
->>> standardized names for their regulators rather then using the exact name
->>> from the datasheet which often is not very consistent.
->>>
->>> And "avdd" is the name we've standardized on for this, so lets use that:
->>>
->>> hans@shalem:~/projects/linux$ grep -l '"vana"' drivers/media/i2c/*.c | wc -l
->>> 4
->>> hans@shalem:~/projects/linux$ grep -l '"avdd"' drivers/media/i2c/*.c | wc -l
->>> 36
->>>
->>> The alternative is needing to add more and more quirks as different
->>> sensors are used, which is not great.
->>
->> I do agree that having a constant name for the regulators would be
->> beneficial for the int3472 driver. Still, if, and presumably, when that
->> sensor gets DT support, the bindings will use the regulator name from the
->> datasheet.
->>
->> Let's just use the datasheet name now and add the few lines needed to the
->> int3472 driver and avoid the churn in the future. There's a limited number
->> of sensor drivers that need this after all.
->>
->> I'd be more concerned of what's going on in tps68470_board_data.c for
->> instance.
-> 
-> I went through the INT3472 driver and would like to propose a generic     
-> approach that satisfies both sides without per-HID quirks or sensor driver
-> changes.                                                                  
->                                                                           
-> The problem is:                                                      
->  - INT3472 standardizes on "avdd" internally                             
->  - Sony IMX sensor drivers use "vana" per datasheet, and all existing    
->    Sony DT bindings (imx219, imx290, imx415) already use vana-supply     
->  - Changing imx471 to "avdd" now will create inconsistency with those    
->    bindings, or require a rename later
+Sorry, I forget emphased it in change log.
 
-Ack, as mentioned in my reply to Sakari from 1 minute ago I'm ok
-with sticking with vana for the imx* case,
-                                  
-> Instead of fixing this per-sensor (either by changing the driver or adding
-> a per-HID entry to int3472_gpio_map), we can add a small vendor alias     
-> table inside skl_int3472_register_regulator().                            
->                                                                           
-> Currently that function registers two consumer supply entries per sensor: 
-> lowercase ("avdd") and uppercase ("AVDD"). We can extend it to also       
-> register vendor datasheet aliases from a static table, e.g.:              
->                                                                           
->   avdd -> vana   (Sony IMX series: imx219, imx290, imx415, imx471, ...)   
->                                                                           
-> This way, when a sensor driver requests "vana", the regulator framework   
-> finds it in the supply map without any extra quirks.                      
+"For the reason stated by Sakari in patch 1/9 (dependency from MC to
+V4L2), I don't think a "media_async_register_subdev()" function is a
+good idea."
 
-Interesting proposal. For now I think just going with the quirk from
-this patch is fine. But if we get more Sony sensors doing what you
-suggests might make sense.
+The reason already NOT existed in v7, I removed v4l2_fwnode_endpoint from
+media_pad. So MC will not depdent to V4L2.
 
-IIRC currently all regulators get an upper-cased alias to avoid needing
-quirks just for the case where drivers only differ in case.
+So this comments is not suit for this version.
 
-Special casing avdd is going to require adding special code to the generic
-bits. Or maybe just an alt_name parameter ? Either way I think for just
-the one sensor the quirk is fine. But if we get more (which is somewhat
-likely) then your suggestion is probably a good idea.
-
-Regards,
-
-Hans
-
-
+Frank
 
