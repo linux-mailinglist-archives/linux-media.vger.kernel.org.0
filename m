@@ -1,78 +1,80 @@
-Return-Path: <linux-media+bounces-66414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66418-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Qa0AA5XcRmr2egsAu9opvQ
-	(envelope-from <linux-media+bounces-66414-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 23:48:05 +0200
+	id iyHBNgHfRmqFewsAu9opvQ
+	(envelope-from <linux-media+bounces-66418-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 23:58:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AD76FD08F
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 23:48:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6666FD1B1
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 23:58:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=VHgh3Qxv;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66414-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66414-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=m6wRCBx7;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66418-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66418-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0A103300B8D6
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 21:48:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7E6F9303B6FB
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 21:53:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E4CB380FE0;
-	Thu,  2 Jul 2026 21:48:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBFED3B19A9;
+	Thu,  2 Jul 2026 21:53:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BECCC312834
-	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 21:47:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4373333F8CA
+	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 21:53:18 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783028880; cv=none; b=CoDWkgD63pQhZ/YToR6s4da+BrT9ONpzN7FyMFXDlexXdMdfzdQP4hPSxxqEg2eDSHqWJaibO9NPJVDHw8DV8HECRGhEACeo1/M3+P/fr9Xf2fVQ8HsDe34gSnBdJBkpCI7VoU98/oZNCrhpMZCQFTLrQ8cynbbtSysox540SJg=
+	t=1783029199; cv=none; b=ayvIalytEE/Pwmy7ZkWmPSsbiav2X2ISSfpjHzKbuikUZ6YqcsC06uUjXP9N/eFfBo8UsvVn8x5dR+OAw36eWea7H04wV3Lr4njdZNuc4E0vcoarYJ+WueH9oUnROQe3MOOB3pzGAqyWoeDUjbovK1uMM+I41pBp7J0kzuQuW2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783028880; c=relaxed/simple;
-	bh=OyxQNflj8nYngatuVMplYZtDtpx74K4BynyzlTtiD3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uZLdfSVhPfNQ/Nbx9Eyv414Zgg4uYYHQkb7D+j9mwoDjXlU0xjOtuMx1kvggSuzTpVrQ4dvBIpXelIVJa3A8yIY/8cbWbQ6Tu56RoMyM4x4HDaAtjWwvgqEzQY/y6ndyAVgyLjt881augvQFFf0FOQfienX8ghIrb6unZn2Nfio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VHgh3Qxv; arc=none smtp.client-ip=74.125.224.47
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-664b3831a20so3135942d50.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 14:47:58 -0700 (PDT)
+	s=arc-20240116; t=1783029199; c=relaxed/simple;
+	bh=zjILW9Q86QgNkyAX/V+hLv/MYkNtg71tImXI0XhySLo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uC5ZdfeiBCCz/Du6o3JM3/NunanNbi29w5g5Ad/oXmr4ZkfCwsKWFZtV35h0MsK7EpchaVEbn6z8I/Nn4F5rY/rznt2/E+diI0q36W7oMdq2kt8TyOT9Aoz79r7nfjPyrJDCcu8R+4kqs9FSb20maAzmvQVoMCYLugf+xzPTx3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6wRCBx7; arc=none smtp.client-ip=209.85.161.42
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-69d7aa0ac14so1708955eaf.3
+        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 14:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783028878; x=1783633678; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=18nIAbqKxzsmmO3drAP1NepHg/ALBFCMR+9YkWtnWsM=;
-        b=VHgh3QxvLUkhmKr+rK3iEJ7gOvzGwv7hAusppw1rd5aM5N5Ro0QzxNjjJYvl7Np3oB
-         IIHJBTFBrSnCQ6/uRxIw8IRYomVXZ2UTaLEcymb3mFGbOJrSsKZnoOtnWG3ewRmCWZsE
-         ZGcmUMv+OBMM4O3lsxRx8yztoQpZ5I6EfvS85rpDd4PSAafq9yVS5ZR44YNkcrWmoTF4
-         UMxwkwqtP73/afKk1fTSoLhFD3n5AMtL07Fm9DJNNZ2xrVDlusmY5TVYlAvnKBCiy6XA
-         dRBFEaG1EOOmJtlYbWOtGa7DBgxpcy0dADXZrbemfgt9Q4scdVfQouhACv7/NqXqyhcv
-         oEOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783028878; x=1783633678;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783029197; x=1783633997; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=18nIAbqKxzsmmO3drAP1NepHg/ALBFCMR+9YkWtnWsM=;
-        b=lAr8Nnt9QBepW1Z9JChXVm16wKPenLIte5NHRlP4YsTSurNddwVgSu1nJQwg+4d7AD
-         VjNiD5MjqP2cUZ6qLo4ZW+jqCLE1S3lVHXTkcw47mVwXNj/Xvsx94m3Nh5m6qFpspL+H
-         GrtPtFncR5NuKps5U3ap8hH1os2Q0b5OKfwvMZsQT/r+t3YpPbHWtN7v16m5fVG/neo3
-         dMMxmzToxNcTx1xPlZHBFZ6KpZq/GegEsh3Z2UnT8qfJx5WDi5RWqeLl4LQbir4Shn6f
-         uJT7z1tv1IqGULB8ZgW6026h0ByKXc8lkHlUlpevyFFu1cx2yadoAnBWykFVMoadPXfq
-         wLAQ==
-X-Gm-Message-State: AOJu0YyCsmkLM5kKu4dJvRJ2ZQdLzoXt3hcKzq3QqMR5oH4DH4Trt3G1
-	UY8vIOE2tgiQkttQn2GWRlnXWhEle82WyJ9Sm61QpTFnFGCuK1DiFbcn
-X-Gm-Gg: AfdE7ckniAQkNpuY6oIhwmq+uaxUN7ydJktVn6Btf3sxHaKEYhXFsoTz2/jrmxvkfLm
-	x9SmexcLuXboTzjXM2dpwVzWFyZIjTwkXSAVAWsc1RNG+Iiaa/fzJik54KZG2OCUxuSSSg2lebA
-	Ft7g4zhUy0xtB92MZIuCV5ryq6vaVumUhd4vgEEmGjji5pT0zHoTIVPzv33uTuOK/YRQTkGLefn
-	M/61VXfxzOWTlaIWKoQz4K4jbSaSQCvJiqNBh1e4afv493oUNzmA//7BoORO1uVS1ZKHj+O6FS7
-	hkzMugP4OttB0Zd4EpCUH0HKGLg3X0XlzuZsdYwKzPJbmKhZP1JQJeYvzPOoZIGq7UYB5wEe2X/
-	U3pzqVPyJonYFs5EzYzZkIbccOre5PeVX2PmuATMoBdqNypJajLpKUquJU1K7LWVBXr3E332Gx0
-	S+JCRjf6VU+tKPQQC/o1eYG4r+Vxtc6g5EQD5Ozjiemwzlt00=
-X-Received: by 2002:a53:d018:0:b0:664:f107:6cfc with SMTP id 956f58d0204a3-66521a8b7ecmr6972277d50.36.1783028877506;
-        Thu, 02 Jul 2026 14:47:57 -0700 (PDT)
+        bh=5hvq8f3W/S8SM2hfryHlRDSpp/ikQu+f+Y5+keswTDg=;
+        b=m6wRCBx7b9q+FI3Azmy1t2U2OkB7E26MMIzk9wbY60Wul+ymsac37Dh3U1WlymmyzQ
+         6w7ZeUSZHcB4YLaCliKXLxmBUNi3DPGMypNuOerMX56ChNdPFLytAFeqt0SREM2gfsKI
+         OB0ax+mXSuMn9t3Gnd5H/Tau8O+7nwadi0/9tc9qZMfwaHE5nI/0K3A93/LAlBSltPAo
+         66QoyhEp5lAmTZkoRZGxEP86pUJfkBEzf95vpQcdjqICfXj5G6WilKe05W7SaHuXbKGE
+         DsgD4XbKtHsLL13FdWkozDdzwKqvvQPQxNqokClHlMbQr/8LJH+1J7wDuIRAUC71V61d
+         yzSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783029197; x=1783633997;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5hvq8f3W/S8SM2hfryHlRDSpp/ikQu+f+Y5+keswTDg=;
+        b=EwGEFunMAOiz2wuL/3V/YxgVFpPgnKZn3z75Nt0ulyGn3SfhBzOeRosI7lWkiH4sS4
+         JN2TwDyP8SvMhKCHgjTzWeUxS6S1jH4MDHcUcJ+FHbFASSYuN6AvqVSMV3QhyRTrQXaQ
+         NjAfQAPmOR4Q4hwhNSn/14HhIfhlfh9Wb33u9UlzGE3IZ8VNeqEqkk735V4j8y6GURqn
+         /B2jG3HHsSAvTWv/RmRLb3hZrp3hmdBEjXLjaoOsUTmETSGqNvtGCgQXZNEGMCAYM2v1
+         OM+FiF/VAu291CE+hB0XMrsJcR6PPr4LMkukVQDgK6DaaE4+IsHtT8XZv3voPVHsmUSb
+         T/8Q==
+X-Gm-Message-State: AOJu0YwN8FaH0cKbUOUxTJNEOYDaivPhz9WL4OpxMbGZ8y9bJIC25rfe
+	Jmoh9gdsfk5vu9G5Nix4Xu+G5LERotv1jaPuxnpgDGohOKbrMs3KycoXd1tk/2T2
+X-Gm-Gg: AfdE7cni0ssz2jz7mzqYnQQr0E/6U3svDu9srPBpzGQcL3LR0atmtMDGbR1+fCyd2Yv
+	lI9BHyaZgIMcj3OxbFNKSSCp5r+w0q7HpLniNXk3kOj0Jm4WGH1xt7ZrfwAKE2WvlIYlLj7wdLs
+	Y9dafF8oX+CMgXhPq7qGz1XGbfUos9QQd2qHsydnlDwMWxFxpy/XLkmXS7xkHciJphwERfUBBvm
+	ZWKQfVO8iAF80ZVYwrBmnEpzdi3njjka1LZpJ/fK9Lz24ZChFwWJlLOSK29KkFjH8coLxln9H0O
+	TKpIQGUJR+DqwDzVeLwD6I0VmnaAikN0NkbyFxeQPa5A4eXr7TCWCCtIinPwZmrYzFKvDiljmGN
+	I19IRc69sHVeihVLCqFPaTwmiOBUbZjQK6cBQatNAkD67nzZzAT+3c/KT9Xfx7Y1G7qRKvvET2/
+	nKEmVtuiGbjJVSoNJjv3hG5xrDFpcRiBRnS3NMsF8p71esFuQMgX21Grx0qA==
+X-Received: by 2002:a05:690e:4397:b0:664:ae67:b674 with SMTP id 956f58d0204a3-66521bca8b7mr5877472d50.80.1783028879729;
+        Thu, 02 Jul 2026 14:47:59 -0700 (PDT)
 Received: from zenbox ([2600:1700:18fb:6011:169a:36bf:d0a4:1d7c])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66624021a75sm1631772d50.11.2026.07.02.14.47.56
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66624021a75sm1631772d50.11.2026.07.02.14.47.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 14:47:57 -0700 (PDT)
+        Thu, 02 Jul 2026 14:47:59 -0700 (PDT)
 From: Justin Suess <utilityemal77@gmail.com>
 To: Sean Young <sean@mess.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -89,10 +91,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Sashiko <sashiko-bot@kernel.org>,
 	Justin Suess <utilityemal77@gmail.com>
-Subject: [PATCH 0/4] media: rc: sunxi-cir: support the A523/H728/T527 IR receiver
-Date: Thu,  2 Jul 2026 17:47:46 -0400
-Message-ID: <20260702214750.3428694-1-utilityemal77@gmail.com>
+Subject: [PATCH 1/4] media: dt-bindings: allwinner,sun4i-a10-ir: add A523 compatible
+Date: Thu,  2 Jul 2026 17:47:47 -0400
+Message-ID: <20260702214750.3428694-2-utilityemal77@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260702214750.3428694-1-utilityemal77@gmail.com>
+References: <20260702214750.3428694-1-utilityemal77@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -103,81 +107,71 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.linux.dev,kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-66414-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-66418-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sean@mess.org,m:mchehab@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mripard@kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:sashiko-bot@kernel.org,m:utilityemal77@gmail.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[utilityemal77@gmail.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[mess.org,kernel.org,gmail.com,sholland.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[utilityemal77@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[utilityemal77@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:sean@mess.org,m:mchehab@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mripard@kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:sashiko-bot@kernel.org,m:utilityemal77@gmail.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.linux.dev,kernel.org,gmail.com];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[utilityemal77@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RWL_MAILSPIKE_POSSIBLE(0.00)[104.64.211.4:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F2AD76FD08F
+X-Rspamd-Queue-Id: 0A6666FD1B1
 
-This series adds support for the CIR receiver found in the Allwinner
-A523/T527/H728 family (sun55i). The only board in this family that I
-am in possession of that has the IR receiver is the x96qpro+, so it is
-just enabled for that board. The Avaota A1 may have it, but I don't have
-hardware to test, so it's just enabled on the x96qpro+ for now, but
-left in the a523 DTSI for future use.
+The A523 (sun55i) contains a newer revision of the sunxi CIR receiver.
+It is not backwards-compatible with the A31 programming model: the
+control register has a pulse capture mode field (bits [7:6]) that
+resets to a value which captures no pulses at all, and the sample
+clock divider is now selectable via SPLCFG bits [1:0] instead of
+being fixed at the old module clock / 64.
 
-The sun55i family carries a newer revision of the sunxi CIR IP that is
-not backwards-compatible with the prior hardware. So a new pulse
-capture mode field in the control register resets to 0 by default,
-which captures nothing, and the sample clock divider became selectable
-instead of the fixed module clock / 64.
+Since a kernel driving it as an A31 CIR receives nothing, add the
+compatible as a standalone entry rather than under the
+allwinner,sun6i-a31-ir fallback.
 
-Solve this by adding the two new registers, enabling the setting of the
-pulse capture mode register and the selection of the clock speed.
+Signed-off-by: Justin Suess <utilityemal77@gmail.com>
+---
+ .../devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml        | 1 +
+ 1 file changed, 1 insertion(+)
 
-The new compatible is therefore added standalone, without the
-usual sun6i-a31-ir fallback (it won't work).
-
-Tested on an X96Q Pro+ (H728) TV box with the Google TV remote that
-came in the box (using NEC keymap). Was able to press buttons and
-get readings from lirc / ir-keytable.
-
-The series is based on tag v7.2-rc1 on mainline.
-
-Justin Suess (4):
-  media: dt-bindings: allwinner,sun4i-a10-ir: add A523 compatible
-  media: rc: sunxi-cir: add support for the A523
-  arm64: dts: allwinner: a523: add IR receiver node
-  arm64: dts: allwinner: a523: enable IR receiver on the X96Q Pro+
-
- .../media/allwinner,sun4i-a10-ir.yaml         |  1 +
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 19 +++++
- .../dts/allwinner/sun55i-h728-x96qpro+.dts    |  4 +
- drivers/media/rc/sunxi-cir.c                  | 76 +++++++++++++++----
- 4 files changed, 87 insertions(+), 13 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
+index 42dfe22ad5f1..06656058ce91 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
+@@ -19,6 +19,7 @@ properties:
+       - const: allwinner,sun4i-a10-ir
+       - const: allwinner,sun5i-a13-ir
+       - const: allwinner,sun6i-a31-ir
++      - const: allwinner,sun55i-a523-ir
+       - items:
+           - enum:
+               - allwinner,suniv-f1c100s-ir
 -- 
 2.54.0
 
