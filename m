@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-66374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66375-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SI2eI0duRmr2UgsAu9opvQ
-	(envelope-from <linux-media+bounces-66374-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 15:57:27 +0200
+	id vb+FH7dvRmo8VAsAu9opvQ
+	(envelope-from <linux-media+bounces-66375-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 16:03:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C206F89C6
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 15:57:26 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA9C6F8A96
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 16:03:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Ajpd0l47;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66374-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66374-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=kxwzWZoe;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66375-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66375-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7017230151C3
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 13:56:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9493D3137205
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 13:56:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D98014ADDA4;
-	Thu,  2 Jul 2026 13:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 098AC4ADDAF;
+	Thu,  2 Jul 2026 13:56:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lr2-f3.google.com (mail-lr2-f3.google.com [74.125.230.67])
+Received: from mail-lr2-f2.google.com (mail-lr2-f2.google.com [74.125.230.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1FB42A7AD
-	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 13:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6FD4ADDA8
+	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 13:56:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783000584; cv=none; b=OWc5o3qDIwTe6XGc3foiB/Qao3Obbs4APyObe01L5aMMbJprJcCgwn0d2SvraXd3OLiDQUpTj4LuiHluGsijWn4WCAlsx8JA+3eFqR1l8+LdzXe4LUYtNNpp+1Je54urq/sfWGnqEDZPZ2IMxOecYaGdK9a0/SqZS6wXb5SW26A=
+	t=1783000585; cv=none; b=ZvcZr/TiTlCfXAhBolTtMSn5msX+ew66roemMmFUxbep0VL+b3HGVZKDyqLY0KpowCLvfhFSNvhTuJ3G7J0SKe4+A1Zc+bLS7y4VeXTdGtAq2NXTPK+l8TNkVoxkoEzVfRiz++QhLSgNDzZXey3qJSb+cH06vRpVdhbEV7uwxoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783000584; c=relaxed/simple;
-	bh=ofcp95WVS9ojPLv+paM1E5y4nSDSK7HQFokrbJcbD/Y=;
+	s=arc-20240116; t=1783000585; c=relaxed/simple;
+	bh=BfrxHYuUlb5DTUkfLTDPjkNjucBPhZj68vtPs+di8C8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SQFxCNnkbqBo+X3cvHNb1iAbU6YnbgUJ3QEKY70vnOU08eoH679tsBbyOV8wlFUisADGlFEoCE4ycg8FkMM1sghtJ5W3ACzwH2MMnUCRNL7qg4fTpsIaRCIKS4UQH0MVShpxYuDaeY8k1uZExpIrKkezRHszFCd9fitVqmSJgoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ajpd0l47; arc=none smtp.client-ip=74.125.230.67
-Received: by mail-lr2-f3.google.com with SMTP id 38308e7fff4ca-39b2973e915so8842471fa.1
-        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 06:56:19 -0700 (PDT)
+	 MIME-Version; b=G7uFZVeTAjMexRVcc16iu6jBT+G903oPF9gBFHWO+E8/EpGnMh0J6rQ5NKskmFpEyVmKqXNIT5u/EaupJa/0igMTC6TKaZIXFgIVvZY51PvvnPn3wnqrlfHEwFW5A+VwF3KpqiNKl86UPb0s12d0INfbg8LSxXGA3IRAJGXKBXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kxwzWZoe; arc=none smtp.client-ip=74.125.230.66
+Received: by mail-lr2-f2.google.com with SMTP id 38308e7fff4ca-39b430545e3so1171881fa.1
+        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 06:56:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783000578; x=1783605378; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783000582; x=1783605382; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZpnLgxv1t8Wgzo0tLn1v2lEaoPNDH6auvhtbcMoSR8E=;
-        b=Ajpd0l47WFL09DB1+F8xtA3VGrJ/R7734Zvim1Hw4vAtl1zu77hfq7lgFbDmqqTEco
-         1MbHSGt+h7ezrMdqPkPCLdA3lujxeTrSmdK2YBHzOJeqYsXBkJP+CtvezcJeR25ooYl9
-         ZnUDr3EfkNHf4FkNPiQI8CSFD0+4FNrIlPuIl11cd1sDd+EfO60a2CTuaDLKVOLq0UgB
-         16fO27WNLq2a4dMBwdjMRVDCNqBW70aabAoS2E25WBdpDEVdRihOljiO+j2tBwX2txww
-         nQrL4+ffVXmfMttYFu1t6iHVUVzreubbHtCMm5KUIPLDGhVHycb06y5qyOuNihhJgpXT
-         8+aw==
+        bh=y9TmNXT3Wq8aMPD04wKa9UiOCYJMfbSBZuVN/NXn9rA=;
+        b=kxwzWZoexKIViQs9tsgic7YpqPvOaET0duP8GXF4dSzvlxS9oiCu4j3fAbETcsx90B
+         yB5Vhs2HLbhEtPUD9h0m1MHjRDWCo6qxXyqseYSnRaTuGpwzd9yRd5TWsvIDp6cNlAeU
+         Ss+l3MIO6MFh+rgtk/S7ee+NiQxUfM5fkdQ8eI2aYnwwHMVD6b2zy3NcIPKX3l5oLE3m
+         Ry384IpIbVfC4hsrWrsimp45jUlhz8fxN7E0HPjoH24e6UWwZLsNdmrM/M9LxCO49RmN
+         piXqJQ0WHLoUBP1RxxfdamuIqhEzN6GpCGSCnMFPVQ2nLK47Qst0iCp/S7Yv9Ph1oLmQ
+         3Ylg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783000578; x=1783605378;
+        d=1e100.net; s=20251104; t=1783000582; x=1783605382;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZpnLgxv1t8Wgzo0tLn1v2lEaoPNDH6auvhtbcMoSR8E=;
-        b=scSOWoHp21gFMWwctJf2fPGm0lIFolw/tefMlhrSJ+roE9mJk71Zv9u7y3THgamPuS
-         ATyw6qVXct7vBan3omJclxuialZXsjM27NBX7ettV1xb3uCiGGPDbAvRPwWfBLXIQlid
-         UDJzcwfr3G145hPO6AWTy56P8/NjheOzYyv7Drfe7Rly8RcotLMLOk8E2yC5ZhUz4Euj
-         hsY/gI1ByTmdyh+YHKt73lv7gXYoSO5A4gcub55yObbOB/3AvcveMWgUc5hDjwaSSzGO
-         7/sBK65NXpZFCqZJX3McIY0imOUyTdt1JDPsbZtNFxKf5oXrBg2Otsl6wKL7LQx2NA0V
-         BgcA==
-X-Gm-Message-State: AOJu0YwYttnKD0v6mjU128dwtbQ5WggPvona1JAxJVg9ATcYk9FIWc0C
-	X6+neK1NxIDXEEyauCPqej0N3neLVZAV1OOXr3Ew25tiyvdZEOLFVclU
-X-Gm-Gg: AfdE7cl+n4HFI7p/Tarmf3HIoATK6ztRDXk1Cfp0+DNfOh0FQ4rIP8LHCYLw8sJmf3F
-	Wb11zEHp10/WoBPlseVsuM5aqWxbiuWOYd5UXzNLNWGeR0YcsvNFkMQbfVWNCJxHJ6gcZ9zj+Rr
-	skqKT6cf997hOmX1AXHEmFKTjRB7BU1Of1Z6WHhIXgufRUjXmN8tQgzvW+7coMqZmygitPMQKhC
-	sI0M21aptavVdBjolZV6OYJeDfOc/vC2B0cT6EqnIVSe4+hHqc8J5pA/9NIJBuBChOgj3CVJhWC
-	vrWTEzVuywnTG8IwnX8iQ4iZ+8D5xopxs4sAOZFnXHGSxbwN+Fuf+AZIisQCbasSr4vZzw1EBvZ
-	BEtiEvQJ+MDovQ76jB82ILtOpvCGZ6oGk1ymImK1WJXw5+fbhp9DoFb4e41T8ZhYOaDW5RNxW+J
-	m9xXwa4PjFCR0dfjt8ieg=
-X-Received: by 2002:a05:6512:1316:b0:5ae:b918:af30 with SMTP id 2adb3069b0e04-5aec67977cemr1595141e87.4.1783000578127;
-        Thu, 02 Jul 2026 06:56:18 -0700 (PDT)
+        bh=y9TmNXT3Wq8aMPD04wKa9UiOCYJMfbSBZuVN/NXn9rA=;
+        b=K+rt/Fo0Vv9A70Zoe0KS8iKQEVDP8/MFehNd+3JTQrIjIfNB//b2e3+NwJiux6UMZw
+         3tA347GR7hMXfMt9iY1XUJ763yI3AHLsL301YuKG7tS4Iq6jug+v+9RAxFFAvHMrqa30
+         mryuMg35oIHfi0SBwbclFwqdrYi29I3Kt/S3ectWtMKJyHbiwTusFapfJHOW/5x0C0WA
+         Y3Mrce2lZRJlUVYIlMus2P4cQezzyQoYJP4vasKgvSncO4vNagcvrAUXeHAI9pPHBcp4
+         o6u/iUi1WZgl16YsStG8/fGc6Sbf9PlBCK/WG6noFTyeLojJkPYj0sGklpU6LdMSQwb8
+         vx6w==
+X-Gm-Message-State: AOJu0YxJzLNigziaX+HjnyTKhL7BgslikJ7sDrWaCzZyuQje760Ch6FJ
+	nXFi+o4HQobLxFIS8eSocQVIQJGnjftADj6BE+zzWTSvDTxaRlTCX2EP
+X-Gm-Gg: AfdE7cn/uYS5oO/jl4dhDyRc2PNFnJPkSL6rlZW6verW7aysGO0bjTYaL4oyL/w32vc
+	3sdMm4DvdetMjVn30qmWzyCreA3wflp8Je/lD5Kd3TCOj75+XPzXd9vyS7vkhtKWdyHn2QdNQm1
+	xVdCWqDc71tWq5/897bQQIEKdNrkgY4hH7fdN+R5YSpoiSN1mUT1XDmSkEThMw3YvxZp1VdPkI7
+	hIXCvMqmgQbBKTZCeryeUyC/BkAI72D/O3RCZQdIH1IXfL9tR7sJz2ITz4Lh3kMFEivz8Y8hjKi
+	9GC5kAcPdtWD7fnlV25gY9EkrMlYIpSaFj9BZRU5B9M1WQaWqc3o2rzwfCu/ARdHzd2yGa68AvK
+	ExVHmzt05XXjSFbHYwwG54xnDCDOtLzJZzrVA2vZyyQ3VYaz7MG4hTndU7plQ3WhmEzSwbkyini
+	S8Twx1Y4np
+X-Received: by 2002:a05:6512:1194:b0:5ad:6989:ab36 with SMTP id 2adb3069b0e04-5aec8005b33mr1591640e87.29.1783000581724;
+        Thu, 02 Jul 2026 06:56:21 -0700 (PDT)
 Received: from arch ([93.177.236.219])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aec89919bcsm720820e87.11.2026.07.02.06.56.16
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aec89919bcsm720820e87.11.2026.07.02.06.56.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 06:56:17 -0700 (PDT)
+        Thu, 02 Jul 2026 06:56:20 -0700 (PDT)
 From: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
@@ -82,9 +82,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-Subject: [PATCH 2/3] media: atomisp: fix block comment formatting in ia_css_mipi.h
-Date: Thu,  2 Jul 2026 16:52:29 +0300
-Message-ID: <20260702135230.19030-3-bohdandmarcus@gmail.com>
+Subject: [PATCH 3/3] media: atomisp: fix block comment formatting in ia_css_timer.h
+Date: Thu,  2 Jul 2026 16:52:30 +0300
+Message-ID: <20260702135230.19030-4-bohdandmarcus@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260702135230.19030-1-bohdandmarcus@gmail.com>
 References: <20260702135230.19030-1-bohdandmarcus@gmail.com>
@@ -102,14 +102,14 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-66374-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66375-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:andriy.shevchenko@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:bohdandmarcus@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
@@ -125,47 +125,106 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,checkpatch.pl:url,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 80C206F89C6
+X-Rspamd-Queue-Id: 5FA9C6F8A96
 
 Fix block comment formatting issues reported by checkpatch.pl
-in ia_css_mipi.h by moving the opening '/*' to a separate line
-to conform to the Linux kernel coding style guidelines.
+in ia_css_timer.h by ensuring block comments use '*' on subsequent
+lines and aligning them properly to conform to the Linux kernel
+coding style guidelines. Also, remove misplaced Kernel-doc tags
+from macro definitions and correct function signature formatting.
 
 Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/ia_css_mipi.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../staging/media/atomisp/pci/ia_css_timer.h  | 49 +++++++++++--------
+ 1 file changed, 28 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_mipi.h b/drivers/staging/media/atomisp/pci/ia_css_mipi.h
-index 9fb178c8f3a5..e79b4de8584c 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_mipi.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_mipi.h
-@@ -7,7 +7,8 @@
- #ifndef __IA_CSS_MIPI_H
- #define __IA_CSS_MIPI_H
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_timer.h b/drivers/staging/media/atomisp/pci/ia_css_timer.h
+index da752834adf4..2e555b39bc25 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_timer.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_timer.h
+@@ -1,23 +1,28 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /**
+-Support for Intel Camera Imaging ISP subsystem.
+-Copyright (c) 2010 - 2015, Intel Corporation.
+-
+-*/
++ * Support for Intel Camera Imaging ISP subsystem.
++ * Copyright (c) 2010 - 2015, Intel Corporation.
++ */
+ 
+ #ifndef __IA_CSS_TIMER_H
+ #define __IA_CSS_TIMER_H
  
 -/* @file
 +/*
 + * @file
-  * This file contains MIPI support functionality
+  * Timer interface definitions
   */
+-#include <type_support.h>		/* for uint32_t */
++#include <type_support.h>       /* for uint32_t */
+ #include "ia_css_err.h"
  
-@@ -16,7 +17,8 @@
- #include "ia_css_stream_format.h"
- #include "ia_css_input_port.h"
- 
--/* @brief Calculate the size of a mipi frame.
+-/* @brief timer reading definition */
 +/*
-+ * @brief Calculate the size of a mipi frame.
-  *
-  * @param[in]	width		The width (in pixels) of the frame.
-  * @param[in]	height		The height (in lines) of the frame.
++ * @brief timer reading definition
++ */
+ typedef u32 clock_value_t;
+ 
+-/* @brief 32 bit clock tick,(timestamp based on timer-value of CSS-internal timer)*/
++/*
++ * @brief 32 bit clock tick, (timestamp based on timer-value of
++ * CSS-internal timer)
++ */
+ struct ia_css_clock_tick {
+ 	clock_value_t ticks; /** measured time in ticks.*/
+ };
+@@ -38,24 +43,26 @@ enum ia_css_tm_event {
+ 
+ /* @brief code measurement common struct */
+ struct ia_css_time_meas {
+-	clock_value_t	start_timer_value;	/** measured time in ticks */
+-	clock_value_t	end_timer_value;	/** measured time in ticks */
++	clock_value_t   start_timer_value;  /** measured time in ticks */
++	clock_value_t   end_timer_value;    /** measured time in ticks */
+ };
+ 
+-/**@brief SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT checks to ensure correct alignment for struct ia_css_clock_tick. */
++/*
++ * SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT checks to ensure correct
++ * alignment for struct ia_css_clock_tick.
++ */
+ #define SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT sizeof(clock_value_t)
+-/* @brief checks to ensure correct alignment for ia_css_time_meas. */
++
++/* checks to ensure correct alignment for ia_css_time_meas. */
+ #define SIZE_OF_IA_CSS_TIME_MEAS_STRUCT (sizeof(clock_value_t) \
+ 					+ sizeof(clock_value_t))
+ 
+-/* @brief API to fetch timer count directly
+-*
+-* @param curr_ts [out] measured count value
+-* @return 0 if success
+-*
+-*/
+-int
+-ia_css_timer_get_current_tick(
+-    struct ia_css_clock_tick *curr_ts);
++/*
++ * @brief API to fetch timer count directly
++ *
++ * @param curr_ts [out] measured count value
++ * @return 0 if success
++ */
++int ia_css_timer_get_current_tick(struct ia_css_clock_tick *curr_ts);
+ 
+ #endif  /* __IA_CSS_TIMER_H */
 -- 
 2.55.0
 
