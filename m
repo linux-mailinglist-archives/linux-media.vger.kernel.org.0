@@ -1,193 +1,162 @@
-Return-Path: <linux-media+bounces-66401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66402-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id FG6hDZCsRmqdbQsAu9opvQ
-	(envelope-from <linux-media+bounces-66401-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 20:23:12 +0200
+	id J72DAYmvRmpbbgsAu9opvQ
+	(envelope-from <linux-media+bounces-66402-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 20:35:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F78B6FBFAF
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 20:23:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD596FC201
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 20:35:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=fastmail.org header.s=fm2 header.b=iw7wH5Fm;
-	dkim=pass header.d=messagingengine.com header.s=fm2 header.b="P 54UQM2";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66401-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66401-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=fastmail.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=collabora.com header.s=zohomail header.b=VztCoPJA;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66402-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66402-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=collabora.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 961A0309239E
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 17:27:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A7BEC31EDE61
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 17:58:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C979331D74B;
-	Thu,  2 Jul 2026 17:27:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1D45384CE9;
+	Thu,  2 Jul 2026 17:58:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from flow-b7-smtp.messagingengine.com (flow-b7-smtp.messagingengine.com [202.12.124.142])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003E631691A;
-	Thu,  2 Jul 2026 17:27:08 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783013230; cv=none; b=kt38Bc4DB66QZ6nlHAphvCYtc6OswX5ja5sZ25O2+v1w+2DaNTK+FC8zxEPusI0iTkmEiuX2phEQ1mAmu2szUqoHFAA9L+ft9o6gu+bOk0DbanjEGqbMGUFruDIvHZxo4mUmZRFotF8CYosM+UwtfV+6pdfBF/6MMIeSnoorfXs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783013230; c=relaxed/simple;
-	bh=8zb3pRfWFqDgJI7e7/4uFJ2yBNri71TEyEZQAg+0D3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fkatDmdZEYIH+UGQo/FvvNxuT9LwLeqLGMcUsxzoXolpmHVlor/ZBYD0/giXgAa40D2wd3K2x7Q/tP38as1qaQdhiIk4B+hw0fFsKqiUTJ86RfVlGiQ/gj+ebysfbxkQWOE0bXbUe0ehd5QL/45xK8dcvkt4aIBUQ/vG7ND0Rrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org; spf=pass smtp.mailfrom=fastmail.org; dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b=iw7wH5Fm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=P54UQM2Z; arc=none smtp.client-ip=202.12.124.142
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailflow.stl.internal (Postfix) with ESMTP id 887721300107;
-	Thu,  2 Jul 2026 13:26:41 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Thu, 02 Jul 2026 13:26:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm2;
-	 t=1783013201; x=1783016801; bh=A1mAq9QgeDFQGoc1g0bU/qewhTBVLQPT
-	Wx4Ov6Yt/nQ=; b=iw7wH5Fm1WmPuWFN8hL3+Il+pjRNAk02KOsV5yEc8Y3yv1gS
-	aRtc1lPnS8GfZ7PHm5qDQgZZFoJ7WUYHMuOTbF7pu6v8Ij7vtHdZKm+GLbHDBJh5
-	hLSAdFIAIn479UM3KjIYStjl4yYIFIUMydbB9xMsf+RY6M1XQWIn+Vg1GHV0NDsZ
-	hsCVrhLZsYDhfIEYYDmorsTxdoMpRrmfSm5nYh6Kit+bbMwDGNAbc2okjLN41C0r
-	ZKczCSG3LrfFE5A71sQ+tKiN0GusNPtwpSgQ2kbUOG4ogIDSpFdBnZonbVzpFR1L
-	bMPhKO7MlbxHK93dfRxGPtrwS5WILozyVn3u2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783013201; x=
-	1783016801; bh=A1mAq9QgeDFQGoc1g0bU/qewhTBVLQPTWx4Ov6Yt/nQ=; b=P
-	54UQM2ZnN/6imxnbJrNe1+9M72MTaMIzk3ZrtQNwBc6PAaZK0/Q7daspjfR57kZx
-	1jN53rl5t85F+jMuggjmPt2Nu8f4nL3zT4eM/uxNiDh5Tt+C2Ab7JGs82rLDwCLZ
-	SNcstwQrXSw7bpJZRZ7IjynFHWcs3H/FvIPpnmr9ihEkK6uGzGUp0CGDKBK+zxhx
-	iK6FGfQ/8kSr8AqBXoSJmD4GigT4+euhBsDrQuj6d8uwuop2AOLU0r50brDirCXL
-	UHIar7lFFVEBAXN89FHzzlcHYKYGV1XAwE1m37KhLH2SojmZCKZkpMFT4te+3twv
-	gmIn6c81GoZdDW3TC+8xg==
-X-ME-Sender: <xms:UZ9GatdPz5u0aM_VAYwBbAEEe6poFKzKUDcKlOspgACgUID-9y6OuA>
-    <xme:UZ9GakKCMKnFJxMV8w0s6KEDoN6lZEIE93WSpkB0AP7k8XwaIQJZ-TQufeTXJUaL5
-    8eAk3WFwna6Ji8dr8eInVWlOD8PdmE28GN3i_WAPe_RXuJTfrUrzFE>
-X-ME-Received: <xmr:UZ9GaiEKwEX32_dMGGhH8yMRM5hDJ3_i3RD-8xkc_VS6DRpHrTmnWoxwzeI>
-X-ME-Proxy-Cause: dmFkZTGeEpR+AsdLrpWZ77U4u+gogj5Rn2qvzLNI4DWk5vaM4M191xqWXgmVv8E4h7oBcQ
-    39deDZ7h2yJzGUf6cDCm7cDzMR95VhjRxVjnL4OIz6d2SHcWAYZcWOAZtVU/e+/OTK8HVz
-    OQvKOVQARvAHO0zLXGJ+7VJ/Bh5HNnhWNtr9+X98qb+BnnWMkNrnyyek2SoyBKwQJhsQ9U
-    D140zIQEcNQBZCtIFMfjkKe0rzDx8OcBmad8r7emM7x62zMV60W5AuIJxpSMe0mjnxOnpQ
-    dalSnPW6KjpISgAS0jMTQrz2zTslPToO9cyDIkGk7KEyEQcA/lrbnJdHY4jc4SZA71UMjD
-    1hev/O1XBjg7IQlfs6V/4JZi7ZPavmMj2Wt7P/YNOL/QDNeZ8qKqfWKsXURQk4Hp1fo1+A
-    FVTTKbJkPOG9ZEIm36H8p40HHsiP0Dvf5sXgcNYvanR8R3a+39O0pPT2lh35Ww7cnLvko/
-    nOvKYfPUDcD6wM63QTPGHwAkBJCRvq38lfSnWKf+ZbUC8qRavhtcnSDsMio7NjASiOh3aX
-    swegRWZON4WjBk07KGyuCwCwP0ResfvK2qWdu+HgdnQgTgVFMekYf8OLpV9Rhjzu7b9tnM
-    clugM+UtXCFSslSZHXiDFp7x/apB2IHwElJv/g03FMcOw7D8cKbj784VSybQ
-X-ME-Proxy: <xmx:UZ9GanA3uyciShD84Ziq53-huaMsVMfVP7Jhjm72E7zdNG85XBY-8Q>
-    <xmx:UZ9Gal-ViKLR0-3KSckbyFHw8nB_Yvfhz6vu8GHS9UzFAzfl5dQ4og>
-    <xmx:UZ9GajBj3ONGd98PJre0zOQ_Fy6uVVJcyiwYb2MwOvnbrCmjwReBdg>
-    <xmx:UZ9GaqQqqXx2w50--tomR5r6MicyKe3i3ElTvhnmg-iuUEgycPe6Ag>
-    <xmx:UZ9GamM0iBjYu8pa-BVbPhBGJBAtCiXNeWVBGXI_xgKdWWjy4M05paBQ>
-Feedback-ID: ib53e4b78:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Jul 2026 13:26:40 -0400 (EDT)
-Date: Thu, 2 Jul 2026 12:26:38 -0500
-From: Ian Bridges <icb@fastmail.org>
-To: Matthias Schwarzott <zzam@gentoo.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] media: si2165: Replace strlcat() with snprintf()
-Message-ID: <akafTmRDnPK4L3A1@dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CA3320A37;
+	Thu,  2 Jul 2026 17:58:11 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783015093; cv=pass; b=g1rCVbb84szZvH14t2WjV5RN4LYzgqt+6UM7cPc4BulAoLXzTPnC1QYHQaxv2IWRTkJQlocCMjoe8ikWZfjwVQq0PiN8THFsbwSHItCSU29xkFI8t6vGYvfRUK2k3G1c4gkHs0SR57u0QqnrmnR4TycNFzK8qljwAG3CB/7ZOcg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783015093; c=relaxed/simple;
+	bh=MWXAacyEKktBwIfFlAg536BelDUxSDm2HUQ2rWkgDnc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UM+gamkhhXaKEQ6t8J/7gbY8yOVNBGtXl50yArhNHQj7hDTnU39JnLYOKbcU80jyBV/RlHund2Ug8gAxh+H1Ymoxy06fvrNVjEE8kcZLVrcMtwhfnRDPkMeTJhuMw39n/JDH7kjn4bfRHW82mOazglUMWTwUY7PuNAio0BhKVw8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=VztCoPJA; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal: i=1; a=rsa-sha256; t=1783015078; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=eEysXMWkIgmgQq62POpwZyPtReROdfp9DcRBZm7J7VV9L4T7f4D2D5hFLYpH/NCy9AaIJcgohrMXouNd49NWhM17YEM6u0nS/7krbK+tiZh8sm0HdioSI5Qr8mAYiCp2jgOAoxKXSc2SQIh6u0Uz4ZMpfJy7U+mxDOGfs6HdGDs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783015078; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=x3FGYaIm4+Bx0K10N4oUqaYj+E/e8FPAh9PHboSXrzk=; 
+	b=iLAJCtbo+PF1YEckzcYGJMNbMdlyWKKsn4MZmtCHAMDSq4/OMk/3CZZ+sTQZCRio4a1qm9EAucAlT5GUejBiLdGZuwrtc/mWiqL3kcVuVtBMPAYUpxwjtCagLBWW7V9genwWzRzaTyrEpD4DzdsLuFAPyT9bA8eFioGBNJ2U+po=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783015078;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=x3FGYaIm4+Bx0K10N4oUqaYj+E/e8FPAh9PHboSXrzk=;
+	b=VztCoPJASoeUL1MHjKIt2nXkDdHMArt4uv52ZZ0C//hsZI+W7r113xfrbRdRHzgY
+	m2uDcnQbTcPhFJpJE8lz7S1Cg6eiIs6EukYNgDQ3+p7jJxkicf7zyzwQm2kLEUb7RAA
+	nJfETZp4mAlqmpWI0r8G7dWVcVaLDngAQrvI/t44=
+Received: by mx.zohomail.com with SMTPS id 1783015076593286.68618795309317;
+	Thu, 2 Jul 2026 10:57:56 -0700 (PDT)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
+Subject: Re: [PATCH] media: rkvdec: Propagate platform_get_irq() errors
+Date: Thu, 02 Jul 2026 13:57:54 -0400
+Message-ID: <u6-dHgmpTzmKPiphpyUkbA@collabora.com>
+In-Reply-To: <20260701111203.62092-1-ahmisaranrao@gmail.com>
+References: <20260701111203.62092-1-ahmisaranrao@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[fastmail.org,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[fastmail.org:s=fm2,messagingengine.com:s=fm2];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-66402-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66401-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[icb@fastmail.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:zzam@gentoo.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-hardening@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:ahmisaranrao@gmail.com,m:ezequiel@vanguardiasur.com.ar,m:mchehab@kernel.org,m:heiko@sntech.de,m:hverkuil@kernel.org,m:boris.brezillon@collabora.com,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vanguardiasur.com.ar,kernel.org,sntech.de,collabora.com,vger.kernel.org,lists.infradead.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[fastmail.org:+,messagingengine.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[icb@fastmail.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER(0.00)[detlev.casanova@collabora.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RWL_MAILSPIKE_POSSIBLE(0.00)[104.64.211.4:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dev:mid,fastmail.org:dkim,fastmail.org:email,fastmail.org:from_mime,messagingengine.com:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[detlev.casanova@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4F78B6FBFAF
+X-Rspamd-Queue-Id: 5BD596FC201
 
-In preparation for removing the strlcat() API[1], replace its uses in
-si2165_probe(). The chip name and the supported delivery systems are
-already known when the frontend name is built, so the whole name can be
-produced by a single snprintf(), seeded from the same si2165_ops
-template default that the strlcat() calls appended to.
+Hi Vadlamudi,
 
-Link: https://github.com/KSPP/linux/issues/370 [1]
-Signed-off-by: Ian Bridges <icb@fastmail.org>
----
-I don't have si2165 hardware, so I tested the patch with:
- - x86_64 build at W=1 with no warnings. Applies cleanly on the media
-   tree next branch.
- - Module load/unload in an x86_64 QEMU guest.
- - A userspace comparison of the old and new name construction for both
-   chip types; outputs are identical.
+On Wednesday, July 1, 2026 7:12:03=E2=80=AFa.m. Eastern Daylight Time Naras=
+imharao=20
+Vadlamudi wrote:
+> platform_get_irq() returns a positive IRQ number on success and a
+> negative error code on failure. It no longer returns zero. The driver
+> currently returns -ENXIO for all failures, which loses useful errors
+> such as -EPROBE_DEFER.
+>=20
+> Return the error from platform_get_irq() directly.
+>=20
+> Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
+> Signed-off-by: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
+> ---
+>  drivers/media/platform/rockchip/rkvdec/rkvdec.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c index
+> 1d1e9bfef8e9..37683a6bb40f 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> @@ -1818,8 +1818,8 @@ static int rkvdec_probe(struct platform_device *pde=
+v)
+>  	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+>=20
+>  	irq =3D platform_get_irq(pdev, 0);
+> -	if (irq <=3D 0)
+> -		return -ENXIO;
+> +	if (irq < 0)
+> +		return irq;
+>=20
+>  	ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL,
+>  					rkvdec_irq_handler,=20
+IRQF_ONESHOT,
 
- drivers/media/dvb-frontends/si2165.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+Thank you for the patch ! And sorry for the HTML email before. So for the=20
+record:
 
-diff --git a/drivers/media/dvb-frontends/si2165.c b/drivers/media/dvb-frontends/si2165.c
-index f1241b63aa5c..ebb4083b99a8 100644
---- a/drivers/media/dvb-frontends/si2165.c
-+++ b/drivers/media/dvb-frontends/si2165.c
-@@ -1243,20 +1243,16 @@ static int si2165_probe(struct i2c_client *client)
- 		chip_name, rev_char, state->chip_type,
- 		state->chip_revcode);
- 
--	strlcat(state->fe.ops.info.name, chip_name,
--		sizeof(state->fe.ops.info.name));
-+	snprintf(state->fe.ops.info.name, sizeof(state->fe.ops.info.name),
-+		 "%s%s%s%s", si2165_ops.info.name, chip_name,
-+		 state->has_dvbt ? " DVB-T" : "",
-+		 state->has_dvbc ? " DVB-C" : "");
- 
- 	n = 0;
--	if (state->has_dvbt) {
-+	if (state->has_dvbt)
- 		state->fe.ops.delsys[n++] = SYS_DVBT;
--		strlcat(state->fe.ops.info.name, " DVB-T",
--			sizeof(state->fe.ops.info.name));
--	}
--	if (state->has_dvbc) {
-+	if (state->has_dvbc)
- 		state->fe.ops.delsys[n++] = SYS_DVBC_ANNEX_A;
--		strlcat(state->fe.ops.info.name, " DVB-C",
--			sizeof(state->fe.ops.info.name));
--	}
- 
- 	/* return fe pointer */
- 	*pdata->fe = &state->fe;
--- 
-2.47.3
+Reviewed-by: Detlev Casanova <detlev.casanova@collabora.com>
+
+=2D-
+Detlev.
+
 
 
