@@ -1,205 +1,372 @@
-Return-Path: <linux-media+bounces-66377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66378-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id xX2uDu9uRmrAUwsAu9opvQ
-	(envelope-from <linux-media+bounces-66377-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 16:00:15 +0200
+	id F69DO7xxRmq5VAsAu9opvQ
+	(envelope-from <linux-media+bounces-66378-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 16:12:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94896F8A33
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 16:00:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5D26F8BD2
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 16:12:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=VAHLoTLw;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66377-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66377-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=google.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=intel.com header.s=Intel header.b="V7FxE1s/";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66378-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66378-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 736B33018D3C
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 14:00:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0415E3045E39
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 14:06:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44B1B4BC038;
-	Thu,  2 Jul 2026 14:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EFA34C042A;
+	Thu,  2 Jul 2026 14:06:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFCC4BC011
-	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 14:00:07 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783000808; cv=pass; b=J/4QZYERHCzJqhFDVOH4OXAI9yTK+rflXtQfVjksxorhEVdzTSj8cx6C6FSPzlHJLt0utoKBN+wjO61Dmhktnc98sg9sxY7pd7mAGvvupcum7W3oTBFiMx2CJ99PEHKY+Glrkktw3WFktXcXCK+B11AKSXdGLR17L7jH8J0QX4I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783000808; c=relaxed/simple;
-	bh=utoARpDnvA3c3vaCWBg5H9ujL8C1Fui0A2kGFCJI2Kw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tMybHpnCwFuBx3IR1EkDr2OQQocvMOBZdlC2tkBw8wRcjhYHO9KbybDPcJoHkqa8NUeLDLCsothF2EXolcLaITg1A74Bh0nXDyhUdCavsRpS0i0WqGUaZswIOWSchFIwdqsZypGQMl+2bCvuimIxdUVIepqpl1pfgmUrDQpsD8U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VAHLoTLw; arc=pass smtp.client-ip=209.85.128.48
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso10426615e9.1
-        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 07:00:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783000806; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AM1oOZp60aOzmy4Qf6qAxpczN9ZuExdV3zylO+7TM6qZ2luS6QB8qnVDa0BVnYxWuE
-         4yNjwhWTt92xsXgw4i8PPoahSZf19QiE3yttaYOO6asJM6wZkEmPAe97ji34XUiGqiax
-         P0O/zsiGpvZvCtUeUDg86ISnD3USYDu6ymVHlBgkNcRgcFOfR4WC2JVZKAMnZs6aa4Ei
-         bJviUDpHgwFBRRZ0e1T1289RU7Fx8KZcKmR9ykfW77YS8a5+F2adWdzccrSv0Nen+qfz
-         PFbfO8VC2l5JyIE3Cdr0s9iD6BgQCygkCUSPP5Z8F6n7OIiU2ap5yHZE7gyxlrJn5+Cj
-         +Hbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ad3f158zhv32TxrF7aQY3I8idlfk4/6P43hesQy1Oiw=;
-        fh=TjAtSV6Vz/bNdok8o3Wc38LDWKdS+W+cxXYUSuXoAfU=;
-        b=HPCHRXHiiki+JzrI9AaXYwRKLmmpG8qoLyf7ccIe4N2pyfCoXtu+/8nTjEFDrW0vzg
-         kwyyPZAVeiftSTURy8Ul9gXSXNpHU6dwAr91mfOVJAlNCVWSPVXPDOGU5c8XOHuftvCm
-         8eU/ro3rLs1evtyjsoxexvv9XEqEt/oLe63j95VlgqK0d9jizBEnrimdl4z/T0ck/Ra0
-         N5F8/j0sDArD9fJQiQ47kb2fv32nqWSMPjCxZZ7QSM893LypELYs4wuW7PCAQY6jrbWH
-         iOPsuhk/gDrxCPwaCzl1cjfm00HQye3W3CZr10gpT9B4Fe1+x2f4Tqf8hXNXe0ObDU+L
-         fG3A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783000806; x=1783605606; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ad3f158zhv32TxrF7aQY3I8idlfk4/6P43hesQy1Oiw=;
-        b=VAHLoTLw1Fzhn0TrxD+uMogXY3CfAE9fVKRujwZ6BRLlJ7WxN/a5fh0fgnx6XgGlab
-         dKjrqM3e7hqpnqIUi9rBtqvLvy0hRn3vXkSOGZSQz8mcsr5A/n7ux5uDUAgj1UkvAN7s
-         uXfi4jnGR7zWBRo2YO7KzLsuRMoMWAqxem3k//zXA5ZWPHON0ZWa7fw21F2gOIbp8BlI
-         D7QOg+G6Mk8HyQMdQpmQGaAUDiPdgiPho/bnAwC/ngBfO/F6OKqVP8AYOrV0nEAyN495
-         WzpSwd7BEe8PHaXMNPo1z61EKY01ELqc50QQYXuJNidCfqGFqqDOPPJURBeuH5TbiHnq
-         fEMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783000806; x=1783605606;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ad3f158zhv32TxrF7aQY3I8idlfk4/6P43hesQy1Oiw=;
-        b=rMcG0BXnUKcqsPu9a2mwhVHoeqaUN0yVH0PHYzUoC+vAnwP4msRdT5AOvSvkiFFNdE
-         r1xiDGpxthV1A+XwIsNLBOb8EvUZAP1tPy1u1eT5h7FBgPe2UUfgXH9HNR5n86ypNgx5
-         31Xf1pnTQPCNia+3I+hDdRgbES0yhGzrEvIxsHBR7djdAtj2Rhi8dWQK3sOHWYYUVfjx
-         sh/ExRGUVvMXt/tn9Ey/xbXGJ1EMSCElGCUB++8ZoH1IKJvYA3Nsklih5f1s3Yas0qjT
-         3PGAeYv+knAhc4LYRjpewNLaz3gCrCbGm5GovTJ6V17eKvsGlXmlIcZUcxPexxpfBm2b
-         +ZSA==
-X-Forwarded-Encrypted: i=1; AFNElJ9pNhu33PTKBom/qT3MFI+uKpTutpMAZ4F2T5xtQXNiyF8SZjY7HStZSMrydYyZmiKbmTLgFOu6w3LPvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPS9e2dYsFOgEDJYJrd2rkB3JCT2vihUOAb6Z3kVsiKmlSb3t8
-	avvsgbtoUp2HRfzn9ZIay1aiBU/UebYHEe2SW0WAoHf0hYtl2q72PiGnsi08wILoVkWotJF9rJl
-	NXpxdDVLhBPjGmmU76zreV1HT+gCij1l4jAQDf/sd
-X-Gm-Gg: AfdE7ckKnl342S8iH2Y6jwIeITwaneDbUgcPDzarAg/lfXsSvHJgjq7hj0jjlFzc5X6
-	Ibq3ew+t55kpDDYO5A2/+9/pAlsyyPyF+9i6/+M0kQG5Wj/f3BznWaITsQIa7wsVO2BLQeYcW6J
-	iKF88oWj7U6IbKWIXLr7qPJLac1oScIgd7HYHU5XWE7BVcwe9DQKlX0KoJilG/B1y348APHWzkC
-	csqFORKNKsZ7ujok4oY9cMf2ZnEHkScCzKmT1F5M66Kh3iJgC1j8ds0NKsKZRN6ttGytaG0PRI0
-	Ks37Q5TmN3g6dYZ0J+bOZg3vGU4=
-X-Received: by 2002:a05:600c:5296:b0:492:6efc:7c60 with SMTP id
- 5b1f17b1804b1-493c2b99781mr85583495e9.28.1783000804786; Thu, 02 Jul 2026
- 07:00:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57FF3C1979
+	for <linux-media@vger.kernel.org>; Thu,  2 Jul 2026 14:06:06 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783001169; cv=none; b=r/xVkSDNzKKWLGUJB1kfzzt9KnNwlHskozcvcRtnNG70ZYorJfXKtxNcfskgaiHhpTNeIjrSWYbAhnmZ2Y1zI4VDoQdTt2ZZRj5wMnkK2D5X9HFZ1j0Z0GrTF+3qt0RIlnSuTClmWwsp5iUp/wrJFkwftPIjjTfRdON3uLgfHgQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783001169; c=relaxed/simple;
+	bh=LNiHKbFpyTEFj+cKtdWEHV2GV7+AxFYFOjQkUoD9hdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tblbJA3sla0m21/ghm32ys8AkIiWsuh5pQFE5jMn6fNHtHnDpSoILPvouoJSQT7d3RAKs6UbM85XKNZjGJfR2xwe2/Q+x3LiYOFF5Y07Xa97ZgznUxPaRLClvJFDKc7kPKNOmUf2y/SA6SHlAp+p2HjVKWiWGMHAIkOBLxC1Yg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7FxE1s/; arc=none smtp.client-ip=198.175.65.14
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783001167; x=1814537167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LNiHKbFpyTEFj+cKtdWEHV2GV7+AxFYFOjQkUoD9hdk=;
+  b=V7FxE1s/etZfocPR3FfOjxuc98TrvxEQZa5f2XqpFBnIscctKuiA83xZ
+   n7CJd5Dfcs9xpFKax2GNSCGAIICNvnO1X8IfjGl6CaiYBMorS+zLLdDw2
+   09CKBPaQVRGfDwYQgegnsC/OHSdKr1cvWK3RLLHM8nbczzF1Jo/EhLzlK
+   gCoWQ4FpAmIWR84QsQzpjNyJikjKYuLnsNslACm5ThX/Goq+x/6YbEoCY
+   ImWf/d5y+8K4Fto2EWguXWExVvinDuru2/giQk+DBvEnVjvXpz0Rz3qpU
+   s75M3asy7IveMGH2Vof2BDPBKNBDuJLsfxqIg7swp29g4ymOSgxrzZSX0
+   Q==;
+X-CSE-ConnectionGUID: va06Vq/ORyKTfe4hUBHkrA==
+X-CSE-MsgGUID: kBUm3TbiRsWOB64WPBZqyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="87671457"
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="87671457"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 07:06:06 -0700
+X-CSE-ConnectionGUID: P3a1ED0DR1GCNDQpvlwXZw==
+X-CSE-MsgGUID: UoKh9LiMQeqPJhlzIvIqkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
+   d="scan'208";a="250214472"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.229])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 07:06:00 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B4D93121C2C;
+	Thu, 02 Jul 2026 17:05:56 +0300 (EEST)
+Date: Thu, 2 Jul 2026 17:05:56 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	" Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v12 60/86] media: imx219: Add embedded data support
+Message-ID: <akZwRA3GCy8jqgp3@kekkonen.localdomain>
+References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
+ <20260409201501.975242-61-sakari.ailus@linux.intel.com>
+ <178117996109.1799417.15021338357084733334@freya>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260702-idtable-rename-asptr-v1-1-e0927273c71a@google.com> <DJO4SC0M6BCM.B7RP36WUWCM9@garyguo.net>
-In-Reply-To: <DJO4SC0M6BCM.B7RP36WUWCM9@garyguo.net>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 2 Jul 2026 15:59:50 +0200
-X-Gm-Features: AVVi8CexQdyFEd0R-YBeb950WefW10NhAupPBjQ8CXL2XbC1XoogGwE5GSAY5zY
-Message-ID: <CAH5fLgjz_FTzv7rFsxcvt2N-3ehPxa2kHJqUHKDBv56OZw5UVA@mail.gmail.com>
-Subject: Re: [PATCH] rust: device_id: rename IdTable::as_ptr to as_raw_id_table()
-To: Gary Guo <gary@garyguo.net>
-Cc: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, 
-	Ira Weiny <iweiny@kernel.org>, Leon Romanovsky <leon@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Igor Korotin <igor.korotin@linux.dev>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178117996109.1799417.15021338357084733334@freya>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:dakr@kernel.org,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:david.m.ertman@intel.com,m:iweiny@kernel.org,m:leon@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:igor.korotin@linux.dev,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66377-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66378-lists,linux-media=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,intel.com,protonmail.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,linux.dev,google.com,linaro.org,amd.com,lists.linux.dev,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,vger.kernel.org:from_smtp,garyguo.net:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B94896F8A33
+X-Rspamd-Queue-Id: 3B5D26F8BD2
 
-On Thu, Jul 2, 2026 at 3:48=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> On Thu Jul 2, 2026 at 1:30 PM BST, Alice Ryhl wrote:
-> > The current name of `as_ptr` is very generic, and if you attempt to
-> > invoke `foo.as_ptr()` on a type for which this method is missing, then
-> > an error along these lines will be printed:
-> >
-> >       error[E0599]: no method named `as_ptr` found for reference `&DmaB=
-uf` in the current scope
-> >          --> linux/rust/kernel/dma_buf/buf.rs:54:38
-> >           |
-> >        54 |         ptr::eq(self.as_ptr(), other.as_ptr())
-> >           |                                      ^^^^^^ method not foun=
-d in `&DmaBuf`
-> >           |
-> >           =3D help: items from traits can only be used if the trait is =
-implemented and in scope
-> >       note: `device_id::IdTable` defines an item `as_ptr`, perhaps you =
-need to implement it
-> >          --> linux/rust/kernel/device_id.rs:165:1
-> >           |
-> >       165 | pub trait IdTable<T: RawDeviceId, U> {
-> >           | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >
-> > Suggesting the IdTable trait when an as_ptr() method is missing is not
-> > useful. Renaming it to `as_raw_id_table` makes the method name unique t=
-o
-> > this trait and avoids these bad suggestions.
->
-> I think the name is fine. Functions of this sort is named `as_ptr()` and =
-I don't
-> see why it should differ just because it's on traits.
->
-> I'd rather say this is a Rust deficiency. Perhaps there needs to be a
-> improvement of `#[diagnostic::do_not_recommend]` so it can be sticked to =
-methods
-> or traits as well.
+Hi Jai,
 
-I had a similar thought:
-https://internals.rust-lang.org/t/do-not-recommend-for-traits-themselves/24=
-431
+On Thu, Jun 11, 2026 at 05:42:41PM +0530, Jai Luthra wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> Not a full review, just some things that I noticed while trying to test
+> this branch with libcamera..
+> 
+> Quoting Sakari Ailus (2026-04-10 01:44:35)
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > The IMX219 generates embedded data unconditionally. Report it as an
+> > additional stream, with a new internal embedded data pad, and update
+> > subdev operations accordingly.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/i2c/imx219.c | 187 +++++++++++++++++++++++++++++++------
+> >  1 file changed, 161 insertions(+), 26 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index d695987839e4..e744b96a08f6 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -154,6 +154,9 @@
+> >  #define IMX219_PIXEL_ARRAY_HEIGHT      2480U
+> >  #define IMX219_NATIVE_FORMAT           MEDIA_BUS_FMT_SRGGB10_1X10
+> >  
+> > +/* Embedded metadata stream height */
+> > +#define IMX219_EMBEDDED_DATA_HEIGHT    2U
+> > +
+> >  /* Mode : resolution and related config&values */
+> >  struct imx219_mode {
+> >         /* Frame width */
+> > @@ -345,11 +348,13 @@ static const struct imx219_mode supported_modes[] = {
+> >  enum imx219_pad_ids {
+> >         IMX219_PAD_SOURCE = 0,
+> >         IMX219_PAD_IMAGE,
+> > +       IMX219_PAD_EDATA,
+> >         IMX219_NUM_PADS,
+> >  };
+> >  
+> >  enum imx219_stream_ids {
+> >         IMX219_STREAM_IMAGE,
+> > +       IMX219_STREAM_EDATA,
+> >  };
+> >  
+> >  struct imx219 {
+> > @@ -375,6 +380,8 @@ struct imx219 {
+> >  
+> >         /* Two or Four lanes */
+> >         u8 lanes;
+> > +
+> > +       u64 streams_enabled;
+> >  };
+> >  
+> >  static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
+> > @@ -418,6 +425,25 @@ static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
+> >         }
+> >  }
+> >  
+> > +static u32
+> > +imx219_get_embedded_format_code(const struct v4l2_mbus_framefmt *format)
+> > +{
+> > +       switch (format->code) {
+> > +       case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > +       case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > +       case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > +       case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > +               return MEDIA_BUS_FMT_META_8;
+> > +
+> > +       case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > +       case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > +       case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > +       case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > +       default:
+> > +               return MEDIA_BUS_FMT_META_10;
+> > +       }
+> > +}
+> > +
+> >  static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_h,
+> >                                u8 *bin_v)
+> >  {
+> > @@ -749,6 +775,15 @@ static int imx219_enable_streams(struct v4l2_subdev *sd,
+> >         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> >         int ret;
+> >  
+> > +       /*
+> > +        * The image stream controls sensor streaming, as embedded data isn't
+> > +        * controllable independently.
+> > +        */
+> > +       if (imx219->streams_enabled) {
+> > +               imx219->streams_enabled |= streams_mask;
+> > +               return 0;
+> > +       }
+> > +
+> >         ret = pm_runtime_resume_and_get(&client->dev);
+> >         if (ret < 0)
+> >                 return ret;
+> > @@ -791,6 +826,8 @@ static int imx219_enable_streams(struct v4l2_subdev *sd,
+> >         __v4l2_ctrl_grab(imx219->vflip, true);
+> >         __v4l2_ctrl_grab(imx219->hflip, true);
+> >  
+> > +       imx219->streams_enabled = streams_mask;
+> > +
+> >         return 0;
+> >  
+> >  err_rpm_put:
+> > @@ -806,6 +843,10 @@ static int imx219_disable_streams(struct v4l2_subdev *sd,
+> >         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> >         int ret;
+> >  
+> > +       imx219->streams_enabled &= ~streams_mask;
+> > +       if (imx219->streams_enabled)
+> > +               return 0;
+> > +
+> >         /* set stream off register */
+> >         ret = cci_write(imx219->regmap, IMX219_REG_MODE_SELECT,
+> >                         IMX219_MODE_STANDBY, NULL);
+> > @@ -826,17 +867,32 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+> >  {
+> >         struct imx219 *imx219 = to_imx219(sd);
+> >  
+> > -       if (code->pad == IMX219_PAD_IMAGE) {
+> > -               /* The internal image pad is hardwired to the native format. */
+> > +       switch (code->pad) {
+> > +       case IMX219_PAD_IMAGE:
+> >                 if (code->index > 0)
+> >                         return -EINVAL;
+> >  
+> > -               code->code = IMX219_NATIVE_FORMAT;
+> > -       } else {
+> > -               /*
+> > -                * On the source pad, the sensor supports multiple raw formats
+> > -                * with different bit depths.
+> > -                */
+> > +               code->code = MEDIA_BUS_FMT_RAW_10;
+> > +               return 0;
+> > +
+> > +       case IMX219_PAD_EDATA:
+> > +               if (code->index > 0)
+> > +                       return -EINVAL;
+> > +
+> > +               code->code = MEDIA_BUS_FMT_META_10;
+> > +               return 0;
+> > +
+> > +       case IMX219_PAD_SOURCE:
+> > +       default:
+> > +               break;
+> > +       }
+> > +
+> > +       /*
+> > +        * On the source pad, the sensor supports multiple image raw formats
+> > +        * with different bit depths. The embedded data format bit depth
+> > +        * follows the image stream.
+> > +        */
+> > +       if (code->stream == IMX219_STREAM_IMAGE) {
+> >                 u32 format;
+> >  
+> >                 if (code->index >= ARRAY_SIZE(imx219_mbus_formats) / 4)
+> > @@ -844,6 +900,15 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+> >  
+> >                 format = imx219_mbus_formats[code->index * 4];
+> >                 code->code = imx219_get_format_code(imx219, format);
+> > +       } else {
+> > +               struct v4l2_mbus_framefmt *fmt;
+> > +
+> > +               if (code->index > 0)
+> > +                       return -EINVAL;
+> > +
+> > +               fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+> > +                                                  IMX219_STREAM_EDATA);
+> > +               code->code = fmt->code;
+> >         }
+> >  
+> >         return 0;
+> > @@ -855,15 +920,33 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> >  {
+> >         struct imx219 *imx219 = to_imx219(sd);
+> >  
+> > -       if (fse->pad == IMX219_PAD_IMAGE) {
+> > +       switch (fse->pad) {
+> > +       case IMX219_PAD_IMAGE:
+> >                 if (fse->code != IMX219_NATIVE_FORMAT || fse->index > 0)
+> 
+> This should be MEDIA_BUS_FMT_RAW_10 I believe?
 
-Alice
+Yes, I'll switch to that.
+
+> 
+> >                         return -EINVAL;
+> >  
+> > -               fse->min_width = IMX219_PIXEL_ARRAY_WIDTH;
+> > -               fse->max_width = IMX219_PIXEL_ARRAY_WIDTH;
+> > -               fse->min_height = IMX219_PIXEL_ARRAY_HEIGHT;
+> > -               fse->max_height = IMX219_PIXEL_ARRAY_HEIGHT;
+> > -       } else {
+> > +               fse->min_width = IMX219_VISIBLE_WIDTH;
+> > +               fse->max_width = IMX219_VISIBLE_WIDTH;
+> > +               fse->min_height = IMX219_VISIBLE_HEIGHT;
+> > +               fse->max_height = IMX219_VISIBLE_HEIGHT;
+> > +               return 0;
+> > +
+> > +       case IMX219_PAD_EDATA:
+> > +               if (fse->code != MEDIA_BUS_FMT_META_8 || fse->index > 0)
+> 
+> And this should be MEDIA_BUS_FMT_META_10, to match these both with what
+> imx219_enum_mbus_code() is doing.
+
+The embedded data is always 8-bit, albeit the sensor may send it out at 10
+bits per pixel, to align with the image data format.
+
+This needs to be fixed in the EDATA pad in fact.
+
+> 
+> But I guess we need to handle both 8 and 10 bit formats at both places.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
