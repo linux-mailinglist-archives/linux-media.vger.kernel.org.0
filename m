@@ -1,211 +1,182 @@
-Return-Path: <linux-media+bounces-66395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66396-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id x+A0IJCWRmpTZQsAu9opvQ
-	(envelope-from <linux-media+bounces-66395-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 18:49:20 +0200
+	id SQVpHLaXRmoCZgsAu9opvQ
+	(envelope-from <linux-media+bounces-66396-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 18:54:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE2796FA9AB
-	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 18:49:19 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0B36FAB9D
+	for <lists+linux-media@lfdr.de>; Thu, 02 Jul 2026 18:54:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=UbIxVhIT;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66395-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66395-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=ozlabs.org header.s=201707 header.b="qYEuzK/e";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66396-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66396-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ozlabs.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C849330F73AC
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 16:43:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id EE454305C075
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jul 2026 16:47:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF86C390CB2;
-	Thu,  2 Jul 2026 16:41:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66DB03AA1BA;
+	Thu,  2 Jul 2026 16:44:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1ABE397339;
-	Thu,  2 Jul 2026 16:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0503A7839;
+	Thu,  2 Jul 2026 16:44:14 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783010492; cv=none; b=iwVHd7/428O8morhrGOiyKcPacxnsuDag9pUkkgumUoh7tj6RZFf8BW4VnmXDQEqfPrCXovw9krSZEq+fIdZBSjtbTh3YmR4gBs3av/tH1yW+AiphXj7v/OwDjelw8ZS1v5tcMKX5tcWuXQeWNKPseKBHUSKo+XWvPLfrboej08=
+	t=1783010657; cv=none; b=pB4vth+BusfRJRyHssijBdoKq0Kkz5HcytHVp81IUXn53YZ7t6imlVNqCDU1zrSR0Gs6MxzE1Twjk1BKt/PTgilZUCFVXuCXoBUM8TaEnlwm4+J6VVcH7lroUkppM2ZvSp08kkpO7DI6BWgFsoQNhp/GXmWkB+A7hoGO9XqPunc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783010492; c=relaxed/simple;
-	bh=4TcPpM0BZaoJj/LKE0Ry2kWPQZbK+NaW1FTfGXp6Qn4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a/PpFtrJlDx8CL2DHWhX7TlufHi1XY4BEm2gvt7KmyKwWUmDD9wP23vIAY1rIDRLRCWxbW5zYy1cEK/ugO1Cn6C2iNQU+PI9+ud/60aXExymRq+PHPGe8iRfUYKqEFnOgJTKY9eO4LIGO2ZOonIz36Q4PtB/X1nH7Szgnur8GNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UbIxVhIT; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3321D1F00ACF;
-	Thu,  2 Jul 2026 16:41:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783010485;
-	bh=4TcPpM0BZaoJj/LKE0Ry2kWPQZbK+NaW1FTfGXp6Qn4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UbIxVhIT3k+L2Rvex870aYp4emZYvycrMzgT/l80VxrbTxWvxI9JRKpnaUNMEjG3G
-	 ZoVLWczTG/g9HyZAgZ70twW/ylV0EE7XLdG/sgXmKLnHisy8AsEYlfbd5niKzqz1lY
-	 ws98cZTWJqeFnp3vSJLG17/qF3Ge/moCJxFQuACsKCwbcRvPFAWF7LSujuvl0ZguAd
-	 0Ey5CbVzfmKHTGGtoQsv7zUESob5GM+jQi/nn4i0YwCIBp/b1yxTiqFNMy4jhvtD5D
-	 q7w26HLWMKTd+xN5EbSr27iexWuWelP+dlG+S+pGinCthmp6iUYPrtV/RBEn+6x6na
-	 +pBQI4mIXDTaw==
-Date: Thu, 2 Jul 2026 18:41:23 +0200
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Will Deacon <will@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Yury Norov <yury.norov@gmail.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Russell King <linux@armlinux.org.uk>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, linux-mm@kvack.org, 
-	iommu@lists.linux.dev, linaro-mm-sig@lists.linaro.org, 
-	linux-trace-kernel@vger.kernel.org, Thierry Reding <treding@nvidia.com>, Chun Ng <chunn@nvidia.com>
-Subject: Re: [PATCH v3 04/11] arm64/mm: Add set_memory_device() and
- set_memory_normal()
-Message-ID: <akaSJ5D98w2cHqb6@orome>
-References: <20260701-tegra-vpr-v3-0-d80f7b871bb4@nvidia.com>
- <20260701-tegra-vpr-v3-4-d80f7b871bb4@nvidia.com>
- <akYs91INHMXMTI-t@willie-the-truck>
- <akZkuwktaXFTrASP@orome>
+	s=arc-20240116; t=1783010657; c=relaxed/simple;
+	bh=J6BoEH5OjHCRK21EB1+bpbUaRLMPjF1qvP9PFjp1GWg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SMkjA0TZD1WxXzaV6UYdTViqjwqsXVIPmEUvhXwGwK2ntSeuNzuipZMBAMtSgh9s2WH9LNpBsN5r1dXg2NzghiNmxlM7xjhvScvc9gXfTq6gUMme/oEKSphGnp7xD8X6nQZMhcYcJVMM1WB0Rh6P8BtBK1iQU0x/nP9a2IdEs1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=qYEuzK/e; arc=none smtp.client-ip=150.107.74.76
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
+	s=201707; t=1783010652;
+	bh=eGUo3lKj9bHSKMlrSjRH6DndGp0mwWi4QjeXdG/Uin0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qYEuzK/e9F3skixymjcn8QObes7pQqlCsZmrjKXlScEPaSshFcVeNe8bgyvNaj+le
+	 U4RMx12vyf51NkIEuJ8s2Bu0s35PnvlQQtcbTouk0k4G/XeJbnzabM1wMUGS0ZVwGE
+	 AW91C7dt35rbBuSWjCTE3V2Rv/CDpu7mLRJLqsuriuEv1G49zTFPlwQY5qbZ2Vn1V0
+	 0DqnDc+OvSyymQLyhDIXIM/nVn5//PU8DxS2CmXNsaBZs1gP07YjbYL5HVZ6x6R6Xw
+	 W/+IvghDBQLfeljyKzjzEPsuz3NadCWoSSOMhLyo3kkep/i0KryYXAPqKatX9MYurl
+	 b4kTQZp6hPKlg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4grjQD0WXwz58f2;
+	Fri, 03 Jul 2026 02:44:03 +1000 (AEST)
+Message-ID: <aecbbc66-c154-4439-a6ae-84dc012b0f8d@ozlabs.org>
+Date: Thu, 2 Jul 2026 17:44:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="a4brqgkdrivfh2ns"
-Content-Disposition: inline
-In-Reply-To: <akZkuwktaXFTrASP@orome>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/10] PCI/P2PDMA: Add CONFIG_PCI_P2PDMA_CORE
+Content-Language: en-GB
+To: Logan Gunthorpe <logang@deltatee.com>, Alex Williamson
+ <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Kevin Tian <kevin.tian@intel.com>,
+ Pranjal Shrivastava <praan@google.com>
+Cc: Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-pci@vger.kernel.org
+References: <20260701171245.90111-1-matt@ozlabs.org>
+ <20260701171245.90111-3-matt@ozlabs.org>
+ <26f74cf0-8892-4672-b0e1-1f1a385c42bb@deltatee.com>
+From: Matt Evans <matt@ozlabs.org>
+In-Reply-To: <26f74cf0-8892-4672-b0e1-1f1a385c42bb@deltatee.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.26 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ozlabs.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[ozlabs.org:s=201707];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66395-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:will@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jonathanh@nvidia.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:skomatineni@nvidia.com,m:luca.ceresoli@bootlin.com,m:mperttunen@nvidia.com,m:yury.norov@gmail.com,m:linux@rasmusvillemoes.dk,m:linux@armlinux.org.uk,m:agordeev@linux.ibm.com,m:gerald.schaefer@linux.ibm.com,m:hca@linux.ibm.com,m:gor@linux.ibm.com,m:borntraeger@linux.ibm.com,m:svens@linux.ibm.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:ljs@kernel.org,m:liam@infradead.org,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:rostedt@goodmis.org,m:mhiramat@kernel.org,m:mathieu.desnoyers@efficios.com,m:catalin.mar
- inas@arm.com,m:thierry.reding@gmail.com,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-s390@vger.kernel.org,m:linux-mm@kvack.org,m:iommu@lists.linux.dev,m:linaro-mm-sig@lists.linaro.org,m:linux-trace-kernel@vger.kernel.org,m:treding@nvidia.com,m:chunn@nvidia.com,m:krzk@kernel.org,m:conor@kernel.org,m:yurynorov@gmail.com,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[thierry.reding@kernel.org,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_RECIPIENTS(0.00)[m:logang@deltatee.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:kevin.tian@intel.com,m:praan@google.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,bootlin.com,rasmusvillemoes.dk,armlinux.org.uk,linux.ibm.com,linux-foundation.org,infradead.org,google.com,suse.com,samsung.com,arm.com,linaro.org,collabora.com,amd.com,goodmis.org,efficios.com,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kvack.org,lists.linux.dev,lists.linaro.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_FROM(0.00)[bounces-66396-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[56];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ozlabs.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,vger.kernel.org:from_smtp,orome:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ozlabs.org:dkim,ozlabs.org:mid,ozlabs.org:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: EE2796FA9AB
+X-Rspamd-Queue-Id: 2A0B36FAB9D
+
+Hi Logan,
+
+On 02/07/2026 16:45, Logan Gunthorpe wrote:
+> 
+> 
+> On 2026-07-01 11:12 a.m., Matt Evans wrote:>
+>>  PCI POWER CONTROL
+>> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+>> index 33c88432b728..59d70bc84cc9 100644
+>> --- a/drivers/pci/Kconfig
+>> +++ b/drivers/pci/Kconfig
+>> @@ -206,11 +206,7 @@ config PCIE_TPH
+>>  config PCI_P2PDMA
+>>  	bool "PCI peer-to-peer transfer support"
+>>  	depends on ZONE_DEVICE
+>> -	#
+>> -	# The need for the scatterlist DMA bus address flag means PCI P2PDMA
+>> -	# requires 64bit
+>> -	#
+>> -	depends on 64BIT
+>> +	select PCI_P2PDMA_CORE
+> 
+> Can we remove this dependency on 64BIT? Althogh it looks like
+> af2880ec440 complicated the issue a bit.
+> 
+> If I remember correctly, the original reason for this is because on
+> 64bit systems dma_flags fit into unusued space in struct scatterlist and
+> on 32bit systems this space didn't exist and thus adding the flag
+> required increasing the size of the structure which wasn't desirable at
+> the time.
+> 
+> But af2880ec440 introduced CONFIG_NEED_SG_DMA_FLAGS which doesn't depend
+> on 64bit which means if CONFIG_IOMMU_DMA and CONFIG_SWIOTLB are now set
+> on 32bit systems that structure will grow quite a bit.
+
+There was some discussion on this aspect of af2880ec440 in the 
+corresponding v3 patch, for example:
+
+https://lore.kernel.org/all/feaefa41-9f67-4d4f-a3e0-282dca41f3eb@ozlabs.org/
+
+It seems CONFIG_NEED_SG_DMA_FLAGS doesn't have a hard/functional 
+dependency on 64BIT (and it can be enabled on some !64BIT configs 
+already, despite what the stale comments say).
+
+> So maybe at this point it's fine to enable this on 32bit systems and we
+> can remove this requirement. However, I think we should do that
+> explicitly in its own patch, not hide it in this refactoring patch.
+
+Your question does prove it's too stealthy as-is. :)  PCI_P2PDMA still
+can't be enabled on 32-bit systems because of its ZONE_DEVICE -> 
+MEMORY_HOTPLUG -> 64BIT dependency.  So we're not enabling 32-bit 
+support for PCI_P2PDMA here, but it's not obvious and so I'll re-add the 
+`depends on 64BIT`.  At least then it won't be enabled without intention 
+if someone enables ZONE_DEVICE on 32-bit systems...
 
 
---a4brqgkdrivfh2ns
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 04/11] arm64/mm: Add set_memory_device() and
- set_memory_normal()
-MIME-Version: 1.0
+Thanks,
 
-On Thu, Jul 02, 2026 at 03:46:44PM +0200, Thierry Reding wrote:
-> On Thu, Jul 02, 2026 at 10:18:47AM +0100, Will Deacon wrote:
-> > On Wed, Jul 01, 2026 at 06:08:15PM +0200, Thierry Reding wrote:
-> > > From: Chun Ng <chunn@nvidia.com>
-> > >=20
-> > > Add helpers to swap PROT_NORMAL and PROT_DEVICE_nGnRnE protection bits
-> > > on a kernel-linear-map range.
-> >=20
-> > That sounds like a really terrible idea. Why is this necessary and how
-> > does it interact with things like load_unaligned_zeropad()?
->=20
-> This is necessary because once the memory controller has walled off the
-> new memory region the CPU must not access it under any circumstances or
-> it'll cause the CPU to lock up (I think technically it'll hit an SError
-> but in practice that just means it'll freeze, as far as I can tell).
->=20
-> Probably doesn't interact well at all with load_unaligned_zeropad().
->=20
-> > I think you should unmap the memory from the linear map and memremap()
-> > it instead.
->=20
-> Given that the memory can never be accessed by the CPU after the memory
-> controller locks it down, I don't think we'll even need memremap(). The
-> only thing we really need is the sg_table we hand out via the DMA BUFs
-> so that they can be used by device drivers to program their DMA engines
-> internally.
->=20
-> Looking through some of the architecture code around this, shouldn't we
-> simply be using set_memory_encrypted() and set_memory_decrypted() for
-> this? While they might've been created for slightly other use-cases,
-> they seem to be doing exactly what we want (i.e. remove the page range
-> from the linear mapping and flushing it, or restoring the valid bit and
-> standard permissions, respectively).
 
-Ah... I guess we can't do it because we're not in a realm world and so
-the early checks in __set_memory_enc_dec() would return early and turn
-it into a no-op.
+Matt
 
-How about if I extract a common helper and provide set_memory_p() and
-set_memory_np() in terms of those. Those are available on x86 and
-PowerPC as well, so fairly standard. I suppose at that point we're
-closer to set_memory_valid().
 
-Thierry
-
---a4brqgkdrivfh2ns
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmpGlK8ACgkQ3SOs138+
-s6HETA//VE10mlKmDkMPw7oOS2GPLTn9mVHksFDOn28PMBlC2qgyv4CyznGj3Rfw
-WHIYoNb0rxntAbxQkh6SV5FCCi76fm/uTR3z2an8FI8W7KwiVfDiaIv3cmlG6TVd
-XcCj42QUsUHU7iFHzfSVkW33626MSfyeD+w00yxmT14U2Utl4X/+V+EQF6tRStJZ
-eLJUAyxrArCx98MI79QW13QB5MilfaFjtY6IxwXr+0hW2qnXGbNWJ5x1Z5kbC6wD
-6yOAfi8QY0nqau5GKgo/+dkYUq1zAc65a7QdRu5KW383NDcLhRbtrwBoA6TYFriL
-c2GJiV1ch4N8Dsr694Lmn4jNHUUqPLcPY8it6qMkUNVrc5XjK24C0intns2AFR4i
-7ca82YvaTCuql87GjgBkz9NptVtmqVdZxnrtVYAH9mbvfczVpAEEsacYrMwtqBPM
-crTqcMLjkLxVZdnsvwT3Je73FolwTnxNsBlTaA24I64kQCW9QUIRy6WltcFdimPM
-2K40ULhVg3dNDSaGsQaIvDv8kpgBJiX4sf3kIjK71Dgo9/HKS4IBZx3kfKUxxURj
-RD51dxPOiDXPwIzDZxbERJ2rZx4NxSTj2FjLET7Vs6nbKwvC+K/XiLOtEIXbfwdD
-w9Hih0fRPiPrhG+uab8J6u+Jsaj9KI/DnuqDrIZL+ciFm4MVaNc=
-=9S6h
------END PGP SIGNATURE-----
-
---a4brqgkdrivfh2ns--
 
