@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-66499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66500-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jnQ0OTTVR2rlfwAAu9opvQ
-	(envelope-from <linux-media+bounces-66499-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:28:52 +0200
+	id J0mpATvVR2rnfwAAu9opvQ
+	(envelope-from <linux-media+bounces-66500-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:28:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60469703DF5
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A902A703DFF
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:28:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=X6oPgo8+;
+	dkim=pass header.d=intel.com header.s=Intel header.b=TqKarbFK;
 	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66499-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66499-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66500-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66500-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 00DE3308DCCD
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 15:26:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9289430923B9
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 15:26:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A73C5417350;
-	Fri,  3 Jul 2026 15:26:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D251417355;
+	Fri,  3 Jul 2026 15:26:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11BF3CCFC4
-	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 15:26:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B243CCFC4
+	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 15:26:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783092389; cv=none; b=sgfEGcvVnnOkSJ7Cs+TvsOqv9SRN/ZJH+S+SzQoBxwTq03qzOpkme5SQl9DQzE/A0K4cQjv4pWDvbwXOesEAbrAGC8RUQlR9F5z9L8HqHnjMEucXFxNTK0OoIUU70XUknwZYTBFs3HrksGEeTpSQqf+MzTBhKdeHeNXKM64isYw=
+	t=1783092391; cv=none; b=cVgPhd+luNeJGJtiZoABR9qxdUabac07JxAJwbN5+MlklBPpnTSaRIwel2jF2sV33c3Me/G4FleSHrjkGTaQu2UY/Uma/HA6SZFhC/wq3NHGqbo6SuBYIHEFlUyLGGeg3w63bzRyUQhTuqG246omq25f1ex9pThGqmds+rjKDqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783092389; c=relaxed/simple;
-	bh=/WWCKoCzEqSCfemDfLBtDRROTYpVAa85KIetBN34udE=;
+	s=arc-20240116; t=1783092391; c=relaxed/simple;
+	bh=s4OIoHhee5e41l2C2q2rHW9974k2MB8eVrV5VtOqfQM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C8zjLAk7+Oi7Regeb38QE+8+UoONmcQzWuMqpSHIWKxgK7Kh4fQ0AP/3dHOH5wNX8gTduzrOwK0NPQerN1FudjWMkTQGPlEDgFXOIB+OW7wodsgTpg3VvzOCG98sII6gJsQPIV1ztSIw9BBZ7vnNh89JBFLQGDcODWXlYwCP++8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X6oPgo8+; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version; b=RHhhewLfIATAkiIA4MkkmaJgzPbgBt3suc9P27gsK+aqFy9Rzp+S/lGVGs71tWgbbowk3M7hl92HYqC4cXQmRvuad+E/X6DWMNYJgruwWmtyO3WM9rsmaoDx3m08MXU34iCCFpNuTNgggzj+UXSbWQwdNvMuuAo2wEjOgLNY59w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TqKarbFK; arc=none smtp.client-ip=192.198.163.13
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783092388; x=1814628388;
+  t=1783092390; x=1814628390;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/WWCKoCzEqSCfemDfLBtDRROTYpVAa85KIetBN34udE=;
-  b=X6oPgo8+0pkhESblWnbwEH/JsGwV6rmbqsIbcTMvd6+ZCPX6ZXZSVWC8
-   aFBj2ykkV6drfQcWaaSeBVY0ryS1NrAXvWOPxwINvsm+VTTYWMn7MPExc
-   9a1cMvdq1bbDERiJxo+o7NnX/hxT9qD1likjg6Fn1BRh9q9KzATvyAzUA
-   GYSMTezURT8rdcnu8zSqZQ0XKfnPlYmRj30ysfHg7t1e1SjuTXCSSambe
-   Uyce/bZZlyDRgaQ+hV4VjoGjQ7Tz2pRWJwduYiBFC8owehHzH174sJ22t
-   NbbECOpO4lR7DkbV7GgqHZJtha8FYnVDHkG1/T80VqJubbY3FKEiR3Rg+
-   w==;
-X-CSE-ConnectionGUID: byOTFnrrSgm/naTfd1cIYQ==
-X-CSE-MsgGUID: pYBkVMqpRYWPxOh+suzvEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="86396255"
+  bh=s4OIoHhee5e41l2C2q2rHW9974k2MB8eVrV5VtOqfQM=;
+  b=TqKarbFK938TjQNHx1xvwTlKH65KAF7mMQVjpSKFO8vu3BDKmVJ2B4Sv
+   JDvyd0v1TjnUn1se2ohJ739ug6KEvRWrYFy/ZnxzEljIkvamnFBh3eiRW
+   bGhCCIJ31GjbZhgs7DFPX17xFmwC8yjla3cCZ7GnwljUmjuJtn9ige9pN
+   H1SYvrb+W6D993tiFVg93kvv95eEpq2VurGIZvVucPwoNC1guRXxxBKUW
+   P9jNmBZQVZJltxz4qFNZLPqIVX6Oagsq1htQKm2eWk+S+TZtrRIqtXV3N
+   0bX/7AojaQ4qHyWwCkmz2Y1+nbVI3mBLWv8xneH6K4bvDpVD6IqDrhWaI
+   A==;
+X-CSE-ConnectionGUID: /URDJCIpQ9qkrbfhNiTZQA==
+X-CSE-MsgGUID: lW36a34VRYCPrBZjy7Y+NA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="86396259"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="86396255"
+   d="scan'208";a="86396259"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:28 -0700
-X-CSE-ConnectionGUID: KA9UBVwKS4unZR2wNxgGxA==
-X-CSE-MsgGUID: t2Da9RYRQbKiOxN5B7UpLw==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:30 -0700
+X-CSE-ConnectionGUID: LC9NxNYWToCwOrw8GwivPg==
+X-CSE-MsgGUID: gUHej9OyRxCqWYEikeus/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="253799821"
+   d="scan'208";a="253799832"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO alaakso-desk.intel.com) ([10.245.246.88])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:26 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:28 -0700
 From: Antti Laakso <antti.laakso@linux.intel.com>
 To: linux-media@vger.kernel.org,
 	mchehab@kernel.org,
@@ -68,9 +68,9 @@ To: linux-media@vger.kernel.org,
 Cc: antti.laakso@linux.intel.com,
 	daxing.li@intel.com,
 	ong.hock.yu@intel.com
-Subject: [PATCH 33/41] media: ipu6: Read correct SKU ID for ipu7
-Date: Fri,  3 Jul 2026 18:24:43 +0300
-Message-ID: <20260703152451.1743132-34-antti.laakso@linux.intel.com>
+Subject: [PATCH 34/41] media: ipu6: Add support for fixed iova region
+Date: Fri,  3 Jul 2026 18:24:44 +0300
+Message-ID: <20260703152451.1743132-35-antti.laakso@linux.intel.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260703152451.1743132-1-antti.laakso@linux.intel.com>
 References: <20260703152451.1743132-1-antti.laakso@linux.intel.com>
@@ -98,7 +98,7 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:antti.laakso@linux.intel.com,m:daxing.li@intel.com,m:ong.hock.yu@intel.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66499-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66500-lists,linux-media=lfdr.de];
 	FORGED_SENDER(0.00)[antti.laakso@linux.intel.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
@@ -115,62 +115,74 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,intel.com:email,intel.com:dkim,linux.intel.com:mid,linux.intel.com:from_mime,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 60469703DF5
+X-Rspamd-Queue-Id: A902A703DFF
 
-Add SKU ID to buttress register map to get correct ID for both IPUs.
+The ipu7 need specific region for firmware in non-secure mode,
+add support for it.
 
 Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-buttress.c | 2 ++
- drivers/media/pci/intel/ipu6/ipu6-buttress.h | 1 +
- drivers/media/pci/intel/ipu6/ipu6.c          | 2 +-
- 3 files changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/pci/intel/ipu6/ipu6-dma.c | 26 +++++++++++++++++++++++--
+ drivers/media/pci/intel/ipu6/ipu6-dma.h |  2 ++
+ 2 files changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-index c1dfc4e45424..582b63d6a9be 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-@@ -75,6 +75,7 @@ static const struct ipu6_buttress_registers ipu6_buttress_regs = {
- 	.db0_out	= BUTTRESS_REG_IU2CSEDB0,
- 	.data0_in	= BUTTRESS_REG_CSE2IUDATA0,
- 	.data0_out	= BUTTRESS_REG_IU2CSEDATA0,
-+	.sku_id		= BUTTRESS_REG_SKU,
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.c b/drivers/media/pci/intel/ipu6/ipu6-dma.c
+index 6e8295d9c3a3..99a031e5a16e 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-dma.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-dma.c
+@@ -371,6 +371,25 @@ void ipu6_dma_unmap_sg(struct ipu6_bus_device *sys, struct scatterlist *sglist,
+ }
+ EXPORT_SYMBOL_NS_GPL(ipu6_dma_unmap_sg, "INTEL_IPU6");
  
- 	/* Bitmasks */
- 	.irq_is		= BUTTRESS_ISR_IS_IRQ,
-@@ -105,6 +106,7 @@ static const struct ipu6_buttress_registers ipu7_buttress_regs = {
- 	.db0_out	= IPU7_BUTTRESS_REG_IU2CSEDB0,
- 	.data0_in	= IPU7_BUTTRESS_REG_CSE2IUDATA0,
- 	.data0_out	= IPU7_BUTTRESS_REG_IU2CSEDATA0,
-+	.sku_id		= IPU7_BUTTRESS_REG_SKU,
++static struct iova *ipu7_get_fw_code_region(struct ipu6_bus_device *sys)
++{
++	struct device *dev = &sys->auxdev.dev;
++	struct ipu6_mmu *mmu = sys->mmu;
++	struct iova *iova;
++	unsigned long lo, hi;
++
++	lo = iova_pfn(&mmu->dmap->iovad, IPU7_FW_CODE_REGION_START);
++	hi = iova_pfn(&mmu->dmap->iovad, IPU7_FW_CODE_REGION_END) - 1U;
++
++	iova = reserve_iova(&mmu->dmap->iovad, lo, hi);
++	if (!iova) {
++		dev_err(dev, "Reserve iova[%lx:%lx] failed\n", lo, hi);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	return iova;
++}
++
+ int ipu6_dma_map_sg(struct ipu6_bus_device *sys, struct scatterlist *sglist,
+ 		    int nents, enum dma_data_direction dir,
+ 		    unsigned long attrs)
+@@ -397,8 +416,11 @@ int ipu6_dma_map_sg(struct ipu6_bus_device *sys, struct scatterlist *sglist,
+ 	dev_dbg(dev, "dmamap trying to map %d ents %zu pages\n",
+ 		nents, npages);
  
- 	/* Bitmasks */
- 	.irq_is		= IPU7_BUTTRESS_IRQ_IS_IRQ,
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.h b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-index 6691d511c97b..419cf1380fc7 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-@@ -55,6 +55,7 @@ struct ipu6_buttress_registers {
- 	u32 db0_out;
- 	u32 data0_in;
- 	u32 data0_out;
-+	u32 sku_id;
+-	iova = alloc_iova(&mmu->dmap->iovad, npages,
+-			  PHYS_PFN(mmu->dmap->mmu_info->aperture_end), 0);
++	if (attrs & DMA_ATTR_RESERVE_REGION)
++		iova = ipu7_get_fw_code_region(sys);
++	else
++		iova = alloc_iova(&mmu->dmap->iovad, npages,
++				  PHYS_PFN(mmu->dmap->mmu_info->aperture_end), 0);
+ 	if (!iova)
+ 		return 0;
  
- 	/* Bitmasks */
- 	u32 irq_is;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
-index 0c2c09a1c981..81664b777bef 100644
---- a/drivers/media/pci/intel/ipu6/ipu6.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6.c
-@@ -566,7 +566,7 @@ static int ipu6_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	/* Configure the arbitration mechanisms for VC requests */
- 	ipu6_configure_vc_mechanism(isp);
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.h b/drivers/media/pci/intel/ipu6/ipu6-dma.h
+index ae9b9a5df57f..e5e0e7860423 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-dma.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-dma.h
+@@ -10,6 +10,8 @@
  
--	val = readl(isp->base + BUTTRESS_REG_SKU);
-+	val = readl(isp->base + isp->buttress.regs->sku_id);
- 	sku_id = FIELD_GET(GENMASK(6, 4), val);
- 	version = FIELD_GET(GENMASK(3, 0), val);
- 	dev_info(dev, "IPU%u-v%u[%x]\n", version, sku_id, pdev->device);
+ #include "ipu6-bus.h"
+ 
++#define DMA_ATTR_RESERVE_REGION		BIT(31)
++
+ struct ipu6_mmu_info;
+ 
+ struct ipu6_dma_mapping {
 -- 
 2.54.0
 
