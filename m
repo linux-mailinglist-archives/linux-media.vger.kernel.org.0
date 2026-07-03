@@ -1,126 +1,268 @@
-Return-Path: <linux-media+bounces-66435-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66436-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6Ip5MwBpR2qMXwAAu9opvQ
-	(envelope-from <linux-media+bounces-66435-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 09:47:12 +0200
+	id g/sMNsZwR2olYQAAu9opvQ
+	(envelope-from <linux-media+bounces-66436-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 10:20:22 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B32F6FFB65
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 09:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C3C6FFFD4
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 10:20:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=E7fzZHQj;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66435-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66435-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=gz7bKLxt;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66436-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66436-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A32F43037166
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 07:38:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 40956320D636
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 08:09:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 588AF36B067;
-	Fri,  3 Jul 2026 07:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CC97374178;
+	Fri,  3 Jul 2026 08:09:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0DC352010;
-	Fri,  3 Jul 2026 07:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAE2371D1F
+	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 08:09:32 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783064275; cv=none; b=YxJAf2Uoj2J2FzV71Au/s7OL5wa/l9PuWmrsEi3/SoED0Vn55IuDKGTjcIxG50l/WLThWdvj8ygKI9fsGAw1O/91Luq1I4aaQM8VdGgkSWHLo1jTqpQ/YBiIFcM1oDRoTZr7K0x5q78NY/M+sOktHteCtRVBrG8x40K15645iYw=
+	t=1783066175; cv=none; b=LVLWnFVcQLirkPe4INX7xxAvpgYTbXPQ+Zau2edmO/hvWFzZ/f2xCeuBm7u4fZz0Z7twjAZdsbFSvx5lXp0JszdmisAxLlYlqTGY3ykWVsx7FGDbJZbLN0T7Aaf/pHSkizhBVO5iy6csObzRZb7Q7XqGTXCg0Pg2AK5VLFGxeg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783064275; c=relaxed/simple;
-	bh=/zEdjDHHDOZlLYDj/HrAahZZ9YvreIDGoxRLp/b3nmc=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=GGt190/paI8ppa/vkzHoMhH7vj2FjlLiaXho3tJL5WVg+G9SXLyGzNhzqYKDWN612x/NqkfDqn6C2ZwYBAI8jS6tntZXySna6YiIwTVs5HetdDAF9U92csY1UroNZY6Uv2F/rjXxmyTey+B1E/TlUjzhDIX3grldEVFXVJsqP4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7fzZHQj; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69951F00A3D;
-	Fri,  3 Jul 2026 07:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783064274;
-	bh=BNjc89ZTwEE6sAh5F09SyQEpJODWyJuS+YsA1L114gk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=E7fzZHQjHbuqRbfY5w8N/zq/LIGZMJY1SK41CeUUib7CZ4WxWm5MqtADiZytRVf8k
-	 B6AmxstGKgmn9k/gnWEMrYU/U8prhEH9/KBSrez2/6+NEuF1ehCnCime+EeHT7H/Vc
-	 3uPHNJ7e7l0I0rxnW+Hr072aIgsDpQNOHShnhFE32hDNXp6obtBsRggP9gjJ9qOPxF
-	 gm5mTrJ5kP99/8S/EVRiBrZq6SeYg8SxwOWKk+cApIcZjDHtKLqJQAQJJvgyCJU9Xh
-	 uvtmeyMNf/xe4qOOa2+jWsvz9DD00nDyID+u4LEyyFtC11nrDHmkAIGykMv8cZ9zSV
-	 H59njUBru/Yjw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56D2B39389CB;
-	Fri,  3 Jul 2026 07:37:38 +0000 (UTC)
-Subject: Re: [GIT PULL] Split <linux/mod_devicetable.h> in per subsystem headers
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <akdIS8mW2IubUWQh@monoceros>
-References: <akdIS8mW2IubUWQh@monoceros>
-X-PR-Tracked-List-Id: <devicetree.vger.kernel.org>
-X-PR-Tracked-Message-Id: <akdIS8mW2IubUWQh@monoceros>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git tags/device-id-rework
-X-PR-Tracked-Commit-Id: 995832b2cebe6969d1b42635db698803ee31294d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d2c9a99135da931377240942d44f3dea104cedb8
-Message-Id: <178306425679.2510133.17664517627067155845.pr-tracker-bot@kernel.org>
-Date: Fri, 03 Jul 2026 07:37:36 +0000
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Raag Jadav <raag.jadav@intel.com>, Sohil Mehta <sohil.mehta@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, linux-kernel@vger.kernel.org, Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Dani
- lo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Pei Xiao <xiaopei01@kylinos.cn>, Shashank Balaji <shashank.mahadasyam@sony.com>, Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>, Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org, linux-i2c@vger.kernel.org, Daniel Scally <dan.scally@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, kvm@vger.kernel.org, loongarch@lists.linux.dev, Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@ker
- nel.org>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1783066175; c=relaxed/simple;
+	bh=CSYuelwBEgbOsTqPxA/RNruqEGmC7llHkPEnmOQMDNs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dd3+o7M8D34QHYuh2YcxRhnJ67bLF9+uC+NRzdHb/szrPNYTguz3BfO8wrmuwNios9YYUw/Yq38IFKNxTy5xA9LdwDZE0UbGM/K/a/JW1oYtC6w0+afcA5XlPl8AdYF5RrbgNLG/hxwGa7LEZc3D6yeZpouUKK15z1g50T8HOC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gz7bKLxt; arc=none smtp.client-ip=209.85.216.54
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-37fdee9276fso362651a91.3
+        for <linux-media@vger.kernel.org>; Fri, 03 Jul 2026 01:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783066172; x=1783670972; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=w87AnrTB3+K5h4mEbRFEu3fZorqFSIFJ3pSg+bs+2hw=;
+        b=gz7bKLxtjD6wzsMtzaXuvzZEpzJzvQhH+mrf6cEjNTF1S3tox+ChiQmN8MptMVLssm
+         lS9y0LIQX3oqziBHlwK0AeiVe8FU1M++x6TQaWLnUnQDEOdeXP3dpcTWeAQef6A675VM
+         zIV5Gg18ANh7+t+delRsgFypGHyITARitdrvUOCHDJJov4DgfgoHkAAyg5qotdZ9id8Q
+         A15uU26KWyQ4rbD7ygcHCTi2F0BlSmwBiNVYFbB+M7AFKw/6B/j3NxanAySX6xhtEmrm
+         ay3zVfnTceOrwiQJ8mGXgUnISEq4cDKNBxOTusLoo4ZojHszJTEldH3Eb3RnzBgz96D8
+         Z16Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783066172; x=1783670972;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=w87AnrTB3+K5h4mEbRFEu3fZorqFSIFJ3pSg+bs+2hw=;
+        b=qcnwhckviLxKn1ZhyCRjvDhw/9NIGFoWmKCvcdZrFwDcF8bd062OQKbXGOvKTjRlto
+         9Y2yfBYMvm1y0pVsDU6D+aVqrQpK1ReV0CRW4ryw/7Kbd9lih0ceGz/PbiFl+lWy643R
+         7l7yEEpXey1zZQv153j7Bj+nR32Yu64XIOmGk9Y6ZufjDGcHqS0wVgl2eJQNp3QnkqQ+
+         xI5hCgORdZdQHCiPbx9s0fWl0GXwmWeoRmOpBM9M1sSaZ7moxdOKdoUGIKnE6DUg1/Bk
+         cayw4c0quwSCx63ZvmDyJTS0dnrtm9zZZbITdncbVsQuasG4a6G4Xpy7zUN4yonGb14N
+         5YWg==
+X-Forwarded-Encrypted: i=1; AHgh+Roe1ziMMcGE7N4yasbcbzLKmacooLcf65Vm6e05lhjhYzXhex/+FE41Dk/brZ3R2fBQyMZ2RDXUvBl1WA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvIr7SVRq8N4mDMiMXnNb2zs5idGtxEgkwJ1LhgLwoUBo73cQ/
+	4HJLqEBk7kX+hxazfhA1YyQXf0w0K1jqO7pYkgrXrDCjIOLH7KeBtWzw
+X-Gm-Gg: AfdE7cmHpR0HWalXT8A1zoqI4zF1tTf3wpGerCHDkGtO0UAyECV3DQSIOwpKTgTQlU3
+	gy9aS7huKhqbM4KhhKbuozrrU45J61KOVjJKMaClPhNSdUnx92ZdHzU06LumJV9+01eBoLfIf95
+	5dMC5HtmDJT53eYg9GJsqdp+KA0cUGsQ69fWep0b7ZU7r001EyMh7ad795t786mVoB3L7ZFDl3S
+	dlNQMp0X42VPehhwiw1aHQNk0qySjex2Fv8Xz8yQdgD572Th2zFL8aPFPLPmU9P3aHwMIZxUanF
+	gptBcUOyjGdHmzWDoJWmmbtjgyjbNqtrveEpFAU04V5E8YhJM+hX2MyRwtjw31aGYXkMzi3p9gn
+	vlDfbv+/WFx2tuhbKGYEBHFfRWsV00JpGVFlKU2xbXW44cCN3kallsM0wB/0kOkRcHKHqteI8oU
+	0a7AXpQEd9dMlc+DXt2Zb8c3H1kiNnmXEUgMliNDrmMStUAp3vhD9kNw==
+X-Received: by 2002:a17:90b:1d8d:b0:381:20b:a9ee with SMTP id 98e67ed59e1d1-381020baa35mr4976082a91.14.1783066171845;
+        Fri, 03 Jul 2026 01:09:31 -0700 (PDT)
+Received: from localhost.localdomain ([45.67.201.99])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38127ae18f7sm614923a91.3.2026.07.03.01.09.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 01:09:31 -0700 (PDT)
+From: Baineng Shou <shoubaineng@gmail.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Sandeep Patil <sspatil@android.com>,
+	"Andrew F. Davis" <afd@ti.com>
+Cc: Baineng Shou <shoubaineng@gmail.com>,
+	stable@vger.kernel.org,
+	linux-media@vger.kernel.org (open list:DMA-BUF HEAPS FRAMEWORK),
+	dri-devel@lists.freedesktop.org (open list:DMA-BUF HEAPS FRAMEWORK),
+	linaro-mm-sig@lists.linaro.org (moderated list:DMA-BUF HEAPS FRAMEWORK),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] dma-buf: dma-heap: close installed fd when copy_to_user() fails
+Date: Fri,  3 Jul 2026 16:09:22 +0800
+Message-Id: <20260703080922.1838362-1-shoubaineng@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,gmail.com,google.com,intel.com,linux.intel.com,vger.kernel.org,ti.com,collabora.com,perex.cz,suse.com,sntech.de,lists.infradead.org,lists.linux.dev,oss.qualcomm.com,kylinos.cn,sony.com,arm.com,ideasonboard.com,loongson.cn,xen0n.name,linux-m68k.org,linuxfoundation.org,ker nel.org,sakamocchi.jp,sang-engineering.com];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:u.kleine-koenig@baylibre.com,m:torvalds@linux-foundation.org,m:nathan@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:raag.jadav@intel.com,m:sohil.mehta@intel.com,m:dave.hansen@linux.intel.com,m:robh@kernel.org,m:saravanak@kernel.org,m:bhelgaas@google.com,m:rafael@kernel.org,m:lenb@kernel.org,m:andi.shyti@kernel.org,m:linux-kernel@vger.kernel.org,m:y-abhilashchandra@ti.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:nicolas.frattaroli@collabora.com,m:lgirdwood@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:heiko@sntech.de,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:dakr@kernel.org,m:driver-core@lists.linux.dev,m:jic23@kernel.org,m:dmitry.torokhov@gmail.com,m:bartosz.golaszewski@oss.qualcomm.com,m:xiaopei01@kylinos.cn,m:shashank.mahadasyam@sony.com,m:ben.horgan@arm.com,m:johan@kernel.org,m:linux-usb@vger.kernel.org,m:teackot@gmail.com,m:hansg@ke
- rnel.org,m:ilpo.jarvinen@linux.intel.com,m:platform-driver-x86@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-i2c@vger.kernel.org,m:dan.scally@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:zhaotianrui@loongson.cn,m:maobibo@loongson.cn,m:chenhuacai@kernel.org,m:kernel@xen0n.name,m:kvm@vger.kernel.org,m:loongarch@lists.linux.dev,m:geert@linux-m68k.org,m:gregkh@linuxfoundation.org,m:broonie@ker nel.org,m:o-takashi@sakamocchi.jp,m:wsa+renesas@sang-engineering.com,m:nickdesaulniers@gmail.com,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[pr-tracker-bot@kernel.org,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-66435-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_GT_50(0.00)[56];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-66436-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:sspatil@android.com,m:afd@ti.com,m:shoubaineng@gmail.com,m:stable@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[shoubaineng@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,lkml,renesas];
-	FROM_NO_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[shoubaineng@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9B32F6FFB65
+X-Rspamd-Queue-Id: 43C3C6FFFD4
 
-The pull request you sent on Fri, 3 Jul 2026 08:04:04 +0200:
+DMA_HEAP_IOCTL_ALLOC allocates a dma-buf and installs an fd into the
+caller's fd table via fd_install() before dma_heap_ioctl() copies the
+result back to userspace. If the trailing copy_to_user() fails, the
+ioctl returns -EFAULT and userspace never learns the fd number, but
+the fd (and the underlying dma-buf reference) remain in the caller's
+fd table and are leaked for the lifetime of the process.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git tags/device-id-rework
+The failure is easily reachable from userspace: pass a struct
+dma_heap_allocation_data that lives in a page whose protection is
+flipped to PROT_READ between copy_from_user() and copy_to_user()
+(e.g. via mprotect()). Each such ioctl leaks one dmabuf fd; repeating
+the call quickly fills /proc/<pid>/fd with anonymous "/dmabuf:"
+entries that only go away when the process exits.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d2c9a99135da931377240942d44f3dea104cedb8
+Fix it by closing the installed fd (and clearing the fd field of the
+kernel-side copy) when copy_to_user() fails after a successful
+allocation, so the error path matches what userspace observes: no fd
+was returned, therefore no fd is left behind.
 
-Thank you!
+Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
+Cc: stable@vger.kernel.org
+Signed-off-by: Baineng Shou <shoubaineng@gmail.com>
+---
 
+Reproducer (full source, gcc -o poc poc.c; run as root):
+
+    // poc.c -- leak one dma-buf fd per DMA_HEAP_IOCTL_ALLOC
+    //          when copy_to_user() fails
+    #include <fcntl.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    #include <unistd.h>
+    #include <sys/ioctl.h>
+    #include <sys/mman.h>
+    #include <linux/dma-heap.h>
+
+    int main(int argc, char **argv)
+    {
+        int n = argc > 1 ? atoi(argv[1]) : 100;
+        long ps = sysconf(_SC_PAGESIZE);
+
+        int heap = open("/dev/dma_heap/system", O_RDWR | O_CLOEXEC);
+        if (heap < 0)
+            return perror("open"), 1;
+
+        for (int i = 0; i < n; i++) {
+            /* Put a valid request in a page, then make the page
+             * read-only: copy_from_user() still succeeds and the
+             * dma-buf is allocated and fd_install()'d, but the
+             * trailing copy_to_user() fails and the fd, never
+             * returned to us, is leaked.
+             */
+            struct dma_heap_allocation_data *req =
+                mmap(NULL, ps, PROT_READ | PROT_WRITE,
+                     MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+
+            memset(req, 0, sizeof(*req));
+            req->len = ps;
+            req->fd_flags = O_RDWR | O_CLOEXEC;
+
+            mprotect(req, ps, PROT_READ);
+            ioctl(heap, DMA_HEAP_IOCTL_ALLOC, req);  /* -EFAULT */
+            munmap(req, ps);
+        }
+
+        printf("done: check ls -l /proc/%d/fd for %d leaked fds\n",
+               getpid(), n);
+        pause();
+        return 0;
+    }
+
+Before the fix, ./poc 10 leaves 10 anonymous dmabuf fds in the
+caller's fd table:
+
+    # ls -l /proc/$(pgrep poc)/fd
+    lrwx------ 1 root root 64 Jan  1 00:03 3 -> /dev/dma_heap/system
+    lrwx------ 1 root root 64 Jan  1 00:03 4 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 5 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 6 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 7 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 8 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 9 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 10 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 11 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 12 -> /dmabuf:
+    lrwx------ 1 root root 64 Jan  1 00:03 13 -> /dmabuf:
+
+After the fix, only /dev/dma_heap/system remains open; the
+anonymous "/dmabuf:" entries are gone.
+
+ drivers/dma-buf/dma-heap.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index a76bf3f8b071..0dd7a84b06bf 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -18,6 +18,7 @@
+ #include <linux/uaccess.h>
+ #include <linux/xarray.h>
+ #include <uapi/linux/dma-heap.h>
++#include <linux/fdtable.h>
+ 
+ #define DEVNAME "dma_heap"
+ 
+@@ -181,8 +182,16 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+ 		goto err;
+ 	}
+ 
+-	if (copy_to_user((void __user *)arg, kdata, out_size) != 0)
++	if (copy_to_user((void __user *)arg, kdata, out_size) != 0) {
++		if (kcmd == DMA_HEAP_IOCTL_ALLOC && ret == 0) {
++			struct dma_heap_allocation_data *h = (void *)kdata;
++
++			close_fd(h->fd);
++			h->fd = -1;
++		}
+ 		ret = -EFAULT;
++	}
++
+ err:
+ 	if (kdata != stack_kdata)
+ 		kfree(kdata);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.34.1
+
 
