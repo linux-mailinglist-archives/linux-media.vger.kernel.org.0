@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-66488-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66489-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 45deOczUR2q4fwAAu9opvQ
-	(envelope-from <linux-media+bounces-66488-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:27:08 +0200
+	id ZDGMN9HUR2q5fwAAu9opvQ
+	(envelope-from <linux-media+bounces-66489-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:27:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E15703D93
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:27:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C61D703D99
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:27:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=QfObMnbn;
+	dkim=pass header.d=intel.com header.s=Intel header.b=JS92nTfj;
 	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66488-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66488-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66489-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66489-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 14B1A3038778
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 15:26:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E3BFD303ACF5
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 15:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E54416D13;
-	Fri,  3 Jul 2026 15:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 693FB417345;
+	Fri,  3 Jul 2026 15:26:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3944C417344
-	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 15:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE40416D02
+	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 15:26:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783092364; cv=none; b=si+VC0s2x011e2keChHpI8Ietmo1pLmtZZku6bKwXTYEz+k4GRc36y6bLqmHQGsxGVDEnUY7q9l7XaJFkuytDIxP1i0Ysksqiyfbhk6yrLzFU589gkoqc9mYnp6YS3GQDot0tOyZmQIUc5j4fuSPlMje2eJdhAr7f/jNT/S40fM=
+	t=1783092366; cv=none; b=dulHxS1w64YfviITQK9vcn8Cw1WVYe1nWAE5q8Gva9wDM6wSBDmOU3kke8wIypnqZk580HWyXaDrw2uJ0sSvOeNqQAYNuvcVTi2EHRBShAAfWWiJOuP/NGbwDKeM+ZR22bOX076jF2t0qj9tDVuUeA1EvgW9X5NoP4hyEQuCeuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783092364; c=relaxed/simple;
-	bh=QQFW8A+4hnlWRBJlvOfB4xQXYFDLSVDV8ciHFNO6ncY=;
+	s=arc-20240116; t=1783092366; c=relaxed/simple;
+	bh=5lZgjytvyH6VHyaKkxUSXY1jcyok9grrm9od676yUtI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XOMXvXj5FeBZFIgRLNmdyzQxJhMYVSzrh80qN06y6X4xHt8cazDu+AHpfnQtOVwDOaM1uSyVdws8oBCbh9yiCWVDqCUSkegXTXXYgQZYDdJcaxc6TEXJng/iz4HHUCQwfF7fKl6iUOpEGgF+cRj+4aVtEHLcWdMLvE518A5JmDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfObMnbn; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version; b=MJaNzEIOeLpclxM0fK3sRv1+qMVvo8wttF4WucgGKDCAD5GoIgKpSNrmsutN80QF5kxKwrEXvuV+8JV/IThk9hCD6MuHBqxstp5Q1iN+O/eZDJPXH64+hALMJ94VyXbP2VxKtcNejK5+RZx7Drb/qH8cxQtQdniGIJujzvrMtEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JS92nTfj; arc=none smtp.client-ip=192.198.163.13
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783092362; x=1814628362;
+  t=1783092364; x=1814628364;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QQFW8A+4hnlWRBJlvOfB4xQXYFDLSVDV8ciHFNO6ncY=;
-  b=QfObMnbnqyBh+XIOVXxEkMWPPrJrceO4akNLLFfgeRtUgT4obNkcQDNs
-   ThTNcrcOIJ1b65/klgS2UKHHoicKnBSiirEf2G5Q4FTn6nf1R8UjBRlf+
-   /C0rRLjPuWu/BZluHIIPTEFkxPs7Tsf5XH7MvcB3Yi6z6O5TcldD5WATw
-   mfNmhdLi08TiharBMUDzulyOqQTT18Rb9ZZzJv2LyY1kFsH/SWQyEHP/Y
-   7QPa+jYdCoElMYmLYqW072KW01kn03ZpOlABpGhbrrWF9667XTg3IABqb
-   lTYajLYJwQrHQQ9SF8OxvXYY6Ln2QKqAZzZyrCNk/x6H8NcKC/RBapusc
-   g==;
-X-CSE-ConnectionGUID: SoIfgee1RAyPN/A1fccs1A==
-X-CSE-MsgGUID: uOdaUY6fQIuHXPW7jrUufA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="86396199"
+  bh=5lZgjytvyH6VHyaKkxUSXY1jcyok9grrm9od676yUtI=;
+  b=JS92nTfjk1oHcn/npgPXjjY5vRXZzm26nlJxWB7CcvKB6Df4pL9s38Il
+   HfqADeNzSBAEN7iptk5k6QUfA9i8coDOyAgYv/CValGcCjt4NW0hku5+5
+   Kl5HzF5THhygyJQkiJU/eL8xOBP2XaLoJhJR5G75M7ZmHxuZmNx7JfGf6
+   OwcvrbyieTri0bYVWgvr1GGFCtzPoYwVlIWHPwfhfLN5pcdFIv5gv0/dj
+   CGUdxHpHX1viIBVb9IfII1If2ehplh2BC3CzrDlPKQe4FLWZmtq7y+5zo
+   U84+hagrjOijeG9qq7RB13wYr0vNxikgCUTBA0cih/tyvkLi674un7S0B
+   w==;
+X-CSE-ConnectionGUID: E95EWSVdSQq6S+/Mk/0qsA==
+X-CSE-MsgGUID: b+2XAH78Re+Qs+m5qo8AXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="86396207"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="86396199"
+   d="scan'208";a="86396207"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:02 -0700
-X-CSE-ConnectionGUID: xWE2YT//S+OjUNOdEgiSdg==
-X-CSE-MsgGUID: g4GYK5OxQR6GSD7SWgnrTw==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:04 -0700
+X-CSE-ConnectionGUID: uo/kpgn9QSqMixqVix1JMA==
+X-CSE-MsgGUID: zSO1IsrcQEuORx1JJA9KSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="253799691"
+   d="scan'208";a="253799705"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO alaakso-desk.intel.com) ([10.245.246.88])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:00 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:26:03 -0700
 From: Antti Laakso <antti.laakso@linux.intel.com>
 To: linux-media@vger.kernel.org,
 	mchehab@kernel.org,
@@ -68,9 +68,9 @@ To: linux-media@vger.kernel.org,
 Cc: antti.laakso@linux.intel.com,
 	daxing.li@intel.com,
 	ong.hock.yu@intel.com
-Subject: [PATCH 22/41] media: ipu6: Add ipu7 fw com methods
-Date: Fri,  3 Jul 2026 18:24:32 +0300
-Message-ID: <20260703152451.1743132-23-antti.laakso@linux.intel.com>
+Subject: [PATCH 23/41] media: ipu6: Add ipu7 fw isys ops
+Date: Fri,  3 Jul 2026 18:24:33 +0300
+Message-ID: <20260703152451.1743132-24-antti.laakso@linux.intel.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260703152451.1743132-1-antti.laakso@linux.intel.com>
 References: <20260703152451.1743132-1-antti.laakso@linux.intel.com>
@@ -89,7 +89,7 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -98,10 +98,10 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:antti.laakso@linux.intel.com,m:daxing.li@intel.com,m:ong.hock.yu@intel.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66488-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66489-lists,linux-media=lfdr.de];
 	FORGED_SENDER(0.00)[antti.laakso@linux.intel.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -115,667 +115,952 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,linux.intel.com:mid,linux.intel.com:from_mime,intel.com:email,intel.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 62E15703D93
+X-Rspamd-Queue-Id: 4C61D703D99
 
-The get/put token methods read/write to ipu7 firmware message queues.
+The ipu7 isys firmware functions handle messaging
+with ipu7 hardware.
 
 Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
 ---
- drivers/media/pci/intel/ipu6/Makefile         |   4 +-
- drivers/media/pci/intel/ipu6/ipu6.h           |   1 +
- drivers/media/pci/intel/ipu6/ipu7-boot.c      | 408 ++++++++++++++++++
- drivers/media/pci/intel/ipu6/ipu7-boot.h      |  41 ++
- drivers/media/pci/intel/ipu6/ipu7-fw-com.c    |  74 ++++
- drivers/media/pci/intel/ipu6/ipu7-fw-com.h    |  51 +++
- .../media/pci/intel/ipu6/ipu7-platform-regs.h |  12 +
- 7 files changed, 590 insertions(+), 1 deletion(-)
- create mode 100644 drivers/media/pci/intel/ipu6/ipu7-boot.c
- create mode 100644 drivers/media/pci/intel/ipu6/ipu7-boot.h
- create mode 100644 drivers/media/pci/intel/ipu6/ipu7-fw-com.c
- create mode 100644 drivers/media/pci/intel/ipu6/ipu7-fw-com.h
- create mode 100644 drivers/media/pci/intel/ipu6/ipu7-platform-regs.h
+ drivers/media/pci/intel/ipu6/Makefile         |   1 +
+ drivers/media/pci/intel/ipu6/ipu6-bus.h       |   2 +
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.c   |   3 +-
+ .../media/pci/intel/ipu6/ipu6-isys-queue.c    |   2 +-
+ .../media/pci/intel/ipu6/ipu6-isys-queue.h    |   2 +
+ .../media/pci/intel/ipu6/ipu6-isys-video.c    |   1 +
+ .../media/pci/intel/ipu6/ipu6-isys-video.h    |   1 +
+ drivers/media/pci/intel/ipu6/ipu6-isys.c      |  15 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys.h      |  13 +-
+ drivers/media/pci/intel/ipu6/ipu7-fw-com.h    |   2 +
+ drivers/media/pci/intel/ipu6/ipu7-fw-isys.c   | 467 ++++++++++++++++++
+ drivers/media/pci/intel/ipu6/ipu7-fw-isys.h   | 258 ++++++++++
+ 12 files changed, 759 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-fw-isys.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-fw-isys.h
 
 diff --git a/drivers/media/pci/intel/ipu6/Makefile b/drivers/media/pci/intel/ipu6/Makefile
-index c0daf0995b22..406e2e19df17 100644
+index 406e2e19df17..66986d5709ae 100644
 --- a/drivers/media/pci/intel/ipu6/Makefile
 +++ b/drivers/media/pci/intel/ipu6/Makefile
-@@ -8,7 +8,9 @@ intel-ipu6-y			:= ipu6.o \
- 				ipu7-mmu-hw.o \
- 				ipu6-buttress.o \
- 				ipu6-cpd.o \
--				ipu6-fw-com.o
-+				ipu6-fw-com.o \
-+				ipu7-fw-com.o \
-+				ipu7-boot.o
+@@ -17,6 +17,7 @@ obj-$(CONFIG_VIDEO_INTEL_IPU6)	+= intel-ipu6.o
+ intel-ipu6-isys-y		:= ipu6-isys.o \
+ 				ipu6-isys-csi2.o \
+ 				ipu6-fw-isys.o \
++				ipu7-fw-isys.o \
+ 				ipu6-isys-video.o \
+ 				ipu6-isys-queue.o \
+ 				ipu6-isys-subdev.o \
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-bus.h b/drivers/media/pci/intel/ipu6/ipu6-bus.h
+index 62aa2b090699..aef8e4a66c4a 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-bus.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-bus.h
+@@ -31,6 +31,7 @@ struct ipu6_bus_device {
+ 	u64 *pkg_dir;
+ 	dma_addr_t pkg_dir_dma_addr;
+ 	unsigned int pkg_dir_size;
++	u32 fw_entry;
+ };
  
- obj-$(CONFIG_VIDEO_INTEL_IPU6)	+= intel-ipu6.o
+ struct ipu6_auxdrv_data {
+@@ -47,6 +48,7 @@ struct ipu6_auxdrv_data {
+ #define ipu6_bus_get_drvdata(adev) dev_get_drvdata(&(adev)->auxdev.dev)
  
-diff --git a/drivers/media/pci/intel/ipu6/ipu6.h b/drivers/media/pci/intel/ipu6/ipu6.h
-index c1693e0022b4..728113b22fd9 100644
---- a/drivers/media/pci/intel/ipu6/ipu6.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6.h
-@@ -90,6 +90,7 @@ struct ipu6_device {
+ extern const struct ipu6_fw_isys_ops ipu6_fw_isys_ops;
++extern const struct ipu6_fw_isys_ops ipu7_fw_isys_ops;
  
- #define IPU_PSYS	0
- #define IPU_ISYS	1
-+#define IPU_SUBSYS_NUM	2
+ struct ipu6_bus_device *
+ ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-fw-isys.c b/drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
+index 06075fa0a90a..291745bcc669 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
+@@ -15,6 +15,7 @@
+ #include "ipu6-isys.h"
+ #include "ipu6-platform-isys-csi2-reg.h"
+ #include "ipu6-platform-regs.h"
++#include "ipu7-fw-isys.h"
  
- #define IPU6_ISYS_NAME "isys"
- #define IPU6_PSYS_NAME "psys"
-diff --git a/drivers/media/pci/intel/ipu6/ipu7-boot.c b/drivers/media/pci/intel/ipu6/ipu7-boot.c
+ static const char send_msg_types[N_IPU6_FW_ISYS_SEND_TYPE][32] = {
+ 	"STREAM_OPEN",
+@@ -598,7 +599,7 @@ int ipu6_isys_isr_one(struct ipu6_bus_device *adev)
+ 		 */
+ 		struct isys_fw_msgs *msg =
+ 			container_of((void *)resp->buf_id, struct isys_fw_msgs,
+-				     ipu6.dummy);
++				     dummy);
+ 
+ 		ipu6_put_fw_msg_buf(ipu6_bus_get_drvdata(adev), msg);
+ 		if (resp->pin_id < IPU6_ISYS_OUTPUT_PINS &&
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+index 4cb1741445c6..38db162d64ca 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+@@ -684,7 +684,7 @@ static void ipu6_isys_queue_buf_done(struct ipu6_isys_buffer *ib)
+ 	}
+ }
+ 
+-static void
++void
+ ipu6_stream_buf_ready(struct ipu6_isys_stream *stream, u8 pin_id, u32 pin_addr,
+ 		      u64 time, bool error_check)
+ {
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.h b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
+index 51de14183ccf..5df47be0c181 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
+@@ -63,4 +63,6 @@ void ipu6_isys_buffer_list_queue(struct ipu6_isys_buffer_list *bl,
+ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
+ 			       struct ipu6_fw_isys_resp_info_abi *info);
+ int ipu6_isys_queue_init(struct ipu6_isys_queue *aq);
++void ipu6_stream_buf_ready(struct ipu6_isys_stream *stream, u8 pin_id,
++			   u32 pin_addr, u64 time, bool error_check);
+ #endif /* IPU6_ISYS_QUEUE_H */
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+index 803450b0156e..560524e6e624 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+@@ -627,6 +627,7 @@ int ipu6_isys_video_prepare_stream(struct ipu6_isys_video *av,
+ 
+ 	stream->nr_queues = nr_queues;
+ 	atomic_set(&stream->sequence, 0);
++	atomic_set(&stream->buf_id, 0);
+ 
+ 	stream->seq_index = 0;
+ 	memset(stream->seq, 0, sizeof(stream->seq));
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.h b/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
+index 2ff53315d7b9..a7157646d563 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
+@@ -44,6 +44,7 @@ struct sequence_info {
+ struct ipu6_isys_stream {
+ 	struct mutex mutex;
+ 	atomic_t sequence;
++	atomic_t buf_id;
+ 	unsigned int seq_index;
+ 	struct sequence_info seq[IPU6_ISYS_MAX_PARALLEL_SOF];
+ 	int stream_source;
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+index ad9b65d246e5..e18bd923afee 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+@@ -930,6 +930,9 @@ void ipu6_put_fw_msg_buf(struct ipu6_isys *isys, struct isys_fw_msgs *msg)
+ 	spin_unlock_irqrestore(&isys->listlock, flags);
+ }
+ 
++static const struct ipu6_auxdrv_data ipu6_isys_auxdrv_data;
++static const struct ipu6_auxdrv_data ipu7_isys_auxdrv_data;
++
+ static int isys_probe(struct auxiliary_device *auxdev,
+ 		      const struct auxiliary_device_id *auxdev_id)
+ {
+@@ -948,8 +951,8 @@ static int isys_probe(struct auxiliary_device *auxdev,
+ 	if (!isys)
+ 		return -ENOMEM;
+ 
+-	adev->auxdrv_data =
+-		(const struct ipu6_auxdrv_data *)auxdev_id->driver_data;
++	adev->auxdrv_data = pci_match_id(ipu7_ids, isp->pdev) ?
++				&ipu7_isys_auxdrv_data : &ipu6_isys_auxdrv_data;
+ 	adev->auxdrv = to_auxiliary_drv(auxdev->dev.driver);
+ 	isys->adev = adev;
+ 	isys->pdata = adev->pdata;
+@@ -1070,10 +1073,16 @@ static const struct ipu6_auxdrv_data ipu6_isys_auxdrv_data = {
+ 	.fw_ops = &ipu6_fw_isys_ops,
+ };
+ 
++static const struct ipu6_auxdrv_data ipu7_isys_auxdrv_data = {
++	.isr = ipu6_isys_isr,
++	.isr_threaded = NULL,
++	.wake_isr_thread = false,
++	.fw_ops = &ipu7_fw_isys_ops,
++};
++
+ static const struct auxiliary_device_id ipu6_isys_id_table[] = {
+ 	{
+ 		.name = "intel_ipu6.isys",
+-		.driver_data = (kernel_ulong_t)&ipu6_isys_auxdrv_data,
+ 	},
+ 	{ }
+ };
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.h b/drivers/media/pci/intel/ipu6/ipu6-isys.h
+index fa9bc2730d64..697c090cc3b1 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys.h
+@@ -17,6 +17,7 @@
+ 
+ #include "ipu6.h"
+ #include "ipu6-fw-isys.h"
++#include "ipu7-fw-isys.h"
+ #include "ipu6-isys-csi2.h"
+ #include "ipu6-isys-video.h"
+ 
+@@ -167,9 +168,15 @@ struct ipu6_isys {
+ struct isys_fw_msgs {
+ 	union {
+ 		u64 dummy;
+-		struct ipu6_fw_isys_frame_buff_set_abi frame;
+-		struct ipu6_fw_isys_stream_cfg_data_abi stream;
+-	} ipu6;
++		union {
++			struct ipu6_fw_isys_frame_buff_set_abi frame;
++			struct ipu6_fw_isys_stream_cfg_data_abi stream;
++		} ipu6;
++		union {
++			struct ipu7_fw_isys_frame_buff_set frame;
++			struct ipu7_fw_isys_stream_cfg stream;
++		} ipu7;
++	};
+ 	struct list_head head;
+ 	dma_addr_t dma_addr;
+ };
+diff --git a/drivers/media/pci/intel/ipu6/ipu7-fw-com.h b/drivers/media/pci/intel/ipu6/ipu7-fw-com.h
+index 10c09e759bed..097eaab99547 100644
+--- a/drivers/media/pci/intel/ipu6/ipu7-fw-com.h
++++ b/drivers/media/pci/intel/ipu6/ipu7-fw-com.h
+@@ -25,6 +25,8 @@ struct ipu7_fw_com_context {
+ 	dma_addr_t boot_config_dma_addr;
+ 	u32 boot_config_size;
+ 	u32 fw_entry;
++	struct ipu7_insys_config *fw_config;
++	dma_addr_t fw_config_dma_addr;
+ };
+ 
+ struct ipu7_fw_com_queue_params_config {
+diff --git a/drivers/media/pci/intel/ipu6/ipu7-fw-isys.c b/drivers/media/pci/intel/ipu6/ipu7-fw-isys.c
 new file mode 100644
-index 000000000000..982b6ee36e6c
+index 000000000000..155ce63822d8
 --- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu7-boot.c
-@@ -0,0 +1,408 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2022 - 2026 Intel Corporation
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/iopoll.h>
-+#include <linux/types.h>
-+
-+#include "ipu6.h"
-+#include "ipu7-boot.h"
-+#include "ipu6-bus.h"
-+#include "ipu6-buttress.h"
-+#include "ipu6-dma.h"
-+#include "ipu7-fw-com.h"
-+#include "ipu6-isys.h"
-+#include "ipu6-platform-buttress-regs.h"
-+#include "ipu7-platform-regs.h"
-+
-+#define IPU7_FW_START_STOP_TIMEOUT		2000
-+#define IPU7_BOOT_CELL_RESET_TIMEOUT		(2 * USEC_PER_SEC)
-+#define IPU7_BOOT_STATE_CRITICAL(s)		(((s) & 0xffff0000U) == 0xdead0000U)
-+#define IPU7_BOOT_STATE_READY(s)		((s) == 0x57a7e100U)
-+#define IPU7_BOOT_STATE_INACTIVE(s)		((s) == 0x57a7e300U)
-+#define IPU7_BUTTRESS_REG_FW_BOOT_PARAMS0				0x4000
-+#define IPU7_BUTTRESS_FW_BOOT_PARAMS_ENTRY(i) \
-+	(IPU7_BUTTRESS_REG_FW_BOOT_PARAMS0 + ((i) * 4U))
-+
-+struct boot_regs {
-+	u32 base;
-+	u32 dmem_address;
-+	u32 status_ctrl_reg;
-+	u32 fw_start_address_reg;
-+	u32 fw_code_base_reg;
-+};
-+
-+enum ipu7_boot_reg_id {
-+	IPU7_FW_BOOT_CONFIG_ID = 0,
-+	IPU7_FW_BOOT_STATE_ID = 1,
-+	IPU7_FW_BOOT_SYSCOM_QUEUE_INDICES_BASE_ID = 2,
-+	IPU7_FW_BOOT_UNTRUSTED_ADDR_MIN_ID = 3,
-+	IPU7_FW_BOOT_MESSAGING_VERSION_ID = 4,
-+	IPU7_FW_BOOT_ID_MAX,
-+};
-+
-+enum ipu7_boot_state {
-+	IPU7_FW_BOOT_STATE_UNINIT = 0x57a7e000U,
-+	IPU7_FW_BOOT_STATE_READY = 0x57a7e100U,
-+	IPU7_FW_BOOT_STATE_SHUTDOWN_CMD = 0x57a7f001U,
-+	IPU7_FW_BOOT_STATE_INACTIVE = 0x57a7e300U,
-+};
-+
-+static const struct boot_regs boot_regs[IPU_SUBSYS_NUM] = {
-+	[IPU_ISYS] = {
-+		.dmem_address = IPU7_ISYS_DMEM_OFFSET,
-+		.status_ctrl_reg = IPU7_BUTTRESS_REG_ISYS_UCX_CTRL_STATUS,
-+		.fw_start_address_reg = IPU7_BUTTRESS_REG_ISYS_UCX_START_ADDR,
-+		.fw_code_base_reg = IPU7_IS_UC_CTRL_BASE
-+	},
-+	[IPU_PSYS] = {
-+		.dmem_address = IPU7_PSYS_DMEM_OFFSET,
-+		.status_ctrl_reg = IPU7_BUTTRESS_REG_PSYS_UCX_CTRL_STATUS,
-+		.fw_start_address_reg = IPU7_BUTTRESS_REG_PSYS_UCX_START_ADDR,
-+		.fw_code_base_reg = IPU7_PS_UC_CTRL_BASE
-+	}
-+};
-+
-+static u32 get_fw_boot_reg_addr(const struct ipu6_bus_device *adev,
-+				enum ipu7_boot_reg_id reg)
-+{
-+	u32 base = (adev->ctrl->subsys_id == IPU_ISYS) ?
-+				0U : (u32)IPU7_FW_BOOT_ID_MAX;
-+
-+	return IPU7_BUTTRESS_FW_BOOT_PARAMS_ENTRY(base + (u32)reg);
-+}
-+
-+static void write_fw_boot_param(const struct ipu6_bus_device *adev,
-+				enum ipu7_boot_reg_id reg,
-+				u32 val)
-+{
-+	void __iomem *base = adev->isp->base;
-+
-+	dev_dbg(&adev->auxdev.dev,
-+		"write boot param reg: %d addr: %x val: 0x%x\n",
-+		reg, get_fw_boot_reg_addr(adev, reg), val);
-+	writel(val, base + get_fw_boot_reg_addr(adev, reg));
-+}
-+
-+static u32 read_fw_boot_param(const struct ipu6_bus_device *adev,
-+			      enum ipu7_boot_reg_id reg)
-+{
-+	void __iomem *base = adev->isp->base;
-+
-+	return readl(base + get_fw_boot_reg_addr(adev, reg));
-+}
-+
-+static int ipu7_boot_cell_reset(const struct ipu6_bus_device *adev)
-+{
-+	const struct device *dev = &adev->auxdev.dev;
-+	const struct boot_regs *regs = &boot_regs[adev->ctrl->subsys_id];
-+	u32 ucx_ctrl_status = regs->status_ctrl_reg;
-+	u32 timeout = IPU7_BOOT_CELL_RESET_TIMEOUT;
-+	void __iomem *base = adev->isp->base;
-+	u32 val, val2;
-+	int ret;
-+
-+	val = readl(base + ucx_ctrl_status);
-+	val |= IPU7_UCX_CTL_RESET;
-+	val &= ~IPU7_UCX_CTL_RUN;
-+
-+	writel(val, base + ucx_ctrl_status);
-+
-+	ret = readl_poll_timeout(base + ucx_ctrl_status, val2,
-+				 (val2 & 0x3U) == (val & 0x3U), 100, timeout);
-+	if (ret) {
-+		dev_err(dev, "cell enter reset timeout. status: 0x%x\n", val2);
-+		return -ETIMEDOUT;
-+	}
-+
-+	val = readl(base + ucx_ctrl_status);
-+	val &= ~(IPU7_UCX_CTL_RESET | IPU7_UCX_CTL_RUN);
-+	writel(val, base + ucx_ctrl_status);
-+
-+	ret = readl_poll_timeout(base + ucx_ctrl_status, val2,
-+				 (val2 & 0x3U) == (val & 0x3U), 100, timeout);
-+	if (ret) {
-+		dev_err(dev, "cell exit reset timeout. status: 0x%x\n", val2);
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+static void ipu7_boot_cell_start(const struct ipu6_bus_device *adev)
-+{
-+	const struct boot_regs *regs = &boot_regs[adev->ctrl->subsys_id];
-+	void __iomem *base = adev->isp->base;
-+	u32 val;
-+
-+	val = readl(base + regs->status_ctrl_reg);
-+	WARN_ON(val & (IPU7_UCX_CTL_RESET | IPU7_UCX_CTL_RUN));
-+
-+	val &= ~IPU7_UCX_CTL_RESET;
-+	val |= IPU7_UCX_CTL_RUN;
-+	writel(val, base + regs->status_ctrl_reg);
-+}
-+
-+static void ipu7_boot_cell_stop(const struct ipu6_bus_device *adev)
-+{
-+	const struct boot_regs *regs = &boot_regs[adev->ctrl->subsys_id];
-+	void __iomem *base = adev->isp->base;
-+	u32 val;
-+
-+	val = readl(base + regs->status_ctrl_reg);
-+	val &= ~IPU7_UCX_CTL_RUN;
-+	writel(val, base + regs->status_ctrl_reg);
-+
-+	/* Wait for uC transactions complete */
-+	usleep_range(10, 20);
-+
-+	val = readl(base + regs->status_ctrl_reg);
-+	val |= IPU7_UCX_CTL_RESET;
-+	writel(val, base + regs->status_ctrl_reg);
-+}
-+
-+static int ipu7_boot_cell_init(const struct ipu6_bus_device *adev)
-+{
-+	const struct boot_regs *regs = &boot_regs[adev->ctrl->subsys_id];
-+	struct ipu6_isys *isys = ipu6_bus_get_drvdata(adev);
-+	struct ipu7_fw_com_context *fwctx = isys->fwctx;
-+	void __iomem *base = adev->isp->base;
-+
-+	writel(fwctx->fw_entry, base + regs->fw_start_address_reg);
-+
-+	return ipu7_boot_cell_reset(adev);
-+}
-+
-+static void init_cfg_versions(struct ipu7_boot_abi_cfg *boot_cfg, u32 length, u8 major)
-+{
-+	boot_cfg->length = length;
-+	boot_cfg->config_version.major = 1U;
-+	boot_cfg->config_version.minor = 0U;
-+	boot_cfg->config_version.subminor = 0U;
-+	boot_cfg->config_version.patch = 0U;
-+
-+	boot_cfg->client_version_support.num_versions = 1U;
-+	boot_cfg->client_version_support.versions[0].major = major;
-+	boot_cfg->client_version_support.versions[0].minor = 0U;
-+	boot_cfg->client_version_support.versions[0].subminor = 0U;
-+	boot_cfg->client_version_support.versions[0].patch = 0U;
-+}
-+
-+int ipu7_init_boot_config(struct ipu6_bus_device *adev,
-+			  struct ipu7_fw_com_queue_config *qconfigs,
-+			  int num_queues, u32 uc_freq,
-+			  dma_addr_t subsys_config, u8 major)
-+{
-+	struct ipu6_isys *isys = ipu6_bus_get_drvdata(adev);
-+	struct ipu7_fw_com_context *fwctx = isys->fwctx;
-+	struct ipu7_boot_abi_cfg *boot_config;
-+	struct ipu7_fw_com_queue_params_config *cfgs;
-+	struct device *dev = &adev->auxdev.dev;
-+	u32 total_queue_size_aligned = 0;
-+	dma_addr_t queue_mem_dma_ptr;
-+	void *queue_mem_ptr;
-+	unsigned int i;
-+
-+	/* Allocate boot config. */
-+	fwctx->boot_config_size =
-+		sizeof(*cfgs) * num_queues + sizeof(*boot_config);
-+	fwctx->boot_config = ipu6_dma_alloc(adev, fwctx->boot_config_size,
-+					    &fwctx->boot_config_dma_addr,
-+					    GFP_KERNEL, 0);
-+	if (!fwctx->boot_config) {
-+		dev_err(dev, "Failed to allocate boot config.\n");
-+		return -ENOMEM;
-+	}
-+
-+	boot_config = fwctx->boot_config;
-+	memset(boot_config, 0, sizeof(*boot_config));
-+	init_cfg_versions(boot_config, fwctx->boot_config_size, major);
-+	boot_config->subsys_config = subsys_config;
-+
-+	boot_config->uc_tile_frequency = uc_freq;
-+	boot_config->uc_tile_frequency_units = 0;
-+	boot_config->fw_com_config.max_output_queues =
-+		fwctx->num_output_queues;
-+	boot_config->fw_com_config.max_input_queues =
-+		fwctx->num_input_queues;
-+
-+	ipu6_dma_sync_single(adev, fwctx->boot_config_dma_addr,
-+			     fwctx->boot_config_size);
-+
-+	for (i = 0; i < num_queues; i++) {
-+		u32 queue_size = qconfigs[i].max_capacity *
-+			qconfigs[i].token_size_in_bytes;
-+
-+		queue_size = ALIGN(queue_size, 64U);
-+		total_queue_size_aligned += queue_size;
-+		qconfigs[i].queue_size = queue_size;
-+	}
-+
-+	/* Allocate queue memory */
-+	fwctx->queue_mem = ipu6_dma_alloc(adev, total_queue_size_aligned,
-+					   &fwctx->queue_mem_dma_addr,
-+					   GFP_KERNEL, 0);
-+	if (!fwctx->queue_mem) {
-+		dev_err(dev, "Failed to allocate queue memory.\n");
-+		return -ENOMEM;
-+	}
-+	fwctx->queue_mem_size = total_queue_size_aligned;
-+
-+	cfgs = ipu7_fw_com_get_queue_config(&boot_config->fw_com_config);
-+	queue_mem_ptr = fwctx->queue_mem;
-+	queue_mem_dma_ptr = fwctx->queue_mem_dma_addr;
-+	for (i = 0; i < num_queues; i++) {
-+		cfgs[i].token_array_mem = queue_mem_dma_ptr;
-+		cfgs[i].max_capacity = qconfigs[i].max_capacity;
-+		cfgs[i].token_size_in_bytes = qconfigs[i].token_size_in_bytes;
-+		qconfigs[i].token_array_mem = queue_mem_ptr;
-+		queue_mem_dma_ptr += qconfigs[i].queue_size;
-+		queue_mem_ptr += qconfigs[i].queue_size;
-+	}
-+
-+	ipu6_dma_sync_single(adev, fwctx->queue_mem_dma_addr,
-+			     total_queue_size_aligned);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu7_init_boot_config, "INTEL_IPU6");
-+
-+void ipu7_release_boot_config(struct ipu6_bus_device *adev)
-+{
-+	struct ipu6_isys *isys = ipu6_bus_get_drvdata(adev);
-+	struct ipu7_fw_com_context *fwctx;
-+
-+	if (!isys || !isys->fwctx)
-+		return;
-+
-+	fwctx = isys->fwctx;
-+
-+	if (fwctx->queue_mem) {
-+		ipu6_dma_free(adev, fwctx->queue_mem_size,
-+			      fwctx->queue_mem,
-+			      fwctx->queue_mem_dma_addr, 0);
-+		fwctx->queue_mem = NULL;
-+		fwctx->queue_mem_dma_addr = 0;
-+	}
-+
-+	if (fwctx->boot_config) {
-+		ipu6_dma_free(adev, fwctx->boot_config_size,
-+			      fwctx->boot_config,
-+			      fwctx->boot_config_dma_addr, 0);
-+		fwctx->boot_config = NULL;
-+		fwctx->boot_config_dma_addr = 0;
-+	}
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu7_release_boot_config, "INTEL_IPU6");
-+
-+int ipu7_boot_start_fw(const struct ipu6_bus_device *adev)
-+{
-+	const struct device *dev = &adev->auxdev.dev;
-+	struct ipu6_isys *isys = ipu6_bus_get_drvdata(adev);
-+	struct ipu7_fw_com_context *fwctx = isys->fwctx;
-+	u32 timeout = IPU7_FW_START_STOP_TIMEOUT;
-+	void __iomem *base = adev->isp->base;
-+	u32 boot_state, last_boot_state;
-+	u32 indices_addr, msg_ver, id;
-+	int ret;
-+
-+	ret = ipu7_boot_cell_init(adev);
-+	if (ret)
-+		return ret;
-+
-+	/* store "uninit" state to boot state reg */
-+	write_fw_boot_param(adev, IPU7_FW_BOOT_STATE_ID,
-+			    IPU7_FW_BOOT_STATE_UNINIT);
-+	/* Set registers to zero, recommended for diagnostics. */
-+	write_fw_boot_param(adev,
-+			    IPU7_FW_BOOT_SYSCOM_QUEUE_INDICES_BASE_ID, 0);
-+	write_fw_boot_param(adev, IPU7_FW_BOOT_MESSAGING_VERSION_ID, 0);
-+	/* store firmware configuration address */
-+	write_fw_boot_param(adev, IPU7_FW_BOOT_CONFIG_ID,
-+			    fwctx->boot_config_dma_addr);
-+
-+	ipu7_boot_cell_start(adev);
-+
-+	last_boot_state = IPU7_FW_BOOT_STATE_UNINIT;
-+	while (timeout--) {
-+		boot_state = read_fw_boot_param(adev,
-+						IPU7_FW_BOOT_STATE_ID);
-+		if (boot_state != last_boot_state) {
-+			dev_dbg(dev, "boot state changed from 0x%x to 0x%x\n",
-+				last_boot_state, boot_state);
-+			last_boot_state = boot_state;
-+		}
-+		if (IPU7_BOOT_STATE_CRITICAL(boot_state) ||
-+		    IPU7_BOOT_STATE_READY(boot_state))
-+			break;
-+		usleep_range(1000, 1200);
-+	}
-+
-+	if (IPU7_BOOT_STATE_CRITICAL(boot_state)) {
-+		/*TODO: ipu7_dump_fw_error_log(adev);*/
-+		dev_err(dev, "critical boot state error 0x%x\n", boot_state);
-+		return -EINVAL;
-+	} else if (!IPU7_BOOT_STATE_READY(boot_state)) {
-+		dev_err(dev, "fw boot timeout. state: 0x%x\n", boot_state);
-+		return -ETIMEDOUT;
-+	}
-+	dev_dbg(dev, "fw boot done.\n");
-+
-+	id = IPU7_FW_BOOT_SYSCOM_QUEUE_INDICES_BASE_ID;
-+	indices_addr = read_fw_boot_param(adev, id);
-+	fwctx->queue_indices = base + indices_addr;
-+	dev_dbg(dev, "fw queue indices offset is 0x%x\n", indices_addr);
-+
-+	msg_ver = read_fw_boot_param(adev,
-+				     IPU7_FW_BOOT_MESSAGING_VERSION_ID);
-+	dev_dbg(dev, "ipu message version is 0x%08x\n", msg_ver);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu7_boot_start_fw, "INTEL_IPU6");
-+
-+int ipu7_boot_stop_fw(const struct ipu6_bus_device *adev)
-+{
-+	const struct device *dev = &adev->auxdev.dev;
-+	u32 timeout = IPU7_FW_START_STOP_TIMEOUT;
-+	u32 boot_state;
-+
-+	boot_state = read_fw_boot_param(adev, IPU7_FW_BOOT_STATE_ID);
-+	if (IPU7_BOOT_STATE_CRITICAL(boot_state) ||
-+	    !IPU7_BOOT_STATE_READY(boot_state)) {
-+		dev_err(dev, "fw not ready for shutdown, state 0x%x\n",
-+			boot_state);
-+		return -EBUSY;
-+	}
-+
-+	/* Issue shutdown to start shutdown process */
-+	dev_dbg(dev, "stopping fw...\n");
-+	write_fw_boot_param(adev, IPU7_FW_BOOT_STATE_ID,
-+			    IPU7_FW_BOOT_STATE_SHUTDOWN_CMD);
-+	while (timeout--) {
-+		boot_state = read_fw_boot_param(adev,
-+						IPU7_FW_BOOT_STATE_ID);
-+		if (IPU7_BOOT_STATE_CRITICAL(boot_state) ||
-+		    IPU7_BOOT_STATE_INACTIVE(boot_state))
-+			break;
-+		usleep_range(1000, 1200);
-+	}
-+
-+	if (IPU7_BOOT_STATE_CRITICAL(boot_state)) {
-+		/* TODO: ipu7_dump_fw_error_log(adev); */
-+		dev_err(dev, "critical boot state error 0x%x\n", boot_state);
-+		return -EINVAL;
-+	} else if (!IPU7_BOOT_STATE_INACTIVE(boot_state)) {
-+		dev_err(dev, "stop fw timeout. state: 0x%x\n", boot_state);
-+		return -ETIMEDOUT;
-+	}
-+
-+	ipu7_boot_cell_stop(adev);
-+	dev_dbg(dev, "stop fw done.\n");
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu7_boot_stop_fw, "INTEL_IPU6");
-diff --git a/drivers/media/pci/intel/ipu6/ipu7-boot.h b/drivers/media/pci/intel/ipu6/ipu7-boot.h
-new file mode 100644
-index 000000000000..e17870d10687
---- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu7-boot.h
-@@ -0,0 +1,41 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright (C) 2026 Intel Corporation */
-+
-+#include "ipu7-fw-com.h"
-+
-+#define IPU7_BOOT_MSG_VER_MAX_ENTRIES	3U
-+
-+struct ipu7_boot_abi_version {
-+	u8 patch;
-+	u8 subminor;
-+	u8 minor;
-+	u8 major;
-+};
-+
-+struct ipu7_boot_abi_msg_versions {
-+	u8 num_versions;
-+	u8 reserved[3];
-+	struct ipu7_boot_abi_version versions[IPU7_BOOT_MSG_VER_MAX_ENTRIES];
-+};
-+
-+struct ipu7_boot_abi_cfg {
-+	u32 length;
-+	struct ipu7_boot_abi_version config_version;
-+	struct ipu7_boot_abi_msg_versions client_version_support;
-+	u32 pkg_dir;
-+	u32 subsys_config;
-+	u32 uc_tile_frequency;
-+	u16 checksum;
-+	u8 uc_tile_frequency_units;
-+	u8 padding[1];
-+	u32 reserved[58];
-+	struct ipu7_fw_com_config fw_com_config;
-+} __packed;
-+
-+int ipu7_init_boot_config(struct ipu6_bus_device *adev,
-+			  struct ipu7_fw_com_queue_config *qconfigs,
-+			  int num_queues, u32 uc_freq,
-+			  dma_addr_t subsys_config, u8 major);
-+void ipu7_release_boot_config(struct ipu6_bus_device *adev);
-+int ipu7_boot_start_fw(const struct ipu6_bus_device *adev);
-+int ipu7_boot_stop_fw(const struct ipu6_bus_device *adev);
-diff --git a/drivers/media/pci/intel/ipu6/ipu7-fw-com.c b/drivers/media/pci/intel/ipu6/ipu7-fw-com.c
-new file mode 100644
-index 000000000000..7dd1e683aa92
---- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu7-fw-com.c
-@@ -0,0 +1,74 @@
++++ b/drivers/media/pci/intel/ipu6/ipu7-fw-isys.c
+@@ -0,0 +1,467 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2026 Intel Corporation
 + */
 +
-+#include <linux/io.h>
-+
++#include "ipu6-bus.h"
++#include "ipu6-dma.h"
++#include "ipu6-isys.h"
++#include "ipu7-boot.h"
 +#include "ipu7-fw-com.h"
++#include "ipu7-fw-isys.h"
 +
-+static void __iomem *ipu7_fw_com_get_indices(struct ipu7_fw_com_context *ctx,
-+					     u32 q)
++static void ipu7_fw_isys_cleanup(struct ipu6_isys *isys)
 +{
-+	return ctx->queue_indices + (q * sizeof(struct ipu7_fw_com_queue_indices));
-+}
++	struct ipu6_bus_device *adev = isys->adev;
++	struct ipu7_fw_com_context *fwctx = isys->fwctx;
 +
-+void *ipu7_fw_com_get_token(struct ipu7_fw_com_context *ctx, int q)
-+{
-+	struct ipu7_fw_com_queue_config *queue_params = &ctx->queue_configs[q];
-+	void __iomem *queue_indices = ipu7_fw_com_get_indices(ctx, q);
-+	u32 write_index = readl(queue_indices +
-+				offsetof(struct ipu7_fw_com_queue_indices,
-+					 write_index));
-+	u32 read_index = readl(queue_indices +
-+			       offsetof(struct ipu7_fw_com_queue_indices,
-+					read_index));
-+	void *token = NULL;
++	if (!fwctx)
++		return;
 +
-+	if (q < ctx->num_output_queues) {
-+		/* Output queue */
-+		bool empty = (write_index == read_index);
++	ipu7_release_boot_config(adev);
 +
-+		if (!empty)
-+			token = queue_params->token_array_mem +
-+				read_index *
-+				queue_params->token_size_in_bytes;
-+	} else {
-+		/* Input queue */
-+		bool full = (read_index == ((write_index + 1U) %
-+					    (u32)queue_params->max_capacity));
-+
-+		if (!full)
-+			token = queue_params->token_array_mem +
-+				write_index * queue_params->token_size_in_bytes;
++	if (fwctx->fw_config) {
++		ipu6_dma_free(adev, sizeof(*fwctx->fw_config), fwctx->fw_config,
++			      fwctx->fw_config_dma_addr, 0);
++		fwctx->fw_config = NULL;
++		fwctx->fw_config_dma_addr = 0;
 +	}
-+	return token;
-+}
-+EXPORT_SYMBOL_NS_GPL(ipu7_fw_com_get_token, "INTEL_IPU6");
 +
-+void ipu7_fw_com_put_token(struct ipu7_fw_com_context *ctx, int q)
++	isys->fwctx = NULL;
++}
++
++static int ipu7_fw_isys_open(struct ipu6_isys *isys)
 +{
-+	struct ipu7_fw_com_queue_config *queue_params = &ctx->queue_configs[q];
-+	void __iomem *queue_indices = ipu7_fw_com_get_indices(ctx, q);
-+	u32 offset, index;
-+
-+	if (q < ctx->num_output_queues)
-+		/* Output queue */
-+		offset = offsetof(struct ipu7_fw_com_queue_indices, read_index);
-+
-+	else
-+		/* Input queue */
-+		offset = offsetof(struct ipu7_fw_com_queue_indices, write_index);
-+
-+	index = readl(queue_indices + offset);
-+	writel((index + 1U) % queue_params->max_capacity,
-+	       queue_indices + offset);
++	return ipu7_boot_start_fw(isys->adev);
 +}
-+EXPORT_SYMBOL_NS_GPL(ipu7_fw_com_put_token, "INTEL_IPU6");
 +
-+struct ipu7_fw_com_queue_params_config *
-+ipu7_fw_com_get_queue_config(struct ipu7_fw_com_config *config)
++static int ipu7_fw_isys_close(struct ipu6_isys *isys)
 +{
-+	return (struct ipu7_fw_com_queue_params_config *)(&config[1]);
++	int ret;
++
++	ret = ipu7_boot_stop_fw(isys->adev);
++	if (ret)
++		return ret;
++
++	ipu7_fw_isys_cleanup(isys);
++
++	return ret;
 +}
-+EXPORT_SYMBOL_NS_GPL(ipu7_fw_com_get_queue_config, "INTEL_IPU6");
-diff --git a/drivers/media/pci/intel/ipu6/ipu7-fw-com.h b/drivers/media/pci/intel/ipu6/ipu7-fw-com.h
-new file mode 100644
-index 000000000000..10c09e759bed
---- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu7-fw-com.h
-@@ -0,0 +1,51 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright (C) 2026 Intel Corporation */
 +
-+#ifndef IPU7_FW_COM_H
-+#define IPU7_FW_COM_H
 +
-+#include <linux/types.h>
-+
-+struct ipu7_fw_com_queue_config {
-+	void *token_array_mem;
-+	u32 queue_size;
-+	u16 token_size_in_bytes;
-+	u16 max_capacity;
-+};
-+
-+struct ipu7_fw_com_context {
-+	u16 num_input_queues;
-+	u16 num_output_queues;
++static int ipu7_fw_isys_init(struct ipu6_isys *isys, unsigned int num_streams)
++{
 +	struct ipu7_fw_com_queue_config *queue_configs;
-+	void __iomem *queue_indices;
-+	dma_addr_t queue_mem_dma_addr;
-+	void *queue_mem;
-+	u32 queue_mem_size;
-+	struct ipu7_boot_abi_cfg *boot_config;
-+	dma_addr_t boot_config_dma_addr;
-+	u32 boot_config_size;
-+	u32 fw_entry;
++	struct ipu6_bus_device *adev = isys->adev;
++	struct device *dev = &adev->auxdev.dev;
++	struct ipu7_insys_config *fw_config;
++	struct ipu7_fw_com_context *fwctx;
++	dma_addr_t fw_config_dma_addr;
++	unsigned int i, num_queues;
++	u32 freq;
++	int ret;
++
++	/* Allocate and init firmware context. */
++	fwctx = devm_kzalloc(dev, sizeof(struct ipu7_fw_com_context),
++			      GFP_KERNEL);
++	if (!fwctx)
++		return -ENOMEM;
++
++	fwctx->num_input_queues = IPU7_INSYS_MAX_INPUT_QUEUES;
++	fwctx->num_output_queues = IPU7_INSYS_MAX_OUTPUT_QUEUES;
++	num_queues = fwctx->num_input_queues + fwctx->num_output_queues;
++
++	queue_configs = devm_kcalloc(dev, num_queues, sizeof(*queue_configs),
++				     GFP_KERNEL);
++	if (!queue_configs) {
++		ipu7_fw_isys_cleanup(isys);
++		return -ENOMEM;
++	}
++	fwctx->fw_entry = adev->fw_entry;
++	fwctx->queue_configs = queue_configs;
++	queue_configs[IPU7_INSYS_OUTPUT_MSG_QUEUE].max_capacity =
++		IPU7_ISYS_SIZE_RECV_QUEUE;
++	queue_configs[IPU7_INSYS_OUTPUT_MSG_QUEUE].token_size_in_bytes =
++		sizeof(struct ipu7_insys_resp);
++	queue_configs[IPU7_INSYS_OUTPUT_LOG_QUEUE].max_capacity =
++		IPU7_ISYS_SIZE_LOG_QUEUE;
++	queue_configs[IPU7_INSYS_OUTPUT_LOG_QUEUE].token_size_in_bytes =
++		sizeof(struct ipu7_insys_resp);
++	queue_configs[IPU7_INSYS_OUTPUT_RESERVED_QUEUE].max_capacity = 0;
++	queue_configs[IPU7_INSYS_OUTPUT_RESERVED_QUEUE].token_size_in_bytes = 0;
++
++	queue_configs[IPU7_INSYS_INPUT_DEV_QUEUE].max_capacity =
++		IPU7_ISYS_MAX_STREAMS;
++	queue_configs[IPU7_INSYS_INPUT_DEV_QUEUE].token_size_in_bytes =
++		sizeof(struct ipu7_insys_send_queue_token);
++
++	for (i = IPU7_INSYS_INPUT_MSG_QUEUE; i < num_queues; i++) {
++		queue_configs[i].max_capacity = IPU7_ISYS_SIZE_SEND_QUEUE;
++		queue_configs[i].token_size_in_bytes =
++			sizeof(struct ipu7_insys_send_queue_token);
++	}
++
++	/* Allocate ISYS subsys config. */
++	fw_config = ipu6_dma_alloc(adev, sizeof(*fw_config),
++				     &fw_config_dma_addr, GFP_KERNEL, 0);
++	if (!fw_config) {
++		dev_err(dev, "Failed to allocate isys subsys config.\n");
++		ipu7_fw_isys_cleanup(isys);
++		return -ENOMEM;
++	}
++	fwctx->fw_config = fw_config;
++	fwctx->fw_config_dma_addr = fw_config_dma_addr;
++	memset(fw_config, 0, sizeof(*fw_config));
++	fw_config->logger_config.use_source_severity = 0;
++	fw_config->logger_config.use_channels_enable_bitmask = 1;
++	fw_config->logger_config.channels_enable_bitmask =
++				IPU7_LOGGER_CFG_CHANNEL_ENABLE_SYSCOM;
++	fw_config->logger_config.hw_printf_buffer_base_addr = 0U;
++	fw_config->logger_config.hw_printf_buffer_size_bytes = 0U;
++	fw_config->wdt_config.wdt_timer1_us = 0;
++	fw_config->wdt_config.wdt_timer2_us = 0;
++	freq = ipu7_buttress_get_isys_freq(adev->isp);
++
++	ipu6_dma_sync_single(adev, fw_config_dma_addr,
++			     sizeof(struct ipu7_insys_config));
++
++	isys->fwctx = fwctx;
++
++	ret = ipu7_init_boot_config(adev, queue_configs, num_queues,
++				    freq, fw_config_dma_addr, 1U);
++	if (ret) {
++		ipu7_fw_isys_close(isys);
++		return ret;
++	}
++
++	ret = ipu7_fw_isys_open(isys);
++	if (ret)
++		ipu7_fw_isys_cleanup(isys);
++
++	return ret;
++}
++
++static struct ipu7_insys_resp *ipu7_fw_isys_get_resp(struct ipu6_isys *isys)
++{
++	return ipu7_fw_com_get_token(isys->fwctx, IPU7_INSYS_OUTPUT_MSG_QUEUE);
++}
++
++static void ipu7_fw_isys_put_resp(struct ipu6_isys *isys)
++{
++	ipu7_fw_com_put_token(isys->fwctx, IPU7_INSYS_OUTPUT_MSG_QUEUE);
++}
++
++static int ipu7_isys_fw_pin_cfg(struct ipu6_isys_video *av,
++				struct ipu7_fw_isys_stream_cfg *cfg)
++{
++	struct media_pad *src_pad = media_pad_remote_pad_first(&av->pad);
++	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(src_pad->entity);
++	struct v4l2_subdev_state *state = v4l2_subdev_get_locked_active_state(sd);
++	struct ipu7_fw_isys_input_pin *input_pin;
++	struct ipu7_fw_isys_output_pin *output_pin;
++	struct ipu6_isys_stream *stream = av->stream;
++	struct ipu6_isys_queue *aq = &av->aq;
++	struct v4l2_mbus_framefmt fmt;
++	const struct ipu6_isys_pixelformat *pfmt =
++		ipu6_isys_get_isys_format(ipu6_isys_get_format(av), 0);
++	int input_pins = cfg->nof_input_pins++;
++	int output_pins;
++	u32 src_stream;
++
++	src_stream = ipu6_isys_get_src_stream_by_src_pad(sd, src_pad->index);
++	fmt = *v4l2_subdev_state_get_format(state, src_pad->index, src_stream);
++
++	input_pin = &cfg->input_pins[input_pins];
++	input_pin->input_res.width = fmt.width;
++	input_pin->input_res.height = fmt.height;
++	input_pin->dt = av->dt;
++	input_pin->disable_mipi_unpacking = 0;
++	if (pfmt->bpp == pfmt->bpp_packed && pfmt->bpp % BITS_PER_BYTE)
++		input_pin->disable_mipi_unpacking = 1;
++	input_pin->mapped_dt = IPU7_N_INSYS_MIPI_DATA_TYPE;
++	input_pin->dt_rename_mode = IPU7_INSYS_MIPI_DT_NO_RENAME;
++	input_pin->sync_msg_map =
++		IPU7_INSYS_STREAM_SYNC_MSG_SEND_RESP_SOF |
++		IPU7_INSYS_STREAM_SYNC_MSG_SEND_RESP_SOF_DISCARDED |
++		IPU7_INSYS_STREAM_SYNC_MSG_SEND_IRQ_SOF |
++		IPU7_INSYS_STREAM_SYNC_MSG_SEND_IRQ_SOF_DISCARDED;
++
++	output_pins = cfg->nof_output_pins++;
++	aq->fw_output = output_pins;
++	stream->output_pins_queue[output_pins] = aq;
++
++	output_pin = &cfg->output_pins[output_pins];
++	memset(output_pin, 0, sizeof(*output_pin));
++	output_pin->link.buffer_lines = 0;
++	output_pin->link.foreign_key = IPU7_MSG_LINK_FOREIGN_KEY_NONE;
++	output_pin->link.pbk_id = IPU7_MSG_LINK_PBK_ID_DONT_CARE;
++	output_pin->link.pbk_slot_id = IPU7_MSG_LINK_PBK_SLOT_ID_DONT_CARE;
++	output_pin->link.dest = 0; /* IPU_INSYS_OUTPUT_LINK_DEST_MEM */
++	output_pin->link.use_sw_managed = 1;
++	output_pin->crop.line_top = 0;
++	output_pin->crop.line_bottom = 0;
++	output_pin->dpcm.enable = 0;
++	output_pin->ft = pfmt->css_pixelformat;
++	output_pin->stride = ipu6_isys_get_bytes_per_line(av);
++	output_pin->send_irq = 1;
++	output_pin->input_pin_id = input_pins;
++
++	return 0;
++}
++
++static int
++ipu7_fw_isys_send_cmd(struct ipu6_isys *isys, const unsigned int stream_handle,
++		      void *cpu_mapped_buf, dma_addr_t dma_mapped_buf,
++		      size_t size, u16 send_type)
++{
++	struct ipu7_fw_com_context *ctx = isys->fwctx;
++	/*struct device *dev = &isys->adev->auxdev.dev;*/
++	struct ipu7_insys_send_queue_token *token;
++
++	if (send_type >= N_IPU7_INSYS_SEND_TYPE)
++		return -EINVAL;
++
++	if (cpu_mapped_buf)
++		clflush_cache_range(cpu_mapped_buf, size);
++
++	token = ipu7_fw_com_get_token(ctx, stream_handle +
++				      IPU7_INSYS_INPUT_MSG_QUEUE);
++	if (!token)
++		return -EBUSY;
++
++	token->addr = dma_mapped_buf;
++	token->buf_handle = (unsigned long)cpu_mapped_buf;
++	token->send_type = send_type;
++	token->stream_id = stream_handle;
++	token->flag = IPU7_INSYS_SEND_QUEUE_TOKEN_FLAG_NONE;
++
++	ipu7_fw_com_put_token(ctx, stream_handle + IPU7_INSYS_INPUT_MSG_QUEUE);
++	/* now wakeup FW */
++	ipu7_buttress_wakeup_isys(isys->adev->isp);
++
++	return 0;
++}
++
++static void ipu7_fw_isys_dump_stream_cfg(struct device *dev,
++					 struct isys_fw_msgs *msg)
++{
++	struct ipu7_fw_isys_stream_cfg *cfg = &msg->ipu7.stream;
++	unsigned int i;
++
++	dev_dbg(dev, "---------------------------\n");
++	dev_dbg(dev, "IPU_FW_ISYS_STREAM_CFG_DATA\n");
++
++	dev_dbg(dev, ".port id %d\n", cfg->port_id);
++	dev_dbg(dev, ".vc %d\n", cfg->vc);
++	dev_dbg(dev, ".nof_input_pins = %d\n", cfg->nof_input_pins);
++	dev_dbg(dev, ".nof_output_pins = %d\n", cfg->nof_output_pins);
++	dev_dbg(dev, ".stream_msg_map = 0x%x\n", cfg->stream_msg_map);
++
++	for (i = 0; i < cfg->nof_input_pins; i++) {
++		dev_dbg(dev, ".input_pin[%d]:\n", i);
++		dev_dbg(dev, "\t.dt = 0x%0x\n",
++			cfg->input_pins[i].dt);
++		dev_dbg(dev, "\t.disable_mipi_unpacking = %d\n",
++			cfg->input_pins[i].disable_mipi_unpacking);
++		dev_dbg(dev, "\t.dt_rename_mode = %d\n",
++			cfg->input_pins[i].dt_rename_mode);
++		dev_dbg(dev, "\t.mapped_dt = 0x%0x\n",
++			cfg->input_pins[i].mapped_dt);
++		dev_dbg(dev, "\t.input_res = %d x %d\n",
++			cfg->input_pins[i].input_res.width,
++			cfg->input_pins[i].input_res.height);
++		dev_dbg(dev, "\t.sync_msg_map = 0x%x\n",
++			cfg->input_pins[i].sync_msg_map);
++	}
++
++	for (i = 0; i < cfg->nof_output_pins; i++) {
++		dev_dbg(dev, ".output_pin[%d]:\n", i);
++		dev_dbg(dev, "\t.input_pin_id = %d\n",
++			cfg->output_pins[i].input_pin_id);
++		dev_dbg(dev, "\t.stride = %d\n", cfg->output_pins[i].stride);
++		dev_dbg(dev, "\t.send_irq = %d\n",
++			cfg->output_pins[i].send_irq);
++		dev_dbg(dev, "\t.ft = %d\n", cfg->output_pins[i].ft);
++
++		dev_dbg(dev, "\t.link.buffer_lines = %d\n",
++			cfg->output_pins[i].link.buffer_lines);
++		dev_dbg(dev, "\t.link.foreign_key = %d\n",
++			cfg->output_pins[i].link.foreign_key);
++		dev_dbg(dev, "\t.link.granularity_pointer_update = %d\n",
++			cfg->output_pins[i].link.granularity_pointer_update);
++		dev_dbg(dev, "\t.link.msg_link_streaming_mode = %d\n",
++			cfg->output_pins[i].link.msg_link_streaming_mode);
++		dev_dbg(dev, "\t.link.pbk_id = %d\n",
++			cfg->output_pins[i].link.pbk_id);
++		dev_dbg(dev, "\t.link.pbk_slot_id = %d\n",
++			cfg->output_pins[i].link.pbk_slot_id);
++		dev_dbg(dev, "\t.link.dest = %d\n",
++			cfg->output_pins[i].link.dest);
++		dev_dbg(dev, "\t.link.use_sw_managed = %d\n",
++			cfg->output_pins[i].link.use_sw_managed);
++		dev_dbg(dev, "\t.link.is_snoop = %d\n",
++			cfg->output_pins[i].link.is_snoop);
++
++		dev_dbg(dev, "\t.crop.line_top = %d\n",
++			cfg->output_pins[i].crop.line_top);
++		dev_dbg(dev, "\t.crop.line_bottom = %d\n",
++			cfg->output_pins[i].crop.line_bottom);
++
++		dev_dbg(dev, "\t.dpcm_enable = %d\n",
++			cfg->output_pins[i].dpcm.enable);
++		dev_dbg(dev, "\t.dpcm.type = %d\n",
++			cfg->output_pins[i].dpcm.type);
++		dev_dbg(dev, "\t.dpcm.predictor = %d\n",
++			cfg->output_pins[i].dpcm.predictor);
++	}
++	dev_dbg(dev, "---------------------------\n");
++}
++
++static void ipu7_fw_isys_dump_frame_buf_set(struct device *dev,
++					    struct isys_fw_msgs *msg,
++					    unsigned int outputs)
++{
++	struct ipu7_fw_isys_frame_buff_set *buf = &msg->ipu7.frame;
++	unsigned int i;
++
++	dev_dbg(dev, "--------------------------\n");
++	dev_dbg(dev, "IPU_ISYS_BUFF_SET\n");
++	dev_dbg(dev, ".capture_msg_map = %d\n", buf->capture_msg_map);
++	dev_dbg(dev, ".frame_id = %d\n", buf->frame_id);
++	dev_dbg(dev, ".skip_frame = %d\n", buf->skip_frame);
++
++	for (i = 0; i < outputs; i++) {
++		dev_dbg(dev, ".output_pin[%d]:\n", i);
++		dev_dbg(dev, "\t.user_token = %llx\n",
++			buf->output_pins[i].user_token);
++		dev_dbg(dev, "\t.addr = 0x%x\n", buf->output_pins[i].addr);
++	}
++	dev_dbg(dev, "---------------------------\n");
++}
++
++static int ipu7_fw_isys_prepare_stream_cfg(struct ipu6_isys_video *av,
++					     struct isys_fw_msgs *msg)
++{
++	struct ipu7_fw_isys_stream_cfg *cfg = &msg->ipu7.stream;
++	struct device *dev = &av->isys->adev->auxdev.dev;
++	struct ipu6_isys_stream *stream = av->stream;
++	struct ipu6_isys_queue *aq;
++
++	memset(cfg, 0, sizeof(*cfg));
++	cfg->port_id = stream->stream_source;
++	cfg->vc = stream->vc;
++	cfg->stream_msg_map = IPU7_INSYS_STREAM_ENABLE_MSG_SEND_RESP |
++			      IPU7_INSYS_STREAM_ENABLE_MSG_SEND_IRQ;
++
++	list_for_each_entry(aq, &stream->queues, node) {
++		struct ipu6_isys_video *__av = ipu6_isys_queue_to_video(aq);
++		int ret = ipu7_isys_fw_pin_cfg(__av, cfg);
++
++		if (ret < 0)
++			return ret;
++	}
++
++	stream->nr_output_pins = cfg->nof_output_pins;
++
++	ipu7_fw_isys_dump_stream_cfg(dev, msg);
++
++	return 0;
++}
++
++static void
++ipu7_isys_buf_to_fw_frame_buf_pin(struct vb2_buffer *vb,
++				  struct ipu7_fw_isys_frame_buff_set *set)
++{
++	struct ipu6_isys_queue *aq = vb2_queue_to_isys_queue(vb->vb2_queue);
++	struct vb2_v4l2_buffer *vvb = to_vb2_v4l2_buffer(vb);
++	struct ipu6_isys_video_buffer *ivb =
++		vb2_buffer_to_ipu6_isys_video_buffer(vvb);
++
++	set->output_pins[aq->fw_output].addr = ivb->dma_addr;
++	set->output_pins[aq->fw_output].user_token = (u64)(uintptr_t)set;
++}
++
++static void
++ipu7_fw_isys_prepare_buf_set(struct isys_fw_msgs *msg,
++			     struct ipu6_isys_stream *stream,
++			     struct ipu6_isys_buffer_list *bl)
++{
++	struct ipu7_fw_isys_frame_buff_set *set = &msg->ipu7.frame;
++	struct ipu6_isys_buffer *ib;
++
++	WARN_ON(!bl->nbufs);
++
++	memset(set, 0, sizeof(*set));
++	set->capture_msg_map = IPU7_INSYS_FRAME_ENABLE_MSG_SEND_RESP |
++			       IPU7_INSYS_FRAME_ENABLE_MSG_SEND_IRQ;
++	set->frame_id = atomic_fetch_inc(&stream->buf_id) % 256;
++
++	list_for_each_entry(ib, &bl->head, head) {
++		struct vb2_buffer *vb = ipu6_isys_buffer_to_vb2_buffer(ib);
++
++		ipu7_isys_buf_to_fw_frame_buf_pin(vb, set);
++	}
++
++	dev_dbg(&stream->isys->adev->auxdev.dev,
++		"ipu7 frame_buf: cap_map=0x%x fid=%u opin[0].addr=0x%x token=0x%llx\n",
++		set->capture_msg_map, set->frame_id,
++		set->output_pins[0].addr, set->output_pins[0].user_token);
++
++}
++
++static int ipu7_fw_isys_stream_open(struct ipu6_isys *isys,
++				      const unsigned int stream_handle,
++				      struct isys_fw_msgs *msg)
++{
++	return ipu7_fw_isys_send_cmd(isys, stream_handle, &msg->ipu7.stream,
++				     msg->dma_addr, sizeof(msg->ipu7.stream),
++				     IPU7_INSYS_SEND_TYPE_STREAM_OPEN);
++}
++
++static int ipu7_fw_isys_stream_close(struct ipu6_isys *isys,
++				     const unsigned int stream_handle)
++{
++	return ipu7_fw_isys_send_cmd(isys, stream_handle, NULL, 0, 0,
++				     IPU7_INSYS_SEND_TYPE_STREAM_CLOSE);
++}
++
++static int ipu7_fw_isys_stream_flush(struct ipu6_isys *isys,
++				     const unsigned int stream_handle)
++{
++	return ipu7_fw_isys_send_cmd(isys, stream_handle, NULL, 0, 0,
++				     IPU7_INSYS_SEND_TYPE_STREAM_FLUSH);
++}
++
++static int ipu7_fw_isys_stream_start(struct ipu6_isys *isys,
++				       const unsigned int stream_handle,
++				       struct isys_fw_msgs *msg, bool capture)
++{
++	return ipu7_fw_isys_send_cmd(isys, stream_handle, &msg->ipu7.frame,
++				     msg->dma_addr, sizeof(msg->ipu7.frame),
++				     IPU7_INSYS_SEND_TYPE_STREAM_START_AND_CAPTURE);
++}
++
++static int ipu7_fw_isys_stream_capture(struct ipu6_isys *isys,
++					 const unsigned int stream_handle,
++					 struct isys_fw_msgs *msg)
++{
++	return ipu7_fw_isys_send_cmd(isys, stream_handle, &msg->ipu7.frame,
++				     msg->dma_addr, sizeof(msg->ipu7.frame),
++				     IPU7_INSYS_SEND_TYPE_STREAM_CAPTURE);
++}
++
++const struct ipu6_fw_isys_ops ipu7_fw_isys_ops = {
++	.init = ipu7_fw_isys_init,
++	.close = ipu7_fw_isys_close,
++	.send_cmd = ipu7_fw_isys_send_cmd,
++	.cleanup = ipu7_fw_isys_cleanup,
++	.prepare_stream_cfg = ipu7_fw_isys_prepare_stream_cfg,
++	.prepare_buf_set = ipu7_fw_isys_prepare_buf_set,
++	.stream_open = ipu7_fw_isys_stream_open,
++	.stream_start = ipu7_fw_isys_stream_start,
++	.stream_capture = ipu7_fw_isys_stream_capture,
++	.stream_flush = ipu7_fw_isys_stream_flush,
++	.stream_close = ipu7_fw_isys_stream_close,
++	.dump_stream_cfg = ipu7_fw_isys_dump_stream_cfg,
++	.dump_frame_buf_set = ipu7_fw_isys_dump_frame_buf_set,
 +};
-+
-+struct ipu7_fw_com_queue_params_config {
-+	u32 token_array_mem;
-+	u16 token_size_in_bytes;
-+	u16 max_capacity;
-+};
-+
-+struct ipu7_fw_com_config {
-+	u16 max_output_queues;
-+	u16 max_input_queues;
-+};
-+
-+struct ipu7_fw_com_queue_indices {
-+	u32 read_index;
-+	u32 write_index;
-+};
-+
-+void ipu7_fw_com_put_token(struct ipu7_fw_com_context *ctx, int q);
-+void *ipu7_fw_com_get_token(struct ipu7_fw_com_context *ctx, int q);
-+struct ipu7_fw_com_queue_params_config *
-+ipu7_fw_com_get_queue_config(struct ipu7_fw_com_config *config);
-+
-+#endif /* IPU7_FW_COM_H */
-diff --git a/drivers/media/pci/intel/ipu6/ipu7-platform-regs.h b/drivers/media/pci/intel/ipu6/ipu7-platform-regs.h
+diff --git a/drivers/media/pci/intel/ipu6/ipu7-fw-isys.h b/drivers/media/pci/intel/ipu6/ipu7-fw-isys.h
 new file mode 100644
-index 000000000000..3ca9d65e58b9
+index 000000000000..122531065362
 --- /dev/null
-+++ b/drivers/media/pci/intel/ipu6/ipu7-platform-regs.h
-@@ -0,0 +1,12 @@
++++ b/drivers/media/pci/intel/ipu6/ipu7-fw-isys.h
+@@ -0,0 +1,258 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
 +/* Copyright (C) 2026 Intel Corporation */
 +
-+#ifndef IPU7_PLATFORM_REGS_H
-+#define IPU7_PLATFORM_REGS_H
++#ifndef IPU7_FW_ISYS_H
++#define IPU7_FW_ISYS_H
 +
-+#define IPU7_IS_UC_CTRL_BASE                   0x230000
-+#define IPU7_ISYS_DMEM_OFFSET                  0x200000
-+#define IPU7_PS_UC_CTRL_BASE                   0x130000
-+#define IPU7_PSYS_DMEM_OFFSET                  0x100000
++#define IPU7_FWLOG_MAX_LOGGER_SOURCES		(64U)
++#define IPU7_INSYS_MAX_OUTPUT_QUEUES		3U
++#define IPU7_INSYS_STREAM_ID_MAX		16U
++#define IPU7_INSYS_MAX_INPUT_QUEUES		(IPU7_INSYS_STREAM_ID_MAX + 1U)
++#define IPU7_INSYS_OUTPUT_MSG_QUEUE		0U
++#define IPU7_INSYS_OUTPUT_LOG_QUEUE		1U
++#define IPU7_INSYS_OUTPUT_RESERVED_QUEUE	2U
++#define IPU7_INSYS_INPUT_DEV_QUEUE		3U
++
++#define IPU7_INSYS_INPUT_FIRST_QUEUE		3U
++#define IPU7_INSYS_INPUT_MSG_QUEUE		4U
++#define IPU7_INSYS_INPUT_MSG_MAX_QUEUE		16U
++
++#define IPU7_MSG_ERR_MAX_DETAILS		4U
++#define IPU7_ISYS_SIZE_RECV_QUEUE		40U
++#define IPU7_ISYS_SIZE_LOG_QUEUE		256U
++#define IPU7_ISYS_SIZE_SEND_QUEUE		40U
++#define IPU7_ISYS_NUM_RECV_QUEUE		1U
++#define IPU7_INSYS_SEND_QUEUE_TOKEN_FLAG_NONE	0U
++
++#define IPU7_LOGGER_CFG_CHANNEL_ENABLE_SYSCOM	BIT(1)
++
++#define IPU7_ISYS_MAX_STREAMS	16U
++#define IPU7_MAX_OPINS		4
++#define IPU7_MAX_IPINS		4
++
++#define IPU7_N_INSYS_MIPI_DATA_TYPE	0x40
++
++#define IPU7_MSG_LINK_FOREIGN_KEY_NONE		(65535U)
++#define IPU7_MSG_LINK_PBK_ID_DONT_CARE		(255U)
++#define IPU7_MSG_LINK_PBK_SLOT_ID_DONT_CARE	(255U)
++
++#define IPU7_INSYS_STREAM_SYNC_MSG_SEND_RESP_SOF		BIT(0)
++#define IPU7_INSYS_STREAM_SYNC_MSG_SEND_RESP_EOF		BIT(1)
++#define IPU7_INSYS_STREAM_SYNC_MSG_SEND_IRQ_SOF			BIT(2)
++#define IPU7_INSYS_STREAM_SYNC_MSG_SEND_IRQ_EOF			BIT(3)
++#define IPU7_INSYS_STREAM_SYNC_MSG_SEND_RESP_SOF_DISCARDED	BIT(4)
++#define IPU7_INSYS_STREAM_SYNC_MSG_SEND_RESP_EOF_DISCARDED	BIT(5)
++#define IPU7_INSYS_STREAM_SYNC_MSG_SEND_IRQ_SOF_DISCARDED	BIT(6)
++#define IPU7_INSYS_STREAM_SYNC_MSG_SEND_IRQ_EOF_DISCARDED	BIT(7)
++
++#define IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_OPEN_DONE	BIT(0)
++#define IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_OPEN_DONE		BIT(1)
++#define IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_START_ACK	BIT(2)
++#define IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_START_ACK		BIT(3)
++#define IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_CLOSE_ACK	BIT(4)
++#define IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_CLOSE_ACK		BIT(5)
++#define IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_FLUSH_ACK	BIT(6)
++#define IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_FLUSH_ACK		BIT(7)
++#define IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_ABORT_ACK	BIT(8)
++#define IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_ABORT_ACK		BIT(9)
++
++#define IPU7_INSYS_STREAM_ENABLE_MSG_SEND_RESP ( \
++	IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_OPEN_DONE | \
++	IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_START_ACK | \
++	IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_CLOSE_ACK | \
++	IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_FLUSH_ACK | \
++	IPU7_INSYS_STREAM_MSG_SEND_RESP_STREAM_ABORT_ACK)
++#define IPU7_INSYS_STREAM_ENABLE_MSG_SEND_IRQ ( \
++	IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_OPEN_DONE | \
++	IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_START_ACK | \
++	IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_CLOSE_ACK | \
++	IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_FLUSH_ACK | \
++	IPU7_INSYS_STREAM_MSG_SEND_IRQ_STREAM_ABORT_ACK)
++
++#define IPU7_INSYS_FRAME_MSG_SEND_RESP_CAPTURE_ACK		BIT(0)
++#define IPU7_INSYS_FRAME_MSG_SEND_IRQ_CAPTURE_ACK		BIT(1)
++#define IPU7_INSYS_FRAME_MSG_SEND_RESP_CAPTURE_DONE		BIT(2)
++#define IPU7_INSYS_FRAME_MSG_SEND_IRQ_CAPTURE_DONE		BIT(3)
++#define IPU7_INSYS_FRAME_MSG_SEND_RESP_PIN_DATA_READY		BIT(4)
++#define IPU7_INSYS_FRAME_MSG_SEND_IRQ_PIN_DATA_READY		BIT(5)
++
++#define IPU7_INSYS_FRAME_ENABLE_MSG_SEND_RESP ( \
++	IPU7_INSYS_FRAME_MSG_SEND_RESP_CAPTURE_ACK | \
++	IPU7_INSYS_FRAME_MSG_SEND_RESP_CAPTURE_DONE | \
++	IPU7_INSYS_FRAME_MSG_SEND_RESP_PIN_DATA_READY)
++#define IPU7_INSYS_FRAME_ENABLE_MSG_SEND_IRQ ( \
++	IPU7_INSYS_FRAME_MSG_SEND_IRQ_CAPTURE_ACK | \
++	IPU7_INSYS_FRAME_MSG_SEND_IRQ_CAPTURE_DONE | \
++	IPU7_INSYS_FRAME_MSG_SEND_IRQ_PIN_DATA_READY)
++
++enum ipu7_insys_send_type {
++	IPU7_INSYS_SEND_TYPE_STREAM_OPEN = 0,
++	IPU7_INSYS_SEND_TYPE_STREAM_START_AND_CAPTURE = 1,
++	IPU7_INSYS_SEND_TYPE_STREAM_CAPTURE = 2,
++	IPU7_INSYS_SEND_TYPE_STREAM_ABORT = 3,
++	IPU7_INSYS_SEND_TYPE_STREAM_FLUSH = 4,
++	IPU7_INSYS_SEND_TYPE_STREAM_CLOSE = 5,
++	N_IPU7_INSYS_SEND_TYPE
++};
++
++enum ipu7_insys_resp_type {
++	IPU7_INSYS_RESP_TYPE_STREAM_OPEN_DONE = 0,
++	IPU7_INSYS_RESP_TYPE_STREAM_START_AND_CAPTURE_ACK = 1,
++	IPU7_INSYS_RESP_TYPE_STREAM_CAPTURE_ACK = 2,
++	IPU7_INSYS_RESP_TYPE_STREAM_ABORT_ACK = 3,
++	IPU7_INSYS_RESP_TYPE_STREAM_FLUSH_ACK = 4,
++	IPU7_INSYS_RESP_TYPE_STREAM_CLOSE_ACK = 5,
++	IPU7_INSYS_RESP_TYPE_PIN_DATA_READY = 6,
++	IPU7_INSYS_RESP_TYPE_FRAME_SOF = 7,
++	IPU7_INSYS_RESP_TYPE_FRAME_EOF = 8,
++	IPU7_INSYS_RESP_TYPE_STREAM_START_AND_CAPTURE_DONE = 9,
++	IPU7_INSYS_RESP_TYPE_STREAM_CAPTURE_DONE = 10,
++	IPU7_INSYS_RESP_TYPE_PWM_IRQ = 11,
++	N_IPU7_INSYS_RESP_TYPE
++};
++
++enum ipu7_insys_mipi_dt_rename_mode {
++	IPU7_INSYS_MIPI_DT_NO_RENAME = 0,
++	IPU7_INSYS_MIPI_DT_RENAMED_MODE = 1,
++	N_IPU7_INSYS_MIPI_DT_MODE
++};
++
++struct ipu7_fw_isys_logger_config {
++	u8 use_source_severity;
++	u8 source_severity[IPU7_FWLOG_MAX_LOGGER_SOURCES];
++	u8 use_channels_enable_bitmask;
++	u8 channels_enable_bitmask;
++	u8 padding[1];
++	u32 hw_printf_buffer_base_addr;
++	u32 hw_printf_buffer_size_bytes;
++};
++
++struct ipu7_wdt_abi {
++	u32 wdt_timer1_us;
++	u32 wdt_timer2_us;
++};
++
++struct ipu7_insys_config {
++	u32 timeout_val_ms;
++	struct ipu7_fw_isys_logger_config logger_config;
++	struct ipu7_wdt_abi wdt_config;
++};
++
++struct ipu7_insys_capture_output_pin_payload {
++	u64 user_token;
++	u32 addr;
++	u8 pad[4];
++};
++
++struct ipu7_fw_isys_msg_err {
++	u32 err_group;
++	u32 err_code;
++	u32 err_detail[IPU7_MSG_ERR_MAX_DETAILS];
++};
++
++struct ipu7_insys_resp {
++	u64 buf_id;
++	struct ipu7_insys_capture_output_pin_payload pin;
++	struct ipu7_fw_isys_msg_err error_info;
++	u32 timestamp[2];
++	u8 type;
++	u8 msg_link_streaming_mode;
++	u8 stream_id;
++	u8 pin_id;
++	u8 frame_id;
++	u8 skip_frame;
++	u8 pad[2];
++};
++
++struct ipu7_insys_resp_queue_token {
++	struct ipu7_insys_resp resp_info;
++};
++
++struct ipu7_insys_send_queue_token {
++	u64 buf_handle;
++	u32 addr;
++	u16 stream_id;
++	u8 send_type;
++	u8 flag;
++};
++
++struct ipu7_fw_isys_output_link {
++	u32 buffer_lines;
++	u16 foreign_key;
++	u16 granularity_pointer_update;
++	u8 msg_link_streaming_mode;
++	u8 pbk_id;
++	u8 pbk_slot_id;
++	u8 dest;
++	u8 use_sw_managed;
++	u8 is_snoop;
++	u8 pad[2];
++} __packed;
++
++struct ipu7_fw_isys_output_cropping {
++	u16 line_top;
++	u16 line_bottom;
++} __packed;
++
++struct ipu7_fw_isys_output_dpcm {
++	u8 enable;
++	u8 type;
++	u8 predictor;
++	u8 pad;
++} __packed;
++
++struct ipu7_fw_isys_output_pin {
++	struct ipu7_fw_isys_output_link link;
++	struct ipu7_fw_isys_output_cropping crop;
++	struct ipu7_fw_isys_output_dpcm dpcm;
++	u32 stride;
++	u16 ft;
++	u8 send_irq;
++	u8 input_pin_id;
++	u8 early_ack_en;
++	u8 pad[3];
++} __packed;
++
++struct ipu7_fw_isys_resolution {
++	u32 width;
++	u32 height;
++} __packed;
++
++struct ipu7_fw_isys_input_pin {
++	struct ipu7_fw_isys_resolution input_res;
++	u16 sync_msg_map;
++	u8 dt;
++	u8 disable_mipi_unpacking;
++	u8 dt_rename_mode;
++	u8 mapped_dt;
++	u8 pad[2];
++} __packed;
++
++struct ipu7_fw_isys_stream_cfg {
++	struct ipu7_fw_isys_input_pin input_pins[IPU7_MAX_IPINS];
++	struct ipu7_fw_isys_output_pin output_pins[IPU7_MAX_OPINS];
++	u16 stream_msg_map;
++	u8 port_id;
++	u8 vc;
++	u8 nof_input_pins;
++	u8 nof_output_pins;
++	u8 pad[2];
++} __packed;
++
++struct ipu7_fw_isys_capture_output_pin {
++	u64 user_token;
++	u32 addr;
++	u8 pad[4];
++} __packed;
++
++struct ipu7_fw_isys_frame_buff_set {
++	struct ipu7_fw_isys_capture_output_pin output_pins[IPU7_MAX_OPINS];
++	u8 capture_msg_map;
++	u8 frame_id;
++	u8 skip_frame;
++	u8 pad[5];
++} __packed;
++
++struct ipu6_fw_isys_ops *ipu7_fw_isys_get_ops(void);
 +
 +#endif
 -- 
