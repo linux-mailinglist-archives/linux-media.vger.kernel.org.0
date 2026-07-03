@@ -1,148 +1,218 @@
-Return-Path: <linux-media+bounces-66561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66562-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id GFMNI3srSGocnQAAu9opvQ
-	(envelope-from <linux-media+bounces-66561-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 23:36:59 +0200
+	id 8wdmN5grSGofnQAAu9opvQ
+	(envelope-from <linux-media+bounces-66562-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 23:37:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E70705E90
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 23:36:58 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C13C705EA5
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 23:37:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=dbD3vhiz;
+	dkim=pass header.d=intel.com header.s=Intel header.b="maLtpE/P";
 	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66561-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66561-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66562-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66562-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 53D6C30E88E0
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 21:29:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 17570303010D
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 21:37:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B66F35E1D5;
-	Fri,  3 Jul 2026 21:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADBB833E344;
+	Fri,  3 Jul 2026 21:37:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DF4352002
-	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 21:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635BC1D5160
+	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 21:37:10 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783113871; cv=none; b=hwBgqRcGVi9CWiU39t3124EDKMSNFNS2QoUrgA4+3CTgBHZtUmfgXyyy55Xq3DPJibQhb6kOybun/SzEsxGz6+bS8Jgl+FitTeSKb94rNen3RSM/YuVpoKPZhJyXALZ73d4QI63XAUvla6jDeLySI0jtTsEHdjKnpyMKtaXvsZQ=
+	t=1783114632; cv=none; b=UN04u54BibyBmNqkhcyzwFNyW4mR2u3Ovi7o2J02qZ0axm6HoBsKlPsxdPDDBLk9VyXpiX8W6qVgUkL6t9WYhna2GFTIPfJC+2BxLqWznmTueNLBhV8EmaMFL11o79+P3CiBIcKNaBhldK+PsEivefIGX0P3k8H8rxPWqA/7neE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783113871; c=relaxed/simple;
-	bh=1my2TMZlkdT2BythqYoo841nJWoXq9KvJDiYYm3GFqc=;
+	s=arc-20240116; t=1783114632; c=relaxed/simple;
+	bh=efj1g9cCvzKFrvHXcs/7SYrq9x9EJxmJEExler5AL3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iHaekO0f4Ups5MEd/cvdv0wqfpuoTYp4s9+gE7tUchdFdQAD+IoWwZLJoF7fqlD8J9avtUI9N70Iy2ycmkl7I6IvjPwvb/mK4B35L6izGEYh/YAr/2cV/1w87FwSX234s0QflEpK5nhOeUdk/TZuvo7bJP/o86POTzaxsejd2k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dbD3vhiz; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=PMq8I21I2LDVvFSj6jchGkkitf7SCqb1coJd8BZle6lUD7hI16iDId3rYkJqf852m3i8JHJxcWS55+I9hBSJ356B6zegrxuJi7Ir2dGSciCA9RD4vaHlnw/x2GxgZcmfnC66wfh8CHJn9ZzrjEKMxhOl/YxH4Bnz5ncepOxHXWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maLtpE/P; arc=none smtp.client-ip=192.198.163.10
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783113870; x=1814649870;
+  t=1783114630; x=1814650630;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=1my2TMZlkdT2BythqYoo841nJWoXq9KvJDiYYm3GFqc=;
-  b=dbD3vhizTrSHHAPUba7KeeqxXAnH1btdYRIi0ZRjmLqr6QgCk0XXvn/B
-   78mQPgR+3Cr1YKaTeln4aLO56NnmSUIf2ArBCbdIOyyhVbQ29Wi3MeBb8
-   +q3biMuDSaVuVkptpbpjI5MNqaJU9sdb80WIAhV6BRg/Rz+/VNo5D6t1w
-   +Kpo/IVz7i6lf4uV54wOneKZJhkRIhS27mu4SmSIX+W39N+J4fecSdMuL
-   x82LpHiyEquXky96O10kzAQO7nu7GvI/c25hYh8P+W+9TXw8joknpMjZ7
-   9REG+g2nR9LEOJsjfcP5udGq8yKpHWW0hEczo8OM7fTzEt4R5IvNr0sN/
-   A==;
-X-CSE-ConnectionGUID: OfsXkFHtRFivWTkmfEMePA==
-X-CSE-MsgGUID: LC6zvxCkRH++NZtEiWQ1Iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="94508762"
+   mime-version:in-reply-to;
+  bh=efj1g9cCvzKFrvHXcs/7SYrq9x9EJxmJEExler5AL3M=;
+  b=maLtpE/PK8mUgBd5zRi0baXVSMsEiDA+HVx1W/xFSsvU+zruNn6x/0RE
+   xx2C+uNGdB3rnDrxMCXQf4BPGRlqi6Owk5QTt5OAnCPyOJ3OKiBX0pFy+
+   hT59e1l//AvA5xtWZEv3n+zQhp9cpJmCRSURooD9fIpu7LvZsK73mhPaq
+   VfO4GVwOhSjPOFp6aikovjGeBQ1d7ABKgtyVj30i/zE6CMH3KytP1/bdk
+   etcUZALAxYpvNOtPSQEyejHM0E/PChOZ3Bz1uUvAYA11wZ0T56oWXWPnl
+   B05yguWHb7BYXnZN2yjXum9ko7znMdIOygT69VDxjAmD4uxMJFC52ViSz
+   Q==;
+X-CSE-ConnectionGUID: ZYxCyObCQE+YBgNnt3syIQ==
+X-CSE-MsgGUID: VwaauOldTMy0l3mOV50bUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="95236600"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="94508762"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 14:24:29 -0700
-X-CSE-ConnectionGUID: goiuDWKlQ/GsTTLlsq15Og==
-X-CSE-MsgGUID: MsUY5XBsSJeX5k68OM8tyw==
+   d="scan'208";a="95236600"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 14:37:10 -0700
+X-CSE-ConnectionGUID: s1/5GX2jSV+hc1fImxxw0A==
+X-CSE-MsgGUID: P8Nvtd/3R7uLXdS6LWEQ1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="255107585"
+   d="scan'208";a="252722898"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.217])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 14:24:27 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 14:37:03 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2641E120443;
-	Sat, 04 Jul 2026 00:24:25 +0300 (EEST)
-Date: Sat, 4 Jul 2026 00:24:25 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 639EA120443;
+	Sat, 04 Jul 2026 00:36:37 +0300 (EEST)
+Date: Sat, 4 Jul 2026 00:36:37 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Antti Laakso <antti.laakso@linux.intel.com>,
-	linux-media@vger.kernel.org, mchehab@kernel.org,
-	daxing.li@intel.com, ong.hock.yu@intel.com
-Subject: Re: [PATCH 00/41] media: ipu6: Add support for ipu7 hardware
-Message-ID: <akgoiXheHnjrDtqW@kekkonen.localdomain>
-References: <20260703152451.1743132-1-antti.laakso@linux.intel.com>
- <2dd5cef71eb1ce5c246e64105ebd0d5cd593a0e0.camel@ndufresne.ca>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v5 03/10] media: imx219: Account rate_factor in setting
+ upper exposure limit
+Message-ID: <akgrZSnCRYkvAsr8@kekkonen.localdomain>
+References: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
+ <20260607215356.842932-4-sakari.ailus@linux.intel.com>
+ <CAPY8ntDPvDdj6vSVRUsTmC9tXmy8xNATrrbyqDr7DRU1NiiDQQ@mail.gmail.com>
+ <ajPLEfuiCN9R1ben@kekkonen.localdomain>
+ <CAPY8ntAfxvFRgHKYRT=ZLOL7L2A=GLQ-kuhYjhgTob83purBbQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2dd5cef71eb1ce5c246e64105ebd0d5cd593a0e0.camel@ndufresne.ca>
+In-Reply-To: <CAPY8ntAfxvFRgHKYRT=ZLOL7L2A=GLQ-kuhYjhgTob83purBbQ@mail.gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:nicolas@ndufresne.ca,m:antti.laakso@linux.intel.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:daxing.li@intel.com,m:ong.hock.yu@intel.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66562-lists,linux-media=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dave.stevenson@raspberrypi.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
 	HAS_ORG_HEADER(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66561-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,raspberrypi.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,kekkonen.localdomain:mid,linux.intel.com:from_mime]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,linux.intel.com:from_mime,vger.kernel.org:from_smtp,intel.com:email,intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 93E70705E90
+X-Rspamd-Queue-Id: 3C13C705EA5
 
-Hi Nicolas,
+HI Dave,
 
-On Fri, Jul 03, 2026 at 12:17:17PM -0400, Nicolas Dufresne wrote:
-> Hi,
+On Thu, Jul 02, 2026 at 06:04:34PM +0100, Dave Stevenson wrote:
+> Hi Sakari
 > 
-> Le vendredi 03 juillet 2026 à 18:24 +0300, Antti Laakso a écrit :
-> > Hello,
-> > 
-> > The 7th Gen Intel Imaging Processing Unit is a PCI device including
-> > input system and processing system. This set adds support for ISYS
-> > in IPU7.
-> > 
-> > At this point only IPU7 is supported, not 7.5.
+> On Thu, 18 Jun 2026 at 11:40, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Dave,
+> >
+> > On Mon, Jun 08, 2026 at 04:42:44PM +0100, Dave Stevenson wrote:
+> > > Hi Sakari
+> > >
+> > > On Sun, 7 Jun 2026 at 22:54, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> > > >
+> > > > The rate_factor multiplier is used to multiply a few values in the
+> > > > sensor's timing configuration and the exposure time is one of them. This
+> > > > also needs to be taken into account in exposure time margin: multiply it
+> > > > by rate_factor so that sensor's exposure time margin is respected.
+> > >
+> > > Testing the 1640x1232 mode with FRM_LENGTH_A set to 0x288 (79.07fps),
+> > > I can write register 0x15a (COARSE_INTEGRATION_TIME_A) with values up
+> > > to and including 0x284 without it affecting the output frame rate, and
+> > > without image corruption.
+> > > With IMX219_EXPOSURE_OFFSET being 4, the current code implements
+> > > exactly those limits, so why do you believe the offset should be
+> > > increased?
+> >
+> > I agree with the upper exposure time limit (with FRM_LENGTH_A set to 0x288)
+> > and the margin above but the issue is that the driver only implements
+> > these limits when rate_factor is 1.
+> >
+> > The margin is subtracted from the frame length to calculate the upper
+> > exposure limit, but as the frame length in lines an the exposure values are
+> > divided by rate_factor, the margin gets divided, too, resulting the
+> > effective margin of 2.
+> >
+> > I tested that setting the exposure value to higher than FRM_LENGTH_A -
+> > margin increases the frame time. This shouldn't be the case i.e. it's a
+> > driver bug.
 > 
-> Is this implementation replacing the staging driver in
-> ./drivers/staging/media/ipu7 ? Can you outline the plan ? Compare this
+> Having had some more time to test experimentally, you've convinced me.
+> The delivered frame time does appear to get extended if the raw
+> register value in COARSE_INTEGRATION_TIME_A is greater than
+> FRM_LENGTH_A - 4, so the exposure control needs to have the margin
+> adjusted to account for the rate_factor division.
+> 
+> For reference, my test setup was to run "rpicam-hello -t 0
+> --viewfinder-mode 1640:1232:10 --framerate 10 --shutter 10000" which
+> results in FRM_LENGTH_A being 0x1403.
+> Set dev_debug for the capture device to 0xb to log the The timestamp
+> delta between frames is then 0.09999s
+> "i2ctransfer -y -f <bus> w4@0x10 0x01 0x5a 0x13 0xff" to set
+> COARSE_INTEGRATION_TIME_A to 4 gives the same delta.
+> "i2ctransfer -y -f <bus> w4@0x10 0x01 0x5a 0x14 0x01" which would be
+> the max register value with the margin halved gives a delta of
+> 0.100028s.
+> 
+> Why could Sony not just document this?!
 
-That's correct: there's no longer need for the staging driver once the ipu6
-driver has support for both IPU7 and IPU7.5.
+Most sensors still have worse documentation. :-(
 
-> implementation against the other one ? Or perhaps its just a different component
-> of the camera?
+> 
+> I'll double check the behaviour in your v6 and send a R-b tag.
+
+Thank you.
 
 -- 
 Kind regards,
