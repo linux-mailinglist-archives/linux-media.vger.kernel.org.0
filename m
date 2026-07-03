@@ -1,89 +1,89 @@
-Return-Path: <linux-media+bounces-66518-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66519-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aM49GMLlR2oQhQAAu9opvQ
-	(envelope-from <linux-media+bounces-66518-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 18:39:30 +0200
+	id r2dqJojlR2r6hAAAu9opvQ
+	(envelope-from <linux-media+bounces-66519-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 18:38:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5D970452F
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 18:39:29 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9588D7044F7
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 18:38:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=U0t6arJr;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=UmXZQVCJ;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66518-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66518-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66519-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66519-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A84913053D33
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 16:35:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 953E130151A1
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 16:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF22B30ACE6;
-	Fri,  3 Jul 2026 16:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72218307AF4;
+	Fri,  3 Jul 2026 16:37:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9563030676C
-	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 16:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E5E3002C8
+	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 16:37:36 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783096511; cv=none; b=Jf83pb2man39Eyf47gqSkEJarDBbWcA7t6/7pFbxQOWYA8+fMIfrdRrv+/omq35jfO6FhiiN1S72ZV4HlwPI+U1cTPTvBTEbhJRU7NMxklE4I8lubvNo639VlOd3NhFWJkviBacm/h/k2ZOexTTshjouKwn+JqzQW5v+R7ygkJU=
+	t=1783096657; cv=none; b=g7fT6qhEhv4hcDO6y1zeg9hFW+gqTU3pWf8q+xXRKJSNKml9+ooy1v/hfu+mLPO7F4na7UF3r9cjlqjU3mDr7D7kuDXwYtYcLjeHTQAtLPsPONRbozagN2b3mzBd++cbt2hlqbbGo318OtH4D5bT5fhQIOBWOAlxeClu/vGeOEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783096511; c=relaxed/simple;
-	bh=WdeqKTbBw0p9IN6WCIHfQW9SJlRN9D8ekRRYYDXPGYk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u8NzfFIwHPgT6wi9TkGrvvkyqjlx/NcjK1nps6k/BlWQ0FH4Z7sfsS4NHyw0HczHCKkZz/Bw0DKii/Ylu9SZyBPIk5IPKqp+nhuOsepVVz+hI0XDO55g3gH79W0czUrXW1fgltKT9L/ST0AySsvJwteyXp2Azuftf3YpJ1awWuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0t6arJr; arc=none smtp.client-ip=209.85.128.47
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493c83474ddso7173995e9.3
-        for <linux-media@vger.kernel.org>; Fri, 03 Jul 2026 09:35:08 -0700 (PDT)
+	s=arc-20240116; t=1783096657; c=relaxed/simple;
+	bh=W3a6RocsYvmMd7TQgrnkf5Cabz8D/s1LPH2t4/oPovk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c7/akF0WEY233+4nGneRhG5xnQsmCz1Zg7ukqO653mE7sdiW4EttNsrEe7Asa769w48496Xfzb2nvELKyLi0/xz+q5vT+5Ea/NimsVHJwjoQUIWGYEDtbRcnK7S/6EBB6KAiF0hFV5ewToWY5I5+sK5/ujMJL/0lfpWGwnm7hOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UmXZQVCJ; arc=none smtp.client-ip=209.85.128.52
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493c83474ddso7199015e9.3
+        for <linux-media@vger.kernel.org>; Fri, 03 Jul 2026 09:37:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783096507; x=1783701307; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783096655; x=1783701455; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ELIgzqdNSMVVWgszVoq642vcRbk3MvTzwUI4sM/DChA=;
-        b=U0t6arJrWrNySAOsulmooDTgY5VjIUfVjjqwQsOXjXfAvMkaaFxeFE9zZTo54OGIxP
-         VgzG1+XNNVydfLOQs6gIQjRv758XTsgIlUsHw1QrDxM/0mx/lQ6a/rqL8ICDbmv/LC05
-         q1X4IRwgLahxvKhgTHpRiGtMGKks4I950npo498a7A4SEkPUuuR/UpxxbAFX4cO5492k
-         v8GgZKIUG7T1kn4B/My2R1UQmbEvzL7VVpAu1LWTlMvUCS8l1dfsXgDaCnTO1NsUglX0
-         cp92xE+jY3BSsJEDR91bRCbkeemadUQqBdQhP3oynQORvZ2lpmKQuXOMLkmMXQgLnWDU
-         XObQ==
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ExrdMjWEb1olxCB6ajDb+XGRteRP0J4HxD1YD52YLUI=;
+        b=UmXZQVCJCIcF7sVMK4Px8vrgF44IEsNUQYuXqF6MH6UjH17edWzQOoRAdXm2Nnuj//
+         p8ZYicOrxpQxEBgL6DhSrUsYkh+0zWZ95SzbSOhPttcFX+PRbYnsDhIDLBJaKKKezgzb
+         AWdXlzSpHR93AhuegKFKJXDM7TmJ/eTnJLAYXVB1d6Mfp/VrT9LPHcZo9W+pWWOI+3Mk
+         5V+DMWYBRatd5ioWMQedgssHpjMerSelhvM5nX4XwiAqv61cwjDd5gNKAX/XVeEqDF4f
+         DmxifnCn7tn3Nyn+1z2XG4jvSYo5PXpxsqdBUC95g1Glr2+O4FS3mgDNM0KDawoDsAHL
+         fOgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783096507; x=1783701307;
+        d=1e100.net; s=20251104; t=1783096655; x=1783701455;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ELIgzqdNSMVVWgszVoq642vcRbk3MvTzwUI4sM/DChA=;
-        b=SagHBC1IiM+kb0gQckWRkwteBCTFdgCjxNoZAeiK8ZAyy04bEy7lGSJ9Fkm4DtcKTW
-         kgilTsqgnNWq50AI7mnBTNwGLx1epyF+8VHTkJJKjvIhTR1UvVYdJDfeqZ0BF+JntZVS
-         h9p2Lo7R0AAjlFXRMMxFkH5tSdOXRvw69NC6M+SdZ0oqu2KM+AM+k2hryLXNB5AypR1k
-         10MyzS6bVEdehmhwS5MFYMySL1E0LMSRww/OC4NTj2XnmU1Y8HtTRV4wOVSiMHp6oQFl
-         a2/E6mocmmhM4u+nX6Qk78y1ND4LvW6acSIyJWmkEt4x/f8f2XcrIPD0AuB1P0WSEhAu
-         z4tA==
-X-Gm-Message-State: AOJu0YwD6BnNz0e+o9PdrjEWHqvh1kObhQUiJ3N4YT4eLoQ0qSRxnkgw
-	imclHTXH1r7N6e081z8KX7k7T8nhPFgRdiYe3Wb9hwgfhqz2Sj76VoLt
-X-Gm-Gg: AfdE7clby/R+6tfuHGSaozcBIN63ydS9NDAUnoZPNiyf+djasiUOQ45JXGOLKuuCRI8
-	f0o9WN/sgBx0bYNYwdzn7P58u72MHisJ+tTnEHliflPMnp8iiSHS8Bhssrb8pe0oemsNiOpWGii
-	6RWhqbOHZxU4upPmEqhNuEFP+jlnUvIOw3fE5fuyy4vZDv0WwE1MMBPHvAzmWEyKPouhlwRlWdm
-	bjG4kEfpLcQaUYYzTlkCUfGGCqR5InK7vhnd4g+NKS5TgOB8hQIoe99pTI3Kvvd7RZkZk1Lei1d
-	VG3yAyhXmlBBSn+QUHQMzi8QolEOtlBQse1n1uGYO277YxS3lnHsvb4iDL71Nz/dQVBma5celyV
-	QWb8rn3XyEWLAArCDRrs+BduY5JyEOtxJtUCVJiFWEQjHFMtRomXGMv3fvu2HDzg6b4Tf2JRXpE
-	oXSJrprTZqdSmlRPuXQZaeH0sHaZ/DIOzO1IC69V/MHHcMkMBXrn/qINJXNXYi3lwQbxQbIjIb
-X-Received: by 2002:a05:600c:314f:b0:493:cfd2:cd06 with SMTP id 5b1f17b1804b1-493d11cef20mr620455e9.6.1783096506606;
-        Fri, 03 Jul 2026 09:35:06 -0700 (PDT)
+         :message-id:reply-to;
+        bh=ExrdMjWEb1olxCB6ajDb+XGRteRP0J4HxD1YD52YLUI=;
+        b=NTRCjNRo5pYukCQEm+sjMpcgonXowLdgS5y36hd6gX2VrX+e8YRWryJ8c35+NROj/V
+         ADWf6J3PAGoun8ApJg0okTNR1BXxgYOaeDHCdupmm6NOqpl8yr5TrmZ5baSzdXacz2Tm
+         4PtYAQFXgMG1bptxtLwsNPMySOrw9O+Z95fgSivjg78E8T5dYzPlKXTFEWlM6yHd495r
+         AhH8Lt7ZmKA8C+63nEuiQmQiXvN/wPQUNarvmVSlvn80SFaaAYqsnVWwZeUz81bkn/kt
+         xic62uJImFOHtdTFkyBPh78FmVxjA+mZ+JD5bo36LlqpqDMr8aGbI3FtkMEkKwmfRsDX
+         guWQ==
+X-Gm-Message-State: AOJu0YyTsvkR7UgmxBuOxgBzljSsSh0oMayFTVib6BT+S5aVPPaKmz6J
+	8O/LlfYsx2fa5HlJgSO2v95UecfQySQER/uZpz2MVBJylNvgsPyiwvcs
+X-Gm-Gg: AfdE7ckFbVNbdl+xYjzu82hwoiIXXrq64/7Ox4Gpg7o32ZOJcFC37rdEF3tbioiekU5
+	1NeZbRsl4eeZj9TEb733SDl1kSVjcHT4M4jqHyll1zONkq1e9+5X0d0nF8VyIpAxTRGY4epGLqD
+	/Q8yaoelSNm4sYLqaAtLGklACDWFTgPcnStl0xiKqAdx11pVxSZcdTJqKV9hI5jYMh+tnraAk2C
+	1mMoDwdVLlRe44C/2ag9uAQP1W9jZl19ee4hz7iRreMHyLXmLexW1LhvR8XMxaBXNNGWCFIkk6y
+	jCtE7358ikzQF2YLPcnQRD75aHzmqsHGDHOiXPmpvbu32FyQK++EKq+BEfO+kavr1n6eox/w/xp
+	FSNmzuODtQoRJoVXZQcET4Fx6Jfl0h1JFWDOpmSJS1LG2vw3ot6FXb2TsXWZzYZyxjOHxjTJ7yD
+	ds1Wn/3zEjAW7hrT0fGEFO5pR6QD2aGy63AmE8sCsB0FQXZ7PK8JpptPFPfkGJcW4wL8hMRYhHz
+	Fv9LI9jIzc=
+X-Received: by 2002:a05:600c:4e11:b0:493:b549:3be0 with SMTP id 5b1f17b1804b1-493d11dd1d9mr588675e9.17.1783096654758;
+        Fri, 03 Jul 2026 09:37:34 -0700 (PDT)
 Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493cce040b4sm81986795e9.10.2026.07.03.09.35.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493bef23feasm177372325e9.2.2026.07.03.09.37.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 09:35:06 -0700 (PDT)
+        Fri, 03 Jul 2026 09:37:34 -0700 (PDT)
 From: David Carlier <devnexen@gmail.com>
 To: dan.scally@ideasonboard.com,
 	jacopo.mondi@ideasonboard.com,
 	mchehab@kernel.org
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	David Carlier <devnexen@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] media: mali-c55: Fix clock leak on reset deassert failure
-Date: Fri,  3 Jul 2026 17:35:03 +0100
-Message-ID: <20260703163503.715606-1-devnexen@gmail.com>
+	David Carlier <devnexen@gmail.com>
+Subject: [PATCH v2] media: mali-c55: Avoid unaligned access of AEC histogram zone weights
+Date: Fri,  3 Jul 2026 17:35:06 +0100
+Message-ID: <20260703163506.715627-1-devnexen@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -94,74 +94,85 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-66518-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devnexen@gmail.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-66519-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devnexen@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BF5D970452F
+X-Rspamd-Queue-Id: 9588D7044F7
 
-__mali_c55_power_on() enables the clocks before deasserting the resets,
-but bails out on a deassert failure without disabling them again. Both
-callers treat a failed power-on as already cleaned up, so the clocks are
-left enabled.
+mali_c55_params_aexp_hist_weights() packs the 225 per-zone u8 weights
+into the ISP registers four at a time by casting the zone_weights array
+to u32 and dereferencing it. The array sits at offset 10 within the
+parameter block, so it is only 2-byte aligned and the cast performs an
+unaligned 32-bit read.
 
-Disable them on the error path.
+The Mali-C55 is only found on little-endian ARMv8 systems, where such an
+access does not fault, so this is not a functional bug. Copy the four
+bytes with memcpy() instead to avoid the unaligned access, which is a
+little more efficient and drops the open-coded pointer cast.
 
-Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
-Cc: stable@vger.kernel.org
+No functional change intended.
+
 Signed-off-by: David Carlier <devnexen@gmail.com>
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
 v2:
- - Add Cc: stable@vger.kernel.org (requested by Jacopo Mondi).
- - Collect Reviewed-by from Daniel Scally and Jacopo Mondi.
- drivers/media/platform/arm/mali-c55/mali-c55-core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ - Use memcpy() instead of get_unaligned_le32() to copy the weights.
+ - Drop the Fixes: tag and Cc: stable; this is a cleanup, not a
+   functional fix (the IP is little-endian ARMv8 only, where the
+   unaligned access does not fault). Reword the commit message
+   accordingly.
+ drivers/media/platform/arm/mali-c55/mali-c55-params.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-index ee4a42674..fb81141d1 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-@@ -699,6 +699,8 @@ static int __mali_c55_power_on(struct mali_c55 *mali_c55)
- 					  mali_c55->resets);
- 	if (ret) {
- 		dev_err(mali_c55->dev, "failed to deassert resets\n");
-+		clk_bulk_disable_unprepare(ARRAY_SIZE(mali_c55->clks),
-+					   mali_c55->clks);
- 		return ret;
+diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+index de0e9d898..832d8f49b 100644
+--- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
++++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+@@ -203,11 +203,11 @@ mali_c55_params_aexp_hist_weights(struct mali_c55 *mali_c55,
+ 	 * of overwriting other registers.
+ 	 */
+ 	for (unsigned int i = 0; i < 56; i++) {
+-		val = ((u32 *)params->zone_weights)[i]
+-			    & MALI_C55_AEXP_HIST_ZONE_WEIGHT_MASK;
++		memcpy(&val, &params->zone_weights[4 * i], 4);
+ 		addr = base + MALI_C55_AEXP_HIST_ZONE_WEIGHTS_OFFSET + (4 * i);
+ 
+-		mali_c55_ctx_write(mali_c55, addr, val);
++		mali_c55_ctx_write(mali_c55, addr,
++				   val & MALI_C55_AEXP_HIST_ZONE_WEIGHT_MASK);
  	}
  
+ 	val = params->zone_weights[MALI_C55_MAX_ZONES - 1];
 -- 
 2.53.0
 
