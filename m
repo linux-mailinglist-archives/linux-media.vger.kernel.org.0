@@ -1,241 +1,225 @@
-Return-Path: <linux-media+bounces-66465-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66466-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id U86SLbPQR2rOfgAAu9opvQ
-	(envelope-from <linux-media+bounces-66465-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:09:39 +0200
+	id Xp2FDuHVR2pKgAAAu9opvQ
+	(envelope-from <linux-media+bounces-66466-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:31:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA5D703BBA
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:09:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F97C703E6C
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 17:31:44 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=I2laStE7;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=Kk2Nlrbt;
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66465-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66465-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=neQO9GiW;
+	dmarc=pass (policy=none) header.from=intel.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66466-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66466-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EA753303DD23
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 15:07:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ED1263037F70
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 15:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E97A3D9048;
-	Fri,  3 Jul 2026 15:07:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A174414DE5;
+	Fri,  3 Jul 2026 15:25:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942382EB874
-	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 15:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025D921FF25
+	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 15:25:10 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783091230; cv=none; b=DSwtRiWgEajGCbqWRH5WoXU5NTIsoBuedBQzRPF/BgtKlloj3hCgcEbSDao1l8IszKR9oK3R/HVUpAIDVMpDUJja4Qem62UWaIlME+XT+m8jANfiz4F/7PxxKPpbzeIM+0AfIYURwtSCfFynNydSkwoEkwWPF3B0F3hxqtRy49M=
+	t=1783092312; cv=none; b=CqMm+XON1PoXWmPkpx7sH29FLdbbOs+Y1N+xNMhAe6LXcIgcGpv7RUWUS1lkbEArT8Rfpf7RGlieTh3/5Am/63AWDuMRtCDEVPjbvA4yASnyLMCVIVs0KC/fBnrvr+Y/bnFI1XUiFUEC8RSbli0nTG5hJsJU1S6XVnB8AWHyDuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783091230; c=relaxed/simple;
-	bh=0w/d6iSpR9UaaKp/rDddcaeduOnJK9KBBmjSerbTYtU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ewfzfFsfEcUeIQjQvKCIOxzRu5VDAjXxbE6tHO8+qcqooBz8GB8c2VV+Zt67k9vwxqNO6tdvKr0cplmMwV0TUe46ETmKDHWt23sYS+/08J8L/Jp83r8D8Z5OB9OFJ1nFcL1Qe5hgweGAA59JLD8CvTufsOPJNyKq48ncjMqZQl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I2laStE7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Kk2Nlrbt; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 663BcAmX3108903
-	for <linux-media@vger.kernel.org>; Fri, 3 Jul 2026 15:07:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	g/Y1MW5COel2wWx4p2DALR7RRNLnSVd1oYyWrSpSJXk=; b=I2laStE7JVO14Zny
-	RUxphdbyneMw1OsRlTiKt0N99oI1NUu4z/tGStXgdRwGaWC+kYOJ+B0YCoFSgdZk
-	3kFuL3t4LyLKsVcAQDoHbZBAdp6uHK+DAp1Lvyg/4TDPszJd3VK2f1OAfufBvxXB
-	HWDTC78TO/jS0BMzX1rmYzGuPS6h6LYKvonLQlGWwobLQEmNeTVNVD4wtPSFw69b
-	/YWG2WQvs0zTl/iG/65M0nNCwOOvyH982WAl8ISIzOHiWx6RisnoNPrGzuYlQBIy
-	r2Ayt+rO6n7GP7/qDetmB7+9Y3D3G/UW048SZ4923U0oQOznFMwLEf/z/Q75j3d6
-	OswDTA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f60eybkax-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 03 Jul 2026 15:07:07 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-92e4ecd1ae4so11699285a.2
-        for <linux-media@vger.kernel.org>; Fri, 03 Jul 2026 08:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783091227; x=1783696027; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g/Y1MW5COel2wWx4p2DALR7RRNLnSVd1oYyWrSpSJXk=;
-        b=Kk2NlrbtX5tIlouE3x/4D2leuzq3KKQeJkZ6SIOpP4gpp+0O27zN+6VCWCeQthxtEw
-         COoV1yLlqG2x0C1GWyGgS7EE0O3/H4eJ5pTDqKN6vBdI8oPkqHoxwg4wEsM5lN7INizC
-         MLJUunjdENKia5ngfeMH5UkO8M/IzRjBUjg/6jyaAfHuw8qZ/QP1Gzi33R0XrTczBIPP
-         Y5DRjclspOpKfHge5B+AkA5Et2N8q1sVrdaTUbPOtL9+BPP4FeUgoOlofaNgD05nObgQ
-         yrgKIoph51MbdBib+UuE2TFfcvym3ohQBR3yKVI7oFOhQuDfC9vJdkjqhjG6ZkHVL+Km
-         pYYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783091227; x=1783696027;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=g/Y1MW5COel2wWx4p2DALR7RRNLnSVd1oYyWrSpSJXk=;
-        b=O5ixWW1bF2Oz3QwRRSMNU/m32fLB1t+xJpy5PqS3LDtQ/xDd7KzKl8z+KorUjMLq2o
-         /EipZbTK2DX3sC0DOe9aIa5B7lokXPZGP4z/pYwvvQqHDPZyBKVl9ICKDrphP+yz6/0Q
-         RiRGNyUCpX2P6uUTwcyRiWk73Hq68hKry9ZcB+ve53LN8P+blrCRvyxmrzhKyAz+vtK8
-         Q0ngCTR9L49Kh8sRYp+aRd9bbdNb2/P0A1v3MB80nh5PC4/AstLrq6NRo/vlagxzlVhS
-         kHIkysdw0DkhyNs3jPAlfmyVMVziHReB8Kg876RLZSYJnPzZu4AUiGFav4bJ+XmtpYup
-         R7MQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/9B96JZ4jLRcx3l1I7pZHBomkdjACjdEnRmizh9iNMSx9RY3goQiGaoLmP77GuYawDf3tc0AB/HQl98Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEgPAEvUdg3cC4zb7Zouxt1QLOlg7v1Lqy905rKSuhbYBG+yEP
-	VveD0FQo5/WcKO83zv5Sk0vJ2Hw/YfYtWMDN7Ta0SvwwW2pzWXZFZZ5MC9OA8JZUPp4hHFtp09w
-	oaWTXkWxiMUTv57iDq4Hie3wqnFWLmCAdb1Z3mL9EbKw9XqUFnrJLO5dps6vt6k5Enw==
-X-Gm-Gg: AfdE7ckErGmxWEWdY+XYlA0zjJI/RoTvesyDZFOQraWSn+vr6EuwqBjjx3FM5X3LQBc
-	dMLarmoVIDX2k+QCnvhlHhbuRgH3fCnL1XInOW2ybzAIlH635N5XJCpHSnGJ0/UyiUdIwFDVcCP
-	PSNPVU96Edmw+1bBkN00BQDaXkGTyrsrwePG23M0wPgrcL0UG6kFzIu1Ml6GPNRLeFOz6JlbQBM
-	Z41e5ZY15MQr7oiZIbEFkY8Ac5dvLtNaFeSFOwFk2y4h6WL3mpqXZkMDAE8W4JJKKXaUnBbWe/0
-	J16P1NwgEsiJxxQ+s5ASIImQXqTNjIz5lqVMzJm3ewuqtj26lwrFZVaNfmdD0iVA13fJOdXgnHB
-	giJdy8FLUpNBT7B2PRsNly2tempee+EO23aA=
-X-Received: by 2002:a05:620a:171e:b0:92e:705f:1626 with SMTP id af79cd13be357-92e784f65a3mr825406785a.6.1783091226873;
-        Fri, 03 Jul 2026 08:07:06 -0700 (PDT)
-X-Received: by 2002:a05:620a:171e:b0:92e:705f:1626 with SMTP id af79cd13be357-92e784f65a3mr825395785a.6.1783091226326;
-        Fri, 03 Jul 2026 08:07:06 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c12b628d65dsm295433566b.35.2026.07.03.08.07.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2026 08:07:05 -0700 (PDT)
-Message-ID: <a2dd4a61-2585-40aa-9d05-18b66f3450d5@oss.qualcomm.com>
-Date: Fri, 3 Jul 2026 17:06:59 +0200
+	s=arc-20240116; t=1783092312; c=relaxed/simple;
+	bh=/4Hf3agluTaeER6IIrjWsWiYlRdifR7KrPnww6CADRo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=glp0VkzNgtF4hGXiLzYystxbSSofNANJrbJM1r15LHnYQ8iwBRlVjorUnkGqItVxXQ3TdkaVWWm/i7C1/GZ/K0Fn1C1CCEJF+LEyL/xHCERRaCU1EUIC+1FtZVlcOMM8tJSf+koTzoIYKIm/QPJ59tTEm6lqCj1V7Zd8gIn7fts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=neQO9GiW; arc=none smtp.client-ip=192.198.163.13
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783092311; x=1814628311;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/4Hf3agluTaeER6IIrjWsWiYlRdifR7KrPnww6CADRo=;
+  b=neQO9GiWnAIPiqJKYwcgNdB7yj+DjR1bvrBPmbZAg2LOCLZHch2wkiiY
+   KAmWPwsE5ViaH2WkCKNlitcEK69xxfkJYrbP3H3iFe4FiWCo5b4HShGwC
+   zV4+7yHR3QjkdIRf215EzvOkujqpfD/b0ky0ey0v/mithGnYq3zyHZOU9
+   zEsgWk7hV8O07TVFRZv952LQ2grpcazlX2JGGUj8bW39oJGW7s9r7tSMd
+   uCtplASh8LTcCcLPLRex1zDtD6XvB8gY0ccM+LMH5s0joTQ8+J6xX/6eA
+   v77UvWTqAe7sCa9pEb2t+jkZdEeu0sWgUwEa1NoeyU//Mck3rNUSgpGGD
+   g==;
+X-CSE-ConnectionGUID: mtS0Bpa4RduWaTR0z6wPNA==
+X-CSE-MsgGUID: bjLn8r0XR7ShPR/mDUghCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="86396095"
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="86396095"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:25:10 -0700
+X-CSE-ConnectionGUID: 6eOkYAEIRqaJdsh+hvz/fw==
+X-CSE-MsgGUID: 3uI4E6UESua+iDmkmwUqvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
+   d="scan'208";a="253799457"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO alaakso-desk.intel.com) ([10.245.246.88])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 08:25:09 -0700
+From: Antti Laakso <antti.laakso@linux.intel.com>
+To: linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com
+Cc: antti.laakso@linux.intel.com,
+	daxing.li@intel.com,
+	ong.hock.yu@intel.com
+Subject: [PATCH 00/41] media: ipu6: Add support for ipu7 hardware
+Date: Fri,  3 Jul 2026 18:24:10 +0300
+Message-ID: <20260703152451.1743132-1-antti.laakso@linux.intel.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 01/14] firmware: qcom: Add a generic PAS service
-To: Sumit Garg <sumit.garg@kernel.org>, andersson@kernel.org,
-        konradybcio@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
-        akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
-        jesszhan0024@gmail.com, marijn.suijten@somainline.org,
-        airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
-        bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
-        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
-        mathieu.poirier@linaro.org, trilokkumar.soni@oss.qualcomm.com,
-        mukesh.ojha@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
-        jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
-        vignesh.viswanathan@oss.qualcomm.com,
-        srinivas.kandagatla@oss.qualcomm.com,
-        amirreza.zarrabi@oss.qualcomm.com, jenswi@kernel.org,
-        op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
-        skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
-        Sumit Garg <sumit.garg@oss.qualcomm.com>,
-        Harshal Dev <harshal.dev@oss.qualcomm.com>
-References: <20260702115835.167602-1-sumit.garg@kernel.org>
- <20260702115835.167602-2-sumit.garg@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260702115835.167602-2-sumit.garg@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDE0OSBTYWx0ZWRfX0G+X17gEpod3
- w58zkwKGpzwkXqxldT8IaaSXG+q9klajphGTzLUe3V6kAiT8V27fTcjcot4y3jHlZM4PP/dhlS4
- tv3ftU4xZPE10WKg1uLJJaJOG+DpP43OFM242+Tj0hK7oMe6h4zilM1OLC+iezqGHX+UGS1ELSm
- C50CCOBc6jan4qGJ3Emacz9gXBJt66jYKtqGAOZxW08iscuPOHJFgXL3sgmPZ+vOEK6cozizc0g
- 3/U45F2WIN09SjikBVe7F/RqLuwW4rpDHh8X2jw86YEWIZKDJWYdRQ9tJlb2lfGf+m2tGWmh3SN
- fx2F+vxEvvYyDfWn5U61qnKYuJ6FMElC1ezw9VYYV057xqgqsVU0P1LeMGTVSCD8txTMqL2E6G0
- YK5EnL+SF0a3kh4IWRJTUe+imKxWQhCsfVwlShwonvgt5D9l0gpArArEj7/xYx25NNweme/R5mI
- be/9Eh3Bv747B7zVWTQ==
-X-Proofpoint-GUID: 45E6_c8quZFsN3cCggyAB1FZWCLoWbcQ
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDE0OSBTYWx0ZWRfXy4vHTX0RsKDp
- 64EOqaRqfMNTqhK5uC7vcSKt9p/xZqMPt+6VdTn++kbt7aP0UK3O3pyu1mh4YCv3rdzpch+l8tn
- F0EY06qT8r/2iiVgx+Ul1GcHBq6Vfcc=
-X-Authority-Analysis: v=2.4 cv=SPRykuvH c=1 sm=1 tr=0 ts=6a47d01b cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=EUspDBNiAAAA:8 a=DWWpLck2SfFL7czMIZ0A:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: 45E6_c8quZFsN3cCggyAB1FZWCLoWbcQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-03_02,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 spamscore=0 suspectscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607030149
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:antti.laakso@linux.intel.com,m:daxing.li@intel.com,m:ong.hock.yu@intel.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66465-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:sumit.garg@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-wireless@vger.kernel.org,m:ath12k@lists.infradead.org,m:linux-remoteproc@vger.kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:vikash.garodia@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:elder@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:jjohnson@kernel.org,m:mathieu.poirier@linaro.org,m:trilokkumar.soni@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:pavan.kondeti@oss.qualcomm
- .com,m:jorge.ramirez@oss.qualcomm.com,m:tonyh@qti.qualcomm.com,m:vignesh.viswanathan@oss.qualcomm.com,m:srinivas.kandagatla@oss.qualcomm.com,m:amirreza.zarrabi@oss.qualcomm.com,m:jenswi@kernel.org,m:op-tee@lists.trustedfirmware.org,m:apurupa@qti.qualcomm.com,m:skare@qti.qualcomm.com,m:linux-kernel@vger.kernel.org,m:sumit.garg@oss.qualcomm.com,m:harshal.dev@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66466-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[antti.laakso@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[antti.laakso@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_GT_50(0.00)[50];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	TO_DN_NONE(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,linux.intel.com:mid,linux.intel.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2FA5D703BBA
+X-Rspamd-Queue-Id: 8F97C703E6C
 
-On 7/2/26 1:58 PM, Sumit Garg wrote:
-> From: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> 
-> Qcom platforms has the legacy of using non-standard SCM calls
-> splintered over the various kernel drivers. These SCM calls aren't
-> compliant with the standard SMC calling conventions which is a
-> prerequisite to enable migration to the FF-A specifications from Arm.
-> 
-> OP-TEE as an alternative trusted OS to Qualcomm TEE (QTEE) can't
-> support these non-standard SCM calls. And even for newer architectures
-> using S-EL2 with Hafnium support, QTEE won't be able to support SCM
-> calls either with FF-A requirements coming in. And with both OP-TEE
-> and QTEE drivers well integrated in the TEE subsystem, it makes further
-> sense to reuse the TEE bus client drivers infrastructure.
-> 
-> The added benefit of TEE bus infrastructure is that there is support
-> for discoverable/enumerable services. With that client drivers don't
-> have to manually invoke a special SCM call to know the service status.
-> 
-> So enable the generic Peripheral Authentication Service (PAS) provided
-> by the firmware. It acts as the common layer with different TZ
-> backends plugged in whether it's an SCM implementation or a proper
-> TEE bus based PAS service implementation.
-> 
-> Reviewed-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> Tested-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com> # Lemans
-> Reviewed-by: Harshal Dev <harshal.dev@oss.qualcomm.com>
-> Tested-by: Vignesh Viswanathan <vignesh.viswanathan@oss.qualcomm.com> # IPQ9650
-> Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> ---
+Hello,
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+The 7th Gen Intel Imaging Processing Unit is a PCI device including
+input system and processing system. This set adds support for ISYS
+in IPU7.
 
-Konrad
+At this point only IPU7 is supported, not 7.5.
+
+Device matching related code will still be subject to rework for
+a later version of this set.
+
+Antti Laakso (41):
+  media: ipu6: Replace internal hw flag
+  media: ipu6: Rename pointer to firmware context
+  media: ipu6: Rename buttress_ipc pointer
+  media: ipu6: Remove duplicate warnings in cpd validation
+  media: ipu6: Remove unused ipu6 firmware struct
+  media: ipu6: Cleanup ipu6_mmu_init()
+  media: ipu6: Simplify firmware com arguments
+  media: ipu6: Add IPU7 pci IDs
+  media: ipu6: Add ipu7 match tables
+  media: ipu6: Prepare buttress for ipu7 support
+  media: ipu6: Use single struct for registers
+  media: ipu6: Rename IPU subsys ID
+  media: ipu6: Add ipu7 buttress support
+  media: ipu6: Prepare mmu code for hw variation
+  media: ipu6: Add ipu7 mmu support
+  media: ipu6: Add ipu7 cpd handling
+  media: ipu6: Rename isys fw msg union
+  media: ipu6: Move isys isr handlers down to fw file
+  media: ipu6: Move hw specific buffer handling down
+  media: ipu6: Isolate hw specific buffer handling
+  media: ipu6: Add isys firmware ops
+  media: ipu6: Add ipu7 fw com methods
+  media: ipu6: Add ipu7 fw isys ops
+  media: ipu6: Add ipu7 csi2 register definitions
+  media: ipu6: Add ipu7 isr handler
+  media: ipu6: Add ipu7 csi phy driver
+  media: ipu6: Parse bus type for ipu7
+  media: ipu6: Enable ipu7 isys interrupts
+  media: ipu6: Skip watermark configuration for ipu7
+  media: ipu6: The SPC init is valid only for ipu6
+  media: ipu6: The VC arbitration mechanism is ipu6 only
+  media: ipu6: Move buttress mem alloc out from probe
+  media: ipu6: Read correct SKU ID for ipu7
+  media: ipu6: Add support for fixed iova region
+  media: ipu6: Make fw mapping function more generic
+  media: ipu6: Move isys fw mapping to pci_probe
+  media: ipu6: Add check for pkg_dir before freeing
+  media: ipu6: Map ipu7 firmware
+  media: ipu6: Set model name for ipu7
+  media: ipu6: Set ipu7 as supported for ipu6 driver
+  media: ipu6: Add ipu7 as supported device
+
+ drivers/media/pci/intel/ipu6/Makefile         |   10 +-
+ drivers/media/pci/intel/ipu6/ipu6-bus.h       |    5 +
+ drivers/media/pci/intel/ipu6/ipu6-buttress.c  |  580 +++++---
+ drivers/media/pci/intel/ipu6/ipu6-buttress.h  |   48 +-
+ drivers/media/pci/intel/ipu6/ipu6-cpd.c       |  184 ++-
+ drivers/media/pci/intel/ipu6/ipu6-cpd.h       |   43 +
+ drivers/media/pci/intel/ipu6/ipu6-dma.c       |   30 +-
+ drivers/media/pci/intel/ipu6/ipu6-dma.h       |    2 +
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.c   |  584 +++++++-
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.h   |   48 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h |    5 +
+ .../media/pci/intel/ipu6/ipu6-isys-queue.c    |   87 +-
+ .../media/pci/intel/ipu6/ipu6-isys-queue.h    |    6 +-
+ .../media/pci/intel/ipu6/ipu6-isys-video.c    |  168 +--
+ .../media/pci/intel/ipu6/ipu6-isys-video.h    |    1 +
+ drivers/media/pci/intel/ipu6/ipu6-isys.c      |  405 ++----
+ drivers/media/pci/intel/ipu6/ipu6-isys.h      |   55 +-
+ drivers/media/pci/intel/ipu6/ipu6-mmu-hw.c    |  292 ++++
+ drivers/media/pci/intel/ipu6/ipu6-mmu.c       |  120 +-
+ drivers/media/pci/intel/ipu6/ipu6-mmu.h       |  158 ++-
+ .../intel/ipu6/ipu6-platform-buttress-regs.h  |  103 ++
+ drivers/media/pci/intel/ipu6/ipu6.c           |  396 +++---
+ drivers/media/pci/intel/ipu6/ipu6.h           |  210 +--
+ drivers/media/pci/intel/ipu6/ipu7-boot.c      |  408 ++++++
+ drivers/media/pci/intel/ipu6/ipu7-boot.h      |   41 +
+ drivers/media/pci/intel/ipu6/ipu7-fw-com.c    |   74 +
+ drivers/media/pci/intel/ipu6/ipu7-fw-com.h    |   53 +
+ drivers/media/pci/intel/ipu6/ipu7-fw-isys.c   |  788 +++++++++++
+ drivers/media/pci/intel/ipu6/ipu7-fw-isys.h   |  296 ++++
+ .../media/pci/intel/ipu6/ipu7-isys-csi-phy.c  | 1074 +++++++++++++++
+ .../media/pci/intel/ipu6/ipu7-isys-csi-phy.h  |   16 +
+ .../pci/intel/ipu6/ipu7-isys-csi2-regs.h      | 1188 +++++++++++++++++
+ drivers/media/pci/intel/ipu6/ipu7-mmu-hw.c    |  601 +++++++++
+ drivers/media/pci/intel/ipu6/ipu7-mmu-hw.h    |  146 ++
+ .../media/pci/intel/ipu6/ipu7-platform-regs.h |   32 +
+ include/media/ipu6-pci-table.h                |    3 +
+ 36 files changed, 6977 insertions(+), 1283 deletions(-)
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-mmu-hw.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-boot.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-boot.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-fw-com.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-fw-com.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-fw-isys.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-fw-isys.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-isys-csi-phy.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-isys-csi-phy.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-isys-csi2-regs.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-mmu-hw.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-mmu-hw.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu7-platform-regs.h
+
+-- 
+2.54.0
+
 
