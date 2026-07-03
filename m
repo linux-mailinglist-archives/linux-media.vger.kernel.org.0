@@ -1,326 +1,178 @@
-Return-Path: <linux-media+bounces-66423-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66424-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NpllLZE3R2qMUQAAu9opvQ
-	(envelope-from <linux-media+bounces-66423-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 06:16:17 +0200
+	id ILNFIBRHR2r9VAAAu9opvQ
+	(envelope-from <linux-media+bounces-66424-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 07:22:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6306FE619
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 06:16:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCDB6FEAB0
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 07:22:27 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Uj8F8wmZ;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66423-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66423-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=h+kVEf1z;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66424-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66424-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6EB4E304B547
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 04:16:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 824263026C29
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 05:22:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD14331A57;
-	Fri,  3 Jul 2026 04:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 902E533F8A3;
+	Fri,  3 Jul 2026 05:21:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403923264EB;
-	Fri,  3 Jul 2026 04:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762FA353A90
+	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 05:21:44 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783052031; cv=none; b=dZUNoty0QW+sjfzmq6f/7oM3hbo5CmZ9g57XUr9rRwpWA/1CMdIBUtvB3Kb0/FyHbDY6gfprpsRE11V+9MjNavKPDl7RGbYUy39mBZEuoQ4D0ROfSmG+dn1TzCNMIlC1kYG7pTliS/aC0eZNdSonRk9L6nEYyBNT36n5s+YkQ1k=
+	t=1783056111; cv=none; b=G1s0ESwjcUyOyP+XICoUuf5cFnUglMjqA1SrGyU55dtDxx2BecT4pgTHWc4+NBnznWPzt7rpvsviUt2YCZhb89lB0xAvV3nnAUv42W4T3c4KO91WUihoXpomKFkyltwUaeIYzi69l+xOnPEI5FymLB5S75XYffUPnFqSUjvIdMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783052031; c=relaxed/simple;
-	bh=8h8TLpdiMaQIT6mx5dhbVG4KqtUPlTCi6PwK3JEVeNY=;
+	s=arc-20240116; t=1783056111; c=relaxed/simple;
+	bh=ungXM+pGccTPmY4MYi+TOmQLabp5apMUzorBXrm5qVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LJWcaoSQppFGrc2sMVPh6+F+mGt/twQK/985LQlyfGDkTVOmVH6+gU+WoDqOfLepdDUlN5lJY7wt0z6P8/0SFpUhNCdh25REb9ZUSRfEfg+/lhE4jrQT9eLiBipdxvXtmYU/NxW6CUMtbqFXwtqMZQ0O8qDHsQf/chg2r90aSoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uj8F8wmZ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EAC81F000E9;
-	Fri,  3 Jul 2026 04:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783052018;
-	bh=XLKVDQfsx9hZuipTAI+f27y7jhAau5VYS8053c6lGBE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Uj8F8wmZ+tjwYybD0ILNCuG9cg9/UTh0dnsYv5PvEEHPRYJcXrHBe/YtA1XQ+Bt5j
-	 fSuYrb2UtnrdJsGZaEsTOq+nFRxUFvjnGai4AR3JLyuAGIlyq/RJh4Fg0ZVUyTpye7
-	 BnKE6qNFt9LWzrP06cWdVPQ1Iffu7w4FGnk6k87jXWvu6PoecArR3sURE4IbAuyixt
-	 a369HkjK0Fr3bVKoo3K9DT6q+/FNFVquikETXxbba4eIx3NB3adQwgu9kGFiDgmwVi
-	 9k0oMh73t5fALUnl5GShBbDm/0UPkyU543XUwvy0nEsaOx5Zw32MAgn+Xv/noN1C+8
-	 zjrsjdWwEGAYw==
-Date: Fri, 3 Jul 2026 09:43:19 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: andersson@kernel.org, konradybcio@kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	robin.clark@oss.qualcomm.com, sean@poorly.run,
-	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
-	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
-	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
-	bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
-	trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
-	pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
-	tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
-	srinivas.kandagatla@oss.qualcomm.com,
-	amirreza.zarrabi@oss.qualcomm.com, jenswi@kernel.org,
-	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
-	skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: Re: [PATCH v9 00/14] firmware: qcom: Add OP-TEE PAS service support
-Message-ID: <akc23w16MeSu8ODb@sumit-xelite>
-References: <20260702115835.167602-1-sumit.garg@kernel.org>
- <CANLsYkyFJ+CbUJpwWAy28KHvmNz6rJRtM5KrEzHjyAha-7grTQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lVSp+zFrIWD1erhzqqVka+em9+aG2j+eTx4kKjc6AWpB3qKLTjCmKP8fzfGzKaN5PWRXCriRkls3m3yzHjeVpJhMXzkn+YreIbZHP3Hi/h95C9tJAlOeWNgb2cRtOkk6RVPavHg3zM3jtxjcc9RQ3H0SAx/prKeopjhyvPGexx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h+kVEf1z; arc=none smtp.client-ip=209.85.161.47
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-69ec2ebec61so68647eaf.3
+        for <linux-media@vger.kernel.org>; Thu, 02 Jul 2026 22:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783056101; x=1783660901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rbrF5PgluXo296yF8wu1iDrFOX+6QVWi9u8cpBpxPXM=;
+        b=h+kVEf1z6+OUrrAyxKRdwJjeEEDGg+rG8cF484EV4vUNX33SgP84/tqzO/tWZcxZZG
+         lLqZtJMpLTplvc5dNg09j5raiJ0qFSOMpngjR1Cv6YoO3+WP1vyenhsHoRMwIuZ05Cni
+         lC4VzpI+njML3iNw5w0E1aZRA2T5eOaRJU7uJAUCKhYf19vVLw/ZrcnDdS+qUtIZ/QG7
+         N/lOKYdlgHJeQ/VntPRGTXyJ0y94ci6Xk0T3JrQKK687yEEQ9s31ZApWcpdii4Y2hIq3
+         OLRIe7iHrAQScSLI1sg8oT89oDNPl+JGr4b4NaU7P2mZTofRTSCTvnLQK1JcV7XKomx9
+         Pzgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783056101; x=1783660901;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rbrF5PgluXo296yF8wu1iDrFOX+6QVWi9u8cpBpxPXM=;
+        b=WhF/r8yuyD5kyMYD8vR1xHMypose34iZ16uT0lA7K4e3X4WLNW+Q3oPI/KXVQ2tQEQ
+         9R+HL8Q/WMWGkyEZLEYlFibftKpVC67S4QTdM7eH1AlhbNfWCc/KD8mrg5/qFsZI3wQw
+         HKmOd54SB4ZRe5lVnIfHA5LlOcNIjQWu4/8eJlq1eLjtYP5/Jc+kTyXwUVhnSnqmMuI5
+         HQF3wKxZzDELuAh5ygnHiaJM6cUX5vBpupF6Qxp8GWyZWNxDLIVJBcPY8z+aTfm0VJeh
+         +8dYTTscpso2MS++QxDYJLylGWPfdr1JlmEU5pqiMEPhSsknBQ/qKwHIZc99WepiiJ4g
+         30og==
+X-Forwarded-Encrypted: i=1; AFNElJ+JDGszKwROyosq4xJb6XtT4fn3gONuvg0eUwOrzIrSmOA6zy+GTtkybOmf8oS/GEjDHgDSxMfcI2U/oQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUKwD9sWviWaCuZnOZQCK5aOpvBcMO7WZEKCgHMa+GuRHCMxcZ
+	d/onYKkx3gJaS1W7OIXjKJ/1kA1UqCu6naWQj7nMsERO8e/C6lSGCBgA
+X-Gm-Gg: AfdE7cnOazF9IK7K+tcCWEFKY2jrF5HmO2kEQcD6FsJA0fZNwpsL2SZdNUaIbtE2Vu6
+	LeMYhOVfrKTdzbuUN4tSFb6MCtP0RjI4vfqz3SmCHplckFb+WPS5b/Ox8tqePmOPjtLjRylptz8
+	ecZ+T5WDy7MBXGLOsFSKyjUjvvW4Doo6k6vB5fYAsWps5cKc5S0jnYW6YTRIraFGEHyYIT2qHyc
+	2ae4QXOoAf2VDkvtjfBsQfD5GyJmYKDX+p74IZknNCjXVVh1mtPSVtTFVUfw2fJ0aCxo6K3TW86
+	/zpdJ62/BnJQBpQOEGPo0ANjfURRgUQ4MrsLPnvzLXR/aSKK/KoMqlwrg+Te+eOtdoXw9TcCpuX
+	X8Yvt/Fx/Te/kLzGRCRUUt7QeB6K35JhzE3xdyTddjq/nSERxKD2BaLeEiAXwhsohV4aKIMYrDG
+	fAM559bDH1wf7iCS/AQ2Ce
+X-Received: by 2002:a05:6820:4c01:b0:6a3:9ce:5412 with SMTP id 006d021491bc7-6a30d887c40mr4436494eaf.38.1783056101413;
+        Thu, 02 Jul 2026 22:21:41 -0700 (PDT)
+Received: from gmail.com ([2600:1702:56e9:4b40:ff21:65e6:6e3:5b43])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-44cfb1d011asm894391fac.8.2026.07.02.22.21.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 22:21:41 -0700 (PDT)
+Date: Fri, 3 Jul 2026 00:21:38 -0500
+From: Akash Sukhavasi <akash.sukhavasi@gmail.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Eric Dumazet <edumazet@google.com>, devicetree@vger.kernel.org, Simon Horman <horms@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Andrew Lunn <andrew@lunn.ch>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+	Vladimir Oltean <olteanv@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Thierry Reding <thierry.reding@kernel.org>
+Subject: Re: [PATCH v2 2/4] dt-bindings: media: remove obsolete rc.txt
+Message-ID: <akc_pO_ctTiZmbFw@gmail.com>
+References: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
+ <20260603-b4-remove-redirect-stubs-v2-2-c8c19876ab64@gmail.com>
+ <178052520503.2279647.12293343206224505400.robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANLsYkyFJ+CbUJpwWAy28KHvmNz6rJRtM5KrEzHjyAha-7grTQ@mail.gmail.com>
+In-Reply-To: <178052520503.2279647.12293343206224505400.robh@kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-66424-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66423-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:mathieu.poirier@linaro.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-wireless@vger.kernel.org,m:ath12k@lists.infradead.org,m:linux-remoteproc@vger.kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:vikash.garodia@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:elder@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:jjohnson@kernel.org,m:trilokkumar.soni@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:pavan.kondeti@oss.qualcomm.com,m:jorge.ramirez@oss
- .qualcomm.com,m:tonyh@qti.qualcomm.com,m:vignesh.viswanathan@oss.qualcomm.com,m:srinivas.kandagatla@oss.qualcomm.com,m:amirreza.zarrabi@oss.qualcomm.com,m:jenswi@kernel.org,m:op-tee@lists.trustedfirmware.org,m:apurupa@qti.qualcomm.com,m:skare@qti.qualcomm.com,m:linux-kernel@vger.kernel.org,m:sumit.garg@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:kuba@kernel.org,m:jonathanh@nvidia.com,m:pabeni@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:hkallweit1@gmail.com,m:edumazet@google.com,m:devicetree@vger.kernel.org,m:horms@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:davem@davemloft.net,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:conor+dt@kernel.org,m:lee@kernel.org,m:andrew@lunn.ch,m:krzk+dt@kernel.org,m:linux@armlinux.org.uk,m:linux-doc@vger.kernel.org,m:netdev@vger.kernel.org,m:olteanv@gmail.com,m:dmitry.torokhov@gmail.com,m:thierry.reding@kernel.org,m:conor@kernel.org,m:krzk@kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[akashsukhavasi@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,redhat.com,vger.kernel.org,gmail.com,google.com,davemloft.net,lwn.net,linuxfoundation.org,lunn.ch,armlinux.org.uk];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[48];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,qti.qualcomm.com,lists.trustedfirmware.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[akashsukhavasi@gmail.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2A6306FE619
+X-Rspamd-Queue-Id: DBCDB6FEAB0
 
-Hey Mathieu,
-
-On Thu, Jul 02, 2026 at 01:14:03PM -0600, Mathieu Poirier wrote:
-> Hey Sumit - nice hearing from you...
+On Wed, Jun 03, 2026 at 05:20:05PM -0500, Rob Herring (Arm) wrote:
 > 
-
-Good to hear from you too.
-
-> Is there some kind of overarching design harminisation between what
-> you are proposing here and what Arnaud posted back in April [1] ?
-
-The design here for remoteproc bringup on Qcom platforms for OP-TEE is
-carried forward from whatever existed earlier with QTEE. This patch-set
-just adds OP-TEE backend and replicate the same co-processor bringup
-design as QTEE.
-
-Co-processor bringup using a TEE is very different on Qcom platforms as
-compared to what ST did. The image formats for Qcom are custom ones
-using MBN format over ELF for which the MDT loader exists in the kernel
-only. Similarly the firmware image authentication is very tightly
-coupled with Qcom secure boot chain.
-
-The ST framework rather uses an ELF loader in OP-TEE for image loading
-and have an authentication mechanism similar to TAs. Also, the OP-TEE
-ABI is altogether different from the PAS ABI that Qcom has for the TEE.
-
--Sumit
-
-> 
-> [1]. https://lists.trustedfirmware.org/archives/list/op-tee@lists.trustedfirmware.org/thread/VMKTRATYUFWL2TP7NHN5KJ37MSVZZMPK/
-> 
-> On Thu, 2 Jul 2026 at 05:59, Sumit Garg <sumit.garg@kernel.org> wrote:
-> >
-> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> >
-> > Qcom platforms has the legacy of using non-standard SCM calls
-> > splintered over the various kernel drivers. These SCM calls aren't
-> > compliant with the standard SMC calling conventions which is a
-> > prerequisite to enable migration to the FF-A specifications from Arm.
-> >
-> > OP-TEE as an alternative trusted OS to Qualcomm TEE (QTEE) can't
-> > support these non-standard SCM calls. And even for newer architectures
-> > using S-EL2 with Hafnium support, QTEE won't be able to support SCM
-> > calls either with FF-A requirements coming in. And with both OP-TEE
-> > and QTEE drivers well integrated in the TEE subsystem, it makes further
-> > sense to reuse the TEE bus client drivers infrastructure.
-> >
-> > The added benefit of TEE bus infrastructure is that there is support
-> > for discoverable/enumerable services. With that client drivers don't
-> > have to manually invoke a special SCM call to know the service status.
-> >
-> > So enable the generic Peripheral Authentication Service (PAS) provided
-> > by the firmware. It acts as the common layer with different TZ
-> > backends plugged in whether it's an SCM implementation or a proper
-> > TEE bus based PAS service implementation.
-> >
-> > The TEE PAS service ABI is designed to be extensible with additional API
-> > as PTA_QCOM_PAS_CAPABILITIES. This allows to accommodate any future
-> > extensions of the PAS service needed while still maintaining backwards
-> > compatibility.
-> >
-> > Currently OP-TEE support is being added to provide the backend PAS
-> > service implementation which can be found as part of this PR [1].
-> > This implementation has been tested on Kodiak/RB3Gen2 and lemans
-> > EVK boards. In addition to that WIN/IPQ targets tested OP-TEE with
-> > this service too. Surely the backwards compatibility is maintained and
-> > tested for SCM backend.
-> >
-> > Note that kernel PAS service support while running in EL2 is at parity
-> > among OP-TEE vs QTEE. Especially the media (venus/iris) support depends
-> > on proper IOMMU support being worked out on the PAS client end.
-> >
-> > Patch summary:
-> > - Patch #1: adds generic PAS service.
-> > - Patch #2: migrates SCM backend to generic PAS service.
-> > - Patch #3: adds TEE/OP-TEE backend for generic PAS service.
-> > - Patch #4-#12: migrates all client drivers to generic PAS service.
-> > - Patch #13: drops legacy PAS SCM exported APIs.
-> >
-> > The patch-set is based on v7.2-rc1 and can be found in git tree
-> > here [2].
-> >
-> > Merge strategy:
-> >
-> > It is expected due to APIs dependency, the entire patch-set to go via
-> > the Qcom tree. All other subsystem maintainers, it will be great if I
-> > can get acks for the corresponding subsystem patches.
-> >
-> > [1] https://github.com/OP-TEE/optee_os/pull/7721 (already merged)
-> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/sumit.garg/linux.git/log/?h=qcom-pas-v9
-> >
+> On Wed, 03 Jun 2026 15:42:19 -0500, Akash Sukhavasi wrote:
+> > rc.txt has been a single-line redirect to rc.yaml since
+> > commit 7c31b9d67342 ("media: dt-bindings: media: Add YAML schemas for
+> > the generic RC bindings"), which introduced the .yaml schema and
+> > reduced the .txt to a stub in the same change. The .yaml has the same
+> > filename in the same directory, making this redirect unnecessary
+> > for discoverability.
+> > 
+> > One file still references rc.txt, forcing readers through an extra
+> > hop to reach the .yaml. The stub has not been touched since August
+> > 2019. Update the reference in hix5hd2-ir.txt to point directly to
+> > rc.yaml and remove the stub.
+> > 
+> > Signed-off-by: Akash Sukhavasi <akash.sukhavasi@gmail.com>
 > > ---
-> > Changes in v9:
-> > - Rebased to 7.2-rc1.
-> > - Enable SCM backend similar to TEE if ARCH_QCOM is set.
-> > - Address misc. comments from Konrad.
-> > - Add checks for corner cases (although not reachable as per OP-TEE ABI)
-> >   reported by Shashiko on patch #3.
-> > - Picked up review tags from Konrad.
-> >
-> > Changes in v8:
-> > - Rebased on mainline tip (no functional changes).
-> > - Now Lemans EVK is also tested to support OP-TEE PAS here:
-> >   https://github.com/OP-TEE/optee_os/pull/7845
-> > - Drop Kodiak DT patch as it is carried independently by Mukesh here:
-> >   https://lore.kernel.org/lkml/20260624063952.2242702-1-mukesh.ojha@oss.qualcomm.com/
-> > - Regarding Sashiko comments, I have already replied in v6 the ones that
-> >   don't apply but in v7 I got the same comments again. Specific context
-> >   reasoning which Shashiko ignores:
-> >     - ABI contract between Linux and TZ
-> >     - No support for multiple concurrent backends
-> >     - The TZ backend doesn’t detach during the entire boot cycle
-> >
-> > Changes in v7:
-> > - Rebased to qcom tree (for-next branch) tip.
-> > - Merged patch #5 and #7 due to build dependency.
-> > - Disabled modem for kodiak EL2 as it isn't tested yet.
-> > - Fix an issue found out by sashiko-bot for patch #4.
-> >
-> > Changes in v6:
-> > - Rebased to v7.1-rc4 tag.
-> > - Patch #14: fixed ret error print.
-> > - Add Kconfig descriptions for PAS symbols such that they are visible
-> >   in menuconfig to update.
-> >
-> > Changes in v5:
-> > - Incorporated misc. comments from Mukesh.
-> > - Split up patch #11 into 2 to add an independent commit for passing
-> >   proper PAS ID to set_remote_state API.
-> > - Picked up tags.
-> >
-> > Changes in v4:
-> > - Incorporate misc. comments on patch #4.
-> > - Picked up an ack for patch #10.
-> > - Clarify in cover letter about state of media support.
-> >
-> > Changes in v3:
-> > - Incorporated some style and misc. comments for patch #2, #3 and #4.
-> > - Add QCOM_PAS Kconfig dependency for various subsystems.
-> > - Switch from pseudo TA to proper TA invoke commands.
-> >
-> > Changes in v2:
-> > - Fixed kernel doc warnings.
-> > - Polish commit message and comments for patch #2.
-> > - Pass proper PAS ID in set_remote_state API for media firmware drivers.
-> > - Added Maintainer entry and dropped MODULE_AUTHOR.
-> >
-> > Sumit Garg (14):
-> >   firmware: qcom: Add a generic PAS service
-> >   firmware: qcom_scm: Migrate to generic PAS service
-> >   firmware: qcom: Add a PAS TEE service
-> >   remoteproc: qcom_q6v5_pas: Switch over to generic PAS TZ APIs
-> >   remoteproc: qcom_q6v5_mss: Switch to generic PAS TZ APIs
-> >   remoteproc: qcom_wcnss: Switch to generic PAS TZ APIs
-> >   remoteproc: qcom: Select QCOM_PAS generic service
-> >   drm/msm: Switch to generic PAS TZ APIs
-> >   media: qcom: Switch to generic PAS TZ APIs
-> >   media: qcom: Pass proper PAS ID to set_remote_state API
-> >   net: ipa: Switch to generic PAS TZ APIs
-> >   wifi: ath12k: Switch to generic PAS TZ APIs
-> >   firmware: qcom_scm: Remove SCM PAS wrappers
-> >   MAINTAINERS: Add maintainer entry for Qualcomm PAS TZ service
-> >
-> >  MAINTAINERS                                   |   9 +
-> >  drivers/firmware/qcom/Kconfig                 |  22 +-
-> >  drivers/firmware/qcom/Makefile                |   2 +
-> >  drivers/firmware/qcom/qcom_pas.c              | 299 +++++++++++
-> >  drivers/firmware/qcom/qcom_pas.h              |  50 ++
-> >  drivers/firmware/qcom/qcom_pas_tee.c          | 479 ++++++++++++++++++
-> >  drivers/firmware/qcom/qcom_scm.c              | 302 ++++-------
-> >  drivers/gpu/drm/msm/Kconfig                   |   1 +
-> >  drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   4 +-
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.c       |  11 +-
-> >  drivers/media/platform/qcom/iris/Kconfig      |  27 +-
-> >  .../media/platform/qcom/iris/iris_firmware.c  |   9 +-
-> >  drivers/media/platform/qcom/venus/Kconfig     |   1 +
-> >  drivers/media/platform/qcom/venus/firmware.c  |  11 +-
-> >  drivers/net/ipa/Kconfig                       |   2 +-
-> >  drivers/net/ipa/ipa_main.c                    |  13 +-
-> >  drivers/net/wireless/ath/ath12k/Kconfig       |   2 +-
-> >  drivers/net/wireless/ath/ath12k/ahb.c         |  10 +-
-> >  drivers/remoteproc/Kconfig                    |   4 +-
-> >  drivers/remoteproc/qcom_q6v5_mss.c            |   5 +-
-> >  drivers/remoteproc/qcom_q6v5_pas.c            |  51 +-
-> >  drivers/remoteproc/qcom_wcnss.c               |  12 +-
-> >  drivers/soc/qcom/mdt_loader.c                 |  12 +-
-> >  include/linux/firmware/qcom/qcom_pas.h        |  43 ++
-> >  include/linux/firmware/qcom/qcom_scm.h        |  29 --
-> >  include/linux/soc/qcom/mdt_loader.h           |   6 +-
-> >  26 files changed, 1095 insertions(+), 321 deletions(-)
-> >  create mode 100644 drivers/firmware/qcom/qcom_pas.c
-> >  create mode 100644 drivers/firmware/qcom/qcom_pas.h
-> >  create mode 100644 drivers/firmware/qcom/qcom_pas_tee.c
-> >  create mode 100644 include/linux/firmware/qcom/qcom_pas.h
-> >
-> > --
-> > 2.53.0
-> >
+> >  Documentation/devicetree/bindings/media/hix5hd2-ir.txt | 2 +-
+> >  Documentation/devicetree/bindings/media/rc.txt         | 1 -
+> >  2 files changed, 1 insertion(+), 2 deletions(-)
+> > 
 > 
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+
+Friendly ping on this one. Rob's Acked-by has been on v2 since June 3
+and the patch still applies cleanly.
+
+-- 
+Thanks,
+Akash
 
