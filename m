@@ -1,158 +1,266 @@
-Return-Path: <linux-media+bounces-66463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66464-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id m5ykHI7MR2r6fQAAu9opvQ
-	(envelope-from <linux-media+bounces-66463-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 16:51:58 +0200
+	id bMh6FYnLR2rHfQAAu9opvQ
+	(envelope-from <linux-media+bounces-66464-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 16:47:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E9A7039DC
-	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 16:51:57 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5075170393D
+	for <lists+linux-media@lfdr.de>; Fri, 03 Jul 2026 16:47:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=collabora.com header.s=zohomail header.b=GBuFRYhY;
-	dmarc=pass (policy=none) header.from=collabora.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66463-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66463-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=io7+jonG;
+	dmarc=pass (policy=reject) header.from=mailbox.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66464-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66464-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 505DF3075405
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 14:45:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A53273001FAE
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jul 2026 14:47:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5757E3F4DE2;
-	Fri,  3 Jul 2026 14:45:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C04472566F7;
+	Fri,  3 Jul 2026 14:47:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E583D45F8
-	for <linux-media@vger.kernel.org>; Fri,  3 Jul 2026 14:45:44 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783089945; cv=pass; b=hAV8xTpcmCXZoa8Lr+MpfR5W+wLsf3EgpV82jWsPYwSGxwo0mxSfbhpSbHiTwcLKBRej3Rl+nx5ceXRfGMpVSzu+0mCVxNgK8oef2kr1ES/cA3ciObd5w2JDTpazD5PBbg0xSuzjsu8IJlt3tKPAcaMO6vN0VdLTTUJHjXCbd40=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783089945; c=relaxed/simple;
-	bh=bbdnBOpPYQwxQVCTGpvXRGqVIgi5VAXFlurWB8Z2dcQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=med1eMiqd7jhoxIBWvE0vScB5kHPe8eJT7JvWWHYcKUgdnMWSd2VWWX1S2sMrxFMucHwidDAa+E1KFPUAQ/voOkqqHmHZCEHmsUaIZrLBa5qwHyqNx+UvfJjzrQu8ZGbj8HSulP5LI/sVNL6CfMrzTztGW/vEp5ze+OtqO1+AtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=GBuFRYhY; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal: i=1; a=rsa-sha256; t=1783089934; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=V0mhtmKGJrUTPlM4lNx+yH7/IadKtHIBvxLnnSk2nop0GWeeDzpjIlpoCv7UIDS5jo7s87fsfH9vwOARyTCKchgR5NCUdfDPoc1u+TiB+sorojg+KRYagmHAV0RFZwOrWHo6iDE/RWLLLBEa0soziS3QP2DsKDFNLUYI9Yl648w=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783089934; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=nmDpc7B+19awYjGJUdI/Ymoo0z93Zz7smuvzaSA0a28=; 
-	b=DvX+NEY5qim6ws4lyA3ZeFrT7EWh7jEt2h+Hwa5/QEIiRx0tv+1n8si6duz6N9RLa+zezXlRiGj8yF1Y8nAU47Ggp6nk7v/+s0xO5/h4wbXN3FqQGMMNYBZk1gnqaG70t43F2QWjToJnu56t4rx3dRS3g9K6Upq0xx6r/qNj/9k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783089934;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=nmDpc7B+19awYjGJUdI/Ymoo0z93Zz7smuvzaSA0a28=;
-	b=GBuFRYhYHzebXdw0PFXduIql65kvRp+OtNZoNJqLXCpWo4Y57jcZ9ywQxMMjyHbX
-	+cTPKqWbs+oyQLvu6CUqCJwAfKG87O84soDkVP8f7QKYJrN6T6FIwqdvMdh76Epp00A
-	+o/mwwVd68enBBtnPhcYZjDS3na+HljNcqjsv0Vs=
-Received: by mx.zohomail.com with SMTPS id 1783089932845313.0430968504985;
-	Fri, 3 Jul 2026 07:45:32 -0700 (PDT)
-Message-ID: <3f9b7fe7-de08-4dde-94af-408dce1060f4@collabora.com>
-Date: Fri, 3 Jul 2026 17:45:29 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A212367D3;
+	Fri,  3 Jul 2026 14:47:19 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783090041; cv=none; b=EnJ/cACpgaTaOUwVYlxtu3L2Cl78HZLVSCVFvOBACyE03cf3f19pyEcmJl2Ck7y3lCyaOC6MafH51LaYuMkQD039QsTumY7XygyJuzIgn3lWjjtp9u+zpKmSabwv9ND580GOfQ3OWVtm7XqkU8yhWjHnEXf4ByneZWFwrfzo7qE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783090041; c=relaxed/simple;
+	bh=+HDwmqQSBX74ngF8fA1/ZQudrL7YpXc1werdMy1usCc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aw2oiCWlBodGEXvhUCIbmQ9HYG5ojZrt05hUJDzj3KeS/urwepfFgRyiEDldK1fzgF4ZnnfihTxFYX1MRBQ32SIxRm34/ay39+7H34rwwLKA4SXuSSKRkuAfamyB+0+R9M6MYRrHWLz5LNvazmW0wISut6+nW7YzAQ4XGXd43Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=io7+jonG; arc=none smtp.client-ip=80.241.56.172
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gsGmz2K5wz9tnx;
+	Fri,  3 Jul 2026 16:47:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783090035; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NstNPI3Yl6z18ZLCBhwhl1e5laiGgCjywIQQ7XGoi0w=;
+	b=io7+jonG4i0IEqFYwLqSYd+32vedj9DY2NWtA1mzHCnvAc2BSryG1YISMX2GQuRcO/KMa2
+	jdlBGbLphY0sw8hn9xOOrASIYZ/inh4ONINCbqkZznQvo16Wv/53mgZiWT+bidQR4JXC/n
+	R75nqK/NFKogTdQCXwajFzGuYvxM+EuSYEVRE4gwA2Z0Vy2DIHDADJy+iGXMiUdXXyFIWm
+	nP8vXCauQ/5delyYBfE58/m3C7mRqHOObLC00TXUnsa6+6mkbNwpcc4jgOUpedXRQtK4jT
+	YqJMIIdvXhWEAWbu55oonfxHFWTdWsUUcqd8D9Av+QmRVy/XzgupscUmCmRxIQ==
+Message-ID: <51fbde808bd059510d667d130afae179626303be.camel@mailbox.org>
+Subject: Re: [PATCH 1/5] drm/sched: Protect entity->last_scheduled with
+ spinlock
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Tvrtko Ursulin <tursulin@ursulin.net>, Philipp Stanner
+ <phasta@kernel.org>,  Matthew Brost <matthew.brost@intel.com>, Danilo
+ Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard	 <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie	 <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal	 <sumit.semwal@linaro.org>,
+ Marco Pagani <marco.pagani@linux.dev>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Date: Fri, 03 Jul 2026 16:47:08 +0200
+In-Reply-To: <a4091099-1931-4ca2-a81a-9c3321b123a8@ursulin.net>
+References: <20260701085920.3253248-2-phasta@kernel.org>
+	 <20260701085920.3253248-3-phasta@kernel.org>
+	 <a4091099-1931-4ca2-a81a-9c3321b123a8@ursulin.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: synopsys: hdmirx: use request_any_context_irq()
- for 5V detection IRQ
-To: Alexander Shiyan <eagle.alexander923@gmail.com>,
- linux-media@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Dingxian Wen <shawn.wen@rock-chips.com>
-References: <20260703070029.1762457-1-eagle.alexander923@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20260703070029.1762457-1-eagle.alexander923@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+X-MBO-RS-META: 8bx1aetxqqwi14hyoz5m6dj1nbunchzx
+X-MBO-RS-ID: 33ffcc438f0fff36951
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:eagle.alexander923@gmail.com,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:shreeya.patel@collabora.com,m:shawn.wen@rock-chips.com,m:eaglealexander923@gmail.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,kernel.org];
-	FORGED_SENDER(0.00)[dmitry.osipenko@collabora.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66464-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tursulin@ursulin.net,m:phasta@kernel.org,m:matthew.brost@intel.com,m:dakr@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:marco.pagani@linux.dev,m:tvrtko.ursulin@igalia.com,m:boris.brezillon@collabora.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[ursulin.net,kernel.org,intel.com,gmail.com,linux.intel.com,suse.de,ffwll.ch,linaro.org,linux.dev,igalia.com,collabora.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66463-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.osipenko@collabora.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[6];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:from_mime,collabora.com:email,collabora.com:mid,collabora.com:dkim,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mailbox.org:from_mime,mailbox.org:dkim,mailbox.org:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E5E9A7039DC
+X-Rspamd-Queue-Id: 5075170393D
 
-On 7/3/26 10:00, Alexander Shiyan wrote:
-> Replace devm_request_irq() with devm_request_any_context_irq()
-> for the 5V detection interrupt handler. This allows the kernel
-> to choose the appropriate execution context (hardirq or threaded)
-> depending on the underlying interrupt controller. On some platforms,
-> the interrupt may be nested or require a threaded handler, and
-> using the fixed hardirq version can cause probe failures.
-> Switching to the more flexible function improves driver portability
-> without affecting functionality.
-> 
-> Fixes: 7b59b132ad43 ("media: platform: synopsys: Add support for HDMI input driver")
-> Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
-> ---
->  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> index 4c8957505a50..fa9818705f42 100644
-> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> @@ -2609,10 +2609,11 @@ static int hdmirx_setup_irq(struct snps_hdmirx_dev *hdmirx_dev,
->  	irq_set_status_flags(irq, IRQ_NOAUTOEN);
->  
->  	hdmirx_dev->det_irq = irq;
-> -	ret = devm_request_irq(dev, irq, hdmirx_5v_det_irq_handler,
-> -			       IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING,
-> -			       "rk_hdmirx-5v", hdmirx_dev);
-> -	if (ret) {
-> +	ret = devm_request_any_context_irq(dev, irq, hdmirx_5v_det_irq_handler,
-> +					   IRQF_TRIGGER_FALLING |
-> +					   IRQF_TRIGGER_RISING,
-> +					   "rk_hdmirx-5v", hdmirx_dev);
-> +	if (ret < 0) {
->  		dev_err_probe(dev, ret, "failed to request hdmirx-5v irq\n");
->  		return ret;
->  	}
+On Fri, 2026-07-03 at 12:27 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 01/07/2026 09:59, Philipp Stanner wrote:
+> > The entity->last_scheduled field has always been set and read with
+> > special RCU functions in addition to memory barriers.
+> >=20
+> > This was added in
+> >=20
+> > commit 70102d77ff22 ("drm/scheduler: add drm_sched_entity_error and use=
+ rcu for last_scheduled")
+> >=20
+> > however, no proper justification for that mechanism was provided. There
+> > seems to be no obvious reason, since the entity lock is available and
+> > taken at all places that evaluate the last_scheduled field. The only
+> > exception is drm_sched_entity_error(), which is not performance critica=
+l
+> > in any way.
+> >=20
+> > Improve robustness, readability and maintainability by replacing RCU an=
+d
+> > barriers with the lock.
+>=20
+> First thing, and regardless of other strands of discussion, I think it=
+=20
+> should be squashed with 3/5 instead of that one undoing the introduction=
+=20
+> of lock-unlock-lock-unlock.
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+I agree that there should not be a do-undo pattern, but I don't want to
+squash that, it's quite a distinctive action. One patch adds locks, the
+other moves them.
 
--- 
-Best regards,
-Dmitry
+But what I can do is move that patch before =E2=84=961 here so that it beco=
+mes
+understandable as a preparational commit.
+
+>=20
+> For what the main topic is concerned, I really like the removal of all=
+=20
+> the rcu_dereference_check(, true) lines and the memory barriers.
+>=20
+> But I also think the commit message should explain better what code=20
+> paths are now taking an extra lock - under which circumstances is the
+> lock now taken for all scheduler users, and which amdgpu paths use=20
+> drm_sched_entity_error() a lot so could be affected. I doubt it creates=
+=20
+> a measurable performance impact but it needs to be explained.
+
+I think it can detail which functions will now be locked; but
+mentioning the users would be overkill and is uncommon for API reworks.
+
+>=20
+> I am also happy to give it a spin on the Steam Deck to see if I can=20
+> observe anything.
+
+Could be interesting.
+
+>=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > ---
+> > =C2=A0 drivers/gpu/drm/scheduler/sched_entity.c | 50 ++++++++++--------=
+------
+> > =C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 ++---
+> > =C2=A0 2 files changed, 25 insertions(+), 34 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm=
+/scheduler/sched_entity.c
+> > index c51101ec70c1..91aec20611ad 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > @@ -135,7 +135,6 @@ int drm_sched_entity_init(struct drm_sched_entity *=
+entity,
+> > =C2=A0=C2=A0	entity->num_sched_list =3D num_sched_list;
+> > =C2=A0=C2=A0	entity->sched_list =3D num_sched_list > 1 ? sched_list : N=
+ULL;
+> > =C2=A0=C2=A0	entity->rq =3D &sched_list[0]->rq;
+> > -	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+> > =C2=A0=C2=A0	RB_CLEAR_NODE(&entity->rb_tree_node);
+> > =C2=A0=C2=A0	init_completion(&entity->entity_idle);
+> > =C2=A0=20
+> > @@ -201,10 +200,10 @@ int drm_sched_entity_error(struct drm_sched_entit=
+y *entity)
+> > =C2=A0=C2=A0	struct dma_fence *fence;
+> > =C2=A0=C2=A0	int r;
+> > =C2=A0=20
+> > -	rcu_read_lock();
+> > -	fence =3D rcu_dereference(entity->last_scheduled);
+> > +	spin_lock(&entity->lock);
+> > +	fence =3D entity->last_scheduled;
+> > =C2=A0=C2=A0	r =3D fence ? fence->error : 0;
+> > -	rcu_read_unlock();
+> > +	spin_unlock(&entity->lock);
+> > =C2=A0=20
+> > =C2=A0=C2=A0	return r;
+> > =C2=A0 }
+> > @@ -287,9 +286,10 @@ void drm_sched_entity_kill(struct drm_sched_entity=
+ *entity)
+> > =C2=A0=C2=A0	/* Make sure this entity is not used by the scheduler at t=
+he moment */
+> > =C2=A0=C2=A0	wait_for_completion(&entity->entity_idle);
+> > =C2=A0=20
+> > -	/* The entity is guaranteed to not be used by the scheduler */
+> > -	prev =3D rcu_dereference_check(entity->last_scheduled, true);
+> > +	spin_lock(&entity->lock);
+> > +	prev =3D entity->last_scheduled;
+> > =C2=A0=C2=A0	dma_fence_get(prev);
+> > +	spin_unlock(&entity->lock);
+> > =C2=A0=C2=A0	while ((job =3D drm_sched_entity_queue_pop(entity))) {
+> > =C2=A0=C2=A0		struct drm_sched_fence *s_fence =3D job->s_fence;
+> > =C2=A0=20
+> > @@ -381,8 +381,7 @@ void drm_sched_entity_fini(struct drm_sched_entity =
+*entity)
+> > =C2=A0=C2=A0		entity->dependency =3D NULL;
+> > =C2=A0=C2=A0	}
+> > =C2=A0=20
+> > -	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+> > -	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+> > +	dma_fence_put(entity->last_scheduled);
+> > =C2=A0=C2=A0	drm_sched_entity_stats_put(entity->stats);
+> > =C2=A0 }
+> > =C2=A0 EXPORT_SYMBOL(drm_sched_entity_fini);
+> > @@ -507,6 +506,10 @@ drm_sched_job_dependency(struct drm_sched_job *job=
+,
+> > =C2=A0=20
+> > =C2=A0 struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_=
+entity *entity)
+> > =C2=A0 {
+> > +	/* Helper to avoid dropping the reference while the entity lock is he=
+ld,
+> > +	 * just to have some more robustness.
+> > +	 */
+>=20
+> I don't get this comment. Neither the placement or the content.
+
+It explains the purpose of the variable 'prev_last_scheduled', which
+exists so that a reference does not drop under lock protection.
+
+
+P.
 
