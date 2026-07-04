@@ -1,181 +1,139 @@
-Return-Path: <linux-media+bounces-66581-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66582-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jaB+Bpz5SGpBwQAAu9opvQ
-	(envelope-from <linux-media+bounces-66581-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 14:16:28 +0200
+	id VGIhHg38SGpUwwAAu9opvQ
+	(envelope-from <linux-media+bounces-66582-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 14:26:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A3370786D
-	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 14:16:27 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC36B70793D
+	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 14:26:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=lQXN2kPT;
-	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66581-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-66581-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66582-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66582-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1BBEE300B45C
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2026 12:16:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BEB9D3017036
+	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2026 12:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0232031ED81;
-	Sat,  4 Jul 2026 12:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 914673A987B;
+	Sat,  4 Jul 2026 12:26:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB9234EEF7
-	for <linux-media@vger.kernel.org>; Sat,  4 Jul 2026 12:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC70347521;
+	Sat,  4 Jul 2026 12:26:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783167383; cv=none; b=dlkVGI/6ftmM9Spr3j/TRkoOWDKzgino8i+51WfwFbNbzqfBkuH2Vn6T6q94MF/jQK5HWusdzkNZSzU+1WkG/ZXu0dFV5+SA1E675CcVzA3EXe0FvgWESoJiMG7S4Fhsk9UXL1tY1eGwLCKUGTj+f/9/VdKgP5PLAc4wdOpZiwU=
+	t=1783167997; cv=none; b=jgcw6GzpRaRxD3d138+2O/WHACDuhP5T92L0ozjDGDtt0B41hKoTa9m9mT6E4ijkkFPMqoFpI+VM8nCNOrgj1nljcTYFHju/oNp3DVHgGydufQVw+oFXzp7abW69SDUoynDp1frSD/tn4Ya0I3pVezgdw2bG4GE6aIMNSZgyJgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783167383; c=relaxed/simple;
-	bh=xhQgV14bcHK6645fVIadpaONbwTTdHdy2ABb7xhAX7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CqckYqkaDy27yaUC6n0gXd78ZcVGXEbArDvT62d30OeSF3CEfh5lfKCv4tTWtQLa4NUakb+OylASXhqlsOrht7XPx2S2pajFKvY5fUtUN/EsroOqU2O+2XeuPmcnknMhaxsQdIXColQdxhfgF1ufUfbDgWX4eBLgdwBujaFO+mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQXN2kPT; arc=none smtp.client-ip=198.175.65.14
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783167382; x=1814703382;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xhQgV14bcHK6645fVIadpaONbwTTdHdy2ABb7xhAX7g=;
-  b=lQXN2kPTYRzc6dC8znw2DJSNOLJSHqgAAcze24h5oWiPTHJfy9UFf368
-   5saBeR/f+lCXi4PpaBsfCy/Ovb6raqN1vlvysERZ9XXUpsom/eypgEmrN
-   6TOSLxtW2T0HEllQMuBflwEh9T5tHmqtYM/d1YQTQ2+McwNVQSpRVprIY
-   ovb0L96ewX4jgpzRx2pBp1ST2CoCGDsNDeHIRz9LXsH0RPYqQwTPHnayy
-   z7wD8eKv2oB8xLdD2NSDYZA71wYw2oKOUzMRjOGFbiaK244/GGbut13o9
-   f3D9jpoKvX6L2vOeAqzQ4YUPSyFRnPLOpro4sGi/lEbFWan4Ut1GbbOAy
-   A==;
-X-CSE-ConnectionGUID: GsBmS5V4Tc2hBNnXNoo1ng==
-X-CSE-MsgGUID: yLds5aVTQre2xrSzENBmcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="87792021"
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="87792021"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 05:16:21 -0700
-X-CSE-ConnectionGUID: mDplI5DRT16nAKOBBqgJig==
-X-CSE-MsgGUID: JwYtuPbuQJuIOmWtyDxQQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="257184118"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.237])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 05:16:14 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 50EE8120221;
-	Sat, 04 Jul 2026 15:16:13 +0300 (EEST)
-Date: Sat, 4 Jul 2026 15:16:13 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v6 13/16] media: v4l2-subdev: Add
- v4l2_subdev_call_ci_state_{active,try}
-Message-ID: <akj5jZqMtGip7NwC@kekkonen.localdomain>
-References: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
- <20260701122634.1728782-13-sakari.ailus@linux.intel.com>
- <akVHAKPeDNzcqTIV@lizhi-Precision-Tower-5810>
+	s=arc-20240116; t=1783167997; c=relaxed/simple;
+	bh=d60DuGPe1r62yi/7F8ajqB8m8LiK1Yfbf2tFqfQGb2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WNM9Q411CcQ+hCi9nRmxA0SCTsh3kZDeVY4waQc0Rj92E8YlZ7brmK+fvsko880xs0aPz9dcE3MQwuR2ox6Nh7QbbPv5xmPclB+w4FJIK5Gpl2bkCNFGeQVwPHD3cQ4nbT/KVZj2YytCzx624VlJwtp6ZaQfAp81s2NsSXuIVlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-03 (Coremail) with SMTP id rQCowAD3GOD5+0hqohrWFg--.11535S2;
+	Sat, 04 Jul 2026 20:26:33 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	linux-tegra@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: cec: tegra: add missing MODULE_DEVICE_TABLE()
+Date: Sat,  4 Jul 2026 20:26:31 +0800
+Message-ID: <20260704122631.99057-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akVHAKPeDNzcqTIV@lizhi-Precision-Tower-5810>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAD3GOD5+0hqohrWFg--.11535S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr45uw1rurW7Aw4DuryrtFb_yoWkWwc_Cr
+	18Zr4IgryrWr9Yk3ZIyrsxAryIy395ur1vqryfKFZagw13ZF17JrWDWry3Cw1UGrWjyFnx
+	J3sxXFyrCF4agjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbx8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_
+	Gr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdYxBIdaVFxhVjvjDU0xZFpf9x0JUJuc
+	_UUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[29];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66581-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66582-lists,linux-media=lfdr.de];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:mchehab@kernel.org,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:pengpeng@iscas.ac.cn,m:linux-tegra@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:Frank.li@oss.nxp.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,linux.intel.com:from_mime,kekkonen.localdomain:mid]
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:from_mime,iscas.ac.cn:email,iscas.ac.cn:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A1A3370786D
+X-Rspamd-Queue-Id: BC36B70793D
 
-On Wed, Jul 01, 2026 at 12:57:36PM -0400, Frank Li wrote:
-> On Wed, Jul 01, 2026 at 03:26:30PM +0300, Sakari Ailus wrote:
-> > Add v4l2_subdev_call_ci_state_active(), and
-> > v4l2_subdev_call_ci_state_try() to call sub-device pad ops that
-> > take struct v4l2_subdev_client_info pointer as an argument. These ops
-> > cannot be called using v4l2_subdev_call_state_active() or
-> > v4l2_subdev_call_state_try() as the client_info argument precedes the
-> > state argument.
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  include/media/v4l2-subdev.h | 95 +++++++++++++++++++++++++++++--------
-> >  1 file changed, 74 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index e08615179e7b..056eaa949786 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -1964,6 +1964,22 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
-> >  		__result;						\
-> >  	})
-> >
-> > +#define v4l2_subdev_call_drop_fourth(first, second, third, fourth, rest...) \
-> 
-> Suppose this macro is internal used. is it better and __ prefix
-> 	__v4l2_subdev_call_drop_fourth
+The driver has an OF match table wired to .of_match_table, but does
+not export the table with MODULE_DEVICE_TABLE().
 
-I'll do that for v7.
+Add the missing MODULE_DEVICE_TABLE(of, ...) entry so module alias
+information is generated for OF based module autoloading.
 
--- 
-Sakari Ailus
+This is a source-level fix.  It does not claim dynamic hardware
+reproduction; the evidence is the driver-owned match table, its use by
+the platform driver, and the missing module alias publication.
+
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ drivers/media/cec/platform/tegra/tegra_cec.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/cec/platform/tegra/tegra_cec.c b/drivers/media/cec/platform/tegra/tegra_cec.c
+index 3ed50097262f..fe66336e734f 100644
+--- a/drivers/media/cec/platform/tegra/tegra_cec.c
++++ b/drivers/media/cec/platform/tegra/tegra_cec.c
+@@ -458,6 +458,7 @@ static const struct of_device_id tegra_cec_of_match[] = {
+ 	{ .compatible = "nvidia,tegra210-cec", },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, tegra_cec_of_match);
+ 
+ static struct platform_driver tegra_cec_driver = {
+ 	.driver = {
+
 
