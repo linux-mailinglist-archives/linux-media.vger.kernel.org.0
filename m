@@ -1,217 +1,158 @@
-Return-Path: <linux-media+bounces-66571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66572-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id OuysJBe6SGo5tAAAu9opvQ
-	(envelope-from <linux-media+bounces-66571-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 09:45:27 +0200
+	id C6ALAu/ESGqdtgAAu9opvQ
+	(envelope-from <linux-media+bounces-66572-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 10:31:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0134E706FD3
-	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 09:45:26 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E4E707197
+	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 10:31:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=web.de header.s=s29768273 header.b=Kh1yZ7Lu;
-	dmarc=pass (policy=quarantine) header.from=web.de;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66571-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66571-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=CZrndztP;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66572-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66572-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8E5E1302A71F
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2026 07:45:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AEDB330086AC
+	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2026 08:31:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A63D13955FB;
-	Sat,  4 Jul 2026 07:45:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F0FA39C019;
+	Sat,  4 Jul 2026 08:31:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C6C2D060D;
-	Sat,  4 Jul 2026 07:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFD9322A2E
+	for <linux-media@vger.kernel.org>; Sat,  4 Jul 2026 08:31:22 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783151115; cv=none; b=V72hVrj7YU8MiFFa3f4KVzQu8TmBkxcqJSKFXwIbce/hVsRWF5NJcVqpFHEaWg+XjhajAYkg2ALcgu+ytQxILZgYP95R2cWuzov4vt1meUcK3wnIGS4xvOLzHzsFJTQfWSwm81p4ECtlVw7W1IsJposJQoNqmkjjVgiAULlSXvo=
+	t=1783153890; cv=none; b=F0e9M5JnX1MorU6GHzahzmzqsfMOW1pEsBl4nHpITWsNQ9AR3y0pRdJwiVNPBF8+jfb/dOP6URoga5TzK8hH+U4fKXAsGJ0Ey7BbJ8vmYEZjRxQvbpJzNfrjUprYNxWIjcwVt90FWIJTnax/ITvvjI/QTiUmOAVVQ9ehhJI+jNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783151115; c=relaxed/simple;
-	bh=pOXgGgUfLg25Io5X2YPxjpZ3k3ptSqyDoKm6OQwRAgQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=BAHrRYmHc+1tSIa6JOAxYx7dvYJ4vO780vrAjHMIiQVQqY/jn4vChPTGXgqYoJ7T8ed3kuvJ103Eh3EzhSapKRwb4BX1/O944G/uPqZXHsbyEN3P70uOU2pcUh+J6yaWmogMhAxtwE4hlho2NV0/gbu1EXFdupjXQXePazADr9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Kh1yZ7Lu; arc=none smtp.client-ip=212.227.15.4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1783151092; x=1783755892; i=markus.elfring@web.de;
-	bh=pOXgGgUfLg25Io5X2YPxjpZ3k3ptSqyDoKm6OQwRAgQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Kh1yZ7LuPHKZNQF9D+HK8jCWBzLeEj7U1WBMd/jiYEDeM5iARtq3rsFzDz29X0NF
-	 ZFmgBOWMgfuIDRQCRfDA1oAHw8rcmCJoH9GuanL2MFzRJ1VD0wnG/dY2XbXAJDnzB
-	 b5nlnYFRpoNffhZvt0Y58qCVkqs/ak1EnyE+9Kq2l9sNdygsuD2KXLpm9ZEWIitFc
-	 cBuYGFMV/oQYvkjj+/YARDomUVMF5kLN8/YE+GCoVN9N+zJPZi9kHoSYdpFofdlmt
-	 QOP+DaFoD/8WH1YLTEmd457+q7NgdJLltDTs+BG2L/fSgtt5O2j1JO0/VJd3oRoND
-	 bMrv0hdATMSNCYXPOA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mkmvj-1xNSw70UDH-00nWGT; Sat, 04
- Jul 2026 09:44:52 +0200
-Message-ID: <50427aa9-c5d7-4b06-9c09-dab6032ffe4b@web.de>
-Date: Sat, 4 Jul 2026 09:44:48 +0200
+	s=arc-20240116; t=1783153890; c=relaxed/simple;
+	bh=MVU2FpDXvrbWaYS3WXF545Nn+twYVu34kFeqKxYSacI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NuMnQa+hNbHHtCWbrwUCBnOeul9QRfXIUOaotPoCB0YH0+ue8YpJ5mL3Hbvw5LsmDrl72JNlwmsL4+FTK1Bl734sDm3ShPwl+RzKBSIY0xOPr9WfL0HiPnnrCcKqznryws8OrB46fGxGTa+YDgRuZxUrmnKGMBF9/a4zAx6GBqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZrndztP; arc=none smtp.client-ip=209.85.216.51
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38426d04bb4so104301a91.1
+        for <linux-media@vger.kernel.org>; Sat, 04 Jul 2026 01:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783153874; x=1783758674; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0bnTIg4b+qm3LWW9BhIg3L3anyHB6Z01GNepnsagvpI=;
+        b=CZrndztPcG5GbO3qPWyH9jnIpfH1ZusFlRtwHFJ4oV9zDsBO+fmM4cHogUpmhZ9T69
+         RgjcilHYQYC64pfN39P8vuYPiHMhrcBm65r6tRqmOaBl8OhHKrA3MTdfQKXngOXHsZMt
+         9itkY8Ag8A2bLECTW3syRA53OvxN4QgzCrG+qk19pn6cqmeDi9oSJN7CvmQEzaI7b9BG
+         BzGtPKkXTLBPG9MVgPBAlYwXeDZeJclFouUGGIIZWxdckd3LpAFR7HCxP16ia66/9ACz
+         9zIEpJFF2ajNFouu9Rx7xuV7hTj5qmLchZPeBbnG945/8euSr32hS8mLRwa2EWWLNGu6
+         CL5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783153874; x=1783758674;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0bnTIg4b+qm3LWW9BhIg3L3anyHB6Z01GNepnsagvpI=;
+        b=KQdsMy3sERYByaWhPQHdbCt2nHsdRBGknBzSP6EGEFjMBzU9b4+472dfbq0nCyFPJM
+         zy3+FiaQ2wlWsW7kdSac5EKUGhKbKsmY/h23YFwEsg7WmUwPzRY2HB2ONDhLy2l7kc4h
+         rdP2BfcLNzhK/3g9NYxW6Y0BO4E0y6iw1NWbbBMeWyTopYRZ0N38x0HDLrfYQrfAHvSs
+         TCuq+DVta8AKoVRK0NKymAz6GgTnzh2vcFR82ZBgD2TzgSes3T//SdIWuSMAVZ5VuT6o
+         1MW6niRr1E3km9aJp7U26uXrOW4e2g/rhEQEubQw1xIyIbH+HLorSsG5Fdb19apbpFik
+         psYw==
+X-Forwarded-Encrypted: i=1; AHgh+RrTU4HkTmugwY+4BUXUU29imoggTWgfMv4OV+YbpeEewz4czfxk4/DpdOx07yrUE1XkOLmKrgrIjJfsHA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxl0CxC3SFuLXveMjUJcKAFJZxDWedZz6oBtWwsUpGAZlmYNGyo
+	sATnG41oPeinbk1f5uq2YGfy63YHWdCIZ0EBG9tyI92ApL0C5RMyCmbt
+X-Gm-Gg: AfdE7ckyIx/KAH4jzpvOzw31aIdD14I4p+LBWuKxd3kAoyUhVW6VRFobqH6Ihs1yRhx
+	aivbSVO7mV2AKCt/Bmc/1O3lBgfbHYbf7MYh6I/ISRcS/A+zBSza+p8ho/S0bvV84Wc0+A1mZim
+	0Pk7X1bEW7xMr/O418sJtUlnMXXcn1D7bLCw613y5q5Cic+NAF55XLX/1QzB+nZQ9HcA3lEFRtO
+	1+MfefGSkt5aMkWjfAEC+BB8KaXB2ZOGKr8nkniKtcsLxFueg9pquqIqzXocyeCe7O2vHO/kqZb
+	l99TvWAyHuywknVV8Q/rXM3FgK3UX7YDVNb3zGJkC8qDmS4+vxpqs7pisrbeSBvc8WIZLUG9DHD
+	UDwavJjSnrAODcPydu3GWgRVt3zzuMQMgZP8Kw3kaCmy917FmOgKVctkCuyTXdbOEHqHLVViKqJ
+	NCSSsdGgpk8r1o1XXauSGac23qAzLNepWD/uQtXgXv5w==
+X-Received: by 2002:a17:90b:394e:b0:37f:a913:1554 with SMTP id 98e67ed59e1d1-3811236e007mr8531640a91.16.1783153874574;
+        Sat, 04 Jul 2026 01:31:14 -0700 (PDT)
+Received: from primary ([223.181.23.202])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f376bf710sm10074745eec.6.2026.07.04.01.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 01:31:14 -0700 (PDT)
+From: Vidhu Sarwal <vidhu.linux@gmail.com>
+To: sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org
+Cc: bingbu.cao@intel.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	kernel-mentees@lists.linuxfoundation.org,
+	Vidhu Sarwal <vidhu.linux@gmail.com>
+Subject: [PATCH 0/2] staging: media: ipu7: fix pm_runtime refcount leaks
+Date: Sat,  4 Jul 2026 14:00:29 +0530
+Message-ID: <20260704083031.8524-1-vidhu.linux@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com,
- Alain Volmat <alain.volmat@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20260704071740.37531-1-pengpeng@iscas.ac.cn>
-Subject: Re: [PATCH] media: stm32: dcmipp: Propagate runtime resume errors
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260704071740.37531-1-pengpeng@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dpRyGk3Zq1S4MgbH6bVxNslCF1tENCsXc+XAk2d+qxFSZIUfmmH
- /QApZr02qzhhvW3MF5BJGUDj2e36c1qZIJ+qhQbbRnKhGPhXLtHhnMrCgPYrR01FQUo+0XJ
- aRClvLA0b1317ppe1e0qklETDu5KBWGVbhVtugdaOxM/ZglDl5Sdi3GrQPizmBHzR2CTqox
- 6O/g5Hcft8x2hrVjmv/QQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:6tZn5Gh5Jik=;W17w/BFhzVixWyhD3xbAbiv13hA
- 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
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[web.de,quarantine];
-	R_DKIM_ALLOW(-0.20)[web.de:s=s29768273];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66571-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[iscas.ac.cn,vger.kernel.org,lists.infradead.org,st-md-mailman.stormreply.com,foss.st.com,kernel.org,gmail.com];
-	FORGED_SENDER(0.00)[Markus.Elfring@web.de,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:pengpeng@iscas.ac.cn,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-stm32@st-md-mailman.stormreply.com,m:alain.volmat@foss.st.com,m:alexandre.torgue@foss.st.com,m:hugues.fruchet@foss.st.com,m:mchehab@kernel.org,m:mcoquelin.stm32@gmail.com,m:linux-kernel@vger.kernel.org,m:mcoquelinstm32@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[web.de];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Markus.Elfring@web.de,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[web.de:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_CC(0.00)[intel.com,kernel.org,linuxfoundation.org,lists.linux.dev,vger.kernel.org,lists.linuxfoundation.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66572-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:bingbu.cao@intel.com,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:kernel-mentees@lists.linuxfoundation.org,m:vidhu.linux@gmail.com,m:vidhulinux@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[vidhulinux@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vidhulinux@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0134E706FD3
+X-Rspamd-Queue-Id: E8E4E707197
 
-=E2=80=A6
-> Return the pm_runtime_force_resume() result so system resume does not
-> hide a failed runtime resume.
+pm_runtime_get_sync() is used in two places in the ipu7 driver before
+accessing the device. If runtime PM resume fails, the usage count
+remains incremented, but both error paths return without dropping the
+reference.
 
-How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
-=E2=80=9CCc=E2=80=9D) accordingly?
+Use pm_runtime_resume_and_get() instead, which balances the usage count
+on failure and avoids the leaked runtime PM references. This matches the
+equivalent code in the ipu6 driver.
 
-See also:
-* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/submitting-patches.rst?h=3Dv7.2-rc1#n145
-* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/stable-kernel-rules.rst?h=3Dv7.2-rc1#n34
+Vidhu Sarwal (2):
+  staging: media: ipu7: fix pm_runtime refcount leak in
+    ipu7_init_fw_code_region_by_sys()
+  staging: media: ipu7: fix pm_runtime refcount leak in ipu7_resume()
 
+ drivers/staging/media/ipu7/ipu7.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
-Markus
+-- 
+2.53.0
+
 
