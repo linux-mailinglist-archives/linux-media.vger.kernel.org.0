@@ -1,82 +1,98 @@
-Return-Path: <linux-media+bounces-66592-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66593-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id gzm7KjhCSWoHzwAAu9opvQ
-	(envelope-from <linux-media+bounces-66592-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 19:26:16 +0200
+	id zArkIpFDSWo+zwAAu9opvQ
+	(envelope-from <linux-media+bounces-66593-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 19:32:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC74B708168
-	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 19:26:15 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C1C7081A3
+	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 19:32:00 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=CbNG1xlV;
-	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66592-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66592-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=O1hfn4YI;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66593-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66593-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 92E7A30151D5
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2026 17:24:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DE5223021E5D
+	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2026 17:31:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E9037475E;
-	Sat,  4 Jul 2026 17:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A852F375AC6;
+	Sat,  4 Jul 2026 17:31:36 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13E2377EBF;
-	Sat,  4 Jul 2026 17:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C14348C65
+	for <linux-media@vger.kernel.org>; Sat,  4 Jul 2026 17:31:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783185872; cv=none; b=MdhI3cz5Ki4x9qARX2eTNn8o3k2ktw1hkgdd07kZVriug0YfkIv/XCWoEFT9Q4JAPTmb1v/GFB0/X5le5p+Z0E9R/01RGCKFVf5WgviZKHOfzTzdaYippD7rIaM8S3Z8gMi1pnuLW6Ju0p6HEjgoelqgdKxCSAHblEJYb4VOyHs=
+	t=1783186296; cv=none; b=EGas4hKSod9RLdU1KiIhKAvE7r58P9psjQNkMKnc5yRGD2rT4vQo7qkGuek92ub4n7UBwPXkc+CmS1r62v7K3JjoqsWXmFj1pjfkqktzxS3pczZ2hvsVQ3tRi/2R2R5zgLlbeDWoHja1mS59qdvt3FkSaAUJE/jtdR1ZSWh11YQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783185872; c=relaxed/simple;
-	bh=bwJgzEjDtCiFYLEBeDIfh4X6nAtb+oau958LGiGYgO4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nAY0ZoyjJk+cg1edsed98mL41MWP+fK+TX39EdSxn3eh6QFBgcr6L1zDXMmBOEJmIib+niDTH+RLc0Lgh9ZfjaLlIUOZtAIURh3tVmpCtAoHku+Fjzh1W4VytCr/xDGbvDmwYnPNZ4sWz0twx+U5801XvH49D3wV3TPS6JvVGOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CbNG1xlV; arc=none smtp.client-ip=198.175.65.10
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783185871; x=1814721871;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=bwJgzEjDtCiFYLEBeDIfh4X6nAtb+oau958LGiGYgO4=;
-  b=CbNG1xlVm9uOc7svsgKsWKJA6i/pJfwLxjfC2QcSoQSdsJn6j0vJxvEr
-   j9Puq/fBQJ4bWYIw5BIRqDn4WE2inzsNL1IJp1zcAZKcBMqfStkSZZmGw
-   1xEbM4vGh3vM0SYZ5RhkNf2nrK+52+LLwTxGqhMUOqrVdFBnIP6SSGLUK
-   jlKuW40Przq2ZrGDP4D9WOfx35TFT4AUbXFadmdtVjn7CRmeLujcjv3kw
-   ukrIdZArSapuhZUYo+p0Qi7PbGC6NNI8xYE3BMXw5j/YAhdz4jkAfglhb
-   RA03BPH1JydPgDxLbO0BeVeqRkDWjnx0nxDQk30O0QoL25sclZbninw/n
-   g==;
-X-CSE-ConnectionGUID: ZhuEyJ8JTZ2qqroQckM5Xg==
-X-CSE-MsgGUID: Rt6IwC6KQ4ChnWpWtKXXDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11837"; a="101308168"
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="101308168"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 10:24:30 -0700
-X-CSE-ConnectionGUID: xnaQ0srgQg6clww9XUhblA==
-X-CSE-MsgGUID: oWrLnH+ERbWeFU20URqSeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="250677835"
-Received: from intel-nuc8i7beh.iind.intel.com ([10.223.163.6])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Jul 2026 10:24:27 -0700
-From: Arun T <arun.t@intel.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Miguel Vadillo <miguel.vadillo@intel.com>
-Cc: Len Brown <lenb@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@intel.com>,
-	linux-acpi@vger.kernel.org,
+	s=arc-20240116; t=1783186296; c=relaxed/simple;
+	bh=oMIoA9y2QwSIaP74LDSPSwPxm7m3CTzwpbsp1vWNVm4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=SmeZyvDQy8OPJBD4TGvJDwHOr4kSataFC9DUQ+VQk1QHwPJmYnhV6DbUzOWrGwV7PI4hrEGEcLxPZUMmuDOqGMpKAGeiYqSQIt7cN87wIoEA7WpQU3nYRhEBXI/2CfX4CX4l/Q098/pZA5tQpi3d8imFfxRM2iM5iNCYcMVE9iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O1hfn4YI; arc=none smtp.client-ip=209.85.214.174
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cacb8416a1so11290515ad.1
+        for <linux-media@vger.kernel.org>; Sat, 04 Jul 2026 10:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783186293; x=1783791093; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uGW3vnuOQowUku+yOKABC0SiawHjWOple2z61d4A5zU=;
+        b=O1hfn4YIofHk/DmKspm0NbR+c6T9MVqMQ+rN2ClBI5A5AASLWPXNLvtaq6KZ+L6HHd
+         Jwj5PkgsxGEMEAFkJTU/LdSWkB2zZLx33wbejZ2psahOub1NQSj3mf6CaX/1D4scBKzV
+         Sc2SMoEeEHPAseFLSDLPZtHdFGwohp1UQOtLWSMLsAHezihpWfI3QbVIBcViPk8RgVLk
+         jDdAMVoR8vn0cwddOABD5jwXY1dflPMa0qnq1SZ5y8ghs28AWISAzBkWovegWLF8lMiz
+         DbUprNcHMyxyhCR4w7j7Zc7Tf0MXoxJshRPr/FZDYwW2hJKtKwZQkIhxH1foiwfuOtgq
+         aMsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783186293; x=1783791093;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uGW3vnuOQowUku+yOKABC0SiawHjWOple2z61d4A5zU=;
+        b=ODm+bhEeDO45fcUUsTHdCkEmB0hPT76Ohw4cGz86FxSEiFFBzF/J5EJoOAD8763OGp
+         WDznHUML7zsdhwrRLmLamIhcKWvdy4Po4Otuw9KlKwf0Y/chgZmTbt+nyL1spk6GaeTt
+         qW2AW+o5cZyoDeypXTpoJF5Wy7KSOpcEQ2r5UCulCqDL+z3U40z+niJVLTCz2Kt76Lbb
+         0LOv352ksHbDT832dAjQ7yA3YNSNNbNUrh7Xz+1LKjxeBG9FNEBgrGe+FKLyDzJcWsk8
+         SDFEvQucILeCCfSkUOA538nUtRULsEvD4TvoFZrwKuM0/GjyVEVXFoULDUFF6WPUrOWQ
+         cgSw==
+X-Forwarded-Encrypted: i=1; AHgh+RqCN/ccr5F1RAw6W/Xx7pzHSWPW8rrB1iTVs4rEHuldLQU5pR5xVwtTktBI+RSq2VuvpOISirbnhubbmQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6MEcruTJpxOG07FyW4ZKao+WR6mAfGD/d1rexhFjrk6uLaAJU
+	QZmBFrdfocfZE5TnfY8y6MZUhzjuuJBVE8vCVSrVc+1A8bImNFAX6fl7
+X-Gm-Gg: AfdE7cn4d8pVZqnEmDY/SNreFz3MspYDmwZ3PvaEmvhL9ba9A5hmpXmEseXFJGo0bvo
+	cf5joF6CRvDiqIpFR4Ag/gpxjNg6jsnlU/Cn1J6tJpW5sUBJNOoq1qPxtGvWhzh93iyMNB6c483
+	ggYZD9zgR2zbkPkOQo4zBTVex1kOeTHfM+ZTaJd4M8aC4pANMeBLU4jjfGBxox0AeVs11gRPuGd
+	IU/8ZXSyi3DE6nfRGvU/299fdZQmCCsYksfy0BHLqdFkjKuI+2gExK2emJkAgExqYEdIpfSmMof
+	fiZVlONHHxPfgqaEc3Mjgb4Vj/OjeiM5n6PLb64AE4OtbfMSWaDMtmcMLE2Z0ngpw7WR06h/pOE
+	OScM1ZRJywKJnjNX4LYG2fe57lgd6Nsgnr0kSBHBVQyGE1lg+qd2erdrXq7CWFWmYIoWQoksakh
+	pfGg==
+X-Received: by 2002:a17:902:e74f:b0:2ca:ce92:6e44 with SMTP id d9443c01a7336-2cb97e58139mr41657465ad.8.1783186293171;
+        Sat, 04 Jul 2026 10:31:33 -0700 (PDT)
+Received: from lgs.. ([118.193.39.55])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad71328d8sm25082305ad.29.2026.07.04.10.31.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 10:31:32 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Kees Cook <kees@kernel.org>,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] media: i2c: cvs: Add NVL ACPI ID
-Date: Sat,  4 Jul 2026 22:48:55 +0530
-Message-ID: <20260704171855.1462214-5-arun.t@intel.com>
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] media: platform: mtk-mdp3: Fix SCP device refcounting
+Date: Sun,  5 Jul 2026 01:31:19 +0800
+Message-ID: <20260704173119.254975-1-lgs201920130244@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260704171855.1462214-1-arun.t@intel.com>
-References: <20260704171855.1462214-1-arun.t@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,61 +101,77 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66592-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:rafael@kernel.org,m:mchehab@kernel.org,m:miguel.vadillo@intel.com,m:lenb@kernel.org,m:sakari.ailus@linux.intel.com,m:mehdi.djait@intel.com,m:linux-acpi@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[arun.t@intel.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66593-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:lgs201920130244@gmail.com,m:johan@kernel.org,m:marco.crivellari@suse.com,m:thomas.weissschuh@linutronix.de,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:matthiasbgg@gmail.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,collabora.com,suse.com,linutronix.de,vger.kernel.org,lists.infradead.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arun.t@intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:from_mime,intel.com:email,intel.com:mid,intel.com:dkim,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DC74B708168
+X-Rspamd-Queue-Id: E0C1C7081A3
 
-Add INTC10FA to the CVS ACPI match table so the driver can bind to
-CVS devices exposed on NVL platforms.
+mdp_probe() first tries to get the SCP handle with scp_get(). When that
+fails, it falls back to looking up the SCP platform device with
+__get_pdev_by_id() and then reads its driver data.
 
-Signed-off-by: Arun T <arun.t@intel.com>
+The fallback lookup returns the platform device with a reference, just
+like scp_get() does. However, the fallback path currently drops that
+reference immediately after platform_get_drvdata(). The driver later
+still calls scp_put(mdp->scp) unconditionally from the probe error path
+and from mdp_video_device_release(), which drops the SCP device
+reference again.
+
+Keep the fallback reference until the existing scp_put() call, so that
+the fallback path follows the same ownership rules as the scp_get()
+path.
+
+Fixes: 8f6f3aa21517 ("media: platform: mtk-mdp3: fix device leaks at probe")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 ---
- drivers/media/i2c/cvs/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/i2c/cvs/core.c b/drivers/media/i2c/cvs/core.c
-index 8270d93f1abe..7486815b16bd 100644
---- a/drivers/media/i2c/cvs/core.c
-+++ b/drivers/media/i2c/cvs/core.c
-@@ -965,6 +965,7 @@ static const struct acpi_device_id intel_cvs_acpi_match[] = {
- 	{ "INTC10DE" }, /* LNL */
- 	{ "INTC10E0" }, /* ARL */
- 	{ "INTC10E1" }, /* PTL */
-+	{ "INTC10FA" }, /* NVL */
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, intel_cvs_acpi_match);
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+index 8f4da4cf55d2..121b1006ffdc 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+@@ -294,7 +294,6 @@ static int mdp_probe(struct platform_device *pdev)
+ 			goto err_destroy_clock_wq;
+ 		}
+ 		mdp->scp = platform_get_drvdata(mm_pdev);
+-		put_device(&mm_pdev->dev);
+ 	}
+ 
+ 	mdp->rproc_handle = scp_get_rproc(mdp->scp);
 -- 
 2.43.0
 
