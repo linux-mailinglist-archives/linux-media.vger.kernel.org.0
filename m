@@ -1,139 +1,145 @@
-Return-Path: <linux-media+bounces-66567-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66568-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id FNyVH+aNSGrirQAAu9opvQ
-	(envelope-from <linux-media+bounces-66567-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 06:36:54 +0200
+	id 6bNlMHqzSGoPswAAu9opvQ
+	(envelope-from <linux-media+bounces-66568-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 09:17:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974C07069FA
-	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 06:36:53 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17785706E94
+	for <lists+linux-media@lfdr.de>; Sat, 04 Jul 2026 09:17:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=oyDreyBI;
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66567-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66567-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66568-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66568-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 56031300D155
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2026 04:36:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C4A443013A8C
+	for <lists+linux-media@lfdr.de>; Sat,  4 Jul 2026 07:17:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A833859EC;
-	Sat,  4 Jul 2026 04:36:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03669381B0D;
+	Sat,  4 Jul 2026 07:17:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8657D386571
-	for <linux-media@vger.kernel.org>; Sat,  4 Jul 2026 04:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443F634DCC8;
+	Sat,  4 Jul 2026 07:16:49 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783139805; cv=none; b=nNOrJ+33pjmzOU0fo0A83EUWzO+0Gjmgeew746kmLLwKh7yZIdKtfTh8M77Q6pE0nIf4UpV29IqDR3Co5E2anhOeiKhYiARQmMW5gcfm0ltes2htdBFuOTu2/UeujgJADY5hHrRyeumrnjZliGE4Yh0ZybNFa8mDwp0/5zMhIS8=
+	t=1783149418; cv=none; b=K9M94i2yimRNe3D3M1yA4xYNmwNa3XxlfDb1i1gHX5iDW9PvcG8mIU48lUMxUy2iGwXvo41v90yL47PRmeSwMCFIcXLnFsfcSK1Ogr6DDezsLCHRfjzlN+NfatSlFcce76z1v5/SYbbEbACzWmpUx6+QnydTBh3U8YNh6FENXIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783139805; c=relaxed/simple;
-	bh=jVPt16f3fCOIpCJExzAuHIVzHfwoIsSFGogfasDmczM=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=DE+0kjFs/yyaCdj6NiJIqx7gLKXVZTTXTqU2o0xzDYtmyiDjzRddgyo0ESltjij8wcQOA9dfBuRgAxG8qHDTO//OizDSvThXfgKBKyvYBHftn9e7DHjYw5PRu3VHtlyD9BB80MHx3THVi2z02yJfHK82Lb5gVVK3i53np+IGqIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oyDreyBI; arc=none smtp.client-ip=213.167.242.64
-Received: from monstersaurus.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 359623A2;
-	Sat,  4 Jul 2026 06:35:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783139748;
-	bh=jVPt16f3fCOIpCJExzAuHIVzHfwoIsSFGogfasDmczM=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=oyDreyBIhFQ/EwDN6/XadS6bYRduac1H+P7HX5sUOZKBVeOg+AdjUGHJ2oyyFPNLb
-	 oLXzxh6OC9s+EKVfOIeHRpw1n9XF5WqObxx/RBCLfjIqiYtdT11Iq/r2SUwIptLkX4
-	 RTAj8GgzPSnX0Ix2EI7Zqx6pfwBCs9tgo8qBvKdc=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1783149418; c=relaxed/simple;
+	bh=XTNQ5aYBSemeGJKvt1jRaYUtqRi2W950SysLUOYkap0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nrhJm6EXKae6HrxO31ugptfJlnlElx0zh2E8DJaec3NUfYgeqDayClrw8BEf7uxk45/SwHOJDnPlt+0BzEDeMZjEYmgm/q38oo9kEYcU1aGnvSdnSMlUeCSowTKo+yA06VqE5/wpYkYejNQajVU3uFjlNNxSHPVm0kOc8SPuy40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-01 (Coremail) with SMTP id qwCowADHZc5Ys0hqLqegBA--.11598S2;
+	Sat, 04 Jul 2026 15:16:40 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-media@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Subject: [PATCH] media: stm32: dcmi: Propagate runtime resume errors
+Date: Sat,  4 Jul 2026 15:16:38 +0800
+Message-ID: <20260704071638.30125-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <akgoiXheHnjrDtqW@kekkonen.localdomain>
-References: <20260703152451.1743132-1-antti.laakso@linux.intel.com> <2dd5cef71eb1ce5c246e64105ebd0d5cd593a0e0.camel@ndufresne.ca> <akgoiXheHnjrDtqW@kekkonen.localdomain>
-Subject: Re: [PATCH 00/41] media: ipu6: Add support for ipu7 hardware
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Antti Laakso <antti.laakso@linux.intel.com>, linux-media@vger.kernel.org, mchehab@kernel.org, daxing.li@intel.com, ong.hock.yu@intel.com
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Sat, 04 Jul 2026 05:36:31 +0100
-Message-ID: <178313979158.459445.3804729958099737941@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowADHZc5Ys0hqLqegBA--.11598S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtF1xCrWxtFW3Cr17Cry7trb_yoWDWFc_Gr
+	4fZFW7WF4xtr9rKa17tFn3ZryS9FWUW3W8Za9aqa12qa4j9w1UWry2vr9xZ3yUAr1Ikay8
+	GFn5WFyfCr9I9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb3kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+	MIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdYxBIda
+	VFxhVjvjDU0xZFpf9x0JUyMKtUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [1.54 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66567-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:antti.laakso@linux.intel.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:daxing.li@intel.com,m:ong.hock.yu@intel.com,m:nicolas@ndufresne.ca,m:sakari.ailus@linux.intel.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66568-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:hugues.fruchet@foss.st.com,m:alain.volmat@foss.st.com,m:mchehab@kernel.org,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:linux-media@vger.kernel.org,m:linux-stm32@st-md-mailman.stormreply.com,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:pengpeng@iscas.ac.cn,m:mcoquelinstm32@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_TO(0.00)[foss.st.com,kernel.org,gmail.com,vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	R_DKIM_NA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,ping.linuxembedded.co.uk:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,iscas.ac.cn:from_mime,iscas.ac.cn:email,iscas.ac.cn:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 974C07069FA
+X-Rspamd-Queue-Id: 17785706E94
 
-Quoting Sakari Ailus (2026-07-03 22:24:25)
-> Hi Nicolas,
->=20
-> On Fri, Jul 03, 2026 at 12:17:17PM -0400, Nicolas Dufresne wrote:
-> > Hi,
-> >=20
-> > Le vendredi 03 juillet 2026 =EF=BF=BD 18:24 +0300, Antti Laakso a =EF=
-=BF=BDcrit=EF=BF=BD:
-> > > Hello,
-> > >=20
-> > > The 7th Gen Intel Imaging Processing Unit is a PCI device including
-> > > input system and processing system. This set adds support for ISYS
-> > > in IPU7.
-> > >=20
-> > > At this point only IPU7 is supported, not 7.5.
-> >=20
-> > Is this implementation replacing the staging driver in
-> > ./drivers/staging/media/ipu7 ? Can you outline the plan ? Compare this
->=20
-> That's correct: there's no longer need for the staging driver once the ip=
-u6
-> driver has support for both IPU7 and IPU7.5.
+dcmi_runtime_resume() returns clock enable failures, but dcmi_resume()
+currently ignores the result of pm_runtime_force_resume() and always
+returns success.
 
-Only out of curiousity, but if this is generalising IPU6 to support 7
-and 7.5, is there a chance this could help IPU4 users which I understand
-is also firmware based?
+Return the pm_runtime_force_resume() result so system resume does not
+hide a failed runtime resume.
 
---
-Kieran
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ drivers/media/platform/st/stm32/stm32-dcmi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+index eeb0199864dd..b1f9af8edf6e 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+@@ -2273,9 +2273,7 @@ static int dcmi_resume(struct device *dev)
+ 	pinctrl_pm_select_default_state(dev);
+ 
+ 	/* clock enable */
+-	pm_runtime_force_resume(dev);
+-
+-	return 0;
++	return pm_runtime_force_resume(dev);
+ }
+ 
+ static const struct dev_pm_ops dcmi_pm_ops = {
+-- 
+2.43.0
 
-
->=20
-> > implementation against the other one ? Or perhaps its just a different =
-component
-> > of the camera?
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
 
