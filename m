@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-66618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66619-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jjxHCPf9SWo19QAAu9opvQ
-	(envelope-from <linux-media+bounces-66618-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 05 Jul 2026 08:47:19 +0200
+	id qe4XN6L+SWpV9QAAu9opvQ
+	(envelope-from <linux-media+bounces-66619-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 05 Jul 2026 08:50:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711C17092BA
-	for <lists+linux-media@lfdr.de>; Sun, 05 Jul 2026 08:47:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 461D77092D4
+	for <lists+linux-media@lfdr.de>; Sun, 05 Jul 2026 08:50:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=dw7i3TuR;
+	dkim=pass header.d=intel.com header.s=Intel header.b="b/8nvRbu";
 	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66618-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66618-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66619-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66619-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3C38D3010D93
-	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2026 06:47:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B0A9B300E172
+	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2026 06:50:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03339353A98;
-	Sun,  5 Jul 2026 06:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1CF2641EE;
+	Sun,  5 Jul 2026 06:50:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E217D125AA;
-	Sun,  5 Jul 2026 06:46:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E90D2609EE;
+	Sun,  5 Jul 2026 06:50:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783234022; cv=none; b=gvMLeWoWiUwnc7tqPk3vx35hWVUDB2FkEiCrAoXSB1uvoQ+bJst1e9gQq/Br9r0sIwm1+2dZRdEDGtWrhWaTQHNvYYhqx53gFSrQj76sNufqZezcwgUaSd8CvJ0azakBodILtG2OARolwSZtUZRNom3TAsUNzeIEXGQY143s6R0=
+	t=1783234206; cv=none; b=PB2MD6jtVsXxyXKvuE5/48+Xntudrzq6nxGcxiqcFFb8JoD0nbVP8ComXyEa1qqfvo8T2zQOPxDlggWfetFsGUQ3eGkiEBoAoCb0pvceLf25r2qJXNptT7A7OBvaDXAYqiGLNfMfBApyXCwzlRjIQM5FRsVmsTCGcbAD1mv3lwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783234022; c=relaxed/simple;
-	bh=0szE76Z+FnfS6/9eMRBf8Y5dGc8mSNxnjZ4Hok5rYNM=;
+	s=arc-20240116; t=1783234206; c=relaxed/simple;
+	bh=3/mDoSqD0dmq0n7Xb9urDH1LgUjE3ahiwVuSxPlpFXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ssFhc2QGu5P+n6rX0WyWqRO+wKX/xJGaQTVXW0WLSLI0N85ILMvo0cBVIbYYHuMee3NxzfZ8xBnLCrifPRaKKaceW5oRwm2EpVmr9b91AybxMgwYbHo803eSAZaodPoLMQSdxybIUYZzWb+9aDGzJN8Vxs3MGj5WcuB3QifrOmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dw7i3TuR; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gnYnQJs8VuLL+QjJZ3o4OGJUwZ4kBr14VvX1Z7/akyrFNpqAdCsurdquIY8+rWwmwqscKiz/XTUBa6DETYAIC4Hd0E3Wur1WSTmPP1fdj/8IfUVyz77WRVO3VP19Rv6bkGdwE3tj7idf/G4Tx3eDNA5WXIvn0EFFrT4DyXIEsPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/8nvRbu; arc=none smtp.client-ip=192.198.163.18
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783234020; x=1814770020;
+  t=1783234204; x=1814770204;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0szE76Z+FnfS6/9eMRBf8Y5dGc8mSNxnjZ4Hok5rYNM=;
-  b=dw7i3TuRsv1EKwWeNdV1FdY4f8nKXZ+crZdGDnvPJYYWwwTc+v+XM1gO
-   fhqb8+rqV/Ce9fxVH0BaFVEQ8/l8S2pq6oRd57C1ay7QvbsbgTzsGB4Vf
-   +EguH1QS/emdHG9N9/T7NNbEBAl5NNJkcPG7JZEghCIRxDAZhjYiYvLo0
-   IgbNsu07LH57F4KsaO94oQUJEJzosu6C3Ias81ZULZKrm6l5ccXrEcFLj
-   EqkGjMak9Xw0JqH5UJf1mwnv0W8M3NEoc5kZaeN99m6nhhc6QpAqq8FUP
-   Zy5mXB+rlqrQk1zH4hu8DKnwfxfs3EjH8m/0g3TqTE64h+RmjZK9EhywQ
-   A==;
-X-CSE-ConnectionGUID: 9VsBe+WhRliiPfTGJT1uKw==
-X-CSE-MsgGUID: ksic4OlPTxyweaTdDcAG6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11837"; a="83008308"
+  bh=3/mDoSqD0dmq0n7Xb9urDH1LgUjE3ahiwVuSxPlpFXY=;
+  b=b/8nvRbuI1ZO8oXI8wQrH24VagvgGhz4IdY76N/ZKfEe+dCAlua4DhWy
+   QZrGBq0RDWc/7LNKUtaM2e3wJ3EI3iJhkPpArWUVo3ntovV88D35IEdSV
+   ufv654HsI7NKA/HAP+1dfAl4dvnICwJC+1Bo0c8JcrQfLjlj1m5QEg4Zy
+   Ih67WY+j3Cw9mZX3ydHUnalLmzsDrJyFJilJ1xNMFIwJWffGBTwTNV6/v
+   FRE+h8nPw6jO45mDzhRcwQeq1mn+eKlWLfXXUCKzpdBUbTj3dUOaaVIfR
+   gcbf9/1JfDRJrHDeYloJTrCJIuIirjsSbY7723B3dWqprZOLw+aCjk4/7
+   w==;
+X-CSE-ConnectionGUID: H0OGlDLKQAekR/djNFgaCw==
+X-CSE-MsgGUID: ptwcQZzJT56uHwhcEd4ogg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11837"; a="83008401"
 X-IronPort-AV: E=Sophos;i="6.25,148,1779174000"; 
-   d="scan'208";a="83008308"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 23:46:59 -0700
-X-CSE-ConnectionGUID: +Pe+6q0QTIido+0eN8X49w==
-X-CSE-MsgGUID: PI7pShNwQJ2y7ycec0qG1A==
+   d="scan'208";a="83008401"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 23:50:04 -0700
+X-CSE-ConnectionGUID: hoKwTULzTZi6OhCAE5Wcrw==
+X-CSE-MsgGUID: 1xpAr8tyTfunI11Cswj8Tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,148,1779174000"; 
-   d="scan'208";a="254082219"
+   d="scan'208";a="253563032"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.6])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 23:46:56 -0700
-Date: Sun, 5 Jul 2026 09:46:54 +0300
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 23:50:01 -0700
+Date: Sun, 5 Jul 2026 09:49:59 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Ruziev Miraly <miraly.dev@gmail.com>
 Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
@@ -70,7 +70,7 @@ Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] media: atomisp: flatten pre_power_down logic and
  clean up staging code
-Message-ID: <akn93mYvptws9heK@ashevche-desk.local>
+Message-ID: <akn-l_8jVLI4VmbB@ashevche-desk.local>
 References: <20260704190854.114172-1-miraly.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -89,12 +89,12 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66618-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66619-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
@@ -115,135 +115,32 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,intel.com:from_mime,intel.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,intel.com:from_mime,intel.com:dkim,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ashevche-desk.local:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 711C17092BA
+X-Rspamd-Queue-Id: 461D77092D4
 
 On Sun, Jul 05, 2026 at 12:08:54AM +0500, Ruziev Miraly wrote:
 > Refactor atomisp_mrfld_pre_power_down() by removing the redundant
 > nested 'else' block, making the function structure linear and easier
-> to follow.
-
-I don't see this. There is no 'else' removal, what did I miss?
-
-> Keep both error logging branches intact to ensure consistency
+> to follow. Keep both error logging branches intact to ensure consistency
 > in hardware failure reporting.
 > 
 > In addition, fix minor checkpatch.pl style warnings in the same file
 > regarding code alignment and hanging open parentheses.
 
-These are a few things that probably need to be split to different patches.
+> ---
+> Changes in v2:
 
-...
+As I see this went completely wrong. Read my previous reply why.
+Please, slow down and take your time to study how the Git works
+and what is the process to upstream the changes and read related
+(in-kernel) documentation for that (also articles from lwn.net
+will be helpful).
 
->  	struct pci_dev *pdev = to_pci_dev(isp->dev);
->  	u32 irq;
->  	unsigned long flags;
-> +	int ret = 0;
-
-Don't do like this. It makes code harder to maintain and prone to mistakes.
-
->  	spin_lock_irqsave(&isp->lock, flags);
->  
->  	/*
->  	 * MRFLD HAS requirement: cannot power off i-unit if
->  	 * ISP has IRQ not serviced.
-> -	 * So, here we need to check if there is any pending
-> -	 * IRQ, if so, waiting for it to be served
-> +	 * Wait for pending IRQs to be served.
->  	 */
-
-Hmm... Why is this wording changed?
-
->  	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
->  	if (!(irq & BIT(INTR_IIR)))
-> -		goto done;
-> +		goto power_down;
->  
-> +	/* Clear and check interrupt status registers */
->  	atomisp_css2_hw_store_32(MRFLD_INTR_CLEAR_REG, 0xFFFFFFFF);
->  	atomisp_load_uint32(MRFLD_INTR_STATUS_REG, &irq);
-> +
->  	if (irq != 0) {
->  		dev_err(isp->dev,
->  			"%s: fail to clear isp interrupt status reg=0x%x\n",
->  			__func__, irq);
-> -		spin_unlock_irqrestore(&isp->lock, flags);
-> -		return -EAGAIN;
-> +		ret = -EAGAIN;
-> +		goto unlock_exit;
->  	}
-> +
->  	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
->  	irq &= BIT(INTR_IIR);
->  	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
->  
->  	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> -	if (!(irq & BIT(INTR_IIR))) {
-> -		atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
-> -		goto done;
-> +	if (irq & BIT(INTR_IIR)) {
-> +		dev_err(isp->dev,
-> +			"%s: error in iunit interrupt. status reg=0x%x\n",
-> +			__func__, irq);
-> +		ret = -EAGAIN;
-> +		goto unlock_exit;
->  	}
-> -	spin_unlock_irqrestore(&isp->lock, flags);
-> -	return -EAGAIN;
-> -done:
-> +
-> +	atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
-> +
-> +power_down:
->  	/*
->  	 * MRFLD WORKAROUND:
->  	 * before powering off IUNIT, clear the pending interrupts
-> @@ -490,9 +497,10 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
->  
->  	atomisp_msi_irq_uninit(isp);
->  	atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_LOW, true);
-> -	spin_unlock_irqrestore(&isp->lock, flags);
->  
-> -	return 0;
-> +unlock_exit:
-> +	spin_unlock_irqrestore(&isp->lock, flags);
-> +	return ret;
->  }
-
-Are you sending an update on top of your v1?! You must use the same base for
-the each version of the patches. The incremental changes in Git means something
-different.
-
-...
-
-> @@ -839,7 +847,7 @@ static int atomisp_register_entities(struct atomisp_device *isp)
->  	/* Register internal entities */
->  	for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++) {
->  		ret = atomisp_mipi_csi2_register_entities(&isp->csi2_port[i],
-> -			&isp->v4l2_dev);
-> +							  &isp->v4l2_dev);
->  		if (ret == 0)
->  			continue;
-
-This change is not related. Split it.
-
-...
-
-> @@ -847,8 +855,7 @@ static int atomisp_register_entities(struct atomisp_device *isp)
->  		dev_err(isp->dev, "failed to register the CSI port: %d\n", i);
->  		/* deregister all registered CSI ports */
->  		while (i--)
-> -			atomisp_mipi_csi2_unregister_entities(
-> -			    &isp->csi2_port[i]);
-> +			atomisp_mipi_csi2_unregister_entities(&isp->csi2_port[i]);
->  
->  		goto csi_and_subdev_probe_failed;
->  	}
-
-As previous, should be in another patch.
+On top of that, find a hardware to test your changes. It's usually quite cheap
+no-name Intel Bay Trail or Intel Cherry Trail tablets one may find.
 
 -- 
 With Best Regards,
