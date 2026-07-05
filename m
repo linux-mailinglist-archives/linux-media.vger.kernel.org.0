@@ -1,365 +1,218 @@
-Return-Path: <linux-media+bounces-66615-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66616-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id VErBHCfgSWoa8AAAu9opvQ
-	(envelope-from <linux-media+bounces-66615-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 05 Jul 2026 06:40:07 +0200
+	id RrO3NnLnSWpt8QAAu9opvQ
+	(envelope-from <linux-media+bounces-66616-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 05 Jul 2026 07:11:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA71708EDA
-	for <lists+linux-media@lfdr.de>; Sun, 05 Jul 2026 06:40:06 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CB7708FE4
+	for <lists+linux-media@lfdr.de>; Sun, 05 Jul 2026 07:11:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="HYD6/9Ol";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66615-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66615-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b=G7n219L7;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66616-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66616-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1F8B3301C154
-	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2026 04:39:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BEFDA3015880
+	for <lists+linux-media@lfdr.de>; Sun,  5 Jul 2026 05:11:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 683E9282F2C;
-	Sun,  5 Jul 2026 04:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6897825B0BC;
+	Sun,  5 Jul 2026 05:11:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B6426ED41
-	for <linux-media@vger.kernel.org>; Sun,  5 Jul 2026 04:39:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A5A433E9E;
+	Sun,  5 Jul 2026 05:11:01 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783226396; cv=none; b=pvlpQMdm7kqZ6vqVl0yuuz2Ak7ekoIYGsa290Z8ER8o09QY8iDvv7/aLP0MmPByDykTo9eb84U3YSfUR+OcG59kd/j4AemZn3rAujm8h5mYniDV6RECrEmq7Ilsh2dckM50EySqXqgTcH9dIO+EjBiHX+Sy25w8rbzeggtp9dek=
+	t=1783228261; cv=none; b=az4EAN4I5RPe46OGpMjU4IEBX5yUtPBkzT/LHh68TsZilFBwoKXWAwMjWME/7B01Muz/dL57NHbxIEpSLP4ZQ59X5KJSPaSh+jKiaUtEPprqzR5llRC1/8NXibQGXGYOVyT7y2htR4HQq8JCqlhkXEkMDKI3J+g/IIL6LDpQg/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783226396; c=relaxed/simple;
-	bh=q90RW5tH6qtrTmmd6q8COrQ5Zm3MxujrL6aUddy+6Jw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bfdgDDvWJ5fA+m2O0GdAHqGfwj6OZFR6pddzOKOU5Mn0dVLGY1dbu5qfwudoq/KXCTAEBcxNVRLy/07JUUKiFcv1w2hAgpQ6fxuez9fjCow2DZm4P9+G9Fj7CJ4NqmraozNXeNwTm4RyNPoq6XZemyD044Bp65nVT3znpEmHqwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HYD6/9Ol; arc=none smtp.client-ip=209.85.128.175
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-80c4d1520c9so714097b3.3
-        for <linux-media@vger.kernel.org>; Sat, 04 Jul 2026 21:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783226394; x=1783831194; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sbdlEf2xTWXJzXgVbM2XWeDt8l4xTUKqs5M3XQtEYUY=;
-        b=HYD6/9OlsJjPaXuQfVoiRgJysJYVcL5qZKNBrpHMAsC6kFeR+WhAaV0bx42NkZPNGo
-         fKHIUbqExqqnJNITlx1huCyyaLPFCaYfog1jif1kFatO+odRJgEHid5CxiFxJuCgSkxo
-         E+uZon8ugEd0Dq598eVhORRyGWlD62+eYuN1QvJa3Nvdifq8FsvCzXy7mufdBgObv7n1
-         8NozdtyD42l1Q0j3s2/EyY/aKOiEjEHhPzWXLaQknQFHE/a66Qc1+7pxlzolcW9mlw2K
-         /nntecURUaEGt1OwSRhMqNgtxGKc9GsxEpkpT16F9N5shXha26t4Iml9YI6u+hSaOHuH
-         Dk4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783226394; x=1783831194;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sbdlEf2xTWXJzXgVbM2XWeDt8l4xTUKqs5M3XQtEYUY=;
-        b=PVhckLaVI9SXQMKeU3uo7FN9SvFQ5HcEYpVCY3esozK42OfLnfo1VdmFKHzY9Iw+0i
-         rxPU7TEnvkTV4bfNOCE3pPvZophAXayzwvAarmpYzwWUi4JGi+jqTRM2tHt16E0BW+uT
-         g5KxgXP0hbQ5Vl6N6dMGHAZN2v/v/+rdT3smK53w+5zHS9p9c3N7oxjtBR1B9m22yuAz
-         W5EClaja032t70um+YiNnUJSH3BDeZrpx9iVmkfSnMp0dDKio25FOiUZBfsvrrO79YmM
-         glJdju7yuK2RXiFQdZyPvPpHfhCZD2kvpqA+W9cTa5ANdsc56ejv9D3uGL9lovjoaNiy
-         bR5g==
-X-Forwarded-Encrypted: i=1; AHgh+RolOFtq+bswpyT/HZvTAbYx7Uocil8T3GUUy4NX1SPWSSZbVVjO0b7Y7QhAZtby2XD80BussmA/1nQwuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJpSI5v/Uaa40p47+EjxAAaiMPVFLalL3myI79+9ejuJpOojIj
-	r+gc5DrBjHyQowX1d2HaC9SM6/R6eQ7CBy2eLggyPXKkDTJbD0dDt4do
-X-Gm-Gg: AfdE7cnU34WYPtLIdbont7FE/AVXT2XfnI6Gsv696Vjf5GlPlrY6zLMNZMwNxaVR7mA
-	laKIblzBxiolFSV+K7Q21/jV9uPLt6LuQln3d1I0/9IAyL5YGY6Mktk5MIiyRRZliPCUxfOEZcX
-	Kr+S4RqR59Ph+NjCdHL6g7dq7tA3Izi/xr3bt6z89WC98/2egyzZtUiotW/DZWGieic5nefVNMF
-	6ssxWRhVEs4hsl3LTc0tsyBkM6FfaN4O1wWYnU23gV4n1zCmqRsMQhkIrwL/n7a8oY9Au3Ai//Y
-	zJNF6FDQ334ol7eQA/b3EgtBbWwDcGu2pRthWSaZPxAHFgaNO8XMrUzcZTi4xG9BOWImHmmqlSv
-	cjCfPlRgnaaXIeVK5OXUI0ldbGf6OxpeGsE7D98AO5l0Ms38u5Bgc3/QDbDN7OBugF1dh
-X-Received: by 2002:a05:690c:d84:b0:7ba:d784:8b59 with SMTP id 00721157ae682-817218a3116mr57259757b3.7.1783226394279;
-        Sat, 04 Jul 2026 21:39:54 -0700 (PDT)
-Received: from desktop ([2600:1700:78e0:fd0::27])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8144bd2b44fsm42051997b3.47.2026.07.04.21.39.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 21:39:53 -0700 (PDT)
-From: Neal Patalay <nealpatalay0@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mugrinphoto@gmail.com,
-	matt@mattwardle.net,
-	nealpatalay0@gmail.com
-Subject: [PATCH v2] staging: media: atomisp: refactor pipe graph dump stage formatting
-Date: Sat,  4 Jul 2026 21:39:20 -0700
-Message-ID: <20260705043920.105252-1-nealpatalay0@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1783228261; c=relaxed/simple;
+	bh=riCM5RaRHkqP28zgfD4aY7+CD/6IsZuAEwvp3o7eq8g=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gMyHeRKMThlfCjaqBlijrghl7+hFq2NJsHl4ZuOwo8o/q7YOIu0diYxp/PPh54EoJq534oJQxm0J+kQEF4SgU2lptHiT/oBbVJIpSDoTgTePCr3/ptYLUc+8h/0LtAKGCXpjkNN96ScIrau3x/uUfh2NnZ46ndiIzffdvstMttM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G7n219L7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 05940C2BCB8;
+	Sun,  5 Jul 2026 05:11:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783228261;
+	bh=riCM5RaRHkqP28zgfD4aY7+CD/6IsZuAEwvp3o7eq8g=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=G7n219L7UFhdv8tArAFBsjc1JWJHYRP3xJ+UbyttcLMYgVjyw16hmdEOtqzGdBeIq
+	 MISUaV8RKSdrzvVpDHLVz0rRpXub6aFjHyVKrdpUEVQbthRfx/37a0RollgFRRzHnp
+	 etNUK82w2ATg4U0s3DiFjQb9MbVwWgbnDKBilINiiyctoiCJ5SZ6F7MzqHk62/dedT
+	 JRLhHYxD3D//g1Xbc/9A4F7HjebgLxosn+jSnEv3M6Crvs30g+JtpT0awHZZ3IDV9E
+	 MkE/wgRY6fJBSjjCOJP0VM5nHPoltEqQi8ZCks3BxKf3ePPUlSE/7Z97miDi9j7qPM
+	 ODZ4Q4ZD1tZOw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D32EDC43458;
+	Sun,  5 Jul 2026 05:11:00 +0000 (UTC)
+From: Joseph Breihan via B4 Relay <devnull+linux.josephbreihan.com@kernel.org>
+Date: Sun, 05 Jul 2026 01:10:43 -0400
+Subject: [PATCH] media: au0828: add support for Monoprice 106456 USB
+ ATSC/QAM tuner
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260705-au0828-monoprice-v1-1-4b7bbfc2c7fe@josephbreihan.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ7CIBBA0auQWZeEYpHaqxgXOB10mggEbNOk4
+ e6iLt/i/wMKZaYCkzgg08aFY2joOwH4dOFBkudm0EqflVVGulWNepSvGGLKjCRnMm7A0wXt4KF
+ lKZPn/be83v4u630hfH8/UOsHTHICeXQAAAA=
+X-Change-ID: 20260705-au0828-monoprice-de5a4c39c74f
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Joseph Breihan <linux@josephbreihan.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783228260; l=3949;
+ i=linux@josephbreihan.com; s=20260705; h=from:subject:message-id;
+ bh=qzsjNKPfiuPaYgKyTwT9vKQKC+FWy25TYC/pfFwf62M=;
+ b=tkJMuRdeJ0JBMz0r30KXKdMAMPRU4ZKAxSz0UXkjv8/AO6lBX8FGag+r7Q5gzeJfrqkBzRaEc
+ WATF4fFYvYYBhzkyna+vQ3hLmFjIAqePTlcW/JnikLDvDDuw1jaEiTn
+X-Developer-Key: i=linux@josephbreihan.com; a=ed25519;
+ pk=EHopwlApUikmTLRFGCwX5XX8xai+qKAP4wXj4X4xXKM=
+X-Endpoint-Received: by B4 Relay for linux@josephbreihan.com/20260705 with
+ auth_id=851
+X-Original-From: Joseph Breihan <linux@josephbreihan.com>
+Reply-To: linux@josephbreihan.com
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66615-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com,mattwardle.net];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_SENDER(0.00)[nealpatalay0@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:sakari.ailus@linux.intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:mugrinphoto@gmail.com,m:matt@mattwardle.net,m:nealpatalay0@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66616-lists,linux-media=lfdr.de,linux.josephbreihan.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nealpatalay0@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux@josephbreihan.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TO_DN_NONE(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	HAS_REPLYTO(0.00)[linux@josephbreihan.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,josephbreihan.com:replyto,josephbreihan.com:mid,josephbreihan.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BDA71708EDA
+X-Rspamd-Queue-Id: 35CB7708FE4
 
-The original implementation of ia_css_debug_pipe_graph_dump_stage()
-includes an off-by-one error where the original strscpy() size dropped
-characters immediately before newlines. It also allocates over 600
-bytes across multiple buffers on the stack. Address these shortcomings
-and reduce stack usage with a single 256 byte buffer via a new helper
-function, ia_css_debug_build_info().
+From: Joseph Breihan <linux@josephbreihan.com>
 
-Fixes: 662fb4fceb1a ("media: atomisp: get rid of a string_support.h abstraction layer")
-Signed-off-by: Neal Patalay <nealpatalay0@gmail.com>
+The Monoprice 106456 (board rev TV22AD-A, also sold as the AnyTV
+AUTV002) is a USB ATSC/QAM tuner that enumerates as 05e1:0400 and
+reports itself as a "Syntek Semiconductor USB 2.0 Video Capture
+Controller". The hardware is an Auvitek AU0828A bridge with an AU8522
+demodulator and an NXP TDA18271HDC2 tuner at I2C address 0x60 -- the
+same demod/tuner combination as the existing Hauppauge Woodbury board.
+
+Adds board profile and the USB ID so the device binds. The digital
+frontend is electrically identical to the Woodbury, so share that
+board's au8522/tda18271 configuration and attach path rather than
+duplicating it. Tested with over-the-air 8VSB ATSC: it locks and
+streams a live 720p transport stream.
+
+Some 05e1:0400 units reportedly ship a Microtune MT2131 tuner with an
+AU8502 demodulator instead. This patch does not handle that variant,
+but it can't regress it either: 05e1:0400 matches no driver today, and
+on the MT2131 units tda18271_attach() just fails, so no frontend is
+registered.
+
+Signed-off-by: Joseph Breihan <linux@josephbreihan.com>
 ---
-v2:
-- Fixed strscpy typo in commit message
-- Changed Fixes tag to point to the actual buggy commit
-- Dropped "flag" parameter from helper function and moved check to the macro
-- Split long lines to conform with subsystem character limit
----
- .../pci/runtime/debug/src/ia_css_debug.c      | 186 +++++++-----------
- 1 file changed, 71 insertions(+), 115 deletions(-)
+ drivers/media/usb/au0828/au0828-cards.c | 14 ++++++++++++++
+ drivers/media/usb/au0828/au0828-cards.h |  1 +
+ drivers/media/usb/au0828/au0828-dvb.c   |  1 +
+ 3 files changed, 16 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index 5113aa5973f3..53d47144d8c9 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -1162,6 +1162,29 @@ void ia_css_debug_pipe_graph_dump_epilogue(void)
- 	pg_inst.stream_format = N_ATOMISP_INPUT_FORMAT;
- }
- 
-+static void ia_css_debug_build_info(char *info, size_t info_size,
-+				    int *offset,
-+				    const char *flag_str, size_t flag_str_size,
-+				    int *line_len)
-+{
-+	/*
-+	 * If new line length exceeds max line length,
-+	 * replace the last ',' with a "\\n"
-+	 */
-+	if (*line_len > 0 && info_size - *offset >= 2 &&
-+	    *line_len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
-+		info[*offset - 1] = '\\';
-+		info[*offset] = 'n';
-+		*offset += 1;
-+		*line_len = 0;
-+	}
-+
-+	int len_written = scnprintf(info + *offset, info_size - *offset,
-+				    "%s,", flag_str);
-+	*offset += len_written;
-+	*line_len += len_written;
-+}
-+
- void
- ia_css_debug_pipe_graph_dump_stage(
-     struct ia_css_pipeline_stage *stage,
-@@ -1194,123 +1217,56 @@ ia_css_debug_pipe_graph_dump_stage(
- 
- 	/* Guard in case of binaries that don't have any binary_info */
- 	if (stage->binary_info) {
--		char enable_info1[100];
--		char enable_info2[100];
--		char enable_info3[100];
--		char enable_info[302];
-+		char enable_info[256];
-+		int offset = 0;
-+		int line_len = 0;
- 		struct ia_css_binary_info *bi = stage->binary_info;
- 
--		/* Split it in 2 function-calls to keep the amount of
--		 * parameters per call "reasonable"
--		 */
--		snprintf(enable_info1, sizeof(enable_info1),
--			 "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
--			 bi->enable.reduced_pipe ?	"rp," : "",
--			 bi->enable.vf_veceven ?		"vfve," : "",
--			 bi->enable.dis ?		"dis," : "",
--			 bi->enable.dvs_envelope ?	"dvse," : "",
--			 bi->enable.uds ?		"uds," : "",
--			 bi->enable.dvs_6axis ?		"dvs6," : "",
--			 bi->enable.block_output ?	"bo," : "",
--			 bi->enable.ds ?			"ds," : "",
--			 bi->enable.bayer_fir_6db ?	"bf6," : "",
--			 bi->enable.raw_binning ?	"rawb," : "",
--			 bi->enable.continuous ?		"cont," : "",
--			 bi->enable.s3a ?		"s3a," : "",
--			 bi->enable.fpnr ?		"fpnr," : "",
--			 bi->enable.sc ?			"sc," : ""
--			);
--
--		snprintf(enable_info2, sizeof(enable_info2),
--			 "%s%s%s%s%s%s%s%s%s%s%s",
--			 bi->enable.macc ?		"macc," : "",
--			 bi->enable.output ?		"outp," : "",
--			 bi->enable.ref_frame ?		"reff," : "",
--			 bi->enable.tnr ?		"tnr," : "",
--			 bi->enable.xnr ?		"xnr," : "",
--			 bi->enable.params ?		"par," : "",
--			 bi->enable.ca_gdc ?		"cagdc," : "",
--			 bi->enable.isp_addresses ?	"ispa," : "",
--			 bi->enable.in_frame ?		"inf," : "",
--			 bi->enable.out_frame ?		"outf," : "",
--			 bi->enable.high_speed ?		"hs," : ""
--			);
--
--		/* And merge them into one string */
--		snprintf(enable_info, sizeof(enable_info), "%s%s",
--			 enable_info1, enable_info2);
--		{
--			int l, p;
--			char *ei = enable_info;
--
--			l = strlen(ei);
--
--			/* Replace last ',' with \0 if present */
--			if (l && enable_info[l - 1] == ',')
--				enable_info[--l] = '\0';
--
--			if (l > ENABLE_LINE_MAX_LENGTH) {
--				/* Too big for one line, find last comma */
--				p = ENABLE_LINE_MAX_LENGTH;
--				while (ei[p] != ',')
--					p--;
--				/* Last comma found, copy till that comma */
--				strscpy(enable_info1, ei, umin(p, sizeof(enable_info1)));
--
--				ei += p + 1;
--				l = strlen(ei);
--
--				if (l <= ENABLE_LINE_MAX_LENGTH) {
--					/* The 2nd line fits */
--					/* we cannot use ei as argument because
--					 * it is not guaranteed dword aligned
--					 */
--
--					strscpy(enable_info2, ei, umin(l, sizeof(enable_info2)));
--
--					snprintf(enable_info, sizeof(enable_info), "%s\\n%s",
--						 enable_info1, enable_info2);
--
--				} else {
--					/* 2nd line is still too long */
--					p = ENABLE_LINE_MAX_LENGTH;
--					while (ei[p] != ',')
--						p--;
--
--					strscpy(enable_info2, ei, umin(p, sizeof(enable_info2)));
--
--					ei += p + 1;
--					l = strlen(ei);
--
--					if (l <= ENABLE_LINE_MAX_LENGTH) {
--						/* The 3rd line fits */
--						/* we cannot use ei as argument because
--						* it is not guaranteed dword aligned
--						*/
--						strscpy(enable_info3, ei,
--							sizeof(enable_info3));
--						snprintf(enable_info, sizeof(enable_info),
--							 "%s\\n%s\\n%s",
--							 enable_info1, enable_info2,
--							 enable_info3);
--					} else {
--						/* 3rd line is still too long */
--						p = ENABLE_LINE_MAX_LENGTH;
--						while (ei[p] != ',')
--							p--;
--						strscpy(enable_info3, ei,
--							umin(p, sizeof(enable_info3)));
--						ei += p + 1;
--						strscpy(enable_info3, ei,
--							sizeof(enable_info3));
--						snprintf(enable_info, sizeof(enable_info),
--							 "%s\\n%s\\n%s",
--							 enable_info1, enable_info2,
--							 enable_info3);
--					}
--				}
--			}
--		}
-+#define ADD_INFO(flag, flag_str)						\
-+		do {								\
-+			if (bi->enable.flag)					\
-+				ia_css_debug_build_info(enable_info,		\
-+							sizeof(enable_info),	\
-+							&offset,		\
-+							flag_str,		\
-+							sizeof(flag_str),	\
-+							&line_len);		\
-+		} while (0)
-+
-+		/* Build string in enable_info buffer */
-+		ADD_INFO(reduced_pipe, "rp");
-+		ADD_INFO(vf_veceven, "vfve");
-+		ADD_INFO(dis, "dis");
-+		ADD_INFO(dvs_envelope, "dvse");
-+		ADD_INFO(uds, "uds");
-+		ADD_INFO(dvs_6axis, "dvs6");
-+		ADD_INFO(block_output, "bo");
-+		ADD_INFO(ds, "ds");
-+		ADD_INFO(bayer_fir_6db, "bf6");
-+		ADD_INFO(raw_binning, "rawb");
-+		ADD_INFO(continuous, "cont");
-+		ADD_INFO(s3a, "s3a");
-+		ADD_INFO(fpnr, "fpnr");
-+		ADD_INFO(sc, "sc");
-+		ADD_INFO(macc, "macc");
-+		ADD_INFO(output, "outp");
-+		ADD_INFO(ref_frame, "reff");
-+		ADD_INFO(tnr, "tnr");
-+		ADD_INFO(xnr, "xnr");
-+		ADD_INFO(params, "par");
-+		ADD_INFO(ca_gdc, "cagdc");
-+		ADD_INFO(isp_addresses, "ispa");
-+		ADD_INFO(in_frame, "inf");
-+		ADD_INFO(out_frame, "outf");
-+		ADD_INFO(high_speed, "hs");
-+
-+#undef ADD_INFO
-+
-+		/* Replace last ',' with '\0' */
-+		if (offset > 0)
-+			enable_info[offset - 1] = '\0';
-+		else
-+			enable_info[0] = '\0';
- 
- 		dtrace_dot("node [shape = circle, fixedsize=true, width=2.5, label=\"%s\\n%s\\n\\n%s\"]; \"%s(pipe%d)\"",
- 			   bin_type, blob_name, enable_info, blob_name, id);
--- 
-2.55.0
+diff --git a/drivers/media/usb/au0828/au0828-cards.c b/drivers/media/usb/au0828/au0828-cards.c
+index 9929ce5dcdc..8ab100db01a 100644
+--- a/drivers/media/usb/au0828/au0828-cards.c
++++ b/drivers/media/usb/au0828/au0828-cards.c
+@@ -124,6 +124,17 @@ struct au0828_board au0828_boards[] = {
+ 			},
+ 		},
+ 	},
++	[AU0828_BOARD_MONOPRICE_106456] = {
++		/*
++		 * Monoprice 106456 USB ATSC/QAM tuner (board rev TV22AD-A),
++		 * a.k.a. AnyTV AUTV002, USB ID 05e1:0400. Same AU8522 demod +
++		 * NXP TDA18271HDC2 tuner @ 0x60 as the Hauppauge Woodbury.
++		 */
++		.name	= "Monoprice 106456 USB ATSC/QAM (TV22AD-A)",
++		.tuner_type = TUNER_NXP_TDA18271,
++		.tuner_addr = 0x60,
++		.i2c_clk_divider = AU0828_I2C_CLK_250KHZ,
++	},
+ 	[AU0828_BOARD_HAUPPAUGE_HVR1265] = {
+ 		.name	= "Hauppauge HVR1265",
+ 		.tuner_type = TUNER_XC5000,
+@@ -294,6 +305,7 @@ void au0828_gpio_setup(struct au0828_dev *dev)
+ 	case AU0828_BOARD_HAUPPAUGE_WOODBURY:
+ 	case AU0828_BOARD_HAUPPAUGE_HVR1265:
+ 	case AU0828_BOARD_HAUPPAUGE_IMPACTVCBE:
++	case AU0828_BOARD_MONOPRICE_106456:
+ 		/* GPIO's
+ 		 * 4 - CS5340
+ 		 * 5 - AU8522 Demodulator
+@@ -378,6 +390,8 @@ struct usb_device_id au0828_usb_id_table[] = {
+ 		.driver_info = AU0828_BOARD_HAUPPAUGE_HVR950Q_MXL },
+ 	{ USB_DEVICE(0x05e1, 0x0480),
+ 		.driver_info = AU0828_BOARD_HAUPPAUGE_WOODBURY },
++	{ USB_DEVICE(0x05e1, 0x0400),
++		.driver_info = AU0828_BOARD_MONOPRICE_106456 },
+ 	{ USB_DEVICE(0x2040, 0x8200),
+ 		.driver_info = AU0828_BOARD_HAUPPAUGE_WOODBURY },
+ 	{ USB_DEVICE(0x2040, 0x7260),
+diff --git a/drivers/media/usb/au0828/au0828-cards.h b/drivers/media/usb/au0828/au0828-cards.h
+index a438aeb334a..a4a283731f7 100644
+--- a/drivers/media/usb/au0828/au0828-cards.h
++++ b/drivers/media/usb/au0828/au0828-cards.h
+@@ -13,3 +13,4 @@
+ #define AU0828_BOARD_HAUPPAUGE_WOODBURY	5
+ #define AU0828_BOARD_HAUPPAUGE_IMPACTVCBE	6
+ #define AU0828_BOARD_HAUPPAUGE_HVR1265		7
++#define AU0828_BOARD_MONOPRICE_106456		8
+diff --git a/drivers/media/usb/au0828/au0828-dvb.c b/drivers/media/usb/au0828/au0828-dvb.c
+index 31123e6f9fc..9c95b7ceaec 100644
+--- a/drivers/media/usb/au0828/au0828-dvb.c
++++ b/drivers/media/usb/au0828/au0828-dvb.c
+@@ -600,6 +600,7 @@ int au0828_dvb_register(struct au0828_dev *dev)
+ 				   &mxl5007t_hvr950q_config);
+ 		break;
+ 	case AU0828_BOARD_HAUPPAUGE_WOODBURY:
++	case AU0828_BOARD_MONOPRICE_106456:
+ 		dvb->frontend = dvb_attach(au8522_attach,
+ 				&hauppauge_woodbury_config,
+ 				&dev->i2c_adap);
+
+---
+base-commit: 8dac27bfa2f994ecb11f01a63641527d17d48fc1
+change-id: 20260705-au0828-monoprice-de5a4c39c74f
+
+Best regards,
+--  
+Joseph Breihan <linux@josephbreihan.com>
+
 
 
