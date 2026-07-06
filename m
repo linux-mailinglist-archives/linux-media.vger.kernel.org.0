@@ -1,53 +1,84 @@
-Return-Path: <linux-media+bounces-66751-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66752-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XPCQIBejS2rpXQEAu9opvQ
-	(envelope-from <linux-media+bounces-66751-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 14:44:07 +0200
+	id HH8kAW6mS2p3XwEAu9opvQ
+	(envelope-from <linux-media+bounces-66752-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 14:58:22 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E111E710AB2
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 14:44:06 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF0A8710E49
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 14:58:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YLfY2V0F;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66751-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66751-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=linaro.org header.s=google header.b=uB6RGujH;
+	dmarc=pass (policy=none) header.from=linaro.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66752-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66752-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 400A130418A6
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 12:37:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8D299308FFBD
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 12:39:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5F342CB17;
-	Mon,  6 Jul 2026 12:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 927D142E004;
+	Mon,  6 Jul 2026 12:38:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE123FE35F;
-	Mon,  6 Jul 2026 12:37:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D5839D3DA
+	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 12:38:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783341430; cv=none; b=E9NhVC7AjqjqNUnVYVUPkKm43E30nj0yJeSW0r1fU26UQbEq6wfxradwHoswZizifd0KhVDbePnYhfRihYp3ya9RYMzIcsMx0wa2LACzOn8S2tyKnmLJ6B9Iho57u2BIJfClfjwSzoICXdQsGjYyq7uTsoJwDvt0+tTZMsoy6w4=
+	t=1783341534; cv=none; b=JcX8JIm5XA74SgwZz3bFLtRqAXBriJeP+sWbpFVD3DpsQcy5ZhuuBh7PVYAp4pUv8m4l/UiWT7JNQGRZ1Ap2ZcNG7JiVqa+E86oIiAEz1WT7WUdEO+Jn83FFWOl+mMHGm4xUZk/pBBQ3NWTkJy9nhJo+wCFo+mwaOkl0S5c4t+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783341430; c=relaxed/simple;
-	bh=xKa+TVNCB1T93t+ZkgGKoHYSybGj/JKhIlmDllAOGXg=;
+	s=arc-20240116; t=1783341534; c=relaxed/simple;
+	bh=ZB9qw/FoktltYDTtZmKGAiHusi7djsQuc9QrlOagD8s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZTrqsNSHe7KSAQXhHX2jkz7TNM2dKWaDIroYeElPvX8EAzM0jAkBUWgzhP96Q/uDBIr1zLYFS6QAHp7XL2fYxTT032swfL9rQj/32OkDQSqi/meIf+xsdR2nyzZKgXoQSNEBi8CI1H12VfUsqTdBLlE9y8U9TZoMUTEeq9U8Sz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLfY2V0F; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D96721F000E9;
-	Mon,  6 Jul 2026 12:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783341428;
-	bh=++skhoLVzffVvUQeo14ZunDPKHthA/dJosH4iwTJQ5I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=YLfY2V0FxhC+pHx7r4YbvVgL7gOLR0Vyu3ptrTptsGlSwi5oWsUovtKlzMcZAaFlL
-	 azpID723IAEVaKQlKBTQ0pvVGACu40YkDN9oP1SxRzC5PoQXcCmuu2lDgmuzEELXIh
-	 DAzfay0IISBuCmD3Q4XPXFD9hnKWj9GjlEVcF9GBat9j0mBwbBeWblMVkP4mCrE7i/
-	 A9ri7S5Q2pfro8UmcZya/+AignZHl8Dqd9QLsE7MsFGln4kXNrRWPbAZgBWSbhfGBC
-	 q/FxwCA6nKTSgc20MunH1cGoknSrJzk0CzwyYQ2lvb7l2weiqAJwa/r2ucZvThfz8i
-	 SfwoQsDoN/7YQ==
-Message-ID: <612730a9-8d5a-4c3f-8e04-6a248258e51a@kernel.org>
-Date: Mon, 6 Jul 2026 14:36:58 +0200
+	 In-Reply-To:Content-Type; b=Yp+uuRfbuqvz6J2yFx8KRIsTLwb1eBxYmJ8XRC6tXjHbEnaaHYNWvqhGney72QL49LY3wyHZ5jyv6rFmdhmILVf2+BwbW79FuSJwZSg9JO0UXXHBykBWPWwuuBfd2cY7cDm5xHNLhbpRYndnxxZDEeRDuMFbmYfX5hyG5FNKbMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uB6RGujH; arc=none smtp.client-ip=209.85.208.50
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-698562f10e7so3808846a12.0
+        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 05:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1783341531; x=1783946331; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0R72pD2mExeKC5AJxZ73S5fYO6zCf9Lqx8bTZyttVKQ=;
+        b=uB6RGujHOqaoyr1ZQLJR8lNbPuqVYIMxKuNZHXqZjk8NZlCUYDMJUnCAbLcbSQeIa/
+         o8ks4Tl4cjn0P+nwbfJtzhN7AQ/5SeNYMeI+BdgiyZoqRbC1h+QpxyPK800bwOASTHdt
+         3Uem8zZIdN/vUAyoyz36ZisCSR3bLl9uw3IZB/a5/abNqk6eV5NJuwvKtaZk4EjZ9heY
+         ZxRSeg1o9sXDycgx258mz3coZFEDMQ+3xuS698RHR6LYjsOn4+Ikco75SBgKnnF8pxGv
+         LDmE6lco517tZYZWL2m0gJfPJur9XNbHTAIZDWSCgYjwZ5TLhkXt3iGPhi+hiJCHvg67
+         XDrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783341531; x=1783946331;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0R72pD2mExeKC5AJxZ73S5fYO6zCf9Lqx8bTZyttVKQ=;
+        b=JWY5P7Z3uwWII+o4EU9sin6m41l7E2SJO8tLlOZjTpAUKVfaBDbRYGaRRsubv2+tyI
+         AiOWfdoWf83RJXS6BMuOEuaFwWOY3ETG0aRXL7q+1BrmsbIFcCFSVhDkpkBZ+kCAttEj
+         3icAyT5vfVXXpEK3VgjGRFMEQy9a5NtDyFnlSmjPbw5VFIfK2NqQKy4129oE5Bj+vlxv
+         US5FzlRKgtVYkfxUVNgb4xWCuVAmwAEk7v3698uiskrnf8BCf8MtXwhBLO+mjUy2Eerq
+         XuqSc1rWmF4et/kLR95wb3/yMeCDOYwUiomxWif1t/owbhKqa/fRBg5R9sr+V+KWGxF1
+         8Qow==
+X-Forwarded-Encrypted: i=1; AHgh+Rpxa9ImLey/3cSEwgr0ESBH++AH45X5kwQ+ixt4LRpsLBMOg9mIiOM0OrrriirX6g0xwgrvvfythCS1Mw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS15Y9EBetQqJOcZGJnEc2BkaGR1Z1TLcxEpqcecVRuvjbVbOr
+	zSh4BH0Fzg6MDKa3pDO0hSK7z6c3zttydlktF9TtHWZrf9/l4strgBGKEEtgU2BJsV0=
+X-Gm-Gg: AfdE7cmCEAn9qQ2ZcDycYUXe6+sv/TMspVL8YUPvXyhvHytYPKqtxpcmkj0w5jDGD/s
+	wmJ6Lzs2B55Ivc9WpGj5yQDNZ/IEoDgvZD/rUcjoNIvxW5C9grXmo8XuUAPsNI84Q5fcsSHuuKl
+	f+BmJbMHZkYw5mmCTIn/dF0bIP8EBDOOmENrufiuxrY/iQ+XhZpqiXKB95oWApjne1V7NriMqDc
+	MAPL5xXiJ0hEZHOmo6tYPq/v8i2x0ZAXIpHDToz5jndnT9G9YIhsv6A3WmaURJhzOHm1NViKTr1
+	fbbRvPnUQ5qbVrzUdhmlbG7w3leczDC4ewEk97Qm6krQQhvDIlu48kVuL9bTEY9tGtN7i6Xyfd7
+	3HkMsFZl1+QjBfVIUWujssucNPHEus+VwGiQoVlTfzSCUpusi1n429muHdIXPfKsoiBGqC5d2pr
+	EwBUnJI9oDN9vtzmYLZrVMWvJYvQ==
+X-Received: by 2002:a17:906:3199:b0:c12:8c27:e2de with SMTP id a640c23a62f3a-c15a67c0b70mr18101966b.42.1783341530615;
+        Mon, 06 Jul 2026 05:38:50 -0700 (PDT)
+Received: from [192.168.0.101] ([109.77.44.220])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19d9d1c7sm4068863a12.20.2026.07.06.05.38.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2026 05:38:50 -0700 (PDT)
+Message-ID: <bf24e5b9-3407-4e81-a458-f365b89867ed@linaro.org>
+Date: Mon, 6 Jul 2026 13:38:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,7 +88,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 1/5] media: qcom: camss: Populate CAMSS child devices
  via DT
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+To: Krzysztof Kozlowski <krzk@kernel.org>,
  Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
 Cc: vladimir.zapolskiy@linaro.org, loic.poulain@oss.qualcomm.com,
  mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
@@ -68,120 +99,83 @@ References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
  <20260706071113.383215-2-atanas.filipov@oss.qualcomm.com>
  <389ff33a-b319-4f2e-9410-8ae962f2e844@kernel.org>
  <8871f6d6-6102-49bd-9758-faebbd9fa19c@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <612730a9-8d5a-4c3f-8e04-6a248258e51a@kernel.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <8871f6d6-6102-49bd-9758-faebbd9fa19c@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <612730a9-8d5a-4c3f-8e04-6a248258e51a@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:bryan.odonoghue@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66752-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[14];
-	TAGGED_FROM(0.00)[bounces-66751-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,linaro.org:email]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E111E710AB2
+X-Rspamd-Queue-Id: DF0A8710E49
 
-On 06/07/2026 14:27, Bryan O'Donoghue wrote:
-> On 06/07/2026 13:09, Krzysztof Kozlowski wrote:
->> On 06/07/2026 09:11, Atanas Filipov wrote:
->>> From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>
->>> Use devm_of_platform_populate() so that child nodes declared under the
->>> CAMSS device tree node (e.g. OPE) are automatically instantiated as
->>> platform devices. This is required now that CAMSS is modelled as a
->>> simple-bus and ISP blocks such as OPE are described as child nodes.
+On 06/07/2026 13:36, Krzysztof Kozlowski wrote:
+> On 06/07/2026 14:27, Bryan O'Donoghue wrote:
+>> On 06/07/2026 13:09, Krzysztof Kozlowski wrote:
+>>> On 06/07/2026 09:11, Atanas Filipov wrote:
+>>>> From: Bryan O'Donoghue<bryan.odonoghue@linaro.org>
+>>>>
+>>>> Use devm_of_platform_populate() so that child nodes declared under the
+>>>> CAMSS device tree node (e.g. OPE) are automatically instantiated as
+>>>> platform devices. This is required now that CAMSS is modelled as a
+>>>> simple-bus and ISP blocks such as OPE are described as child nodes.
+>>> I do not understand this rationale. How is this required now? Are
+>>> existing DTS broken and do not work? Then this needs to be explained.
+>> Required is wrong, true. Existing DT is not broken no.
 >>
->> I do not understand this rationale. How is this required now? Are
->> existing DTS broken and do not work? Then this needs to be explained.
+>> Should read something like:
+>>
+>> "Use devm_of_platform_populate() so that child nodes declared under the
+>> CAMSS device tree node (e.g. OPE) are automatically instantiated as
+>> platform devices."
+> This patch then makes no sense before the binding defines such children.
 > 
-> Required is wrong, true. Existing DT is not broken no.
+> If you carry this patch outside of this work, you do not need to keep
+> the Nacked-by tag. Only constant ignoring of review here is the reason
+> of Nacked-by.
 > 
-> Should read something like:
+> However if you carry this patch separately, you still need to fix the
+> lack of sense of doing this at this point.
 > 
-> "Use devm_of_platform_populate() so that child nodes declared under the 
-> CAMSS device tree node (e.g. OPE) are automatically instantiated as 
-> platform devices."
+> Best regards,
+> Krzysztof
 
-This patch then makes no sense before the binding defines such children.
+No I agree. It only makes sense to propose this patch after adding a DT 
+that cares about it.
 
-If you carry this patch outside of this work, you do not need to keep
-the Nacked-by tag. Only constant ignoring of review here is the reason
-of Nacked-by.
+The ordering here doesn't make sense.
 
-However if you carry this patch separately, you still need to fix the
-lack of sense of doing this at this point.
-
-Best regards,
-Krzysztof
+---
+bod
 
