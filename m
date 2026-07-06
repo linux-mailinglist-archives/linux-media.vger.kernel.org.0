@@ -1,43 +1,106 @@
-Return-Path: <linux-media+bounces-66733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66734-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id DfdcOAGTS2oVVwEAu9opvQ
-	(envelope-from <linux-media+bounces-66733-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 13:35:29 +0200
+	id PuhzBG6US2qVVwEAu9opvQ
+	(envelope-from <linux-media+bounces-66734-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 13:41:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BB870FE76
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 13:35:29 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D2A70FFDF
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 13:41:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66733-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66733-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=XsySMgQX;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=QSXxLaAo;
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66734-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66734-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5C1213065168
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 11:22:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C87CF301584A
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 11:41:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51744414A0A;
-	Mon,  6 Jul 2026 11:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BEC441F7F1;
+	Mon,  6 Jul 2026 11:41:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C42F3BBA09;
-	Mon,  6 Jul 2026 11:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9911B3A4F58
+	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 11:41:11 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783336969; cv=none; b=Vc2l93cdI2s4IrXf5yVrPPzI/OLurFdu4rDA+lXmejTDX3OYRne7qcupJ9K8bEpIyAfOm+iOaWq24DXOxluQHztt3cOxx9Fg3NU4UPWusXb0cvWTVS8HPreICS30JnV92dS2QzAonKz7mRDB6c+Sou2vnsbGn5f4pc1TS/C20ZA=
+	t=1783338072; cv=none; b=A+KKGmWJ9Na96aYMcifXtFpSqQ6P53ULeGEkQcLpsDjCcehCqRYR5++v0EZvtTvgvRsLO0Egw2Jp5EBWwugJRMIefn+CCYPSNQf6VDzt4/ELBKm+nQpfaeX4M8ebTRMqhAFgZvOYPAbks15S4FBOA7QxPccjXL4kS6COqGF2jzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783336969; c=relaxed/simple;
-	bh=3tTscb60GKkcPzjo6FgKQtHk7WdLrkm1CZCNBHbu3Y0=;
+	s=arc-20240116; t=1783338072; c=relaxed/simple;
+	bh=M2ww3vjExAjNaQO3jQvVY5phe/1Oft9gRD5oC/hyYXQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NU3NeDFRcLIJYUTLoFtOoU8cClWT+7W1WsiDv0Jz2rKObVkwB9mbb7ym6rxKvRfULNAkeSZAPlCO/F72Gl5ZttpMEGhFGYSyLPyYuckpA9G6FQOpQ4YkZiwF+K/QNL3IHJJ6k5ppjRpDY9krsuBB99aqlzfUXD+Rztxp8HQJguc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9140E1F000E9;
-	Mon,  6 Jul 2026 11:22:40 +0000 (UTC)
-Message-ID: <95b20f95-37c4-49a6-8952-e023597d9fd3@linux-m68k.org>
-Date: Mon, 6 Jul 2026 21:22:35 +1000
+	 In-Reply-To:Content-Type; b=KGNUHPXLuO1C/UqnjEAkjuisczywwAuQ6cttnlZy3czlKtAvwm0m/ZaAVlaagItVs0+3YOS5zfTKg+4+vAlJ6w9TdbdMws9GrjvDz6rhCl4TU0VYh+OK+slGLGMN897uomWzRz904XbKIyETjjCIrfROKj5p/inNAl5S+HSudFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XsySMgQX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=QSXxLaAo; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666AxLdF174947
+	for <linux-media@vger.kernel.org>; Mon, 6 Jul 2026 11:41:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	JyWL2bmNSCp8kUWSmxLKw8OK4EFDlj3sVJl+0VzDp88=; b=XsySMgQXvfPgt0+a
+	HXtcu1zM2rla/ZW5eTCxaMB6FICW13P1fwym0A/MsfBjDjqUGgXD1EHFUEySuOk2
+	2z6rHOSeFOjg0Nyyc6VHixBwF+xqtTVaCt3ADnTB1IzhmU/aQqOPwenB2//RiLUm
+	B+kOKlkYz6F03GNs7m211bs4Pr22Yuq9DZfFgJDYUjFMnF4mWSST9/zOrRBcEb9q
+	n6vKECdJiMTwf5jgm2LcODgoUDnUe4767AbVeb1xNK1d92+uBCFBvMe85oFat7y7
+	xZR2l3W1G+EwqCXOK7NjSKq0MIxTJb8OcGXxyUAjh0LR+gEqcXBvSvMPiveVOXbl
+	yRJtqA==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f87rxs24u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 11:41:10 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51bfe75b7dbso9750071cf.3
+        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 04:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783338070; x=1783942870; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JyWL2bmNSCp8kUWSmxLKw8OK4EFDlj3sVJl+0VzDp88=;
+        b=QSXxLaAot8Tf5U7R380npQth5nkmb/kPxXs8BUh8o9/n9AC1W1AlU0yM2dAV/WvZOZ
+         h8XD55XD9NyoBT0awlUWqhsQ4s+74SOfm5v7nIt5uzBCgA8btqi9cvbZqqB5r7Rv1lla
+         HEEoUmzmjlbDJjWbSQapi7LYM9TjOKgNVphu4ZY5vKQEAToL4Lm/l7UYO9UGOOJEYVjt
+         +OFx0OF+2nDSQC5y5OypiPx7ZuBToacdWB73UDZ5zIZQMvDCTU/g1L5R/4JpIMQMMFbp
+         sp6ZyfMVZefBZNp6DQBaLh8Z09qZWTrxD7xj3DEthNF+EXujlEoL8Svc4tFOVrskKJdW
+         NL5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783338070; x=1783942870;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JyWL2bmNSCp8kUWSmxLKw8OK4EFDlj3sVJl+0VzDp88=;
+        b=F93HZIHC1iJs+IBGHBX9KITMaFttd9aAap4v3x1JQ7nKDFLvREmKO1Nd9xgg5LXvJG
+         ypwVOBIrdpC2NuWp8hEn+CQ5zJ3WJUAe+5WcwbZkU7W+hmL6a/cgneMH0mI1PwbzheHv
+         IGNCUbXl7IEQ+RkxMXmjHFv8gOSUL3q5zyBiRCm0BXioCr7UTZ025dzveJXUp2JlKl2A
+         juPYCet58oSdakqimNXY62Djf8zt55u+13cPl/qIMh9UJrHsMWjVnClzuNe94GFfY8cs
+         D79hgYA8EleSHmAd2GyK/6c7To0D1yZKJdOoH/g9HuTqm65YpFz0L2UjSB1JWcF2MgrO
+         AVXw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpv5mSC6OjgxQhVZWVHXRNEC0ciyAu95Z2ChNXVWV7oreFua7pbxW0wg2ma0jBtXK8zclcFIxwPtZW92Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YybQoA8nyeYAx2n15+2PvIlqr73s2OcH+4qTDQMFv9dAoh+zQXh
+	+y8/naOzAPLPVeFJ3FbAj9bUTSoG4vbXTJa0DvjgAnOjMX9CbahEmXSPD1/ON2U7NrwzllntX+Q
+	IagNALitKsJPR7Db0AOayHHzphwE0fTh74kT1K0LQ3Vg4P7/CzY4iS2DZER5adICaewh8ZGWjeQ
+	==
+X-Gm-Gg: AfdE7cmW5HWUsXLRWrLWx3jhTJo2A+p4nWYTipUli8g7wNZo9twvYKLVJp/SeVn7dvl
+	IZQs7s7hBa/5/QcDeYyb4Wif/Sc/xxoVfih198jXL9jWT5EWJg/wMPYHErBC8x2gpLC5OU0n0/i
+	j2K/+MZ/ZbzBRLqcYrGOK6/eX0EvkfeJdF9uysiqvjHuc1ZjOhxt97LeWdaW8L99B14Rl4q1TVO
+	OiG4EctcSddB8LbqWKuguPaXEb2cTkf0YrYM8PIiBZ0L4oW1dd0UVR5UODsoNwikGujf6qfdJAD
+	qQJDPcxyg+3k8ZF3qCX0ZLzI2bqpxyZ01y8DxP3QJtVvJdt/ct0JphhIrNbqjs9eVikHsmAyuOU
+	7CrjjgOZdQn+Arb20NhQpNo40gv7FmyWfSxI=
+X-Received: by 2002:a05:622a:208:b0:50e:6311:7380 with SMTP id d75a77b69052e-51c4be99299mr82578361cf.6.1783338069800;
+        Mon, 06 Jul 2026 04:41:09 -0700 (PDT)
+X-Received: by 2002:a05:622a:208:b0:50e:6311:7380 with SMTP id d75a77b69052e-51c4be99299mr82578061cf.6.1783338069294;
+        Mon, 06 Jul 2026 04:41:09 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19cf68f5sm4059006a12.13.2026.07.06.04.41.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2026 04:41:08 -0700 (PDT)
+Message-ID: <4f865aaf-a400-4dc6-acaa-80dc22a36af7@oss.qualcomm.com>
+Date: Mon, 6 Jul 2026 13:41:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -45,122 +108,105 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/13] m68k/coldfire: replace linux/gpio.h inclusions
-To: Arnd Bergmann <arnd@kernel.org>, linux-gpio@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Bartosz Golaszewski <brgl@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <zajec5@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Linus Walleij <linusw@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, netdev@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org
-References: <20260629132633.1300009-1-arnd@kernel.org>
- <20260629132633.1300009-3-arnd@kernel.org>
+Subject: Re: [PATCH v2] i2c: qcom-geni: Add dynamic transfer timeout based on
+ transfer length and frequency
+To: Aniket Randive <aniket.randive@oss.qualcomm.com>,
+        mukesh.savaliya@oss.qualcomm.com, viken.dadhaniya@oss.qualcomm.com,
+        andi.shyti@kernel.org, sumit.semwal@linaro.org,
+        christian.koenig@amd.com
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        naresh.maramaina@oss.qualcomm.com
+References: <20260705135739.4038826-1-aniket.randive@oss.qualcomm.com>
 Content-Language: en-US
-From: Greg Ungerer <gerg@linux-m68k.org>
-In-Reply-To: <20260629132633.1300009-3-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260705135739.4038826-1-aniket.randive@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: z4HzSqRU6zux9EKjBs4V8Y-s6Ae8K5UM
+X-Authority-Analysis: v=2.4 cv=Hv1G3UTS c=1 sm=1 tr=0 ts=6a4b9456 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=QdFQMySKPoxOC9Zsaq0A:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDExOCBTYWx0ZWRfX8Xaob/1aiPb/
+ 6F3MivfcvTe8VTmsyOT2TVVQPvFW8gTToiRt+TIYBOVxT/01yWvIS2tFXgo4LUeRPr7BpZYq33/
+ qufHsYXU+vrA9emCpzZF5tGr7uYd9/M=
+X-Proofpoint-GUID: z4HzSqRU6zux9EKjBs4V8Y-s6Ae8K5UM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDExOCBTYWx0ZWRfX9mRp+k7/aIMt
+ M4rIAAm0nCz/4hOfbc2fnclIpF44CuQnl4CMa1bUi7oTPEOCOJAChUQRxXtXjKCBE03dmxApEcU
+ qNFcc6xGuGU+/v4ZOlOGQT6dPI/MmZGiUZ+Y2K/mY3ivDu8cMOwv1K5FJ8S6ZFTZkTaYoL0tD8/
+ rCgQlGUecFcIS/Q2TmZYAPFKaon4dUqm1Rg6+Bjox8Rxk4qD2wA0qlEWfTnbMfO3yElz0ZlVFMv
+ VJhAYs5/U/ADqUxLwmh2p5Nc9jmABXHQgxe6lOna+oI75nz2zz65KAehjVmkF3ni3g4Dbpkojzm
+ PkiM6C7+eCWQioQmhh6QmoRF6MUD7SFv0UOnMJ5L0pUWpPPntK7nBIfRTyVhcBRRDwCv7RZnEPX
+ vSxJyA8WhaekWm64fgmTeFoPFZNFotdTY5LP6H3mw2xoPne/K3bR4piNmzOsQvsmy+KZ5xMy4vR
+ 2Um5aS6u+ObRGKxubhg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ spamscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060118
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66733-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:arnd@kernel.org,m:linux-gpio@vger.kernel.org,m:arnd@arndb.de,m:brgl@kernel.org,m:andrew@lunn.ch,m:sebastian.hesselbarth@gmail.com,m:gregory.clement@bootlin.com,m:Frank.Li@nxp.com,m:robert.jarzmik@free.fr,m:krzk@kernel.org,m:tsbogend@alpha.franken.de,m:hauke@hauke-m.de,m:zajec5@gmail.com,m:ysato@users.sourceforge.jp,m:glaubitz@physik.fu-berlin.de,m:linusw@kernel.org,m:dmitry.torokhov@gmail.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux@dominikbrodowski.net,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:patches@opensource.cirrus.com,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-phy@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:sebastianhesselbarth@gmail.com,m:dmitrytorokhov@gmail.com,s:list
- s@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	FORGED_SENDER(0.00)[gerg@linux-m68k.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-66734-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[arndb.de,kernel.org,lunn.ch,gmail.com,bootlin.com,nxp.com,free.fr,alpha.franken.de,hauke-m.de,users.sourceforge.jp,physik.fu-berlin.de,redhat.com,dominikbrodowski.net,vger.kernel.org,lists.infradead.org,opensource.cirrus.com,lists.linux-m68k.org,lists.linux.dev];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gerg@linux-m68k.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:aniket.randive@oss.qualcomm.com,m:mukesh.savaliya@oss.qualcomm.com,m:viken.dadhaniya@oss.qualcomm.com,m:andi.shyti@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-i2c@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:naresh.maramaina@oss.qualcomm.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-m68k.com:email,arndb.de:email]
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 22BB870FE76
+X-Rspamd-Queue-Id: 98D2A70FFDF
 
-Hi Arnd,
-
-On 29/6/26 23:26, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On 7/5/26 3:57 PM, Aniket Randive wrote:
+> The driver uses a static XFER_TIMEOUT of HZ (1 second) for all transfers
+> regardless of message length or bus frequency, causing unnecessary
+> delays on error paths.
 > 
-> linux/gpio.h should no longer be used, convert these instead to
-> linux/gpio/legacy.h for coldfire.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Compute the timeout dynamically from message length and bus frequency
+> with a 10x safety margin over the theoretical wire time and a 300ms
+> floor. For GPI multi-descriptor transfers, use the maximum message
+> length across all queued messages as the per-completion timeout.
 
-For the ColdFire changes, LGTM:
+What's the reason for a 0.3 s floor?
 
-Reviewed-by: Greg Ungerer <gerg@linux-m68k.com>
+Why a 10x safety margin specifically?
 
-Regards
-Greg
+[...]
 
+> +static unsigned long geni_i2c_xfer_timeout(struct geni_i2c_dev *gi2c, size_t len)
+> +{
+> +	size_t bit_cnt = len * 9;
+> +	size_t bit_usec = (bit_cnt * USEC_PER_SEC) / gi2c->clk_freq_out;
 
+mult_frac()
 
-> ---
->   arch/m68k/coldfire/device.c     | 2 +-
->   arch/m68k/include/asm/mcfgpio.h | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/m68k/coldfire/device.c b/arch/m68k/coldfire/device.c
-> index 1420bae0964f..9a0258acd998 100644
-> --- a/arch/m68k/coldfire/device.c
-> +++ b/arch/m68k/coldfire/device.c
-> @@ -12,7 +12,7 @@
->   #include <linux/init.h>
->   #include <linux/io.h>
->   #include <linux/spi/spi.h>
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/legacy.h>
->   #include <linux/fec.h>
->   #include <linux/dmaengine.h>
->   #include <asm/traps.h>
-> diff --git a/arch/m68k/include/asm/mcfgpio.h b/arch/m68k/include/asm/mcfgpio.h
-> index 7103cfa4edb6..29726aa40eb6 100644
-> --- a/arch/m68k/include/asm/mcfgpio.h
-> +++ b/arch/m68k/include/asm/mcfgpio.h
-> @@ -16,7 +16,7 @@ int __mcfgpio_request(unsigned gpio);
->   void __mcfgpio_free(unsigned gpio);
->   
->   #ifdef CONFIG_GPIOLIB
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/legacy.h>
->   #else
->   
->   /* our alternate 'gpiolib' functions */
-
+Konrad
 
