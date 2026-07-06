@@ -1,186 +1,265 @@
-Return-Path: <linux-media+bounces-66785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66787-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id g5nDFWvhS2rhbwEAu9opvQ
-	(envelope-from <linux-media+bounces-66785-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 19:10:03 +0200
+	id zdDPIzrVS2pSbAEAu9opvQ
+	(envelope-from <linux-media+bounces-66787-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 18:18:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6D5713B2A
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 19:10:02 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B387131EC
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 18:18:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=kUX4AneU;
-	dmarc=pass (policy=none) header.from=linaro.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66785-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66785-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66787-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66787-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 319603333F4F
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 15:01:00 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 35C0B30A7499
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 15:27:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D608037D12E;
-	Mon,  6 Jul 2026 15:00:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66F4539021C;
+	Mon,  6 Jul 2026 15:27:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1513378828
-	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 15:00:46 +0000 (UTC)
+Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD8D1388E49;
+	Mon,  6 Jul 2026 15:27:28 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783350048; cv=none; b=XVZ+dh/0/sGEs1uJQr0IdAymFxf+o7abAuG9hCH+9c0qwX6u61zEy+qDwWclNILHnR80JuBtFfI9wW8GkTUMjUAB8uq4cgKH43w8yFedZ7JS7LLsowycbynkLe/W8WyXS3LKr0vBgQeY1Wqcy+eciT0FFcltxGJAlNLp7h4nor0=
+	t=1783351653; cv=none; b=THV2kyWjraQY1dovqwR05TX7fWkqEOEsqh5nWC1T2qBxlkZmKtXSN3QQWq/BdF3CGsawNBZJxMSkkcfCFLBZBMz2/JMmRSe9Jwcl4jx3kPGCcgCQhXh7vGZK7M7ubOq4Kv4Mc1b14WTnVWPppNr6TsqvuEwdkCQwuOOHZ8uoYXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783350048; c=relaxed/simple;
-	bh=XedTG2IDkwdx5NfpwzrYaYqHqJ8175odIg3hePCzwGE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OYxsIlmMZ+s86y9K3vorertfObPvwAjwwTG4VxIc2dv2+g20sf5tXevv1x2uHZclUe5a0dVu0B7hz75kB3E3CCNSFHfP2d8LAA9HVsdBig/to1mIXdJZsb7JDPYEZc0BfqtRxPm3LRcOYEBz0Q5ohUlEUTwaIeIDLoyxQg/4RfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kUX4AneU; arc=none smtp.client-ip=209.85.167.48
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aeb40ebefbso811762e87.0
-        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 08:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783350045; x=1783954845; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=60w9TL2qL6gOoHgKKaAE5HXP/8r+pqMsqQsZhkVDhRk=;
-        b=kUX4AneUZOS98SlKNe8Kpsu7J0P4MKP0Q0Iw769bdSgq2ngBiT7fDInHF++nMRFrCF
-         xCr4VYwhNJargur315nLxfFg1HNBLXAgoUWhcoj4LixhwqtTq1k7rwiz+/7PVawWgs/Y
-         /LF0CckXf+RmmybNADKgzAzNIojPPO3DzkOiu0fD/sHHAGAWCLytekIdtTg4H84Hi3uU
-         ZdOOOwEn6U2inW54wJNr2pM5Yj/t2eFvnCD9ycuktvaRYf0D+sVkYpGnP4ty+YVMTslw
-         Qq8LRmB9KOmUoVAY1qaXp/tb9b4U1yYJa9TRhQK4tYzRo96k4pMLnh6O9jDgUxkVPVCT
-         a6eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783350045; x=1783954845;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=60w9TL2qL6gOoHgKKaAE5HXP/8r+pqMsqQsZhkVDhRk=;
-        b=QhWdxAKJuRm35OrCN8ZNjwj3wdd0Oex+FQM7HYk8qdrUu7Pmq46E5G3C9bMmwLLLnw
-         cMHBHVnOVzpwSOd2ZJyekTgh5aKE/tlCuZEXyZNBOVr1sGbFq7KfIUvuKmgEf4QPCFPQ
-         fNsc0Jk7QwRG2YD/uI+oTZNbgxVpsvitN9y8KaOtNMuC314MRaz3qt/4W9GctWOiM3Xp
-         sy2G4mWb11rXbUJg4iDeXrkUfHtNyBYzrpcsk3D3GYWP45bJrJ7IM3IGHyp0Cp1bNq5f
-         MzYFRBxf/RZQ+NIppV4Abf7FmlmkA76ELzuFVMA9N3jwNPy5dYGRD0cw2FWbYeDkYPIU
-         /n8g==
-X-Forwarded-Encrypted: i=1; AHgh+RqLwfAZHJS3a7d8LquMT1RxG1OOCibJjnhpXskBl0beEaAN9VVSNhDYiS6+/t3iMSDezsE3qrV8jcXPAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCIfsTOM2mZI7LXin8gFbHVzkONE87nlNbRdAtKjdb4kjgt58z
-	TPlJJ4mO+nPlsHs5vLua/Vg9VIf9gZy74NiAHbvm/jJ0pQ9Xa7dgT71owhHhQlRSmyk=
-X-Gm-Gg: AfdE7cn1gGH5rDTlUCHSs9NK2rBb4m17Q3lNQFvV8wLiNIwpWC72ZYZPkbGWf6Pi5wy
-	BMF31+a2kEY7SeIIrCcv+mgw8OGGklo+DzP1FaFN2+uiAx5al2c2Ms8+s1DOZHA7v7Zhy3o4HZj
-	23IUodyJNVffoQGzFaxRzXVPo8BUBzGDeh1XXbeHiL9eTP38tzi4G3s3IKpX0R0EoGZJ2wJMIWj
-	c/AJKqS1fzSnkWT0E7B7HEp/7V/7cxGzdAR45YCUx8Cvj2cfDA5R7Hv0ft8ZRGbw5XWUweOoQu+
-	zM40ECXnjY9PaU11naBH+5qDbc5m68NyktMFdG3rejLcr5P2dqp3T4OxyMKODD5gkYBxrILA47b
-	Wbcr3mO6s0xWaWTCyuAhIlo9xVbE6OHpDuO+fawOKHurZADwTVZlY+YLPnzITxJhaYKNETx+SCS
-	rd429kihhBBEMJKYSJyBoK2gY9pD+XgHT44D4ijHSFQHt5brkTkF3tD/bqqQYm554ul6s=
-X-Received: by 2002:a05:6512:3d04:b0:5ae:b2df:c11a with SMTP id 2adb3069b0e04-5aed44f625emr1264574e87.0.1783350044591;
-        Mon, 06 Jul 2026 08:00:44 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed13bfdf2sm2996177e87.58.2026.07.06.08.00.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 08:00:44 -0700 (PDT)
-Message-ID: <0a1e26f6-29be-4328-9b04-48daa6a0177f@linaro.org>
-Date: Mon, 6 Jul 2026 18:00:43 +0300
+	s=arc-20240116; t=1783351653; c=relaxed/simple;
+	bh=LDtp2z5MiWEa4BKY6KKgwzIloQ2yTQa1a5dWiOfC2C8=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=ivBkkgp4Os7Oejib+i/9/6jqjh6bD9wUDNwXMuNrAOs6wQDstmf2/Z3zo54XOrTG7wefED1bXhb1IrcJFVVnrxcica52RhCmQwf549OHYNFDaoiruIRjyspmZj3z0RbhJKdopef/xgrZR0JkJ8REapT7GXD4B/uTQtCDLjnF+bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=209.97.182.222
+Received: from zju.edu.cn (unknown [10.97.40.56])
+	by mtasvr (Coremail) with SMTP id _____wDHoV5WyUtqX1wSAA--.41010S3;
+	Mon, 06 Jul 2026 23:27:19 +0800 (CST)
+Received: from smtpclient.apple (unknown [10.97.40.56])
+	by mail-app4 (Coremail) with SMTP id zi_KCgBXOzRVyUtqzJgdAg--.37327S2;
+	Mon, 06 Jul 2026 23:27:17 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] Add Qualcomm JPEG V4L2 encoder for SM8250
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
-Cc: loic.poulain@oss.qualcomm.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
- <68e59764-5a10-4abc-849c-14ea2d9ef76e@linaro.org>
- <d74d7839-d126-427a-b151-ca895a27a83e@linaro.org>
- <437d1eb0-4495-406a-9501-b0515cfa3151@linaro.org>
- <e04cb9dc-76dd-4fa8-92f4-be002bf7ee8b@linaro.org>
- <8116c54e-4050-4e9d-b236-59d74846bd57@linaro.org>
- <48c3ce6b-1e2a-457c-93b2-8fbc0912dc20@linaro.org>
- <f3d148cc-496d-4301-af45-51d8921d7798@linaro.org>
- <3b0f7a36-05d7-417f-8efe-d6ba06488406@linaro.org>
- <6e8ccebb-4eb8-479f-a589-6981b543fc2b@linaro.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <6e8ccebb-4eb8-479f-a589-6981b543fc2b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [PATCH] media: rockchip: rga: quiesce IRQ before releasing m2m
+ state
+From: Fan Wu <12321260@zju.edu.cn>
+In-Reply-To: <ba54b43f90b46960ce4e57f99ead11e4200d283d.camel@ndufresne.ca>
+Date: Mon, 6 Jul 2026 23:27:07 +0800
+Cc: Fan Wu <fanwu01@zju.edu.cn>,
+ jacob-chen@iotwrt.com,
+ ezequiel@vanguardiasur.com.ar,
+ mchehab@kernel.org,
+ heiko@sntech.de,
+ linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CB4C9604-8CCF-4A2E-B8B0-FC49AAFEA514@zju.edu.cn>
+References: <20260704022853.77291-1-fanwu01@zju.edu.cn>
+ <ba54b43f90b46960ce4e57f99ead11e4200d283d.camel@ndufresne.ca>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+X-Mailer: Apple Mail (2.3774.600.62)
+X-CM-TRANSID:zi_KCgBXOzRVyUtqzJgdAg--.37327S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?dqOMzwXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnXz+g1OQfMo27QHy5TwQyZyj5fn2rqIkMhUMM0kYWus3lLILucikqw2VGVgn3TCMm059
+	TPTTfv6HCtFDRH6LZYmp9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoWxGw4kCr18tw15Xw4rKry5WrX_yoWrtry7pa
+	y5tayjkrWUGF4jqrnrXw47uFZ5Arnaya45Gr4Sg347Ar98Kr1kXryUCFy5ZFy3Zr97Aay2
+	vr4Yqas3ZF4YqFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxM4IIrI8v6xkF7I0E8cxan2IY04v7
+	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+	cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7gAwDUUUU
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66785-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:bryan.odonoghue@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66787-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[zju.edu.cn];
+	FORGED_RECIPIENTS(0.00)[m:fanwu01@zju.edu.cn,m:jacob-chen@iotwrt.com,m:ezequiel@vanguardiasur.com.ar,m:mchehab@kernel.org,m:heiko@sntech.de,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:nicolas@ndufresne.ca,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[12321260@zju.edu.cn,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	APPLE_MAILER_COMMON(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[12321260@zju.edu.cn,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	R_DKIM_NA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linaro.org:from_mime,linaro.org:email,linaro.org:mid,linaro.org:dkim]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ndufresne.ca:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7B6D5713B2A
+X-Rspamd-Queue-Id: D0B387131EC
 
-On 7/6/26 17:49, Bryan O'Donoghue wrote:
-> On 06/07/2026 15:35, Vladimir Zapolskiy wrote:
->>> omitting power-domains for individual nodes is incorrect. Best practice
->>> and in fact the _only_ practice that can work is to list power-domains,
->>
->> Let's step back and discuss hardware description of CAMSS IPs, so far
->> there is no point to jump to the practice.
->>
->>> interconnects in the individual nodes themselves as - I've pointed out
->>> multiple times now - those blocks have to ramp clocks and scale voltages
->>> dependent on their particular use cases.
->>>
->>
->> Right, you've pointed it a few times, no surprise a straw man fallacy
->> argument resembles as is, because it does not address or debate the
->> initial point of concern [1], when the absolutely excessive complexity
->> is proposed to be implemented for "CAMSS power island" and its IPs.
->>
->> [1] https://lore.kernel.org/linux-media/e04cb9dc-76dd-4fa8-92f4-
->> be002bf7ee8b@linaro.org
-> 
-> You seem a little stuck on the term "CAMSS power island" the individual
-> blocks within the CAMSS "island" are individually collapsible.
+Hi Nicolas,
 
-It's not me, who stuck, but dt bindings documentation describes CAMSS on
-a number of Qualcomm platforms.
+Thanks, that is a fair point that RGA is not a free-running IRQ source;
+the interrupt should only be raised for job completion.
 
-> That is why they _must_ have their own power-domains.
-> 
-> The CamNoc is shared between these components but not outside. Hence it
-> is more like a bus than a parent/child relationship.
-> 
-> As to your argument about complexity. I think that's subjective.
-> 
+I looked again for the abort/drain path, though, and I could not find =
+one
+in the RGA teardown path. `v4l2_m2m_release()` only frees the m2m =
+device.
+RGA does not provide a `.job_abort` callback, and `rga_remove()` does =
+not
+reset the engine or disable the IRQ before releasing the m2m state. The
+driver also leaves the devm-managed IRQ installed until devres cleanup
+after remove returns.
 
-What is subjective between one instance and multiple identical instances
-of hardware properties? The first is simple the latter is complex.
+So unless I am missing another path, teardown does not actively abort an
+in-flight RGA job; it relies on there being no in-flight job by the time
+remove gets there. In the normal case that is probably true, since the
+hardware is not free-running and the submitted job has normally =
+completed
+already. The case I was trying to cover is the narrower one where
+unbind/remove races with a still-running job.
 
--- 
-Best wishes,
-Vladimir
+That said, I agree the explicit irq field, `devm_free_irq()` and the =
+long
+comment may be too much for a defensive corner-case fix without a
+reproducer. I can drop this patch, or respin it as a smaller ordering
+cleanup if you think that is useful.
+
+Thanks,
+Fan
+
+> On Jul 6, 2026, at 22:22, Nicolas Dufresne <nicolas@ndufresne.ca> =
+wrote:
+>=20
+> Hi,
+>=20
+> Le samedi 04 juillet 2026 =C3=A0 02:28 +0000, Fan Wu a =C3=A9crit :
+>> rga_probe() requests the interrupt with devm_request_irq(), so devres
+>> does not release the IRQ until after rga_remove() returns. =
+rga_remove()
+>> currently releases rga->m2m_dev before that point.
+>>=20
+>> rga_isr() uses rga->m2m_dev through v4l2_m2m_job_finish(),
+>> leaving a window where an interrupt can run after the m2m device has =
+been
+>> released.
+>=20
+> I have a doubt that this can really happen for this type of hardware. =
+Its not a
+> free-running HW that emits IRQ randomly, plus we have the abort =
+sequence that
+> ensure all jobs are completed before we pull it down.
+>=20
+>>=20
+>> Unregister the video device first to stop new userspace submissions, =
+then
+>> free the devm-managed IRQ explicitly before releasing the m2m device. =
+Move
+>> the command buffer release after the IRQ teardown as well, so it is =
+not
+>> released while a completion interrupt can still arrive.
+>>=20
+>> Store the IRQ number in struct rockchip_rga so rga_remove() can free =
+the
+>> IRQ without looking it up again.
+>>=20
+>> Fixes: f7e7b48e6d79 ("[media] rockchip/rga: v4l2 m2m support")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+>>=20
+>> ---
+>> diff --git a/drivers/media/platform/rockchip/rga/rga.c =
+b/drivers/media/platform/rockchip/rga/rga.c
+>> index 43f6a8d..118887a 100644
+>> --- a/drivers/media/platform/rockchip/rga/rga.c
+>> +++ b/drivers/media/platform/rockchip/rga/rga.c
+>> @@ -828,6 +828,8 @@ static int rga_probe(struct platform_device =
+*pdev)
+>>   goto err_put_clk;
+>>   }
+>> =20
+>> + rga->irq =3D irq;
+>> +
+>>   ret =3D devm_request_irq(rga->dev, irq, rga_isr, 0,
+>>          dev_name(rga->dev), rga);
+>>   if (ret < 0) {
+>> @@ -919,13 +921,21 @@ static void rga_remove(struct platform_device =
+*pdev)
+>>  {
+>>   struct rockchip_rga *rga =3D platform_get_drvdata(pdev);
+>> =20
+>> - dma_free_attrs(rga->dev, RGA_CMDBUF_SIZE, rga->cmdbuf_virt,
+>> -        rga->cmdbuf_phy, DMA_ATTR_WRITE_COMBINE);
+>> -
+>>   v4l2_info(&rga->v4l2_dev, "Removing\n");
+>> =20
+>> - v4l2_m2m_release(rga->m2m_dev);
+>>   video_unregister_device(rga->vfd);
+>> +
+>> + /*
+>> + * The IRQ was requested with devm_request_irq() and is freed by =
+devm
+>> + * only after this function returns. Free it explicitly here, after =
+the
+>> + * video device is unregistered, but before v4l2_m2m_release() frees
+>> + * rga->m2m_dev, which rga_isr() dereferences via =
+v4l2_m2m_job_finish().
+>> + */
+>> + devm_free_irq(rga->dev, rga->irq, rga);
+>=20
+> I'm not saying we cannot do that, but its quite verbose for something =
+that
+> probably can't happen in practice.
+>=20
+> Nicolas
+>=20
+>> +
+>> + dma_free_attrs(rga->dev, RGA_CMDBUF_SIZE, rga->cmdbuf_virt,
+>> +        rga->cmdbuf_phy, DMA_ATTR_WRITE_COMBINE);
+>> + v4l2_m2m_release(rga->m2m_dev);
+>>   v4l2_device_unregister(&rga->v4l2_dev);
+>> =20
+>>   pm_runtime_disable(rga->dev);
+>> diff --git a/drivers/media/platform/rockchip/rga/rga.h =
+b/drivers/media/platform/rockchip/rga/rga.h
+>> index 72a28b1..f76c45b 100644
+>> --- a/drivers/media/platform/rockchip/rga/rga.h
+>> +++ b/drivers/media/platform/rockchip/rga/rga.h
+>> @@ -81,6 +81,7 @@ struct rockchip_rga {
+>>   struct device *dev;
+>>   struct regmap *grf;
+>>   void __iomem *regs;
+>> + int irq;
+>>   struct clk *sclk;
+>>   struct clk *aclk;
+>>   struct clk *hclk;
+>>=20
+
 
