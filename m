@@ -1,184 +1,211 @@
-Return-Path: <linux-media+bounces-66766-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66767-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id iaeHEVW3S2pqZAEAu9opvQ
-	(envelope-from <linux-media+bounces-66766-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 16:10:29 +0200
+	id QkS9BoK4S2rCZAEAu9opvQ
+	(envelope-from <linux-media+bounces-66767-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 16:15:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6600711C24
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 16:10:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E69711D30
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 16:15:29 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=n+llEDPV;
-	dmarc=pass (policy=none) header.from=linaro.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66766-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66766-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=collabora.com header.s=mail header.b=knO00BEA;
+	dmarc=pass (policy=none) header.from=collabora.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66767-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66767-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0A26130FCEA3
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 13:38:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1A84B3148D6E
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 13:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E6D9331A46;
-	Mon,  6 Jul 2026 13:38:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 237473A6F17;
+	Mon,  6 Jul 2026 13:42:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A0C317177
-	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 13:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC1A36E48C;
+	Mon,  6 Jul 2026 13:42:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783345079; cv=none; b=pcqylueA9SQQSlNslawP4dyQxT1gqQsRSBJLpclRdul0qGea+tOMcGh9MWiE1vaDB4cY7xQb3rXmlyZqh9BMZItkUR0eiaLXCecKA5h4nvfT7vZaO0F3FWf4VdmWCbDrP66GKmDGbbTzDKftaOtUcY8DYcPiaKS7G2ROGQ9sfBY=
+	t=1783345351; cv=none; b=GTGUqpyXzoXtlpoIjCuLUcz1qRY8JsYRMSgXfJw6tL7mXKDUnX0MdvuAv1h0YfCkbeDDK2Da1HWnpRiCxDNz5HcNP/FHboEFIjmFIrIam77EQPMts01+eH7gNCXwBlVrGTX8iuhRBO4Ub3nLTcrKDi2MB1JRaF96LyjqBz16CDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783345079; c=relaxed/simple;
-	bh=pQzZVG68wLqA4MOLkstXGFK0Y3+t6u/6Ggjx/nGFUAI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R+HmDq/SA0cjOpYOuXGzBjsEoJNSR4g9ydEdNz2oPZss2QcS4Ak+ZXuJOmWYXI83paWZveTQ/SxFz+OZ7Hi5dk2gLzUSkSQ87k1ZyzkEPHx/188j2u2VB6YkGsd4oH26Jo5fwb6Bdgv0mVmK9noB/pBe3vwKpAlJA8JWSK5FaxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n+llEDPV; arc=none smtp.client-ip=209.85.208.53
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-691c5776f95so5654938a12.3
-        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 06:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783345076; x=1783949876; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s5Jq8Dzzgx40KsRam3OqWjyEnrA+cneHoYjGfjryQms=;
-        b=n+llEDPVizmi+M1/OWAbMb3MfTOFXarZT7RmGOfdAr8UP8ERv8+1Ztujcff26iAgCk
-         OWFlHAMwX0MkWtDJjMu4NEx0kSH1icFzkrFEeVqy4MkX+zut8VBNonqmo5Yryg9zLdw3
-         wlDNpLVHGSWTleLGV0xKlSIiNQIR73X1io2FmnCudDxhkrHU1pQFuxZk4FxwzhN9PwvL
-         Su71z4zjDw3/2JIejLz7KO0k3Jia/oOyKLr29jAPSZTJfuVhEUnFYFEEIMeK2uMPohoB
-         IRGGkTx2Hd1o9+yX86/6zTIs5h9q13S3pqAIsggWIvMfTtSBomZOwPJMB9LisTMjqbuv
-         TzEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783345076; x=1783949876;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s5Jq8Dzzgx40KsRam3OqWjyEnrA+cneHoYjGfjryQms=;
-        b=ITt1z09ueLB9RlfR3Atf886fwCTGzyy5hbaNlK1e71e4Zlhrl7OGios2iLY/ow/PEX
-         GupSg36xyXp+RwvK4hc609BhCW1g2JKqy9x7VF0hvk9YjOxF20SpCQQPh2/SXtmCAZMg
-         XVKNTyX6/4Sn0O9LxpKEr6NoKForKQ0SUmbCeyoBGL0Vis8XU3Y0p5BVZAY3lCqT6HB4
-         M6Zs0wL0XuylnXNWG4f+3KsdpGElO48MMcd5u5+YZWMdIzWZUcht56qy07Cu2cTNB1M9
-         r1xM7k7oke8JFSxZsJHK7GcbRgtc3bL+U5xp5xf833rxaYphDdwYyt2lxaWjuTk6okas
-         VvAw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrm+6g8ywXIvkJjlGL18tJAOQC++B7Ov1pqNA8RQjsTzql/UVApkiQWiJ+3wFMDP9VrhxaoG6YybtrtTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx02iQ0VokcIjXD8DrmxbxQNoTF8jWj4s0wiZBnIZ39HxTE/3ty
-	A02yAQdW9KdzxTkFNpT6ZDN4tad9eI4opVFKP3Xp3qXokpHi/curKODyoaCy5e/g8QQ=
-X-Gm-Gg: AfdE7ckCWqirXk1qHYadmH1hKO3yhnv1fl5IRcm71PUmOEthSlWaV76pOqQmCMCvPce
-	9mcWxR7S+wSXghoC6CjOgb3S17EUl49CNEa6A+KTBYVO+DIeCxzO82HPGlGrjgF9ajXfp4GawZI
-	B7c44B39G1J2O3sb1f37qMJudro3J17PSTC0b1b8NqRgWngq0g41UXRUn/QMBxvJE6qjCdN93li
-	5A6XvVZXVrliJCcbHR60UsBVAdqBMY9MjNJZOYDHjnZh4fYuMmgk2yBFwkwdXQ7bno78R91JJUT
-	6wRNcX96j3xY+5k+A0p19z/A51BZ3S62rNwViK3Xqd8ZQuUKYFNaT2JHLNAts2RiIDTTzuGeNRs
-	8h3oCx2VJ/5mJU1vU+a7peV4KbB3TTC80OsHgHGPfqd0yX02rUAZg58zrEwk605tZjB1m5rGE2R
-	KLfVygFYtcZ0qsPt5CBm1eb3fR6Q==
-X-Received: by 2002:a17:907:9725:b0:c12:7e24:a76f with SMTP id a640c23a62f3a-c15a67cc186mr40096266b.20.1783345076089;
-        Mon, 06 Jul 2026 06:37:56 -0700 (PDT)
-Received: from [192.168.0.101] ([109.77.44.220])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c12bc53e065sm724560466b.46.2026.07.06.06.37.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 06:37:55 -0700 (PDT)
-Message-ID: <8116c54e-4050-4e9d-b236-59d74846bd57@linaro.org>
-Date: Mon, 6 Jul 2026 14:37:54 +0100
+	s=arc-20240116; t=1783345351; c=relaxed/simple;
+	bh=+iOjTAdA4oCabpofL+K7pRzUfLApeuQa4aammB14sWA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XexbflLwKxfMcEFu2zP8r1EYJBlJBCh/LjqT0W8rlmZx0vVBQUmg6OjXcd+AsRENXEj8XNe/GBt3Y1+JBdlksLsSm3EmVnzx0cqxtrnSjijySeMqmq2Mjs6o3Ckt9NWqeGf0PZzEImgQOylSk1V9/bDxs2TFycv3RpGqzN0Aoso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=knO00BEA; arc=none smtp.client-ip=148.251.105.195
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1783345347;
+	bh=+iOjTAdA4oCabpofL+K7pRzUfLApeuQa4aammB14sWA=;
+	h=From:Subject:Date:To:Cc:From;
+	b=knO00BEAGmqnYTyt4Z8i+g8SH3CgUXg0FwMtnpsXn16/qMUv53F877rFtJxFjZQAu
+	 xYCDrL/ewCCiMG5SBIucxYkDPWqn3zi1SAZn/x6AoMYM6cEMWMWJl0MYmUWrYsbxGz
+	 Wi/fiYQdWvgFy0noT0rK9iOGNSzgROsiqh5szIPNyDGZ3z16j4EwHVWTIRr9QAlqkJ
+	 QHzbrY0dF4QQ3Lj1CllsfkLYR2BbaQ0Imq2tSbdAy1pN8oqMXcL4Qd9TbOJNdv5Aqa
+	 ymhhKZ2kGC29tVdqXX9pl7uIG88Vto/y25g8f+jXbDJwpIgOLpcRARjTacVWbhkWMm
+	 n9nuCw2+fHvKg==
+Received: from [192.168.0.15] (unknown [100.64.0.170])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1074717E010F;
+	Mon, 06 Jul 2026 15:42:25 +0200 (CEST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+Subject: [PATCH v3 0/5] media: Add fdinfo support for v4l2 drivers
+Date: Mon, 06 Jul 2026 09:42:17 -0400
+Message-Id: <20260706-v4l2-add-fdinfo-v3-0-d556568cf38e@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] Add Qualcomm JPEG V4L2 encoder for SM8250
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
-Cc: loic.poulain@oss.qualcomm.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
- <68e59764-5a10-4abc-849c-14ea2d9ef76e@linaro.org>
- <d74d7839-d126-427a-b151-ca895a27a83e@linaro.org>
- <437d1eb0-4495-406a-9501-b0515cfa3151@linaro.org>
- <e04cb9dc-76dd-4fa8-92f4-be002bf7ee8b@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <e04cb9dc-76dd-4fa8-92f4-be002bf7ee8b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XNTQrCMBQE4KtI1kaSV0lbV95DXOTnxUZqI0kNS
+ undTSqC2OXAzDcTiRgcRnLYTCRgctH5IYdquyG6k8MFqTM5E2AgmOCMpn0PVBpDrXGD9VTWLbM
+ apaqgJXl1D2jdcxFP50+OD3VFPRamNDoXRx9ey2XipffVYaUnThmtoQLOpdKN4Eft+14qH+RO+
+ xspDwl+jXptQDYMtA22jUYm5L8xz/MbcIXnTQgBAAA=
+X-Change-ID: 20260610-v4l2-add-fdinfo-a790fceab329
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, kernel@collabora.com, 
+ Detlev Casanova <detlev.casanova@collabora.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Christopher Healy <healych@amazon.com>
+X-Mailer: b4 0.15.2
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66766-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:nicolas.dufresne@collabora.com,m:benjamin.gaignard@collabora.com,m:p.zabel@pengutronix.de,m:ezequiel@vanguardiasur.com.ar,m:heiko@sntech.de,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:kernel@collabora.com,m:detlev.casanova@collabora.com,m:linux-arm-kernel@lists.infradead.org,m:healych@amazon.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[detlev.casanova@collabora.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-66767-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[detlev.casanova@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linaro.org:from_mime,linaro.org:dkim,linaro.org:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A6600711C24
+X-Rspamd-Queue-Id: 62E69711D30
 
-On 06/07/2026 14:02, Vladimir Zapolskiy wrote:
->>>
->>> Why? The common power domain and interconnects have already been
->>> described as resources of the parent CAMSS device, there is no need
->>> to duplicate descriptions in every child device tree node of CAMSS.
->>
->> CSID, IFE etc are not parents of the JPEG encoder.
->>
->> The idea is to make all of these peers, eventually. Not particular block
->> owns the TITAN_TOP_GDSC - the entire CAMSS block is a collapsible block.
->>
-> 
-> The statement provides the same information as before, e.g. it's found 
-> here:
-> 
-> https://lore.kernel.org/linux-media/fbc018f5- 
-> c025-4747-85f2-53b45b0f0496@nxsw.ie/
-> 
->      There's no functional linkage between CAMSS/IFE and JPEG - they are
->      peers within the CAMSS power-island.
-> 
-> Thus "the CAMSS power-island" exists, and it got its hardware description
-> as the CAMSS top device tree node, and TITAN_TOP_GDSC power domain is
-> a natural resource of all devices on "CAMSS power-island",
+fdinfo is useful to poll information from the driver.
+Unlike the ftrace interface, it lets userspace tools get a snapshot of
+the state of the driver at their own pace, instead of getting events for
+each driver status change.
 
-Vlad honestly, TITAN_TOP_GDSC is provided to the CAMSS island - all of 
-the nodes within it depend on that and it is _external_ to the block.
+This works better to get information like HW usage time or clock
+frequencies, as well as memory usage.
+This patch set focuses on mem2mem drivers that are per-frame based and
+an implementation is proposed for the Verisilicon Hantro and Rockchip
+rkvdec drivers, limited to main clock frequency and HW usage time, as
+well as HW cycles counting in Hantro.
 
-There is a CSID MUX on some SOC other than that I'll restate it again, 
-I'm not sure why you won't accept it.
+Even though it is not used yet, per core fields are appended with 
+`-<core_id>` to support multi-core drivers.
 
-There is no dependency between JPEG and IFE, one is _not_ subordinate to 
-the other and trying to find ways to invalidate that statement runs 
-counter to the facts.
+To ease support in drivers, a v4l2_metrics struct is added.
+It stores metrics information and provides helper functions to write
+the fdinfo file in a standard way.
 
-CAMCC provides TITAN_TOP_GDSC external to the CAMSS block, that GDSC 
-effectively _is_ the power island.
+An example of usage of this from userspace is implemented in v4l2top:
 
-This debate is going nowhere. Check the downstream you don't need the 
-docs titan_top_gdsc is provided by CAMCC.
+https://github.com/cazou/v4l2top (Check the upstream branch)
+
+checkpatch.pl warning: The 2 arguments in the show_fdinfo callback
+definition are kept unnamed to match with the rest of the struct
+definition.
+
+Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+---
+Changes in v3:
+- Rename the fdinfo key prefix from "media-" to "v4l2-", and "stats" to
+  "metrics"
+- Restructure the documentation to have mandatory and optional keys
+- Add core ID to fields
+- Add HW cycles count support
+- Add ABI documentation
+- Link to v2: https://patch.msgid.link/20260617-v4l2-add-fdinfo-v2-0-d298e98ce06a@collabora.com
+
+Changes in v2:
+- Simplify key/value pairs by removing repeated <eng> suffix
+- Add media type support
+- Add v4l2_stats helpers
+- Add support in rkvdec too
+- Link to v1: https://patch.msgid.link/20260612-v4l2-add-fdinfo-v1-0-723211abc861@collabora.com
+
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+To: Detlev Casanova <detlev.casanova@collabora.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: kernel@collabora.com
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
 
 ---
-bod
+Christopher Healy (2):
+      docs: media: add documentation for V4L2 driver usage metrics
+      media: hantro: Add per-context fdinfo usage metrics
+
+Detlev Casanova (3):
+      media: v4l2: Add callback for show_fdinfo
+      media: v4l2-core: Add v4l2-metrics interface
+      media: rkvdec: Add per-context fdinfo usage metrics
+
+ Documentation/ABI/testing/procfs-fdinfo-v4l2       | 129 +++++++++++++++++++
+ .../userspace-api/media/drivers/index.rst          |   1 +
+ .../media/drivers/v4l2-usage-metrics.rst           | 137 +++++++++++++++++++++
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c    |  19 +++
+ drivers/media/platform/rockchip/rkvdec/rkvdec.h    |   1 +
+ drivers/media/platform/verisilicon/hantro.h        |   3 +
+ drivers/media/platform/verisilicon/hantro_drv.c    |  19 +++
+ drivers/media/platform/verisilicon/hantro_hw.h     |   1 +
+ .../platform/verisilicon/rockchip_vpu981_regs.h    |   1 +
+ .../media/platform/verisilicon/rockchip_vpu_hw.c   |   6 +
+ drivers/media/v4l2-core/Makefile                   |   2 +-
+ drivers/media/v4l2-core/v4l2-dev.c                 |  12 ++
+ drivers/media/v4l2-core/v4l2-fh.c                  |   3 +
+ drivers/media/v4l2-core/v4l2-metrics.c             |  78 ++++++++++++
+ include/media/v4l2-dev.h                           |   1 +
+ include/media/v4l2-fh.h                            |   2 +
+ include/media/v4l2-metrics.h                       |  47 +++++++
+ 17 files changed, 461 insertions(+), 1 deletion(-)
+---
+base-commit: 3c587e0b08bd3c4853a22792b9166b7457870165
+change-id: 20260610-v4l2-add-fdinfo-a790fceab329
+
+Best regards,
+--  
+Detlev Casanova <detlev.casanova@collabora.com>
+
 
