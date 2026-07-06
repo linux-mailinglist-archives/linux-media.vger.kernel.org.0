@@ -1,242 +1,173 @@
-Return-Path: <linux-media+bounces-66730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66729-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id y7Q/AYGiS2q7XQEAu9opvQ
-	(envelope-from <linux-media+bounces-66730-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 14:41:37 +0200
+	id b9foD4KQS2ppVgEAu9opvQ
+	(envelope-from <linux-media+bounces-66729-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 13:24:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B83A710A5B
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 14:41:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 796B570FCD9
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 13:24:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="e9qq3t/n";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66730-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66730-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=R9TGRZtw;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66729-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66729-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9D7CA3454D53
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 10:47:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6F7A131C3AD2
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 10:42:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B63439DBDB;
-	Mon,  6 Jul 2026 10:46:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D9993E315C;
+	Mon,  6 Jul 2026 10:42:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACAA3D9548;
-	Mon,  6 Jul 2026 10:46:56 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783334818; cv=none; b=irdSYGifi/q+RdejPoH1rWqTFRLT2uJqXVPXDZqBEyVpUVtQGvTkYCPrkp9Krr6iKnnWO6RLWARUIfW6z6otx9pEaxqjIcXLS2cehL6k8LBrJPHyPs/AhI7wm+PL4otI+vj08XrrLdmqwtI+ttMCe6AaUcv+lgE+lBj/BOLY8tE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783334818; c=relaxed/simple;
-	bh=1PMYIF4mGnrHFr2p9GLiw80vTQEb9ubvU3AeF2nO7Wk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JkWcHXH/rVAPIF4CnELA36sNa89+FrpsInmSw0qccJuxfbq7LlbTKO05O0udKgnJF0/fH+aRqPpJ51kv3E/pOgPZi7GPi5XHP0STKsdEMfNVTcH5AgMc/m9/JQfccMJInskwqe8+MuDWXSYpnH+wZr/p58iRpVp356yJoVTg8ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=e9qq3t/n; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C46D5ABF;
-	Mon,  6 Jul 2026 12:46:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783334766;
-	bh=1PMYIF4mGnrHFr2p9GLiw80vTQEb9ubvU3AeF2nO7Wk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e9qq3t/nAaUSvGd2veY38lvSKx5QJGgNDR56zaoxJDugofmwxgIMza1bUdr/YRPB3
-	 2cjCae4rc4ovQp83C5ExqYeyoyuXYGm3QQMXEQxE50Wg8YeYS/ocvSO6t1xvwlNKhI
-	 +Ub4K6KHMx1myiE1MoF8x8A5pHbgLFqhQHTJ5nY8=
-Date: Mon, 6 Jul 2026 13:46:52 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: David Laight <david.laight.linux@gmail.com>,
-	David Carlier <devnexen@gmail.com>, dan.scally@ideasonboard.com,
-	mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] media: mali-c55: Fix unaligned access of AEC histogram
- zone weights
-Message-ID: <20260706104652.GB66892@killaraus.ideasonboard.com>
-References: <20260702103453.348056-1-devnexen@gmail.com>
- <akd8E5jr722oTm49@zed>
- <20260703221651.41669d55@pumpkin>
- <aks7usxfDajS-W_5@zed>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0C73CB8E6
+	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 10:42:21 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783334543; cv=pass; b=qHSfLjUzJ68Xx12c+dCoexw8I1Ba9mhFVsNdWXTZmfZ31eAWn80CZ5JqFslypPSTAWpTvOrOl8HiFOpgtvKDgh/M2BlZLE5KW8WNCCj7Ijp50SBhWDkUY9/QKEnDgK70VxIZT/JnFOxyu7oCaFkylixnXF5L09iM1wuUMQx3dWo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783334543; c=relaxed/simple;
+	bh=1Y5QC9VaR0WOBQ9xrknlymia7s1s/X0KyolGNg9xbT4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WDfn1d7IzbShDBRu2QbH7SFnjsjzBlWGKaexOEbodfCMqCpjHC8g167IbRkA4aa9VfVYjrNU90Mfo2I0hNbVWE2V6LPz18Yu3Q7oG4aPgf2sLMcqdQiJK9iyuVxvyN3O8SJ3S70tJ2nJYsoqbJDBozpsskOy+ZwHxc8q5qcaQFA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R9TGRZtw; arc=pass smtp.client-ip=209.85.208.46
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-69a5ecbbfb2so989387a12.2
+        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 03:42:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783334540; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Iy0EOfGDvYSZJivdpcIiJNDFnpgrjR63nImhSb4uxXbB5T9SQoe09/o/wOM56hTevF
+         evXxRw3B3D9oLDkunYWl6u/nYW1l3cnJzQshwHjjplx9n4PRMvRqZi4gD0wD/iqNkzFb
+         CBRSHYlEM3BYLFWeoUeBPKy9jNsVYdG8ZR7xHbtF85UYtMy6XG0iLWHAh4lS+ERjXYKb
+         Eee5+5/2icy2Uc5aj1hffwPvY3onm+9PP4Xb5nmMK+4XW+RZSECYR9OROjzQuM4G2591
+         Pqvi0FOTx7aYY3juQZo54RCJvDbOO2BXfBPg/E0f8xGnGbKUuams78bU2TpDkBeev67v
+         RxfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1Y5QC9VaR0WOBQ9xrknlymia7s1s/X0KyolGNg9xbT4=;
+        fh=gH4Lz8tBrsB1QAuSRnEy2R4OgcQUgN+xUXxJzKK+nB8=;
+        b=BEU/0D1QDwwMwBPxgxzujZzXM9kIv1tthy4bYEyEU6zlEj+DCxRM9v7YMlnWImMPdY
+         AqKwWGbXlRdTtdkuCu+JUMCWA750RJP3zeASemS3If2DjTrGH0CzMEFyWID+aw6OnPp9
+         P8esL5JsCmZAtyJdPiNJZ33Bnjj5Q3nkFRxPt5QzJTKCz5taWX0ESIjeuN8WuDaoSxdR
+         WGTlmWdRizahUCO8N2CKW2VgOMAA4HUEzhN2CE6GF7O7S9CtP+iHt6Y5yd8ZE9IdBJnd
+         +A2FDu8qEWEp1UFt4KxxdYLmIoc0/d8YADFJrqklLdkmGiJ0b9LDY1XJWW7KvwFAWgb/
+         lJKg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783334540; x=1783939340; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1Y5QC9VaR0WOBQ9xrknlymia7s1s/X0KyolGNg9xbT4=;
+        b=R9TGRZtwGh8TIIptevF4fPJT7O5Yhp87HVYl/COGfeNp+Zw5eCpdwlHZI3GFQRYid0
+         2zB7KWNu95m8jSRaGVC9RjZtK08+//SWCbX8qvb7KVXNm45GHIFL9Qj3GuDmo8YL9hDV
+         awfv1otJNygEZojnAUf6x+vQwjkGLo16kxSvaS55juE/VM3wj1b1eiLmkKvCCgQ9l7rT
+         j8PJ9/7MtISf2noYTEzv7Jw7M8Yl59YuxCwvfyGmUuvVSH0H3ZTQCvFDNcA2zSLNkqSj
+         nRw44g/m7TvgS3MH0xAfMD8xwuVIG6g3O3IcX1cDHGNoSWrzQHqGPe+gB56Se+pdp8DP
+         XnlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783334540; x=1783939340;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1Y5QC9VaR0WOBQ9xrknlymia7s1s/X0KyolGNg9xbT4=;
+        b=ZlzjiR1Nlku3h450gtFxxCBmayqCmNdWFVRDXFAO49I91G0ugfPXbz6oY9NT7ovDj3
+         2v1npZ315X+1LfCJpaNI5YLfNX7Uyngrh+NAXNU92I7dWfc779l1NN7cYT75Sq/gGLoQ
+         BRfAuWEviR6GBYMKzMB0fJAWxIKl3NCo60dC6DQiQDp4UJzPnbuUMkfltKF9JvILui6B
+         iiSF284o8AoYiq/hyWa8Pdjl0NSD0iGNKU23B6ucq/NMWf/s+yDq7dubE1uKatAMCuCo
+         opPhQdgaW223yxJ0K9Z7TuSg/kGUB/Mv4YGe/MjhGYfZ+Uik3LA0Mw+ChfrEUiuCqRY/
+         o4Zg==
+X-Forwarded-Encrypted: i=1; AHgh+RphMIMA4FIFNQXUvB6vxS2y4bOBsz1XTERrKyNUcqTUsXuSw67s+8Iec9zHE9yapk1zp14t/T+qTWQGhg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7+FGATtADqdQXgRbhSSxHKYLIZhXjRnNLwzC2KGqBYKn5WiC+
+	+dCYKH6I0wXGm1h6FfPcJVInwzHrKZUyr5w1K8lr/Ke4cgrgOx7YcUC1Ql+4sq9cgDd7rx8e1B8
+	m3bOgXww4a2TSewLmoK8XU7h1U8ymUow=
+X-Gm-Gg: AfdE7cmFcgI9fhiBBcOd6XkuTmkOFG7AOk/cVhWvUOUV1M6/8zdr6Hno/pdgu2nQmQT
+	c5XyVXXzA2asXaRWjl852YAoQrAtWVyC0N5yrgbZ5+ngOa/PNamTbqn5AMxRTex+71If7fJEk6y
+	IL027H56AthtFFh0dY7RiXOEk9PRcU4jqn1Z1oGowelB3PQ9Vq7iikUi8m1aoEETaSjv0DyVf5N
+	EORwT0ZdB4dKUknE9JP+BY4bWmrLReAuMyxR3Y6FZsZhDpP4uDJg6/SFx6Vlmm4Sb2yjKTuyNc9
+	IkqPuTiQta3KsNffqfUnh22FCpY//oiOJ4Q7l24JRRUAzjV3Wvx+qURnmuMe4Q==
+X-Received: by 2002:a05:6402:5107:b0:698:b23a:e54a with SMTP id
+ 4fb4d7f45d1cf-69a85c281cdmr38340a12.31.1783334539697; Mon, 06 Jul 2026
+ 03:42:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aks7usxfDajS-W_5@zed>
+References: <20260704120113.201099-1-dileepsankhla.ds@gmail.com>
+ <akkOdQ1oT0hIc0tz@ashevche-desk.local> <CAHxc4buoGJJ4ZUbvCz7EtcosH3mZWXp0NqFMfDBH1QV__0qDpA@mail.gmail.com>
+ <CAHp75VfHKcW4BfgWht5wN=SY1u8=Jw4zAo=Sx0Fm_n0=D3pNWg@mail.gmail.com> <CAHxc4bt4ix2O_T6m4c9y+k8hqmx-C+iRd23mqVS-8Zns0DFa4A@mail.gmail.com>
+In-Reply-To: <CAHxc4bt4ix2O_T6m4c9y+k8hqmx-C+iRd23mqVS-8Zns0DFa4A@mail.gmail.com>
+From: Dileep Sankhla <dileepsankhla.ds@gmail.com>
+Date: Mon, 6 Jul 2026 16:20:08 +0530
+X-Gm-Features: AVVi8Ccgnjmj7aT3AzMNV0fHJdJ2rWbK4zfohOMS4OfJCoMgCokRFN11TnO--ec
+Message-ID: <CAHxc4bsLGj0fbVuez2hNo3tRNBDef3U0N4UTiwQc0SqWiEe1OA@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: Remove unnecessary else after return
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, andy@kernel.org, hansg@kernel.org, 
+	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	abdelrahmanfekry375@gmail.com, error27@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,ideasonboard.com,kernel.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-66730-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:david.laight.linux@gmail.com,m:devnexen@gmail.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:andy.shevchenko@gmail.com,m:andriy.shevchenko@intel.com,m:andy@kernel.org,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:abdelrahmanfekry375@gmail.com,m:error27@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:andyshevchenko@gmail.com,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[dileepsankhlads@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-66729-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dileepsankhlads@gmail.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[intel.com,kernel.org,linux.intel.com,linuxfoundation.org,gmail.com,vger.kernel.org,lists.linux.dev];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,ideasonboard.com:from_mime,ideasonboard.com:dkim]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6B83A710A5B
+X-Rspamd-Queue-Id: 796B570FCD9
 
-On Mon, Jul 06, 2026 at 07:38:58AM +0200, Jacopo Mondi wrote:
-> On Fri, Jul 03, 2026 at 10:16:51PM +0100, David Laight wrote:
-> > On Fri, 3 Jul 2026 11:44:31 +0200 Jacopo Mondi wrote:
-> > > On Thu, Jul 02, 2026 at 11:34:53AM +0100, David Carlier wrote:
-> > > > mali_c55_params_aexp_hist_weights() packs the 225 per-zone u8 weights
-> > > > into the ISP registers four at a time by casting the zone_weights array
-> > > > to u32 and dereferencing it. The array sits at offset 10 within the
-> > > > parameter block, so it is only 2-byte aligned: the u32 access is
-> > > > unaligned, which is undefined behaviour and can fault on strict-align
-> > > > configurations or once the loop is auto-vectorised.
-> > >
-> > > well, I don't there is a risk of undefined behaviour on ARMv8, it's
-> > > just less efficient
-> > >
-> > > > The cast also reads the four weights in host byte order before they are
-> > > > written to the little-endian register, so on big-endian hosts the four
-> > > > weights packed into each register end up in the wrong byte lanes.
-> > >
-> > > Also we don't have any endianess issue as the IP is only found on
-> > > little endian systems
-> > >
-> > > > Read the weights with get_unaligned_le32() instead, which is both
-> > > > alignment-safe and fixes the byte order regardless of host endianness.
-> > >
-> > > mmm, I read in Documentation/core-api/unaligned-memory-access.rst
-> > > that:
-> > >
-> > > ------------------------------------------------------------------------------
-> > > 	u32 value = get_unaligned((u32 *) data);
-> > >
-> > > These macros work for memory accesses of any length (not just 32 bits as
-> > > in the examples above). Be aware that when compared to standard access of
-> > > aligned memory, using these macros to access unaligned memory can be costly in
-> > > terms of performance.
-> > >
-> > > If use of such macros is not convenient, another option is to use memcpy(),
-> > > where the source or destination (or both) are of type u8* or unsigned char*.
-> > > Due to the byte-wise nature of this operation, unaligned accesses are avoided.
-> > > ------------------------------------------------------------------------------
-> > >
-> > > Which seems to suggest, if the issue here is performances, we should
-> > > aim for something different ? (honest question here, any kind of
-> > > guidance is appreciated)
-> > >
-> > > > Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
-> > > > Cc: stable@vger.kernel.org
-> > >
-> > > If it's only about performances, does this qualifies as a fix ?
-> > >
-> > > > Signed-off-by: David Carlier <devnexen@gmail.com>
-> > > > ---
-> > > >  drivers/media/platform/arm/mali-c55/mali-c55-params.c | 3 ++-
-> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> > > > index de0e9d898..1aaf64dde 100644
-> > > > --- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> > > > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> > > > @@ -6,6 +6,7 @@
-> > > >   */
-> > > >  #include <linux/media/arm/mali-c55-config.h>
-> > > >  #include <linux/pm_runtime.h>
-> > > > +#include <linux/unaligned.h>
-> > > >
-> > > >  #include <media/media-entity.h>
-> > > >  #include <media/v4l2-dev.h>
-> > > > @@ -203,7 +204,7 @@ mali_c55_params_aexp_hist_weights(struct mali_c55 *mali_c55,
-> > > >  	 * of overwriting other registers.
-> > > >  	 */
-> > > >  	for (unsigned int i = 0; i < 56; i++) {
-> > > > -		val = ((u32 *)params->zone_weights)[i]
-> > > > +		val = get_unaligned_le32(&params->zone_weights[i * 4])
-> > > >  			    & MALI_C55_AEXP_HIST_ZONE_WEIGHT_MASK;
-> >
-> > On LE with HAVE_EFFICIENT_UNALIGNED_ACCESS the latter generates what you
-> > expect the former to generate.
-> > But gcc can unroll loops and use (IIRC) 'rdp' to read two registers at once.
-> > That will crash and burn.
-> >
-> > The best thing would be to have a union of the two arrays with the
-> > member marked __packed to remove the padding before it.
-> 
-> I'm not sure I got what are the "two arrays" you mentioned here.
-> 
-> params->zone_weights[] is uABI, it's hard to change its definition
-> without really good motivations.
-> 
-> > > We could do:
-> > >
-> > >         memcpy(&val, &params->zone_weights[4 * i], 4);
-> >
-> > Some of the KASAN (etc) builds might make a mess of that.
-> > Without compiler optimisations of memcpy() it is horrid.
-> >
-> > >         addr = base + MALI_C55_AEXP_HIST_ZONE_WEIGHTS_OFFSET + (4 * i);
-> > >
-> > >         mali_c55_ctx_write(mali_c55, addr,
-> > >                            val & MALI_C55_AEXP_HIST_ZONE_WEIGHT_MASK);
-> > >
-> > > Or this could be an alternative:
-> > >
-> > >         const u8 *w = &params->zone_weights[4 * i];
-> > >
-> > >         val = w[0] | w[1] << 8 | w[2] << 16 | w[3] << 24;
-> >
-> > That is a possible implementation of get_unaligned_le32() no point
-> > doing it explicitly.
-> >
-> > A late enough gcc will convert that to a 32bit memory read (with any
-> > byteswap in the read or after) if unaligned accesses are supported.
-> > Otherwise you get byte loads, shifts and ors.
-> 
-> To sum it up: since we can't change uABI easily, the best thing here
-> is not change anything and drop this patch ?
+On Mon, Jul 6, 2026 at 1:04=E2=80=AFPM Dileep Sankhla
+<dileepsankhla.ds@gmail.com> wrote:
+> I will try to send a patch addressing all the "else is not generally
+> useful after a break or return" warnings.
 
-Doesn't the patch fix a real problem ?
+Hi Andy,
 
-Fixing the uABI would be best, but as you mentioned that's more
-difficult (the faulty structure got merged recently in v6.19 and we
-most likely control userspace, but still).
+I have sent the patch for the same here:
+https://lore.kernel.org/linux-media/20260706103810.71919-1-dileepsankhla.ds=
+@gmail.com/T/#u
 
-> > >         addr = base + MALI_C55_AEXP_HIST_ZONE_WEIGHTS_OFFSET + (4 * i);
-> > >
-> > >         mali_c55_ctx_write(mali_c55, addr,
-> > >                            val & MALI_C55_AEXP_HIST_ZONE_WEIGHT_MASK);
-> > >
-> > > What do you think ?
-> > >
-> > > >  		addr = base + MALI_C55_AEXP_HIST_ZONE_WEIGHTS_OFFSET + (4 * i);
-> > > >
-
--- 
-Regards,
-
-Laurent Pinchart
+--
+Best Regards,
+Dileep Sankhla
 
