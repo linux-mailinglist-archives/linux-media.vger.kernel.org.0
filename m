@@ -1,103 +1,103 @@
-Return-Path: <linux-media+bounces-66762-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66763-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id iqyNGZzHS2qCaAEAu9opvQ
-	(envelope-from <linux-media+bounces-66762-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 17:19:56 +0200
+	id C0RnAY22S2owZAEAu9opvQ
+	(envelope-from <linux-media+bounces-66763-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 16:07:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75B67127CB
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 17:19:55 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A07711B9F
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 16:07:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=L0VeMtE1;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b="M4Du46Y/";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=YmRDjrBm;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=U7A4y7wQ;
 	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66762-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66762-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66763-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66763-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 444B1302C5EC
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 13:31:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5487830B4A93
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 13:34:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A54620E6E2;
-	Mon,  6 Jul 2026 13:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B30D33F377;
+	Mon,  6 Jul 2026 13:34:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE81420866
-	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 13:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA61437188A
+	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 13:34:24 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783344673; cv=none; b=X1MWdqUVBkaccBuofkbBtcgFOMMHqN376y+1+m7FXwdywoq6QuRlIu5IZialkibkAV74tHFtC4lP9gS6/m98F0Il/detsHmElq9NIAbB3iLtuYRhOTBVYf2kCZ/5c4w0Df9pxNmVTwO2EHEDxv4kaeKkcbsl+uxm73g46m6PmSw=
+	t=1783344866; cv=none; b=Fznc+oxlw2R4X+NionCNTjL852Tki3aYTopF57knftgQ9ZnN1hEOcvvrnL7VDHFVa42ZeftWRDlYPydJ05RW6VlWoM4N7Y78Ys5urnywAOd/mWFWChXXu19zNsMnOMv1s0oRdRDh+18VqUg+L0Hgntoj2fFZin0CyJMIGVyqaP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783344673; c=relaxed/simple;
-	bh=3J+J5O/4aydjQptyZH0/DPttB/l6kc/yHKXP9RukXlQ=;
+	s=arc-20240116; t=1783344866; c=relaxed/simple;
+	bh=RTLR0xRgr2hmCOmLjjg918s1c1tnmrLf+I87zh6XN1E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i2mYD5szI2Y6SLifKqOqBDaq6sHK22ab0U87QJrrZyKV+F1ZroTkW1ZTQ9vDn6nCfVNGQbOM7djF/28/wFPqSuqaTSR+2oWuIzNe0J6QA9YT1bAJrAO8nI2bFf1XNZjt2DVWYgyHOWxYtQy3ODzUM2sD3NhqBauZv5/zmH13ENA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=L0VeMtE1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=M4Du46Y/; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666AxOCm367236
-	for <linux-media@vger.kernel.org>; Mon, 6 Jul 2026 13:31:11 GMT
+	 In-Reply-To:Content-Type; b=aNCJCOdgoyzpmQfaHLZ1JjC58tTafDSBgjXPfjXRIZ+9OZgygBy+IM8kEjV3TUfq5KxZjxxLLj7AqjFrR4ZNs4y4uNQIdxMpREC3zK9RqQMeE7lGdPcgCA7KChMOYgjXMoe/VOc5HD+6dR8P3EKs4aAJzTFLvLD+mCorcc35WlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YmRDjrBm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=U7A4y7wQ; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666AxFnq368942
+	for <linux-media@vger.kernel.org>; Mon, 6 Jul 2026 13:34:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+c11+84PIThzRwrCV3FPviwZt6hu8ALEm17/qhZyAQ4=; b=L0VeMtE1JN+s48La
-	4o6PDEyK/LmlF6HZ8rBRihIabk4KRNkvT+9wuDidxUkMypEtYprrYX6MltvEPJpi
-	jOubmtNU0vP8tue1PIE3YbGU1pAf2xB1/+z6M8A8AO/26NkusyO8VNNTbfOEMIHi
-	jc3Ijc2673iFjVul/aZykQtzZNmZZ4Ihuv2+qX07AS4nVDGAUqPjrMZcRHPCkdrV
-	16kif6m/A2+pIgyoSEbKVu289ZgfTNvJUkPygiUxXw4ETFH2hMutI9yFmERmo0r3
-	86GBi8dahSEg1Yi5M51fPeXDemK8SjU0Ljahot3REjchkOH2CHqwtGtwqnFPRleT
-	9ggoLQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f891us47a-1
+	TTt26qQw9EQtC6S52HveKwhN5OMFsaTiLHCYa+UHr3g=; b=YmRDjrBmpXij8jHc
+	Bq6iF69hxPgknj34+oXNOikVD2FYn56rMaibSwaXXOVAHmWf34OYtxEJcUeGgNo1
+	2f6Ie1qKilAq8z/HTld1HhhHNXgXStuAa4lZUlfn81hiAHJuuqEq4uakzt58YHn7
+	+LqeRG6v+OyqCw3QVooFelPS25GWPHCfYulhwW2FEQRp5ezG/GCySbAjj/lUANzV
+	aZa8bdr4u4/3krZEDCEOJVXbVQmd8dBJ99oi9im21B00863bDnDlNbocysvAvCDC
+	WDP+gKUM3roWSYfaAZAyp84CyF9HJ2a0XX1G2h3j1qQED4m1WcSGW54lFRqKSfFt
+	bj6vLA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f88h99abu-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 13:31:11 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51c1a97644aso40845381cf.2
-        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 06:31:11 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 13:34:23 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-92d1cae5939so301942085a.0
+        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 06:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783344671; x=1783949471; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1783344863; x=1783949663; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+c11+84PIThzRwrCV3FPviwZt6hu8ALEm17/qhZyAQ4=;
-        b=M4Du46Y/nhSypo7g9x5S/Mgmwgxj9lq0zwZkfiPqlkZ3GMwV473sW2m3LYFe4c3JhL
-         +Kb6GXoZOT4uMti6KdDyWRnLQyOJJ48RLgxCCzTXODJ/+FPYrInh4oQBakz5fohqoazP
-         Wb84vXsIZ+knsSszQINSaA4MEPsUd45t2k0ZbJpOE7yCYEtQArk8diKOeLqkvTv4F8UK
-         c+EoJjBu3XyfxhARUPtObeodLGVnw+Z0YfbHQgjl+//uHLK2FMfDYyuRrbSgmUXINUZn
-         flxkd0nmhCy4mpZrb0ZMy4vJwZ9a7sWmtBiOvX6cQXAmDgMkm+8pCJ4aXsZLDl/gOB16
-         sv7A==
+        bh=TTt26qQw9EQtC6S52HveKwhN5OMFsaTiLHCYa+UHr3g=;
+        b=U7A4y7wQRKapyP15xMcgBVCicIm9oXqh/IVONxneXwPb9ou09zjco2MAX1TxJ3m24w
+         V9lr88aEcvomCX22sJr1xr8N4dJzeM+HVSzg5VdH23Psr5SJzNuslstvOguSTPk0eX6e
+         VsHPuoyRO6O7HZ/5Bl0ANhrd97aFG2ExzMBpGu6sAuNpa/yn+LBNHpVrb3iM4fPXZSed
+         M5LzHkucmBSrv6/0EyiH/YUUdagIisQ4TOY066M2SAMR5WOjbZ/J5AE2PbiKjylHMiey
+         iO3zx6oyxupqsG05QOgDu5aI6OsSYaJ0IFWml3jEpzUDJ99uX//KI85m2TL5cYW/Z0lz
+         WNhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783344671; x=1783949471;
+        d=1e100.net; s=20251104; t=1783344863; x=1783949663;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+c11+84PIThzRwrCV3FPviwZt6hu8ALEm17/qhZyAQ4=;
-        b=bI+RmNEZI3hnm34GCAXUxejSQZ7xQUHTDeGXF3qEIdhdDW6PnqZT2toWZSKZgVU9N/
-         4cWAzUE4bhoaR9gAk8TFcRtmwACB4qtUHbu9gwQAiRxR2mbknR4zFa0P0WXTwCsdiYAN
-         CIkVmXL1KoBOcLm1+xYDk1iRxWs+/aU8ERJdvcoRHZJNkkVzjfuAgHVDkSvQ707U0U0h
-         V9m5rc+MZoCHUuRCIPiaks05yCuUkCgEdLiHUbBzJBisCYpySCHzL3qy/AOOZz6RCxBI
-         GynC72EynlIbxLN1yWIx49F9l4YKwMW8YMNxjUQH49faUAzVkw/eR9kIWIp+2prCPYuP
-         ggiA==
-X-Gm-Message-State: AOJu0YwlnPTQvpDT3gmdWfFKiOh4vw046mmrMsCungJwEzlgJqz07XSB
-	+Y2mJscmPk1gdZ9rPErE8R9iEeg2XYW1nQ+rIHCR7nc27wdh7sknBGf/1WztFV1zRwh6cqjOcu9
-	Gb6yXeN08WsjaWuNb/xHhZzx7FP7E6uPqS6BlUhBAGNXtjpe7RMjgXhJUy8RUkZAp5Q==
-X-Gm-Gg: AfdE7cnIq0S/qWpnxkoGX5cBUC2g9lgGbXtOEZAQrM3DgBf8gGtWTom1fTsIgnBeS7Y
-	PIwII9UeZNoSDpDoiBJS3BsYviDxhxQ0kFDd4OWzOKxFJ00UI99kWuBMDRRW76VtFGU2bN+2XUh
-	3ARXDH473MiVRs0K38W/4xG2TohqRpHxALvbSyP4e+77LaG7wjKeGdwMYNFpulMGu9/4VPXGZSZ
-	9zS9/YM7UwCSmhnl+WWjG/NNGWVALDzzFaFwuRkmCdMTfUIDbgl1cvwyaaP6pXCxC9rx6FWDtFC
-	rVfH5sO1KeBT/PCuxW1iBPCZBGCld28o1dypr1IN7PKSXax5kHhy7Q5Atwixpy9rGai6ZTY0ziG
-	0DHH6dl8PpFqd/TKhi7eckN724GHo+Sav2QM6F0mh67bie/x57wZYwUe0OHeFltWEhccHPfEy
-X-Received: by 2002:ac8:5942:0:b0:516:dbf6:f8e7 with SMTP id d75a77b69052e-51c74801553mr5552971cf.17.1783344670523;
-        Mon, 06 Jul 2026 06:31:10 -0700 (PDT)
-X-Received: by 2002:ac8:5942:0:b0:516:dbf6:f8e7 with SMTP id d75a77b69052e-51c74801553mr5552221cf.17.1783344669938;
-        Mon, 06 Jul 2026 06:31:09 -0700 (PDT)
+        bh=TTt26qQw9EQtC6S52HveKwhN5OMFsaTiLHCYa+UHr3g=;
+        b=Cgg6T4BwD8R9Kw0fRi2tJBlLCxp16JXRbdnm12g7KwAUUx8vUDdWzY1tBHOu3EAcAZ
+         /KuqMVV+34eLdNEF9lv517jQ8JoVJbAZ8bh/dSz8Yxyq0OGbTs/YtTPbZl55kHFFiNtI
+         +GqtQpouedJUXOJubpDGMTupLRohdQEHbw78QaHW9pSnil+rZY+pbYiIcjIIrQ0AxQs9
+         sU7ZfAl+jFRF+rjFcK/cBNJGSWoj9i0LwMnecLp+xXwdcPGr2ZPFVSIg6uwbg+eAJhAs
+         1Mhi6bgDEZnrA3Z8sYM0SZkhutAoI1hpcnQ0MSigxU7PY2EG26nSMbBizNlGpBtg5HyU
+         sgnA==
+X-Gm-Message-State: AOJu0YyvO4YbM72tzq8KrmlVoa/4X9K2IIfnVuc5xxUYUzLoK2wZMFgx
+	Uu8XlQFQc1NL2UmgY6JiyjaWzmVU0mhytgZk7mrg6q+Ma1MZiweeCG8cm4XJY3xcLpmSnQvpQaG
+	rs//sHhq3K/k14UAcXCSKPq6DUB9euBEpPP9bxAJ1DS+nRKXrAgprAb1EJfr+UbsQcw==
+X-Gm-Gg: AfdE7clagNHklEORJVTJh3dQJhlalNy6rxnjg/A7uDztIHdKO0n+y6MaR4ppWFubVxh
+	kYRFo1kx8Z+WPkIqL18eK0abZk2VuMxXZseyore/wOz8xGzGKa4LZB9y3IbZ+RoKsmmd3vj2hAX
+	pkgW1Orv/4ZdYtw4HUmYTzP6RpFSSqICVHNSF74A7Rl9GLWRC3Dyx1FwniyuWtA8rZGkDZO1a40
+	2Wki138X78fmbbRFwxooOM1KNYpFS8ZDLBtObstPIZG7EUInqVBfUb5vdi0vFTHvPgTbo6gSdHs
+	MC6Q+xivlLOBKmF5icvGMOjkVYn3db2oE9NIVUmfnXvDrAmn6DkBvZjKNg/uahBe3Ca+Okr7aZu
+	SaRvpUKRpKQSVk/gh9qa59GXhgvpguIMJKu1gnGFG8FyhQpEdts9YPWe9vFUSbZPg4Dypsg+Z
+X-Received: by 2002:a05:620a:6f06:b0:92e:7973:ebd8 with SMTP id af79cd13be357-92ebb56aad1mr78075985a.37.1783344862768;
+        Mon, 06 Jul 2026 06:34:22 -0700 (PDT)
+X-Received: by 2002:a05:620a:6f06:b0:92e:7973:ebd8 with SMTP id af79cd13be357-92ebb56aad1mr78070085a.37.1783344862218;
+        Mon, 06 Jul 2026 06:34:22 -0700 (PDT)
 Received: from [10.38.242.66] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41d2d727sm96867101cf.15.2026.07.06.06.31.06
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f46e27d137sm137669596d6.9.2026.07.06.06.34.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 06:31:09 -0700 (PDT)
-Message-ID: <b702c745-1b5d-4b94-b2c6-46e79a427768@oss.qualcomm.com>
-Date: Mon, 6 Jul 2026 21:31:03 +0800
+        Mon, 06 Jul 2026 06:34:21 -0700 (PDT)
+Message-ID: <f51503c0-54ba-457f-822e-4e61b660124c@oss.qualcomm.com>
+Date: Mon, 6 Jul 2026 21:34:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -105,8 +105,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: i2c: og0ve1b: Add OmniVision
- OG0VA1B camera sensor
+Subject: Re: [PATCH v2 2/3] media: i2c: og0ve1b: Introduce per-sensor data
+ structure
 To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh@kernel.org>,
@@ -117,53 +117,53 @@ To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20260702-og0va1b-v2-0-0071442caa2a@oss.qualcomm.com>
- <20260702-og0va1b-v2-1-0071442caa2a@oss.qualcomm.com>
- <df510ed0-815a-4d72-b7c5-05025d8dbfd6@linaro.org>
+ <20260702-og0va1b-v2-2-0071442caa2a@oss.qualcomm.com>
+ <3421134a-3aba-4c49-8810-f774a46488e8@linaro.org>
 Content-Language: en-US
 From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-In-Reply-To: <df510ed0-815a-4d72-b7c5-05025d8dbfd6@linaro.org>
+In-Reply-To: <3421134a-3aba-4c49-8810-f774a46488e8@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: plUkhEk0MEy3ZFcTtMcEpqvjc_y94sp0
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDEzNyBTYWx0ZWRfX9/C4TzFYtBgO
- GwVhlq3LhojY3SCM0URWdT5Lcm+ZYh44QgWkuZE48hKMsZdh5baDDEtuIviIXD+hZYZIs87qEA/
- WmgIHY9y5erZiEPt+RNYlTTWDCSLa0M=
-X-Authority-Analysis: v=2.4 cv=Mo1iLWae c=1 sm=1 tr=0 ts=6a4bae1f cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+X-Proofpoint-ORIG-GUID: BGOwxO-c9BUE_qvQY25T-5v3PG8h-Er5
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDEzOCBTYWx0ZWRfX1MGnuOBeR3HO
+ EQBHWd6ACpWF9dfSz7GOhrHc60kMlm8hp1qYLelBY6h3uIAdBoDBW+Sh5LD4nZgG4rm93OwxsQI
+ mC2l6MXynjKbfOYBSuJyzNGzXgKdp0M=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDEzOCBTYWx0ZWRfXzsGE6Ub/GfPc
+ /2owUwLViPhUA11y5kj/jQsaTPQcwWruRCQWGo0YcqcCw+H/jzErTZbqKHPMoDdh5lP7/oxoRn/
+ 83DIpoUqXYMTekFDwepmHfDl7DglZXom5zyUI0n4utVj2y3Rsu+hakW8CdFyPpB6u/tPYOUPJmh
+ oaRArJRTXsoMJmjwKxX4e61xjKGCuS0ahbtQalO+3q+VoO4sqcycHVYSwRZ41HY19F0TopAAr+F
+ 8WPw0i729X0jd+jknsgz1eVH3MLeoAXyzkte2W6Yz/cDCY7MR6VhbX0JVGrvfZCN/kJZ+G9OqVB
+ xvorbUJR2wt5WT4lu6P+EPlB808LUQLI1O29dTvtXGMCwUDKkcsIJS1s2cNp4Br5KFwEQuL8tE9
+ Y09aIUEoKnBWsTIGADtqUPMZD6RVM4xiyhMHMh8nmIj1W29CS7Wq7U3Vl5i0CxDVbszxVkcI6jw
+ n6MtdlpOQM4H1mzXNsw==
+X-Proofpoint-GUID: BGOwxO-c9BUE_qvQY25T-5v3PG8h-Er5
+X-Authority-Analysis: v=2.4 cv=GulyPE1C c=1 sm=1 tr=0 ts=6a4baedf cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
  a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=d2Zw2t_Y-wEgfmB-ChUA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDEzNyBTYWx0ZWRfXxxedxHxH0mL+
- v+DgyUmma+KSsGpAEdSIefYMdaVY+ypZXrTyZybnf8H10ZuAunrcp0fEI/MO6mkQRIlsc/nmJgg
- vdBKIXfGf3UfhIBWILvbK7dK9GAwoBF6hZ+3k+6xBQ9eALjZAztXqk/oxRBW6YFNPJzt81W+Ldy
- 5P7RHwcig9CaC1ZfMJmzc0yBYP76olwjgb2OBDeAbcJg3Co76khySOY45ECLl1jI3J8RwEawLjS
- lCJIpmV7SF8UsdViLWw0rfEjygGKV5FEfb5m9dZhoXuMPzb26vbyiLKRa+u/LtK3L42VWVuYM0G
- Lx22JAvVLfdPgVHyk3EQS9x7aKOh0KY8o0BdQOOyl7/yXdnrh4GlXT6+MWbv12pYARWiRH1IxZw
- 1dN2jOKjj9TOlcczqRrDLGlWwbG52EpNt0nlNcFVvjYUxYRZkSR9fSng8M3L+rgGayiMN6GrThx
- 8yNyFprEAhPirKc1qdQ==
-X-Proofpoint-ORIG-GUID: plUkhEk0MEy3ZFcTtMcEpqvjc_y94sp0
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=7mKEXu916kvh2nJM5y8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501
- suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ spamscore=0 adultscore=0 clxscore=1015 malwarescore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060137
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060138
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66762-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,vger.kernel.org:from_smtp,qualcomm.com:email,qualcomm.com:dkim,linaro.org:email];
+	TAGGED_FROM(0.00)[bounces-66763-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
 	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
@@ -171,7 +171,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER(0.00)[wenmeng.liu@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -185,52 +185,354 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B75B67127CB
+X-Rspamd-Queue-Id: 63A07711B9F
 
 Hi Vladimir,
 
-On 7/2/2026 8:24 PM, Vladimir Zapolskiy wrote:
-> Hi Wenmeng,
-> 
-> thank you for the updates!
+On 7/2/2026 9:10 PM, Vladimir Zapolskiy wrote:
+> Hi Wenmeng.
 > 
 > On 7/2/26 13:52, Wenmeng Liu wrote:
->> The OmniVision OG0VA1B is a monochrome image sensor closely related to
->> the already supported OG0VE1B. It shares the same SCCB control interface,
->> power supplies, clock and MIPI D-PHY description, but differs in its
->> chip ID, register programming and output format.
+>> In preparation for supporting further OmniVision sensors that share most
+>> of this driver, move the sensor-specific parameters (chip id, MCLK
+>> frequency, test pattern register, link frequency menu and the list of
+>> supported modes) into a new struct og0ve1b_sensor_data, selected through
+>> i2c_get_match_data() at probe time.
 >>
 >> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
 >> ---
->>   Documentation/devicetree/bindings/media/i2c/ovti,og0ve1b.yaml | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>   drivers/media/i2c/og0ve1b.c | 101 ++++++++++++++++++++++++++++ 
+>> +---------------
+>>   1 file changed, 67 insertions(+), 34 deletions(-)
 >>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/ 
->> ovti,og0ve1b.yaml b/Documentation/devicetree/bindings/media/i2c/ 
->> ovti,og0ve1b.yaml
+>> diff --git a/drivers/media/i2c/og0ve1b.c b/drivers/media/i2c/og0ve1b.c
 >> index 
->> bd2f1ae23e6547032361924a6953000bab1129df..ae44ec2fa9035b4e19834888a41987ae9e25118f 100644
->> --- a/Documentation/devicetree/bindings/media/i2c/ovti,og0ve1b.yaml
->> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,og0ve1b.yaml
->> @@ -21,7 +21,9 @@ allOf:
->>   properties:
->>     compatible:
->> -    const: ovti,og0ve1b
->> +    enum:
->> +      - ovti,og0va1b
->> +      - ovti,og0ve1b
->>     reg:
->>       maxItems: 1
+>> 84a28cdcade10f8fbcf945999e88f84641b9bc0d..acc06b10bf896f734926289099a70fbc2bb628d5 100644
+>> --- a/drivers/media/i2c/og0ve1b.c
+>> +++ b/drivers/media/i2c/og0ve1b.c
+>> @@ -66,10 +66,21 @@ struct og0ve1b_mode {
+>>       u32 hts;    /* Horizontal timing size */
+>>       u32 vts;    /* Default vertical timing size */
+>>       u32 bpp;    /* Bits per pixel */
+>> +    u32 code;    /* MEDIA_BUS_FMT code */
+> 
+> In this particular case of grayscale only sensors there is no need for both
+> bpp and media bus format code, since there is a natural one-to-one mapping.
+> 
+> I'm fine with "code" just replacing "bpp", and in og0ve1b_init_controls()
+> simply replace "bpp" with "(code == MEDIA_BUS_FMT_Y8_1X8 ? 8 : 10)".
+> 
+ACK.
+
+>>       const struct og0ve1b_reg_list reg_list;    /* Sensor register 
+>> setting */
+>>   };
+>> +struct og0ve1b_sensor_data {
+>> +    u64 chip_id;
+>> +    unsigned long mclk_freq;
+>> +    u32 test_pattern_reg;
+>> +    const s64 *link_freq_menu;
+>> +    int num_link_freqs;
+>> +    const struct og0ve1b_mode *modes;
+>> +    int num_modes;
+>> +};
+>> +
+>>   static const char * const og0ve1b_test_pattern_menu[] = {
+>>       "Disabled",
+>>       "Vertical Colour Bars",
+>> @@ -97,8 +108,7 @@ struct og0ve1b {
+>>       struct v4l2_ctrl *exposure;
+>>       struct v4l2_ctrl_handler ctrl_handler;
+>> -    /* Saved register value */
+>> -    u64 pre_isp;
+> 
+> I'm afraid this will break test pattern on og0ve1b, unfortunately it should
+> be kept as is for now.
+> 
+> The register is used for something else, and IIRC even cci_update_bits() 
+> API
+> does not work expectedly, it certainly should be read once and written 
+> later.
+> 
+Will keep pre_isp code for og0ve1b.
+
+> Hence it leaves an option to keep og0ve1b_enable_test_pattern() and then
+> introduce in 3/3 a new og0va1b_enable_test_pattern() function, the 
+> selection
+> will be done in runtime similarly to other og0ve/og0va branches.
+> 
+>> +    const struct og0ve1b_sensor_data *sensor;
+> 
+> Well, the identifier name is confusing to me, it is not "sensor", it's
+> "sensor data" or just "data", no?
+> 
+ACK.
+
+>>   };
+>>   static const struct cci_reg_sequence og0ve1b_640x480_120fps_mode[] = {
+>> @@ -254,6 +264,7 @@ static const struct og0ve1b_mode supported_modes[] 
+>> = {
+>>           .hts = 792,
+>>           .vts = 568,
+>>           .bpp = 8,
+>> +        .code = MEDIA_BUS_FMT_Y8_1X8,
+>>           .reg_list = {
+>>               .regs = og0ve1b_640x480_120fps_mode,
+>>               .num_regs = ARRAY_SIZE(og0ve1b_640x480_120fps_mode),
+>> @@ -261,23 +272,39 @@ static const struct og0ve1b_mode 
+>> supported_modes[] = {
+>>       },
+>>   };
+>> +static const struct og0ve1b_sensor_data og0ve1b_data = {
+>> +    .chip_id    = OG0VE1B_CHIP_ID,
+>> +    .mclk_freq    = OG0VE1B_MCLK_FREQ_24MHZ,
+>> +    .test_pattern_reg = OG0VE1B_REG_PRE_ISP,
+>> +    .link_freq_menu    = og0ve1b_link_freq_menu,
+>> +    .num_link_freqs    = ARRAY_SIZE(og0ve1b_link_freq_menu),
+>> +    .modes        = supported_modes,
+>> +    .num_modes    = ARRAY_SIZE(supported_modes),
+> 
+> Please use tab symbols or spaces before '=' sign consistently on all lines.
+> 
+ACK.
+
+>> +};
+>> +
+>>   static int og0ve1b_enable_test_pattern(struct og0ve1b *og0ve1b, u32 
+>> pattern)
+>>   {
+>> -    u64 val = og0ve1b->pre_isp;
+>> +    u32 reg = og0ve1b->sensor->test_pattern_reg;
+>> +    u64 val;
+>> +    int ret;
+>> +
+>> +    ret = cci_read(og0ve1b->regmap, reg, &val, NULL);
+>> +    if (ret)
+>> +        return ret;
+>>       if (pattern)
+>>           val |= OG0VE1B_TEST_PATTERN_ENABLE;
+>>       else
+>>           val &= ~OG0VE1B_TEST_PATTERN_ENABLE;
+>> -    return cci_write(og0ve1b->regmap, OG0VE1B_REG_PRE_ISP, val, NULL);
+>> +    return cci_write(og0ve1b->regmap, reg, val, NULL);
+>>   }
+> 
+> So far let's keep the function above unmodified, but call it by pointer 
+> stored
+> in the new struct.
+> 
+> Does OG0VA have also just one "Vertical Colour Bars" test pattern mode?
+> 
+> Let me test this v2 for test pattern regression to formally confirm it 
+> shortly.
+> 
+
+For og0va1b, tpg has 4 types:
+	"Standard Color Bar",
+	"Top-Bottom Darker Color Bar",
+	"Right-Left Darker Color Bar",
+	"Bottom-Top Darker Color Bar",
+will fix it in next version.
+
+>>   static int og0ve1b_set_ctrl(struct v4l2_ctrl *ctrl)
+>>   {
+>>       struct og0ve1b *og0ve1b = container_of(ctrl->handler, struct 
+>> og0ve1b,
+>>                              ctrl_handler);
+>> -    const struct og0ve1b_mode *mode = &supported_modes[0];
+>> +    const struct og0ve1b_mode *mode = &og0ve1b->sensor->modes[0];
+>>       s64 exposure_max;
+>>       int ret;
+>> @@ -333,7 +360,8 @@ static const struct v4l2_ctrl_ops og0ve1b_ctrl_ops 
+>> = {
+>>   static int og0ve1b_init_controls(struct og0ve1b *og0ve1b)
+>>   {
+>>       struct v4l2_ctrl_handler *ctrl_hdlr = &og0ve1b->ctrl_handler;
+>> -    const struct og0ve1b_mode *mode = &supported_modes[0];
+>> +    const struct og0ve1b_mode *mode = &og0ve1b->sensor->modes[0];
+>> +    const struct og0ve1b_sensor_data *sensor = og0ve1b->sensor;
+>>       s64 exposure_max, pixel_rate, h_blank, v_blank;
+>>       struct v4l2_fwnode_device_properties props;
+>>       struct v4l2_ctrl *ctrl;
+>> @@ -343,12 +371,12 @@ static int og0ve1b_init_controls(struct og0ve1b 
+>> *og0ve1b)
+>>       ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr, &og0ve1b_ctrl_ops,
+>>                         V4L2_CID_LINK_FREQ,
+>> -                      ARRAY_SIZE(og0ve1b_link_freq_menu) - 1,
+>> -                      0, og0ve1b_link_freq_menu);
+>> +                      sensor->num_link_freqs - 1,
+>> +                      0, sensor->link_freq_menu);
+>>       if (ctrl)
+>>           ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>> -    pixel_rate = og0ve1b_link_freq_menu[0] / mode->bpp;
+>> +    pixel_rate = sensor->link_freq_menu[0] / mode->bpp;
+> 
+> Since it becomes more complex, can you please move the calculation to
+> a new inline function, like os05b10_pixel_rate()?
+> 
+
+ACK.
+
+>>       v4l2_ctrl_new_std(ctrl_hdlr, &og0ve1b_ctrl_ops, 
+>> V4L2_CID_PIXEL_RATE,
+>>                 0, pixel_rate, 1, pixel_rate);
+>> @@ -407,7 +435,7 @@ static int og0ve1b_init_controls(struct og0ve1b 
+>> *og0ve1b)
+>>   static void og0ve1b_update_pad_format(const struct og0ve1b_mode *mode,
+>>                         struct v4l2_mbus_framefmt *fmt)
+>>   {
+>> -    fmt->code = MEDIA_BUS_FMT_Y8_1X8;
+>> +    fmt->code = mode->code;
+>>       fmt->width = mode->width;
+>>       fmt->height = mode->height;
+>>       fmt->field = V4L2_FIELD_NONE;
+>> @@ -421,8 +449,8 @@ static int og0ve1b_enable_streams(struct 
+>> v4l2_subdev *sd,
+>>                     struct v4l2_subdev_state *state, u32 pad,
+>>                     u64 streams_mask)
+>>   {
+>> -    const struct og0ve1b_reg_list *reg_list = 
+>> &supported_modes[0].reg_list;
+>>       struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+>> +    const struct og0ve1b_reg_list *reg_list = &og0ve1b->sensor- 
+>> >modes[0].reg_list;
+>>       int ret;
+>>       ret = pm_runtime_resume_and_get(og0ve1b->dev);
+>> @@ -484,13 +512,14 @@ static int og0ve1b_set_pad_format(struct 
+>> v4l2_subdev *sd,
+>>                     struct v4l2_subdev_state *state,
+>>                     struct v4l2_subdev_format *fmt)
+>>   {
+>> +    struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+>>       struct v4l2_mbus_framefmt *format;
+>>       const struct og0ve1b_mode *mode;
+>>       format = v4l2_subdev_state_get_format(state, 0);
+>> -    mode = v4l2_find_nearest_size(supported_modes,
+>> -                      ARRAY_SIZE(supported_modes),
+>> +    mode = v4l2_find_nearest_size(og0ve1b->sensor->modes,
+>> +                      og0ve1b->sensor->num_modes,
+>>                         width, height,
+>>                         fmt->format.width,
+>>                         fmt->format.height);
+>> @@ -505,10 +534,12 @@ static int og0ve1b_enum_mbus_code(struct 
+>> v4l2_subdev *sd,
+>>                     struct v4l2_subdev_state *sd_state,
+>>                     struct v4l2_subdev_mbus_code_enum *code)
+>>   {
+>> +    struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+>> +
+>>       if (code->index > 0)
+>>           return -EINVAL;
+>> -    code->code = MEDIA_BUS_FMT_Y8_1X8;
+>> +    code->code = og0ve1b->sensor->modes[0].code;
+>>       return 0;
+>>   }
+>> @@ -517,15 +548,18 @@ static int og0ve1b_enum_frame_size(struct 
+>> v4l2_subdev *sd,
+>>                      struct v4l2_subdev_state *sd_state,
+>>                      struct v4l2_subdev_frame_size_enum *fse)
+>>   {
+>> -    if (fse->index >= ARRAY_SIZE(supported_modes))
+>> +    struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+>> +    const struct og0ve1b_sensor_data *sensor = og0ve1b->sensor;
+>> +
+>> +    if (fse->index >= sensor->num_modes)
+>>           return -EINVAL;
+>> -    if (fse->code != MEDIA_BUS_FMT_Y8_1X8)
+>> +    if (fse->code != sensor->modes[fse->index].code)
+>>           return -EINVAL;
+>> -    fse->min_width = supported_modes[fse->index].width;
+>> +    fse->min_width = sensor->modes[fse->index].width;
+>>       fse->max_width = fse->min_width;
+>> -    fse->min_height = supported_modes[fse->index].height;
+>> +    fse->min_height = sensor->modes[fse->index].height;
+>>       fse->max_height = fse->min_height;
+>>       return 0;
+>> @@ -534,13 +568,14 @@ static int og0ve1b_enum_frame_size(struct 
+>> v4l2_subdev *sd,
+>>   static int og0ve1b_init_state(struct v4l2_subdev *sd,
+>>                     struct v4l2_subdev_state *state)
+>>   {
+>> +    struct og0ve1b *og0ve1b = to_og0ve1b(sd);
+> 
+> struct og0ve1b_sensor_data *data = to_og0ve1b(sd)->sensor; // ->data 
+> anticipated
+> 
+ACK.
+
+>>       struct v4l2_subdev_format fmt = {
+>>           .which = V4L2_SUBDEV_FORMAT_TRY,
+>>           .pad = 0,
+>>           .format = {
+>> -            .code = MEDIA_BUS_FMT_Y8_1X8,
+>> -            .width = supported_modes[0].width,
+>> -            .height = supported_modes[0].height,
+>> +            .code = og0ve1b->sensor->modes[0].code,
+>> +            .width = og0ve1b->sensor->modes[0].width,
+>> +            .height = og0ve1b->sensor->modes[0].height,
+>>           },
+>>       };
+>> @@ -586,18 +621,13 @@ static int og0ve1b_identify_sensor(struct 
+>> og0ve1b *og0ve1b)
+>>           return ret;
+>>       }
+>> -    if (val != OG0VE1B_CHIP_ID) {
+>> -        dev_err(og0ve1b->dev, "chip id mismatch: %x!=%llx\n",
+>> -            OG0VE1B_CHIP_ID, val);
+>> +    if (val != og0ve1b->sensor->chip_id) {
+>> +        dev_err(og0ve1b->dev, "chip id mismatch: %llx!=%llx\n",
+>> +            og0ve1b->sensor->chip_id, val);
+>>           return -ENODEV;
+>>       }
+>> -    ret = cci_read(og0ve1b->regmap, OG0VE1B_REG_PRE_ISP,
+>> -               &og0ve1b->pre_isp, NULL);
+>> -    if (ret)
+>> -        dev_err(og0ve1b->dev, "failed to read pre_isp: %d\n", ret);
+>> -
+>> -    return ret;
+>> +    return 0;
+>>   }
+>>   static int og0ve1b_check_hwcfg(struct og0ve1b *og0ve1b)
+>> @@ -624,8 +654,8 @@ static int og0ve1b_check_hwcfg(struct og0ve1b 
+>> *og0ve1b)
+>>       ret = v4l2_link_freq_to_bitmap(og0ve1b->dev,
+>>                          bus_cfg.link_frequencies,
+>>                          bus_cfg.nr_of_link_frequencies,
+>> -                       og0ve1b_link_freq_menu,
+>> -                       ARRAY_SIZE(og0ve1b_link_freq_menu),
+>> +                       og0ve1b->sensor->link_freq_menu,
+>> +                       og0ve1b->sensor->num_link_freqs,
+>>                          &freq_bitmap);
+>>       v4l2_fwnode_endpoint_free(&bus_cfg);
+>> @@ -686,6 +716,9 @@ static int og0ve1b_probe(struct i2c_client *client)
+>>           return -ENOMEM;
+>>       og0ve1b->dev = &client->dev;
+>> +    og0ve1b->sensor = i2c_get_match_data(client);
+>> +    if (!og0ve1b->sensor)
+>> +        return -ENODEV;
+>>       v4l2_i2c_subdev_init(&og0ve1b->sd, client, &og0ve1b_subdev_ops);
+>> @@ -700,7 +733,7 @@ static int og0ve1b_probe(struct i2c_client *client)
+>>                        "failed to get XVCLK clock\n");
+>>       freq = clk_get_rate(og0ve1b->xvclk);
+>> -    if (freq && freq != OG0VE1B_MCLK_FREQ_24MHZ)
+>> +    if (freq && freq != og0ve1b->sensor->mclk_freq)
+>>           return dev_err_probe(og0ve1b->dev, -EINVAL,
+>>                        "XVCLK clock frequency %lu is not supported\n",
+>>                        freq);
+>> @@ -819,7 +852,7 @@ static const struct dev_pm_ops og0ve1b_pm_ops = {
+>>   };
+>>   static const struct of_device_id og0ve1b_of_match[] = {
+>> -    { .compatible = "ovti,og0ve1b" },
+>> +    { .compatible = "ovti,og0ve1b", .data = &og0ve1b_data },
+>>       { /* sentinel */ }
+>>   };
+>>   MODULE_DEVICE_TABLE(of, og0ve1b_of_match);
 >>
 > 
-> Since it becomes a shared dt documentation, it will be accepted to get
-> a generalised description section also, in any case:
-> 
-> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> Looks good overall, thank you.
 > 
 
-Thanks for your review, will change description in next version.
-
-Best regards,
+Thanks,
 Wenmeng
+
 
