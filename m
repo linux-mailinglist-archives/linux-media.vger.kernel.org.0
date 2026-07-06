@@ -1,158 +1,218 @@
-Return-Path: <linux-media+bounces-66792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66793-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id edISHuvuS2rpdAEAu9opvQ
-	(envelope-from <linux-media+bounces-66792-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 20:07:39 +0200
+	id CNUgLe7uS2rtdAEAu9opvQ
+	(envelope-from <linux-media+bounces-66793-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 20:07:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6987871449E
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 20:07:38 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D93A7144A3
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 20:07:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=TtMSs56o;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66792-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66792-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=infradead.org header.s=casper.20170209 header.b=CNyUy7kr;
+	dmarc=pass (policy=none) header.from=infradead.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66793-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66793-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C56963048198
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 17:54:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 78AE53035AAB
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 18:06:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D49A63C1090;
-	Mon,  6 Jul 2026 17:54:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B96A37C93C;
+	Mon,  6 Jul 2026 18:06:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295A93B8D78
-	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 17:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F549422549;
+	Mon,  6 Jul 2026 18:06:15 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783360455; cv=none; b=XAEHLGPcQNJxRGf9Dtxo8iVMAyKf/CnmqzxE0GnZZepZrh7Xw4U3AhSSR71yPkJCVo7waWItWCIcb0rsSLpfkO4qWiVWNkkC19VUyn9s3ofA+2Kv+8XoRaS7DFFttvnx6VmhFABjmLoMmo7C4KmZY2f/PUCiY2zLtyyz4/VnRZw=
+	t=1783361181; cv=none; b=lWre/ScDu8bT9gcIMlHG8tm5k0HuwM6UmfwWIzQE0Ng7b4wkTP2b0JrZVmvAF7kKCHD7p+uWXQsIAXw0GhKFPT3gngU4XZ3W8pZ6lxkzYU5yam4xSGy+CID8JH6+7zCOQVL12kLtmTFpQgjXxA9CySY7LaiQppt2vMWHKn5BEio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783360455; c=relaxed/simple;
-	bh=L0a/JVnmmmNHaLbMmS/XuNQegCicS9unVKtFy4uZ328=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a+iYDuF7mg4kv5K2SObto90U1ColjOrpa9WOei6F0XSTokgKqqyO3f4O72ci2l50QiGEyOeOE8L6X/O8g8pF9nH4wveVQhJTBIVab1Sa5RZa2mbXsshnxQBOyggifZXz1467Ku5JTKUz+JDf3oR72iZgyrekwwJ2Q+NESyoOpls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TtMSs56o; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E00A81F00A3F
-	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 17:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783360453;
-	bh=6enyA2VOl94npqeS70pB2WynRamNQvIajAYAXJPAThM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=TtMSs56oqd+XLpaBrEbBiWLnGz/oxobOwW0T58swLIu4XQbutFjbS1atsyFDX1VJF
-	 3XO+8vF3vP37wO87FIn907DKCoM7NiCRXxzG0VGEU1zuQhglFUYzqnXvSpCymbjmXb
-	 x+tNqnLX0ZNJAd/pF12BB0HRmkE5AF4Wg6JkGoIlPbp6QHPXrMqb5qUk1nmn2yLrkf
-	 s7avTuwf0Z+i32EJp8ZqUK8NTQpglRte3UKZlfKexUQlL2i5jJXoScfXYLBgFgxpgi
-	 /6finYzTSyrbfSSBM/06a7rPxSzPLQYInYD+sNbeVZTPwkZjvUJevstMgnuXxatg0R
-	 X3d+TkVFxDx+A==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aeba09900bso2665116e87.2
-        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 10:54:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpHsbk7WPDZu7klr+Ki9Z653yeJd+n2zvD9e7ZgicO5EQKIPHE6TlGQO/CopPwEsNf0sIXENQvMC52DdQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPISgleRWC/KP2jBiE+9fDZOfZWMyJySePX9eZ9QdkwHMoWpV7
-	GfYnKY+tWyrBfaXO2K8PTVNrT+uJQ5g9kVricEJoX49pDXxlea9w1xg3LXv014PiPrOElSGUv8a
-	b3rMs1J5PfVfJhtn/iLYuNzXmow9lieI=
-X-Received: by 2002:ac2:4571:0:b0:5ae:bd66:553b with SMTP id
- 2adb3069b0e04-5b007c4ad98mr221540e87.38.1783360452258; Mon, 06 Jul 2026
- 10:54:12 -0700 (PDT)
+	s=arc-20240116; t=1783361181; c=relaxed/simple;
+	bh=WSrxhZ3K3aHd+oacRAsc/khrD9rBmmLfoF539Nq0u78=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=govuGuGGEytB6D5rxJrZaN1xwVOXsq2EzjnD9vP922e/ybGk/aqV/nudPbCgA9/54xz4qS9n/ZbY9ruVJ8l4X8SG46so3IMjJKISMjE00YcIfaeBwGj+FV3Mo8n4JqZ4rRzHHHAibMO6jSPv+R4zfthXjbFrZwu8D59Lqcwho38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CNyUy7kr; arc=none smtp.client-ip=90.155.50.34
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7OW/CenuU9P13pzjhjZutuMsDUz3ebL4YDkxxEUpTq8=; b=CNyUy7krT2KWgEwmWVKxtIQ+mF
+	Vb+1q+gyB5yQGtWUUUTFfkVXSRepuw7fyFqIY66jb6ov+a2TSQuU6Oeko21f10IdvUo87ND796N2s
+	r4dJq4T0v6JLzeGf9VmqXcqhhRS0zxb+AYnr/OkLGsRdGJ59LoP8x6HtyxyIaDGX/UNF4eV4mx/6j
+	9DFL/3RA2rxLGItPLNRlN3OyyNrc4LrBZnn6Z3pAqvn4XXv6D9Sm5JmxAl/Nx6Vi/43ITWBd3Tatn
+	UF0bFlXL9IwSqecAJqVY3MLm3w3NDEriZxsXwEytou0y28YZK6qZ/ZV3pvVIppH/oIVxHPm218vXX
+	ibjZRXUw==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wgnhQ-0000000GLqy-1n2W;
+	Mon, 06 Jul 2026 18:05:44 +0000
+Date: Mon, 6 Jul 2026 19:05:44 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Byungchul Park <byungchul@sk.com>
+Cc: linux-kernel@vger.kernel.org, max.byungchul.park@gmail.com,
+	kernel_team@skhynix.com, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	david@fromorbit.com, amir73il@gmail.com, gregkh@linuxfoundation.org,
+	kernel-team@lge.com, linux-mm@kvack.org, akpm@linux-foundation.org,
+	mhocko@kernel.org, minchan@kernel.org, hannes@cmpxchg.org,
+	vdavydov.dev@gmail.com, sj@kernel.org, jglisse@redhat.com,
+	dennis@kernel.org, cl@linux.com, penberg@kernel.org,
+	rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
+	linux-block@vger.kernel.org, josef@toxicpanda.com,
+	linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
+	dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+	dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+	melissa.srw@gmail.com, hamohammed.sa@gmail.com,
+	harry.yoo@oracle.com, chris.p.wilson@intel.com,
+	gwan-gyeong.mun@intel.com, boqun.feng@gmail.com, longman@redhat.com,
+	yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
+	netdev@vger.kernel.org, matthew.brost@intel.com,
+	her0gyugyu@gmail.com, corbet@lwn.net, catalin.marinas@arm.com,
+	bp@alien8.de, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
+	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
+	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+	tmgross@umich.edu, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v19 22/40] dept: track PG_locked with dept
+Message-ID: <akvueAxPl8aoLvMR@casper.infradead.org>
+References: <20260706061928.66713-1-byungchul@sk.com>
+ <20260706061928.66713-23-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260704171855.1462214-1-arun.t@intel.com> <20260704171855.1462214-2-arun.t@intel.com>
-In-Reply-To: <20260704171855.1462214-2-arun.t@intel.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 6 Jul 2026 19:53:59 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iBs98Rkyardw-XjKEpi=2s8cWqb0_RqUL0B-KKoNGu1A@mail.gmail.com>
-X-Gm-Features: AVVi8CfN30vH_2tW95Q_UrGvsz691aKjHu-ZQWcPNeBdz1YuJpPL27V5R37MDRU
-Message-ID: <CAJZ5v0iBs98Rkyardw-XjKEpi=2s8cWqb0_RqUL0B-KKoNGu1A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] ACPI: scan: Honor ACPI _DEP dependency for NVL CVS
-To: Arun T <arun.t@intel.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Miguel Vadillo <miguel.vadillo@intel.com>, Len Brown <lenb@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mehdi Djait <mehdi.djait@intel.com>, 
-	linux-acpi@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706061928.66713-23-byungchul@sk.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[infradead.org:s=casper.20170209];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66792-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-66793-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:arun.t@intel.com,m:rafael@kernel.org,m:mchehab@kernel.org,m:miguel.vadillo@intel.com,m:lenb@kernel.org,m:sakari.ailus@linux.intel.com,m:mehdi.djait@intel.com,m:linux-acpi@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[rafael@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rafael@kernel.org,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:byungchul@sk.com,m:linux-kernel@vger.kernel.org,m:max.byungchul.park@gmail.com,m:kernel_team@skhynix.com,m:torvalds@linux-foundation.org,m:damien.lemoal@opensource.wdc.com,m:linux-ide@vger.kernel.org,m:adilger.kernel@dilger.ca,m:linux-ext4@vger.kernel.org,m:mingo@redhat.com,m:peterz@infradead.org,m:will@kernel.org,m:tglx@linutronix.de,m:rostedt@goodmis.org,m:joel@joelfernandes.org,m:sashal@kernel.org,m:daniel.vetter@ffwll.ch,m:duyuyang@gmail.com,m:johannes.berg@intel.com,m:tj@kernel.org,m:tytso@mit.edu,m:david@fromorbit.com,m:amir73il@gmail.com,m:gregkh@linuxfoundation.org,m:kernel-team@lge.com,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:mhocko@kernel.org,m:minchan@kernel.org,m:hannes@cmpxchg.org,m:vdavydov.dev@gmail.com,m:sj@kernel.org,m:jglisse@redhat.com,m:dennis@kernel.org,m:cl@linux.com,m:penberg@kernel.org,m:rientjes@google.com,m:vbabka@suse.cz,m:ngupta@vflare.org,m:linux-block@vger.kernel.org,m:josef@toxicpanda.com,m:linux-fsdevel@vger.kernel.
+ org,m:jack@suse.cz,m:jlayton@kernel.org,m:dan.j.williams@intel.com,m:hch@infradead.org,m:djwong@kernel.org,m:dri-devel@lists.freedesktop.org,m:rodrigosiqueiramelo@gmail.com,m:melissa.srw@gmail.com,m:hamohammed.sa@gmail.com,m:harry.yoo@oracle.com,m:chris.p.wilson@intel.com,m:gwan-gyeong.mun@intel.com,m:boqun.feng@gmail.com,m:longman@redhat.com,m:yunseong.kim@ericsson.com,m:ysk@kzalloc.com,m:yeoreum.yun@arm.com,m:netdev@vger.kernel.org,m:matthew.brost@intel.com,m:her0gyugyu@gmail.com,m:corbet@lwn.net,m:catalin.marinas@arm.com,m:bp@alien8.de,m:x86@kernel.org,m:hpa@zytor.com,m:luto@kernel.org,m:sumit.semwal@linaro.org,m:gustavo@padovan.org,m:christian.koenig@amd.com,m:andi.shyti@kernel.org,m:arnd@arndb.de,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:rppt@kernel.org,m:surenb@google.com,m:mcgrof@kernel.org,m:petr.pavlu@suse.com,m:da.gomez@kernel.org,m:samitolvanen@google.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@
+ joshtriplett.org,m:urezki@gmail.com,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:chuck.lever@oracle.com,m:neil@brown.name,m:okorniev@redhat.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[willy@infradead.org,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,skhynix.com,linux-foundation.org,opensource.wdc.com,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,toxicpanda.com,lists.freedesktop.org,oracle.com,ericsson.com,kzalloc.com,arm.com,lwn.net,alien8.de,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,suse.com,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,linux.intel.com,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev,qq.com,ownmail.net,sang-engineering.com,linux-m68k.org,garyguo.net,protonmail.com,umich.edu];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid,intel.com:email,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[165];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[willy@infradead.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[infradead.org:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[casper.infradead.org:mid,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,infradead.org:from_mime,infradead.org:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6987871449E
+X-Rspamd-Queue-Id: 3D93A7144A3
 
-On Sat, Jul 4, 2026 at 7:24=E2=80=AFPM Arun T <arun.t@intel.com> wrote:
->
-> Add INTC10FA to the ACPI dependency honor list so the CVS driver is
-> loaded before dependent camera devices are probed on NVL platforms.
->
-> This matches the camera dependency handling already used for IVSC-based
-> platforms and ensures the camera streaming path is initialized before
-> sensor access or pipeline setup depends on it.
->
-> Signed-off-by: Arun T <arun.t@intel.com>
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+On Mon, Jul 06, 2026 at 03:19:10PM +0900, Byungchul Park wrote:
+> Makes dept able to track PG_locked waits and events, which will be
+> useful in practice.  See the following link that shows dept worked with
+> PG_locked and detected real issues in practice:
+> 
+>    https://lore.kernel.org/lkml/1674268856-31807-1-git-send-email-byungchul.park@lge.com/
 
-Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+> @@ -219,6 +220,7 @@ struct page {
+>  	struct page *kmsan_shadow;
+>  	struct page *kmsan_origin;
+>  #endif
+> +	struct dept_ext_wgen pg_locked_wgen;
+>  } _struct_page_alignment;
 
-unless you want me to apply this patch, in which case please let me
-know.  Otherwise, I'll assume it to go in via the media tree.
+I may not understand this quite correctly, but I think that tracking
+PG_locked dependencies in the struct page has both false positive and
+false negative problems.
 
-Thanks!
+Imagine we have a file mapping M1 containing folio F1 at index 0 and F2
+at index 1.  It is correct locking order to lock F1 before locking F2
+(for example when doing writeback).  Later, M1 has its folios reclaimed
+and returned to the free pool.  Then each is added to mapping M2, this
+time with folio F2 at index 8 and F1 at index 9.  Now the correct order
+to lock these folios in the order F2 followed by F1.
 
-> ---
->  drivers/acpi/scan.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> index 9a7ac2eb9ce0..21937912a1a5 100644
-> --- a/drivers/acpi/scan.c
-> +++ b/drivers/acpi/scan.c
-> @@ -862,6 +862,7 @@ static const char * const acpi_honor_dep_ids[] =3D {
->         "INTC10DE", /* CVS (LNL) driver must be loaded to allow camera st=
-reaming */
->         "INTC10E0", /* CVS (ARL) driver must be loaded to allow camera st=
-reaming */
->         "INTC10E1", /* CVS (PTL) driver must be loaded to allow camera st=
-reaming */
-> +       "INTC10FA", /* CVS (NVL) driver must be loaded to allow camera st=
-reaming */
->         "RSCV0001", /* RISC-V PLIC */
->         "RSCV0002", /* RISC-V APLIC */
->         "RSCV0005", /* RISC-V SBI MPXY MBOX */
-> --
-> 2.43.0
->
+I don't see a part of this patch where we clear pg_locked_wgen when the
+page is returned to the page allocator.  Maybe I missed that.
+
+I think we should be tracking PG_locked dependencies in the owner
+of the folio.  For files, that would be in the struct address_space.
+For anon memory, I think that's in the anon_vma, but if somebody told
+me it was in some other structure, I wouldn't argue with them.
+
+This requires slightly more complexity than lockdep currently has.
+We don't want to use a lockdep class for each folio, obviously.  So we
+need something to say "I already have folio F1 locked, is it OK to lock
+folio F2?".  Essentially figuring out how we can track all folios in a
+given mapping the same way, and making sure that we don't deadlock on
+folios in the same mapping.
+
+If F1 and F2 are in different mappings, it's not a deadlock if F1 is in a
+filesystem mapping and F2 is in its backing dev.  It's also not a deadlock
+if F1 and F2 are both filesystem folios and the inodes are both locked.
+See vfs_lock_two_folios() in fs/remap_range.c.
+
+I have much less knowledge about anonymous memory locking order.
+Maybe it doesn't happen.  Or about locking one anon and one file folio.
+For slab memory, we don't sleep on PG_locked (it's used as a spinlock bit).
+For other kinds of memory ... I don't know.  Page migration is fun.
 
