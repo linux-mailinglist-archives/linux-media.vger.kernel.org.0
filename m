@@ -1,105 +1,57 @@
-Return-Path: <linux-media+bounces-66714-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66715-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bbBzOJdtS2r+RAEAu9opvQ
-	(envelope-from <linux-media+bounces-66714-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 10:55:51 +0200
+	id qllMMChwS2q2RQEAu9opvQ
+	(envelope-from <linux-media+bounces-66715-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 11:06:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2A470E588
-	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 10:55:51 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCD670E6E2
+	for <lists+linux-media@lfdr.de>; Mon, 06 Jul 2026 11:06:48 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=Tt1g9aWR;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=RrwL+YZJ;
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66714-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66714-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=M+Gs7SKK;
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66715-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66715-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 92C9C32C1E27
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 08:32:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 817593338E46
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jul 2026 08:48:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC0672EE262;
-	Mon,  6 Jul 2026 08:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D44943FA5CE;
+	Mon,  6 Jul 2026 08:46:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122103ECBFD
-	for <linux-media@vger.kernel.org>; Mon,  6 Jul 2026 08:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDF22BE057;
+	Mon,  6 Jul 2026 08:46:26 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783326770; cv=none; b=jHlVQp8V6jAyMn00XPWhpg4Owq1RL0vj8lC5mOeeU6v6kz100NEw82JVcN8x4YNx2ZGpaACBo7aNJy7I+RceWOaiWF92/R+2dTNjCo5HN2zWxpbyXs0whzxVSmMTbtJE0JhVEZ6Jvj72qm7vwhTyAvy6ZXjfzeW1maBgfsuQe+U=
+	t=1783327594; cv=none; b=FMOool29kGGtke7RBdemQkB2ggmSXPnT7qiqFLb0QtLJeP3TWUojMYYtgvrMy+rJjPrj85fU1JMJGvlYNyFqI9BGXARmZI5OhAdT7xQ2b3hrDBXqi/kFTHXs5bluBX9ReWeAifqcZQHwM9p/hS2C89w6hUAW3XMSkF/6iP/Wi4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783326770; c=relaxed/simple;
-	bh=BOh+Hb4ZxI0byKHwLdu1YMSdOQ8nQdY5hZERfclrwks=;
+	s=arc-20240116; t=1783327594; c=relaxed/simple;
+	bh=0J5NWzgozKhj7iWw1lTDLJc1MZi1kjdy9yMrZRufbA0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XHWikFE8TarIBp+48mCGhRj4tnY9FnnCeVTCVtSGijZvAMPRS+5WLdCtBMJ4ADzda4U9Q4b0oLi1F6bjhtR8IzuumwNPWAhw1OISMFuC//aQyekx19NOiN5qR92Uzn8xYXwgaGzB4j5ogo7egMbMFDm/M/XRRr0uL4HKLveI5jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Tt1g9aWR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RrwL+YZJ; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66641VXv3615509
-	for <linux-media@vger.kernel.org>; Mon, 6 Jul 2026 08:32:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	u0chLt5mv9z2EayzuLPxsiMUHQpTGQFKrRQIdFhdccs=; b=Tt1g9aWRdhyI3BpO
-	bvxcoGq7kYOipwI8sI86zxkmNdiblCbEIIy0D6ekqZISLjLM2a33y7RzY76GbicN
-	Opq7MS5ZQyamKmgeZkedVYAFfw1KRPYi8hl3Y7h7kuir3yf0DUot7pMFqfcV2RX7
-	X6ly6HXPcg70fqU+dH3N/iuMe5KE0DqLRF0s4qeJ6w03zgeEubZlkFJyH6FDUo2t
-	Et+Ig2j6kpZC/v51lNaj0P+xbzzB2QuKkvGbM4AuZdQSxZloAH/4eroeiJwOgPxx
-	kOehTF0x3+rZPy9CPDosN5R/kMP09AyBofAR6Pe/VMGVWMs1S1vCPm7OD23UZkSl
-	ZSPxow==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f6td3d9t4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 08:32:39 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51c27616421so10786421cf.2
-        for <linux-media@vger.kernel.org>; Mon, 06 Jul 2026 01:32:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783326758; x=1783931558; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u0chLt5mv9z2EayzuLPxsiMUHQpTGQFKrRQIdFhdccs=;
-        b=RrwL+YZJ5eYHO8zvSFvL7oh+HhM3IlZKXjVA96grBUP21/5vvLDpZVi6mGocVpMVQI
-         En4wvnUBpKsKdPUB6cbY8Eg3AOX/dzi+55OFQesuE/nY+nJMBtKwIAqNLcCVhqWr2ZBn
-         5iU7rZ/VBeb0KW7tOZO2GSrDuZESmXxc+tdp3RGGctNka9DcihahQeAqVo/BXcPKSeAR
-         NtAGhq2JGqHVbqUD7flsqmYYU1qjZJ8iU6vrYotu+Rw42K3pbJiiOJ2uNKGY6eMtdLgZ
-         4BJRmb6wxhElkHOGHwaV/t+WTjDFDdYLQrCsHRLwoR+CyHfufqXItcFLQ95AN9vTkw+e
-         hB2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783326758; x=1783931558;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=u0chLt5mv9z2EayzuLPxsiMUHQpTGQFKrRQIdFhdccs=;
-        b=cuvccoY076gd7A45VR3J3krHKpZUIJnaGFYo1SrKJ6YoTSI3DkouF2T4vw6RGfxV4X
-         YBDJs+vtPcdRLugRNHw41TLwEotIyk0L6+Dhewwl5jqt/0fegAv1S7ks9VF5V2DtXD3d
-         R0ITPPAV86FlzEaK0NWHfFVkG0o5p7bVip+ZeA2OlzHf95tb4bi9XZQPz3rbRmvLkL8I
-         AveQ+kXbUxFIRUlAaZoCpmcW3tmZkdFpWDWnwb2VbwIj22DvHaPTnpjudv1gCOyLG4cA
-         g0EKPthc6N3yoieFelYqSmdKSJ0TiSEEjYUxa+A87qj+uVVDhZON9BB02ikL7bNNv/HM
-         nwIA==
-X-Forwarded-Encrypted: i=1; AHgh+RrCGQmLMrqA5vRMnhKq6IJhZTyZS2SeOahaB+sVY7Uhr9Yjx+kQNegI2dAciSs7lGBoSSc/O2nlMXwKOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtcXfXfLEbPWpdzGE/0LCi2l27cm4JmP2lh3LcfZyHg7vqZv2s
-	TBgQovgijPkzE1xzGCiQFCQ+Eflpq81F5a9YdxIWZQ+UX8f6UgvLa5vkc74ef9IoDe4x4IiXkNZ
-	QnebnDf3IbvdFKiFGTCEbRbgCOLnkobjsdTGYZJXubPfVbB/YhVajE3TPkzqem8HNIA==
-X-Gm-Gg: AfdE7ckkLHFJ3gBcRv5I1ZhH9+dk2eU2Adan8iHuwqIqLPmczCihbBGvjDRU0CwGFKr
-	oE7/rHUUlhZeQ3TY3nvmGzfnRbkyDjUkK8VgTaj5tWz5O0K6yBOfp08kWcQCbPkh9/4XmZtWjsN
-	N6QIJx2ocTWkb6WTKG6C3FXh6s6CvJV+06gMSHRJFsq71RpFEABW6F2acuyqbVSdn/EDzEI/3og
-	6TtGyvH7YLKrV3NWK0uuXndAvs5QlXAqH7p7TbzlAFfXLH8qDRoOgMCrUyJissFJfptMfL9v/5E
-	hU83qV5QJAVOgijXYEhh4s9OvzEHKGRHeclmdFtv97TQeH9oHKxJOYpoGDJlCgi1KSCzMzIN3WI
-	4aED3ngtvylzE7ud0jOfB6lELvUSOakOhnjk=
-X-Received: by 2002:a05:622a:82:b0:51b:ff78:f229 with SMTP id d75a77b69052e-51c4be04aeemr79017071cf.5.1783326758010;
-        Mon, 06 Jul 2026 01:32:38 -0700 (PDT)
-X-Received: by 2002:a05:622a:82:b0:51b:ff78:f229 with SMTP id d75a77b69052e-51c4be04aeemr79016281cf.5.1783326757507;
-        Mon, 06 Jul 2026 01:32:37 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c12b6093786sm694743966b.20.2026.07.06.01.32.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 01:32:36 -0700 (PDT)
-Message-ID: <f1e7ef14-7186-4854-a832-a34596d3313f@oss.qualcomm.com>
-Date: Mon, 6 Jul 2026 10:32:27 +0200
+	 In-Reply-To:Content-Type; b=Uw07pybYJYoPfShY61vCmI9c8k6NoyfiWv2R6vfwg03erN2V1RTWIIumX5ES74egw1ed1WFW/35A0GuEX/q1yWfjHR4Ezq7SoWRfsFfnM+5o73NG3O4lDRGSTOwCi3qq7WwmhT4WjMLA0C54gdeYt7KHhkdbX3uDxlGW5wxO5ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=M+Gs7SKK; arc=none smtp.client-ip=213.97.179.56
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=jknh75JH1P0CBTsivHhJoCFnbVm0gTLli2CnNEauNK8=; b=M+Gs7SKKHMqEtDOlgnQEd1iVQU
+	HQvocK2D4tkQtvgMbMxs0c54ABt4LqrYEXu1b3DKAY98TgBFzwQVrVIzeR19iwhOVYDKSRDDMERzL
+	ONlPhxXwIPOUhA10uBYE7fv2aAF/tXFCAgnene87JfjTVa3EupzKqZnywxNHjyf75mjvQAvma6hkb
+	H+t0FRPFebqyf+9Xi+enJLXYf3WtcnxW8OYUIzlaVuUvUWc0d1WQjVKUXoM8I92u5ZjDtnXmtlj/K
+	LK9O2QkHq3Mv9kAbGiuu3AxK9ai9KrcN8BphTHm4yjaDWAYqCEz1t4EzsE8sKvA06vjJZo/vpB5Gs
+	IyeMqucQ==;
+Received: from [90.240.106.137] (helo=[192.168.0.116])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1wgexk-009e5C-3f; Mon, 06 Jul 2026 10:46:00 +0200
+Message-ID: <ce33edbb-11dd-4722-bb87-d16155f35a75@igalia.com>
+Date: Mon, 6 Jul 2026 09:45:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -107,172 +59,206 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/42] firmware: qcom: scm: Use
- devm_of_reserved_mem_device_init()
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Paul Kocialkowski <paulk@sys-base.io>,
-        Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Alexey Brodkin
- <abrodkin@synopsys.com>,
-        Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Thierry Reding <thierry.reding@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ge Gordon
- <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Shengjiu Wang <shengjiu.wang@gmail.com>,
-        Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Peter Chen <peter.chen@cixtech.com>,
-        Fugang Duan <fugang.duan@cixtech.com>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
-        Fabio Estevam <festevam@gmail.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        kernel@collabora.com, linux-tegra@vger.kernel.org,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        imx@lists.linux.dev, sound-open-firmware@alsa-project.org
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <20260703193855.110619-4-mukesh.ojha@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260703193855.110619-4-mukesh.ojha@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDA4MyBTYWx0ZWRfX/YF0ChC3ui0b
- 0HvnH680SnFk8zJEtQMtIHHwgmS4PcyvfMhBb4pR+XNARuZr7uUcNFBBa5erlzVKhsuEkPLLXqp
- aXCdhw80M5k60PQ6sFoLDGPmk1dnnUI=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDA4MyBTYWx0ZWRfXwcR3385rYFT5
- 3gKtvL/t61gQHJAszJBQP76XWQzb/RTmXlLOHzkpB1Xp+v2DtGMS7uZCjIFhX1rUOkiDa1N/pUd
- vC4ZG3eXvHzuFoPecN9lB0jYgHnnxoOICecve6JCE9GxZ/E2jty25K5qBequYxFXmTy14Og0QT3
- TJjXLnRIZgKWzA7OSl9dXFNrCKMVI6A55oz1el/n4CBkpm3OxnzH7gsHC213lKgVvzihNpbY05x
- 9UvkB3XVnrx7RD6s29YfcAP4XkWsTby5ZhdziMWVrK8uZvqFeQ+XCfBOVUdMkLvmQKrwRGKqDBo
- 7NiqCJWJjdSCJvS6nb6C6q4hVsWpYIHmMNIs6MYIAp8MMG1mWWKwOKS7TKGUXLzIiF/RO9Un5ll
- tBI1kq3gUwSs14W9kQvFtrB4a9vuzQd86zhIO5puLJoNx83zxmJIc3ejHafnPk9gFF3uTraU+sa
- xvucroclaCputipr5nQ==
-X-Proofpoint-GUID: ZdFUBuSoO0N1zOEvbkPbYbDzCDRjGXXp
-X-Proofpoint-ORIG-GUID: ZdFUBuSoO0N1zOEvbkPbYbDzCDRjGXXp
-X-Authority-Analysis: v=2.4 cv=b9GCJNGx c=1 sm=1 tr=0 ts=6a4b6827 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=7yxQZbK4ublJ3xJh_1MA:9 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-05_02,2026-07-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
- phishscore=0 malwarescore=0 adultscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060083
+Subject: Re: [PATCH 1/5] drm/sched: Protect entity->last_scheduled with
+ spinlock
+To: phasta@kernel.org, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Marco Pagani
+ <marco.pagani@linux.dev>, Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20260701085920.3253248-2-phasta@kernel.org>
+ <20260701085920.3253248-3-phasta@kernel.org>
+ <a4091099-1931-4ca2-a81a-9c3321b123a8@ursulin.net>
+ <51fbde808bd059510d667d130afae179626303be.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <51fbde808bd059510d667d130afae179626303be.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,bstai.top,gmail.com,pengutronix.de,linux.intel.com,linux.dev,amd.com,cixtech.com,vger.kernel.org,lists.freedesktop.org,lists.ozlabs.org,lists.infradead.org,lists.linux.dev,collabora.com,alsa-project.org];
+	TAGGED_FROM(0.00)[bounces-66715-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:tursulin@ursulin.net,m:matthew.brost@intel.com,m:dakr@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:marco.pagani@linux.dev,m:boris.brezillon@collabora.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66714-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,crapouillou.net,intel.com,sys-base.io,sholland.org,synopsys.com,ideasonboard.com,amd.com,linux.ibm.com,mediatek.com,collabora.com,nuvoton.com,nvidia.com,arndb.de,linuxfoundation.org,bst.ai,linaro.org,perex.cz,suse.com,nxp.com,pengutronix.de,linux.alibaba.com,cixtech.com];
+	FREEMAIL_TO(0.00)[kernel.org,ursulin.net,intel.com,gmail.com,linux.intel.com,suse.de,ffwll.ch,linaro.org,linux.dev,collabora.com];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:mukesh.ojha@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:paul@crapouillou.net,m:anitha.chrisanthus@intel.com,m:paulk@sys-base.io,m:linusw@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:abrodkin@synopsys.com,m:laurent.pinchart@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:michal.simek@amd.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:eajames@linux.ibm.com,m:tiffany.lin@mediatek.com,m:andrew-ct.chen@mediatek.com,m:yunfei.dong@mediatek.com,m:minghsiu.tsai@mediatek.com,m:houlong.wei@mediatek.com,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:kwliu@nuvoton.com,m:kflin@nuvoton.com,m:dmitry.osipenko@collabora.com,m:krzk@kernel.org,m:thierry.reding@kernel.or
- g,m:jonathanh@nvidia.com,m:srini@kernel.org,m:arnd@arndb.de,m:gregkh@linuxfoundation.org,m:gordon.ge@bst.ai,m:adrian.hunter@intel.com,m:ulfh@kernel.org,m:robh@kernel.org,m:saravanak@kernel.org,m:mathieu.poirier@linaro.org,m:perex@perex.cz,m:tiwai@suse.com,m:shengjiu.wang@gmail.com,m:Xiubo.Lee@gmail.com,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:peter.ujfalusi@linux.intel.com,m:yung-chuan.liao@linux.intel.com,m:daniel.baluta@nxp.com,m:orsonzhai@gmail.com,m:baolin.wang@linux.alibaba.com,m:peter.chen@cixtech.com,m:fugang.duan@cixtech.com,m:ekansh.gupta@oss.qualcomm.com,m:bst-upstream@bstai.top,m:festevam@gmail.com,m:nicoleotsuka@gmail.com,m:kernel@pengutronix.de,m:kai.vehmanen@linux.intel.com,m:pierre-louis.bossart@linux.dev,m:Vijendar.Mukunda@amd.com,m:zhang.lyra@gmail.com,m:cix-kernel-upstream@cixtech.com,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-aspeed@lists.ozlabs.org,m:linu
- x-arm-kernel@lists.infradead.org,m:linux-mips@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-media@vger.kernel.org,m:openbmc@lists.ozlabs.org,m:linux-mediatek@lists.infradead.org,m:kernel@collabora.com,m:linux-tegra@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-remoteproc@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-sound@vger.kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:imx@lists.linux.dev,m:sound-open-firmware@alsa-project.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[93];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2C2A470E588
+X-Rspamd-Queue-Id: 1BCD670E6E2
 
-On 7/3/26 9:38 PM, Mukesh Ojha wrote:
-> Switch from of_reserved_mem_device_init() to the new resource managed
-> devm_of_reserved_mem_device_init() so that the reserved memory region
-> is released automatically on probe failure or device unbind. This
-> eliminates the err_rmem cleanup label and the need to call
-> of_reserved_mem_device_release() explicitly on error paths.
+
+On 03/07/2026 15:47, Philipp Stanner wrote:
+> On Fri, 2026-07-03 at 12:27 +0100, Tvrtko Ursulin wrote:
+>>
+>> On 01/07/2026 09:59, Philipp Stanner wrote:
+>>> The entity->last_scheduled field has always been set and read with
+>>> special RCU functions in addition to memory barriers.
+>>>
+>>> This was added in
+>>>
+>>> commit 70102d77ff22 ("drm/scheduler: add drm_sched_entity_error and use rcu for last_scheduled")
+>>>
+>>> however, no proper justification for that mechanism was provided. There
+>>> seems to be no obvious reason, since the entity lock is available and
+>>> taken at all places that evaluate the last_scheduled field. The only
+>>> exception is drm_sched_entity_error(), which is not performance critical
+>>> in any way.
+>>>
+>>> Improve robustness, readability and maintainability by replacing RCU and
+>>> barriers with the lock.
+>>
+>> First thing, and regardless of other strands of discussion, I think it
+>> should be squashed with 3/5 instead of that one undoing the introduction
+>> of lock-unlock-lock-unlock.
 > 
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> ---
+> I agree that there should not be a do-undo pattern, but I don't want to
+> squash that, it's quite a distinctive action. One patch adds locks, the
+> other moves them.
 
-Thanks!
+Hm, maybe it is a semantic discussion whether there is any real adding 
+of the locks, when the effective end result is just widening of it's 
+scope by pulling it out of the helper to caller. But okay, prep patch to 
+move the lock out sounds like it could look acceptable.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> But what I can do is move that patch before №1 here so that it becomes
+> understandable as a preparational commit.
+> 
+>>
+>> For what the main topic is concerned, I really like the removal of all
+>> the rcu_dereference_check(, true) lines and the memory barriers.
+>>
+>> But I also think the commit message should explain better what code
+>> paths are now taking an extra lock - under which circumstances is the
+>> lock now taken for all scheduler users, and which amdgpu paths use
+>> drm_sched_entity_error() a lot so could be affected. I doubt it creates
+>> a measurable performance impact but it needs to be explained.
+> 
+> I think it can detail which functions will now be locked; but
+> mentioning the users would be overkill and is uncommon for API reworks.
 
-Konrad
+Here I disagree quite strongly. Given the patch is making strong claims 
+that the lockless access was added for no obvious reason, and that we 
+have now established the lockless helper is in fact used on the 
+submission paths, it is really required that those strong claims are 
+backed by a concrete analysis instead of just saying "not performance 
+critical in any way".
+
+>> I am also happy to give it a spin on the Steam Deck to see if I can
+>> observe anything.
+> 
+> Could be interesting.
+
+Okay I'll try to do it in reasonable time. You can either respin or wait 
+for it, I don't mind either way.
+
+>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/sched_entity.c | 50 ++++++++++--------------
+>>>    include/drm/gpu_scheduler.h              |  9 ++---
+>>>    2 files changed, 25 insertions(+), 34 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> index c51101ec70c1..91aec20611ad 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> @@ -135,7 +135,6 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>>>    	entity->num_sched_list = num_sched_list;
+>>>    	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
+>>>    	entity->rq = &sched_list[0]->rq;
+>>> -	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+>>>    	RB_CLEAR_NODE(&entity->rb_tree_node);
+>>>    	init_completion(&entity->entity_idle);
+>>>    
+>>> @@ -201,10 +200,10 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+>>>    	struct dma_fence *fence;
+>>>    	int r;
+>>>    
+>>> -	rcu_read_lock();
+>>> -	fence = rcu_dereference(entity->last_scheduled);
+>>> +	spin_lock(&entity->lock);
+>>> +	fence = entity->last_scheduled;
+>>>    	r = fence ? fence->error : 0;
+>>> -	rcu_read_unlock();
+>>> +	spin_unlock(&entity->lock);
+>>>    
+>>>    	return r;
+>>>    }
+>>> @@ -287,9 +286,10 @@ void drm_sched_entity_kill(struct drm_sched_entity *entity)
+>>>    	/* Make sure this entity is not used by the scheduler at the moment */
+>>>    	wait_for_completion(&entity->entity_idle);
+>>>    
+>>> -	/* The entity is guaranteed to not be used by the scheduler */
+>>> -	prev = rcu_dereference_check(entity->last_scheduled, true);
+>>> +	spin_lock(&entity->lock);
+>>> +	prev = entity->last_scheduled;
+>>>    	dma_fence_get(prev);
+>>> +	spin_unlock(&entity->lock);
+>>>    	while ((job = drm_sched_entity_queue_pop(entity))) {
+>>>    		struct drm_sched_fence *s_fence = job->s_fence;
+>>>    
+>>> @@ -381,8 +381,7 @@ void drm_sched_entity_fini(struct drm_sched_entity *entity)
+>>>    		entity->dependency = NULL;
+>>>    	}
+>>>    
+>>> -	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+>>> -	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+>>> +	dma_fence_put(entity->last_scheduled);
+>>>    	drm_sched_entity_stats_put(entity->stats);
+>>>    }
+>>>    EXPORT_SYMBOL(drm_sched_entity_fini);
+>>> @@ -507,6 +506,10 @@ drm_sched_job_dependency(struct drm_sched_job *job,
+>>>    
+>>>    struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>>    {
+>>> +	/* Helper to avoid dropping the reference while the entity lock is held,
+>>> +	 * just to have some more robustness.
+>>> +	 */
+>>
+>> I don't get this comment. Neither the placement or the content.
+> 
+> It explains the purpose of the variable 'prev_last_scheduled', which
+> exists so that a reference does not drop under lock protection.
+
+Ah a helper _variable_, right, I was thrown off by the comment just 
+below the function and did not even spot you added a new local.
+
+Regards,
+
+Tvrtko
+
+> 
+> 
+> P.
+
 
