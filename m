@@ -1,266 +1,212 @@
-Return-Path: <linux-media+bounces-66874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66875-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Ndj0BUAyTWq2wQEAu9opvQ
-	(envelope-from <linux-media+bounces-66874-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 19:07:12 +0200
+	id Qvl3JxEyTWqhwQEAu9opvQ
+	(envelope-from <linux-media+bounces-66875-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 19:06:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8532371E19A
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 19:07:11 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C0171E15A
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 19:06:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=PHowLSK0;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=DE8SSBzv;
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66874-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66874-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=raspberrypi.com header.s=google header.b="H+z8Qk/l";
+	dmarc=pass (policy=reject) header.from=raspberrypi.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66875-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66875-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8032330A1EC5
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 17:00:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E5A7630074F6
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 17:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9D53434E29;
-	Tue,  7 Jul 2026 17:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDE9543784A;
+	Tue,  7 Jul 2026 17:06:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9DA3382F9
-	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 17:00:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8A741D4C1
+	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 17:06:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783443651; cv=none; b=KDvtEqEY6Nkun/oY8Lvm1m0r5YE5XXpCIjv1Ss+uoszw+X5kDu6uBLqnXrr3KyYtTfPFr3D/Bq61UyXb8LuHKn+P5q+7Es48PekShWzKiuD5cx2DF1xwZHuE+ryAYOBU/lmPqz5oaza+hcbdsiBBcRkPoE/H7lEkfToERlQNj4c=
+	t=1783443978; cv=none; b=By/c1RShwJbtmDkhL68mgPo83zA3N2BGoHpeaIfDPEyjFOlnV9YWRsCMfi01bJVY33vBscvY/HZiC+SS2OoIU9sclo1ac4nvrDjQ1XxvmAjhkWaem0R9wJxMZMccglXbhm9+revxunAf0okJdwGMeyNj9PhWCS854tIB2pgOJlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783443651; c=relaxed/simple;
-	bh=WbUdL3CNPOorv8htE5XXowd1ZM+m0c6usAKsTT24zYY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DTEuvD3SQgquOYJUMLwMyCL3DK1UBMc6WEjbkDJQCTDOCG5qzskaMZpV2YjR83Ygr+C1WttrJMCG9A9tWnIPbamZmGhnB5Jj9DesumM33LeEDooEMchoslFnCFmPdqnM8+fqUOtEkHvgphFYg7tMxUUFYmpgC95d5seg+j6gxIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PHowLSK0; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DE8SSBzv; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667FT31k4130287
-	for <linux-media@vger.kernel.org>; Tue, 7 Jul 2026 17:00:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	WbUdL3CNPOorv8htE5XXowd1ZM+m0c6usAKsTT24zYY=; b=PHowLSK0/tW4dx6k
-	B0FatCQnFbJz3NOZvRBrrL35ODFdS1dKp9U5eyGcPPFy8bsMrlqmG/6195Tu7E2O
-	im6gV2S6/uK7cNHELIrNnSp5TW9tTXIf7UDxMgZf0k3eAr2EJP+rqrW16Dq0Rl4t
-	GuX5KSeVqLq2L7Pw1LjR2SGrbqfGO1dWcO5yxbu97Dv5WtcMbwKsdN30Pgw61/vA
-	BtBX8j/ccTT/Coc0kFHQQIzb5A5AmtYUA0ZXvTvlEvXjugs0aiVagJgOPn8+zqul
-	+faFoh62xksi65qwlLsUR5H7ITVdnDnUZvuSsHN9tqU6v+R6f3bMx0UTPGbBNjDa
-	3BbZxQ==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8t15b5t6-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 17:00:48 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38869800848so906279a91.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 10:00:48 -0700 (PDT)
+	s=arc-20240116; t=1783443978; c=relaxed/simple;
+	bh=XjcantRHqujraCkoG10YtUTCxsHNyNT9YOjAxukf+cw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YK/WGTz/omufkNRYfuMGUcCh/gri/Z3MzUxpGuR8NclOJRzTNiUZuiO3uzRfeL/iJFXawbnECJjbl21C9VjETJY3Y92Gwh+TNTJECTM19iVE/vnFdGzMungIRZvBZYU1Xm/qL6RBDR7HVLE6iTw5Id9AKWqtnYyllIBzW6WFjzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=H+z8Qk/l; arc=none smtp.client-ip=209.85.128.41
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493ce08a75bso19446015e9.1
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 10:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783443648; x=1784048448; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WbUdL3CNPOorv8htE5XXowd1ZM+m0c6usAKsTT24zYY=;
-        b=DE8SSBzvLnUJlBLaqV9qrjllgR5k2meVFIUVJgi4v8YuGZlR+wbio6hw79PaDc+quW
-         dR162ZOdvU3py1jnrCMAIJ/QHl7JjaNg49w2IqqMirJW0eceDI8X1wvPPcyWCx4xj7Nv
-         Br5fx++Mdi69XAG8h1zLy8CUabAZ29ekYmxcc8P/JSiG1pN7lNMzguoxowVLS3nkZat7
-         BFaoZGB2YgVEZkaMUHJ8hM4jbor1e2sETHXahnxmEF/KaUVCbiPB4Cj5+zKcSVwUXnER
-         vpFGswVgn3t8KkXjwKyk0pcmtYduuON7bZkyHDEmp/T6Pnywag6i7r2p+D9Q/lyvze0o
-         Spuw==
+        d=raspberrypi.com; s=google; t=1783443974; x=1784048774; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5en/aJUKwFqffgmyTdsB0nU4jEKYPOBxxBLBV03iHyI=;
+        b=H+z8Qk/lb6uIBOl9iYPEIgbLz6CDm+2cKJSpPU0t18e5sbhGqX7jrxtb1q7Xb7dtTd
+         V8ok4r/3w2Jm6MjGRTQcGD1lEgzwPTzlVsyzcGHs+nTCcmrci4QphoqilCqYIv11yrkl
+         DPgIT9w6t0iFBP6t/RpEbepYXHOAWx41PTIj8sIUCo9OyIS8hQ65ETd9JV5xn+f4Hsj/
+         uCUGwy3m25fLNxUzZGgEPlYCqWyB2xjHwIEB0hA9aZMS02PFFarwQtTZmG8WN+0eo1E+
+         lIIH16Nwq1RCcqyefiFeQEsobEvXAfQ55IKPzPlJ8n64UylOmSJ+mFk9whXpP8H+VYrz
+         aQ7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783443648; x=1784048448;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WbUdL3CNPOorv8htE5XXowd1ZM+m0c6usAKsTT24zYY=;
-        b=sMEhtMGPHc68nNPf9ODk6D71nkqFjNqWSeOBE6Ei9JqUMvZ0RFmF4nDAXiUA4n4CHT
-         cdDXS96cSv+mXQjfvQAjLMHz/DatMEytNUjE9nmJreGmKiG/V2DKyfNOsoi+nVdYvU4g
-         ajdVVZ8yDPDVFGiWyymq9n81d400ZoGqbB5tDvJ0mtQotgFyPIttx4CHlW32262J9LMq
-         SVOCZJL4Mt1YUxXp3gLhtbb1x1DAjagXEVWzoGEUYvA++WXl2052XhCGRPdY7hy/t1SW
-         rhRbWoFPcKZLz8CzUPToJyh5sdolpUNz1cnicveNpsyAEVXs2EVo05YWYWhUheEroWnY
-         l/sA==
-X-Forwarded-Encrypted: i=1; AHgh+RrKkKDLVQti9cHQi/mC9ai2nKoBCS0D7Jj1UtHxjqZWZi47ykgA2/kULCUSka3MBlt4Bn9zW1Pea6QYsw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMYZF/1qStRN8yiMXYWOwoLuKjhIGPiCjbR0WOVeSk+OavpKp+
-	DOA9BnfwxeWZQmP7xyYMCp+O2Bj9Gs6Jzr7BMVDbbJvrk6lxapsf/Pb8IVOkjdBoxPd5cn32K5G
-	D5N1KmkFCbY0VUBrT+CJlq+FDQ19XFJS2jprj4gvJNEMX27R3roxT5zAuuQTnyKtEUA==
-X-Gm-Gg: AfdE7cniOX5Y0PZmlpyHpcmgUh27/q1GXVY7EJoiX1/cpJUL19MOlK4GBUEQv3n1rpA
-	8SR/2cvbjK6Ho7DMoNKH5JtjJQVH/gg7ihki8qX055JMiODWtJ8EmMDCZxHw+GL1KGFW7FHsHuz
-	pJ2mjBWhBndqihN8avWihGImfdBS6mFPIjJZnFdRBVlGwJrqViSwwQyui1aYKr92ITB3/nPlDUo
-	xILfr4cuQUtPz8IKxTh98gk30OOVPh3no4qvJfcwW8Cr206fTforiBBcGBA9Mdk0QsthQ1HNDl8
-	lWns3CBtiO5IPz5JicBdwpnTVbdBvHpnCInLBSq07H6Vu3WKSsWZjzDh2vy75+GS01J1aPIJwey
-	E/ptmDANS8wAJH/hNbcSgWLYiJOUF6KMQIEj6IaPGd0A=
-X-Received: by 2002:a17:90b:50cc:b0:387:e0bb:57f2 with SMTP id 98e67ed59e1d1-387e0bb5bb4mr3501555a91.35.1783443647821;
-        Tue, 07 Jul 2026 10:00:47 -0700 (PDT)
-X-Received: by 2002:a17:90b:50cc:b0:387:e0bb:57f2 with SMTP id 98e67ed59e1d1-387e0bb5bb4mr3501507a91.35.1783443647126;
-        Tue, 07 Jul 2026 10:00:47 -0700 (PDT)
-Received: from [10.206.105.200] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ac14f2sm11023355eec.27.2026.07.07.10.00.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 10:00:46 -0700 (PDT)
-Message-ID: <7cff4a0d-727a-9b55-9fd9-57fa861d6029@oss.qualcomm.com>
-Date: Tue, 7 Jul 2026 22:30:40 +0530
+        d=1e100.net; s=20251104; t=1783443974; x=1784048774;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5en/aJUKwFqffgmyTdsB0nU4jEKYPOBxxBLBV03iHyI=;
+        b=ldrsGcf14hkel35BA3zOP1tKz9hx4LJumR9DcPbT8XpAPuQnHaXrVA6zQ67xrS9nDb
+         KsOOqrwc8nWc7fwJ+dnEbcdslBU4JCQt/nFGsUaMJ2/EI+Yd0HpRLJjmAsJ8PnQvUr8s
+         VTDAyw8fK5XZLVmfzThxigx2QtLhapPHrZ0pTfYllP3FpjPstCPq17RY57MwPGXrkAZE
+         7fDMHsUDjB9g830yVvzOsau+VgvXMfkaeR9p9KAe6Ls7rEaGEwv8l6NaPfZSswCPj7wv
+         17r6YU1Qf+D25xLcrTL8HnHweL5JpwSz4qFhPDbsM8SVao4LMIjktHpiTbhJ0xWC0Cb+
+         VYzw==
+X-Gm-Message-State: AOJu0YwBOs9lFpPkNUkNE5MHknHyr4ow6iPoGI8yAw3wFcm6yNt9UjnS
+	HM2RnINBlg0MfUKYafV5Qe/kytDLgyUi0YhgWIAJLXehKN8Cke+BLf/Dz/fcxAsV448=
+X-Gm-Gg: AfdE7clFGK8I11h9RI3XQJ6jPn6fhm9aW6J2uzSm7Ole10o6nfzUe79P5gvMa6CjtM0
+	TcnfT2P+P6BlDMrrFeYLPdfJWwwOELiDLS6nz9HYOF5vtMSLoA+k4gGWNFTkrPeSKeTpjCclFoi
+	pzeb0S6lZHao4scGMXS1KRP8l0dcrTN+wEFOBSvVo/Z92YgJT5G2277BXfoNpD+Rtdxgndy3o/w
+	8xbT1COaasBdaNji6hj3yib+6nqHLlwaeyP0w+LiC4GT+aEsTm4e5C82aZ6/7Dcm/0cQzZ8cj1E
+	JfNNHAfvu1shwZTPx6y4occnVLMgMjwjODT0j+TtrFgmt/fTBFA9zcZPXAgIQ4b2liGqmb9M5o5
+	0u/oDC4ikQUmRpIytwjvy41rj/a2JLwUQxENP7aho+j3YF0tb72Lo2QWz8Xl1+JOG6F+mjftS62
+	FusMtnQvT2L+BIq/gZJN/jOrnKkY2kOPt6OzUKNF9hCcwPKtZUZbQhe0Yv+7kXjc1U
+X-Received: by 2002:a05:600c:46d1:b0:493:e451:fb8 with SMTP id 5b1f17b1804b1-493e4510fbcmr21750135e9.21.1783443974589;
+        Tue, 07 Jul 2026 10:06:14 -0700 (PDT)
+Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47aa0f21543sm33644487f8f.35.2026.07.07.10.06.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 10:06:14 -0700 (PDT)
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 00/20] media/imx355: General code cleanups, and adding
+ support for 2 lane operation
+Date: Tue, 07 Jul 2026 18:04:32 +0100
+Message-Id: <20260707-media-imx355-v2-0-1683ec07b897@raspberrypi.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] media: iris: avoid bit depth validation for capture
- formats
-Content-Language: en-US
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-References: <20260707-qc10c_fix_and_disable_time_delta_based_rc-v1-0-33fa130bc535@oss.qualcomm.com>
- <20260707-qc10c_fix_and_disable_time_delta_based_rc-v1-1-33fa130bc535@oss.qualcomm.com>
- <fbed6245-75dd-4975-8193-76edd4587fb5@oss.qualcomm.com>
-From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-In-Reply-To: <fbed6245-75dd-4975-8193-76edd4587fb5@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 4QZ2VMUYdA7oOtbVHzGLk8_DHOzzFjFc
-X-Authority-Analysis: v=2.4 cv=HstG3UTS c=1 sm=1 tr=0 ts=6a4d30c0 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=GrxmyxEN0g0U0qsHxscA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-ORIG-GUID: 4QZ2VMUYdA7oOtbVHzGLk8_DHOzzFjFc
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDE2NyBTYWx0ZWRfX6e4UgrPZSaZz
- UCdHwajjqm8hHbhYPRmB2ZRIIcJwWkR027kpYU2Bc8bp0OhdDCsfJ6efvfeMQbN+Ean8J1D52vj
- UWyzyC9UZZW4RRQ4JUa2EeXXDzp+Id4=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDE2NyBTYWx0ZWRfX/pP5iKS0cYSd
- mDKwEF4nYXT2/wJflTV6TTDuh74B115Xji6bfPb6kaYafti5BteDFMEmQcU002gMbydgw9h+45u
- hjy7w5WU56WBjyqy9heom6i0vK1FkroTfpfWjKxaMkrBfa3sU3Ly4flDd7DWp+gZYAbEpeZlVmF
- RDQ9RD6pyZadJ3pmqNKntgoso9rxSD0FdAEXZNtY8Ga485Sa6SUA8+IyUYA8UgIIaDVyXe4m2i1
- ro3wAf/sKZXmCOIrz7d79pAAPm6ZiGxvMVety4ssbseHKyItTefVmKnzgO2ZZZ3NMrDbuPkoKai
- V1dn9rgFE5GVdAmlrl37A8DEU2rJ77N9TGnTXsNN0CEKIlAlU+YHf8xFTTky0RCzSl2HsrpIl62
- j87c3Brj7CyfvFW55K9SoGmGmhBP4OXMkBWuntaGLp/Oz1ADplFD9fbs+X5pnkAJ/q4sStzGb1S
- 82qhE0co3zXamXkRXhw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-07_04,2026-07-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070167
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKExTWoC/22OOw7CMBBEr4K2xmgde82n4h6Iwo43sEVIsENEF
+ OXumNBSvpHmzcyQOQlnOG1mSDxKlu5RoNpuoL77x42VxMJQYeWQ0KmWo3gl7dsQKW+wocAmcvR
+ QKn3iRt6r7nL9ceLnq1iHXwjBZ1Z117YylBWyjT06Y5m183uj9d7GyrOxoSYMkRpLXGL4uu6Sh
+ y5N69NRr7L/p0atUDmH7kBo0BKdk8994JSmXnZlG67LsnwAGzJI9foAAAA=
+To: Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Richard Acayan <mailingradian@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ David Heidelberg <david@ixit.cz>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, devicetree@vger.kernel.org, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+X-Mailer: b4 0.14.1
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66874-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66875-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:bryan.odonoghue@linaro.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[intel.com,linux.intel.com,kernel.org,gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:tian.shu.qiu@intel.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mailingradian@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:david@ixit.cz,m:jacopo.mondi@ideasonboard.com,m:devicetree@vger.kernel.org,m:dave.stevenson@raspberrypi.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8532371E19A
+X-Rspamd-Queue-Id: D2C0171E15A
 
+This series came about as we had a customer ask about using imx355,
+so I had a look at what was going on.
 
-On 7/7/2026 2:23 PM, Vikash Garodia wrote:
->
->
-> On 7/7/2026 12:05 PM, Vishnu Reddy wrote:
->> When validating a capture format, check_format() compares the requested
->> pixel format against inst->fw_caps[BIT_DEPTH]. However, the bit depth
->> capability is not available at this stage and it contains the default
->> value of BIT_DEPTH_8. The actual bit depth is updated later after the
->> firmware reports stream capabilities through read_input_subcr_params().
->> Because of this, a valid QC10C format request is rejected during the
->
-> client request
->
+There was significant duplication between the various mode register lists,
+unused parameters around, and no support for advertising the crop
+rectangles through get_selection. It also wasn't using V4L2_CCI so
+had all the boilerplate for writing registers.
+The customer also wanted to run the sensor over only 2 CSI2 data lanes
+which required some rework of the clock setup so that the MIPI link
+frequency could be run at 445MHz instead of the 360MHz used for 4 lane
+mode.
 
-Ack.
+V2 has some fairly substantial differences to V1 as I obtained a datasheet.
+Whilst some things worked perfectly, the datasheet declared them as
+prohibited. This was largely using dual PLL mode in 2 lane mode, and
+LLP is restricted to specific values. Link frequencies are therefore now
+derived from the PLL configuration, and pixel rate is computed from that.
 
->> initial format negotiation. The driver then falls back to the default
->> capture format (NV12) and stores it as capture format.
->>
->
-> No new line
->
+Being able to refer against the datasheet, I've pulled an updated version
+of David Heidelberg's patch for 24MHz clock support into this series.
 
-Ack.
+I've tried to keep it that the earlier patches are largely cleanups or
+minor improvements, and then we get adding 2 lane support, and converting
+to using subdev state as they are larger patches.
 
->> Later, when the firmware reports that the stream is 10-bit, the driver
->> sees NV12 as the selected capture format and switches to the default
->> 10-bit format (P010). As a result, the original QC10C format requested
->> by userspace is lost and QC10C decoding cannot work correctly.
->>
->
-> No new line.
->
+---
+Changes in v2:
+- Collected Jacopo's R-b tags and implement his review comments.
+- Add patches to switch to using the subdev state, clean up colorspace
+  (sets RAW), use a define for the exposure offset.
+- Added DT binding update to permit 2 CSI2 data lanes.
+- Link to v1: https://lore.kernel.org/r/20260506-media-imx355-v1-0-660685030455@raspberrypi.com
 
-Ack.
+---
+Dave Stevenson (19):
+      dt-bindings: media: imx355: Allow 2 CSI2 data lane output
+      media: imx355: Remove duplicated registers from the mode tables
+      media: imx355: Remove setting FRM_LENGTH_LINES in the mode regs
+      media: imx355: Programmatically set the crop parameters for each mode
+      media: imx355: Set register LINE_LENGTH_PCK programmatically
+      media: imx355: Set binning mode registers programmatically
+      media: imx355: Remove link_freq_index from each mode as ununsed
+      media: imx355: pixel_rate never changes, so don't recompute
+      media: imx355: Remove redundant fll_min, and implement fixed offset
+      media: imx355: Add support for get_selection
+      media: imx355: Use pm_runtime autosuspend_delay
+      media: imx355: Convert to new CCI register access helpers
+      media: imx355: Set the colorspace in the format
+      media: imx355: Define the exposure offset, and use that define
+      media: imx355: Use NULL ctrl_ops for HBLANK as it is a read-only control
+      media: imx355: Compute link frequency from PLL setup
+      media: imx355: Support 2 lane readout
+      media: imx355: Switch to using the subdev state
+      media: imx355: Remove storing cur_mode in the state
 
->> The bit depth information is not reliable during the initial format
->> setup, so it should not be used to validate capture formats. Remove
->> the bit-depth checks from check_format() and only verify that the
->> requested pixel format is supported. This allows the format requested
->> by userspace is handled correctly.
->>
->> Fixes: 20c3ef4c7cae ("media: qcom: iris: vdec: update find_format to handle
->> 8bit and 10bit formats")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
->> ---
->>   drivers/media/platform/qcom/iris/iris_vdec.c | 10 ----------
->>   1 file changed, 10 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c
->> b/drivers/media/platform/qcom/iris/iris_vdec.c
->> index 9e228b70420e..7f89e745a4b1 100644
->> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
->> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
->> @@ -95,16 +95,6 @@ static bool check_format(struct iris_inst *inst, u32
->> pixfmt, u32 type)
->>       if (i == size)
->>           return false;
->>   -    if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
->> -        if (iris_fmt_is_8bit(pixfmt) &&
->> -            inst->fw_caps[BIT_DEPTH].value == BIT_DEPTH_10)
->> -            return false;
->> -
->> -        if (iris_fmt_is_10bit(pixfmt) &&
->> -            inst->fw_caps[BIT_DEPTH].value != BIT_DEPTH_10)
->> -            return false;
->> -    }
->> -
->>       return true;
->>   }
->>  
->
+David Heidelberg (1):
+      media: i2c: imx355: Add support for 24 MHz external clock
+
+ .../devicetree/bindings/media/i2c/sony,imx355.yaml |   11 +-
+ drivers/media/i2c/Kconfig                          |    1 +
+ drivers/media/i2c/imx355.c                         | 1515 +++++++-------------
+ 3 files changed, 494 insertions(+), 1033 deletions(-)
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260506-media-imx355-a30f5be3deda
+
+Best regards,
+-- 
+Dave Stevenson <dave.stevenson@raspberrypi.com>
+
 
