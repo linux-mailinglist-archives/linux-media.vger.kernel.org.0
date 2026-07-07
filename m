@@ -1,152 +1,201 @@
-Return-Path: <linux-media+bounces-66871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66872-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id EfPpAostTWrTwAEAu9opvQ
-	(envelope-from <linux-media+bounces-66871-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 18:47:07 +0200
+	id 9Ec/KuAvTWpFwQEAu9opvQ
+	(envelope-from <linux-media+bounces-66872-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 18:57:04 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D2871DFEB
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 18:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09AAA71E0B5
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 18:57:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qtec.com header.s=google header.b=eQBqHDln;
-	dmarc=pass (policy=reject) header.from=qtec.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66871-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66871-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=amd.com header.s=selector1 header.b=wEuLrrNL;
+	dmarc=pass (policy=quarantine) header.from=amd.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66872-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66872-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 112BD303C4E7
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 16:40:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 45D373029AEB
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 16:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BCC5436BC3;
-	Tue,  7 Jul 2026 16:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCDD7436BE8;
+	Tue,  7 Jul 2026 16:55:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013023.outbound.protection.outlook.com [40.93.201.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083873EB10D
-	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 16:40:02 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783442405; cv=none; b=cvNB7uUuCLaV8EeXVtItrTZ/gHUm8csqZpm4w6+4/OIjFLVe09AEoQJj5y15RNH5KTcsc5+D+lgLbTKFT8vMDHo4M713tiuTA36JCZg6DB90HRnZMDCVQQFG/fgweZP2qC1Nwsv9yMSuTg/SFlJnhcNgJTnr/ZipJKyd+BcxDkg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783442405; c=relaxed/simple;
-	bh=2g2ASA9uUL2czsgfiQIRKQkJeCQtFlrYYz9gpwAoSRw=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=hk1eBQW+P0kG6URbtY/5S46AHpgjyGXxtQzHReDc9jc3Hka68zmlDJMgrKsESaZqHGBOUcmxWUGdXVbBrhAcmPUAracDRSE/R7FTdw7pJQUzyMC27rv7k69rMq1AevzPR50sclB71fn/HsAHe1u5xsFNJG8wiLjlQAol/hcd/nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtec.com; spf=pass smtp.mailfrom=qtec.com; dkim=pass (2048-bit key) header.d=qtec.com header.i=@qtec.com header.b=eQBqHDln; arc=none smtp.client-ip=209.85.167.54
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aec6360133so3303366e87.1
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 09:40:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google; t=1783442401; x=1784047201; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=2g2ASA9uUL2czsgfiQIRKQkJeCQtFlrYYz9gpwAoSRw=;
-        b=eQBqHDln1HfzUDQDgL9i7Arg6YfeyuwFSpC5x4wN+DyBKhKT3ofLuqFoaJER+/CvDI
-         VXjX0jKoyZ6+lwpgrZdjN2Sow2scsh3p3mM63aSoSKQ+Q/hfRb9U4FNYcDqtYFNBWNks
-         VMFPXzVSyu8g6v7xWrgF6z7fqRqQhBzXD0He8ov5d1+R34qdYtVyyezhmDo81fbeVyT2
-         4/wLPooJCmJE2w5s4JS192L8hyhrSw2GIlI1/Zpp3M53AYg091uVKN0Z2CnPDXergLZu
-         SWC68cNRykCR6UxDXVmlHnzQayjgtSX95heG5shAZm3rPwKnet4LWtn+lO5pH18udiEF
-         te9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783442401; x=1784047201;
-        h=content-transfer-encoding:content-type:subject:from:to
-         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2g2ASA9uUL2czsgfiQIRKQkJeCQtFlrYYz9gpwAoSRw=;
-        b=BPj5dQD6EvLe78CiIU7ClKdHglYBLlTzo6JFs3+DkLFjriRtuxpPiXnF11a6uo828i
-         vumy6VhcT8STHMJJetBlj+YrhtVOrS3jsH+TA05gDGQVlxuO8Sn7aYi4YTr6eNwS8d1x
-         dze/U/+jM2Y8E4ZBLGwNs9EgTXy4nCC/lc9xxDTngeGozlvwOOSBTApIqFND0DVbcxvR
-         r6ykBPWn4V3LjTmrlV4HM+niemdP/eHg4fQj0TP/ReF5I66njtjLSkY3lrBqswokHMva
-         f+hjdNRSEeNDmngR7WmYLzwQS/FfR5DwziVKLQn1vxaw1tjwgbyI3LMw56QU4S5l0da4
-         sTNA==
-X-Forwarded-Encrypted: i=1; AHgh+RoDPTA7Rt91K07pDqF57BkjqnYY65f3FT731K37RiPTIdYzRDw6yOjRaU7rr/Lxj4F7eph/8hTeIcVzzA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHgbBRoVhfXiMDwdjcNFNr2TQP227OWfnNKuoDsvA8I2L2VuPE
-	zr/AzhVykR64pEVXUlf1lS1lCC7sYux7oWfBxk/mzI5k9RMbVfRLP7Wd6Dd6lXlVdyNQXpD4kxb
-	GKgXQIAg=
-X-Gm-Gg: AfdE7ckFvs8a7jMnUCrqfF0YMn7STvzARq2KRXYZTrIsJJ/Y0IODb/DcYFCGGvaDu36
-	4KUQbT2MZ9DfW/0Dwh/N7gWHTGwnoz0WTbDESxAI03UFT4Dw/lB7/HB3vaOY9XRBnbiq5UbtxQD
-	d/riOjVJG3FnnQn8diWLYX+XbwxT1dIBzFwqhnnOo52y5j4CfYK9VY6NvgcANX3F26WeFmtTQpn
-	pz+L4OUlH4Ho8Fw3j54wYrYdfaFvmVjn9Ahr3WtbugW21p1x8HgPcW2cTtTR8J/qEVObXx9CE/G
-	kKjhVHy8YyUR4Xwmz9BNScR+xnkAxFHwOloNnO+7O92s5A28eEfPuz2sii4gFy4MUGgF3NMRJTu
-	6HdXuv4qWnCRqLVhbHfz/k4IBX4hmBh2w3BmQEuoea8SzWexdXincQ+dA2lupnkRVlNYIJjFJBy
-	vNsNJP0hgVyYZj/EeIsbVMhGKGsyLwlPX9kSjOpbP8AwXEFGoNNrDX/EPOygfpnV5gqhMqHFBZ/
-	pQ1Q2fBDTSjGgUNv6aMTcTLQTrmQS2/VUQBf17266WJJYSLgIQiVBMsRV8irtviwfSMQQ==
-X-Received: by 2002:a05:6512:6891:10b0:5ae:9d0f:19f2 with SMTP id 2adb3069b0e04-5b007b6eceamr990918e87.3.1783442400860;
-        Tue, 07 Jul 2026 09:40:00 -0700 (PDT)
-Received: from [192.168.2.43] (cpe.ge-3-0-8-100.ryvnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed13bb774sm3864861e87.48.2026.07.07.09.40.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 09:40:00 -0700 (PDT)
-Message-ID: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
-Date: Tue, 7 Jul 2026 18:39:59 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FAD22A1D4
+	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 16:55:02 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783443304; cv=fail; b=hdvZEUrmRnfGvFLsUfMsa/GP9LTxKRVtSrFQiDYkA/ViaBlScsiYNBwZg7Ne/EZZmL50KTHZkm3oKSaHUSWPn3fRoNqYLMr98y+RxHFtDGEW4cWN5WquezARbT94Q+LUix+sefLne9KWGKXPVd6xV7unwPVuX2OHQdH3ZLoYnOY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783443304; c=relaxed/simple;
+	bh=6EeBAc+IS4+PZgs6OYUzRSrRP9ZjMO01nQWSI1E23YI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OHC+2kE2rlzZ1wLPCyd9E7TcnEHw/9xkHMlkIeXlkXhZakT+LKfZO7E8RxUUliRwH2/x/Bh82f2vqnWhwbBcsfjeIgV830atum0NxCYBRkx2YfCTHL9POFKpRphdxNwC6GeZMNoATSMvpwp0EcE0rQjxko1HbMoQVPpMn5pTsb0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wEuLrrNL; arc=fail smtp.client-ip=40.93.201.23
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sp3VWBiH9T4l0Vd8g2dM0PDPTAe1ikR1zGdYMIoygBDU8iK1+UdJRuOQFMgAuYTBpC1cX7IyPPsjXGT+HSTebL609U/UURTADkN6umnGya4ofmZxPncSkdfidGP6ogQpceVwqm+0J4V1O/PFFAv85b6TfPML8qdhxdKTpyycLjzc6vaI1VNHBOjg5F3geAoUAGvnDM3OtS3/kLywT1BOk2BJvWhizz1UFMRZrAtQuk3A/EEFGNIGvsaIWQsQ1MIsPeQvlSQjYHESQSP1l2bn1wbTzvCHHBPBmt9QTVaa5eXyeyD8ZrNRr+8Zbnb0SGDLQ3KPvSDQdwl/umR4HZmqdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zrsmoaFiWgfi3sqRcH4SzCXCQl1bYZoTRTy0NKeE9d4=;
+ b=h2o0a1xg6n6hDbcSvQPPcOQjwXg0WBUhXkwyAxICXDFJ6iCDOnEy3tEFBR5NGuJiT5NTfCXba87/Le/8Ube1rPl6PubvrrCEWcuXn2wKmIisJTZUFjJ1E3nwX0tAXvcY8Hd6+pRlDCXs1c73thzuH7TBfQp1x9yKBm75ifASYOhKRv0SaJJs3F/2LqgaLbgNS6wSW6JnkXb3H2UasJ+F57IlbZ3WKrfLn/hFSAPZO8fOCR5q9PB1YWjSqrSJDmxOIIV2PzcUnNMSA+3KOncVo64ve1EkUhSescEwnHCdPjIhp4MA/zWxQy4CZ5uNZhA+tG2/huN+MIuBBLsc/xRu9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zrsmoaFiWgfi3sqRcH4SzCXCQl1bYZoTRTy0NKeE9d4=;
+ b=wEuLrrNLA5IbritNRxMNyb7k7/2a45qI0Sy7V9uDJWil0+DtvwNLJCd7xfelCZms8WqkjFDBtj15VlEFVqm6UCy9Elble/0fxrHz/5GIDXOs+/6X7/AS3I8lSMTzi4BIcV+fR36kukamkkwA3ZO0n4Cb25lvL15v2ZvJlezwYOQ=
+Received: from SJ0PR03CA0162.namprd03.prod.outlook.com (2603:10b6:a03:338::17)
+ by BY5PR12MB4242.namprd12.prod.outlook.com (2603:10b6:a03:203::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.14; Tue, 7 Jul
+ 2026 16:54:59 +0000
+Received: from CO1PEPF00012E82.namprd03.prod.outlook.com
+ (2603:10b6:a03:338:cafe::16) by SJ0PR03CA0162.outlook.office365.com
+ (2603:10b6:a03:338::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.8 via Frontend Transport; Tue, 7
+ Jul 2026 16:54:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CO1PEPF00012E82.mail.protection.outlook.com (10.167.249.57) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 16:54:58 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
+ 2026 11:54:57 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
+ 2026 09:54:57 -0700
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Tue, 7 Jul 2026 11:54:56 -0500
+Message-ID: <8dcdd7f2-dd66-d875-4551-7a35cf495520@amd.com>
+Date: Tue, 7 Jul 2026 09:54:56 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] dma-buf: explicitely forbid exposing pages from
+ get_user_pages()
 Content-Language: en-US
-To: linux-doc@vger.kernel.org, linux-media@vger.kernel.org
-From: Daniel Lundberg Pedersen <dlp@qtec.com>
-Subject: Bad wrapping in some tables
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	<sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+	<Max.Zhen@amd.com>, <Mario.Limonciello@amd.com>, <airlied@gmail.com>,
+	<karol.wachowski@linux.intel.com>
+CC: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20260630080112.1117341-1-christian.koenig@amd.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20260630080112.1117341-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF00012E82:EE_|BY5PR12MB4242:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01097a04-5a55-4109-943e-08dedc487ad1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|1800799024|82310400026|376014|22082099003|18002099003|11063799006|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	iC7bqjh8HXXD44OekFX4EClZhSHY2fkivkE4/K3utqdwPSLpbdYCYnA/pD/SZcPmzhYw8b7VLvtPCv/u+YFvJt+FBu9pZEL/fuOogPPyPUGn66tNNxxGm+p9MC0ZgrDkSvUq4dm1loZCaidXJkprWBlSBXzZ30qVJ2lCoCn3WaH4ENBnhJ9j2HeNQeOkpn98gKQc/9+XIb06YPFLLVKoFhzbn7bvmqSaGhx2bEVthNeS7TSHinKinjQrxBcwcIFAGI+JJe9G+Js55GL3Bo0eujysblFKdjT/tEWveW3FHNAHeMFT3UdlQcEMioXLhzt7frvnHz2Wu7Hupj+d3Orn0Bg/tshqxWiX6K9//z65EX+Hq6tFrdwmcq055hxVCJYkyGtXN1pHdc6Fz4g8ejL1BUhhalCEyQYhvcP5WPBF1h5+vyXhNo1DO+8puTYOmaKUacAGruV/W0tHrtWrEU37b02Idb6b7hT05cIOXdB9ETi2tFs3Wz+3SG/3v8XRT4oGYuYjn6w2pzoTl5/hcT8jLWSYMFcORozDbsXtIw21LU+CAFccW7GdRwFR49aJvaDgI2+FWHxIS8C+zaRF+y0YaW1CnK8+KGQbffcMsUkyCt5NWo/ocp0/8yEPOJT3DvrQDZS/6eaF0B9x2JpfvqAkBj7oIPqkwq0l3F0E6ZnE9uWuQKkzLXytNzjnFlmazjQdBwz1RXiV7zcwE8J4sVtHdw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(1800799024)(82310400026)(376014)(22082099003)(18002099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	XbPmcbT1vnszd+2rjN76v2vylkgF8iMGX7pCbadarYU5dnHUQVRIXjHbYYZwwlDvwh/blXw6Z3tzaLD2RuA1WrAwtj9zVhl2sIEs9DZRxQ5NqoQT3RvnIRy+zLE+Zsa5eP5HrpHmNiIbohT8OAIz541VGsF2abjp8uR3dey+MwQlwDN1poWe6rbIqVYWELQpyWKmnaKV91pbbcaJ8Ge8D7B5alsuTRF4HDC4fo3EKxrs1H7KhEpoiD2FGT2f89nUCCPpQ7t31K1Tr+bQf7ekb16tPlOv0xwQygMK7ZVXFVfMfq2K29B2gZyv2+kOvVULJ7J9b7ELTN2i8XQ17Jemtl7EHOswgYGuyrxEFyV2YVpqeS7BVKGM/aiMtsl1yZRlz2Di2bWVKUgCKdxGxnCCwRJxx5mXBRvSkCUIbjvUPuwFjwyOWR49mYpGhO3/ktIo
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 16:54:58.8676
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01097a04-5a55-4109-943e-08dedc487ad1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF00012E82.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4242
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qtec.com,reject];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qtec.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[qtec.com:+];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66871-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:linux-doc@vger.kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[dlp@qtec.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-66872-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ckoenig.leichtzumerken@gmail.com,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:Max.Zhen@amd.com,m:Mario.Limonciello@amd.com,m:airlied@gmail.com,m:karol.wachowski@linux.intel.com,m:christian.koenig@amd.com,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linaro.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,amd.com,linux.intel.com];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,linux-media@vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:from_mime,amd.com:email,amd.com:mid,amd.com:dkim];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dlp@qtec.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qtec.com:from_mime,qtec.com:dkim,qtec.com:mid]
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_SEVEN(0.00)[9]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 42D2871DFEB
-
-I've noticed some bad wrapping happening in tables, seemingly only in the Media
-docs, but that's also where I look the most, after v7.1.
-
-See:
-
-https://www.kernel.org/doc/html/v7.1/userspace-api/media/v4l/vidioc-create-bufs.html#c.V4L.v4l2_create_buffers
-
-Compared to:
-
-https://www.kernel.org/doc/html/v7.0/userspace-api/media/v4l/vidioc-create-bufs.html#c.V4L.v4l2_create_buffers
-
-Other tables have also changed, but they don't end up this bad, e.g:
-
-https://www.kernel.org/doc/html/v7.1/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
-
-I've bisected it to be f2679ac773899f5fdea0b68d5077eef5f88dfd42 that has caused
-the change, and I did try some quick changes to see if I could fix it for the
-tables, but I didn't get any positive results.
+X-Rspamd-Queue-Id: 09AAA71E0B5
 
 
-Regards Daniel
+On 6/30/26 01:01, Christian König wrote:
+> We recently had another incident where two drivers put pages they got from
+> get_user_pages() into a DMA-buf and cause quite a number of problems.
+>
+> Explicitely document that this is not something exporters can do.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/dma-buf.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 71f37544a5c6..aa5af4f439c2 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -685,6 +685,14 @@ static struct file *dma_buf_getfile(size_t size, int flags)
+>    *
+>    * For the detailed semantics exporters are expected to implement see
+>    * &dma_buf_ops.
+> + *
+> + * It is explicitely forbidden for exporters to expose buffers they don't "own"
+> + * as DMA-buf. This includes pages acquired by get_user_pages() or other import
+> + * mechanism. Not following this rule can create numerous security problems.
+> + *
+> + * It is also strongly discouraged to expose the same backing store through
+> + * multiple DMA-bufs at the same time. This eventually creates aliasing and
+> + * cache coherency problems which are extremely hard to debug and fix.
+>    */
+Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>   
+>   /**
 
