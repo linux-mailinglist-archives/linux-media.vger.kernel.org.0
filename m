@@ -1,84 +1,85 @@
-Return-Path: <linux-media+bounces-66888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66890-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id B3ZcEmAzTWoJwgEAu9opvQ
-	(envelope-from <linux-media+bounces-66888-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 19:12:00 +0200
+	id pdidGogzTWoXwgEAu9opvQ
+	(envelope-from <linux-media+bounces-66890-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 19:12:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D046F71E28D
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 19:11:59 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 187B371E2AC
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 19:12:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=raspberrypi.com header.s=google header.b="s/4bF+yZ";
+	dkim=pass header.d=raspberrypi.com header.s=google header.b=Vu15L3wr;
 	dmarc=pass (policy=reject) header.from=raspberrypi.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66888-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66888-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66890-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66890-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0EB13302960E
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 17:07:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 221F0302A732
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 17:07:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65F71478E36;
-	Tue,  7 Jul 2026 17:06:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79DA847D927;
+	Tue,  7 Jul 2026 17:06:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB7444213E
-	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 17:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA9243F4BD
+	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 17:06:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783443991; cv=none; b=pzl7U5bdcoMgW6LmQbMhp7u7ehY/eV29nTbU/TmTLm4gTxUoOAUdjAOHyzqDEbNsjfsisubNkb2qFXkcSt7hWlrkLQRGbYn8AGrT+/XzgvyzoAkV1Og6B0WAXEihjQpZ/2zqU29FZgGTd0xOi/3PLXNdYL4qYHC0h17394teuuQ=
+	t=1783443991; cv=none; b=bBrGBdyJ1/LJ21YmAQrUQuo0RHclRgSVLH8W+1Fq5INppUUODStWBonHrHaVfrnaEjq2OinEXlkUFI2ZeEZr0vkPV8E3McP1L1bY35xiE466aoIJjfv6VsZ7sBFMve/n031YA39Tt3jQyH9cikxFe1OeQaKm9Jwxex2528g0jfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783443991; c=relaxed/simple;
-	bh=1ncUOOFG8aFwZ1E1ed5HqaMIIZDYZDzkPia0ZCaQGPw=;
+	bh=pL9+Gp3HHNJUFJ9I1yxkiyYvcmYZWduBQ35yDMHh86M=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ukgnlbTkVphIupd+nVrdEs0xqc0y+vYYp/GIeiei9NqC8jqj41uG1RW+fkap7SjOE2fSCU4QRY/wmZ4S82GlGGM3I9FUOWuwV9tkzT27M6oBIhYZPC4p6LO858mmi6HvKDwYfYl7NEFVOkNdjpM81s7jHkiT/PIjmX+/M86GpTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=s/4bF+yZ; arc=none smtp.client-ip=209.85.128.41
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493c2b3dc8bso30747275e9.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 10:06:28 -0700 (PDT)
+	 In-Reply-To:To:Cc; b=u717SQw9xJDb9C0+VW16PzkI1QC4WRfkcBcH97yGjkCIgTq4/KaWBfdS+bFFmB29u5HEPiep58fop+UTTrT+3efQwk5pzwGaF/IYI4ypEi7wAq/7VYQztJM8rqVHPaLWcqGuC6jny5notOhRqDipKfElA/fBSRq9o1UlT4xpyUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Vu15L3wr; arc=none smtp.client-ip=209.85.221.43
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so2407223f8f.1
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 10:06:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1783443987; x=1784048787; darn=vger.kernel.org;
+        d=raspberrypi.com; s=google; t=1783443988; x=1784048788; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6/invQTjEK1SgX9YA4WVxUR62GCT3bwC2Kc2SnLT2WQ=;
-        b=s/4bF+yZaE18RKlJ+zzmUMq8pwZcUZAHGNp4B9pWOLJ5onXlg1Rb/JoPGIHwx3hLeE
-         raSsnLSKOv/fSZPjK4QQ6K5sUdnNo1HugXlO5wziAblG0bT83a/10ZNRlf6TRUani9GO
-         5fiaw2dlGi4oYa+PbDSp5Xm9Hy58sHl+Ce8/N7I835D6iVYgYmyRkL6+1e3ymvyIK8JO
-         9Nqh7o4cH1T/JCsvk3iaYSOXexxMBDG7EGT+OnQcxDHXQ5rMExXsm3vvZjkGGifxL+aK
-         LjFUaHQ2vkUpzIyLYu6Pi0j0z0XztHKMY21axDk7JdnQcRq6gM9R2mLlGWO2S52AMK9O
-         sDLQ==
+        bh=0AxQnxP8jSm74fXyluLhSPK0fT8u8cFN7trYTCmlKjE=;
+        b=Vu15L3wr/OwrRR3Ew+6qkVwHs/OU8q8ZbpOcdwGnSYahSaiuGKHz58XkcY9ikTcUGC
+         tnKZ2R+CS67yrhAjxvsd+susmb+pD8Pw8sTlrfpuFVQt8pi/ldsXItXYmRF6FieSYqK6
+         5OBz3QoKqY+aMoYRv/xJhkkKXavM8ezmbGkSHlrzOEQRGXT/TGxvxidnQ0JNEylAs8b5
+         2WiXQSRVK+NoVW0tr7bfqzRVoJ1zGJSGcZbnVL+fBWb3NfANeGuoDm2SlylJy4GM/7VW
+         3GLm/aJnoACIv4flrzUAxNqSyhNCuCO+r8JWj/ky2GOBcIFRVojaVqbB+TiAfq47gLaU
+         pYNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783443987; x=1784048787;
+        d=1e100.net; s=20251104; t=1783443988; x=1784048788;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6/invQTjEK1SgX9YA4WVxUR62GCT3bwC2Kc2SnLT2WQ=;
-        b=Xyz0TIYDTESHVb/vcVxAgsARM/WdtUoksNvgW+jQrJrfQ+tFv42iDk2PiObnZwKNny
-         kqcWKFGKBLLX0+MVmNCFiqhnJiGgO4vIbm4nI9qY9TG73UX2FttC/aRb7qObut6LUoVY
-         IL0G/DqYb52sxle7/DuTj4gFyVz2NBvnfzHz+ZLlQz0/SPPy71V2m88Wwlftrb24X9mH
-         DemBiehGqFoq+AaHZFPChufA8DWnSzDLZ/WqwuKS+jtGDNzl0345C1c/SE/I53WXhmWd
-         YfWyRicuii3+Y50FYrR8keaYz7A8BTpkGI0i6vP71+x8QmUDBmmogQadGanGWQtIm4dH
-         YZ7A==
-X-Gm-Message-State: AOJu0Yzohgg57bSAEmNuGTutYy0d+GGQXw9nvFdMH2o01wvCa6nXv9eq
-	b1qs8BDiAa/qJeKQTRHSgu0SSSjigAxtDghHF6bzZx5OhbhFKPT1ArXxWMJgrNkZZdk=
-X-Gm-Gg: AfdE7ckb/ECm1NBt2VDLsEz35IK3jbsB/yIv1y8HoyX5o3ibocbZqO+H/yTmJy1Xwy+
-	NIlUXMH/x3277EJTVexwJfXOXfpZswkqhpA40FJD1PL+xW38fDyygB3CRf0BRctv03re3rhzTa5
-	Ru51WER30wZXRivfnr0QsC5t5Nmx6y36+C/EPlw21+zCias5nhGPggIh7wICVAHl2cNOmKnwZU7
-	ztt7vF4qDE4JHGgXPL2IaOL1Hw7Oho+OwtPAPMH6ExfltITfN//NU1AerR0mh6iy286DIJGWzZS
-	asI1kzzXZsfSIXS7yjl4tZXCTkcul25izvTal2qy98vOS/UHEFOm0slnw7PDadoKyDa2rn4ydNc
-	a+V3QuH/VTWE+Uut4HYNlr/dzfl+A1EBLJuGvlNztBWY1rQDT6WRtTUUG033UxrjlJG5hw8isyx
-	eWeeSrLRSV3Nfl/PXYelqMDY653oq34IA3YA9lswU8pI1bNwnMpZtlBw/b8fCkwjB3
-X-Received: by 2002:a05:600c:3e14:b0:493:bc4a:e7d3 with SMTP id 5b1f17b1804b1-493df0a08d1mr67418075e9.39.1783443987256;
+        bh=0AxQnxP8jSm74fXyluLhSPK0fT8u8cFN7trYTCmlKjE=;
+        b=PvuctfHUAiMJw3G2o3d0J+qaoXG8WlP44OcLZx+eSAH95ufB4ELJqCnGysLyvOsazP
+         XAwA8orOUN4Y3oG6M7W2FDO8jICx1yej6E7tmTouxiU4yJ05lEUwXGMgjsNWh28CLQwL
+         Dw5O1s0H/Nk6nLoicLCKzlRQy6gA0Le7rBYSyoMrQ9uVKHu4t1szwCWlZ2amCxfTMHd+
+         mJwa7J6leL8bXNnjQ4Qb2r15c9viK3ATgxj5cGQvzM8z+mi8k6D8jk+09Sa9ozeREkyd
+         fYsyDA9osOVSuE6ZivQ7VFATK5PU8yNXxTfr/a7FqJOAP/9BRS+k2R16x2e7CofDoyxk
+         4gVw==
+X-Gm-Message-State: AOJu0YzeobPQu5JbkFs9SwiyFxPRqhIM//sD7gvS83SeTt8heDWlxJ3V
+	dacJLBIIi0bN48htD1Z1Y09WmKWqfJfGdl1LIoeqXfkwr7lKG8GF2M6r5WiLA9dVoWg=
+X-Gm-Gg: AfdE7ckpWDhq/BdHzdV82ajLDEMRkMeeiCsjN0TIHcgVbGOmVIgGYdgT1eDx27LocrB
+	XYetyxzSmQ1WNxApWmj/oo71Z98ANPFUQrpjF6eK/ilCnDkQlx2v1Mtr0Ows6+4DVi+TPJ4YtBG
+	CankluNFWaXmabp4rnMKF0mSCcDXhIFlTf5a0RFqN7SZcFKRVxK/68vibv031+cvDlksu+gG+AR
+	scAuidZbbnIt5TVluq+7Pag/VMj+pRkGXEloJjldCQnyNSjJuZw+n3NBgryYb6UsMgCOaoRpGdk
+	4RdVw39Oerj6g0FlPMV3eaLkammaLAItcHtMw2RvmHe5MhjFvJSngSjd45FFVrvDpjxPp4wtinF
+	Jmc4i8LXh0cw2K8Jejs37We4qSRNDjTVsUCaB7c0l2JnmMVr2XbiZECSqG5MKiJYB2hlD6boMWD
+	L4+VRNkMVmzn3FK3JJaBBfIJNOd7frvlj9biU9WHPqrIen3Vl4tI3BQr60oJ8Hceqh
+X-Received: by 2002:a05:600c:3f0a:b0:492:7084:32af with SMTP id 5b1f17b1804b1-493df080c62mr67623595e9.23.1783443987981;
         Tue, 07 Jul 2026 10:06:27 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47aa0f21543sm33644487f8f.35.2026.07.07.10.06.26
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47aa0f21543sm33644487f8f.35.2026.07.07.10.06.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 10:06:26 -0700 (PDT)
+        Tue, 07 Jul 2026 10:06:27 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 07 Jul 2026 18:04:46 +0100
-Subject: [PATCH v2 14/20] media: imx355: Set the colorspace in the format
+Date: Tue, 07 Jul 2026 18:04:47 +0100
+Subject: [PATCH v2 15/20] media: imx355: Define the exposure offset, and
+ use that define
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,7 +88,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260707-media-imx355-v2-14-1683ec07b897@raspberrypi.com>
+Message-Id: <20260707-media-imx355-v2-15-1683ec07b897@raspberrypi.com>
 References: <20260707-media-imx355-v2-0-1683ec07b897@raspberrypi.com>
 In-Reply-To: <20260707-media-imx355-v2-0-1683ec07b897@raspberrypi.com>
 To: Tianshu Qiu <tian.shu.qiu@intel.com>, 
@@ -107,12 +108,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
 	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-66888-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66890-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[13];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -121,7 +122,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -134,33 +135,50 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,raspberrypi.com:from_mime,raspberrypi.com:email,raspberrypi.com:mid,raspberrypi.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,raspberrypi.com:from_mime,raspberrypi.com:email,raspberrypi.com:mid,raspberrypi.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D046F71E28D
+X-Rspamd-Queue-Id: 187B371E2AC
 
-The colorspace fields were left set to 0 when they should be
-set appropriately for a raw image sensor. Add those values.
+The difference between frame length and max exposure time in
+lines is 10. That had been used as a bare value in calculations.
+
+Move it to a define, and use that define.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/media/i2c/imx355.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/i2c/imx355.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index c710dda5795b..ff9eaec39fe5 100644
+index ff9eaec39fe5..0b95027983a7 100644
 --- a/drivers/media/i2c/imx355.c
 +++ b/drivers/media/i2c/imx355.c
-@@ -737,6 +737,10 @@ static void imx355_update_pad_format(struct imx355 *imx355,
- 	fmt->format.height = mode->height;
- 	fmt->format.code = imx355_get_format_code(imx355);
- 	fmt->format.field = V4L2_FIELD_NONE;
-+	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_601;
-+	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
- }
+@@ -51,6 +51,7 @@
+ #define IMX355_EXPOSURE_MIN		1
+ #define IMX355_EXPOSURE_STEP		1
+ #define IMX355_EXPOSURE_DEFAULT		0x0282
++#define IMX355_EXPOSURE_OFFSET		10
  
- static int imx355_do_get_pad_format(struct imx355 *imx355,
+ /* Analog gain control */
+ #define IMX355_REG_ANALOG_GAIN		CCI_REG16(0x0204)
+@@ -630,7 +631,7 @@ static int imx355_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_VBLANK:
+ 		/* Update max exposure while meeting expected vblanking */
+-		max = imx355->cur_mode->height + ctrl->val - 10;
++		max = imx355->cur_mode->height + ctrl->val - IMX355_EXPOSURE_OFFSET;
+ 		__v4l2_ctrl_modify_range(imx355->exposure,
+ 					 imx355->exposure->minimum,
+ 					 max, imx355->exposure->step, max);
+@@ -1118,7 +1119,7 @@ static int imx355_init_controls(struct imx355 *imx355)
+ 		imx355->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
+ 	/* fll >= exposure time + adjust parameter (default value is 10) */
+-	exposure_max = mode->fll_def - 10;
++	exposure_max = mode->fll_def - IMX355_EXPOSURE_OFFSET;
+ 	imx355->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx355_ctrl_ops,
+ 					     V4L2_CID_EXPOSURE,
+ 					     IMX355_EXPOSURE_MIN, exposure_max,
 
 -- 
 2.34.1
