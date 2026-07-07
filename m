@@ -1,223 +1,326 @@
-Return-Path: <linux-media+bounces-66821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66822-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Ev/8EHjETGqhpQEAu9opvQ
-	(envelope-from <linux-media+bounces-66821-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 11:18:48 +0200
+	id yiREIp7CTGoopQEAu9opvQ
+	(envelope-from <linux-media+bounces-66822-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 11:10:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93577719A2A
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 11:18:47 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEF07198C5
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 11:10:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amd.com header.s=selector1 header.b=lgOYhPxP;
-	dmarc=pass (policy=quarantine) header.from=amd.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66821-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66821-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=n4mRFohz;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=Vv8ODFGJ;
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66822-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66822-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8264530F4047
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 09:07:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E80723055D14
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 09:09:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C2123905E4;
-	Tue,  7 Jul 2026 09:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC159330668;
+	Tue,  7 Jul 2026 09:09:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010049.outbound.protection.outlook.com [52.101.61.49])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8FC38E8DB
-	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 09:06:50 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783415211; cv=fail; b=kyiA6d+mLEyccmWhCXVsBxEgY3BPkDJaEzpPGSUR7J28yXWCWHktWuMj5E4MyY6jxJHc9XKMlxcPgAZ58tFW6zTMfH+IkpA7prQm+Yx3vw/1NsWcCa/r0u43Dc4QpwE00ajOjAbCi4k+idq+cZMHpGpmNwh7jXPdm3X9UedufBM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783415211; c=relaxed/simple;
-	bh=ZtYiTEqxMhJFcQN7JryrT074taX10g8i+dFIjGREvTs=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=bOss1Yu2SoojcEE5ci5Hjouhe711TfkNsg7r6JGh2dsvEeVUqV/PsympSACS+sRPE1JhYbsjrnRLHuPzIxacONZaAQsrbL5f4kE1oWYB3HUS0UgGA2BV7uC13VfaJ/sAvw46KtOWXL7WRPJ2wB1LUI0dP+9VKmGQZhcp4moNBvU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lgOYhPxP; arc=fail smtp.client-ip=52.101.61.49
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XxZ4vg2e0RkXbUMzsQuvy0+uIMsh28AlVsTXTudXf+4E/3gvs8hOyzjhthe0kprjJ4dFOq0aFIqSWrUhiucVfphRoJVVKRSmt7KlNFI7wvn86ggibxJ6HKGQzWXEH0pml1oJeIOTV+fjgxFXkNTHea5lDa3pzWKkZN8lrIa0ROazADAo1J5ZZfKqy1j3nNBqnyBhnozcPc5BjT/16s/emKJYhQ3FF4wmxExJUbSVw/c+IuArYIehmuZhT0OwgVI8JJpieAjqOQ2M4z3Gm1xcFA/Gn+K4rnH7+rF117jODLcmJuCxceJBTvPerPpp0ixM7hEGdIefk5cplwa6z40GPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9Xy6Gzryvi8zoBnUmvbtNx5jXU5V2sEi+R1eM9hZ9XM=;
- b=JGcAT+W+s/O3WYdN3pYSjZ6PsN7F9z1sMdBJnvbSc+fnL2dWPILjpSGyBjsONFG9WMw2Ei7LwHbAQfDdfGFlPViunZWEJpp577MfOO4arZ9v9KHvXQchOx90yUtUaYanTXIZ1H4g2XbBSOh94oUZJ8feTcpQi8Ueeppclq+AV67hsdj2RYeuVjpzNX/hVK8qWnUayYQMcaFc4PupgfDQ01qt1YrJILujhKLZ+pPCG+6f5kdL/VWV8EP9BYo2rHZHIw1t0CtuRTP/J5WMn83J3t3IQmW03JvD8kWHrn1CVvYpDXy6TjF5PrXhsFvAuiGqzoV2sanyxKxa8gUqNpmLEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Xy6Gzryvi8zoBnUmvbtNx5jXU5V2sEi+R1eM9hZ9XM=;
- b=lgOYhPxPku40mfIS9B4wJ7qjsHEmeydJ+HHT/EcTylZ0ti6yq8byAkq7PV4l0F+RypTARh5TFtGjIScuBpJskl2pWmcZK+N5xwxvWIVuZYxeCaq66Hq6KIlaoqhvEmEkpQJGfLN9J5FvSOgPSJYodJBtuzEWkMUTld9q7I4cmio=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN2PR12MB4333.namprd12.prod.outlook.com (2603:10b6:208:1d3::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Tue, 7 Jul
- 2026 09:06:46 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0181.008; Tue, 7 Jul 2026
- 09:06:46 +0000
-Message-ID: <1293fd6c-4af7-4025-9624-aa35a6b0d4a1@amd.com>
-Date: Tue, 7 Jul 2026 11:06:39 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: explicitely forbid exposing pages from
- get_user_pages()
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- lizhi.hou@amd.com, Max.Zhen@amd.com, Mario.Limonciello@amd.com,
- airlied@gmail.com, karol.wachowski@linux.intel.com,
- Simona Vetter <simona@ffwll.ch>
-References: <20260630080112.1117341-1-christian.koenig@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260630080112.1117341-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0119.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FE438F927
+	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 09:09:24 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783415366; cv=none; b=naC4D363FuJLzuscxd5In8NcEvkmn+I4AWkLBUi86S+1l6jSpDvgE1xidA687CXEHq4BeujucD3zhvmxB4LqFf5Tav1kPQLrgig6VywaCoGb+hLQ6qEqQzZG0pUCqA/eI8I2VOvcTegBk/+zVbkiMjy8EUk8mbFWL9JZ0Qu8GZY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783415366; c=relaxed/simple;
+	bh=ZjIq8ms6DgPyFt63proaPZOnpHgwcqJnrRTOark6I68=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M0kgo7Kix/7Iilo8L60Nxeqxtp2wrkuYedZQxTXC4boMmq14r527E/9/6xCmkED56n15AdbC/dECN7VP2AznGgS367aOIL237JYQIgPFuPIqFNawH7QN3EzOJd0uXkQvhL6k3a2mBS9/sRwnRcy04jXEcMlhdgwQmAJptZP5aNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n4mRFohz; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Vv8ODFGJ; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6678E2U33070557
+	for <linux-media@vger.kernel.org>; Tue, 7 Jul 2026 09:09:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	9hAjrt5nnoYq/p1FQyjrhb8o2fPRkgaWySDGjphpGK0=; b=n4mRFohze28BMRTr
+	2rqL9m2tfUtPuZf5lRG2nAxBTJKe11YMAFBbLoKS6JubHX1DQ3ZB7Ixf+ELa7jyv
+	6ubg3fmiYVwcDIzDdEmahQERgYwLHAeYB+lZs/AvxZpgLPkc12xDlw1JUys1LGSF
+	P71Y3FWQSQvoVH5f+Zatpbcgj7eg3tSP8PUpkFBduVIO+7ssU4UlwNUGIlpvmDLs
+	16c7CIfXKuHCd7gWnze18skZChzy31cgLcWGV8XYloOuqQsRFqLzuit47faQISgk
+	5Ku5ltz/kRMTDvk7tHLaWw+ezRho/BPYZJbJlf6tdZ9cveMlR1KraGdKq96bpu7S
+	ihFplw==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8sm8h6tc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 09:09:24 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c889d1eebafso9747555a12.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 02:09:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783415363; x=1784020163; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9hAjrt5nnoYq/p1FQyjrhb8o2fPRkgaWySDGjphpGK0=;
+        b=Vv8ODFGJtmLHQLd3sR72SoetAwJDKSpgQJzbV65WJIrj1IAMJHAxW/+V6CAjVpYbf6
+         nJ8tEJj6X+RThvde8mhL9Yph/FvNegE2iDCvRdpQknPcWGQ+UsICjP7ZSlSyoBMIYwHC
+         t/nfTGv9wV7plOIcZ73FD2mvWZL+TRrPQhP7lamzfLY+EAhlqeDj23GIatBhGY1SNfsB
+         wHGAaZvcgPX7ry2oWjoyr3uawLITEzADUg389uayuk3asfCjCg81N4LOb+LYvTm6NrLc
+         HU/JXRhEKHX+OxCu0VJM/xMkjUV8YHXC28ywV8sKGvul8OBLiWd19gUZxhd9gUsRSKkZ
+         vSAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783415363; x=1784020163;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9hAjrt5nnoYq/p1FQyjrhb8o2fPRkgaWySDGjphpGK0=;
+        b=U1uNTmlKDjdwqXcMvsKYyhwNzwRhu/P5fLYj9p6krUEMw+bj2oFN3d1+Nbk3QK/DFr
+         WLIn469poQhttWZRFc+4LTqndDnmsUQ0XnAVPt5ttQRkJlIeSdJb9teUGFuBPJRS3gqx
+         esLWifJFz5WPCe8AJ59P3ZBXHVgc7W1tRCKW8Lp344Lbe094LrrPO2k2FehB4unt2O0m
+         pCoEI84Q/mDU+SwwUd+RvXiqvnERvmgWJ45l48ZqcHg7wqm78cc6uWLHm2RaHxKwMVHs
+         vpVYf1+2gYtVgHDt/Xr64p2WB9YAFZOSv1eazSR5rM2DQnvDGsYSch9Ofwzimec7AipV
+         9YFA==
+X-Forwarded-Encrypted: i=1; AHgh+RrxUjfGD033C/ZD2Ch47zMC/Cq2qYuGuC6jRnF6TWtwtJoLL2PQdFNMgWYUawNmTpoNRK2Y7xMF4Tn5Aw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUiSAJL4zuc5QJwQQbhciGRRuZ3y3jrOe3ukwHfuvS0sIlDQAI
+	qFNf1mqO9s+6rdqeJtUwLnUIq5HegsFAg30UarDCtRD7TCZ2cIfF5iEtgD3zt7c0UEKJmMYjBeV
+	bLrTIIA6RmVhxLhWujthSILMI+oBpMdzKWQZpaG9PF+grbIY3AvM5pRJtftslObdq6A==
+X-Gm-Gg: AfdE7cm0UqGd3wxFP1JRdvawMJMlhoB6RhNZjbttml5Y0ZLiX0Di6MthYcsxmCmjjH/
+	RKNbOo3y2Nc8VSBgeAs5XNb8GoePa/WPkugrNLcV/yX7YljDuJsONa0ANrckZC9eGUNKNIG4Y17
+	NrWYERFRZbxGQLFTWUuYG0T+Nssrn1MwYEGHfo9cg8dLLe3XLlm2p/CppJiL/OwgEXnvFH4vTsf
+	2C1sQfKji4JTdhAWVj6dpu9Tk0a0k7VuaO8k/19Oxvu/8qSw+BdoZpuzriPfS8FJOR5qSVBPDnz
+	FUd105Ky1jPuS5gJCHdgRdNDE8QnnfRJcimvnadtQNOKR5emlJO3IyFEVd4aqwDB9gxb1oSarta
+	GDWYA4QSwPuceGPZPw+t1rdvqv3hY7DyEgXMRnBHvGrrU
+X-Received: by 2002:a05:6a21:3997:b0:3c0:9c1b:d0b8 with SMTP id adf61e73a8af0-3c09c1bd3famr2563353637.67.1783415363462;
+        Tue, 07 Jul 2026 02:09:23 -0700 (PDT)
+X-Received: by 2002:a05:6a21:3997:b0:3c0:9c1b:d0b8 with SMTP id adf61e73a8af0-3c09c1bd3famr2563284637.67.1783415362738;
+        Tue, 07 Jul 2026 02:09:22 -0700 (PDT)
+Received: from [10.204.101.214] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659c865asm6435355c88.11.2026.07.07.02.09.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jul 2026 02:09:21 -0700 (PDT)
+Message-ID: <77aca547-1afd-494d-a2ec-35ba9b4d37f5@oss.qualcomm.com>
+Date: Tue, 7 Jul 2026 14:39:16 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4333:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1273d22b-a155-4721-76f1-08dedc07123e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|6133799003|22082099003|56012099006|18002099003|11063799006|921020;
-X-Microsoft-Antispam-Message-Info:
-	7A0gUtzDxaKkuSdTftZ40Eh2kq/wzSzTLo9v+8ZcgSErKLNS73tsvQE8Xrz8Mnal92bu29CgspbElJALNHTpyKTgKIkY5kiScH+cE4dkUz3YQNSa6k7d2IF8jjTGNMvabQ4nBg58TopfqPW+p0KZNSdhQJtgFHSdcyuT60yV2cooXiSaKPg3q5DX3SiN0Rcm78LFFyjqU6vQuEmHAukYJQdauTPsrZRvkNF9UmkZ0oywyUBso3qQ+cxGMjsiVqreHBzheHimWtJmHo9jytBmJIMRYDSoAUEr9N3dq7wRIFgJl7BnBSEqfRxfnBug444hQxyEw6Ub7te2DyCLTb0tS1CxNbxJtvezMHb0GsuYuHSs/oIvYU5o4nknpis8FdKBuuSw528Tkc2C1NZR663Leu8IoyB18ZUEiVkyBMS4V36wpdhnaXET6KRvPdIx6hbgV5wgk9uPXcJu4CNSOBg1Pe/hL3YL9xyiQzk3+Po5eKqVBmws7g2BuZ3bMQu/0Zfxeb6Kc+jLDafWfMlXMruHa6E5LWIXwVFjXktNil63Yk7ws0r7ihFWGF8FoRPxgzdQk4TnwnJ9qf0Xkl/11VVRjqSF9QXhSlF/ai3ACC5VdglXQ2lCXpL4r3wzTfiNz5XFOTlPRjqCwDEPh7x67dLT6HPPcPSoD6tFXiuCTfzepHj+GB+PXFsSlB/WW4n9wzn9T6PGs8kovLGHlcoyfduH6Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(6133799003)(22082099003)(56012099006)(18002099003)(11063799006)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eTBRbnFnbDNLNGZwT1BVSm5mdWxWNzhwSGx1ZUprSHBvajA4Nk1JUDF0c2xC?=
- =?utf-8?B?M3pyZTlBNUNXSElMMVM4SW1PdlJZSG8rdkJNMW1LVk9yRW1MQkVteXZNNk8x?=
- =?utf-8?B?OUZPMXBKdllXTHdxQ2pheHZhQzFISERTTWd6Y2ZQWGRtTHQ2TXpjQzhPenRT?=
- =?utf-8?B?SUFMaXlqQkhJeThZTlUrTXdaMXNXN2N6Y2VxZmlGcXlrRURQU00wMm9PbjVt?=
- =?utf-8?B?d29XK2V1T2srK2ZrcnFKV3pwR1lzME9WalJXcngzTHZyVkE0WlNJakM3b0Vo?=
- =?utf-8?B?ODUwVG41Ynh4UlI5UlJQYkJzbVRHRTRBcytodG9jRGY4a1djNk1XQmt4OGJ1?=
- =?utf-8?B?TzdWWWVZaGRhN24yYUt5OU9NMmhTZjVNd1RWYWxUd3ZFeHNKVnUzd1l2VjJq?=
- =?utf-8?B?bGM1dzNwR3hBNk5SMzVybnZ4Z21pcWpOVVJEZENKclg5ZGJOVWxlODgxWDBr?=
- =?utf-8?B?Y0RLTFlYWHYzL3lKODdqV2Q3UWZadFBjeUtxSW9GM2o0T0toQytxNExmWUVk?=
- =?utf-8?B?Wis3Z2lwYmEvNGJzK2pxRnhWaUcxU09tR1dxTHo2WkJHRC9jbXpEc25UT1ow?=
- =?utf-8?B?S0ZRbnJrTmQzaWh5QW1WZmJXVU4xdmZxMEdWTlh1cVBGd3YxUW1hQ0Y2MjJx?=
- =?utf-8?B?dUd3Yk5EU1lSMll4dVgrMStJZGNJbGhmdk45bW14a3FHY3dKUHlvTHZta1Zj?=
- =?utf-8?B?b2d0S0s0cHJZcWVuMVJrM1VHRWZVQmd4QUN0M1A3VzhNNHRqb2VETXFkeE1q?=
- =?utf-8?B?Ymw4Mk1YaTdIa1FPdTBBaERLZ2dQZTN4L0hFM0E5T0dpQWpTR2h0NnhESE1r?=
- =?utf-8?B?cSs1eUR1U29lc1FXaGIwdW1MM0VHNFNOZWV0Mzc2WTQzdGx2REswUDJDcDhG?=
- =?utf-8?B?cVh3aXBXQUQrWjVteHNoNkhnbllEeUVzZTR5T1VHRUFLUkU5R1BEdWlsdzYw?=
- =?utf-8?B?a24wUXJlMTNVL2RlU0E0RGhYQmttTkFBR0lJK2VWaXhqaGVieldWMUE1bjRa?=
- =?utf-8?B?eEpzQ0hWZmlndWloK0NXU2xJZFFhT3p4UUJ5NS9KbVFBa0FhOVArSGI0NDFR?=
- =?utf-8?B?SlgyaUljcklRT1FlWEJEcEk5OEp5UjNRbHljbUZEUWptNTZyNlJob2ZPVWRl?=
- =?utf-8?B?WGkrL1lNdHZLRlJLYVN1cmJsalVSSHNROFhoSlhsRFI1Rk9TUEUrRXJsMFhH?=
- =?utf-8?B?S3hzMVJHL3VzM0Y0NW5CWmZhQ0l2bU14cW10a3U3ZUhQRExlaXpBWFpXUlMr?=
- =?utf-8?B?dzJhaWVWbnZhemZUL1Q4dDNmT2NHK1FBcUNVRHlOVzY1MFZoaFBhOVd6c0w5?=
- =?utf-8?B?Rzl3NEliVFQwdDhCd1FramFiQ21YNUZLMCtmekhjUXF6b0RxblVHelVmaUNm?=
- =?utf-8?B?QTlEeWZMU3BiL3pqVjREczBnd0hUWTdCV3JwR0F6dStDQlgxaml1aERHTGlt?=
- =?utf-8?B?WVFKeDVzcWY1eVBxQmpzdjFhZU9zZXB0WGpncXk5UlV6enlKUlNHTTF1bnht?=
- =?utf-8?B?UmxNNGN5Nk9ETEdWNGZjNDl0d1QzQXV2U2RRTnVqbFc4Zjc2RE5ZQlpZdXFw?=
- =?utf-8?B?L1gwbE5aV0Q1M1FnSzQ4dnhwVFdSRjJjZjJ1amlYUUdFbWdSRDk2d3Q4RmZR?=
- =?utf-8?B?V3d4VXhsSFRvNDdlVVJTYWhVOTNncmxKcHd6TE1PS2xBRmFnQzBwOUdJWlFE?=
- =?utf-8?B?OW1kQS8vUlM1VXpDUWZmWmIvRi9XWWlid05Ed01BZTFjakZlOXV3TkFGaVIz?=
- =?utf-8?B?c2lhbytQcWtSRlJNVE5vZDN6RWxwazhUZk1VMjYwTndLZk9aUGNyUzA1YkNZ?=
- =?utf-8?B?dVJmNDhnaEc5bCtkcURmRjhnMytXV29oYnNJM1BYdWQyTGFqSFg4S0VIR3lm?=
- =?utf-8?B?ZkI4RTg3K3FPMENIWHhKNnZnRXBSUllwaGplZThLOTd5YW1SOFBRTlB1VHJv?=
- =?utf-8?B?eDhpZ3doMWdmWEZZbHJqTzluVVJqWmNxQVdCaHdVQ0pHUTVlbWJuOHRNbnJj?=
- =?utf-8?B?N01leDduWTA3UndoNzhQNHord3VYOU9uNlNWdzdFOUp5dVJOWmtxQUhNci9S?=
- =?utf-8?B?cnp1TjVyVmIxaEsvT1h5UHdDWG03a0ZoVithQlYzSEQvakdzSzlBY0xiZE1m?=
- =?utf-8?B?S0MyOFRWQ0pma29BMC91WUpkeDJubE91cWJCYnBhTWFCbTYwTG1xNFE5SVRV?=
- =?utf-8?B?ZHFMVnJwd1Zmd3JVOW84MkllQ2MxQ0VsWTE3NlVuTTN0cHp1djUzRGhJekpw?=
- =?utf-8?B?M0MxZ0h5NkRaN2xEM2xpUU4rMFZDNHdaT21ZZE9KczkyT3BqRXY4aVVIZmtv?=
- =?utf-8?Q?4HQhbKSTa4tbU8azRm?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1273d22b-a155-4721-76f1-08dedc07123e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 09:06:46.5639
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TVy4ZoL6rkbU8qUDNKQZ7wzYFQbdlDS4lO8aPpWfJyyuv0JaWrDSPJSlvSnsTM4h
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4333
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: iris: disable time-delta-based rate control
+ for VBR
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Gourav Kumar <gouravk@qti.qualcomm.com>
+References: <20260707-qc10c_fix_and_disable_time_delta_based_rc-v1-0-33fa130bc535@oss.qualcomm.com>
+ <20260707-qc10c_fix_and_disable_time_delta_based_rc-v1-2-33fa130bc535@oss.qualcomm.com>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260707-qc10c_fix_and_disable_time_delta_based_rc-v1-2-33fa130bc535@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDA4OCBTYWx0ZWRfXxCKQJJt7nFk0
+ zySa2stjldle7xBrON+SVLfEELi5B3wWA42uzY0Nz+d+veo7E1324e2xXfdzmaFdNMZs3rjlpuU
+ RyjOdp/yBlISh7r8gr/kMvuFEfFSU03tnox44V6aKe8G8bnMB0iNJiDP4UFxNlDajJ1MT6MOk6d
+ tAkv20TMRV/y/INr/7l/aZ2zQH2R7aYCRzxT+2/48ppkQTso3syXmk7lIXHNlCcq6ODXg3k8PCa
+ giluV4PSwNELBTLAxiS4iWT5nG60xV07NzaS2uWyu+gvOsGH3YtfIt4Tnxf0UzUzoHDcHjZkzB5
+ 0KWs1E3gJGC3IMjyVihwo2Jn42jk5zSyS7Nm8DXZNPYQYPvhh8Y1U4lYZ4CnSe1MzgqXk8axAHp
+ 380klR6BMufkgsew4wJRTctDWeVRUBsQMqKDEm1CWiUaKtLwUGlxv/w9c5kqKMEGVPGnY9oFh5E
+ ekFKjYJ7Nle8C08K1Jw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDA4OCBTYWx0ZWRfX0ftV22SpW7zg
+ WPH/QlQ80jSGUNNsCBpAA4DjxXbpyJNVe/7VnoWmkBX6aqBHR8waM4ZHbpyebcFnjhUmTVOOq5n
+ gtTZ3z+1VUc9KsW+KpRW2Cvy5XxTQIw=
+X-Proofpoint-GUID: DyTIuYOCvRGjtLszvCEGAHYZvsDRgmtp
+X-Authority-Analysis: v=2.4 cv=UvdT8ewB c=1 sm=1 tr=0 ts=6a4cc244 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=Ce3FUQhJh8VfwZ4kZc0A:9 a=QEXdDO2ut3YA:10
+ a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-ORIG-GUID: DyTIuYOCvRGjtLszvCEGAHYZvsDRgmtp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-07_02,2026-07-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607070088
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66822-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-66821-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ckoenig.leichtzumerken@gmail.com,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:lizhi.hou@amd.com,m:Max.Zhen@amd.com,m:Mario.Limonciello@amd.com,m:airlied@gmail.com,m:karol.wachowski@linux.intel.com,m:simona@ffwll.ch,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:busanna.reddy@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:bryan.odonoghue@linaro.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:gouravk@qti.qualcomm.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linaro.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,amd.com,linux.intel.com,ffwll.ch];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[amd.com:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:from_mime,amd.com:email,amd.com:mid,amd.com:dkim]
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 93577719A2A
+X-Rspamd-Queue-Id: EDEF07198C5
 
-Gentle ping.
 
-Apart from the spelling mistakes Sashiko already pointed out, any comments on that?
+On 7/7/2026 12:05 PM, Vishnu Reddy wrote:
+> From: Gourav Kumar <gouravk@qti.qualcomm.com>
+> 
+> The iris encoder driver was not sending
+> HFI_PROP_TIME_DELTA_BASED_RATE_CONTROL to the firmware during encoder
+> initialization. Without this property, the firmware defaults to
+> time-delta-based rate control (enabled), which calculates the output
+> bitrate from actual frame timing rather than following the configured
+> bitrate target.
+> 
+> This caused variable bitrate (VBR) encoding to produce ~5x configured
+> bitrate. For example, with video_bitrate=896000 (896 Kbps), the output
+> is ~4.4 Mbps instead of the expected ~896 Kbps.
+> 
+> Time-delta-based rate control is designed for variable frame rate (VFR)
+> scenarios where the encoder adapts to actual frame timing. However, when
+> an application explicitly configures a bitrate target, the firmware must
+> follow that target regardless of frame timing.
+> 
+
+same here, we can drop the new empty lines
+
+> Fix this by adding the TIME_DELTA_BASED_RC capability with a default value
+> of 0 (disabled) and sending HFI_PROP_TIME_DELTA_BASED_RATE_CONTROL = 0 to
+> the firmware during stream-on, allowing the firmware to use the configured
+> bitrate as the target.
+> 
+> Signed-off-by: Gourav Kumar <gouravk@qti.qualcomm.com>
+> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+> ---
+>   drivers/media/platform/qcom/iris/iris_ctrls.c         | 19 +++++++++++++++++++
+>   drivers/media/platform/qcom/iris/iris_ctrls.h         |  1 +
+>   drivers/media/platform/qcom/iris/iris_hfi_gen2.c      | 10 ++++++++++
+>   .../media/platform/qcom/iris/iris_hfi_gen2_defines.h  |  1 +
+>   .../media/platform/qcom/iris/iris_platform_common.h   |  1 +
+>   5 files changed, 32 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.c b/drivers/media/platform/qcom/iris/iris_ctrls.c
+> index 10e33b8a73f6..f6136e655b98 100644
+> --- a/drivers/media/platform/qcom/iris/iris_ctrls.c
+> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
+> @@ -1477,6 +1477,25 @@ int iris_set_layer_bitrate(struct iris_inst *inst, enum platform_inst_fw_cap_typ
+>   					     &bitrate, sizeof(u32));
+>   }
+>   
+> +int iris_set_time_delta_based_rc(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id)
+> +{
+> +	const struct iris_hfi_session_ops *hfi_ops = inst->hfi_session_ops;
+> +	u32 hfi_id = inst->fw_caps[cap_id].hfi_id;
+> +	u32 value = inst->fw_caps[cap_id].value;
+> +
+> +	/*
+> +	 * Disable time-delta-based rate control (value = 0).
+> +	 * This overrides the firmware's default (enabled), ensuring the
+> +	 * firmware uses the configured bitrate target rather than calculating
+> +	 * bitrate from frame timing.
+> +	 */
+> +	return hfi_ops->session_set_property(inst, hfi_id,
+> +					     HFI_HOST_FLAGS_NONE,
+> +					     iris_get_port_info(inst, cap_id),
+> +					     HFI_PAYLOAD_U32,
+> +					     &value, sizeof(u32));
+> +}
+> +
+>   int iris_set_properties(struct iris_inst *inst, u32 plane)
+>   {
+>   	const struct iris_hfi_session_ops *hfi_ops = inst->hfi_session_ops;
+> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.h b/drivers/media/platform/qcom/iris/iris_ctrls.h
+> index 3c462ec9190b..10e046722ad3 100644
+> --- a/drivers/media/platform/qcom/iris/iris_ctrls.h
+> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.h
+> @@ -47,6 +47,7 @@ int iris_set_layer_type(struct iris_inst *inst, enum platform_inst_fw_cap_type c
+>   int iris_set_layer_count_gen1(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
+>   int iris_set_layer_count_gen2(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
+>   int iris_set_layer_bitrate(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
+> +int iris_set_time_delta_based_rc(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
+>   int iris_set_properties(struct iris_inst *inst, u32 plane);
+>   
+>   #endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2.c
+> index acc0ed8adda1..d119ad599c31 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2.c
+> @@ -416,6 +416,16 @@ static const struct platform_inst_fw_cap inst_fw_cap_sm8550_enc[] = {
+
+targets other than the one using inst_fw_cap_sm8550_enc ?
+
+
+>   		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
+>   		.set = iris_set_bitrate_mode_gen2,
+>   	},
+> +	{
+> +		.cap_id = TIME_DELTA_BASED_RC,
+> +		.min = 0,
+> +		.max = 1,
+> +		.step_or_mask = 1,
+> +		.value = 0,
+> +		.hfi_id = HFI_PROP_TIME_DELTA_BASED_RATE_CONTROL,
+> +		.flags = CAP_FLAG_OUTPUT_PORT,
+> +		.set = iris_set_time_delta_based_rc,
+> +	},
+>   	{
+>   		.cap_id = FRAME_SKIP_MODE,
+>   		.min = V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED,
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+> index 776b21cd11b2..8766d9e49611 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+> @@ -67,6 +67,7 @@ enum hfi_rate_control {
+>   };
+>   
+>   #define HFI_PROP_RATE_CONTROL			0x0300012a
+> +#define HFI_PROP_TIME_DELTA_BASED_RATE_CONTROL	0x0300012b
+>   #define HFI_PROP_QP_PACKED			0x0300012e
+>   #define HFI_PROP_MIN_QP_PACKED			0x0300012f
+>   #define HFI_PROP_MAX_QP_PACKED			0x03000130
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index c9256f2323dc..99dc6d5c72ba 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -183,6 +183,7 @@ enum platform_inst_fw_cap_type {
+>   	LAYER3_BITRATE_HEVC,
+>   	LAYER4_BITRATE_HEVC,
+>   	LAYER5_BITRATE_HEVC,
+> +	TIME_DELTA_BASED_RC,
+>   	INST_FW_CAP_MAX,
+>   };
+>   
+> 
 
 Regards,
-Christian.
-
-On 6/30/26 10:01, Christian König wrote:
-> We recently had another incident where two drivers put pages they got from
-> get_user_pages() into a DMA-buf and cause quite a number of problems.
-> 
-> Explicitely document that this is not something exporters can do.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-buf.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 71f37544a5c6..aa5af4f439c2 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -685,6 +685,14 @@ static struct file *dma_buf_getfile(size_t size, int flags)
->   *
->   * For the detailed semantics exporters are expected to implement see
->   * &dma_buf_ops.
-> + *
-> + * It is explicitely forbidden for exporters to expose buffers they don't "own"
-> + * as DMA-buf. This includes pages acquired by get_user_pages() or other import
-> + * mechanism. Not following this rule can create numerous security problems.
-> + *
-> + * It is also strongly discouraged to expose the same backing store through
-> + * multiple DMA-bufs at the same time. This eventually creates aliasing and
-> + * cache coherency problems which are extremely hard to debug and fix.
->   */
->  
->  /**
+Vikash
 
 
