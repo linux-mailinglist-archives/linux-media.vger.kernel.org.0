@@ -1,84 +1,85 @@
-Return-Path: <linux-media+bounces-66870-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66871-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id xACmGFEjTWq2vgEAu9opvQ
-	(envelope-from <linux-media+bounces-66870-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 18:03:29 +0200
+	id EfPpAostTWrTwAEAu9opvQ
+	(envelope-from <linux-media+bounces-66871-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 18:47:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6E671D9ED
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 18:03:28 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D2871DFEB
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 18:47:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=VoVvfp55;
-	dmarc=pass (policy=none) header.from=linaro.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66870-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66870-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qtec.com header.s=google header.b=eQBqHDln;
+	dmarc=pass (policy=reject) header.from=qtec.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66871-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66871-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C6F6B300D78F
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 15:49:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 112BD303C4E7
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 16:40:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 326BE4302EE;
-	Tue,  7 Jul 2026 15:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BCC5436BC3;
+	Tue,  7 Jul 2026 16:40:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF28426403
-	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 15:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083873EB10D
+	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 16:40:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783439386; cv=none; b=Dim7Y7lMo+v3VUV5QmFpWW1X1lgVwfzZ36k+sAGRRmYmt3HyouaGPQ0dVEAdMD+iVK4CFXkV/pyMOJret/C7L5F2QSKfoBdbtbdmSk3vVz8mliB7ADQZx4pwTSqLF5w/7OpOKKNXQugAlGRSlHWgp8n2h1l3lrFmbhMZh5kWu5k=
+	t=1783442405; cv=none; b=cvNB7uUuCLaV8EeXVtItrTZ/gHUm8csqZpm4w6+4/OIjFLVe09AEoQJj5y15RNH5KTcsc5+D+lgLbTKFT8vMDHo4M713tiuTA36JCZg6DB90HRnZMDCVQQFG/fgweZP2qC1Nwsv9yMSuTg/SFlJnhcNgJTnr/ZipJKyd+BcxDkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783439386; c=relaxed/simple;
-	bh=BqX/raJZq/M+26MMxkIWhMYO1ENqNToaygyKe2/Aq0o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kPIztDeuRmZnhAxvpKFrebPqoD7Z6ZN5sXD5S4Lmn9iBnEgEWQ23xqRzb4nI8/d7FR8c0fIpYmo32n1uxHQhAdeGcxODmTurwz5BZiNAJrWWqAYvbGlumGZfO6Tci1+n3aZWhJtdG6Hwhs0UNa8Jcl6mKIivsrzCzjf6zz3mUC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VoVvfp55; arc=none smtp.client-ip=209.85.221.48
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47d70879764so1858757f8f.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 08:49:44 -0700 (PDT)
+	s=arc-20240116; t=1783442405; c=relaxed/simple;
+	bh=2g2ASA9uUL2czsgfiQIRKQkJeCQtFlrYYz9gpwAoSRw=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=hk1eBQW+P0kG6URbtY/5S46AHpgjyGXxtQzHReDc9jc3Hka68zmlDJMgrKsESaZqHGBOUcmxWUGdXVbBrhAcmPUAracDRSE/R7FTdw7pJQUzyMC27rv7k69rMq1AevzPR50sclB71fn/HsAHe1u5xsFNJG8wiLjlQAol/hcd/nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtec.com; spf=pass smtp.mailfrom=qtec.com; dkim=pass (2048-bit key) header.d=qtec.com header.i=@qtec.com header.b=eQBqHDln; arc=none smtp.client-ip=209.85.167.54
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aec6360133so3303366e87.1
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 09:40:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783439383; x=1784044183; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yoBSGIBvFJoYUlGX0ow4ClOW7y5+xBVzJYsazX/Ju4I=;
-        b=VoVvfp55/g7v1m0zkRi9e+J3LCUCLk310UH4aO6cV62pJ25Fao6IGJJUsxs8fZ+7q2
-         GYlVgl6axMQpP1DDD/sLudWX+XkqjlRfXlaIlv98ZWjUAozkmd78J70Q8Np7glbxzQ5G
-         PRwKUA2HEDAq06fQxk2mSSa4MJk5mizX/LowPJJYrOr/u5xXlWvW2WOXAQuSGvBDlDvX
-         W02TqwlDnOjFmdwRNgGfz/JTqjoO4dOloqkeisDBmG/8fumvxokdcGxN/0/B1VMIyglt
-         NNkY0is45TT3lxum5edDjz6o+vY5GtYh+pRJac16vl798e6bMBCdmjaK6AA3TaFcq/lS
-         6ihQ==
+        d=qtec.com; s=google; t=1783442401; x=1784047201; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=2g2ASA9uUL2czsgfiQIRKQkJeCQtFlrYYz9gpwAoSRw=;
+        b=eQBqHDln1HfzUDQDgL9i7Arg6YfeyuwFSpC5x4wN+DyBKhKT3ofLuqFoaJER+/CvDI
+         VXjX0jKoyZ6+lwpgrZdjN2Sow2scsh3p3mM63aSoSKQ+Q/hfRb9U4FNYcDqtYFNBWNks
+         VMFPXzVSyu8g6v7xWrgF6z7fqRqQhBzXD0He8ov5d1+R34qdYtVyyezhmDo81fbeVyT2
+         4/wLPooJCmJE2w5s4JS192L8hyhrSw2GIlI1/Zpp3M53AYg091uVKN0Z2CnPDXergLZu
+         SWC68cNRykCR6UxDXVmlHnzQayjgtSX95heG5shAZm3rPwKnet4LWtn+lO5pH18udiEF
+         te9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783439383; x=1784044183;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yoBSGIBvFJoYUlGX0ow4ClOW7y5+xBVzJYsazX/Ju4I=;
-        b=sL6AiSq3Bd3hG5YIAiLwBPCVVShZh6GNrBg/nvxbvunB9TOtzcS5/J5lgjWQQwVNBk
-         TtV8uCCyRo5Avh/sDp8dfEXDjNwAyg/e5gMDBCgnfGZDa/bQ0l1ohqKeaz6JHgDVHXEw
-         G0vWZmn4mGxgOhdAFpX7p/xjw6qv+ybLic+u1fwqK4u5GmyWyTJcrTolqiX7lgYtdarJ
-         T73WOySd3sJfFqLaJCOppg6mgdJGgt0F9HjCEt5HiWL7L66GY2g9tpvMRrFiNLyf4cvV
-         O2g/AOMy6vGo78Xe4opj9Gzk/Sy/QxP8pb5AeThM3ooSCrZ9oceMpryRhgxLMTInM4CQ
-         aVxg==
-X-Forwarded-Encrypted: i=1; AHgh+RrQrACU7dKgzrDBMk1D6gNe6YwfaXNkAkknGwyIpankurWCdYiA11qqPIcIMc9HdmGgwy3AtwgFVPVceQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQADD1tAgs1myWH+LjkgTuEjFIEuAYmBi29YvIF8iZpvYEFMeT
-	v+vh/eg+txaGQAl3imwz1tiIonbCqOtXrI7XJ2t6yobaXDpvbMgF8+hvpkJ0lAOefgI=
-X-Gm-Gg: AfdE7cl4VSQ6PlR96UAPqNtG/D2e8Pbz/dNbcuNMmazv4FHRxJOFZ9QgBp3kuxZN1ki
-	6MkPaBCZq9F+3tlafg+XGR6ES48VpayKCK/kfxW7DL1ZJ5u+axM8iPttU/C99qSdNrG+hsZULO5
-	sJD/TgXGCGEzg+/taWRlg8LTNiByG31bG2gJwCPspt5SqOaO9WlpuMLTG+nK6nglA4uAtQdQGPF
-	beQ73+gq1TgdZTFoqaLXhyEhYdmccjARJKkp4u3GjQFTjAIWd9vqPL+G//EHNP0EYRjodnKopU/
-	AUBFJM9H3jplXmboimD8PM0qpKrhQvofvrN6Pd1FnlarHyCYdXW2iC+dyIUNICxnq2IiggSnrYU
-	XKPmlRZyCNpHOS3DuURyFMhzbNRs4rIGGqOtkvk1Ob1XHIJbvUOeu6hSGzNwn0ali8ragHNiced
-	/hubSrgljeUBHYLF3OMuF5GN0H
-X-Received: by 2002:a5d:5089:0:b0:46f:398e:f31 with SMTP id ffacd0b85a97d-47de665b35amr5095812f8f.20.1783439382700;
-        Tue, 07 Jul 2026 08:49:42 -0700 (PDT)
-Received: from [192.168.0.101] ([109.77.92.41])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039b0cesm35170317f8f.22.2026.07.07.08.49.41
+        d=1e100.net; s=20251104; t=1783442401; x=1784047201;
+        h=content-transfer-encoding:content-type:subject:from:to
+         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2g2ASA9uUL2czsgfiQIRKQkJeCQtFlrYYz9gpwAoSRw=;
+        b=BPj5dQD6EvLe78CiIU7ClKdHglYBLlTzo6JFs3+DkLFjriRtuxpPiXnF11a6uo828i
+         vumy6VhcT8STHMJJetBlj+YrhtVOrS3jsH+TA05gDGQVlxuO8Sn7aYi4YTr6eNwS8d1x
+         dze/U/+jM2Y8E4ZBLGwNs9EgTXy4nCC/lc9xxDTngeGozlvwOOSBTApIqFND0DVbcxvR
+         r6ykBPWn4V3LjTmrlV4HM+niemdP/eHg4fQj0TP/ReF5I66njtjLSkY3lrBqswokHMva
+         f+hjdNRSEeNDmngR7WmYLzwQS/FfR5DwziVKLQn1vxaw1tjwgbyI3LMw56QU4S5l0da4
+         sTNA==
+X-Forwarded-Encrypted: i=1; AHgh+RoDPTA7Rt91K07pDqF57BkjqnYY65f3FT731K37RiPTIdYzRDw6yOjRaU7rr/Lxj4F7eph/8hTeIcVzzA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHgbBRoVhfXiMDwdjcNFNr2TQP227OWfnNKuoDsvA8I2L2VuPE
+	zr/AzhVykR64pEVXUlf1lS1lCC7sYux7oWfBxk/mzI5k9RMbVfRLP7Wd6Dd6lXlVdyNQXpD4kxb
+	GKgXQIAg=
+X-Gm-Gg: AfdE7ckFvs8a7jMnUCrqfF0YMn7STvzARq2KRXYZTrIsJJ/Y0IODb/DcYFCGGvaDu36
+	4KUQbT2MZ9DfW/0Dwh/N7gWHTGwnoz0WTbDESxAI03UFT4Dw/lB7/HB3vaOY9XRBnbiq5UbtxQD
+	d/riOjVJG3FnnQn8diWLYX+XbwxT1dIBzFwqhnnOo52y5j4CfYK9VY6NvgcANX3F26WeFmtTQpn
+	pz+L4OUlH4Ho8Fw3j54wYrYdfaFvmVjn9Ahr3WtbugW21p1x8HgPcW2cTtTR8J/qEVObXx9CE/G
+	kKjhVHy8YyUR4Xwmz9BNScR+xnkAxFHwOloNnO+7O92s5A28eEfPuz2sii4gFy4MUGgF3NMRJTu
+	6HdXuv4qWnCRqLVhbHfz/k4IBX4hmBh2w3BmQEuoea8SzWexdXincQ+dA2lupnkRVlNYIJjFJBy
+	vNsNJP0hgVyYZj/EeIsbVMhGKGsyLwlPX9kSjOpbP8AwXEFGoNNrDX/EPOygfpnV5gqhMqHFBZ/
+	pQ1Q2fBDTSjGgUNv6aMTcTLQTrmQS2/VUQBf17266WJJYSLgIQiVBMsRV8irtviwfSMQQ==
+X-Received: by 2002:a05:6512:6891:10b0:5ae:9d0f:19f2 with SMTP id 2adb3069b0e04-5b007b6eceamr990918e87.3.1783442400860;
+        Tue, 07 Jul 2026 09:40:00 -0700 (PDT)
+Received: from [192.168.2.43] (cpe.ge-3-0-8-100.ryvnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed13bb774sm3864861e87.48.2026.07.07.09.40.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 08:49:42 -0700 (PDT)
-Message-ID: <85940a25-4897-4983-a328-89b328fbf1e0@linaro.org>
-Date: Tue, 7 Jul 2026 16:49:40 +0100
+        Tue, 07 Jul 2026 09:40:00 -0700 (PDT)
+Message-ID: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
+Date: Tue, 7 Jul 2026 18:39:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,80 +87,66 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] Add Qualcomm JPEG V4L2 encoder for SM8250
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@nxsw.ie>
-Cc: Bryan O'Donoghue <bod.linux@nxsw.ie>,
- "Gjorgji Rosikopulos (Consultant)" <gjorgji.rosikopulos@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
- linux-media@vger.kernel.org, loic.poulain@oss.qualcomm.com,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
- <68e59764-5a10-4abc-849c-14ea2d9ef76e@linaro.org>
- <d74d7839-d126-427a-b151-ca895a27a83e@linaro.org>
- <7e36238b-96ac-4269-a6e5-0a6763e437e7@oss.qualcomm.com>
- <4a2c098f-5d46-4339-9b09-e0ace37e4052@nxsw.ie>
- <w6imdnlo3xron3f2cw7fq5jtwcgvyijciddxjftwf46kltjjqx@inipxbghzngc>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <w6imdnlo3xron3f2cw7fq5jtwcgvyijciddxjftwf46kltjjqx@inipxbghzngc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: linux-doc@vger.kernel.org, linux-media@vger.kernel.org
+From: Daniel Lundberg Pedersen <dlp@qtec.com>
+Subject: Bad wrapping in some tables
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[qtec.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qtec.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66870-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qtec.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:bod@nxsw.ie,m:bod.linux@nxsw.ie,m:gjorgji.rosikopulos@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-66871-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-doc@vger.kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[dlp@qtec.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dlp@qtec.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_NONE(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:from_mime,linaro.org:dkim,linaro.org:mid,vger.kernel.org:from_smtp]
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qtec.com:from_mime,qtec.com:dkim,qtec.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4C6E671D9ED
+X-Rspamd-Queue-Id: 42D2871DFEB
 
-On 07/07/2026 14:22, Dmitry Baryshkov wrote:
->> * compat="camss-bus"
-> You can't change compat. There is no separate "camss bus". We have camss
-> block on, say, Hamoa. Or Glymur. Or CoolPlatform. This would mean
-> exactly qcom,x1e80100-camss, qcom,glymur-camss, etc.
-> 
-> Then, a part of that camss device we have all the IFE, PHY, JPEG and
-> other blocks. Each of them having a separate compat, etc.
-> 
-> But, there is no "camss-bus" (okay, there is a camnoc, but it is not
-> represented as such in DT).
+I've noticed some bad wrapping happening in tables, seemingly only in the Media
+docs, but that's also where I look the most, after v7.1.
 
-Well, perhaps we don't churn the compat, or we add a new one.
+See:
 
-TBD
+https://www.kernel.org/doc/html/v7.1/userspace-api/media/v4l/vidioc-create-bufs.html#c.V4L.v4l2_create_buffers
 
----
-bod
+Compared to:
+
+https://www.kernel.org/doc/html/v7.0/userspace-api/media/v4l/vidioc-create-bufs.html#c.V4L.v4l2_create_buffers
+
+Other tables have also changed, but they don't end up this bad, e.g:
+
+https://www.kernel.org/doc/html/v7.1/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
+
+I've bisected it to be f2679ac773899f5fdea0b68d5077eef5f88dfd42 that has caused
+the change, and I did try some quick changes to see if I could fix it for the
+tables, but I didn't get any positive results.
+
+
+Regards Daniel
 
