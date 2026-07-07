@@ -1,87 +1,93 @@
-Return-Path: <linux-media+bounces-66865-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66866-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 1gM+DVMaTWqQvAEAu9opvQ
-	(envelope-from <linux-media+bounces-66865-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 17:25:07 +0200
+	id l/89NnsZTWpivAEAu9opvQ
+	(envelope-from <linux-media+bounces-66866-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 17:21:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3737171D3B6
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 17:25:06 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BB771D342
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 17:21:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="jm9LUGO/";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=mGbdwmO1;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66865-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66865-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66866-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66866-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5E14830BF866
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 15:07:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 52C993101987
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 15:07:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E41142CB0C;
-	Tue,  7 Jul 2026 15:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EBA73E7BC6;
+	Tue,  7 Jul 2026 15:06:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2EA3E2AC9
-	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 15:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BF6379981
+	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 15:06:31 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783436781; cv=none; b=pwDCZFn4HlNCy2gKtvdP5Sbw59SVU9V0BQUNWPCXFk6gGKu6IhosdaEl0ZI+O+5+LvG9SUDWqQTC7iqJ7q2BHtRVfqxEK2QHBXbNEqjLL945dNMnO+7fnxUiVXToWNIBbxxIAuHbF4+O96s3onvolhLJZb5Zm87ADT/P8d6fGr4=
+	t=1783436792; cv=none; b=BGiqc4Auk3bg3SxtubRV5dUdKIpLkkm/a+KhCxKaLY4WMHODLrtYevQ1xs7PrFhX+pS7Uyqk169zlsuD/uSMgnvCIshPQRcBDGZerBXh6B5ndpuBCsAyaBZ8fyCWn7oWc//RsP6lPQy3GHrOklYcGnJEdXan+x+FUFIHzRRp/so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783436781; c=relaxed/simple;
-	bh=VJbiLxjuLtw2ZDpVa8oIt+SV6G0E5M2f4Ct6nlFd72E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aQc4SfE7dCo+wsfG08nn6J9xK4tW/MaIYYJborQq8gXeo+WqPRvH3nFP6AKAKNX/kZm0W054xP0WeHYQCjkmYJLhAGEbdtPEjSX/w7cDvjup8DnC84poWZL1YrfYo9yEVquJmSdS0cvdFq41HGi3xYrtqxdAucoNu9PKBi72Iwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jm9LUGO/; arc=none smtp.client-ip=209.85.210.174
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8454160043aso4294251b3a.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 08:06:19 -0700 (PDT)
+	s=arc-20240116; t=1783436792; c=relaxed/simple;
+	bh=mF1Q8h8f8ja7oxsETzW0K9C2viuSjP/6sJUlaEJEzUM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W9SF44b+98GzjZkwRo6q6CLSwXlF5zfeT/+TWlfzc9J7EXnnp2N5P/xsdweXksv9TYuREMEXxyPfXRhPvEjK8WOk6aBC3xwQjnVimZUJ8acF/ual6suB6qfWgCbmrjYsHex77JiXZYKl09intrrmGffjTOs7qgWceHSDnzjR1zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mGbdwmO1; arc=none smtp.client-ip=209.85.210.181
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8478fe07f65so4419230b3a.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 08:06:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783436778; x=1784041578; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783436791; x=1784041591; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5SjgDzZeIMTL9X91tZ0pgVIK9jW7UN9flsvre64Izsw=;
-        b=jm9LUGO/aOYdoyZuUTVT4OFmmIAe/mMsjaabEvP+oc4jWWGHZLOsQih9suoXY/lBJC
-         mzCrhhJjLZxJh0/tbwpT8W8UBjFydWkRmo2OPpjLqyle41CEL2vQglVvE4Z9Kzi9dXeR
-         /4oVYjGGmqpfC2iAG5cbUK32iEhUWU2uYRkCsti1WpQExkUOaiHIFF1T/V6Ap4eM/9Bm
-         YcxWOP6ktPfVac9NGX+IQEdEHkuMCnXvsNssVgXFaPEjK5v+tmxAjtDdXwew4d0wG5ai
-         f1TttjebabBn4DdOxh8+8y+ce80dqw6Y/OSlj2Pw6Yjmu8rpgSq1du5+WtFEtDOM8R+J
-         GMOg==
+        bh=ClN3kpbhRJMWpIGpPfBJEIxCJ6EOBpj1rMef7MXHqEc=;
+        b=mGbdwmO1bdXLYYXnL4qBM+muPQcImeAv1gohVnwA5EFvxt2Oh/ctYNko3ekxY9USLd
+         5gU0E9LuA0E9e+eQ2Ga4c8oA8fDKekY/hpwdBB+EG5NkoHuFA0zGy68ON+im/Gj7cHGD
+         YDvO1z++YMrVx0QdTB7MDMFN94mmrexVLhTua4+QNffybElGBDQ+uypxEd3fdDnI4IfE
+         f2WScnddD0pMyf3Ufrw72qh8IMDK6WwR1LTMGJGrUQShHiACs6hlxzoXY8/78xOcPKp0
+         Wb63BAhMkVgtSpF8vOlTQ8ySaSY44r4TiEItqvba1p4uYIEhoWzoXX+nveywViC8zLdN
+         DDTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783436778; x=1784041578;
+        d=1e100.net; s=20251104; t=1783436791; x=1784041591;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5SjgDzZeIMTL9X91tZ0pgVIK9jW7UN9flsvre64Izsw=;
-        b=sSk+TkYDRmX3vMMc9fzZ3RvekEg5nBbEb7ApIAt50cs9ehSvrjrvHH3taC0snbONXJ
-         IZRWSw0NXewSHDXaIUGtq9N0j7pEWAb4/axGEN2aIZDbOONNJfGh/6a/m/BF7Tazk+Y7
-         ymMUlf5Gw89ZgZpk3EaUQ4rBzfYd/sP7ixREAhZ4LDb5KpHdpj59NX1SLn7IuFxdarzZ
-         PIR69ouWkL+4d7Rn2FrgRLXpMetf2OqvellVp1h6xIqSnpmAIN4OwQ4TUIOeJVdeKPXl
-         rYSksaStnw36rkz8QN4g7q3bbEJWIIDNJOvvK0zrfhgPZcJuELjkCt0oM3YDZiE6o7cC
-         0eZw==
-X-Gm-Message-State: AOJu0YzWI1JyCZrTh4zTOKDqzSeavtBoeB5cJSbK2nmaNXTyQeY0hTTc
-	IWGqhnDSKUWNZi8GoCjRqSwnrPWSbmO43pSzAzW8GNMD5JIVCoXPr6Co
-X-Gm-Gg: AfdE7clMlbDgp04YAxknqiEpGtDRkxdmbVkrreoZj9T0BScYZRN5r6OBYk8CJ1OV9fh
-	uGgV2KZ5i0OA4RiOLivWiZVMSIAHtr76UWgVWlIKYm6iXdZXy4wUAjs4beIwYuMBpC4dCYsNE3X
-	iQ4YwG1mB6tc6vjN5KdAj+gWAOGno/EfPro41dLz8RZptiumEjRkHrRkKsdVFY4KsKrH5g6M/2j
-	hqmr2qjlG/e9c0CPu7lZQViwmUwsCGlkgn693+1bNFJKyVcX4w+ZrO8mOVm83XHjsNesfn/MObH
-	e2rXk8gubR4KtJxVAc295rnlwIx2KFo582ac5Z88J/Pha4NTM7vsGkzLtpldebt7DkWAreQOqBk
-	uK8P9dmI6U8xvKOFusEOZfwGGxpkAGxMc+l7tOBQ/lsnv6PbtXX7BEjkumHiBdzlKcUO0eaR+DM
-	6rUqw7YRhr0OCI77cZGg9el04T6RFmKfBy
-X-Received: by 2002:a05:6a20:9151:b0:3bf:80a5:51b0 with SMTP id adf61e73a8af0-3c08ea3d412mr6462278637.0.1783436777654;
-        Tue, 07 Jul 2026 08:06:17 -0700 (PDT)
+        bh=ClN3kpbhRJMWpIGpPfBJEIxCJ6EOBpj1rMef7MXHqEc=;
+        b=gkTsWchhG/cPioOJYfd40wg9mX6WO3TlIVPwp2TSiIGRJ1hSdHAQtrQgkjd+tBakHy
+         HY0F6vM+c8y+gNd/dmczFA7H7x/95jGUOEACjCGZyWwWP2OXMpwnjhY49KidLI9yn/CS
+         vnaOUzcukY31cNQKIyPUNqaR9kntAZyPhWGignCwBWq9NxhJf82UoNOBz2eWDD5BJb1A
+         rZ1QqjrCKNn+eTX8uuTs5sgrsNv257T8rQ04oGBCQ1XkbicmiDvR3xZQYHUsTlMbfzvs
+         weJVokLXaGk8yVwdbYr+zFoUnI8TQTIjLJTULe+/dfpL43I/QDSJ1GHvGGspok2FKyF2
+         tYmg==
+X-Forwarded-Encrypted: i=1; AHgh+RqzqXw35eB9h1GR3IjUfgHTL/5agmsZkM/wnGGMNg01Ma/Hj/RH1tvURzZTYPQNhOYZux7equvVNJ/q2g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywisx+tAHIZZg2myGTtNSz91CdBma3WruEBmoQMNG6G5pg559w7
+	VGthg9Ev3bOm7usRt35TpGEBejbkfHXSMm3ZdzW5d3GGioZ3sKxdKV/1
+X-Gm-Gg: AfdE7clhfufNGcB8Si+I5RTR3ApsWvIVMH1f650QbzovME7guV2kigpByc3UUQFQVtN
+	ugK0YrXjEvoAGA3xav/18+MNz+inuTIooyKdAQ+dSBQ6G1cdOMCN6dU8+jXD+yp61G1Rz+OkTMJ
+	V2lXLF5I2gZMS1LlFqRBVnJ9rJeiKVd8ZNmDFYNYSFEnDkKJ0XCSK8T6WZGagOFJ+mNV66CL8oT
+	yZr7lPtcLhr3lAdp8t3+tSQd8p1ymf2KYhhom2WSnF0RmjN/T8mE6KJ4MlofUeG1Rabp9UQES1N
+	pNM20vVAB86DRGw1kimrnokQIoHkRZSCdnHfpACKg7ULFheI0On/80IcOadlQ2FxkCJjX2zKZO8
+	+w2LpiZKI33MiOXP6kwxe0LF2IAeWeHJW5a6uxAthfo3JC0HGlCB5PkeFXd61DwcaHJ4IWfVEoz
+	P0FUUC8BSZSNXjmqOm7jGZNya1qyYzDJ6J
+X-Received: by 2002:a05:6a00:138c:b0:847:888f:9b16 with SMTP id d2e1a72fcca58-84826c25b6dmr5534631b3a.18.1783436791037;
+        Tue, 07 Jul 2026 08:06:31 -0700 (PDT)
 Received: from haichao.tail057a43.ts.net ([2001:da8:e000:1206:239e:a31b:1d0d:374f])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5b3162b59sm1116536a12.16.2026.07.07.08.06.15
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d76106sm5618994b3a.40.2026.07.07.08.06.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 08:06:17 -0700 (PDT)
+        Tue, 07 Jul 2026 08:06:30 -0700 (PDT)
 From: Ruoyu Wang <ruoyuw560@gmail.com>
-To: hverkuil@kernel.org,
+To: vikash.garodia@oss.qualcomm.com,
+	dikshita.agarwal@oss.qualcomm.com,
+	bod@kernel.org,
 	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
+Cc: stanimir.varbanov@linaro.org,
+	hverkuil@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Ruoyu Wang <ruoyuw560@gmail.com>
-Subject: [PATCH v3 26/44] media: cec: Serialize exclusive follower delivery
-Date: Tue,  7 Jul 2026 23:06:12 +0800
-Message-ID: <20260707150612.2276688-1-ruoyuw560@gmail.com>
+Subject: [PATCH] media: venus: Drop session events without an instance
+Date: Tue,  7 Jul 2026 23:06:24 +0800
+Message-ID: <20260707150624.2278561-1-ruoyuw560@gmail.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -92,78 +98,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-66865-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ruoyuw560@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[ruoyuw560@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,kernel.org,vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66866-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:stanimir.varbanov@linaro.org,m:hverkuil@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ruoyuw560@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[ruoyuw560@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[ruoyuw560@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3737171D3B6
+X-Rspamd-Queue-Id: 53BB771D342
 
-cec_receive_notify() read the exclusive follower pointer without the adapter lock. Serialize the no-follower check and message delivery against mode changes and release.
+hfi_process_msg_packet() intentionally allows HFI_MSG_EVENT_NOTIFY
+packets without a matching session instance because HFI_EVENT_SYS_ERROR
+is a system event and has no session attached.
+
+That exception currently applies to every event-notify packet. If the
+firmware reports a late or otherwise invalid session event after
+to_instance() fails, hfi_event_notify() can dispatch it to session-only
+handlers such as event_seq_changed() or event_release_buffer_ref(), which
+dereference inst.
+
+Only system errors are valid without a session instance. Drop other
+event notifications before the session event handlers can dereference a
+NULL inst.
+
+This issue was found by a static analysis checker and confirmed by
+manual source review.
+
+Fixes: 09c2845e8fe4 ("[media] media: venus: hfi: add Host Firmware Interface (HFI)")
 Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
 ---
- drivers/media/cec/core/cec-adap.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/hfi_msgs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index a90cb84a4b4d0..b616ed382c0e7 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -2219,9 +2219,13 @@ static int cec_receive_notify(struct cec_adapter *adap, struct cec_msg *msg,
- 		 * Unprocessed messages are aborted if userspace isn't doing
- 		 * any processing either.
- 		 */
-+		mutex_lock(&adap->lock);
- 		if (!is_broadcast && !is_reply && !adap->follower_cnt &&
--		    !adap->cec_follower && msg->msg[1] != CEC_MSG_FEATURE_ABORT)
-+		    !adap->cec_follower && msg->msg[1] != CEC_MSG_FEATURE_ABORT) {
-+			mutex_unlock(&adap->lock);
- 			return cec_feature_abort(adap, msg);
-+		}
-+		mutex_unlock(&adap->lock);
- 		break;
- 	}
+diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
+index 47b99d5b5af73..3135c1024fb1f 100644
+--- a/drivers/media/platform/qcom/venus/hfi_msgs.c
++++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
+@@ -230,6 +230,9 @@ static void hfi_event_notify(struct venus_core *core, struct venus_inst *inst,
+ 	if (!packet)
+ 		return;
  
-@@ -2234,10 +2238,12 @@ static int cec_receive_notify(struct cec_adapter *adap, struct cec_msg *msg,
- 	 * Send to the exclusive follower if there is one, otherwise send
- 	 * to all followers.
- 	 */
-+	mutex_lock(&adap->lock);
- 	if (adap->cec_follower)
- 		cec_queue_msg_fh(adap->cec_follower, msg);
- 	else
- 		cec_queue_msg_followers(adap, msg);
-+	mutex_unlock(&adap->lock);
- 	return 0;
- }
- 
++	if (!inst && pkt->event_id != HFI_EVENT_SYS_ERROR)
++		return;
++
+ 	switch (pkt->event_id) {
+ 	case HFI_EVENT_SYS_ERROR:
+ 		event_sys_error(core, EVT_SYS_ERROR, pkt);
+-- 
+2.51.0
+
 
