@@ -1,195 +1,198 @@
-Return-Path: <linux-media+bounces-66868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66869-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id W/c+BOsdTWplvQEAu9opvQ
-	(envelope-from <linux-media+bounces-66868-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 17:40:27 +0200
+	id XVCdKu4eTWrXvQEAu9opvQ
+	(envelope-from <linux-media+bounces-66869-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 17:44:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B67871D600
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 17:40:26 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C9271D75C
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 17:44:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="MB0ogKS/";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66868-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66868-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=amd.com header.s=selector1 header.b=qIt4bUPg;
+	dmarc=pass (policy=quarantine) header.from=amd.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66869-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66869-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 952FD31BC7CD
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 15:24:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 33B8E301D317
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 15:41:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2BBF42A149;
-	Tue,  7 Jul 2026 15:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEA993F2117;
+	Tue,  7 Jul 2026 15:41:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010042.outbound.protection.outlook.com [52.101.201.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA4842317C
-	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 15:24:37 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783437878; cv=none; b=QI+ys4DwatrRf/fHdTabpJMXaekjZlvTgvWPiWlUypX0iT+Uy5e7Olf5slqsY1Gd986TZ8fwdZ8uREqP1aYcAl/8FlEn3DhhiZiJnM/A2aeYJLWubXaLKG/y1fZn+Mmt2fR/F0lRbkXnclX5A9BmYKAmfx6RWVCrHPEuKMdqtyo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783437878; c=relaxed/simple;
-	bh=CL1TWI09q6rHhesaHDbX4V0SqZsT9mM7aOBFw0VS9zE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CzFksfeOiE2XZcAqpF6HuMBx028nfOY32lnBot5pvs0CX4tGA1wpLDZ7A5NOzHP9GdWA0gymzmOIlyGH+4K3lZfHvxicLudV87Z96Bl7ZuDuf0eBrZGzSp2hXJnbxXYNgK4dN69iSGYxQ0lJqQWvcfsYd+3QKD1yj2BfqNHlocw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MB0ogKS/; arc=none smtp.client-ip=209.85.210.180
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84347ad88edso5793568b3a.1
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 08:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783437876; x=1784042676; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5PiSvPUBbt45pXI07lt7UBDjYJzi7dkwQwjZGxzED6A=;
-        b=MB0ogKS/YeuQDn3H4JnqSdX10kw9ycNBaXzneq9hX9q0ZmF7sy3mdgYJ0B86CANJBA
-         p/+q2XOqaJEZhK4EHxcG5tZ6+UnaLVZGWQXBzKbvDoLos5hJ4cFh1pIRZ/lr2mqlgGul
-         ucSX/pjfiMNpDu3BtptiwiyLPIbl+XqU4Z2Z0q441dzI8uSsetxAO7ML8EpXujN1Kb9o
-         +arIaCDJdNod+fy53sfTFx52avYWCU8D5Tjb7bqo4dyx19KzK4fADF6QCz1N/qOAkgdR
-         UGd62pevk9PeP9R6qVbA5gfp9L3UPVN/PBHfdnnzSPXOF43wIHoKXt+XlLH6yEuh+jVP
-         Fbzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783437876; x=1784042676;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5PiSvPUBbt45pXI07lt7UBDjYJzi7dkwQwjZGxzED6A=;
-        b=OLa5X4Ydf/7a2IUMyCU+jHSx+v0p9cza2F2SqsPo4L4Fb7aek6NdLNGM39qHlF4ukT
-         Ks9KnXA65CoI7QH4vx0EjCmctAJGQlFXXWlf7vkbScRWucrlQEAj++8OPmkW6TPz75bQ
-         JVXYZ9uketQPHShmAtEzEOI5U45TZpBvlxLDrbQ/pu+jwemkDAelNfy9mpvtvuMoxsDB
-         bNmvowaInyatcE2pDumBj2qABv0f/l2YQtvbz521PWf7m4ypySVthmW8PlZ5wFrDQ+CV
-         y6EqMhec/qcAZq4Y8+ptaz5ALry9aML2fz2O4FRtrWmlw8hJQsbhWYL0O3vBZRb4jYE7
-         EZRQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpOAnVSiqmiap4QKHKsVenb0yXQQHMp96BWy5khTnZtYRjBnKUG2UrW9ePFzj5gevVtIiwxoU91OiPHpQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC8xNNGbaHME10y19gN5Xxmak+HtEiWYJL1PGMVZt26ig1jVe9
-	aXfsYn9/yVDIPkBl/oxg809uVYLDyZLY2ztTdf1pSc8JOgxMb+mSnXcR
-X-Gm-Gg: AfdE7clM4XjaKADzq/7SX2+Oy1YOmTDdmUMUI4+wWhJJ8VVP12T2CCgUTf+NSRnm+DN
-	WVQmakUKiuPrN4nMTp7k5Yxcg3djRFzxTlJoLMjc0UcNlaOWutVFgUtVaQct3vVhLQiUMyPXfp3
-	/QCpBJsyMnRz4GxrkIrsYGJhBtMaSjBh+zBF6wp//9EKIcUaQ1I8d0loTx9lK3M7/B70bqPln9f
-	HIMBxGvhTLyw+qvgYFR3bTUXQyhw9BWj0X4LRdps1cbxJ7AxvXb9vk3BsZo+rAFe44mipWmXxdM
-	9hlomIlnVHeKnxFmYv8hUAsK7olwYITizmt5H6StV89HRrarnu8FlpNkGb8co7mO3y1wA/l9Rme
-	s6pLcLpK6jmV0R32xpLwHILp/xMfKJu4yjAe+MeDA5ToKetnPQvfdJ07Tebw2a6vXffGEjBXXjK
-	dR1ilKn+Wn1+dhN6MT+NwrFb9k1lDMgnIRKw==
-X-Received: by 2002:a05:6a00:3288:b0:847:893f:2d0c with SMTP id d2e1a72fcca58-84826c1edeamr5779113b3a.5.1783437873353;
-        Tue, 07 Jul 2026 08:24:33 -0700 (PDT)
-Received: from Alvin.tail8ccd9a.ts.net ([49.216.173.166])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d7c142sm5652726b3a.45.2026.07.07.08.24.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 08:24:32 -0700 (PDT)
-From: Hao-Qun Huang <alvinhuang0603@gmail.com>
-To: Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hao-Qun Huang <alvinhuang0603@gmail.com>
-Subject: [PATCH] staging: media: tegra-video: vi: fix probe failure on skipped last port
-Date: Tue,  7 Jul 2026 23:24:25 +0800
-Message-ID: <20260707152425.571254-1-alvinhuang0603@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0F127CCE0
+	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 15:41:06 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783438868; cv=fail; b=nkexxeuX3K/e9twBQ6uX1vf55ZFarJRYABEhZQa3LsKoosURgTVMFZh149dea2ZY6s2ARs18tIyxqy7NaB4YGcLLa9ipvxPznuXIlmLi75ahXguL1xscxKaCYF5gJat+4VvxnqQfAkxVeztHStS/5OM/IHIk/NKu+0KmXtYQ1S8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783438868; c=relaxed/simple;
+	bh=yM2ZJEmSCypBIfTN5dWCv15QyIBbJkloiEf2yNxJaUI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=C439Bhf4P7Jk3pMJ/G/38Gypm+JK1zBPQKlkOghGya1hchERh6yFMqBb+A23ZEUOsLpKpadb+BUq1kSaLqsrbrDV58ZomnOOuRNct2aid5Kk56MnoWj3g2kvIPWSF+b5YzvYJlHwnsj2Jk4nl67LSk/pnxJt0hCxxg4Ol4MgGQU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=qIt4bUPg; arc=fail smtp.client-ip=52.101.201.42
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PCc+mBATuUDs5hYV5E9/OQhxbX2v9TRPGQUMwhcw2WlFqOxM0NBT6BoNNxMwAfkhvlQbrTLIbqSMpDGfg9vkWfKTLrTAWLocJ5lwgDoIwzCm0sWWCecTSt+tkfX+OfFPrG/C6Jr8imgM/S44NgXrupgKLrA86/MoVOg5FaF2ec3MQs0DHhN5yBYPdBPE0m06f7bn1xAKjwVb6UMIuidZax+254rMEWW6tpVvZLp3YqQaDl10UQKEHWuVaC/TJf/z+/yEaX+1MINp19jihtclZImPcc8qc9mK8JIPMG2q+yP+slSl1tLxNlbWtZ5FgvBHuqyxsNTSNpzUc12o3jmE2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NLX6MDwdA+kobNNZmcQooNfVtQmTIPTY44/xXQBOPI8=;
+ b=o7FBh9LtQLKkfrQ+3IpKKArG7rvqDcSpfu2a4WSSdpditXxkRB3xX+e2xhFU5wqVhu9hTUJdbja5rOmT9IU+tal3nNzMfxK5esb4Aj8uYj8kTqCk/AAcc/yEodLzGwLDEC8384cQRMV9VYSmcAU/VN19L806pjOBbKAz4lDZojBmVYioH8BHQwW6RfW74R18IyiLPJ3Is4SCS/RLGOclILBBabzVK849V6ijIbLSCL4JzksZLydvmdIDpfCy7QpEQGaHegtgwELUyiKZF5GP5mvcwzXymkt7+s/lvS/8TBFFkdILPtW0+6K1aYMO2s2ayCgve+5yqo5TligpMjEPIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NLX6MDwdA+kobNNZmcQooNfVtQmTIPTY44/xXQBOPI8=;
+ b=qIt4bUPgBNUlvV6vFmBkLQ21BklDmBh+ME6XXLxXTN/r6QAJCnjRxXaUrAI2rqvxFCltYC965Fs04CH+li1cBfhedM0kBtJg9fJxHEJY3Zl325oiyqFlENNo8a5l2FVxELzW/mr/IclOkoCyKjQHjCJn9ziAQcCIEBr2AiEFL5Y=
+Received: from SJ0PR13CA0233.namprd13.prod.outlook.com (2603:10b6:a03:2c1::28)
+ by CH3PR12MB8996.namprd12.prod.outlook.com (2603:10b6:610:170::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
+ 2026 15:41:02 +0000
+Received: from SJ1PEPF00001CE2.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c1:cafe::48) by SJ0PR13CA0233.outlook.office365.com
+ (2603:10b6:a03:2c1::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.9 via Frontend Transport; Tue, 7
+ Jul 2026 15:41:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SJ1PEPF00001CE2.mail.protection.outlook.com (10.167.242.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 15:41:01 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
+ 2026 10:41:01 -0500
+Received: from [172.19.70.117] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Tue, 7 Jul 2026 10:41:00 -0500
+Message-ID: <87e4fe2b-e1df-48a3-8ffc-8e08c4b785a5@amd.com>
+Date: Tue, 7 Jul 2026 08:41:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: explicitely forbid exposing pages from
+ get_user_pages()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	<sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+	<lizhi.hou@amd.com>, <Mario.Limonciello@amd.com>, <airlied@gmail.com>,
+	<karol.wachowski@linux.intel.com>
+CC: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20260630080112.1117341-1-christian.koenig@amd.com>
+Content-Language: en-US
+From: Max Zhen <max.zhen@amd.com>
+In-Reply-To: <20260630080112.1117341-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE2:EE_|CH3PR12MB8996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3fe14c8b-3833-4ef1-eb71-08dedc3e2616
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|82310400026|1800799024|36860700016|6133799003|56012099006|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	pDgybSGLdqpTPhSJIA6pOb25cFXnLrM8TYrP6uYWmSKmILR/y5q15TEKTGP4rICSkLGOra8CnUzTyn+6xWd2bgb0DoZbuHkuKGs3T4lPg493DFxovWss4M0Fn58w/G1nj8+C67+7VuBm4dQwSnVchHMm57zaF9l8jEopBkBvKWrHY5+Yk6x+u5Ogj32puvGPexsRYS7ujoJJIxvWsFgn/IONI882xV3paFQ76LIEOEaih+DZdpN++rSr0RcL0FH8roLTfOtuPnF/IMKEd+8d3fgQmFYDHPakcgkFqdjRPcso3xf2Rktd9vJ0RSRL7zuuUhuSVsuguuZsvW8zTVcREymeKnbvHaSR4phUw0QaltrEtKU/eV1FrqnX3DMDDsldA+R34b5X4UmKWSzL4emDca7ZqrzOE24mXHvLSkhuehchZ0gL+wK86FSux+QKAcQNRDGhkdZGA+3fTsA0xyeEn7OdUd7i8wRZ8aJkVxoD0FgxhyINUULI2kXy3dzpIGRC5axKZkaY7An0/o/5PaB1oaLSh8eQzeTF2RdGa9IjZpzJ5E8ZyjaD11ttZnIvHZ2q0p7L0xZJBB/U7BUuXae0wA+hBTZOknF+DeLcz+npVIMUeTVCdyBpg+/Hl+hbg4zf47r7GwhMilxlMkgatBcjdsONebbbAHHUk7xljHD6aVgbZMcFIpVG28PTk8IfcPYi5koDFXsu/fCWxUb45byVHw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(82310400026)(1800799024)(36860700016)(6133799003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	IfCLzLSxvJV3+8IPGQqGF15fQsDYegcEjaF2w7kMD60x+AF85FPkXi6ih3PRzFSY22iXoyU5mggqwt3NipM71bvOW+Sf6lbvJTuK5eunImUsRXP5AIJwBIH6vRBvglyw4CerFxsg0jubmPABzGvyeYg8MiKiW/ItqgsmWJQXuB88O4vZ9HGxkBtJN09vxYrCIsInOo7+3tLLMlH0fPCLHSFxZPdn8f9ZU9Xetd9NBu79yf7baMbVjD5zSdgEoBmeJLMDd0urswApDYxRH91TCEbD4Hc9xDFovld5R8rCnshOOmLC9gI/ww3GX2q9KAKXfYdAy4/nrDXPnPjqF4e5VNAfIjpssYcKMes3WgcnDwPwpP030eKT9H8Jh32T5qRtgsZYqZV9tUXvwuijt05Wy37Ck4hC4J3wYZ3LaxDmX/CNzn/fezxmFtGbK9Do1b8S
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 15:41:01.7657
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fe14c8b-3833-4ef1-eb71-08dedc3e2616
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CE2.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8996
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-66868-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:skomatineni@nvidia.com,m:luca.ceresoli@bootlin.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:alvinhuang0603@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[alvinhuang0603@gmail.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66869-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ckoenig.leichtzumerken@gmail.com,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:lizhi.hou@amd.com,m:Mario.Limonciello@amd.com,m:airlied@gmail.com,m:karol.wachowski@linux.intel.com,m:christian.koenig@amd.com,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linaro.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,amd.com,linux.intel.com];
+	FORGED_SENDER(0.00)[max.zhen@amd.com,linux-media@vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:from_mime,amd.com:email,amd.com:mid,amd.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alvinhuang0603@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[max.zhen@amd.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[amd.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5B67871D600
+X-Rspamd-Queue-Id: 18C9271D75C
 
-tegra_vi_channels_alloc() iterates over port nodes and skips those
-whose reg property cannot be read or whose remote endpoint fails
-v4l2_fwnode_endpoint_parse(), leaving the negative result of the
-failed call in ret. If that happens on the last port node, the loop
-ends with ret still negative and tegra_vi_init() fails the whole VI
-probe.
 
-The same defective port earlier in the ports node is skipped silently,
-so probing succeeds or fails depending on the order of the port nodes.
-The CSI equivalent, tegra_csi_channels_alloc(), returns 0
-unconditionally after its loop and does not have this problem.
 
-Use a separate variable for the per-port checks so that only fatal
-errors end up in ret.
+On 6/30/2026 Tue 01:01, Christian König wrote:
+> We recently had another incident where two drivers put pages they got from
+> get_user_pages() into a DMA-buf and cause quite a number of problems.
+> 
+> Explicitely document that this is not something exporters can do.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Max Zhen <max.zhen@amd.com>
+> ---
+>   drivers/dma-buf/dma-buf.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 71f37544a5c6..aa5af4f439c2 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -685,6 +685,14 @@ static struct file *dma_buf_getfile(size_t size, int flags)
+>    *
+>    * For the detailed semantics exporters are expected to implement see
+>    * &dma_buf_ops.
+> + *
+> + * It is explicitely forbidden for exporters to expose buffers they don't "own"
+> + * as DMA-buf. This includes pages acquired by get_user_pages() or other import
+> + * mechanism. Not following this rule can create numerous security problems.
+> + *
+> + * It is also strongly discouraged to expose the same backing store through
+> + * multiple DMA-bufs at the same time. This eventually creates aliasing and
+> + * cache coherency problems which are extremely hard to debug and fix.
+>    */
+>   
+>   /**
 
-Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
-Fixes: 2ac4035a78c9 ("media: tegra-video: Add support for x8 captures with gang ports")
-Assisted-by: Claude:claude-fable-5
-Signed-off-by: Hao-Qun Huang <alvinhuang0603@gmail.com>
----
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 456134a9e8cf..f461e117305e 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1257,6 +1257,7 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
- 	struct device_node *parent;
- 	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
- 	unsigned int lanes;
-+	int err;
- 	int ret = 0;
- 
- 	ports = of_get_child_by_name(node, "ports");
-@@ -1267,8 +1268,8 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
- 		if (!of_node_name_eq(port, "port"))
- 			continue;
- 
--		ret = of_property_read_u32(port, "reg", &port_num);
--		if (ret < 0)
-+		err = of_property_read_u32(port, "reg", &port_num);
-+		if (err < 0)
- 			continue;
- 
- 		if (port_num > vi->soc->vi_max_channels) {
-@@ -1289,10 +1290,10 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
- 
- 		ep = of_graph_get_endpoint_by_regs(parent, 0, 0);
- 		of_node_put(parent);
--		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep),
-+		err = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep),
- 						 &v4l2_ep);
- 		of_node_put(ep);
--		if (ret)
-+		if (err)
- 			continue;
- 
- 		lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
 
