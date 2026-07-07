@@ -1,214 +1,166 @@
-Return-Path: <linux-media+bounces-66812-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66813-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id AFnVGMqpTGpDnwEAu9opvQ
-	(envelope-from <linux-media+bounces-66812-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 09:24:58 +0200
+	id +UNkFkeyTGo7oQEAu9opvQ
+	(envelope-from <linux-media+bounces-66813-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 10:01:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8448718706
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 09:24:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9F5718CEF
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 10:01:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=hI3ZxTOz;
-	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66812-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66812-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=XCO2IW0+;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66813-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66813-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7B500304C907
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 07:18:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9211E323A75E
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 07:39:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7393AFAFF;
-	Tue,  7 Jul 2026 07:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E71713C3440;
+	Tue,  7 Jul 2026 07:36:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED8B3BB13D;
-	Tue,  7 Jul 2026 07:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E513A873D
+	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 07:36:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783408700; cv=none; b=b+DK+jbhcS8VmoQ3XepclA11vI6eoeanCW5giSVYia5ImBC861RWxUncLHyasH2TfaojZN/gw8ZfaDtoU/0EjEYz08YacmIS5sn7a4PWV0azti2GN6kHtu0GC8+3yiEORTdwHKgthED1t7nG1w/Bf8jcynUEf6+VAv+qhfTwUaU=
+	t=1783409781; cv=none; b=lbHNMuHvzJc1/y1Ghx7+kBHuLK5YGXnpklDSgqlY4HarFg8/7LL4Y+Vi/O/WZJmqMiV5ak0BipeS5Qxo2/50JaNq3Hr63oyEmIcpOKaSG22SV0N4M2+xm/KiPjLNB46GL8pavjXi6OhNHGrYMMBt42JbnyD/DQV6cwJnGodSURU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783408700; c=relaxed/simple;
-	bh=lXv3s7TUQglwtYTP8xhW2uZKJRMERLZ2mMC90X8SyVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pr9C+G9Dseq6W9wMHwuQBfEvZ6FJkVHdMZ1ife5o+/5+BENLytxXgR7z2T4ZMfyA9NFrKZqbPOslvVF5GEXb8hnE6FMo5DSnsO+BEDci7OCYpGk07UPKpDGyan6zwp4UOwW5zlij+BBLqOSBNTQXHifGptszJqG7PaYXDkfHTu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hI3ZxTOz; arc=none smtp.client-ip=198.175.65.17
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783408694; x=1814944694;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=lXv3s7TUQglwtYTP8xhW2uZKJRMERLZ2mMC90X8SyVI=;
-  b=hI3ZxTOza8Ggeibp6XFFr+MyQKHIvyLw2o96Elf6Iqi3cxoDOzzenzvU
-   SmNovYsP6L7K/zMLe8yXfaZ32rxANOcGQ6QkpILZB375m/CRqCY/3ura0
-   CtgYiRMzMmtg8Q+zVOWouLP8mn0eWIdieseuD5Y+s+6Ni9o9zzlnGqxWm
-   bMZyCeJRwCGMnCLf7vVNIY5UhgZUTE3AwxWE+cWxmCA8MabmCWIDr+lso
-   MdxbHc4WzYbeDuho/QbFAgoeG8UwlOiFMC1n5obO3uxdHC7i3THosbXsf
-   yKPdTJIy5RE1pjIFW3XmvmljCqPoC5x/DAzWuONKlQGq2Fe3R+UsWQzh0
-   Q==;
-X-CSE-ConnectionGUID: ZcCdBJxBRDeLf5qaevKUeg==
-X-CSE-MsgGUID: I7VDU9lLTK2Vtw1QfXMcjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="84072953"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="84072953"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 00:18:11 -0700
-X-CSE-ConnectionGUID: GR2WtPkFT+KRqjVdul0wpQ==
-X-CSE-MsgGUID: Ea2HVu0rRgS03xBy/Mzg9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="254009287"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.178])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 00:18:09 -0700
-Date: Tue, 7 Jul 2026 10:18:06 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Neal Patalay <nealpatalay0@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org,
-	hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	sakari.ailus@linux.intel.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	mugrinphoto@gmail.com, matt@mattwardle.net
-Subject: Re: [PATCH v4] staging: media: atomisp: refactor pipe graph dump
- stage formatting
-Message-ID: <akyoLqy98pt2iRkP@ashevche-desk.local>
-References: <20260706000738.18478-1-nealpatalay0@gmail.com>
- <CAHp75VcSGXC=x3hFXt8qvyRQjPzy3uLN9iBTURp2yA9+P_jibg@mail.gmail.com>
- <CAGjuiT9gu32wvx2Vf0U0g9deyAzzGtwwCNEdW_R4JVarO9x4JQ@mail.gmail.com>
+	s=arc-20240116; t=1783409781; c=relaxed/simple;
+	bh=DSEChP9kAsmk2HrXfSdbcWaNkWfX3idepBBcxxyGuF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nGQUABEgmPC01cWSv7/2jPwtyoHJPl+6UVwMc10ZYTV04bDAUgBkIel0h3ocVGArGlRBwyNKHg2XELw1vhg43qEggdZW9EBCDrbFefszezLa0ToUeh7tV5WrWNqYlOcFjjLJVrdlziTLBin/93CyQu/MprYJ3PMMwpRjyi8aFE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XCO2IW0+; arc=none smtp.client-ip=209.85.208.43
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6983f20a8bfso6546778a12.1
+        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 00:36:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783409778; x=1784014578; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K6AeqTPAcZ4JrA+Qd1cNlOBTaQ+fwvnS/cXYGctMis0=;
+        b=XCO2IW0+wl2/TTVsaSeM68xaqGyeSlR8kPZ4ZZVhzz0hgtUT93u0v2Y+9++nkDfnr/
+         9pbzYefA3/XQ8/ATUW8XkxHwFZEhBZ+nuRyqOljxuKLvAftDcBZgCLQxtRf/mk5W/LGe
+         isxGRG8gW+rWPIg0n4QdQicTeHM3gZyOJddhF0JyQEt2HOlHSprPlw9gv21SMjndlrDv
+         9IRwm/HeI8edMc1ApsBGJi0FQIcQ0DKjgM8POT2wvTjDAIMOVKwvzvJIm1te66NoCWn1
+         vrvhryXTNAVETUDJatycEgVm1+2KrYLhDqESIfRgrcEX07F+neUQYJkkNCmt7yL2xiyl
+         aBJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783409778; x=1784014578;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K6AeqTPAcZ4JrA+Qd1cNlOBTaQ+fwvnS/cXYGctMis0=;
+        b=nbkypk+W4TExrBeRnmGEYXTbJs46eBSycCzrHiEZNZ9lfFbUhZ7ff3lEfT4Ny+2hwX
+         TAuLRqx8fbdLIowu1B2TZvkzDd4+YikFI/lAmW+unojsW3OIkg1bIwVUQuSK21LrGjV5
+         slaZ3V98k8QlYHR2zefCYxLNMv+S/RIxWP/yDu7w6sKm7TJeTsc4enJ44IK7PS5uP1Ub
+         317PvMDNPwsJ1naKxiNQyv44SGHpl1whrsL8sF2sh4Xh5apc5TAtjNojfDr6DUQku/B5
+         u15R7SyWP/pjpCUmuxPvMe02/pPPKvBSQ8PPD8qq1xDc6ZMrlT8J2wgiZ5Z9pSNz57O/
+         fELw==
+X-Forwarded-Encrypted: i=1; AHgh+Rom6Kzfib2bxBNpb/Pyi4zk5kKx1dRerwBi7aqitW0vhPcoJiLwiiMDP3ukVoEIJQ2fbOxORW39x2MsrA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdphFsXzZ/GAe8tGettxGODVyeSPENzpLEL9UC6FyUZKU7jBJI
+	47Evg01bEwUtdnYs07IzLLC80ocoC1C0q79Ek2TLHkZiwoDUsZO2LThw
+X-Gm-Gg: AfdE7cklm5Z7UnPaOJ5uw/wecW+Hd7kCG6yB1gg8NEyrysVcCx10ZMOgc7I0Oj34D+e
+	aGeuOG798g1yr7a1IbFgYXCl5cgDHBGQlQqPWIFQp8z56VcxA/48VbvPVqpWaExCdHSlOqfLBHK
+	bzouSJ0EQtUI8jRbQ+ebenAr2v/lSfmKKEwqs1qGSX9OKS9gUiv5aGMoYU95siPsAQJ+J/GMcbe
+	FsBBEjuqzswsIa2BqnWFgR7WQ+oW0sVztUBiNErKfFeAffZQv6G3pWAWh0upj9642qcHNgoYHLs
+	ssYYPzWT24YXwOb7WYM6tSzcpjzbTqYc/5Lvz0dezsMQ8dNyJUhw65DhkBBnXY5mzk7A+UKKX3K
+	FUfa/74lEjP+4qgOQdl7oPFNjmg10foCLOcR2yr0hhd80sxfQuYqazrpxgV+tJ74SSmOLdYclOi
+	5XSvBeksTfb3Km3SC3
+X-Received: by 2002:a05:6402:5406:b0:699:6d24:e298 with SMTP id 4fb4d7f45d1cf-69a8564e926mr2104511a12.8.1783409778033;
+        Tue, 07 Jul 2026 00:36:18 -0700 (PDT)
+Received: from fedora ([156.203.68.153])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19ce4588sm5515780a12.7.2026.07.07.00.36.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 00:36:17 -0700 (PDT)
+From: Ziad Ali <zalshemy9@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Ziad Ali <zalshemy9@gmail.com>
+Subject: [PATCH] staging: atomisp: fix typo in atomisp_tables.h
+Date: Tue,  7 Jul 2026 10:36:04 +0300
+Message-ID: <20260707073604.11463-1-zalshemy9@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGjuiT9gu32wvx2Vf0U0g9deyAzzGtwwCNEdW_R4JVarO9x4JQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66812-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:nealpatalay0@gmail.com,m:andy.shevchenko@gmail.com,m:andy@kernel.org,m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:sakari.ailus@linux.intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:mugrinphoto@gmail.com,m:matt@mattwardle.net,m:andyshevchenko@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linuxfoundation.org,linux.intel.com,vger.kernel.org,lists.linux.dev,mattwardle.net];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66813-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:sakari.ailus@linux.intel.com,m:andy@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-staging@lists.linux.dev,m:zalshemy9@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[zalshemy9@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[zalshemy9@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:from_mime,intel.com:dkim,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ashevche-desk.local:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C8448718706
+X-Rspamd-Queue-Id: BD9F5718CEF
 
-On Mon, Jul 06, 2026 at 02:59:16PM -0700, Neal Patalay wrote:
-> On Sun, Jul 5, 2026 at 10:37 PM Andy Shevchenko wrote:
-> 
-> > Please, slow down! No need to send a new version immediately after
-> > replying to the previous one without settling down all aspects of the
-> > change.
-> >
-> > This version is no go, sorry.
-> 
-> Understood, no problem.
-> 
-> > > +static void ia_css_debug_build_info(char *info, size_t info_size,
-> > > +                                   int *offset,
-> > > +                                   const char *flag_str, size_t flag_str_size,
-> > > +                                   int *line_len,
-> > > +                                   int *num_lines)
-> > > +{
-> > > +       int len = *line_len;
-> > > +       int off = *offset;
-> > > +       int lines = *num_lines;
-> > > +       int len_written;
-> > > +
-> > > +       if (lines > 3)
-> > > +               return;
-> > > +
-> > > +       /*
-> > > +        * If new line length exceeds max line length,
-> > > +        * replace the last ',' with a "\\n".
-> > > +        */
-> > > +       if (len > 0 && off > 0 && info_size - off >= 2 &&
-> > > +           len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
-> > > +               if (lines >= 3) {
-> > > +                       *num_lines = lines + 1;
-> > > +                       return;
-> > > +               }
-> > > +               info[off - 1] = '\\';
-> > > +               info[off] = 'n';
-> > > +               off += 1;
-> > > +               len = 0;
-> > > +               lines += 1;
-> > > +       }
-> > > +
-> > > +       len_written = scnprintf(info + off, info_size - off, "%s,", flag_str);
-> > > +       *offset = off + len_written;
-> > > +       *line_len = len + len_written;
-> > > +       *num_lines = lines;
-> > > +}
-> >
-> > This makes helper too ugly and unreadable. Again, study the case
-> > first, when this can be true. Do we really need to cut it? This whole
-> > thing AFAICS depends on the dtrace facility in the driver. Is that
-> > HW-related? Is it pure SW? You need to perform some homework.
-> 
-> I've taken a look at the driver in greater depth. The flag wrapping
-> functionality being refactored here is used to construct a graph
-> visualization for debugging.
-> 
-> > >                 dtrace_dot("node [shape = circle, fixedsize=true, width=2.5, label=\"%s\\n%s\\n\\n%s\"]; \"%s(pipe%d)\"",
-> > >                            bin_type, blob_name, enable_info, blob_name, id);
-> 
-> Each one of these calls generates a node in that graph, and the contents
-> of the node are decided by the flag string we build in enable_info. Seeing
-> as we are just collecting debug info and populating a visualization with it,
-> this refactor seems to be software.
-> 
-> Seeing as it's unlikely that every flag is enabled at once, and even if they
-> are this only causes a slightly more unreadable graph, avoiding 3 line
-> truncation seems to be the best option since it leads to more readable code
-> and avoids omitting information.
-> 
-> Additionally, len > 0 && offset == 0 is an impossible condition under any
-> feasible helper function use condition. This can be documented in a comment.
-> 
-> Given this information, to me it seems like the best course of action is to
-> revert the helper function to its simpler state without line count truncation
-> or the offset > 0 comparison. What do you think?
+Signed-off-by: Ziad Ali <zalshemy9@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_tables.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I agree, just add more comments to the code and elaborate in the commit message
-the (potential) difference in the behaviour.
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_tables.h b/drivers/staging/media/atomisp/pci/atomisp_tables.h
+index 33e6079aa..59730ce32 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_tables.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_tables.h
+@@ -93,7 +93,7 @@ static struct ia_css_macc_table skin_high_macc_table = {
+ 	}
+ };
+ 
+-/*Blue enhencement image effect table*/
++/*Blue enhancement image effect table*/
+ static struct ia_css_macc_table blue_macc_table = {
+ 	.data = {
+ 		9728, -3072, 0, 8192,
+@@ -115,7 +115,7 @@ static struct ia_css_macc_table blue_macc_table = {
+ 	}
+ };
+ 
+-/*Green enhencement image effect table*/
++/*Green enhancement image effect table*/
+ static struct ia_css_macc_table green_macc_table = {
+ 	.data = {
+ 		8192, 0, 0, 8192,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.55.0
 
 
