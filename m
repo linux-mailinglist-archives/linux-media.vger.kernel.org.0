@@ -1,105 +1,53 @@
-Return-Path: <linux-media+bounces-66828-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66829-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id n2z3BevQTGrAqAEAu9opvQ
-	(envelope-from <linux-media+bounces-66828-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 12:11:55 +0200
+	id gErSNf7YTGpFqwEAu9opvQ
+	(envelope-from <linux-media+bounces-66829-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 12:46:22 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9CB71A26F
-	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 12:11:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C26371A974
+	for <lists+linux-media@lfdr.de>; Tue, 07 Jul 2026 12:46:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=KtLPpa06;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=YrtXcaqB;
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66828-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66828-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=CvCduiWw;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66829-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66829-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C8CDE303CD14
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 10:11:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7F4D030D0F14
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jul 2026 10:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 415DD3DB309;
-	Tue,  7 Jul 2026 10:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD3623EDE77;
+	Tue,  7 Jul 2026 10:41:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435AB26FA60
-	for <linux-media@vger.kernel.org>; Tue,  7 Jul 2026 10:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BF93DA7F8;
+	Tue,  7 Jul 2026 10:41:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783419095; cv=none; b=OwrxSUaAN4v6lbXWkg62Af7PNV0D3E97zQ5Y5k5f/AfN/OZ3OVJcCCxsMl/FudO2SsNt0EGoInDbMx6txhakgeQyqrp7wmNZjLdUd21xLBo7LUN0itKHo3N1ZHBoONi8iMJknC85IPyo53DPJtbLbyhR599NPmso2WxkOrUxXSE=
+	t=1783420885; cv=none; b=eyi33v76FxLckTf2oJuAIXGd7qjoh9yWkRJ0QLi8N6qlrI4xPEgTrRG0UULTQFqJwUzwAFWmT7mFikthGtcU5GzDFv4HsuK+XxMDDoDMHvvEYr5N5zFi32VALyiSS+VYiVr2RcqGxhArAWZAVeGSQBOhz6BsWNsTZVwZbZCEiiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783419095; c=relaxed/simple;
-	bh=6JL0HqvAqJn5maYjK3rA8vUw308VmjsNmU3ovua3Tc4=;
+	s=arc-20240116; t=1783420885; c=relaxed/simple;
+	bh=3O6Ysib/EBFDCN2Vf57xgj0WB8+cWDuMialRUyEyo7k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ULpNxARXJT4oi1PAGK2am9L5UDEuUZpfOIhfiHzEhuOeZogk/+WOC9sV3igsuEZBIScS++XMz2b48wq69ocvXESAbGn612vZ35j0GbgVFv1jMofYx9i3QPcleYc+XPKscgKBFV16xEa3kp5KakFHBf6lUeS1ua1CZCfYZTd2O+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KtLPpa06; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YrtXcaqB; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667A7BtM3471645
-	for <linux-media@vger.kernel.org>; Tue, 7 Jul 2026 10:11:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	SuuTWbnslk2/iT7IgwctDLxx0OexGzzGiaPtPGBGzo0=; b=KtLPpa06A5oo1t+L
-	eIxFsHCf32opPqLCXZ3MLd5TpCSXBESUAPmbNluLiTU4CMxqbcJGrN6bAEKcGdmn
-	GjOAcKt9lw7SNU5ZOUXAoal7+6epI/zKB3oMle6sdVJa1tb8AEsHoDy0wd1QNFYK
-	35vwY5MD+AOIjHaP7LCrWoOVqtuFPrZ2R/kFUnjn2iA7vWmju94VCIjfm/Ago+dc
-	M92fqp3S1SLaiUKma26iXOkhdQIP5TYZDqWDy9fzgiQ1qE15QnbBu4xcRxRHZw4S
-	axlMOExk19kn68ctfOjN7OSa782NNQ/ipjAeies8cuYGur9Knk8CMT4iNYU2RepB
-	0NMZjg==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8ye0g0kj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 10:11:33 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51c2d2dd52eso3382111cf.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 03:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783419092; x=1784023892; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SuuTWbnslk2/iT7IgwctDLxx0OexGzzGiaPtPGBGzo0=;
-        b=YrtXcaqBeHxMYgHS32mLXya4P0mnmPInJeyTq5sLdnBAbYw16iKG48xYMi4e4g2kVq
-         FHcHEKnYz6sdK6rg0x9p1mqeefca9bUrap32OyywKsCmonVpNUvcrXxHWSJBBbOHGiI1
-         I0FLq+fz81EW30mo0SvzymqV9SB4g2w4p9VzevcelwdMWahhlEXYfupigkXMjaKKSu3/
-         +muN54mUgMBraKIr0nuutLF+23WCq4JpfQBsvDk9U0JLWk1pLZrwFHvZ75Zh0Xa5XE8m
-         xoJeq6xClisjh3CudLc954aGdkVM/2ReVOsyWCcxgI51nOW5CrUeYN/CH76IE5UJg9ez
-         m7ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783419092; x=1784023892;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SuuTWbnslk2/iT7IgwctDLxx0OexGzzGiaPtPGBGzo0=;
-        b=PdmQHJoifjShWaex1Badj4Aiap7Ck5ZbnpPkKktB7D4xitmTWMLuJ5c1Qq3MeDPCiv
-         iasjlkSoWJsU+Igw8tHEwrIcFBgi3x+7/4OFNLqUTN+OB4HSj4KfMQfQLOkLLhNUm4Is
-         Z/yWRFYQkM+vL+COJkCegNTyCr7Dff0kMV5BoFKfDxuE9TpA+TlocO/4Q1t/03v8rMHR
-         Laq07gP4Y11TJSMd0Y8qjlddSfn0759iEAmxDAJw4dikvaHba4+1c7gahMX5T8oq3qlU
-         cL6r7/3IZ8yLzwjko5bzIJYfmEPJYHqJFJ1LnpWGQP/ArlNwTE7l5kGekskhvW/9pRX6
-         CdpQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp3XXsX24u4qt5sbWydVz1F7aDCQ9r2tJQSaVnmB7jDQpq8o2QxarN/u8L88SL97g4F2Flk1RZgRajbyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgMJJZsGjjLE7dHtJ6MPWcZseymVpul0w48QiL76VFsk1sV4ei
-	MCCnbV9wm+S3k4KsNnufl5kdcOxlzD2gX8x2v65XWSK39FkRymclxXBF50GgphCg0ZI/+iozJRN
-	bpGyQD3AiCAUc/licd4XjD1CAbLFjI/e5jeZYJlsW28bOauUn9ZXEfoQeaSp18jq/dA==
-X-Gm-Gg: AfdE7cnAqTu3W8e7uWmcNScBolUL0tx+FlcFMuaaukMwk8IVRc3kZMHXFC6Y9qvSyP3
-	wT8TqbZIL5J3v8nolQBNELGvSC6Kw/pzo4gTY8FDVZW3xPRE2oYyqIQ8/jlcGi6GzyupfO5MiX9
-	jW0VdeT3ab3dengcwhhllpCpjP8AdBiqPpM7wpo0OpRHGfrQjSSrYjmctBReEjBJGVf/mR1t+7v
-	ZgnGEx+5U5N1zkfB1pj7KOovHJqp+s+uCJK6xMuAyYM3fSwPOo0OxRhq3xRL5uHsUWyKulthDkn
-	GSUyAAYLHX4HD31TDjShRjYud86Pj28qNAGk6PsEiIscgGPnk5+ixRW6+C8hZkulvAIPaw1lVSf
-	P2Ubbqf5FseWmmGguCKftF1O0kkAnzZVVZ9k=
-X-Received: by 2002:a05:622a:347:b0:51c:2101:f0 with SMTP id d75a77b69052e-51c4bda6c05mr134668971cf.2.1783419092387;
-        Tue, 07 Jul 2026 03:11:32 -0700 (PDT)
-X-Received: by 2002:a05:622a:347:b0:51c:2101:f0 with SMTP id d75a77b69052e-51c4bda6c05mr134668681cf.2.1783419091715;
-        Tue, 07 Jul 2026 03:11:31 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad84bc3dsm101215766b.21.2026.07.07.03.11.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 03:11:30 -0700 (PDT)
-Message-ID: <d0768c15-453f-4d3f-8110-886a5c697b02@oss.qualcomm.com>
-Date: Tue, 7 Jul 2026 12:11:28 +0200
+	 In-Reply-To:Content-Type; b=ps22h5Uv789eiXmLITuSjnIcPWKs4/4o27iZU4Xq5k30KfUGz5nPXLOzmRywF5KJYx9Vj9uIGHSi2yZ8+6d0MrKz+C+plBnc/TTvx7SroO0tmtasrCAzI2CG2T8CAa34op60zuLJWfx1/u+9w13Qj/X1oLKLSZDLA3fv82RQGvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CvCduiWw; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E36741F00A3A;
+	Tue,  7 Jul 2026 10:41:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783420883;
+	bh=KlgZ7P7IZ1tcZogmnB5NAiKND0y62Qae+ZrMg1gqv00=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=CvCduiWwq1y4A4HzQHMAcWHhMnt4TuGRs/+IANYYWeuPh0SFBxYdkZY0iZRMEm5hJ
+	 glDJVmyAGiKRPE911qxVo8M5sM5ssuwAO1WI+Q5XP3TgWgHFcTulS+OORrmrRZeI58
+	 4DwB+pf4hWfDPBJLKIPeEO0RNJzo8Qbi0FBfxynSiLRB++fbXsbYJMiGwfOpmB/WnE
+	 6LwKM94nkbSi0nLCUzoBJpIvqDAzOMvdbBJM6N6hplZIXNx5lZtR40TXIKpo0DRv2R
+	 +LcUZC5/jJ34NNJK8eUmaofcQ6sZpVIMgErfH9Rlb2qACsjBbRc6SsQ9nBF8u25FBb
+	 W5UGVhEYqhAMA==
+Message-ID: <d5407ab1-1af7-4678-ae67-5cf30ce8fa4b@kernel.org>
+Date: Tue, 7 Jul 2026 11:41:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -108,15 +56,14 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 0/5] Add Qualcomm JPEG V4L2 encoder for SM8250
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
-        linux-media@vger.kernel.org
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
 Cc: loic.poulain@oss.qualcomm.com, mchehab@kernel.org, robh@kernel.org,
-        krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
-        konradybcio@kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
  <68e59764-5a10-4abc-849c-14ea2d9ef76e@linaro.org>
  <d74d7839-d126-427a-b151-ca895a27a83e@linaro.org>
@@ -125,150 +72,167 @@ References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
  <8116c54e-4050-4e9d-b236-59d74846bd57@linaro.org>
  <8a09875d-af5f-438b-b947-bc2b61219b70@oss.qualcomm.com>
  <c8c38ec6-4422-4c91-a249-20bc20260e73@linaro.org>
+ <d0768c15-453f-4d3f-8110-886a5c697b02@oss.qualcomm.com>
+From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <c8c38ec6-4422-4c91-a249-20bc20260e73@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <d0768c15-453f-4d3f-8110-886a5c697b02@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 0hlY8592TywgDy0hhdKdSlLKgu-QlkkT
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDA5NyBTYWx0ZWRfX43UOtiyySQUH
- +oVY6K/ZX/QLqPKK4KorJM/4xO2BntPLhrZGw0VZXER2AdwI0euxVAYlDqPDV3Q2eeI0vVmsP7T
- 6FruKRfB0Yv7mGz+NZEJdwXbLJUNRuA=
-X-Authority-Analysis: v=2.4 cv=SZfHsPRu c=1 sm=1 tr=0 ts=6a4cd0d5 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=VwQbUJbxAAAA:8 a=lEcDftd587Omc_cSSeQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-GUID: 0hlY8592TywgDy0hhdKdSlLKgu-QlkkT
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDA5NyBTYWx0ZWRfXxlKKAyEZ4qaW
- GyRwoCZ1+LQFw1lbmCujpduxAfC0/hCjajVSHmpxb8GCJwnIJxnjkGw8E1MTiChd0aZ17Nu2nUK
- bb7bWaMOqx8mB/tKtPejhU218hSMVb0znp2GmMEvCjSpeLEgt8FDOUrL1lYfvPWoE42OUSiVNwB
- 5pvG1A65rIZUs1b0UbMWG3fU50B9N5jMrKAoZwRrHL7PBScAF45lKveEW8rT4t7g2cV53JrrkQ/
- FbjvuGzaJEdHCrrepC1ag78NEiAP50k0Em5nn/cnliCVRscr/jGnNFN1DqFYOxS5gD3oZcSArNS
- C8iRRaxNcvyfRbLi6HSfi0raytIeQbNHu+EOuALne/lKraVC+eTy1m+ebL3ITzcQtqZebmfDdWn
- JcQXjxLAISIpPeq6EuveunSPBy83NydnE7EaZmwBC/SSDQ/2na66eW/1cOyrOAGuuXZNrR+pLHk
- 4JqugnIAgb/6y6j+Gkg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-07_02,2026-07-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0 spamscore=0
- adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070097
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66828-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-66829-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6E9CB71A26F
+X-Rspamd-Queue-Id: 3C26371A974
 
-On 7/7/26 12:00 PM, Bryan O'Donoghue wrote:
-> On 07/07/2026 10:24, Konrad Dybcio wrote:
->> On 7/6/26 3:37 PM, Bryan O'Donoghue wrote:
->>> On 06/07/2026 14:02, Vladimir Zapolskiy wrote:
-> 
->>>>>
->>>>> The idea is to make all of these peers, eventually. Not particular block
->>>>> owns the TITAN_TOP_GDSC - the entire CAMSS block is a collapsible block.
->>>>>
->>>>
->>>> The statement provides the same information as before, e.g. it's found here:
->>>>
->>>> https://lore.kernel.org/linux-media/fbc018f5- c025-4747-85f2-53b45b0f0496@nxsw.ie/
->>>>
->>>>       There's no functional linkage between CAMSS/IFE and JPEG - they are
->>>>       peers within the CAMSS power-island.
->>>>
->>>> Thus "the CAMSS power-island" exists, and it got its hardware description
->>>> as the CAMSS top device tree node, and TITAN_TOP_GDSC power domain is
->>>> a natural resource of all devices on "CAMSS power-island",
->>>
->>> Vlad honestly, TITAN_TOP_GDSC is provided to the CAMSS island - all of the nodes within it depend on that and it is _external_ to the block.
->>>
->>> There is a CSID MUX on some SOC other than that I'll restate it again, I'm not sure why you won't accept it.
->>>
->>> There is no dependency between JPEG and IFE, one is _not_ subordinate to the other and trying to find ways to invalidate that statement runs counter to the facts.
+On 07/07/2026 11:11, Konrad Dybcio wrote:
+> On 7/7/26 12:00 PM, Bryan O'Donoghue wrote:
+>> On 07/07/2026 10:24, Konrad Dybcio wrote:
+>>> On 7/6/26 3:37 PM, Bryan O'Donoghue wrote:
+>>>> On 06/07/2026 14:02, Vladimir Zapolskiy wrote:
 >>
->> They are all subordinate to CAMSS_TOP - Vlad indeed said they are
->> peers (i.e. there's no co-dependence between them specifically, but
->> their parent is shared).
+>>>>>>
+>>>>>> The idea is to make all of these peers, eventually. Not particular block
+>>>>>> owns the TITAN_TOP_GDSC - the entire CAMSS block is a collapsible block.
+>>>>>>
+>>>>>
+>>>>> The statement provides the same information as before, e.g. it's found here:
+>>>>>
+>>>>> https://lore.kernel.org/linux-media/fbc018f5- c025-4747-85f2-53b45b0f0496@nxsw.ie/
+>>>>>
+>>>>>        There's no functional linkage between CAMSS/IFE and JPEG - they are
+>>>>>        peers within the CAMSS power-island.
+>>>>>
+>>>>> Thus "the CAMSS power-island" exists, and it got its hardware description
+>>>>> as the CAMSS top device tree node, and TITAN_TOP_GDSC power domain is
+>>>>> a natural resource of all devices on "CAMSS power-island",
+>>>>
+>>>> Vlad honestly, TITAN_TOP_GDSC is provided to the CAMSS island - all of the nodes within it depend on that and it is _external_ to the block.
+>>>>
+>>>> There is a CSID MUX on some SOC other than that I'll restate it again, I'm not sure why you won't accept it.
+>>>>
+>>>> There is no dependency between JPEG and IFE, one is _not_ subordinate to the other and trying to find ways to invalidate that statement runs counter to the facts.
+>>>
+>>> They are all subordinate to CAMSS_TOP - Vlad indeed said they are
+>>> peers (i.e. there's no co-dependence between them specifically, but
+>>> their parent is shared).
+>>>
+>>> You can't use any of these IP blocks if you don't first power up
+>>> TOP because of the physical layout.
 >>
->> You can't use any of these IP blocks if you don't first power up
->> TOP because of the physical layout.
+>> Yes and I'm asking for TOP to be listed in each of the subordinate nodes for reasons given below.
+>>
+>> But unlike MDSS - OPE for example doesn't require IFE or CSID to do its job.
 > 
-> Yes and I'm asking for TOP to be listed in each of the subordinate nodes for reasons given below.
-> 
-> But unlike MDSS - OPE for example doesn't require IFE or CSID to do its job.
+> MDSS also contains a number of unrelated peers - e.g. DP and DSI
+> controllers.
 
-MDSS also contains a number of unrelated peers - e.g. DP and DSI
-controllers.
+OK, I can see how this thread is confusing.
 
-> Over time we can move the bindings to a model where the only thing in CAMSS is a top-level bus like declaration but _right_now_ what you would do is create an artificial dependency on say CSIPHY for JPEG.
+The idea is to start to declare sub-nodes "on the road" to making camss 
+into a bus. The legacy binding we have is really for the IFE domain - 
+that is CSIPHY, CSID, IFE.
 
-I don't see where such a dependency is created.
+Right now the camss binding describes those things - so linking say OPE 
+or JPEG back to the thing that describes those isn't right.
 
->> This is exactly identical to the MDSS case.
->> I was hoping this was clear after N other similar threads.
-> When we split IFE, CSID etc up into their own individual nodes it would be possible to model as for argument sake
-> 
-> compat = "camss-bus";
-> power-domains = <TITAN_TOP_GDSC>;
-> 
-> jpeg@x {
->     power-domains = <JPEG_GDSC>, <MMCX>, <MXC>;
-> };
-> 
-> What I'm saying here is do this
-> 
-> compat = "camss";
-> regs = ife, csid; // exisiting bindings for the last ~ 11 years
-> power-domains = <TITAN_TOP_GDSC>;
-> 
-> jpeg@x {
->     power-domains = <TITAN_TOP_GDSC>, <JPEG_GDSC>, <MMCX>, <MXC>;
-> };
-> 
-> Otherwise you create entirely artificial dependencies between IFE, CSIPHY and JPEG, OPE et al.
-> 
-> And BTW if/when we get to the camss-bus stage of things having TITAN_TOP_GDSC listed in OPE and JPEG is a very small price to pay.
+OTOH we _want_ to make the top-level binding into a bus, we've discussed 
+that several times.
 
-Patch 1 (+ devm_of_platform_populate(dev);) makes camss-bus a reality
-today
+To transition from monolith IFE-domain only, to camss-bus, we should 
+have the sub-nodes fully describe themselves as "camss-bus" doesn't 
+exist yet.
 
+Once we have compat="camss-bus" then fine, make that linkage, I fully 
+support that.
 
-> We've already agreed to gradually transition the bindings instead of go for a big-band integration several times.
+That roadmap BTW is why I'm asking Antanas and Loic to make JPEG and OPE 
+sub-nodes of camss - but make them complete sub-nodes - power-domains, 
+clocks, nocs, including the TOP_GDSC.
 
-JPEG isn't a block that's described today so I see no blockers here
+It means we can work on splitting apart the existing camss node in 
+isolation to make CSID, IFE as peer sub-nodes.
 
-Konrad
+We definitely shouldn't be making those sub-nodes dependent on 
+compat="camss" but they definitely will be dependent once we finish 
+making compat="camss-bus".
+
+When that is done I fully agree TOP_GDSC belongs in the bus node, like MDSS.
+
+I hope that makes sense.
+
+---
+bod
 
