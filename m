@@ -1,184 +1,190 @@
-Return-Path: <linux-media+bounces-67072-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67073-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6cbhM2vDTmqKTgIAu9opvQ
-	(envelope-from <linux-media+bounces-67072-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:38:51 +0200
+	id AMa8DcrDTmqcTgIAu9opvQ
+	(envelope-from <linux-media+bounces-67073-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:40:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408E372A94D
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:38:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 944E972A977
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:40:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=S5xFO8X9;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67072-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67072-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=snderf5a;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67073-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67073-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0F2D0314559E
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 21:32:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C5601300B87B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 21:36:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F391C3F787C;
-	Wed,  8 Jul 2026 21:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29263F787E;
+	Wed,  8 Jul 2026 21:36:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6673F58C2;
-	Wed,  8 Jul 2026 21:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DCD3F660B
+	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 21:36:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783546331; cv=none; b=a2t34j2GgbxJu8de6QFPGzr5HIM7iwn6ztPrNBVC1PcncwsealcOzWWe3+fpJnzuF2dYib3mZCTvJQ2VRn+SRwTaBNuh4yvQa0fgLjKTtWh6WFIkGgOL2Jry3zL8EwU/k4VOiK6Y5yo0si+LuUg+tlm//arUigDfYvEadFB/OJc=
+	t=1783546607; cv=none; b=K4ZrwZTGjQKbI9/Bjxb8TAXLH+N4Te45YzRflfOp8j90ckL5zFOnvtkxAJLgOGRjDsYcxGw9lv5e/eJVY85ghwt8tIi/2bjsXkuHsIEPUPJskCBT9Uw2gHXqMQldS+MdvcRqrXbLJ2NklxY0wvnupO5YL0lVqJLiXG8Ir6r74ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783546331; c=relaxed/simple;
-	bh=v/yur6JxQBlQ7XQJVCJ+0tvVXPAOphXTYjC/pf7GVeE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gXMmNsgSd5GtBudne2ZUpVwQuyrz5Tf80o1VYbyNED3hJ5bW+TBa581HcCD35P7s3ewIQunMD1xu066ap8CjDHwwiaub1MtAKQf3tbV/ukk627eiEevZ7itSvxPUwycQ76JVJtbtYW0v0q9yVJMkzKe1WROU6isZcFxtG9QuOZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S5xFO8X9; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485CE1F000E9;
-	Wed,  8 Jul 2026 21:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783546330;
-	bh=yOS1kfFuRrQQs4Q/BOmYqHiHHqC4EdqaWa5cvJ7jP0M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=S5xFO8X97QBypirWq0CzOPovRIyynWtopFLPfH7I0ZSr2hxoEj8UXe2QI0KkSs+mQ
-	 bjtT4c5KbfuvH8kDRHp4RmhgOl1/z8Q2uiL1UxFJrVxuL37VvCPTQsMz1pmjzrZcNg
-	 J5E7ZlzP2fW4Y9xuzbOIsKWx3suRBx7HVmR0rt6djcDe9D/j5rXnd3RF3vs6NyNOO9
-	 xH5dHxCo8lhHIvBqagP6wbgpvGv8GtxMY/ZTAZkLPWmMs5xMW3ai3aJLwyrvDKD4LT
-	 Rbrod1IFSOLIelGEqOyKbIolziS0xehnPFVGVGcyBRCzise12zkz5v+zECow2JMvo3
-	 i+otA476liv8Q==
-Message-ID: <f307848d-6abd-4e96-9183-36f8599026ce@kernel.org>
-Date: Wed, 8 Jul 2026 22:32:05 +0100
+	s=arc-20240116; t=1783546607; c=relaxed/simple;
+	bh=5m54YSkayBjfymTOaMTs63W9YSbPr5wsG6NiuXstMy0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p+0a0XH5SarJu8mbXRtzFHXXyRJv/S3SYV7vVu00QVLgdNsZIjxL8Q06vLPxVH+YNlxmXW1OC7gvaocGZhZqtCNk06x5LQqSupbWst5TPYb/mlKXj2U7uozwMDPUR75qegVHaZL+7UUr7PuAI7v8XvSMc7i6+AlfKz/ZgljGqYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=snderf5a; arc=none smtp.client-ip=209.85.128.43
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493c19bad03so11216105e9.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 14:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783546604; x=1784151404; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nfr4hNPDMxSC3hDg5gyegf7QLZwqwa7EAfP6d1SzZr0=;
+        b=snderf5anVnu1clOujZ2nDKvzB2vbpS8zIQGAL6p+WTX+FNQ0OadP0gHT+NZLZrwfv
+         KhYqUivgJ1ryUXTdbtVuwAis+aDW77QBP2cVVYUHakOuorSmiRhL2sMcws+MzaLHpY8M
+         Bje7YwExXEGjS+5P9CiLVtdGzBf0sLeU8SRWUCQD9YAMLvNdtXo6+QwdNQ6957lifR79
+         Kqha31ENlqT9LeA6HdfVynxlUbRfrSrhbZhS+2MlE5acmc2wKltf0f4aHRTvdX/U3Aen
+         ibx1gQxHv0135WyNhcAItuAtbUK2URcQHs35VAblUZL3TQHl1ah5BUILNMBWK5mqryiE
+         71Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783546604; x=1784151404;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nfr4hNPDMxSC3hDg5gyegf7QLZwqwa7EAfP6d1SzZr0=;
+        b=JCw5sNdgjAZaGCTE2zCNS9ddjOUeOem5vdOu7lu7hawnCjL4vkynQAJgr8Q5Uixfmm
+         XCuly6Xkty0qT7uXtsf5WapvlGC9oYTE4nGSJh609+sAoJ3l/Md+0H+MenwzQ1DL2gp/
+         UrPZ5MHhg0sgqjFKRrU0dDLHBJx8QiWtO8loRdyzfT9LO0ya3/frUZuKBWQj1yzzrJPk
+         hSRQmIM7XbecnDaVfM8qj+jIbVNIOn9V9WJYyHvy/uHcWBTr1v28dezuaI4RtD+NLE2p
+         GvPIM5XVfIdARHLCax+XTq29T+RkX/yuA8WYiESYmBN+cSpj/cnWoUKKix8D9gipdIiC
+         Ta2w==
+X-Forwarded-Encrypted: i=1; AHgh+RogrIrxjeV0xhva0jeSP5ugUBvlJgqDli9KxBUpzy86mAG2+TH7FoluYzgdH4VcDFMu89/SBUEuOeJ12w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxl+wXTb2CFY24baX1vuwUYioWN1qrXpE9Kmdi6aVsSZtEhFACb
+	07d1OOWz59Gk8zvlx4XXevPGN8cwlOf0dbfaKXe5KbcaFyHKY/y4I6Lh
+X-Gm-Gg: AfdE7cmatVYP+AgLSpSoKYH/Ade6G/7lNo8fpyS5Aw3WMq7zeYIM1k18EZd1YV1iKDQ
+	8QZnKOQj4n59cgMDfdtQbtGZoA0W8KwSejhSMejeLnTSaMfkhoQy3WUYoafeXYGPFFwxZOlaCmO
+	J1lPt2RJw0w6IdIrWR7miSFsQWKhgvI74JbKleQoswr4SLwCBztB9DE7EV0lEhnidKn7VGYZpCT
+	GBRVnpLoZOX5RiyfvaVqYUHRfPp/l8AwnWqTQwPDNd2YGKdQSKMuFZjF+BB3V+aHdytZGXoQhPC
+	vJMzi6EkexwP1lQ2TtTr8dgfjBHtQzIuZXXC2kGT4liM3+hoZk739gypWRit4vyEzyrs2/YYM2e
+	zHzYLoLpj1PC0iE3+vAeS/qheStX35eArtLzbHq/qOr4dIMp/9eAbDpS4dM9q14BryJNRXXFK2c
+	0t6Xwnn47//zR3qA9fz9SoKoO10DEZ/Ux7MBl83A==
+X-Received: by 2002:a05:600c:3548:b0:493:c4e1:40a6 with SMTP id 5b1f17b1804b1-493e6873594mr39471085e9.32.1783546604034;
+        Wed, 08 Jul 2026 14:36:44 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:5d3a:fe75:ecea:55a7:5b01:7b9f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e3e2702sm47900063f8f.9.2026.07.08.14.36.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 14:36:43 -0700 (PDT)
+From: Fernando Rimoli <fernandorimoli11@gmail.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Fernando Rimoli <fernandorimoli11@gmail.com>
+Subject: [PATCH] media: ov5693: add OVTI5693 ACPI HID for IPU6 Surface devices
+Date: Wed,  8 Jul 2026 23:36:33 +0200
+Message-ID: <20260708213633.18392-1-fernandorimoli11@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/6] dt-bindings: media: qcom,x1e80100-camss: Describe
- iommu entries
-To: Vikram Sharma <vikram.sharma@oss.qualcomm.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-References: <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-0-f8588da41f16@linaro.org>
- <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-2-f8588da41f16@linaro.org>
- <HCPw5KYwtYb7jBFED4lssTvcaMo2bK808SHkTWNR77q0DXGPQklaADJXvuyeBrXh_GsEMKdiaaktkzQ9_xeseg==@protonmail.internalid>
- <cbc1b1eb-0064-4999-b829-2bec451c682a@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <cbc1b1eb-0064-4999-b829-2bec451c682a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:vikram.sharma@oss.qualcomm.com,m:bryan.odonoghue@linaro.org,m:andersson@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:rfoss@kernel.org,m:todor.too@gmail.com,m:mchehab@kernel.org,m:konradybcio@kernel.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:linux-arm-msm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:krzk@kernel.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:conor@kernel.org,m:todortoo@gmail.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,linaro.org,kernel.org,baylibre.com,gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-67073-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-67072-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dan.scally@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,m:fernandorimoli11@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[fernandorimoli11@gmail.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[fernandorimoli11@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 408E372A94D
+X-Rspamd-Queue-Id: 944E972A977
 
-On 08/07/2026 16:15, Vikram Sharma wrote:
-> 
-> On 7/8/2026 5:36 AM, Bryan O'Donoghue wrote:
->>               iommus = <&apps_smmu 0x800 0x60>,
->> +                     <&apps_smmu 0x820 0x60>,
->> +                     <&apps_smmu 0x840 0x60>,
->>                        <&apps_smmu 0x860 0x60>,
-> 
-> I think only "iommus = <&apps_smmu 0x800 0x60>" should be enough as mask which 0x60 is implicitly covering sids like 0x820, 0x840 and 0x860.
-> 
-> Regards,
-> Vikram
-> 
+The ov5693 driver only matches the "INT33BE" ACPI HID. Some Intel IPU6
+Surface devices (e.g. Microsoft Surface Pro 9) enumerate the same OV5693
+front camera with the ACPI HID "OVTI5693" instead. Without this HID the
+i2c core never binds the driver, and the IPU bridge never builds the
+firmware node graph for the sensor, so the front camera is unusable.
 
-These all come from the Hamoa iommu defintions in qcom docs.
+Add "OVTI5693" to the sensor driver's ACPI match table and to the IPU
+bridge's supported-sensor list. The link frequency (419200000) matches
+the existing INT33BE entry, as it is the same sensor. Devices that use
+"INT33BE" (e.g. Surface Go 4) are unaffected.
 
-Can you double check for yourself and let me know.
+Tested on Surface Pro 9 (IPU6): the sensor enumerates as OVTI5693:00
+(ACPI path \_SB_.PC00.I2C3.CAMF) and binds with this change.
 
+Link: https://github.com/linux-surface/linux-surface/pull/2171
+Signed-off-by: Fernando Rimoli <fernandorimoli11@gmail.com>
 ---
-bod
+Note: this HID addition makes the sensor bind and enumerate, but a fully
+working front camera on IPU6 also requires programming MIPI_CTRL00
+(0x4800 = 0x2d) before stream-on, otherwise the IPU6 CSI-2 receiver never
+locks and capture times out. That register change is being handled
+separately (see the Link: above). This patch is independent and useful on
+its own for enumeration, so I'm sending it standalone; happy to reorder if
+you'd prefer it after the register fix.
+
+ drivers/media/i2c/ov5693.c           | 1 +
+ drivers/media/pci/intel/ipu-bridge.c | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+index 4cc796bbe..02236f3db 100644
+--- a/drivers/media/i2c/ov5693.c
++++ b/drivers/media/i2c/ov5693.c
+@@ -1396,6 +1396,7 @@ static const struct dev_pm_ops ov5693_pm_ops = {
+ 
+ static const struct acpi_device_id ov5693_acpi_match[] = {
+ 	{"INT33BE"},
++	{"OVTI5693"},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(acpi, ov5693_acpi_match);
+diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+index 88581a4c0..b70d61099 100644
+--- a/drivers/media/pci/intel/ipu-bridge.c
++++ b/drivers/media/pci/intel/ipu-bridge.c
+@@ -93,6 +93,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
+ 	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
+ 	/* Omnivision OV5675 */
+ 	IPU_SENSOR_CONFIG("OVTI5675", 1, 450000000),
++	/* Omnivision OV5693 */
++	IPU_SENSOR_CONFIG("OVTI5693", 1, 419200000),
+ 	/* Omnivision OV8856 */
+ 	IPU_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
+ 	/* Sony IMX471 */
+-- 
+2.43.0
+
 
