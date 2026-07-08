@@ -1,124 +1,183 @@
-Return-Path: <linux-media+bounces-66949-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66950-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6CgSKND3TWqJAwIAu9opvQ
-	(envelope-from <linux-media+bounces-66949-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 09:10:08 +0200
+	id eX2fMZL8TWruBAIAu9opvQ
+	(envelope-from <linux-media+bounces-66950-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 09:30:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CF07227F0
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 09:10:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C58B722A2D
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 09:30:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="m8yi/wQd";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66949-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66949-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=e6Xc2feN;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66950-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66950-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8BA9D3016C34
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 07:08:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 017E6309D378
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 07:24:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221A63F5BE5;
-	Wed,  8 Jul 2026 07:08:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC93C3F65FC;
+	Wed,  8 Jul 2026 07:23:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E7E3F4DE1;
-	Wed,  8 Jul 2026 07:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD3F3F44EA
+	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 07:23:36 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783494483; cv=none; b=onL+fs4umzrind47o9aa/iCtIO1mWCwu0hIgWwNjWEIyMfKu37cGgFHvvohedAsGkni6tW/3zlHeKbkvFCa+R+fLhdp0U7d9MbNaz22S2xAtzBApZp/9ARaD+xVd1y2oi170gegs/EZ9WSVw6qeeA4Y6RnR7tjEEWATY4iFtX0g=
+	t=1783495427; cv=none; b=TTrDoj/1NWAhQSR7t//w+InXXbif6lFUClVSkgM4E2rlBR61mNDshYmQUdnpteYQobLmUr2GttdXoyTYLGHyWEMzEJpOL+uySdc1HnFG6KV/lzQnbgMrqiyq+7KJSVSnvMg0T/UPGqFmosITT6rmTjAB9Y9zxX13+DGa4+8pL+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783494483; c=relaxed/simple;
-	bh=8OmjP1C3eqGW1vyoaH/AvAzOD3KAwXBGQtZqfYxXxCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nx1os9WstUU0/DcAFtn2uBIlxk0fuMbGuKa85gOfwuEvl/xSl3erLBHQDvLLQ6YmAK9paxpPpJqCxdANpMCf53lKDwe778E59YqwN8ecH3QPrKvbjMWefroRJME3+R4GZqmIftVhakO0536ul7U88HrYItobEQlju/bG50psyoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m8yi/wQd; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAB311F00A3A;
-	Wed,  8 Jul 2026 07:07:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783494466;
-	bh=JGy+fWbj3bn3OEzh7hjccT5O03Rm5z43AWv6lrvA2dI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=m8yi/wQds1R43Vbtc5bV9wMcWzjdDmOveSG/5LEJ6o4b5NsAeIlcVL8MuUxdJ6HUv
-	 Ve/fLNSzPSoU6SCbWd8lefkHTJgtCL7qaMEkFt9WLPUP8M2PP48Wq6KOHTWn7POdTI
-	 rT2RO6SYFExIYMsK83Bx2wOU0AtnqOEp0FTwke5rHv8a4EuNpkttgUGbzIKzlkz48H
-	 TSQbu2CnplBNd9xx6TOQa1+OpmsF55fFNPdy8DPzNMNcMUj9CnDJzG2cDjSnnKShbG
-	 as5AWeidGwIpa7ojn9l/kMzjL21O9CiYI0Mbx2Xt8rH1BSOPE0Kv/G09JZws3hJN9G
-	 XaC79Z74mV78g==
-Date: Wed, 8 Jul 2026 09:07:41 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Richard Acayan <mailingradian@gmail.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, David Heidelberg <david@ixit.cz>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 02/20] dt-bindings: media: imx355: Allow 2 CSI2 data
- lane output
-Message-ID: <20260708-humorous-wonderful-cuttlefish-bd5ebf@quoll>
-References: <20260707-media-imx355-v2-0-1683ec07b897@raspberrypi.com>
- <20260707-media-imx355-v2-2-1683ec07b897@raspberrypi.com>
+	s=arc-20240116; t=1783495427; c=relaxed/simple;
+	bh=Mc9Hhdi+MlmmTpUGUMkd9MUwMZFDO3QrP2FfW4Y593g=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=oSAo79UZQEQO9nzEII8c6wq/BH3fk8nYC8mUBmGVoq69mOaTgwZ12Ag98HfrT7XD9s/kZCOXyPy0WJuH4jSsnt5HhgT2TSenjxqFqAM1ONMRjLCpviS9HrfpG0V8z8hAoROLXr2tZdBMPUrtK0N9IHxTMsjV2+LbznJF9kkwtD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6Xc2feN; arc=none smtp.client-ip=209.85.216.47
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-380cda7f00cso338748a91.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 00:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783495411; x=1784100211; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+AjIkGqeMdht6hiLhVYaqloFQG79kReEb1g2147hBT4=;
+        b=e6Xc2feNkyAaCwCjShk5qT9Uyy3OBIxy2t8k5hdH7ui9eDM2mR7h5E5qTYPZnYz72Q
+         6hTZI7C7NXad0TVl9rmI26QqW9mafmw4NgipRp80mjGRy4mjrfAdcdPS/8Q2L/nbuhTM
+         FgNsMMUPj06D997Mge/K6hFD86aNV9kio0au7dWP7qsIeMvfSVcEmQNmS9I48hXibHHY
+         bZU0nQcMwy8PUpt58rCzPXmEyluerzIqmEiKuNv/gOboWkb1k8vi4JkHUXpokwWi80f9
+         zJecEPmAt35OuVLwZzSUgENM4cmyPzu4An0iutEMxW+Kq+ojGrZ2Ck+lwzWV2PAOrUnw
+         yVIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783495411; x=1784100211;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=+AjIkGqeMdht6hiLhVYaqloFQG79kReEb1g2147hBT4=;
+        b=SzxgFTN0CpqOZngXXKPweHEL47s0Mc+3Or9GRAFSLiNU9gjrmgciNxfzVOFMsHdawS
+         9hGRhAVqrDLkdrEIaweLLcyAMxZqy2GC2f8exY4oqvruogKgWaa4bQOXKyp7i3bBxvJ0
+         QjQtkVc4OYk2tUtzxMBk8gSl7rCCqTGF6RrBott1L1ZUNWczhzBvwSMv2Vek6FkLq+fp
+         zp3MMqFXSh24GT/JNXkSJTRbR2tHzTSz2BDfMEArrhh+Sy4jA47SN/aMRsX0v6acfPaP
+         4QuREzqheeIbxjecK+xDIAMhKXyrgcj9h4KFwfUXrw5Y3asyQU8qlIax2POPCHaXxTgH
+         q9Tw==
+X-Forwarded-Encrypted: i=1; AHgh+RrrQYykMb4NirtUEAohrsarFZT/mX/WLSAiD5dA6uzFoAFuwkssv363QUVrj7M5JsG2t910Wl6Gg749JA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEDxMdMvgWlfGMPrASY4KiqnUGffr0HWsMsa4a8m4qC+VJZIxF
+	+qa/JYsYZEzEmB+7ozssUCa808M83GnUW9kctFqfsmvcUb+mc5zgu4kiD/Bj+uVDqRk=
+X-Gm-Gg: AfdE7ckZ+Vsja+0E5oBSBMR0ptssx66V5Gnl3p2i0RFaPqVYf6ldwcoSh7Ib+Iwsjtw
+	2XgzYl3xDLo8nsKKhGIe63swgH+ISBHYf1Q66byP5XUIc7bukPFt79B9u4vyBEi+06Gh8vQpCKg
+	s9/1gCv6aDBq5F/aIaYK7oyieEV8ZMg0lG2Zyky6XXFMD2rlqXPPrnCxlcXMa5EIDNPwoSFDk81
+	CKmeQpeMjTDRCKlzNyCr7SwBDFvq8bW905C6AAzqcw5LBycVcdv2OrBW+W8u889Tf7r74/rcqk+
+	Misc60tn9qhUg1kHa9AgSf7K12XxM6NTgXwBvdvY3gzcHA6ypwtKQkdNl0NkCIkbzazYsDLbfJO
+	PwiZO+BGXr435L2zvarolnsXLMZkfIWtKCWsYZbFQ5HmFBI9wwEAIL7ievgHy5ipOSMy9NcA=
+X-Received: by 2002:a05:6a21:4e03:b0:3bf:82c5:ed0f with SMTP id adf61e73a8af0-3c0bd1763admr1617901637.44.1783495410747;
+        Wed, 08 Jul 2026 00:23:30 -0700 (PDT)
+Received: from lgs.. ([2001:250:5800:1000::f280])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5b3643399sm2053523a12.22.2026.07.08.00.23.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 00:23:30 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Wang Jun <1742789905@qq.com>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Steven Toth <stoth@kernellabs.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: saa7164: fix cleanup on resource allocation failure
+Date: Wed,  8 Jul 2026 15:21:11 +0800
+Message-ID: <20260708072111.723453-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260707-media-imx355-v2-2-1683ec07b897@raspberrypi.com>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:dave.stevenson@raspberrypi.com,m:tian.shu.qiu@intel.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mailingradian@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:david@ixit.cz,m:jacopo.mondi@ideasonboard.com,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66949-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-66950-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[intel.com,linux.intel.com,kernel.org,gmail.com,vger.kernel.org,ixit.cz,ideasonboard.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,qq.com,gmail.com,kernellabs.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:kees@kernel.org,m:1742789905@qq.com,m:lgs201920130244@gmail.com,m:hverkuil+cisco@kernel.org,m:stoth@kernellabs.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,raspberrypi.com:email,vger.kernel.org:from_smtp,quoll:mid]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D0CF07227F0
+X-Rspamd-Queue-Id: 4C58B722A2D
 
-On Tue, Jul 07, 2026 at 06:04:34PM +0100, Dave Stevenson wrote:
-> The sensor supports output over either 2 or 4 CSI2 data
-> lanes. The binding only permitted the 4 lane configuration.
-> 
-> Add the 2 lane configuration as an option.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+saa7164_dev_setup() adds the device to the global saa7164_devlist before
+requesting the PCI BAR memory regions.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+If get_resources() fails, saa7164_dev_setup() decrements the device count
+and returns an error, but leaves the device on saa7164_devlist. The probe
+error path then frees the device, leaving a dangling entry on the global
+list.
 
-Best regards,
-Krzysztof
+Remove the device from saa7164_devlist before returning from the
+get_resources() failure path, matching the cleanup done by the ioremap
+failure paths.
+
+Also release BAR0 if BAR0 was successfully requested but the BAR2
+request fails.
+
+Fixes: 443c1228d505 ("V4L/DVB (12923): SAA7164: Add support for the NXP SAA7164 silicon")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ drivers/media/pci/saa7164/saa7164-core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
+index 6bcde506adf5..225dbd3650da 100644
+--- a/drivers/media/pci/saa7164/saa7164-core.c
++++ b/drivers/media/pci/saa7164/saa7164-core.c
+@@ -878,6 +878,9 @@ static int get_resources(struct saa7164_dev *dev)
+ 		if (request_mem_region(pci_resource_start(dev->pci, 2),
+ 			pci_resource_len(dev->pci, 2), dev->name))
+ 			return 0;
++
++		release_mem_region(pci_resource_start(dev->pci, 0),
++				   pci_resource_len(dev->pci, 0));
+ 	}
+ 
+ 	printk(KERN_ERR "%s: can't get MMIO memory @ 0x%llx or 0x%llx\n",
+@@ -999,6 +1002,9 @@ static int saa7164_dev_setup(struct saa7164_dev *dev)
+ 		printk(KERN_ERR "CORE %s No more PCIe resources for subsystem: %04x:%04x\n",
+ 		       dev->name, dev->pci->subsystem_vendor,
+ 		       dev->pci->subsystem_device);
++		scoped_guard(mutex, &devlist) {
++			list_del(&dev->devlist);
++		}
+ 
+ 		saa7164_devcount--;
+ 		return -ENODEV;
+-- 
+2.43.0
 
 
