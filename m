@@ -1,53 +1,85 @@
-Return-Path: <linux-media+bounces-67076-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67077-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bXfhBPvLTmoyUQIAu9opvQ
-	(envelope-from <linux-media+bounces-67076-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 00:15:23 +0200
+	id Qk6nAofPTmo3UgIAu9opvQ
+	(envelope-from <linux-media+bounces-67077-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 00:30:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92ACC72AD40
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 00:15:22 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2D072AE24
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 00:30:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=aFIVtUSA;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67076-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67076-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=linaro.org header.s=google header.b=Lqi1o7+w;
+	dmarc=pass (policy=none) header.from=linaro.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67077-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67077-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C1485301D33B
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 22:15:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 62F153026224
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 22:30:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E42F3CC7EC;
-	Wed,  8 Jul 2026 22:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E999A3FF8BE;
+	Wed,  8 Jul 2026 22:30:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3713EDACC;
-	Wed,  8 Jul 2026 22:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D483A366048
+	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 22:30:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783548908; cv=none; b=itaVfC9IVQnDFKxabnxwS1aiw7nC6olfXXAO21Y4Z1HEft9Fs01c0Fsd1+zPTLZ9nBercB2pgLcIvClmO6y9q/8HMkqblStK8YCykW2Q9GwEsktgkJeaykm4fn44L8aKbPlxxWDvAvn8EldabEWxwkNRVd/lSTlz22FDWbL3I2U=
+	t=1783549819; cv=none; b=W+l7coBm+5v9sB7nNve1oO3jUVYLruQvVagBr/56f2zz6CjxUJ+FqseUBcufjWSmQ01HwP8YcNhsVS94Q5J5Gu/fujFp8cBh7MKjihhd0BrkK5gW+Q1QPVXNV4pfaJI8t05YRW8zUp2SHkBiJCe6R2jv2neW/DYPfngZhuoBONk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783548908; c=relaxed/simple;
-	bh=mPFo8vbzrqAT7qfIgjsFhAJWusCnHtvcDOHSYZA/t8Q=;
+	s=arc-20240116; t=1783549819; c=relaxed/simple;
+	bh=Ucy2b3MPSEnBCBhKVkHMWhghZFra35xFFNj5Qb50XsQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z/3RluSUBXOezkwVJg9hPM/+fLOLZ5CmtGMz+8mxdfkSuAC2x9qKV2X49zymkBp+E6ODIAludsKQ83FYF9xtUEnviVHbUjF3qW32vhnBfqAtiz2s3L0IvCtbzuZ9KLhAHbutQLCFPmJrazstBsnRe6vEirhGI+VnWFdWFDsbTis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFIVtUSA; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AB5D1F000E9;
-	Wed,  8 Jul 2026 22:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783548907;
-	bh=w4erubRnfXbRdTRqkFK5jPmJOr6xXqAxHSLEFkhU5+M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=aFIVtUSAiyeprH60mUMZv/e2Y6E2k7APiSTLqWe5Wyiu57+GIe5ipKOhn/57N/v4q
-	 H6Bb1/YBLuznILyiGVoTxWluRgLX5Vic71blXFgK3Dw+PES6gW6P3/N2powX1NrP+w
-	 vUlI2qZyGGwZte1HFccU1WXY1IwAS/8BPuAUi1bRJo/J7iaDLkKpyPi28gM7Qcp63q
-	 7zfL5R5TUYnrkN7/T8IxPstWPWUvXBQh3egckygv9GX6KI4Bj9ENzlMcqnY1QL0fTQ
-	 48z5pC6M1LPdFLLs8uFrUW3NUzWCQpq/hztawLechLlo7HOWYj7nowAVlMbvxc1Q6d
-	 r1nkHhvVGfc8w==
-Message-ID: <eb9fb53f-2a40-4976-9539-918694fa5cbc@kernel.org>
-Date: Wed, 8 Jul 2026 23:15:02 +0100
+	 In-Reply-To:Content-Type; b=RDWDmI3dvxVNhKYeSzo4ZcZzIbjP8uXznHRA4af4hhEk3paT5PwmP0xKFm9x0DPXHhJWc26O+bJtGAzNYNeBDGNBYM/i3dwE4VEXVX4IWUCMHttWKR+ptQS25Kl3WQlL7qSDpYXFrKE1C/b0Wy2gsNUCki8Som5X21yn6fJxvPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Lqi1o7+w; arc=none smtp.client-ip=209.85.221.48
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-475417f010dso546311f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 15:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1783549816; x=1784154616; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=90IOI9EUyLOw2eSiEVVHF1LKd1Sg9MHQdR1C6WQNJ10=;
+        b=Lqi1o7+wVIWB3ifqgsn6xdp6t1KqFZUP2XjUycj/9SQqPoQyi7tZLKo+a9JxKQ8nE9
+         116s3PnM7+hBDGuQBggD3Wl5NUaISy++kYlfeg7TysKuENF+6gJMh6m6lzX3EDRsdkc1
+         g2NPTSLcja1Y4bA7pJytWr0d0g3AZdDecJl5fHZDSNkwMmLdHWJeSoPs6u8UFtrsz+yW
+         zaspY21tFQdqgD0nZG1vAJRNcYuQodKA+jTPqkLfISKsK2EVgM22nOHD//qvP0wuR20O
+         nE4ymz1SMwv37kJdeWZQ9Fw9ArOvqMfFAVoZgHAbOnPUxwDpBffAUxKO53V2zSKjmiH5
+         o6BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783549816; x=1784154616;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=90IOI9EUyLOw2eSiEVVHF1LKd1Sg9MHQdR1C6WQNJ10=;
+        b=HmxYdbid5d5vBOU0CvE7UnPgAQkNfTO4wSZ0shQ4bFJmZWTerGiGuw/rE1bAyMUbYw
+         qKLyC4qgS0gW1YL++noh4SmomefmgZORl+EQNCax5T3JNCDUcw8rN9+UwHsU1MunFQKh
+         VUQHYIXFOTtm2U4ukimxbjDb6eHERDIvEFjQ6psC08yGT2CxS8Jifgasavw/X4P3544B
+         r7jsUtAf60IO2BzS+UnaReiqUaXIu8x2zZFPvnOG3zU07PE/mz/mJ+Eq0f9+hNJaBgmC
+         H9uxnOpTmtrafJER5RDBQacawADQC0UE5nPmDP+YunsfZFs43/U/NFYJZK1VwdEdonwn
+         8Oxw==
+X-Forwarded-Encrypted: i=1; AHgh+RqWBqf+3eJ/kD+m5DXjebeHgtDrd7timFU0SRbI6QEZpHEPOqg1QMnXo5Y/hrBbCC000PSU6qv+Bip1iw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAnXogc2xLfYb0ptzSA4+VNeJxryeRn9CeobQSjkOANE754yf3
+	8sOlXpOquSdj8nHZ+ZZ09wQiNvsD0Ttw0zcHSktipg3ssUIh4VuSv9Mem3LkxAGpNl8TDhtYftx
+	ByhJu
+X-Gm-Gg: AfdE7cnx896BVqJJlZbOlyqToMNsXAZFySOM0WH4Qv6y5CCw+LNVwqOZkn5vrNiehhj
+	dkMZVmWIMymj1EyNF9vmlF+a6fDzHE85Js21l8jqDyw/f+FxjTheeGZzEGdIm7V2LFOLwo5Mbuv
+	VWs0xdpbsn/dcNMWzvUzhvIXb7xPEisSq7rtvV3tNp2WcN2gcEbXYoh3za0EIMiXCEzh7305T+e
+	sQeA4X++v+a+uYiqG5gpURt28Stlv7n+6HA+DqUtqMlefxYUlUEZiVQJAc+Ne79c/OuqwIJLRch
+	C/+PE0xScFvCOOSzQaRm+7vBR99r/ocJMsMNMEBMcyza+o4sXgRBVPyFzkDCw2OIVtUr1+dv1bo
+	lJktr2znVpKU3kgaosrNLM973aeftJf4S4YFQ//xnbhp6GcW52dGoIO6vzjQAiqVyVdA2PaLxn9
+	KxYfQ2ksK4Ksz0InlzHK03W/Rl9d4zaY4KLuaHlw==
+X-Received: by 2002:a05:6000:2013:b0:46e:624e:3c2f with SMTP id ffacd0b85a97d-47df077b2e6mr4491121f8f.47.1783549816190;
+        Wed, 08 Jul 2026 15:30:16 -0700 (PDT)
+Received: from [192.168.0.101] ([109.76.204.255])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960634sm46711271f8f.26.2026.07.08.15.30.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jul 2026 15:30:14 -0700 (PDT)
+Message-ID: <d579ffd2-b99e-4e8d-b2b7-e7e896b2d71d@linaro.org>
+Date: Wed, 8 Jul 2026 23:30:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,126 +87,115 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 1/6] dt-bindings: media: qcom,x1e80100-camss: Add
- optional PHY handle definitions
-To: Frank Li <Frank.li@oss.nxp.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>
-References: <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-0-f8588da41f16@linaro.org>
- <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-1-f8588da41f16@linaro.org>
- <R6v4BrOfBnooFgUohO6y8awE93B8kVw-B0BkDT3AfrbUFBJfGTF8LH3Gha3BUaIadD4UgocArqYr4I1flSVKNg==@protonmail.internalid>
- <ak7KiHpkQFghDZzj@lizhi-Precision-Tower-5810>
-From: Bryan O'Donoghue <bod@kernel.org>
+Subject: Re: [PATCH v4 1/5] media: qcom: camss: Populate CAMSS child devices
+ via DT
+To: Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
+ linux-media@vger.kernel.org
+Cc: vladimir.zapolskiy@linaro.org, loic.poulain@oss.qualcomm.com,
+ mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
+ <20260706071113.383215-2-atanas.filipov@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <ak7KiHpkQFghDZzj@lizhi-Precision-Tower-5810>
+In-Reply-To: <20260706071113.383215-2-atanas.filipov@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-67077-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-67076-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:Frank.li@oss.nxp.com,m:bryan.odonoghue@linaro.org,m:andersson@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:rfoss@kernel.org,m:todor.too@gmail.com,m:mchehab@kernel.org,m:konradybcio@kernel.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:linux-arm-msm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:todortoo@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,oss.qualcomm.com,vger.kernel.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,qualcomm.com:email,linaro.org:from_mime,linaro.org:email,linaro.org:mid,linaro.org:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 92ACC72AD40
+X-Rspamd-Queue-Id: 6D2D072AE24
 
-On 08/07/2026 23:09, Frank Li wrote:
->> +  phy-names:
->> +    items:
->> +      - const: csiphy0
->> +      - const: csiphy1
->> +      - const: csiphy2
->> +      - const: csiphy4
->> +
-> needn't "phy" for phy-names, just csi0|csi1 ...
+On 06/07/2026 08:11, Atanas Filipov wrote:
+> From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> 
+> Use devm_of_platform_populate() so that child nodes declared under the
+> CAMSS device tree node (e.g. OPE) are automatically instantiated as
+> platform devices. This is required now that CAMSS is modelled as a
+> simple-bus and ISP blocks such as OPE are described as child nodes.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
 
-yeah nice and now that I think about it, this is a more consistent 
-naming schema with other architectures.
+Looking at my commit logs I see this isn't my commit message ..
 
-thx.
+Anyway.
+
+> ---
+>   drivers/media/platform/qcom/camss/camss.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 2123f6388e3d..95e655a8b6aa 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -16,6 +16,7 @@
+>   #include <linux/of.h>
+>   #include <linux/of_device.h>
+>   #include <linux/of_graph.h>
+> +#include <linux/of_platform.h>
+>   #include <linux/pm_runtime.h>
+>   #include <linux/pm_domain.h>
+>   #include <linux/slab.h>
+> @@ -5362,6 +5363,8 @@ static int camss_probe(struct platform_device *pdev)
+>   	if (!camss)
+>   		return -ENOMEM;
+>   
+> +	devm_of_platform_populate(dev);
+> +
+>   	camss->res = of_device_get_match_data(dev);
+>   
+>   	atomic_set(&camss->ref_count, 0);
+
+Just drop this patch entirely and model JPEG as a peer of CAMSS. I'll do 
+the same with the CSIPHY and Loic the OPE.
+
+Modelling for subnodes is nice if you have the idea the camera block 
+should be a bus.
+
+But for what reason ? As you pointed out it should be possible to both 
+compile and run JPEG without the compat=camss node on sm8250.
+
+Making the camera block a bus is a nice idea for "reasons" as this 
+thread has shown, its a problem to implement with an upside we struggle 
+to define.
+
+When the facts change, I change my mind.
+
+You were right to argue to have this as a peer node. Lets do that.
 
 ---
 bod
