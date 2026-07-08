@@ -1,172 +1,224 @@
-Return-Path: <linux-media+bounces-66958-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66959-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Ztg+EmcPTmqiCQIAu9opvQ
-	(envelope-from <linux-media+bounces-66958-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 10:50:47 +0200
+	id CpivOcUPTmq2CQIAu9opvQ
+	(envelope-from <linux-media+bounces-66959-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 10:52:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CA172356E
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 10:50:46 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id D38F97235AE
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 10:52:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=YSeigy63;
-	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66958-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66958-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=linaro.org header.s=google header.b="RxrPX+n/";
+	dmarc=pass (policy=none) header.from=linaro.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66959-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-66959-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DCEC2302E9AD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 08:46:57 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 439823017F18
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 08:47:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C28F4345741;
-	Wed,  8 Jul 2026 08:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA8E403138;
+	Wed,  8 Jul 2026 08:47:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29CF403147;
-	Wed,  8 Jul 2026 08:46:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10EC403147
+	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 08:47:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783500414; cv=none; b=laIvNBu20wDwdL1WWllXKH03wt9MmWX//PdOzzReBA7i/YjnS8mk1I5xM0j3wbX0HyOvxNHPh//ySBqhBbXkOp4MtAA8D4OYRronRpPTLXgA4Mk+pt0+7ok8TsGaTzczY2H4p2X0YB5oW9PXJxmXEZvBnQEdQDc7MJKsWefo0Dc=
+	t=1783500474; cv=none; b=KjE4fty3tmQvcIWJmxyA8p6DGNvqnFSrJgfY4Df+Zp1ou1k9CQcbAlmsiafftLTNJlGF5ojr+9Yjo5G5Mb94zuQjKxyztX1dX+78HyhCiqFEWLDd5U+18SNQKy4Wh82fRGPSpEPdNXqJ5BC7Awl8aGl2Uej3+Zzp3+Ov1UBNj/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783500414; c=relaxed/simple;
-	bh=jIbHKZxPVmlDKzs5seFvKgSaqpDtIpTnYijEIYyYPpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h2nOxvLxFPOyKLRGgAzh/IRfUNOKmIlJSMDerQ0YcKFQ0cHXf7b4Xd+nP2el1Gn//+4RD7QZ149E0i5dGfnGjGntMpswNSF1n1DKS5rSs5UAeCXHaPZ0MGrXXWsxQivOaSzEwQIYPOSapXcoRU58Y0Vd5I5+8KRQB4maNKFeVUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YSeigy63; arc=none smtp.client-ip=192.198.163.18
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783500413; x=1815036413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jIbHKZxPVmlDKzs5seFvKgSaqpDtIpTnYijEIYyYPpA=;
-  b=YSeigy63UMqwWfNXLISI2t/IVEe//CpPUwZ50J+/40dYJBUsBXGm+Pa6
-   3cnlb8JXf17tcKbfFF5hb/kEI0x/0wSJB7mtVycnkcKHlWxuObIHRbCPU
-   zCaj44L7He+eWJKLCJY0BZxbyvzzHh/R+fdtRbJy+D848MWWj2fXfBbPF
-   etuJIwspffM+U77ONRiW1xlLv7xsZk1MwOEFGjOpE2wpnE4YSYLbpDlWj
-   8LPIg5WpMOVN9933ovAZFY8/r1q6K9AsFRqjWRr4khyS6xSYvKbd3JJ9c
-   zj2Uq0hgdENN3TGd5Rsq3YpBdgyorqcbVfIijDljEMPJNtShigyCrZ3+U
-   Q==;
-X-CSE-ConnectionGUID: vxkcJcnERMiY3AAlo4+FRA==
-X-CSE-MsgGUID: rUDhY0tARmy0F8Rx8EF88g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="83269103"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="83269103"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 01:46:52 -0700
-X-CSE-ConnectionGUID: 0zaz651aQSq9xXd8LTeuXQ==
-X-CSE-MsgGUID: qfORS3I4RduI0XFKEgfVSg==
-X-ExtLoop1: 1
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.120])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 01:46:51 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 56E4911FB4A;
-	Wed, 08 Jul 2026 11:46:51 +0300 (EEST)
-Date: Wed, 8 Jul 2026 11:46:51 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Biren Pandya <birenpandya@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: ov7740: Fix unchecked
- pm_runtime_get_sync() in remove()
-Message-ID: <ak4Oe30jyaOTlQ1a@kekkonen.localdomain>
-References: <20260615210412.34567-1-birenpandya@gmail.com>
- <20260615210412.34567-3-birenpandya@gmail.com>
+	s=arc-20240116; t=1783500474; c=relaxed/simple;
+	bh=pgTToACliyhAjJ+F8jyAnPofAyk5eqWaiRJY56YFv2U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RFKDrYdi7zpouqu2+2XFD0olUQF64hbEFRk06B22MItUJ+8hI+g9ZPFiWGtFa3npjL6ugCR79rRNbfkGVk3vfp746dJHLJlePf1Cx/fw2sm8LGFzN2Z6HxAbHF1OX46jvwq5q1DJ3mBs29MNsZ3N751tJ8NFEc6+eQTybyKX11I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RxrPX+n/; arc=none smtp.client-ip=209.85.208.169
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c618799e4so63041fa.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 01:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1783500471; x=1784105271; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5slyaMHZZ5o7vhI3SEoNR1OWEg/jwQ9URJD1346nvf0=;
+        b=RxrPX+n/A4GaSldXQp+I096fAYHlqrydyT8tuWtG28E3lwqFhWYygJQKp6e6QXuWmo
+         ndmEdg5CS/bwCRJxOU9DbDW30+xWb8URzDvgGwD40yBZz9zjVynfu+NCwWTJ7XmL+IcR
+         S+eiCmqRHF3gb6EcMXXWQgT95XU/rHwkpg6as894WpfVVr0hfT+3B6tKW8Z9OgJ4BgPp
+         dLlhZbJDhmtLiyAjh9C/5a1qc8hm6SBVKombKObAv/ug2P9RpkgG91wqGhBLfLnOyQBh
+         mpohm4Ctswd/cFeT8WKgIrTrV0CvpyGQ8vUQaJH94TBCLX833HVZHc0fHIBJmizTdxO7
+         l0Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783500471; x=1784105271;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5slyaMHZZ5o7vhI3SEoNR1OWEg/jwQ9URJD1346nvf0=;
+        b=GG0BW8ebG7gzH3jXUvE/fUmGE5jKxNtBDgp4T9yPn0GnbFgQ5CjvG6qgvM93ZPZbDa
+         e9obiSeJlh/JheTxMmfBq/n341PHcxlUo5cGUVCPGLC8ILUEjbhMI/2A7y/W7CbnOivT
+         ySCObPCX8prHN70hvMa3VhVzHP831zGfEOSGMHZV6iTvXR4SIz/LjUE7nK+cKh3c2HmE
+         SioN8A2+PIh4jZuNsyyrTIN4uqmFTJ+rPNlkQ49eBomEPGVWyPPGdmUQcEPye/MQ/FVx
+         FmuzRudxu8j9BSXvB0zUR+7sW8G+36X75jkteWfz1b6KC6W0LbKNdGOjAYuU9cOC6aGz
+         9BrQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrDgfhg7S7ESZ9o45T/l3Ctkr060HrqBnK+MZbxD9yhsCA4tYz2qMZUFAsCnV46jCQlKqYTyrKP6MOkcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywr5NbRon9Us8Knhk2cemjhMzAf7ZCnu8cuXP2TDRNaWalLVMzj
+	DJrYQEaThKr4l5mmeQnv0ictVpOJHTgZvgz7NyZOB22bGjJFYE6/+B/3Cn74V6AnjIM=
+X-Gm-Gg: AfdE7cnSFLSfx93z2Gh5NDuYIVAwWenIiWlFGS6pLjE29IReQtlJvuiyiBTt93Knh/s
+	+va+MDju2Sc+jnikO63D2CAvj7G8QaAaAHWYcev/mrPRuKctrUSLSi1FCPXgCNLTYKS+PAL3ADN
+	4PSTKOFVCfeUDWaH5+YKU/Jc/Q5rpJzLkGfgymir6OuqcBRMCUBZRZ3zzJjb+GI1EkORGKkHUjl
+	mnMhJyxXemYgs+0s0NZ5ZyKpo2yoOX2I657CD1XOkHOLfdWc4vX2vCHjSkybb6E48c5C0inocAu
+	btphekCmUB+O+tj4niYuQgt7RI0YU++UcLGMorusXzOFdUaIUC+UaFuF3YgRQeb/aSx3E/Tnoow
+	F7zozwETiMlnAiMvHkaqYY6gNsdBtuNeppSH2vOFAbzrqdpz6I62niruTMArLlWOfvaqUCuTEel
+	KVEQQL7Txfq5r5/TPldbOrAkWlzOkRNhLCuh5scSWLDO43LGs/eAPWLWdo3uHUXjN8DA0=
+X-Received: by 2002:a05:651c:2228:b0:396:8c78:3d53 with SMTP id 38308e7fff4ca-39c79832ce7mr2061261fa.8.1783500470732;
+        Wed, 08 Jul 2026 01:47:50 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b4ad18b5asm29411131fa.9.2026.07.08.01.47.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jul 2026 01:47:50 -0700 (PDT)
+Message-ID: <56f1fd7e-42bc-4034-81dc-302cb7c22951@linaro.org>
+Date: Wed, 8 Jul 2026 11:47:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260615210412.34567-3-birenpandya@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/5] media: qcom: jpeg: Add Qualcomm JPEG V4L2 encoder
+To: "Gjorgji Rosikopulos (Consultant)"
+ <gjorgji.rosikopulos@oss.qualcomm.com>,
+ Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
+Cc: bryan.odonoghue@linaro.org, loic.poulain@oss.qualcomm.com,
+ mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
+ <20260706071113.383215-6-atanas.filipov@oss.qualcomm.com>
+ <51a0abf2-2a72-4551-894b-2c2de91ba0c2@linaro.org>
+ <74a5b549-987c-4dac-a1a0-ff81150cd6ab@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <74a5b549-987c-4dac-a1a0-ff81150cd6ab@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66958-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:birenpandya@gmail.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-66959-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:gjorgji.rosikopulos@oss.qualcomm.com,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:bryan.odonoghue@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:dkim,kekkonen.localdomain:mid]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 45CA172356E
+X-Rspamd-Queue-Id: D38F97235AE
 
-Hi Biren,
+Hi Gjorgji.
 
-On Tue, Jun 16, 2026 at 02:34:12AM +0530, Biren Pandya wrote:
-> The ov7740_remove() function unconditionally called pm_runtime_get_sync()
-> but completely ignored the return value. If the device was already in an
-> error state or disconnected, this could lead to an unbalanced PM runtime
-> usage count or attempt to communicate with an unresponsive device.
+On 7/7/26 16:24, Gjorgji Rosikopulos (Consultant) wrote:
+> Hi Vlad,
 > 
-> Replace pm_runtime_get_sync() with pm_runtime_resume_and_get() to ensure
-> the device actually resumed before attempting to issue I2C power-off
-> commands, and safely put the PM runtime usage counter.
+> On 7/6/2026 10:46 AM, Vladimir Zapolskiy wrote:
+> <snip>
+>>>
+>>> +            interconnects = <&gem_noc MASTER_AMPSS_M0
+>>> QCOM_ICC_TAG_ACTIVE_ONLY
+>>> +                             &config_noc SLAVE_CAMERA_CFG
+>>> QCOM_ICC_TAG_ACTIVE_ONLY>,
+>>> +                            <&mmss_noc MASTER_CAMNOC_HF
+>>> QCOM_ICC_TAG_ALWAYS
+>>> +                             &mc_virt SLAVE_EBI_CH0
+>>> QCOM_ICC_TAG_ALWAYS>,
+>>> +                            <&mmss_noc MASTER_CAMNOC_SF
+>>> QCOM_ICC_TAG_ALWAYS
+>>> +                             &mc_virt SLAVE_EBI_CH0
+>>> QCOM_ICC_TAG_ALWAYS>;
+>>> +            interconnect-names = "cpu-cfg",
+>>> +                                 "hf-mnoc",
+>>> +                                 "sf-mnoc";
+>>
+>> This is the topic, which may raise a disagreement, but I'll repeat my
+>> position about the need to remove all "CAMSS bus" specific resources from
+>> the device node, they are found and should be allocated on parent's side.
 > 
-> Signed-off-by: Biren Pandya <birenpandya@gmail.com>
-> ---
->  drivers/media/i2c/ov7740.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> The interconnect has functionality to handle bw requests from different
+> clients.
 > 
-> diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-> index 62c124a1353a..6b81882da307 100644
-> --- a/drivers/media/i2c/ov7740.c
-> +++ b/drivers/media/i2c/ov7740.c
-> @@ -1115,17 +1115,20 @@ static void ov7740_remove(struct i2c_client *client)
->  {
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct ov7740 *ov7740 = container_of(sd, struct ov7740, subdev);
-> +	int ret;
->  
->  	v4l2_async_unregister_subdev(sd);
->  	media_entity_cleanup(&ov7740->subdev.entity);
->  	ov7740_free_controls(ov7740);
->  
-> -	pm_runtime_get_sync(&client->dev);
-> +	ret = pm_runtime_resume_and_get(&client->dev);
->  	pm_runtime_disable(&client->dev);
->  	pm_runtime_set_suspended(&client->dev);
-> -	pm_runtime_put_noidle(&client->dev);
->  
-> -	ov7740_set_power(ov7740, 0);
-> +	if (ret >= 0) {
-> +		ov7740_set_power(ov7740, 0);
-> +		pm_runtime_put_noidle(&client->dev);
-> +	}
+> Yes the best will be to have camss interconnect, so jpeg and other hw's
+> to vote
+> 
+> on that (actually it is possible in icc framework) but what is the
+> benefit of moving
+> 
+> those to camss? Is it not better to create camss icc. I understand
+> you want them to be on parent side. But how to vote on bw? Most of the
+> time it
 
-Could you do what's done in other drivers, i.e. disable Runtime PM and then
-see if the device is active and if so, power it off?
+Let's concentrate on hardware bindings description, no APIs, votes etc.
+at this point of discussion.
+
+There is SM8250 CAMSS device, which serves as a hierarchical parent (or
+could be considered as a "bus" device) to this new JPEG encoder device
+and probably to a number of future IPs under CAMSS. All CAMSS sub-devices
+get hardware descriptions as children device tree nodes of CAMSS parent
+device tree node naturally.
+
+Copying of the same identical information about clocks, interconnects
+and power domains from the hierarchical parent device to children devices
+is not needed, and practically it only lowers signal-to-noise ratio.
+
+Since information about the actual defect in hardware description is
+reported, the problem can and should be avoided, the handling of a better
+hardware description and dealing with any kind of complexity will be done
+in the CAMSS and/or CAMSS children drivers.
+
+If you need to get a bit more formal point of view on the matter, I'd
+prefer to see descriptions of hardware properties organised in a tree
+topology rather than in the originally proposed star topology. By doing
+it the system complexity is reduced from N to 1.
+
+> depends on the jpeg encoder configuration based on resolution format
+> etc. to set properly average bw.
+> 
+> So i dont see how that can be done with not explicit dependency on jpeg
+> with camss and some exported
+> 
+> API's which we discussed with Bryan they are preferable.
+> 
+> Maybe i do not understand properly the proposal but can you just add
+> some pseudo code
+> 
+> how you see the things?
+
+Let's define and agree on hardware description first, then the path
+to its implementation in drivers will be clear.
 
 -- 
-Regards,
-
-Sakari Ailus
+Best wishes,
+Vladimir
 
