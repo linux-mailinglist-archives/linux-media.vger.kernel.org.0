@@ -1,85 +1,84 @@
-Return-Path: <linux-media+bounces-67026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67027-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id OQZHNAprTmpIMQIAu9opvQ
-	(envelope-from <linux-media+bounces-67026-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 17:21:46 +0200
+	id nfIXHMhlTmq5LwIAu9opvQ
+	(envelope-from <linux-media+bounces-67027-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 16:59:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDDE727ED3
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 17:21:46 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E76A4727B15
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 16:59:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=raspberrypi.com header.s=google header.b="r5+ZeL/u";
+	dkim=pass header.d=raspberrypi.com header.s=google header.b=S3WrMUSs;
 	dmarc=pass (policy=reject) header.from=raspberrypi.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67026-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67026-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67027-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67027-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E1F42319656A
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 14:51:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5E72930D1A4A
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 14:51:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D561C47D936;
-	Wed,  8 Jul 2026 14:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A184D8D88;
+	Wed,  8 Jul 2026 14:49:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C53B4A13AD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C319C4657E0
 	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 14:49:31 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783522176; cv=none; b=Kv8VKg2VAyhGIZCbLXMbAO3L9QRB/wET5h03qO6QdrjOV8PWqcOZUQVgjoWqlIBeBZUGVx5JGLG3dmO6HCLymuM/XXZwJxkXOWlvValk+lcueTn2za8Vw2Fianwuv9YB/eQTg0ik5DNoWawVpJHJZIVRGfVTSpt68Qnoa5wl8MI=
+	t=1783522177; cv=none; b=abPlwZIRCQmXOFDeTE3fq1dXxIzETJUnCgPc7iQVktmsTVsoBhnHK5WdrUyg7+G20u6m4BvsqOnSPI/vqyHCk4NVkVC8guT0sxYOnh4axRe5JXgNA2EbmwThQpHGOpyb7xVO5UE59bdsQEFYgD8+cmMrVdOO+1LfFgD95OPKzeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783522176; c=relaxed/simple;
-	bh=EC2k5Q0O6GiAWVyB1n2jyIk0jzm5yjtUjDUXeFdZxaI=;
+	s=arc-20240116; t=1783522177; c=relaxed/simple;
+	bh=Bz7eJTYlg7hqzpgB6a7cBQj2bdP5kz+HsAA3ZbNHcBo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HRNI1ypi+X3GjQQComMSkn/K+dDRViKf8lTvySB17XnD8ujFw7RCGU9oEX041yHB0uGrslKAqPujl5PkVG/3ZfJWTUmIjwMW8r+ZV4rdBcOkDgMNX3qRvV2fZZQysVYfLu3Ncbh1RQd+8cNA71nSnfGHgRtmq33obeiBve4smGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=r5+ZeL/u; arc=none smtp.client-ip=209.85.128.42
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493d92b7db3so8259745e9.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 07:49:29 -0700 (PDT)
+	 In-Reply-To:To:Cc; b=i32SoQqt3fUBXmzBSbISEYzwMQTWKpv40FWjQv3bI8GJPA5ESFEVOGISJVT4gufyRur2YZ/EmblCu01F9I2p7XY6FFRHcDF3cnYRoAZWVamfMc4Qi3K/pUVbaRI0yGZ8gpN7dmUFZJTmhXZxPy20WysXfa3OTOwO0N8FjVBi4Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=S3WrMUSs; arc=none smtp.client-ip=209.85.128.44
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493b779003fso3707205e9.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 07:49:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google; t=1783522164; x=1784126964; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=B9fBhGmPu1qXjzzF9oDlHeeaawJIqqZK7Ydx3tiH29k=;
-        b=r5+ZeL/uXMdj5vOiklYk2Nndwq6U3ZIy+stMZePqQHLwvCNSJiRe+NK1VTZEZhOFeH
-         D+Szf7Qjlb1cC5+A7N1CN1GhkxtFJiGellHlngOMJXTtss38tUp/7AuZRHuqshKMDGht
-         TEccaxevviXd6Tdrm5P7NdBODrDmpvc9yKj66gV8oy49uWXC40AcWkc3UHA2Ymjk6liM
-         2kJLl/GnAgCB1jO9Y96T/0TSoZ5DzilffFB9ukZV+NzMEAww1XGNyyzY/Zs7GJOmMitN
-         TicX5ho9oTvtE3Cz/72jsCIvr8+kFVfbgNrV0y4y88umCQLrYdljC5MTzribb3CHCyrN
-         WHQg==
+        bh=xu15ctzjcOqhJZV80dUKUk3i6OKtSm5BmBQWERl2TsU=;
+        b=S3WrMUSsr6NF7NSraftk3R3Sb2pCyRBCHoFARhJVHZ4heQgY0XNg7e1JXs8ArhLae/
+         CT4W/kfy/IlkJjmjTpWGSQZTsV3+2xNCG7pHm5KbdIZmN7W9cLXk47okdzFpDADgi0Jl
+         sIb9KAGnyeyrcuVkOVAWAtn3XSsQCcoRq6Rc2k5VzGDUxYCsGleZ58MZwvFOdlAUZnRk
+         e6QBkAvVogl+tNV2KECu6aUfVuD+7IqpowYJROgS6/nwxQVHVdNdCkmo0bcsx0z8DYF2
+         1K+vWvF3jJ8UV7C6vaNv05/Pd9fe2r8pw5fXzlN07DLil/J2U25FepqbtoUuXs3dXTj4
+         NNFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1783522164; x=1784126964;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=B9fBhGmPu1qXjzzF9oDlHeeaawJIqqZK7Ydx3tiH29k=;
-        b=IMeNl46Ogzf0bpbmu7XzbQr+ItWpKcajoP3FBLi/50VXfd+sRS24oTLGENxVK4U901
-         I6NXfcP5PxJCjRsMrd6D1JikNhoJhuieFR7c03N4u1k0gTx2NSsrTdSx/u2CcPqZYZ7E
-         ytfTwAJm7BbhxPIe4F1BvtCOoCNHvP7XK2jVyVPCXDKgwKDjDo6CngzSnLEkL03BnYo5
-         9yrV0dWOxyvi4A7LN73xDeLktXeF/X4FSnxZ4bhp1G0x2rYPYdgT+XhP6GAjMctvQQV/
-         hAd15QwyUINFIJ6gTudPihCfG5nZvzf+ZLUnBdJlLHA7LS6wT/sooKnzTAfot26TmQB6
-         YHpQ==
-X-Gm-Message-State: AOJu0YwV+nIstB3NaD1nil5w+zb9wNd5T9beaDbqlz69QU7uKmK0HJD2
-	fm5I96JsQ4+EyZgwKMhnrgluHwCQzgKkd0oCRM5fKnGGg/p9QmO5BIhhPmosX9IfxUk=
-X-Gm-Gg: AfdE7clyHFhR1avVli00UPp069+22Zp2TD9/aqDJ7H+5HQYdr311Q7PeMvjxpobaaBA
-	OuRLY364CPlCB/vqqnKCVh1Q3ZZMvH69q82GtxzvYaSCfSOPhdlOCBEdB4i4WL5irTV+xwOJqEs
-	rCOSmrp5QfgCmm6BduyrYFKy1bXMZ+y/1SL/fe1RxJO7Hsr51VpRXvuwfPzz+bu4cpYf00/kCQ4
-	9j6Aud5wzW0jlC1lPH0xfQT/mX8I7YZu/BXeAl086Vbfsj+Yz76uGJH429EgjQZUrzVnIeZikTt
-	tCdgSOhHWzvgIyIoxo+Z4kuoCqCNrj/Tyhqu6op4Q7HMHZWD1lYHwk6gR+yuULbMRfv1DDJNCoe
-	YWM1jyfmp87do7pIXaVP5/RVkF2f5kXeoaUFMFV5UjcQLGEVg/o8inyONzPzDM5Gks4XnvDqpUk
-	6aM/21Bveia3f0v+QUpO3BbIFqYRbKygfWYjg89nG+y5nrr38x4ULNpJ/jwp3R16FtCiz3YzTf+
-	7k=
-X-Received: by 2002:a05:600c:8a16:10b0:493:bef8:ba8 with SMTP id 5b1f17b1804b1-493e68fc32amr24755525e9.39.1783522163580;
-        Wed, 08 Jul 2026 07:49:23 -0700 (PDT)
+        bh=xu15ctzjcOqhJZV80dUKUk3i6OKtSm5BmBQWERl2TsU=;
+        b=ZmNsGPSmq+dWm4CxwRfNb5WdkMelqbURLZlPB5wepAj6ovjrmZcQkZWn7wemFl/Y3H
+         j4/A7vBdmFHZmH08wohdI7RdrdmOMvqDqosdNWCkLBnI44qvBFIFNeriJwmgT20ajoW9
+         wJM1wIQ8WOh97zFELIqrDEcq3hGWtALXxtx5/KIkpb88LLl8YUXQQ0D+Gzf5BwfKDT/m
+         VXnAELcjw/ZnWs0v5j90Zb4x8swZ5CgPZXPS6bBwGG00vaR+MdCLiiZCLfca5y7mZg3n
+         KFphrVT8YoIkyanXSPhV8W50kiXoAwWrwCxYJnqsIiHtFG+16mkVBfm5OcLYE2Z5o/oe
+         ImFw==
+X-Gm-Message-State: AOJu0YyQ/DfYCgcmlfTOqdc5zv768CHx3iynX0xC+ZG8SF1UORMSBdCm
+	1yPJf7q4d9ItCxauDbimBurFhnU/HUUtZBdSiYdtz02/ifXAEeIUIF/t0uK6vLI+tbY=
+X-Gm-Gg: AfdE7cl9wFEbdFEB42ga36PruaQx8AxWOEd2uvf4z2pNRI5+2+qA5kGu2BpECTLpWOA
+	OurS+ToJ7hVBa5EPTEfOOBPblk6VR1Snce2AhwwrqwsLdrXrwSvSfmIFIqB8g/aknr4KHYJ90Cy
+	EM12ZLzwGd41qS5MmY8teVpiOm5JNaqKjM7R1+0YSqquDlEowpV2fysbnv6UF0DgUDfJ9HPY8ZR
+	oz4TX3mcZRABgfOMXkEPuT+xQ+WevB+qQO9dEZaMpVn85tNLdTWwm0H0ZZwXvsRyiWyOxGRgubC
+	m2AkQ3q0AbONceLJ2IKLeglhT5Z9hGzRLbzwU7u+8qpURaar0qahNdfbIFskNjPRZqcn3Ggkbaq
+	QKX+gR+zBsjqxx+DoAycOwt32mDli6YSHY85blyGpxs47XKkv3oSrzw1b885tsZUlbcIk8O9QGd
+	NrKJk9GnsLRDKJWWjvcUV1KDgBGEbN0lvmGwl6aKFN6nulbOqXUdGIX64zQiHPl6SW
+X-Received: by 2002:a05:600c:4505:b0:493:bfea:2780 with SMTP id 5b1f17b1804b1-493e68b83aemr31299685e9.9.1783522164323;
+        Wed, 08 Jul 2026 07:49:24 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-493e0fbd355sm135363315e9.13.2026.07.08.07.49.22
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-493e0fbd355sm135363315e9.13.2026.07.08.07.49.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 08 Jul 2026 07:49:23 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 08 Jul 2026 15:48:54 +0100
-Subject: [PATCH v3 18/20] media: imx355: Support 2 lane readout
+Date: Wed, 08 Jul 2026 15:48:55 +0100
+Subject: [PATCH v3 19/20] media: imx355: Switch to using the subdev state
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,7 +87,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260708-media-imx355-v3-18-9df386a623d7@raspberrypi.com>
+Message-Id: <20260708-media-imx355-v3-19-9df386a623d7@raspberrypi.com>
 References: <20260708-media-imx355-v3-0-9df386a623d7@raspberrypi.com>
 In-Reply-To: <20260708-media-imx355-v3-0-9df386a623d7@raspberrypi.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -107,12 +106,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
 	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-67026-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67027-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -121,7 +120,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -134,204 +133,404 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,raspberrypi.com:from_mime,raspberrypi.com:email,raspberrypi.com:mid,raspberrypi.com:dkim,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,raspberrypi.com:from_mime,raspberrypi.com:email,raspberrypi.com:mid,raspberrypi.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4DDDE727ED3
+X-Rspamd-Queue-Id: E76A4727B15
 
-The sensor supports 2 or 4 lane readout, but the driver only allowed
-for 4 lanes. Add 2 lane support.
-
-The clock tree only supports single PLL mode to feed both IOP (MIPI)
-and IVT (Pixel array).
-2 lane mode supports a MIPI link frequency of up to 445MHz (890Mbit/s)
-cf 360MHz (720Mbit/s) for 4lane. Update clock setup and pixel rates to
-match.
+The subdev state is now preferred rather than handling crop
+and format within the driver state, so switch the driver to
+using it.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/media/i2c/imx355.c | 67 +++++++++++++++++++++++++++++++++-------------
- 1 file changed, 48 insertions(+), 19 deletions(-)
+ drivers/media/i2c/imx355.c | 180 +++++++++++++--------------------------------
+ 1 file changed, 50 insertions(+), 130 deletions(-)
 
 diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index e45d60d665a1..2be665b5b453 100644
+index 2be665b5b453..ee012efe25bf 100644
 --- a/drivers/media/i2c/imx355.c
 +++ b/drivers/media/i2c/imx355.c
-@@ -27,11 +27,14 @@
- #define IMX355_REG_CHIP_ID		CCI_REG16(0x0016)
- #define IMX355_CHIP_ID			0x0355
+@@ -179,13 +179,6 @@ struct imx355 {
+ 	struct imx355_hwcfg *hwcfg;
+ 	const struct imx355_clk_params *clk_params;
  
-+#define IMX355_REG_LANE_SEL		CCI_REG8(0x0114)
-+
- /* PLL registers that depend on the external clock frequency */
- #define IMX355_REG_EXTCLK_FREQ		CCI_REG16(0x0136)
- #define IMX355_REG_PLL_OP_PREDIV	CCI_REG8(0x030d)
- #define IMX355_REG_PLL_OP_MUL		CCI_REG16(0x030e)
- #define IMX355_REG_PLL_IVT_PCK_DIV	CCI_REG8(0x0301)
-+#define IMX355_REG_PLL_IVT_SYSCK_DIV	CCI_REG8(0x0303)
- #define IMX355_PLL_OP_PREDIV		2
- #define IMX355_PLL_IVT_PCK_DIV		5
- 
-@@ -80,6 +83,8 @@
- #define IMX355_TEST_PATTERN_GRAY_COLOR_BARS	3
- #define IMX355_TEST_PATTERN_PN9			4
- 
-+#define IMX355_REG_REQ_LINK_BIT_RATE	CCI_REG16(0x0820)
-+
- #define IMX355_REG_BINNING_MODE		CCI_REG8(0x0900)
- #define IMX355_REG_BINNING_TYPE		CCI_REG8(0x0901)
- #define IMX355_REG_BINNING_WEIGHTING	CCI_REG8(0x0902)
-@@ -87,9 +92,6 @@
- /* Flip Control */
- #define IMX355_REG_ORIENTATION		CCI_REG8(0x0101)
- 
--/* number of data lanes */
--#define IMX355_DATA_LANES		4
+-	/*
+-	 * Mutex for serialized access:
+-	 * Protect sensor set pad format and start/stop streaming safely.
+-	 * Protect access to sensor v4l2 controls.
+-	 */
+-	struct mutex mutex;
 -
- #define IMX355_PIXEL_ARRAY_TOP		0
- #define IMX355_PIXEL_ARRAY_LEFT		0
- #define IMX355_PIXEL_ARRAY_WIDTH	3280
-@@ -120,30 +122,38 @@ struct imx355_mode {
- 
- struct imx355_clk_params {
- 	u32 ext_clk;
--	u16 extclk_freq; /* External clock (MHz) in 8.8 fixed point) */
--	u16 pll_op_mpy;	/* OP system PLL multiplier */
-+	u16 extclk_freq;	/* External clock (MHz) in 8.8 fixed point) */
-+	u16 pll_op_mpy[2];	/* OP system PLL multiplier */
-+	u8 pll_op_prediv[2];	/* OP system pre PLL d */
+ 	struct gpio_desc *reset_gpio;
+ 	struct regulator_bulk_data *supplies;
  };
+@@ -593,46 +586,23 @@ static u32 imx355_get_format_code(struct imx355 *imx355)
+ 		{ MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SBGGR10_1X10, },
+ 	};
  
- /*
-  * The clock tree is in single PLL mode, so PREDIV_VT and MPY_IVT do nothing.
-- * All modes use the same PLL setup for OP, with IOPCK being 720MHz.
-+ * In 4 lane mode the MIPI rate is 360Mhz (720Mbit/s) and pixel rate is
-+ * 288MPix/s.
-+ * In 2 lane mode the MIPI rate is 444MHz (888Mbit/s) and pixel rate
-+ * 177.6MPix/s with a 24MHz clock, and 441.6MHz (883.2Mbit/s) and 176.6MPix/s
-+ * with a 19.2MHz clock.
-  */
- static const struct imx355_clk_params imx355_clk_params[] = {
- 	{
- 		.ext_clk = 19200000,
--		.extclk_freq = 0x1333,	/* 19.2 MHz */
--		.pll_op_mpy = 75,	/* 19.2 / 2 * 75  = 720 MHz */
-+		.extclk_freq = 0x1333,
-+		.pll_op_mpy = { 75, 92 },
-+		.pll_op_prediv = { 2, 2 }
- 	},
- 	{
- 		.ext_clk = 24000000,
--		.extclk_freq = 0x1800,	/* 24.0 MHz */
--		.pll_op_mpy = 60,	/* 24.0 / 2 * 60  = 720 MHz */
-+		.extclk_freq = 0x1800,
-+		.pll_op_mpy = { 60, 111 },
-+		.pll_op_prediv = { 2, 3 }
- 	},
- };
+-	lockdep_assert_held(&imx355->mutex);
+ 	code = codes[imx355->vflip->val][imx355->hflip->val];
  
- struct imx355_hwcfg {
- 	s64 link_freq_menu;
- 	unsigned long link_freq_bitmap;
-+	unsigned int num_lanes;
- };
+ 	return code;
+ }
  
- struct imx355 {
-@@ -239,7 +249,6 @@ static const struct cci_reg_sequence imx355_global_regs[] = {
- 	{ CCI_REG8(0x305a), 0x00 },
- 	{ CCI_REG8(0x0112), 0x0a },
- 	{ CCI_REG8(0x0113), 0x0a },
--	{ CCI_REG8(0x0114), 0x03 },
- 	{ IMX355_REG_PLL_IVT_PCK_DIV, IMX355_PLL_IVT_PCK_DIV },
- 	{ CCI_REG8(0x0303), 0x01 },
- 	{ CCI_REG8(0x0305), 0x02 },
-@@ -250,8 +259,6 @@ static const struct cci_reg_sequence imx355_global_regs[] = {
- 	{ CCI_REG8(0x0310), 0x00 },
- 	{ CCI_REG8(0x0220), 0x00 },
- 	{ CCI_REG8(0x0222), 0x01 },
--	{ CCI_REG8(0x0820), 0x0b },
--	{ CCI_REG8(0x0821), 0x40 },
- 	{ CCI_REG8(0x3088), 0x04 },
- 	{ CCI_REG8(0x6813), 0x02 },
- 	{ CCI_REG8(0x6835), 0x07 },
-@@ -816,6 +823,7 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
- 		__v4l2_ctrl_modify_range(imx355->vblank, IMX355_VBLANK_MIN,
- 					 height, 1, vblank_def);
- 		__v4l2_ctrl_s_ctrl(imx355->vblank, vblank_def);
-+
- 		h_blank = mode->llp - imx355->cur_mode->width;
- 		/*
- 		 * Currently hblank is not changeable.
-@@ -879,6 +887,8 @@ static int imx355_start_streaming(struct imx355 *imx355)
+-/* Open sub-device */
+-static int imx355_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+-{
+-	struct imx355 *imx355 = to_imx355(sd);
+-	struct v4l2_mbus_framefmt *try_fmt =
+-		v4l2_subdev_state_get_format(fh->state, 0);
+-	struct v4l2_rect *crop = v4l2_subdev_state_get_crop(fh->state, 0);
+-
+-	mutex_lock(&imx355->mutex);
+-
+-	/* Initialize try_fmt */
+-	try_fmt->width = imx355->cur_mode->width;
+-	try_fmt->height = imx355->cur_mode->height;
+-	try_fmt->code = imx355_get_format_code(imx355);
+-	try_fmt->field = V4L2_FIELD_NONE;
+-	try_fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+-	try_fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_601;
+-	try_fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
+-	try_fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
+-
+-	*crop = imx355->cur_mode->crop;
+-
+-	mutex_unlock(&imx355->mutex);
+-
+-	return 0;
+-}
+-
+ static int imx355_set_ctrl(struct v4l2_ctrl *ctrl)
  {
- 	const struct imx355_reg_list *reg_list;
- 	const struct imx355_mode *mode;
-+	int lane_idx = imx355->hwcfg->num_lanes == 4 ? 0 : 1;
-+	u64 link_bitrate;
- 	u8 binning_mode;
- 	int ret = 0;
- 
-@@ -914,7 +924,21 @@ static int imx355_start_streaming(struct imx355 *imx355)
- 	cci_write(imx355->regmap, IMX355_REG_EXTCLK_FREQ,
- 		  imx355->clk_params->extclk_freq, &ret);
- 	cci_write(imx355->regmap, IMX355_REG_PLL_OP_MUL,
--		  imx355->clk_params->pll_op_mpy, &ret);
-+		  imx355->clk_params->pll_op_mpy[lane_idx], &ret);
-+	cci_write(imx355->regmap, IMX355_REG_PLL_OP_PREDIV,
-+		  imx355->clk_params->pll_op_prediv[lane_idx], &ret);
-+	cci_write(imx355->regmap, IMX355_REG_PLL_IVT_SYSCK_DIV,
-+		  lane_idx ? 2 : 1, &ret);
-+
-+	/* Set MIPI configuration */
-+	cci_write(imx355->regmap, IMX355_REG_LANE_SEL,
-+		  imx355->hwcfg->num_lanes - 1, &ret);
-+
-+	link_bitrate = imx355->link_freq->qmenu_int[imx355->link_freq->val] *
-+		       imx355->hwcfg->num_lanes * 2;
-+	do_div(link_bitrate, 1000000);
-+	cci_write(imx355->regmap, IMX355_REG_REQ_LINK_BIT_RATE, link_bitrate,
-+		  &ret);
- 
- 	/* set digital gain control to all color mode */
- 	cci_write(imx355->regmap, IMX355_REG_DPGA_USE_GLOBAL_GAIN, 1, &ret);
-@@ -1100,9 +1124,9 @@ static int imx355_init_controls(struct imx355 *imx355)
- 		imx355->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	/* pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
--	pixel_rate = imx355->hwcfg->link_freq_menu * 2 * 4;
-+	pixel_rate = imx355->hwcfg->link_freq_menu * 2 * imx355->hwcfg->num_lanes;
- 	do_div(pixel_rate, 10);
--	/* By default, PIXEL_RATE is read only */
-+
- 	v4l2_ctrl_new_std(ctrl_hdlr, &imx355_ctrl_ops, V4L2_CID_PIXEL_RATE,
- 			  pixel_rate, pixel_rate, 1, pixel_rate);
- 
-@@ -1185,6 +1209,7 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct imx355 *imx355)
- 	const struct imx355_clk_params *clk = imx355->clk_params;
- 	struct fwnode_handle *ep;
- 	struct fwnode_handle *fwnode = dev_fwnode(dev);
-+	int lane_idx;
+ 	struct imx355 *imx355 = container_of(ctrl->handler,
+ 					     struct imx355, ctrl_handler);
++	const struct v4l2_mbus_framefmt *format = NULL;
++	struct v4l2_subdev_state *state;
+ 	s64 max;
  	int ret;
  
- 	if (!fwnode)
-@@ -1202,11 +1227,15 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct imx355 *imx355)
- 	if (!cfg)
- 		goto out_err;
- 
--	if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX355_DATA_LANES)
-+	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 2 &&
-+	    bus_cfg.bus.mipi_csi2.num_data_lanes != 4)
- 		goto out_err;
- 
--	cfg->link_freq_menu = (clk->ext_clk * clk->pll_op_mpy) /
--			      (IMX355_PLL_OP_PREDIV * 2);
-+	cfg->num_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
++	state = v4l2_subdev_get_locked_active_state(&imx355->sd);
++	format = v4l2_subdev_state_get_format(state, 0);
 +
-+	lane_idx = cfg->num_lanes == 4 ? 0 : 1;
-+	cfg->link_freq_menu = (clk->ext_clk * clk->pll_op_mpy[lane_idx]) /
-+			      (clk->pll_op_prediv[lane_idx] * 2);
- 	ret = v4l2_link_freq_to_bitmap(dev, bus_cfg.link_frequencies,
- 				       bus_cfg.nr_of_link_frequencies,
- 				       &cfg->link_freq_menu, 1,
+ 	/* Propagate change of current control to all related controls */
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_VBLANK:
+@@ -705,9 +675,7 @@ static int imx355_enum_mbus_code(struct v4l2_subdev *sd,
+ 	if (code->index > 0)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&imx355->mutex);
+ 	code->code = imx355_get_format_code(imx355);
+-	mutex_unlock(&imx355->mutex);
+ 
+ 	return 0;
+ }
+@@ -721,12 +689,9 @@ static int imx355_enum_frame_size(struct v4l2_subdev *sd,
+ 	if (fse->index >= ARRAY_SIZE(supported_modes))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&imx355->mutex);
+ 	if (fse->code != imx355_get_format_code(imx355)) {
+-		mutex_unlock(&imx355->mutex);
+ 		return -EINVAL;
+ 	}
+-	mutex_unlock(&imx355->mutex);
+ 
+ 	fse->min_width = supported_modes[fse->index].width;
+ 	fse->max_width = fse->min_width;
+@@ -750,36 +715,6 @@ static void imx355_update_pad_format(struct imx355 *imx355,
+ 	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
+ }
+ 
+-static int imx355_do_get_pad_format(struct imx355 *imx355,
+-				    struct v4l2_subdev_state *sd_state,
+-				    struct v4l2_subdev_format *fmt)
+-{
+-	struct v4l2_mbus_framefmt *framefmt;
+-
+-	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+-		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+-		fmt->format = *framefmt;
+-	} else {
+-		imx355_update_pad_format(imx355, imx355->cur_mode, fmt);
+-	}
+-
+-	return 0;
+-}
+-
+-static int imx355_get_pad_format(struct v4l2_subdev *sd,
+-				 struct v4l2_subdev_state *sd_state,
+-				 struct v4l2_subdev_format *fmt)
+-{
+-	struct imx355 *imx355 = to_imx355(sd);
+-	int ret;
+-
+-	mutex_lock(&imx355->mutex);
+-	ret = imx355_do_get_pad_format(imx355, sd_state, fmt);
+-	mutex_unlock(&imx355->mutex);
+-
+-	return ret;
+-}
+-
+ static int
+ imx355_set_pad_format(struct v4l2_subdev *sd,
+ 		      struct v4l2_subdev_state *sd_state,
+@@ -788,12 +723,11 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
+ 	struct imx355 *imx355 = to_imx355(sd);
+ 	const struct imx355_mode *mode;
+ 	struct v4l2_mbus_framefmt *framefmt;
++	struct v4l2_rect *crop;
+ 	s32 vblank_def;
+ 	s64 h_blank;
+ 	u32 height;
+ 
+-	mutex_lock(&imx355->mutex);
+-
+ 	/*
+ 	 * Only one bayer order is supported.
+ 	 * It depends on the flip settings.
+@@ -805,16 +739,17 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
+ 				      width, height,
+ 				      fmt->format.width, fmt->format.height);
+ 	imx355_update_pad_format(imx355, mode, fmt);
+-	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+-		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+-		*framefmt = fmt->format;
+-
+-		crop = v4l2_subdev_state_get_crop(sd_state, 0);
+-		crop->width = mode->crop.width;
+-		crop->height = mode->crop.height;
+-		crop->left = mode->crop.left;
+-		crop->top = mode->crop.top;
+-	} else {
++	framefmt = v4l2_subdev_state_get_format(sd_state, 0);
++
++	*framefmt = fmt->format;
++
++	crop = v4l2_subdev_state_get_crop(sd_state, 0);
++	crop->width = mode->crop.width;
++	crop->height = mode->crop.height;
++	crop->left = mode->crop.left;
++	crop->top = mode->crop.top;
++
++	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+ 		imx355->cur_mode = mode;
+ 		/* Update limits and set FPS to default */
+ 		height = imx355->cur_mode->height;
+@@ -833,41 +768,17 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
+ 					 h_blank, 1, h_blank);
+ 	}
+ 
+-	mutex_unlock(&imx355->mutex);
+-
+ 	return 0;
+ }
+ 
+-static void
+-__imx355_get_pad_crop(struct imx355 *imx355,
+-		      struct v4l2_subdev_state *sd_state, unsigned int pad,
+-		      enum v4l2_subdev_format_whence which, struct v4l2_rect *r)
+-{
+-	switch (which) {
+-	case V4L2_SUBDEV_FORMAT_TRY:
+-		*r = *v4l2_subdev_state_get_crop(sd_state, pad);
+-		break;
+-	case V4L2_SUBDEV_FORMAT_ACTIVE:
+-		*r = imx355->cur_mode->crop;
+-		break;
+-	}
+-}
+-
+ static int imx355_get_selection(struct v4l2_subdev *sd,
+ 				struct v4l2_subdev_state *sd_state,
+ 				struct v4l2_subdev_selection *sel)
+ {
+ 	switch (sel->target) {
+-	case V4L2_SEL_TGT_CROP: {
+-		struct imx355 *imx355 = to_imx355(sd);
+-
+-		mutex_lock(&imx355->mutex);
+-		__imx355_get_pad_crop(imx355, sd_state, sel->pad, sel->which,
+-				      &sel->r);
+-		mutex_unlock(&imx355->mutex);
+-
++	case V4L2_SEL_TGT_CROP:
++		sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
+ 		return 0;
+-	}
+ 	case V4L2_SEL_TGT_CROP_DEFAULT:
+ 	case V4L2_SEL_TGT_CROP_BOUNDS:
+ 	case V4L2_SEL_TGT_NATIVE_SIZE:
+@@ -882,6 +793,21 @@ static int imx355_get_selection(struct v4l2_subdev *sd,
+ 	return -EINVAL;
+ }
+ 
++static int imx355_entity_init_state(struct v4l2_subdev *subdev,
++				    struct v4l2_subdev_state *sd_state)
++{
++	struct v4l2_subdev_format fmt = { };
++
++	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
++	fmt.format.code = MEDIA_BUS_FMT_SRGGB10_1X10;
++	fmt.format.width = supported_modes[0].width;
++	fmt.format.height = supported_modes[0].height;
++
++	imx355_set_pad_format(subdev, sd_state, &fmt);
++
++	return 0;
++}
++
+ /* Start streaming */
+ static int imx355_start_streaming(struct imx355 *imx355)
+ {
+@@ -969,12 +895,10 @@ static int imx355_set_stream(struct v4l2_subdev *sd, int enable)
+ 	struct imx355 *imx355 = to_imx355(sd);
+ 	int ret = 0;
+ 
+-	mutex_lock(&imx355->mutex);
+-
+ 	if (enable) {
+ 		ret = pm_runtime_resume_and_get(imx355->dev);
+ 		if (ret < 0)
+-			goto err_unlock;
++			return ret;
+ 
+ 		/*
+ 		 * Apply default & customized values
+@@ -992,14 +916,10 @@ static int imx355_set_stream(struct v4l2_subdev *sd, int enable)
+ 	__v4l2_ctrl_grab(imx355->vflip, enable);
+ 	__v4l2_ctrl_grab(imx355->hflip, enable);
+ 
+-	mutex_unlock(&imx355->mutex);
+-
+ 	return ret;
+ 
+ err_rpm_put:
+ 	pm_runtime_put_autosuspend(imx355->dev);
+-err_unlock:
+-	mutex_unlock(&imx355->mutex);
+ 
+ 	return ret;
+ }
+@@ -1033,7 +953,7 @@ static const struct v4l2_subdev_video_ops imx355_video_ops = {
+ 
+ static const struct v4l2_subdev_pad_ops imx355_pad_ops = {
+ 	.enum_mbus_code = imx355_enum_mbus_code,
+-	.get_fmt = imx355_get_pad_format,
++	.get_fmt = v4l2_subdev_get_fmt,
+ 	.set_fmt = imx355_set_pad_format,
+ 	.enum_frame_size = imx355_enum_frame_size,
+ 	.get_selection = imx355_get_selection,
+@@ -1050,7 +970,7 @@ static const struct media_entity_operations imx355_subdev_entity_ops = {
+ };
+ 
+ static const struct v4l2_subdev_internal_ops imx355_internal_ops = {
+-	.open = imx355_open,
++	.init_state = imx355_entity_init_state,
+ };
+ 
+ static int imx355_power_off(struct device *dev)
+@@ -1116,7 +1036,6 @@ static int imx355_init_controls(struct imx355 *imx355)
+ 	if (ret)
+ 		return ret;
+ 
+-	ctrl_hdlr->lock = &imx355->mutex;
+ 	imx355->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx355_ctrl_ops,
+ 						   V4L2_CID_LINK_FREQ, 0, 0,
+ 						   &imx355->hwcfg->link_freq_menu);
+@@ -1265,8 +1184,6 @@ static int imx355_probe(struct i2c_client *client)
+ 
+ 	imx355->dev = &client->dev;
+ 
+-	mutex_init(&imx355->mutex);
+-
+ 	imx355->regmap = devm_cci_regmap_init_i2c(client, 16);
+ 	if (IS_ERR(imx355->regmap))
+ 		return dev_err_probe(imx355->dev, PTR_ERR(imx355->regmap),
+@@ -1295,7 +1212,7 @@ static int imx355_probe(struct i2c_client *client)
+ 					    &imx355->supplies);
+ 	if (ret) {
+ 		dev_err_probe(imx355->dev, ret, "could not get regulators");
+-		goto error_probe;
++		return ret;
+ 	}
+ 
+ 	imx355->reset_gpio = devm_gpiod_get_optional(imx355->dev, "reset",
+@@ -1303,7 +1220,7 @@ static int imx355_probe(struct i2c_client *client)
+ 	if (IS_ERR(imx355->reset_gpio)) {
+ 		ret = dev_err_probe(imx355->dev, PTR_ERR(imx355->reset_gpio),
+ 				    "failed to get gpios");
+-		goto error_probe;
++		return ret;
+ 	}
+ 
+ 	/* Initialize subdev */
+@@ -1312,13 +1229,12 @@ static int imx355_probe(struct i2c_client *client)
+ 	imx355->hwcfg = imx355_get_hwcfg(imx355);
+ 	if (!imx355->hwcfg) {
+ 		dev_err(imx355->dev, "failed to get hwcfg");
+-		ret = -ENODEV;
+-		goto error_probe;
++		return -ENODEV;
+ 	}
+ 
+ 	ret = imx355_power_on(imx355->dev);
+ 	if (ret)
+-		goto error_probe;
++		return ret;
+ 
+ 	/* Check module identity */
+ 	ret = imx355_identify_module(imx355);
+@@ -1351,6 +1267,13 @@ static int imx355_probe(struct i2c_client *client)
+ 		goto error_handler_free;
+ 	}
+ 
++	imx355->sd.state_lock = imx355->ctrl_handler.lock;
++	ret = v4l2_subdev_init_finalize(&imx355->sd);
++	if (ret < 0) {
++		dev_err_probe(imx355->dev, ret, "subdev init error\n");
++		goto error_handler_free;
++	}
++
+ 	/*
+ 	 * Device is already turned on by i2c-core with ACPI domain PM.
+ 	 * Enable runtime PM and turn off the device.
+@@ -1371,6 +1294,7 @@ static int imx355_probe(struct i2c_client *client)
+ 	pm_runtime_disable(imx355->dev);
+ 	pm_runtime_set_suspended(imx355->dev);
+ 	pm_runtime_dont_use_autosuspend(imx355->dev);
++	v4l2_subdev_cleanup(&imx355->sd);
+ 	media_entity_cleanup(&imx355->sd.entity);
+ 
+ error_handler_free:
+@@ -1379,9 +1303,6 @@ static int imx355_probe(struct i2c_client *client)
+ error_power_off:
+ 	imx355_power_off(imx355->dev);
+ 
+-error_probe:
+-	mutex_destroy(&imx355->mutex);
+-
+ 	return ret;
+ }
+ 
+@@ -1391,6 +1312,7 @@ static void imx355_remove(struct i2c_client *client)
+ 	struct imx355 *imx355 = to_imx355(sd);
+ 
+ 	v4l2_async_unregister_subdev(sd);
++	v4l2_subdev_cleanup(sd);
+ 	media_entity_cleanup(&sd->entity);
+ 	v4l2_ctrl_handler_free(sd->ctrl_handler);
+ 
+@@ -1402,8 +1324,6 @@ static void imx355_remove(struct i2c_client *client)
+ 	}
+ 
+ 	pm_runtime_dont_use_autosuspend(imx355->dev);
+-
+-	mutex_destroy(&imx355->mutex);
+ }
+ 
+ static const struct acpi_device_id imx355_acpi_ids[] __maybe_unused = {
 
 -- 
 2.34.1
