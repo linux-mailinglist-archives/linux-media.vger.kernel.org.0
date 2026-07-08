@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-67071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67072-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id dxYTEHe/TmqkTQIAu9opvQ
-	(envelope-from <linux-media+bounces-67071-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:21:59 +0200
+	id 6cbhM2vDTmqKTgIAu9opvQ
+	(envelope-from <linux-media+bounces-67072-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:38:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3418772A7C9
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:21:58 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 408E372A94D
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:38:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=NoNy+n6y;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=S5xFO8X9;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67071-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67071-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67072-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67072-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E427E3016DE5
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 21:21:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0F2D0314559E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 21:32:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 263123F5BF9;
-	Wed,  8 Jul 2026 21:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F391C3F787C;
+	Wed,  8 Jul 2026 21:32:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF005371899;
-	Wed,  8 Jul 2026 21:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6673F58C2;
+	Wed,  8 Jul 2026 21:32:10 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783545710; cv=none; b=nfdItxbw50iND3JbR3xpF6QUq90bFmBZPNEaa+1FYJQo72z5vG807CwPReiQba1/ZEJsSAj2PODweiYSRDiJ2P5yQlOqDer9zr96IqErPvX18YS/jpsyR9Umy5B2Cx1nxooA56zQysPkdhIJuVnyZ4utxn4sYVFeuAwTq11/VR0=
+	t=1783546331; cv=none; b=a2t34j2GgbxJu8de6QFPGzr5HIM7iwn6ztPrNBVC1PcncwsealcOzWWe3+fpJnzuF2dYib3mZCTvJQ2VRn+SRwTaBNuh4yvQa0fgLjKTtWh6WFIkGgOL2Jry3zL8EwU/k4VOiK6Y5yo0si+LuUg+tlm//arUigDfYvEadFB/OJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783545710; c=relaxed/simple;
-	bh=FLc6lJa0blijyZGmnuNxFGNVMvBPEdxs+/wUUWYbLcE=;
+	s=arc-20240116; t=1783546331; c=relaxed/simple;
+	bh=v/yur6JxQBlQ7XQJVCJ+0tvVXPAOphXTYjC/pf7GVeE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lL3CwavM3MSwpTZQJNOGbfOSeaauABKjmuN++v8R4qdjHehC0luHTVqe0xs2Kw22KukIom21CBPqNTF2Y+HxoWfL4t0SVt8qP3vjdXTfjMlgNN0B4hAtzqx5KFSR37hsBZjXJrEZSsJEWQR9E1OGGsyPF06u8zGrqWG02L/rEto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NoNy+n6y; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36DC81F00A3A;
-	Wed,  8 Jul 2026 21:21:45 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=gXMmNsgSd5GtBudne2ZUpVwQuyrz5Tf80o1VYbyNED3hJ5bW+TBa581HcCD35P7s3ewIQunMD1xu066ap8CjDHwwiaub1MtAKQf3tbV/ukk627eiEevZ7itSvxPUwycQ76JVJtbtYW0v0q9yVJMkzKe1WROU6isZcFxtG9QuOZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S5xFO8X9; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485CE1F000E9;
+	Wed,  8 Jul 2026 21:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783545708;
-	bh=eui37Vx1xu6JVhgSmO2/BwFhQk4xpqrRpfAVH+9sxmc=;
+	s=k20260515; t=1783546330;
+	bh=yOS1kfFuRrQQs4Q/BOmYqHiHHqC4EdqaWa5cvJ7jP0M=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=NoNy+n6yF6ecxsKI/epGNS0JXqa625XHCKba5KV3cttFMlHkl7ZrmLbMW9Ji8sBo0
-	 95MjF/WXZWDoBWbCn/lsYaToIoBx085Vmp0mywa0RbHvNtoJjQBBiaJ+Cia1Uk6ga5
-	 wGDViTbPet9X0dFtX94nOBSazz1QVejoD5gT0RbbIAqDMTvn/bw9jPPB02Hq95fX/k
-	 u5fWx3fiQwbEfCeIo5pnHjInduTCAMXTfA/PW7cZ3uMJ2PHF4yO+E6YfVKcNfA8v1Z
-	 aToueVLVneRP7dvmtHp+4d+NycMAOc9/VoVVqkqYz8hHMCy5o9hTGixWJylztE6QpK
-	 VbFNdbJ4HwwTQ==
-Message-ID: <54ad9b8a-7596-4bc7-a1c3-7230cca21360@kernel.org>
-Date: Wed, 8 Jul 2026 22:21:43 +0100
+	b=S5xFO8X97QBypirWq0CzOPovRIyynWtopFLPfH7I0ZSr2hxoEj8UXe2QI0KkSs+mQ
+	 bjtT4c5KbfuvH8kDRHp4RmhgOl1/z8Q2uiL1UxFJrVxuL37VvCPTQsMz1pmjzrZcNg
+	 J5E7ZlzP2fW4Y9xuzbOIsKWx3suRBx7HVmR0rt6djcDe9D/j5rXnd3RF3vs6NyNOO9
+	 xH5dHxCo8lhHIvBqagP6wbgpvGv8GtxMY/ZTAZkLPWmMs5xMW3ai3aJLwyrvDKD4LT
+	 Rbrod1IFSOLIelGEqOyKbIolziS0xehnPFVGVGcyBRCzise12zkz5v+zECow2JMvo3
+	 i+otA476liv8Q==
+Message-ID: <f307848d-6abd-4e96-9183-36f8599026ce@kernel.org>
+Date: Wed, 8 Jul 2026 22:32:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,27 +55,27 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] Add Qualcomm JPEG V4L2 encoder for SM8250
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+Subject: Re: [PATCH v12 2/6] dt-bindings: media: qcom,x1e80100-camss: Describe
+ iommu entries
+To: Vikram Sharma <vikram.sharma@oss.qualcomm.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Atanas Filipov <atanas.filipov@oss.qualcomm.com>, linux-media@vger.kernel.org
-Cc: loic.poulain@oss.qualcomm.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
- <68e59764-5a10-4abc-849c-14ea2d9ef76e@linaro.org>
- <d74d7839-d126-427a-b151-ca895a27a83e@linaro.org>
- <437d1eb0-4495-406a-9501-b0515cfa3151@linaro.org>
- <e04cb9dc-76dd-4fa8-92f4-be002bf7ee8b@linaro.org>
- <8116c54e-4050-4e9d-b236-59d74846bd57@linaro.org>
- <8a09875d-af5f-438b-b947-bc2b61219b70@oss.qualcomm.com>
- <c8c38ec6-4422-4c91-a249-20bc20260e73@linaro.org>
- <d0768c15-453f-4d3f-8110-886a5c697b02@oss.qualcomm.com>
- <d5407ab1-1af7-4678-ae67-5cf30ce8fa4b@kernel.org>
- <VoXmpDKdgY_XxAvO5tkDze4jpmMzSuKTmIISTejJsbIO_FIO1JFfUBlaPkNdb14E95zf_qwtDB6myQ2wdRCh1Q==@protonmail.internalid>
- <8fc1ddfd-0f77-4b67-b9bd-33fbd60e2046@oss.qualcomm.com>
+ Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-0-f8588da41f16@linaro.org>
+ <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-2-f8588da41f16@linaro.org>
+ <HCPw5KYwtYb7jBFED4lssTvcaMo2bK808SHkTWNR77q0DXGPQklaADJXvuyeBrXh_GsEMKdiaaktkzQ9_xeseg==@protonmail.internalid>
+ <cbc1b1eb-0064-4999-b829-2bec451c682a@oss.qualcomm.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -121,7 +121,7 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <8fc1ddfd-0f77-4b67-b9bd-33fbd60e2046@oss.qualcomm.com>
+In-Reply-To: <cbc1b1eb-0064-4999-b829-2bec451c682a@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
@@ -129,21 +129,22 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-67071-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:vikram.sharma@oss.qualcomm.com,m:bryan.odonoghue@linaro.org,m:andersson@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:rfoss@kernel.org,m:todor.too@gmail.com,m:mchehab@kernel.org,m:konradybcio@kernel.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:linux-arm-msm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:krzk@kernel.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:conor@kernel.org,m:todortoo@gmail.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,linaro.org,kernel.org,baylibre.com,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67072-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -154,62 +155,29 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3418772A7C9
+X-Rspamd-Queue-Id: 408E372A94D
 
-On 08/07/2026 13:19, Konrad Dybcio wrote:
-> On 7/7/26 12:41 PM, Bryan O'Donoghue wrote:
->> On 07/07/2026 11:11, Konrad Dybcio wrote:
->>> On 7/7/26 12:00 PM, Bryan O'Donoghue wrote:
->>>> On 07/07/2026 10:24, Konrad Dybcio wrote:
->>>>> On 7/6/26 3:37 PM, Bryan O'Donoghue wrote:
->>>>>> On 06/07/2026 14:02, Vladimir Zapolskiy wrote:
-> [...]
+On 08/07/2026 16:15, Vikram Sharma wrote:
 > 
->> OK, I can see how this thread is confusing.
->>
->> The idea is to start to declare sub-nodes "on the road" to making camss into a bus. The legacy binding we have is really for the IFE domain - that is CSIPHY, CSID, IFE.
->>
->> Right now the camss binding describes those things - so linking say OPE or JPEG back to the thing that describes those isn't right.
->>
->> OTOH we_want_ to make the top-level binding into a bus, we've discussed that several times.
->>
->> To transition from monolith IFE-domain only, to camss-bus, we should have the sub-nodes fully describe themselves as "camss-bus" doesn't exist yet.
->>
->> Once we have compat="camss-bus" then fine, make that linkage, I fully support that.
->>
->> That roadmap BTW is why I'm asking Antanas and Loic to make JPEG and OPE sub-nodes of camss - but make them complete sub-nodes - power-domains, clocks, nocs, including the TOP_GDSC.
-> I think this needlessly increases the amount of combinations we'll
-> have to keep supporting down the line (with a ton of compatibility
-> boilerplate code)
+> On 7/8/2026 5:36 AM, Bryan O'Donoghue wrote:
+>>               iommus = <&apps_smmu 0x800 0x60>,
+>> +                     <&apps_smmu 0x820 0x60>,
+>> +                     <&apps_smmu 0x840 0x60>,
+>>                        <&apps_smmu 0x860 0x60>,
 > 
-> Konrad
+> I think only "iommus = <&apps_smmu 0x800 0x60>" should be enough as mask which 0x60 is implicitly covering sids like 0x820, 0x840 and 0x860.
+> 
+> Regards,
+> Vikram
+> 
 
-Fine.
+These all come from the Hamoa iommu defintions in qcom docs.
 
-Lets drop the bus idea then. I'm happy to close the conversation as 
-peer-nodes.
-
-camss@{
-	existing CSID/IFE
-	IFE SID stuff goes here
-	power-domains = TITAN_TOP_GDSC, IFE_GDSC
-}
-
-csiphy @ {
-}
-
-jpeg@ {
-	JPEG SID stuff goes here
-	power-domains = TITAN_TOP_GDSC, JPEG_GDSC
-}
-
-camnoc@ {
-	modelled as an ICC provider and consumed by
-}
+Can you double check for yourself and let me know.
 
 ---
 bod
