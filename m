@@ -1,276 +1,185 @@
-Return-Path: <linux-media+bounces-66976-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66977-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id TaNhMCo8TmraJQIAu9opvQ
-	(envelope-from <linux-media+bounces-66976-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 14:01:46 +0200
+	id vH7CDaA+TmpYJgIAu9opvQ
+	(envelope-from <linux-media+bounces-66977-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 14:12:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3A67261A3
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 14:01:41 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 717807262AE
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 14:12:15 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b="agbpY/TL";
-	dmarc=pass (policy=none) header.from=linaro.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66976-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66976-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=alP9CjWa;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66977-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66977-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C022A3013464
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 12:01:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A6B63300B610
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 12:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E227438470;
-	Wed,  8 Jul 2026 12:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36DC043B6CD;
+	Wed,  8 Jul 2026 12:08:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03771401A33
-	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 12:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E42E3F54C5
+	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 12:08:43 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783512095; cv=none; b=Tr1Y3mGFJCF0lRXsvPgxdCD7s0sOpjsac7dRROHfb6ZldvKB7PXGQK0/eGJw/edhJ5Yq4vbp7OjNatNavxSS7S5E+H82DiNPAsPt7tlZ2yBnWyj+sfb0AiuOvf9if4ViMp2GdjT4XNT6UhSMuIXwpwtta+ZP4jR1RZp7y6wZTIs=
+	t=1783512524; cv=none; b=g0psTc3y6H5wJfjf1PJz52sm4Pcx51RD2MODlxG8Sb49URec7D3EPaDONtks+uYn0rClT0SHPyXwOJybJtdlUc1lukdlzLDcv3ckG4HSR3436Jdq3ZuVhQX3mZ238dlG6V/fF4OFzkW/nsuwKzekNJXjCIYOpU1k1KyJkapayA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783512095; c=relaxed/simple;
-	bh=/a6IYbpWnGbUzqL0WVdR/2GwZ+Glpr8Tc4xAeYCi4cA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IAfg3rXj52UdHoQKzkwAmuZzsiyhxry/XGq20Zfhi+MX++7FVua1V49YYMmq608hskan2H0HIK/ORFsIEAvI+u1GD+hn9kaBbAiThypTmzbIdf9RSAZQIwEx3l9GCO56igWxRxA8UopgZrfifagl7nRzM5ziBLamxywMRhCkO5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=agbpY/TL; arc=none smtp.client-ip=209.85.208.179
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39c618799e4so177781fa.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 05:01:33 -0700 (PDT)
+	s=arc-20240116; t=1783512524; c=relaxed/simple;
+	bh=PZdxUgVPTH97DqcK6+oUruofjz7CC0UhzdFau+lZCJo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gbe3S9I+Zxz+RO6sYEuGwyEvF6IGz+/6sWtMEI6FKzUXdvGSv+MAACVyHChIXyurd5PwcD3kB4XtSklJa4u3wByUuyul8ZYrvk+mRUyUPSfWrDwWcg9bFl4PL7vSdn2XWnfHPLCOBV5HvdBCvGXGb6FnrnRMHheaBvLNT3H93nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=alP9CjWa; arc=none smtp.client-ip=209.85.214.169
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2caf228a910so4067455ad.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 05:08:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783512092; x=1784116892; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=4i8K/LEMzhnhSZqG+2fTmIR6QB4CQ+QcJMkt3W3IXEw=;
-        b=agbpY/TLvcUiZWsLEQafWQxClTjApWb9UXv1pjQZSXrCOGBjeu1fJhmSgxz/TWm/Uk
-         Eb1TXzSQKh/zEhBxc2gMBlSNhcoPg4jQ7tghDDM2VlP/JcWGpePq6+VoeKHuhaHIQ4WA
-         eHmZELBfWzoacSUfZHiYkjqvJg3cS29fyS6LbjA4YEG1e/onCNhIknAQ9Sl8Af1KL2jx
-         GjtXciIw1GkWBvfBnFKJ6cAzRpP8SvaSOlorEFc3EdC/bzGdU1UsjVf08F56V5/HnSs8
-         xpmxFkwsFoVzX0X2V6X12iACcqcL67fa3Khl3zkjO8ymh+pfdq5E+Yq9SoFUJ1FT4kKr
-         pv6Q==
+        d=gmail.com; s=20251104; t=1783512523; x=1784117323; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=X/P0XI2f+jIz2x5Bw9cZxHv5AndciwcR9koDyZ8FmdY=;
+        b=alP9CjWaVrxIDJobh7MbpJTFard37z6Yd3PgdpAsp2tussZqW4umAkUTZxJoI4r1pv
+         kexbgWSs2QOIuu/u/6sYFkwiXBfzMw1RR0rOLxIGqSX9XtWakR4qir5nLCEJKAreKGns
+         bIzl7ee/4MpygArizlurMeb1a/mSytKAjHB0PWTLu3z9IjV2ldPGgkzXVDCmkJ4rJamv
+         D8Fbf2F+T/yFgazvCTYglyrI91xGA51t4j6vhk0Ze6Vl85e5HKArJYTr8dQlNNOW8J/H
+         YN6ABbQtwz8jmbu23NEPFOLX5t3ZgHm5jBM+dtPLB3UlfUypOuHf+U18F0CvuhPfurPr
+         4fdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783512092; x=1784116892;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4i8K/LEMzhnhSZqG+2fTmIR6QB4CQ+QcJMkt3W3IXEw=;
-        b=Bqug/hzNvtenrx8axT/JzV+3sp2vEbZvUx9e6aQNyHXo8JDnOFCXrxAyvUlMaAfTdF
-         jr3MHId8zJVsGs183noOrlN8gfTJt1GMEIrbe0iUqmllusz35VPEZ9H872HdT2EPoRK1
-         SljTWiUzZ0PVmNm2Fa0wUvDZKNrnsLYPKvRAR2nDYoMcAVSUKOJTW3RfyE9s+nbpL0kF
-         eVGHG7Xfqn8AE0f6vy/EF2GApur8hU9LpvwoDOabYHfAdUOjI3FBkJON2V2Ih9VZLmVQ
-         J/6p7C71WpgOH4AUO8W0LgEBFWOkasTAR+DPvzPcYtXf4lSM4oA8V9N5v2R0Fe0hUd7n
-         ooZg==
-X-Forwarded-Encrypted: i=1; AHgh+RpsjfbPqTS+fP0kUYNYr7FLUp6+FxwOttx3A71tPLWiVKFjzZza7OZovjhsrIVOeDe0mxDnK4RzQijLyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn088xJONAilBdfVW5NL/ML8DNUn+T0Fo19Zj/HSboCkZTVmD4
-	3CmHn86J57eQgCTcPk+Bq/2BsXnTdERXbAQafetHe3RYeAK0IPjzO7s1niQ2mIkr964=
-X-Gm-Gg: AfdE7cm9jmVhrGMd3FdYfAKr2B8lDwWK4l+VHLI0CPWJrtMvgfDb4D59dFq7qI1JrLA
-	2gBbT/edgy1rAusYns/2QYb+dPkWQeB2K/YhO52xN87aGUhhMxuNzdt79qSqs1pJ1d/l58wL8pV
-	ver0aH/3pn4Ogz/0kyU7XCFmtJtFE7hu8J3rLYULh+mJd/bZmESooqHt61+o4bTE+MJJqfWR/Q+
-	7IiRy927FVsD380hco9+fRRQ1t+lpgdm1jhvcbIFQpBv2mW4jtLxjbhqVvFOoFOiVSjUSakPMdW
-	iOjqBjVCPSfLGZi01M1GwD6RcgFAHvC+/Q4XNS4Tgu8LvF7idtF632gOy5d88gXjMzU9QxqHFMd
-	/JThl9NrXykhrzc+0X/QzQ+v9w76N49YjstPluD564toI/MEj0XanF5RsDzFNSRIjPVtsv72LNJ
-	HjJD27FnY+Rn6fe5rxSeJkQrMUyjVX3hlvCx6X+GvMuE03t6XyahVICAnCkZpt9ycBgPU=
-X-Received: by 2002:a2e:a5c9:0:b0:39b:90f:b1cb with SMTP id 38308e7fff4ca-39c798269e4mr2943241fa.7.1783512092081;
-        Wed, 08 Jul 2026 05:01:32 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39c6f682129sm7596531fa.1.2026.07.08.05.01.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jul 2026 05:01:31 -0700 (PDT)
-Message-ID: <74608907-dc8a-42c5-b188-0bdb08d6be77@linaro.org>
-Date: Wed, 8 Jul 2026 15:01:30 +0300
+        d=1e100.net; s=20251104; t=1783512523; x=1784117323;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=X/P0XI2f+jIz2x5Bw9cZxHv5AndciwcR9koDyZ8FmdY=;
+        b=bOSCNH7W9I5KomIOfGgc/Ya3GPL2j7fgDZYc25JC73CB+Sf1ZUOCeS3RcOx3hTyYh2
+         W5bR3gFxIIkwrwAZXvRyNeCyo2LQ0mGuXiWEzmNDtb6KAZ+BXOFCCHZSFRV+cG29pGKb
+         T+ETOC2W4+y17k/Z7a9zfAvhqRFx7RON5JtADcHK9Qy2sjHTSC2tTlXBXP21YBQlX92r
+         YcGdqsCNjOIVigUS6WBj03D4DbkPHfVfDBzTbrD9EfC5FlCZrm5TGWyiusI1/YL4Jxvu
+         3ndVtvBfFPqW+mpZgx/ORyull66oN7q+pgvxrgHKV/0qezm51/ZRg+gmosBVIhYlbsxZ
+         jzRQ==
+X-Forwarded-Encrypted: i=1; AHgh+RplOHbJjDshnJkGZnIjqXXr2tS4+FTImPmrnS5GrJRMBca1rtaI7c/zyH0akkWgZ/faJEJ3JJZ99rjH4A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGXxqOOH5tveF+4ivj0V6fTCznNn0a15F9LMLVWPbQXtxMQKc/
+	dbPFy1BIShoBJVIT+IdR7b9VVbgxO8zkAGP5gU+EiRNh8EiEPgk6NleD
+X-Gm-Gg: AfdE7ckPY5qtW0hKKAQDXN2G+iP3Ux9hIr9xkSSRqffhOQ6iT/mfjUqPzRzEDC5hG3j
+	nigH37qHJjlze0y5HbdEUYKoNvgL4ONMo3CeXMiq61VfKfvz/igegbmDSBpVbc2nZm71PulIfkU
+	DFzYhGHWxcTBBOI8n33AMPaJx5hwrGzlyk8a4rlai8Csoh0usbtntsm+54yukJjwpKbrEbezFod
+	G9N8FegqtELZYoLdVuK8jIHegSX511SYA+MF8wY70zrrHpe3htKd7z7sOWn8OEPcfWmFg7mTxID
+	Vaoc904mDZd2JrQgms237X7BXrvTYqYuYvIw2x7cwPebxb8CBjQWGCCl/20sKc0KzUd02lifnJf
+	fvJw7D3gq7Jz9qd0/5a87aX4EhltQv/eFFTFEXQ6Sy02y4lkL44raKeGrQdmjsY95yex/hyebBe
+	iUMzgf+K1ca26PAQ==
+X-Received: by 2002:a17:903:fa5:b0:2cc:a977:4260 with SMTP id d9443c01a7336-2ccea3b0e5bmr25272395ad.21.1783512522781;
+        Wed, 08 Jul 2026 05:08:42 -0700 (PDT)
+Received: from lgs.. ([101.36.109.218])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1f030sm27088705ad.51.2026.07.08.05.08.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 05:08:42 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Bin Liu <bin.liu@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Fan Wu <fanwu01@zju.edu.cn>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>
+Subject: [PATCH] media: mtk-jpeg: drain hardware completion before freeing context
+Date: Wed,  8 Jul 2026 20:08:33 +0800
+Message-ID: <20260708120833.755998-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/5] media: qcom: jpeg: Add Qualcomm JPEG V4L2 encoder
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: "Gjorgji Rosikopulos (Consultant)"
- <gjorgji.rosikopulos@oss.qualcomm.com>,
- Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
- linux-media@vger.kernel.org, bryan.odonoghue@linaro.org,
- loic.poulain@oss.qualcomm.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
- <20260706071113.383215-6-atanas.filipov@oss.qualcomm.com>
- <51a0abf2-2a72-4551-894b-2c2de91ba0c2@linaro.org>
- <74a5b549-987c-4dac-a1a0-ff81150cd6ab@oss.qualcomm.com>
- <56f1fd7e-42bc-4034-81dc-302cb7c22951@linaro.org>
- <dd34b44d-396e-4267-b383-e4f8d20f8ef4@oss.qualcomm.com>
- <fffc51f1-9137-4951-b9b8-9f7f263c7878@linaro.org>
- <wwk4nyczcecnllwivqd2lgnbpzboumtwigk3vmundsvgqtqpy7@duq6zdulc7sc>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <wwk4nyczcecnllwivqd2lgnbpzboumtwigk3vmundsvgqtqpy7@duq6zdulc7sc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-66977-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66976-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:gjorgji.rosikopulos@oss.qualcomm.com,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:bryan.odonoghue@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RSPAMD_URIBL_FAIL(0.00)[linaro.org:query timed out];
+	FREEMAIL_TO(0.00)[mediatek.com,kernel.org,gmail.com,collabora.com,zju.edu.cn,vger.kernel.org,lists.infradead.org];
+	FORGED_SENDER(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:bin.liu@mediatek.com,m:mchehab@kernel.org,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:nicolas.dufresne@collabora.com,m:fanwu01@zju.edu.cn,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:lgs201920130244@gmail.com,m:matthiasbgg@gmail.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linaro.org:from_mime,linaro.org:dkim,linaro.org:mid]
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9B3A67261A3
+X-Rspamd-Queue-Id: 717807262AE
 
-On 7/8/26 14:35, Dmitry Baryshkov wrote:
-> On Wed, Jul 08, 2026 at 01:28:46PM +0300, Vladimir Zapolskiy wrote:
->> Hi Gjorgji.
->>
->> On 7/8/26 12:32, Gjorgji Rosikopulos (Consultant) wrote:
->>> Hi Vlad,
->>>
->>> On 7/8/2026 11:47 AM, Vladimir Zapolskiy wrote:
->>>> Hi Gjorgji.
->>>>
->>>> On 7/7/26 16:24, Gjorgji Rosikopulos (Consultant) wrote:
->>>>> Hi Vlad,
->>>>>
->>>>> On 7/6/2026 10:46 AM, Vladimir Zapolskiy wrote:
->>>>> <snip>
->>>>>>>
->>>>>>> +            interconnects = <&gem_noc MASTER_AMPSS_M0
->>>>>>> QCOM_ICC_TAG_ACTIVE_ONLY
->>>>>>> +                             &config_noc SLAVE_CAMERA_CFG
->>>>>>> QCOM_ICC_TAG_ACTIVE_ONLY>,
->>>>>>> +                            <&mmss_noc MASTER_CAMNOC_HF
->>>>>>> QCOM_ICC_TAG_ALWAYS
->>>>>>> +                             &mc_virt SLAVE_EBI_CH0
->>>>>>> QCOM_ICC_TAG_ALWAYS>,
->>>>>>> +                            <&mmss_noc MASTER_CAMNOC_SF
->>>>>>> QCOM_ICC_TAG_ALWAYS
->>>>>>> +                             &mc_virt SLAVE_EBI_CH0
->>>>>>> QCOM_ICC_TAG_ALWAYS>;
->>>>>>> +            interconnect-names = "cpu-cfg",
->>>>>>> +                                 "hf-mnoc",
->>>>>>> +                                 "sf-mnoc";
->>>>>>
->>>>>> This is the topic, which may raise a disagreement, but I'll repeat my
->>>>>> position about the need to remove all "CAMSS bus" specific resources from
->>>>>> the device node, they are found and should be allocated on parent's side.
->>>>>
->>>>> The interconnect has functionality to handle bw requests from different
->>>>> clients.
->>>>>
->>>>> Yes the best will be to have camss interconnect, so jpeg and other hw's
->>>>> to vote
->>>>>
->>>>> on that (actually it is possible in icc framework) but what is the
->>>>> benefit of moving
->>>>>
->>>>> those to camss? Is it not better to create camss icc. I understand
->>>>> you want them to be on parent side. But how to vote on bw? Most of the
->>>>> time it
->>>>
->>>> Let's concentrate on hardware bindings description, no APIs, votes etc.
->>>> at this point of discussion.
->>> I agree but there should be an API for icc voting which Jpeg need to use,
->>> currently it is fixed to some values, but voting need to become dynamic
->>> at some point of time, because it depends on runtime parameters, resolution
->>> format etc.>
->>
->> Sure, but I believe it's quite clear that any software implementation
->> should be discussed only when the hardware description is fixed.
->>
->>>> There is SM8250 CAMSS device, which serves as a hierarchical parent (or
->>>> could be considered as a "bus" device) to this new JPEG encoder device
->>>> and probably to a number of future IPs under CAMSS. All CAMSS sub-devices
->>>> get hardware descriptions as children device tree nodes of CAMSS parent
->>>> device tree node naturally.
->>> I agree the device tree is best to represent real hw topology. >
->>
->> Well, it's not just the best, it's the only possible way.
->>
->>>> Copying of the same identical information about clocks, interconnects
->>>> and power domains from the hierarchical parent device to children devices
->>>> is not needed, and practically it only lowers signal-to-noise ratio.
->>> Here also i tend to agree.>
->>>> Since information about the actual defect in hardware description is
->>>> reported, the problem can and should be avoided, the handling of a better
->>>> hardware description and dealing with any kind of complexity will be done
->>>> in the CAMSS and/or CAMSS children drivers.
->>>>
->>>> If you need to get a bit more formal point of view on the matter, I'd
->>>> prefer to see descriptions of hardware properties organised in a tree
->>>> topology rather than in the originally proposed star topology. By doing
->>>> it the system complexity is reduced from N to 1.
->>>
->>> Maybe I'm missing the whole picture of your proposal, but I want to add my
->>> point of view on this matter.
->>>
->>> The JPEG encoder HW block has no dependency on the other processing HW
->>> blocks in the camera subsystem
->>>
->>> It shares resources like camnoc, clocks, GDSC, etc.,
->>> but does not share anything with the other HW processing blocks. For me,
->>> the JPEG driver should not have SW architectural dependencies on CAMSS.
->>
->> To move forward there should be a clear answer to a simple question,
->> does Qualcomm JPEG encoder IP belong to CAMSS group of devices or not?
->>
->> If no, then JPEG encoder device tree node shall be located outside of
->> CAMSS device tree node, all resources needed for JPEG encoder device
->> operation get their descrition in this stand-alone device tree node.
->>
->> If yes, then JPEG encoder device tree node is a child of CAMSS "bus"
->> device tree node, and only resources specific to JPEG encoder device
->> are described in its device tree node, because other resources are
->> already described in the parent device tree node.
-> 
-> 2c from my side (for both sides of the discussion). Please keep it
-> separate, if the block simply uses the resource which is also used by
-> the parent (e.g. there are no special requirements on the AHB or sleep
-> clocks) or if the device needs to actuall cast a vote on a particular
-> resource (e.g. for this to function at this performance level, the MMCX
-> needs to be at the turbo level OR for this to function at this
-> performance level it will use 123 MHz of the AXI clock). In the latter
-> case the resources must be described as a part of the device.
-> 
+The change referenced by the Fixes tag cancels ctx->jpeg_work before
+freeing the JPEG context from mtk_jpeg_release().
 
-Even this "description as a part of the device" might be not quite
-necessary in whole, let me try to explain.
+That prevents a queued or running JPEG worker from dereferencing the
+context after it has been freed. However, on multi-core hardware the
+worker can program a hardware instance, arm the per-hardware timeout
+work, store the context in hw_param.curr_ctx and then return while the
+hardware completion is still pending.
 
-No doubts resource usage policies specific to a child device should
-be naturally described in child device tree node, and it's applicable
-to any kind of hardware policies (like opp tables etc.), but a list
-of needed hardware resources still can be obtained (also by a driver)
-from the parent, whenever it is found applicable and unambiguous.
+In that state cancel_work_sync(&ctx->jpeg_work) can complete even though
+the IRQ handler or timeout work can still recover the same context from
+hw_param.curr_ctx. If userspace closes the file before the hardware
+completion path has run, release can free the context and a later IRQ or
+timeout work can dereference the freed ctx while updating the done queues.
 
-This is to separate planes of hardware dependencies and policies/controls
-needed for hardware usage.
+Drain the in-flight hardware completion state associated with the context
+before freeing it.
 
+Fixes: 34c519feef3e ("media: mtk-jpeg: fix use-after-free in release path due to uncancelled work")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+index d147ec483081..bc9eea0483ce 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+@@ -1202,8 +1202,11 @@ static int mtk_jpeg_release(struct file *file)
+ 	struct mtk_jpeg_dev *jpeg = video_drvdata(file);
+ 	struct mtk_jpeg_ctx *ctx = mtk_jpeg_file_to_ctx(file);
+ 
+-	if (jpeg->variant->jpeg_worker)
++	if (jpeg->variant->jpeg_worker) {
+ 		cancel_work_sync(&ctx->jpeg_work);
++		mtk_jpeg_release_hw(jpeg, ctx);
++	}
++
+ 	mutex_lock(&jpeg->lock);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
 -- 
-Best wishes,
-Vladimir
+2.43.0
+
 
