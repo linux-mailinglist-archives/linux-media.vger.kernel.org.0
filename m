@@ -1,213 +1,282 @@
-Return-Path: <linux-media+bounces-66998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66999-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qf5fKglcTmoJLQIAu9opvQ
-	(envelope-from <linux-media+bounces-66998-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 16:17:45 +0200
+	id nZqwA5NdTmpkLQIAu9opvQ
+	(envelope-from <linux-media+bounces-66999-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 16:24:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29795727381
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 16:17:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D257274A0
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 16:24:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
-	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=appspotmail.com (policy=none);
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66998-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66998-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66999-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66999-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5F61030D498A
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 14:11:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 984133072AF6
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 14:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9875C478E23;
-	Wed,  8 Jul 2026 14:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC4D644CAFC;
+	Wed,  8 Jul 2026 14:17:36 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA60D44A71D
-	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 14:11:29 +0000 (UTC)
+Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DA6644BC92;
+	Wed,  8 Jul 2026 14:17:27 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783519891; cv=none; b=dt10N3TOBD3ifCz5fhtGoDqEg+aK5X7SyurGS7tOrtkgA+SSwO+oasrOAsfeW7DUUBScts0XhVJJdr63t1RDZ9VQE0DYtU/dXfrbX9efPS6pMPyYdFettcibdXFUpydF2R+DGvjt8qNa20AsH9mp3KGQ3db+iKC6dSUsyuHK9uw=
+	t=1783520256; cv=none; b=Y4OsmAshwl5N3VAjodC1vgpqQxpxZFSKa/sJtCfEW8fXgmmCgnc9JlFEv1Zqp9JNJu3fOjpA81yROpVebPdwB6n/JKlKTJdADdHyM7Vcvrq5nUx33fBTj4aEYt5VEKjmtvCBUG9MEO/8gSTd33aHBKLN9mUO73a/NW3E+QAn1O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783519891; c=relaxed/simple;
-	bh=+7C7np2bvzfHKHSBoOdMNA3KvnuEmxCpForLSNF0Jqo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gXeJnw+N27+rRVLGQgiXi/981bTP4a0u+rM1iBoFuOWNxKl+qGU6awCDZCsVna7MtZAuJuxbar0r+bDFzoX7iiWaRDRKl03dSeWd1Y/35bRR+i8/QxmAs8aObej9+rJy4iwSf7lGrQNUrieoIXUJIs2FXfZG6W6K8Y8a9zfo1nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
-Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-48e2ce64834so739856b6e.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 07:11:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783519888; x=1784124688;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=U9Xofox6Gj+24irZTw3dgn6Pa41AaL0ee+c7iWLXraI=;
-        b=e6s99GtLRuO43P9ePJ+RaeiU8eGP4tzXLMSyGsIkT7Pm5DRJ4cAYpZC2smhxydSuic
-         ykRrfxm4gHHhfp9RDS8mgHAOScYOUt8e8UPkGeZqUbI7h3l5wGs/fYOl8cblYtTyNB8u
-         07A4ZXbGLgnd6852JIhtmU/Lc4NKJ9OvrKSlKAqnfSBEyJJM8cETXskfF8yWtApfY0yZ
-         A0j4EPyqgwT56MRk1YPO8/I3pym1mGIQcmpGjfFrW0n2QX+uYt3fhRdmbcVPNOFT5ldh
-         q3SyEy7dFgqDPCkcYK+YXtKomc13te4AWVRF7gF2mTaiiGQmL8WonzpJ5k34+vM6Re/Q
-         ZETg==
-X-Forwarded-Encrypted: i=1; AFNElJ+dGL3AFt4J/o/dUGQlwpEk8teEfWjNFdrOrsXLtdzJ92dG3IXSsLLCgIqsF0YNB/MN6s2B4ql8UKJoOg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6fe8VAp2R3Z7Nqst01N2hLx25JvBADOu3MFii7i7TctD+KO2a
-	Yw9ZR6hm4fVcZX30XuLaujLuwPbjLSvlxYRSR4cXd9pin60DOE1vvMo5u4jSDU/WqXbHUFlU2Pv
-	mtBm77E4harOqZ9Dl2/wIYgmmLBnDqvgHrtndKDZ9/y0GmypIgwV6q2MYDck=
+	s=arc-20240116; t=1783520256; c=relaxed/simple;
+	bh=nmLFcrmIJBCQo0MYGrdfkiIK6Al0g/cT/7J2OLj2+EE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TLFJGknm/3du7FeBYd3sIo3O27j1EfU6TgU1W+tjJzeRWeYLP1HIno+xhUdpRea0U3p72iWNPhSjxaIyb0nadeEvJa4/9Ka80zRVOtDI+MJtoDuJPW8r97bjFAa3Rd/XqDOl+2TLnt0DooDs+BoK/ebgGl9Aqfoo/mCfg956474=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=209.97.182.222
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wD3oBTuW05qgJsjAA--.14020S3;
+	Wed, 08 Jul 2026 22:17:19 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app4 (Coremail) with SMTP id zi_KCgDH+TDuW05qzMApAg--.39271S2;
+	Wed, 08 Jul 2026 22:17:18 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>
+Subject: [PATCH] media: cx231xx-audio: gate wq_trigger on an audio-local teardown flag
+Date: Wed,  8 Jul 2026 14:16:22 +0000
+Message-Id: <20260708141622.3936490-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3384:b0:495:ebd3:ea52 with SMTP id
- 5614622812f47-4a201cf888emr2227805b6e.2.1783519888490; Wed, 08 Jul 2026
- 07:11:28 -0700 (PDT)
-Date: Wed, 08 Jul 2026 07:11:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a4e5a90.57639fcc.86d58.0015.GAE@google.com>
-Subject: [syzbot] [media?] WARNING in smsusb_stop_streaming (2)
-From: syzbot <syzbot+0927fcf047387215ed98@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zi_KCgDH+TDuW05qzMApAg--.39271S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?+7646wXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnXz+g1OQfMo27QHy5TwQyZzo5cbFrir2M8XDhP8w/SFwD5FlG7u2q/6dT3oGcduNxjlG
+	stkPrON9NZL78exfTAXN5RPxYw6l01w8CbPzC/8w
+X-Coremail-Antispam: 1Uk129KBj93XoWxKr1UKF15JFyDAFWkXF43Jwc_yoWxJry7pa
+	4kKa4rKFW7Ja4UZrsrXw1rWF13Cws7ta1DG3y7u3Wqqwn5tr1rGF43AryxuryruF97ua17
+	ur4UX3yjvws2vagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
+	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Tv3UUUUUU==
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.36 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=6ec4d592e55f7960];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66998-lists,linux-media=lfdr.de,0927fcf047387215ed98];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-usb@vger.kernel.org,m:mchehab@kernel.org,m:syzkaller-bugs@googlegroups.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	DMARC_NA(0.00)[zju.edu.cn];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:fanwu01@zju.edu.cn,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-66999-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[fanwu01@zju.edu.cn,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[fanwu01@zju.edu.cn,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
-	REDIRECTOR_URL(0.00)[goo.gl];
-	SUBJECT_HAS_QUESTION(0.00)[]
+	TAGGED_RCPT(0.00)[linux-media];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 29795727381
+X-Rspamd-Queue-Id: 47D257274A0
 
-Hello,
+audio_trigger() is deferred work (dev->wq_trigger) armed from
+snd_cx231xx_capture_trigger() on every PCM START/STOP; it dereferences
+dev->adev state and may free the URBs via cx231xx_isoc_audio_deinit().
+cx231xx_audio_fini() tore down that state (snd_card_free_when_closed,
+alt_max_pkt_size) without draining wq_trigger, so work armed before or
+racing fini ran against freed state.
 
-syzbot found the following issue on:
+Adding cancel_work_sync() alone is insufficient: in capture_trigger() the
+DEV_DISCONNECTED test and schedule_work() were not atomic, and
+DEV_DISCONNECTED is only set on USB disconnect, but fini also runs on
+cx231xx-alsa module unload (cx231xx_unregister_extension()), which never
+sets it.  A trigger that passed the check could still queue work after
+fini's cancel returned an empty queue.
 
-HEAD commit:    dc59e4fea9d8 Linux 7.2-rc1
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=142f6e6e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6ec4d592e55f7960
-dashboard link: https://syzkaller.appspot.com/bug?extid=0927fcf047387215ed98
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+Add an audio-local teardown gate (dev->adev.teardown): fini raises it under
+adev.slock, releases the lock, then calls cancel_work_sync() outside the
+spinlock.  Both arm sites perform the teardown check and schedule_work()
+inside one adev.slock section, so once the gate is visible no new work can
+arm after cancel returns.  Initialize the lock, work and gate at the top of
+cx231xx_audio_init(), before any fallible allocation, and clear the
+partially-built audio state on its error path, so fini is safe even if a
+later step fails.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+This issue was found by an in-house static analysis tool.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/8540695a33d7/disk-dc59e4fe.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e144bb9cdc33/vmlinux-dc59e4fe.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6e3051bf9301/bzImage-dc59e4fe.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0927fcf047387215ed98@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-data & WORK_STRUCT_PWQ
-WARNING: kernel/workqueue.c:4351 at __flush_work+0xb75/0xcb0 kernel/workqueue.c:4351, CPU#0: kworker/0:0/9
-Modules linked in:
-CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:__flush_work+0xb75/0xcb0 kernel/workqueue.c:4351
-Code: 01 e8 bf d3 11 00 e9 bf fd ff ff 48 8b 7c 24 18 e8 00 5f 9e 00 e9 f7 f6 ff ff e8 f6 5e 9e 00 e9 09 fa ff ff e8 fc 03 36 00 90 <0f> 0b 90 e9 38 fc ff ff e8 0e 5f 9e 00 e9 2d fb ff ff 48 89 df e8
-RSP: 0018:ffffc9000009ebd0 EFLAGS: 00010246
-RAX: 0000000000100000 RBX: ffff8881000ba405 RCX: ffffc9000fb4e000
-RDX: 0000000000100000 RSI: ffffffff817e05c4 RDI: ffff888101afda00
-RBP: 0000000000000004 R08: 0000000000000007 R09: 0000000000000000
-R10: 0000000000000004 R11: 0000000000000000 R12: ffffffff817dff1a
-R13: ffff88810006b000 R14: 0000000000000001 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff888268640000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f57d5145d58 CR3: 000000011669a000 CR4: 00000000003506f0
-Call Trace:
- <TASK>
- __cancel_work_sync kernel/workqueue.c:4494 [inline]
- cancel_work_sync+0xd1/0xf0 kernel/workqueue.c:4531
- smsusb_stop_streaming+0xaa/0x210 drivers/media/usb/siano/smsusb.c:183
- smsusb_term_device+0x8f/0x200 drivers/media/usb/siano/smsusb.c:345
- smsusb_init_device+0xb4e/0xbb0 drivers/media/usb/siano/smsusb.c:497
- smsusb_probe+0xd7f/0xe1f drivers/media/usb/siano/smsusb.c:575
- usb_probe_interface+0x303/0x8f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
- usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_new_device.cold+0x685/0x115c drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x314d/0x4af0 drivers/usb/core/hub.c:5953
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
+Fixes: 61b04cb24a12 ("[media] cx231xx-audio: fix some locking issues")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/media/usb/cx231xx/cx231xx-audio.c | 42 +++++++++++++++++++----
+ drivers/media/usb/cx231xx/cx231xx.h       |  1 +
+ 2 files changed, 36 insertions(+), 7 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/media/usb/cx231xx/cx231xx-audio.c b/drivers/media/usb/cx231xx/cx231xx-audio.c
+index 9c71b32552df..44ca75b18a5d 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-audio.c
++++ b/drivers/media/usb/cx231xx/cx231xx-audio.c
+@@ -441,6 +441,7 @@ static int snd_cx231xx_capture_open(struct snd_pcm_substream *substream)
+ static int snd_cx231xx_pcm_close(struct snd_pcm_substream *substream)
+ {
+ 	int ret;
++	unsigned long flags;
+ 	struct cx231xx *dev = snd_pcm_substream_chip(substream);
+ 
+ 	dev_dbg(dev->dev, "closing device\n");
+@@ -470,7 +471,11 @@ static int snd_cx231xx_pcm_close(struct snd_pcm_substream *substream)
+ 		dev_dbg(dev->dev, "released lock\n");
+ 		if (atomic_read(&dev->stream_started) > 0) {
+ 			atomic_set(&dev->stream_started, 0);
+-			schedule_work(&dev->wq_trigger);
++
++			spin_lock_irqsave(&dev->adev.slock, flags);
++			if (!dev->adev.teardown)
++				schedule_work(&dev->wq_trigger);
++			spin_unlock_irqrestore(&dev->adev.slock, flags);
+ 		}
+ 	}
+ 	return 0;
+@@ -509,11 +514,14 @@ static int snd_cx231xx_capture_trigger(struct snd_pcm_substream *substream,
+ {
+ 	struct cx231xx *dev = snd_pcm_substream_chip(substream);
+ 	int retval = 0;
++	unsigned long flags;
+ 
+-	if (dev->state & DEV_DISCONNECTED)
++	spin_lock_irqsave(&dev->adev.slock, flags);
++	if (dev->adev.teardown || (dev->state & DEV_DISCONNECTED)) {
++		spin_unlock_irqrestore(&dev->adev.slock, flags);
+ 		return -ENODEV;
++	}
+ 
+-	spin_lock(&dev->adev.slock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 		atomic_set(&dev->stream_started, 1);
+@@ -525,10 +533,10 @@ static int snd_cx231xx_capture_trigger(struct snd_pcm_substream *substream,
+ 		retval = -EINVAL;
+ 		break;
+ 	}
+-	spin_unlock(&dev->adev.slock);
+ 
+ 	schedule_work(&dev->wq_trigger);
+ 
++	spin_unlock_irqrestore(&dev->adev.slock, flags);
+ 	return retval;
+ }
+ 
+@@ -576,12 +584,20 @@ static int cx231xx_audio_init(struct cx231xx *dev)
+ 	dev_dbg(dev->dev,
+ 		"probing for cx231xx non standard usbaudio\n");
+ 
++	/*
++	 * Extension init errors are ignored by the cx231xx core, so fini()
++	 * must be safe even if initialization fails part way through.
++	 */
++	spin_lock_init(&adev->slock);
++	INIT_WORK(&dev->wq_trigger, audio_trigger);
++	adev->teardown = false;
++	atomic_set(&dev->stream_started, 0);
++
+ 	err = snd_card_new(dev->dev, index[devnr], "Cx231xx Audio",
+ 			   THIS_MODULE, 0, &card);
+ 	if (err < 0)
+ 		return err;
+ 
+-	spin_lock_init(&adev->slock);
+ 	err = snd_pcm_new(card, "Cx231xx Audio", 0, 0, 1, &pcm);
+ 	if (err < 0)
+ 		goto err_free_card;
+@@ -596,8 +612,6 @@ static int cx231xx_audio_init(struct cx231xx *dev)
+ 	strscpy(card->shortname, "Cx231xx Audio", sizeof(card->shortname));
+ 	strscpy(card->longname, "Conexant cx231xx Audio", sizeof(card->longname));
+ 
+-	INIT_WORK(&dev->wq_trigger, audio_trigger);
+-
+ 	err = snd_card_register(card);
+ 	if (err < 0)
+ 		goto err_free_card;
+@@ -651,14 +665,18 @@ static int cx231xx_audio_init(struct cx231xx *dev)
+ 
+ err_free_pkt_size:
+ 	kfree(adev->alt_max_pkt_size);
++	adev->alt_max_pkt_size = NULL;
+ err_free_card:
+ 	snd_card_free(card);
++	adev->sndcard = NULL;
+ 
+ 	return err;
+ }
+ 
+ static int cx231xx_audio_fini(struct cx231xx *dev)
+ {
++	unsigned long flags;
++
+ 	if (dev == NULL)
+ 		return 0;
+ 
+@@ -669,6 +687,16 @@ static int cx231xx_audio_fini(struct cx231xx *dev)
+ 		return 0;
+ 	}
+ 
++	/*
++	 * Block new trigger work before draining already queued work.
++	 * cancel_work_sync() may sleep, so it must run after dropping slock.
++	 */
++	spin_lock_irqsave(&dev->adev.slock, flags);
++	dev->adev.teardown = true;
++	spin_unlock_irqrestore(&dev->adev.slock, flags);
++
++	cancel_work_sync(&dev->wq_trigger);
++
+ 	if (dev->adev.sndcard) {
+ 		snd_card_free_when_closed(dev->adev.sndcard);
+ 		kfree(dev->adev.alt_max_pkt_size);
+diff --git a/drivers/media/usb/cx231xx/cx231xx.h b/drivers/media/usb/cx231xx/cx231xx.h
+index 19f5036a78d7..99c6a279944f 100644
+--- a/drivers/media/usb/cx231xx/cx231xx.h
++++ b/drivers/media/usb/cx231xx/cx231xx.h
+@@ -418,6 +418,7 @@ struct cx231xx_audio {
+ 	struct snd_card *sndcard;
+ 
+ 	int users, shutdown;
++	bool teardown;		/* audio fini in progress; set under slock */
+ 	/* locks */
+ 	spinlock_t slock;
+ 
+-- 
+2.34.1
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
