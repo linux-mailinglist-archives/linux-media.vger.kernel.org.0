@@ -1,190 +1,462 @@
-Return-Path: <linux-media+bounces-67073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67074-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id AMa8DcrDTmqcTgIAu9opvQ
-	(envelope-from <linux-media+bounces-67073-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:40:26 +0200
+	id TykAGHrHTmqMTwIAu9opvQ
+	(envelope-from <linux-media+bounces-67074-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:56:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944E972A977
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:40:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4B372AAFE
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 23:56:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=snderf5a;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67073-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67073-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="T4pVv/DP";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67074-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67074-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C5601300B87B
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 21:36:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 244BA308190E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 21:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29263F787E;
-	Wed,  8 Jul 2026 21:36:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA2893FB7E9;
+	Wed,  8 Jul 2026 21:55:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DCD3F660B
-	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 21:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D394D3A6B81;
+	Wed,  8 Jul 2026 21:55:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783546607; cv=none; b=K4ZrwZTGjQKbI9/Bjxb8TAXLH+N4Te45YzRflfOp8j90ckL5zFOnvtkxAJLgOGRjDsYcxGw9lv5e/eJVY85ghwt8tIi/2bjsXkuHsIEPUPJskCBT9Uw2gHXqMQldS+MdvcRqrXbLJ2NklxY0wvnupO5YL0lVqJLiXG8Ir6r74ss=
+	t=1783547754; cv=none; b=Uz5n9jS9UyY5T6ZWD6Wwwsf05EYtF17pH8A7C932GML2oSgdmfpIHoZSO8LURCEm8Tv60w7uUha1NU9cYb+i6C+DGHS6p2oOJeWeGXo+hPIBadzj/I8EIaVDJyez9fUq+UNxnZiOzXygE8ynUu1GJiup+fBUKh4KTmOzVAPjcnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783546607; c=relaxed/simple;
-	bh=5m54YSkayBjfymTOaMTs63W9YSbPr5wsG6NiuXstMy0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p+0a0XH5SarJu8mbXRtzFHXXyRJv/S3SYV7vVu00QVLgdNsZIjxL8Q06vLPxVH+YNlxmXW1OC7gvaocGZhZqtCNk06x5LQqSupbWst5TPYb/mlKXj2U7uozwMDPUR75qegVHaZL+7UUr7PuAI7v8XvSMc7i6+AlfKz/ZgljGqYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=snderf5a; arc=none smtp.client-ip=209.85.128.43
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493c19bad03so11216105e9.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 14:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783546604; x=1784151404; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nfr4hNPDMxSC3hDg5gyegf7QLZwqwa7EAfP6d1SzZr0=;
-        b=snderf5anVnu1clOujZ2nDKvzB2vbpS8zIQGAL6p+WTX+FNQ0OadP0gHT+NZLZrwfv
-         KhYqUivgJ1ryUXTdbtVuwAis+aDW77QBP2cVVYUHakOuorSmiRhL2sMcws+MzaLHpY8M
-         Bje7YwExXEGjS+5P9CiLVtdGzBf0sLeU8SRWUCQD9YAMLvNdtXo6+QwdNQ6957lifR79
-         Kqha31ENlqT9LeA6HdfVynxlUbRfrSrhbZhS+2MlE5acmc2wKltf0f4aHRTvdX/U3Aen
-         ibx1gQxHv0135WyNhcAItuAtbUK2URcQHs35VAblUZL3TQHl1ah5BUILNMBWK5mqryiE
-         71Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783546604; x=1784151404;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nfr4hNPDMxSC3hDg5gyegf7QLZwqwa7EAfP6d1SzZr0=;
-        b=JCw5sNdgjAZaGCTE2zCNS9ddjOUeOem5vdOu7lu7hawnCjL4vkynQAJgr8Q5Uixfmm
-         XCuly6Xkty0qT7uXtsf5WapvlGC9oYTE4nGSJh609+sAoJ3l/Md+0H+MenwzQ1DL2gp/
-         UrPZ5MHhg0sgqjFKRrU0dDLHBJx8QiWtO8loRdyzfT9LO0ya3/frUZuKBWQj1yzzrJPk
-         hSRQmIM7XbecnDaVfM8qj+jIbVNIOn9V9WJYyHvy/uHcWBTr1v28dezuaI4RtD+NLE2p
-         GvPIM5XVfIdARHLCax+XTq29T+RkX/yuA8WYiESYmBN+cSpj/cnWoUKKix8D9gipdIiC
-         Ta2w==
-X-Forwarded-Encrypted: i=1; AHgh+RogrIrxjeV0xhva0jeSP5ugUBvlJgqDli9KxBUpzy86mAG2+TH7FoluYzgdH4VcDFMu89/SBUEuOeJ12w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl+wXTb2CFY24baX1vuwUYioWN1qrXpE9Kmdi6aVsSZtEhFACb
-	07d1OOWz59Gk8zvlx4XXevPGN8cwlOf0dbfaKXe5KbcaFyHKY/y4I6Lh
-X-Gm-Gg: AfdE7cmatVYP+AgLSpSoKYH/Ade6G/7lNo8fpyS5Aw3WMq7zeYIM1k18EZd1YV1iKDQ
-	8QZnKOQj4n59cgMDfdtQbtGZoA0W8KwSejhSMejeLnTSaMfkhoQy3WUYoafeXYGPFFwxZOlaCmO
-	J1lPt2RJw0w6IdIrWR7miSFsQWKhgvI74JbKleQoswr4SLwCBztB9DE7EV0lEhnidKn7VGYZpCT
-	GBRVnpLoZOX5RiyfvaVqYUHRfPp/l8AwnWqTQwPDNd2YGKdQSKMuFZjF+BB3V+aHdytZGXoQhPC
-	vJMzi6EkexwP1lQ2TtTr8dgfjBHtQzIuZXXC2kGT4liM3+hoZk739gypWRit4vyEzyrs2/YYM2e
-	zHzYLoLpj1PC0iE3+vAeS/qheStX35eArtLzbHq/qOr4dIMp/9eAbDpS4dM9q14BryJNRXXFK2c
-	0t6Xwnn47//zR3qA9fz9SoKoO10DEZ/Ux7MBl83A==
-X-Received: by 2002:a05:600c:3548:b0:493:c4e1:40a6 with SMTP id 5b1f17b1804b1-493e6873594mr39471085e9.32.1783546604034;
-        Wed, 08 Jul 2026 14:36:44 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:5d3a:fe75:ecea:55a7:5b01:7b9f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e3e2702sm47900063f8f.9.2026.07.08.14.36.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 14:36:43 -0700 (PDT)
-From: Fernando Rimoli <fernandorimoli11@gmail.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Fernando Rimoli <fernandorimoli11@gmail.com>
-Subject: [PATCH] media: ov5693: add OVTI5693 ACPI HID for IPU6 Surface devices
-Date: Wed,  8 Jul 2026 23:36:33 +0200
-Message-ID: <20260708213633.18392-1-fernandorimoli11@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1783547754; c=relaxed/simple;
+	bh=mQONm8E+JkVSZWfARwyuTio0dPnEF5IwNfcfzS9UkFw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g+MX9qOe+WS2nDAKsaBPO0y/tj3F+fcYsIQ3jPZhulvn2t/gtmzhS7ag1ebTUTINykJ/MhUuxFkaEPogYGyBx5hefjMz45eOwEJikAloAkP0xW6+NrnExyagF9dNBGrzGdAz7vQPOaYwwjdlJ5xjdKJELx8J7TxwYpjEIUItThI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4pVv/DP; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81091F000E9;
+	Wed,  8 Jul 2026 21:55:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783547752;
+	bh=18M0o3bms/FWqXkbeCx1DIT7uNO8cNtKfuRe5v9zuL4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=T4pVv/DPQZeN1DflmRgh80MUtzF9ZIXol+CG7beLlbMqWe2yB0eeM23vHt6LrhzUP
+	 Kw2eAK9UensxbWIL3lmtHLMQaM+CgXE6N5jQsCwx4FcvBzJTqXzQglWYFJDAjXV8bD
+	 nnq/ckAfCDP50jZiHUcpG/Mzvupi+1WXoEYmPLEVWgBclB4GLDg/WkxJ7dagh8gIoj
+	 pcI8MdPYvWTJcPKC8NuNJRtynSVzH7MDXmIV2N6Bg9ktXYCJE5co0CMjyEMsrC8U7b
+	 aICTMh5iAcwZn2IJ73teHp1ATvjqvWmY9we+rhZpTgEHReWJEkNEupbSEytVjQ6cfg
+	 uRg1qhZhatayA==
+Message-ID: <3ab676ac-919b-4a80-8dd6-71dd7f6fe06c@kernel.org>
+Date: Wed, 8 Jul 2026 22:55:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260708-x1e-csi2-phy-v9-0-0210b90c04cf@linaro.org>
+ <20260708-x1e-csi2-phy-v9-1-0210b90c04cf@linaro.org>
+ <YSunV_lNJ8xW_y-Aa2psZavniF6mcHJlJipuj1RYWMB8Zb8yLC-gb7eEnk0XMjfwQOneMGsZM5foFKutCNhYqw==@protonmail.internalid>
+ <b7baffda-b97c-4b83-8d9e-e381d0289682@linaro.org>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <b7baffda-b97c-4b83-8d9e-e381d0289682@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:bryan.odonoghue@linaro.org,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-67073-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dan.scally@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,m:fernandorimoli11@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-67074-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[fernandorimoli11@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fernandorimoli11@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 944E972A977
+X-Rspamd-Queue-Id: AE4B372AAFE
 
-The ov5693 driver only matches the "INT33BE" ACPI HID. Some Intel IPU6
-Surface devices (e.g. Microsoft Surface Pro 9) enumerate the same OV5693
-front camera with the ACPI HID "OVTI5693" instead. Without this HID the
-i2c core never binds the driver, and the IPU bridge never builds the
-firmware node graph for the sensor, so the front camera is unusable.
+On 08/07/2026 08:44, Vladimir Zapolskiy wrote:
+> On 7/8/26 02:39, Bryan O'Donoghue wrote:
+>> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+>> PHY devices.
+>>
+>> The hardware can support both CPHY, DPHY and a special split-mode DPHY.
+>>
+>> The schema here defines two ports with three endpoints:
+>>
+>> port@0: Sensor input.
+>>             endpoint@0: primary sensor
+>>             endpoint@1: optional second sensor, implies DPHY split-mode
+>>
+>> port@1: Controller output.
+>>
+>> The CSIPHY devices have their own pinouts on the SoC as well as their own
+>> individual voltage rails.
+>>
+>> The need to model voltage rails on a per-PHY basis leads us to define
+>> CSIPHY devices as individual nodes.
+>>
+>> Two nice outcomes in terms of schema and DT arise from this change.
+>>
+>> 1. The ability to define on a per-PHY basis voltage rails.
+>> 2. The ability to require those voltage.
+>>
+>> We have had a complete bodge upstream for this where a single set of
+>> voltage rail for all CSIPHYs has been buried inside of CAMSS.
+>>
+>> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
+>> CAMSS parlance, the CSIPHY devices should be individually modelled.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+>>    .../bindings/phy/qcom,x1e80100-csi2-phy.yaml       | 202 +++++++++++++++++++++
+>>    1 file changed, 202 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
+>> new file mode 100644
+>> index 0000000000000..a7fbf6804cd9e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
+>> @@ -0,0 +1,202 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Qualcomm SoC CSI2 PHY
+>> +
+>> +maintainers:
+>> +  - Bryan O'Donoghue <bod@kernel.org>
+>> +
+>> +description:
+>> +  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2 sensors
+>> +  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and D-PHY
+>> +  modes.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: qcom,x1e80100-csi2-phy
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  "#phy-cells":
+>> +    const: 1
+>> +    description:
+>> +      The single cell specifies the PHY operating mode.
+> 
+> Unfortunately my review comment given before was ignored before publishing
+> this version, thus I will repeat.
+> 
+> There is a clash between the proposed phy cells value and 'bus-type' property
+> of the media endpoint, the proposed value of phy cells brings no information,
+> and therefore the whole proposed '#phy-cells' prorperty shall be removed.
+> 
+> There shall be no third link introduced between CAMSS and CAMSS CSIPHYs.
 
-Add "OVTI5693" to the sensor driver's ACPI match table and to the IPU
-bridge's supported-sensor list. The link frequency (419200000) matches
-the existing INT33BE entry, as it is the same sensor. Devices that use
-"INT33BE" (e.g. Surface Go 4) are unaffected.
+As explained in the cover letter: I'm following guidance from Rob on that.
 
-Tested on Surface Pro 9 (IPU6): the sensor enumerates as OVTI5693:00
-(ACPI path \_SB_.PC00.I2C3.CAMF) and binds with this change.
+20260708-x1e-csi2-phy-v9-0-0210b90c04cf@linaro.org
 
-Link: https://github.com/linux-surface/linux-surface/pull/2171
-Signed-off-by: Fernando Rimoli <fernandorimoli11@gmail.com>
----
-Note: this HID addition makes the sensor bind and enumerate, but a fully
-working front camera on IPU6 also requires programming MIPI_CTRL00
-(0x4800 = 0x2d) before stream-on, otherwise the IPU6 CSI-2 receiver never
-locks and capture times out. That register change is being handled
-separately (see the Link: above). This patch is independent and useful on
-its own for enumeration, so I'm sending it standalone; happy to reorder if
-you'd prefer it after the register fix.
+Old guidance granted, so let me see if I can get his attention to this 
+matter. Perhaps your suggestion is fine by him if so then fine, if not I 
+will stick to his original nudge, either way its up to him as the 
+original reviewer and senior schema maintainer to call this one.
+>> +
+>> +  clocks:
+>> +    maxItems: 3
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: core
+>> +      - const: timer
+>> +      - const: ahb
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  operating-points-v2: true
+>> +
+>> +  power-domains:
+>> +    items:
+>> +      - description: Titan Top GDSC - Titan ISP Block, Global Distributed Switch Controller.
+>> +      - description: MMCX voltage rail
+>> +      - description: MXC or MXA voltage rail
+>> +
+>> +  power-domain-names:
+>> +    items:
+>> +      - const: top
+>> +      - const: mmcx
+>> +      - const: mx
+> 
+> None of the power domains finds its place in this device tree node, the
+> child device belongs to CAMSS, which already enables these power domains.
 
- drivers/media/i2c/ov5693.c           | 1 +
- drivers/media/pci/intel/ipu-bridge.c | 2 ++
- 2 files changed, 3 insertions(+)
+Right, I think the whole subnode debate has run its course. Its a 
+problem for JPEG and a bit of a fake debate, there is no real "bus" here 
+so what is the point of mutating DT to look like a bus ? We are forever 
+lecturing people about "making fake DT stuff for convenience".
 
-diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-index 4cc796bbe..02236f3db 100644
---- a/drivers/media/i2c/ov5693.c
-+++ b/drivers/media/i2c/ov5693.c
-@@ -1396,6 +1396,7 @@ static const struct dev_pm_ops ov5693_pm_ops = {
- 
- static const struct acpi_device_id ov5693_acpi_match[] = {
- 	{"INT33BE"},
-+	{"OVTI5693"},
- 	{},
- };
- MODULE_DEVICE_TABLE(acpi, ov5693_acpi_match);
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 88581a4c0..b70d61099 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -93,6 +93,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
- 	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
- 	/* Omnivision OV5675 */
- 	IPU_SENSOR_CONFIG("OVTI5675", 1, 450000000),
-+	/* Omnivision OV5693 */
-+	IPU_SENSOR_CONFIG("OVTI5693", 1, 419200000),
- 	/* Omnivision OV8856 */
- 	IPU_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
- 	/* Sony IMX471 */
--- 
-2.43.0
+Peer nodes with TITAN_TOP_GDSC will perfectly adequately describe this 
+hardware and the JPEG too.
+
+> 
+>> +
+>> +  vdda-0p8-supply:
+>> +    description: Phandle to a 0.8V regulator supply to a PHY.
+> 
+> The property name shall be vdda-0p9-supply, the description shall be
+> changed accordingly
+
+Hmm what ? I'll have to look back through my notes, I thought the opposite.
+
+Let me follow up in v10 after grepping for this again.
+
+> 
+>> +
+>> +  vdda-1p2-supply:
+>> +    description: Phandle to 1.2V regulator supply to a PHY.
+>> +
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>> +        description:
+>> +          Sensor input. Always present. A single sensor is described by a
+>> +          single endpoint with one to four data lanes. DPHY split mode,
+>> +          where two independent sensors share the same PHY, is described
+>> +          by two endpoints; endpoint@0 with exactly two-data lanes and
+>> +          endpoint@1 with exactly one data-lane.
+>> +        unevaluatedProperties: false
+>> +
+>> +        patternProperties:
+>> +          "^endpoint(@[0-9a-f]+)?$":
+> 
+> This is too wide regexp mask for one or two endpoints only.
+
+Yeah you're right, this is just fluff.
+
+> 
+>> +            $ref: /schemas/media/video-interfaces.yaml#
+>> +            unevaluatedProperties: false
+>> +            properties:
+>> +              data-lanes:
+>> +                minItems: 1
+>> +                maxItems: 4
+>> +              remote-endpoint: true
+>> +            required:
+>> +              - data-lanes
+>> +              - remote-endpoint
+>> +
+>> +        allOf:
+>> +          - if:
+>> +              required:
+>> +                - endpoint@1
+>> +            then:
+>> +              properties:
+>> +                endpoint@0:
+>> +                  properties:
+>> +                    data-lanes:
+>> +                      minItems: 2
+>> +                      maxItems: 2
+>> +                endpoint@1:
+>> +                  properties:
+>> +                    data-lanes:
+>> +                      maxItems: 1
+>> +              required:
+>> +                - endpoint@0
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>> +        description: Output to the CAMSS CSID controller.
+>> +        unevaluatedProperties: false
+>> +
+>> +        patternProperties:
+>> +          "^endpoint(@[0-9a-f]+)?$":
+>> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+>> +            unevaluatedProperties: false
+>> +            properties:
+>> +              remote-endpoint: true
+>> +            required:
+>> +              - remote-endpoint
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - "#phy-cells"
+>> +  - clocks
+>> +  - clock-names
+>> +  - interrupts
+>> +  - operating-points-v2
+>> +  - power-domains
+>> +  - power-domain-names
+>> +  - vdda-0p8-supply
+>> +  - vdda-1p2-supply
+>> +  - ports
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
+>> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+>> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+>> +
+>> +    phy@ace4000 {
+>> +        compatible = "qcom,x1e80100-csi2-phy";
+>> +        reg = <0x0ace4000 0x2000>;
+>> +        #phy-cells = <1>;
+>> +
+>> +        clocks = <&camcc CAM_CC_CSIPHY0_CLK>,
+>> +                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+>> +                 <&camcc CAM_CC_CORE_AHB_CLK>;
+>> +        clock-names = "core",
+>> +                      "timer",
+>> +                      "ahb";
+>> +
+>> +        interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>;
+>> +
+>> +        operating-points-v2 = <&csiphy_opp_table>;
+>> +
+>> +        power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>,
+>> +                        <&rpmhpd RPMHPD_MMCX>,
+>> +                        <&rpmhpd RPMHPD_MX>;
+>> +        power-domain-names = "top",
+>> +                             "mmcx",
+>> +                             "mx";
+>> +
+>> +        vdda-0p8-supply = <&vreg_l2c_0p8>;
+>> +        vdda-1p2-supply = <&vreg_l1c_1p2>;
+>> +
+>> +        ports {
+>> +            #address-cells = <1>;
+>> +            #size-cells = <0>;
+>> +
+>> +            port@0 {
+>> +                reg = <0>;
+>> +                csiphy0_in: endpoint {
+>> +                    data-lanes = <0 1 2 3>;
+> 
+> The previously given review comment about numeration of lanes was
+> not implemented.
+
+I understand your comment but as Nihal pointed out - CAMSS has an 
+established pattern for this - and I think his argument is convincing - 
+we should stick to that pattern.
+
+> 
+>> +                    remote-endpoint = <&sensor_out>;
+>> +                };
+>> +            };
+>> +
+>> +            port@1 {
+>> +                reg = <1>;
+>> +                csiphy0_out: endpoint {
+>> +                    remote-endpoint = <&csid_in>;
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> +
+>> +    csiphy_opp_table: opp-table {
+>> +        compatible = "operating-points-v2";
+>> +
+>> +        opp-300000000 {
+>> +            opp-hz = /bits/ 64 <300000000>;
+>> +            required-opps = <&rpmhpd_opp_low_svs_d1>,
+>> +                            <&rpmhpd_opp_low_svs_d1>;
+>> +        };
+>> +    };
+>>
+> 
+> --
+> Best wishes,
+> Vladimir
 
 
