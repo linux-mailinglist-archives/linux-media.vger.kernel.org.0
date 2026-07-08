@@ -1,175 +1,188 @@
-Return-Path: <linux-media+bounces-66954-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66955-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id zx/PLNUGTmp7BwIAu9opvQ
-	(envelope-from <linux-media+bounces-66954-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 10:14:13 +0200
+	id Dti0IUQITmrvBwIAu9opvQ
+	(envelope-from <linux-media+bounces-66955-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 10:20:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7D672305C
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 10:14:13 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FEF723163
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 10:20:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=iLqV6ggh;
+	dkim=pass header.d=intel.com header.s=Intel header.b=FpUrTgVg;
 	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66954-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66954-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66955-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66955-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B6A72304C105
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 08:00:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 764B7301AB76
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 08:16:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C0223FADFD;
-	Wed,  8 Jul 2026 08:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78F44400DFC;
+	Wed,  8 Jul 2026 08:16:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC9A3E0C4C;
-	Wed,  8 Jul 2026 08:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDD53AB5B8;
+	Wed,  8 Jul 2026 08:16:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783497624; cv=none; b=Q0vTaCBdT5AgQAe93hYL94gqOus/vq53JdB3S4wo+dxVH9ZVOptzWdnaMnA+b3DQfzrvDK0MuY0azUvQdYzYlEm5dFsrJze+ySBfF3yEQjRB4/Cjw5ystpW7ttwWDAcX2kytqAR/afP8PpIN4ec8RshwAlt3PrSmbS+zWx/9Tqw=
+	t=1783498606; cv=none; b=lb6WBGtG2d8nlH4xucxq83h4brrMMXB619VUj1CLpR9IYA62OgOEAvLQo2Q4Wygs45rfZQ/LewNUHClawJRAjlrNS1Tfh7LssjER3sXeKtQzlXpvygdl08j+zG/NdVjlOCFl2YJTN0b13gSua+G/Z2c7wK6E2gGJQBs3HF6IZkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783497624; c=relaxed/simple;
-	bh=nRGza4Sc0YOcCy4AzAZup761YMetwR27gyX3jxhc7M4=;
+	s=arc-20240116; t=1783498606; c=relaxed/simple;
+	bh=X/cYY3AA3gHaHvAOMoeg86Tl80Q/WTJusXG3gpSB01I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BgZWAihHc5NZIbHOBydQWQZirWGBqiLOymb0f38RZ2EOcTq5hHOwXExu/NlOmoj2wp+gN5Dg5fZEnTqhjafou7euZuIYifTm1Hs7fhBz9xBE2CzPodW4BDRvQ9kasOjym7CMeyQu3XaRiRltnURnPoqKVq6v+1L5VjKyL152HnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLqV6ggh; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=fauHtvQEa+BDzhc3I+fukJKc+XLBQZmr4OW1yufqJYXo6IhnW4u1/ITp+Oa4BxF8sME+N85ZUW1kAAVqg3q2w0eoQbryJ2BU1yw6fRosyRf55+fDEI/aJf2b0z2FRUZbI3N0OS3pGx32bbJeIJARbiHrKpHpmoUoh/ZqFFUv8wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FpUrTgVg; arc=none smtp.client-ip=198.175.65.18
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783497617; x=1815033617;
+  t=1783498605; x=1815034605;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nRGza4Sc0YOcCy4AzAZup761YMetwR27gyX3jxhc7M4=;
-  b=iLqV6gghxrn3qLuUfJ9iFA0KSimvdrNiewEGuIIAhDoXKOksQtbztVh6
-   zKPB8raDYrLxl5L67qQycdiwonYS4Kn5WLKLrFv0wpMr2X4NNc4YhXTlL
-   pI4ZriX9lVHdL3pWyeS10TJz/XV9epoQyoiV3qiqUL9j6WFm/GG9GptO/
-   QMQOMmGFk+k5O3WSecMl6VCS60Adri0DD8XDPLjnZo0Uy76tgZdRYySGW
-   hNoaWRo8j96IGv+YIXKYePOvIaZB8gkD9SO3obSUMqC/O+7QIVQDVb1Jp
-   1jDLnwyQT68plvyW9YfGsezLXa7KCtLQej2mHT0EpIM+dVGET9ERc4K58
-   w==;
-X-CSE-ConnectionGUID: WD2wmYoGSBGc7STh8Zmmtw==
-X-CSE-MsgGUID: ono5PSxrTtil1H21HUix1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="83931656"
+   mime-version:in-reply-to;
+  bh=X/cYY3AA3gHaHvAOMoeg86Tl80Q/WTJusXG3gpSB01I=;
+  b=FpUrTgVgavLuw07cUf07zj2lQKBR24T9P33bGgIW8XzRRUIcRzrtksJQ
+   sJt0C560Q2EHgljNZwI/mHWlxd/tY7lfuOryH+gkzOP1FP9YxsKhFLHcK
+   C20U2CAuyUdN89nDHVbO4oAbBdDoUnbLhjieeV/igXglLQ3VE0xsVt4KW
+   M+1idHpIkaqJcFj4NMmqtp56mJ6oIF1v7Wa0SkUeSUVwj+4t/2v3vjAdB
+   zSDsiUcf4IVc4xLaDX7+gzN6raHNG2ihmcZ9yWIejg0vjGsVCZLeMUze9
+   ZFqEARIf8ftlR6WMWl8Mmu/yA+KC69uDex+EGO2cP9u2V0UMgck2w5TCQ
+   Q==;
+X-CSE-ConnectionGUID: +nT72pbqT5iwPfBv8uDMtw==
+X-CSE-MsgGUID: ZhMZNFV0QR+dCkqpzDwciA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84253612"
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="83931656"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 01:00:09 -0700
-X-CSE-ConnectionGUID: VcILiA6VQJSQf3hMPwqW1g==
-X-CSE-MsgGUID: +iEUHChsTC2crytZtIPzXQ==
+   d="scan'208";a="84253612"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 01:16:45 -0700
+X-CSE-ConnectionGUID: svCkcXDtRBGvemsFuAwGhQ==
+X-CSE-MsgGUID: soPEVB6cR4yvlRbqsQ6LSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="253726411"
+   d="scan'208";a="284331876"
 Received: from kniemiec-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.120])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 00:59:58 -0700
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 01:16:44 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 122D211FB4A;
-	Wed, 08 Jul 2026 10:59:58 +0300 (EEST)
-Date: Wed, 8 Jul 2026 10:59:58 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 7826911FB4A;
+	Wed, 08 Jul 2026 11:16:23 +0300 (EEST)
+Date: Wed, 8 Jul 2026 11:16:23 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ramshouriesh R <rshouriesh@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] media: i2c: hm1092: add Himax HM1092 mono NIR
- sensor driver
-Message-ID: <ak4DfkbDlIvsGY_u@kekkonen.localdomain>
-References: <20260702-hm1092-driver-v3-0-85faa7ff4fec@gmail.com>
- <20260702-hm1092-driver-v3-2-85faa7ff4fec@gmail.com>
- <akkRRCaZMRyoWDt7@kekkonen.localdomain>
- <CAJTcUFQ3CJQhEv_N7L22FmQSJsGpfMvKO1F5wiEarNca5VmV5g@mail.gmail.com>
+To: Biren Pandya <birenpandya@gmail.com>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
+	dongchun.zhu@mediatek.com, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: ov02a10: fix endpoint parsing use-after-free
+ and error leak
+Message-ID: <ak4HV9dN5GadUeLj@kekkonen.localdomain>
+References: <20260613083235.57363-1-birenpandya@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJTcUFQ3CJQhEv_N7L22FmQSJsGpfMvKO1F5wiEarNca5VmV5g@mail.gmail.com>
+In-Reply-To: <20260613083235.57363-1-birenpandya@gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	INTRODUCTION(2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-66954-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:birenpandya@gmail.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:dongchun.zhu@mediatek.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:rshouriesh@gmail.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66955-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[intel.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[libcamera.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,vger.kernel.org:from_smtp,kekkonen.localdomain:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux.intel.com:from_mime,kekkonen.localdomain:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0B7D672305C
+X-Rspamd-Queue-Id: C5FEF723163
 
-Hi Ramshouriesh,
+Hi Biren,
 
-On Sun, Jul 05, 2026 at 01:01:13AM +0530, Ramshouriesh R wrote:
-> Hi Sakari,
+Thanks for the patch.
+
+On Sat, Jun 13, 2026 at 02:02:35PM +0530, Biren Pandya wrote:
+> The ov02a10_check_hwcfg() function calls fwnode_handle_put(ep)
+> immediately after allocating and parsing the endpoint. However, it
+> subsequently calls fwnode_property_read_u32() using the same 'ep'
+> handle, leading to a potential use-after-free.
 > 
-> Small correction: my name is Ramshouriesh. You can address me as Ram.
-
-My apologies for that, there apparently were quite a few letters missing. I
-hope that wasn't the case with the review.
-
+> Additionally, reading the optional 'ovti,mipi-clock-voltage' property
+> used to overwrite the 'ret' variable. If the property was missing,
+> 'ret' would become negative, and this failure code would be incorrectly
+> returned at the end of the function, causing probe to fail entirely.
 > 
-> Thanks for the review. I’ll address the comments in the next revision.
+> Fix the use-after-free by moving fwnode_handle_put(ep) to the end of
+> the endpoint property reading block, and adding it to the error path of
+> v4l2_fwnode_endpoint_alloc_parse().
 > 
-> However regarding the mode names, there is no proper datasheet for
-> this sensor released publicly.
-> I will add the proper mode names based on what the camera does in each mode.
+> Fix the error leak by avoiding assigning the result of
+> fwnode_property_read_u32() to 'ret'.
 > 
-> And regarding the driver supporting single data lane, I will make
-> data-lanes optional and
-> will initialize the endpoint parser with a default of one data lane
-> and configurations
-> explicitly specifying anything other than one lane will be rejected.
-> The binding will retain an optional constraint permitting only <1>, so
-> an explicit invalid
-> value will be caught by schema validation, but data-lanes will be
-> omitted from the example.
+> Fixes: cf10e09b9a4b ("media: i2c: Add OV02A10 image sensor driver")
+> Cc: stable@vger.kernel.org
+> 
+> Signed-off-by: Biren Pandya <birenpandya@gmail.com>
+> ---
+>  drivers/media/i2c/ov02a10.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
+> index 143dcfe..53ff86b 100644
+> --- a/drivers/media/i2c/ov02a10.c
+> +++ b/drivers/media/i2c/ov02a10.c
+> @@ -821,9 +821,10 @@ static int ov02a10_check_hwcfg(struct device *dev, struct ov02a10 *ov02a10)
+>  		return -ENXIO;
+>  
+>  	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> -	fwnode_handle_put(ep);
+> -	if (ret)
+> +	if (ret) {
+> +		fwnode_handle_put(ep);
+>  		return ret;
+> +	}
+>  
+>  	/* Optional indication of MIPI clock voltage unit */
+>  	ret = fwnode_property_read_u32(ep, "ovti,mipi-clock-voltage",
+> @@ -832,6 +833,8 @@ static int ov02a10_check_hwcfg(struct device *dev, struct ov02a10 *ov02a10)
+>  	if (!ret)
+>  		ov02a10->mipi_clock_voltage = clk_volt;
+>  
+> +	fwnode_handle_put(ep);
+> +
+>  	for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
+>  		for (j = 0; j < bus_cfg.nr_of_link_frequencies; j++) {
+>  			if (link_freq_menu_items[i] ==
 
-Please just drop the data-lanes property altogether: the DT is intended to
-convey the board, generally what's not discoverable or otherwise known, to
-software, and there's nothing to configure here.
-
-And one more thing. Could you add the selection rectangles and possibly
-other API elements required by libcamera
-<URL:https://docs.libcamera.org/master/sensor_driver_requirements.html>?
+I'd fix this by moving the fwnode_property_read_u32() before finding the
+endpoint. That doesn't involve complicating the error handling.
 
 -- 
-Kind regards,
+Regards.
 
 Sakari Ailus
 
