@@ -1,168 +1,156 @@
-Return-Path: <linux-media+bounces-66936-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66937-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Q6ILOKKYTWq72gEAu9opvQ
-	(envelope-from <linux-media+bounces-66936-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 02:24:02 +0200
+	id sIYKLiKpTWpH8gEAu9opvQ
+	(envelope-from <linux-media+bounces-66937-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 03:34:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323FF7209EE
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 02:24:02 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A95720DDA
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 03:34:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=SopceH2I;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66936-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66936-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=OEgqlwFZ;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66937-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66937-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD5AD303C418
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 00:23:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8AF913022563
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 01:34:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E33D51E98EF;
-	Wed,  8 Jul 2026 00:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 588B21D6DB5;
+	Wed,  8 Jul 2026 01:34:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FE6420868
-	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 00:23:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C066A22ACEB;
+	Wed,  8 Jul 2026 01:34:21 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783470235; cv=none; b=fnB+CteZ/sqEhmxyMrw/odCz/s0cPn5MEY/wK5ESQz56homF9taHkrCJemlV7zIPjqac4ZU7LyGPWoPPxfTnjuqqHNHK7pzOGsiCnOollrvYYGatpEWwsXZo1/PpHw0lP+94jERsFFtr/Z4E7z1cszGK9of1sl3I6FpEkG8AdbU=
+	t=1783474462; cv=none; b=XH5Rc3uxPan3EzY3AO9vai1cR6T5ZWlSvKwMw6uGyW6c0rS+n+OexVm5BWStz+ODUg7TxJ9EKRgUb8Zr9rrbQ4gAAszdkZDNf75duZCE7oV7YDFZkrfSmpOhrzPdwKGIBYJW/B5uFu49xGXJOzH6ZEXWip5pB+0ClY0Luj7pkuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783470235; c=relaxed/simple;
-	bh=eoRfq98RkwRH2TM6d1bMbq7idwXJO7+aKjiF76yNSLs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SgMs2DTXzZjINmvIhlP0QpDLypn058JYu08N31ARSIislOf/yoebinSLnYPx8nB9Ru7Ll3ZMCEF5aze1WAoACMp/njk6wiPXaK/7NhffUdr94bP1SZK2tUbKZwn/3ll3sWWg4GASgoej+yUVRk/6adRSBpgIuz/e2KpntVIdSEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SopceH2I; arc=none smtp.client-ip=209.85.167.175
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-495ee8e807aso61202b6e.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Jul 2026 17:23:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783470233; x=1784075033; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WsxiDn97gBxscvqAOQAhFMZN0dETLaVMcrmfLu6KLYQ=;
-        b=SopceH2IXCPu9pD/UugOJ/WXyTWvr21cnAWqosXVzyssr8us85uHW2x7fX0fTZp5gP
-         uP3TKkRMN+xHX1oKlSmThO7uJif+wb+w6llJ3/8uczL2ayrBFgXyS+3DANPiwiZRxKuM
-         uWliFJ/T/Rxpm59z6oGoDX80/5CNP2zwrw18drU8YH+hWITRjEeUd/MinheuVboRXKlj
-         po7+RG8FQ58S0yAxTTnJX9a1Fv1IncELxdMsNn+aiTA6/wYAgXB6wi+XPoAdD9+sTJD+
-         Dxsd22ukdL8LQV1kwkEz9x6UDYDoMMSkiKo4VuKKc0fM8U3Rnare/51BXiO1rTvXBxIv
-         XP8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783470233; x=1784075033;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WsxiDn97gBxscvqAOQAhFMZN0dETLaVMcrmfLu6KLYQ=;
-        b=grggp3LHyonQNSHCMYl1DL4qHUfOFyBoMQLxiasQrAc43xyq9urpkPPtxSk7/+bAfI
-         tJJ/1IaKYTgTGSoI3CYIlkBDqnthfN0BhbO68noLPnOu2N4xrHGnUNUzBnvqe9+egxYz
-         GLR3F9D7RCPMiCVrOsMHIe8iPKpgEpLeJyPhsQ5OOe2eJscZE5sb8OmsUZvucnttQkT7
-         5rplGJ65Nf4VjTqx2ak3MRAqHakt8e5PhmS89pwO9LNewA0oCR9Sd8n69ljJMBy1Eow3
-         GaovyCrdfo3+jiX8eGIKSztWTaVpMe5oKMVdQCQJOWfD8DWfO/RULBPKEttkPB6h0LKC
-         yBeg==
-X-Forwarded-Encrypted: i=1; AFNElJ9SfmrhJI4LjZykWBeioEEzan1Lmr4uuO4Bu0WIZjQreGPKnnkksnjW3XNsc0jJ/kSbnt3YBbDJDkBHpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys/4ifZt2Qsgtoad94SFs/pec/46EPVXWcnGCRQmaA6EeFYZNq
-	GrtCeauHr/qz6u5PQ0s6SyUhgmVhaAuJpVRRSozkk/aFCBy6NcjDkLff
-X-Gm-Gg: AfdE7ck6sxw+WVwv8yavrLhVX0NeCjsaB6sSweiwLpsJbMPDrWwDIYPkCdq/hXAjV+D
-	BU8A1297W2db+ZUbGeVjNukipwlcXv1UmHSp2Z5EbIwkgPQXTNYY/MtFezptf/zVTv7nbfzh19x
-	K4/Rfv/wAZ07+Oe4000JjZAUC5vIhBIaCZMhTKemuPxWzhTacycr/7arVvMXbjfpT24UuddX+k4
-	s+hPj+D/Ie11Ddh85If98JLCFwujLbgTeRYiwzzVkfUlrouiwVZeVPPZ4mcJL3qar4vYQj4Fd/k
-	x/Joz5TsAoSlpL3R1VYHNH39Nu3rcwRnExL62UMZrS5gdMvBEG7HXcObtCQLCiyARszN2ykc1JI
-	WLoXZSjwVfqY3i+QZTSPN/U3upZn6weBQoBsxsImusITFTwGefVAF/gl7/bJ6S8v7ug57gl1Cre
-	SIY9es8kFaE+QsfYJeTZs0YUtec5cwv1Uw66dHCcVjLx2dFd2L6uRHHhySD+FXDA==
-X-Received: by 2002:a05:6808:2206:b0:495:d1e6:8386 with SMTP id 5614622812f47-4a2046e9f5fmr106516b6e.21.1783470232991;
-        Tue, 07 Jul 2026 17:23:52 -0700 (PDT)
-Received: from andrew-victusbyhpgaminglaptop15fb2xxx ([2600:382:df05:f1ae:9ada:10e4:2561:28b3])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a1b02e5abbsm604666b6e.15.2026.07.07.17.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 17:23:52 -0700 (PDT)
-From: Andrew Morris <2026andrewsodyssey@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	Andrew Morris <2026andrewsodyssey@gmail.com>
-Subject: [PATCH] staging: media: atomisp: remove dead code in v4l2_fmt_to_sh_fmt()
-Date: Tue,  7 Jul 2026 20:23:18 -0400
-Message-ID: <20260708002318.110094-1-2026andrewsodyssey@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1783474462; c=relaxed/simple;
+	bh=YBt3HH3XCcJTRGWtOGWTIZZhi7S79pbPV+/WdG+OrS8=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=FAs7qSbUoLANUuNK2TqLsQR6D28OU/yWQmYewkcAfdnWT77E42Aj0J8lYR0o2H46HNkMfmKyS0X/mILF0yIVeDvvPnJK08kL1is2l6xuBp79MEAbmpLm/hcFWVB2xAfE1aUfc6zmM7+Bx9EzKopdIi2mylAERj8HJlVex2oaXfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OEgqlwFZ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 534AE1F000E9;
+	Wed,  8 Jul 2026 01:34:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783474461;
+	bh=RCm6AvO7MptmjYs/eDjLdndWqnPEk8Yo42t8b7KaM1E=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject;
+	b=OEgqlwFZrQAg+amdaUkQaS0gP7LaYvTCZiWmHWNgr+pd4Y4lIK8EAOdBb+GlBHudZ
+	 lu5PztrxddIXXOhVoarNvMMLWilfy9h+qrNWf73mu0m3tUizGri4nz2p8lzgGMLhl9
+	 yupKmRfMXxjN2vETKJnUDnj/RWcqSn4as45p09sKUgfYFvDz4IxJyut9Y74zY3p+uI
+	 6ISEVfXHkR1FPOzH2PamLVxz5/FZcA9ictG4bqme4hclm1nKlBrsCn8HT+mYHnvxeU
+	 owCAhQB+ITJrkm0eFgpRR4FuP3xdLi371r6hYKegvtteMM1Ik/5Ra79MFntFPeOp5P
+	 A4XJCOFU/65ig==
+Date: Tue, 07 Jul 2026 20:34:20 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, linux-media@vger.kernel.org, 
+ Bryan O'Donoghue <bod@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Todor Tomov <todor.too@gmail.com>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, devicetree@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-1-f8588da41f16@linaro.org>
+References: <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-0-f8588da41f16@linaro.org>
+ <20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-1-f8588da41f16@linaro.org>
+Message-Id: <178347446065.875916.7281054384870814228.robh@kernel.org>
+Subject: Re: [PATCH v12 1/6] dt-bindings: media: qcom,x1e80100-camss: Add
+ optional PHY handle definitions
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-66936-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:2026andrewsodyssey@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66937-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[2026andrewsodyssey@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[2026andrewsodyssey@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:krzk+dt@kernel.org,m:mturquette@baylibre.com,m:loic.poulain@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:bod@kernel.org,m:andersson@kernel.org,m:todor.too@gmail.com,m:vladimir.zapolskiy@linaro.org,m:sboyd@kernel.org,m:krzk@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:mchehab@kernel.org,m:rfoss@kernel.org,m:conor+dt@kernel.org,m:linux-clk@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:bryan.odonoghue@linaro.org,m:todortoo@gmail.com,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,oss.qualcomm.com,vger.kernel.org,gmail.com,linaro.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,checkpatch.pl:url]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linaro.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 323FF7209EE
+X-Rspamd-Queue-Id: 70A95720DDA
 
-Remove a #if 0 / #endif block in v4l2_fmt_to_sh_fmt() that has been
-disabled since it was added. checkpatch.pl flags #if 0 blocks and
-recommends removing the enclosed dead code instead of leaving it
-disabled indefinitely.
 
-The two format cases inside the block (V4L2_PIX_FMT_JPEG and
-V4L2_PIX_FMT_CUSTOM_M10MO_RAW) simply fall through to -EINVAL via
-the default case now, which is the same behavior the disabled code
-would have had if left unreachable. V4L2_PIX_FMT_CUSTOM_M10MO_RAW is
-still handled elsewhere in this file outside of this switch, so this
-does not remove any live functionality.
+On Wed, 08 Jul 2026 01:06:55 +0100, Bryan O'Donoghue wrote:
+> Add optional PHY handle definitions. This will allow for supporting both
+> legacy PHY definitions as well as supporting the optional new handle based
+> approach.
+> 
+> Drop the legacy high-level 0p8 and 1p2 supplies as required, each PHY has
+> its own individual rails. The old binding is still valid but with
+> individual nodes we define the rails in the CSIPHY sub-nodes.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../bindings/media/qcom,x1e80100-camss.yaml        | 33 ++++++++++++++++++++--
+>  1 file changed, 31 insertions(+), 2 deletions(-)
+> 
 
-Signed-off-by: Andrew Morris <2026andrewsodyssey@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 5 -----
- 1 file changed, 5 deletions(-)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 6cd500d9fd26..9cb1e1d0d237 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1024,11 +1024,6 @@ v4l2_fmt_to_sh_fmt(u32 fmt)
- 		return IA_CSS_FRAME_FORMAT_RGBA888;
- 	case V4L2_PIX_FMT_RGB565:
- 		return IA_CSS_FRAME_FORMAT_RGB565;
--#if 0
--	case V4L2_PIX_FMT_JPEG:
--	case V4L2_PIX_FMT_CUSTOM_M10MO_RAW:
--		return IA_CSS_FRAME_FORMAT_BINARY_8;
--#endif
- 	case V4L2_PIX_FMT_SBGGR16:
- 	case V4L2_PIX_FMT_SBGGR10:
- 	case V4L2_PIX_FMT_SGBRG10:
--- 
-2.53.0
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml: Unresolvable reference: /schemas/phy/qcom,x1e80100-csi2-phy.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260708-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v12-1-f8588da41f16@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
