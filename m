@@ -1,97 +1,91 @@
-Return-Path: <linux-media+bounces-67064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67065-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id EEi9MTOTTmrgPgIAu9opvQ
-	(envelope-from <linux-media+bounces-67064-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 20:13:07 +0200
+	id dbKmIPSfTmrdQwIAu9opvQ
+	(envelope-from <linux-media+bounces-67065-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 21:07:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76907296F7
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 20:13:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE8E2729CA3
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 21:07:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Mq0EXNbU;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67064-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-67064-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=hpYYMji5;
+	dmarc=pass (policy=none) header.from=intel.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67065-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67065-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 07CA8301E022
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 18:13:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 064B3308654B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 19:06:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F7A137C908;
-	Wed,  8 Jul 2026 18:13:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4621361DBC;
+	Wed,  8 Jul 2026 19:06:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F663BFE34
-	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 18:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD72343933C;
+	Wed,  8 Jul 2026 19:06:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783534381; cv=none; b=j1HfFhER2PvfjghndQVgLMJIFvQwkjOy0Q98ljTh9qeHto3WOH8GCg7XhDaDhjR77g88/IjzDt6RoR3j9CJKUpZMhSyAQMOhvK5lk2cHjDybeDaEIPq1OV/gGLbVLNaZEWhclBfI5SsQ3kMoMR9AL2/7NKMjq4xwH00iU3VM6ec=
+	t=1783537598; cv=none; b=mKQdpZjMQ3EzqYla/3swbV1wRGnRidoRwEh7VEyBjISs/C3HLEzfx5anK10wN3lgOau4BjrtvOHcfEY0zzl0QswdwPUe2BH4KS0geo9dpCo7pQ34x2piw5Rmc6SgW+/snc1sLtHHjyBMIq51o0Uc9+43uo+kjN/XtkHH6MYJc2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783534381; c=relaxed/simple;
-	bh=y1Zkb/qQ7tH76c5nw0yWw9pfRRFL5z9KF7XJjkvkH3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BDOM1wrrO5kNN5bmipC0NkOcUaFLG6c55m1qQ4viEOmjisrd6gMLaEANLubV6wztNTVSM9VZSb0F+HLeiD/0CQWfsq38Ymb5Cimc4ia5Oy0lNinuGKS5GFKoIVHG/5DGiHnrVgwDONYSJGlKS/6nHj0yGs/kCbN6hF8EsFQEe6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mq0EXNbU; arc=none smtp.client-ip=209.85.215.177
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c9aea40d799so435957a12.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 11:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783534376; x=1784139176; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=E7M+3gHwLkUuZk+ZzB1+zc6TOfv5YYqtskQPl4nbwro=;
-        b=Mq0EXNbUIosTjJuWW4QPPcinw+8f1KwIFogYqknNG1BHNHRcHc4AI0cM74ZNGnVw0X
-         /sJT2yWSOK6vpAeZqYf1sVtckf8nKm7FYE+0P/mE3uplWFMRB5QmZT4jBujOp/h8t65L
-         ssR+6QUak/UhAm4sfKaRmjhcO1NlQTbx+isi7E9otGXGdrQKnNFMeANe4+e07K4rsXHG
-         3lVOvz3ovx6Quy6TIsSBOKMG0XevjQ8sHSlQ8ol6GOlx+xe0a3BoPx1naTg0mWRTbCHc
-         nzD80MmUvSbnsIIgfSYX35Z4XwIe190dDpLmOTdY0rCz1g6tyNwGpL2JmJOJr4XLKtbZ
-         yVbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783534376; x=1784139176;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=E7M+3gHwLkUuZk+ZzB1+zc6TOfv5YYqtskQPl4nbwro=;
-        b=mMVDfHaLDnsUr/Mxw+O+/w0UihE9fmQXaAtRHdILumRCh04AlfOvGkhvJem7IGpZyI
-         8RNnQfE4tXivTYHAYjHdlk3fVz5K7b+po1DUJppsMtGsi09xG2SN+DTTZATFNhn7+Y9c
-         mfl2bqYGao0MhB2OlWTcNLTTsB1oyWsq5n7NDcjeFrb18BzrHXmYs+tlQ4G8kSKRrfqB
-         xBPTFjVISShxvxFwsEeZcPs5GwrnNxc+PGswiSYe945wRFTfwOeQrJKy1PmRSFgU3L1t
-         frC6Nc06pzgAOmclADxt8YR8OesBpVwiz7ARlykfC4jYlaKbJJWjSKKFo3GvGA3iV7Al
-         CdCA==
-X-Forwarded-Encrypted: i=1; AHgh+RpszFKoaNu4hP2/oWlLHrQoVjmat0laMGhjOm97Ot0YwRlkARjU5hnpLca6e9/KgxqP9yL8xE8bJcUCVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyOshH7ZouOpOnKnBLr9rm3uZxxJDtOMofsTnu1qP5UTcuHa09
-	JnjWmqi2cktTYyZtFPJPil1kxZFrF6KjFJ8zuGjmpmEpULCc2sslJ30ffDa04IEe
-X-Gm-Gg: AfdE7ckuBC6H93mwXMZIJ+fVeo0mJ2qbNQhEMmgTq6NVniFo/OVB+2kmt53e4W6poIr
-	w0pZ/H6m8rrK6sx2E7n90CT9/dyfYko0D+7Mx3xca7TNdnfDNEMEfVEDpKqlX6aOQcpVXp2A5P7
-	nIrfjpk0B/5UiM0P0nEfsGqOrQdNDGpVfm8bjDs3obtNaA4KFZE8WT5kbweUylzkfnILqAc5NLU
-	hWqk94FO4WxkSWT3Uo+Pn53w2kq934fMq/vPkCTbKA8nmJWAypUKQ9LulGkjDJysr4ZbTY7v1hO
-	RGwfcpCicJj90WZ9MWuJn4veMCR53ZcWXgmMamwvN/LaSJUYpuD1K1B7BxqKQSwGtWyhsD7HS4E
-	7A8UhwQpL5iFxBaJbsNMmin1aw5EnK6lwYTShtU5jZFiHTWNG+jUrVRneiLWQYBY0GurHBAuxoI
-	12Pe/trG5x2ZBPjIlxJl/i2zCCi1IuCGkoaOWCq6w2XX9jt12QDXHb5w==
-X-Received: by 2002:a05:6a21:7d02:b0:3c0:9c1a:894e with SMTP id adf61e73a8af0-3c0bd312f81mr3943968637.70.1783534376489;
-        Wed, 08 Jul 2026 11:12:56 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.223.101])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659c8572sm22368639c88.9.2026.07.08.11.12.52
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 08 Jul 2026 11:12:56 -0700 (PDT)
-From: Biren Pandya <birenpandya@gmail.com>
-To: sakari.ailus@linux.intel.com,
-	mchehab@kernel.org,
-	andriy.shevchenko@linux.intel.com,
-	dongchun.zhu@mediatek.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Biren Pandya <birenpandya@gmail.com>,
-	stable@vger.kernel.org,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Subject: [PATCH v4] media: i2c: ov02a10: fix endpoint parsing use-after-free
-Date: Wed,  8 Jul 2026 23:42:48 +0530
-Message-ID: <20260708181248.57758-2-birenpandya@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260613083235.57363-1-birenpandya@gmail.com>
-References: <20260613083235.57363-1-birenpandya@gmail.com>
+	s=arc-20240116; t=1783537598; c=relaxed/simple;
+	bh=8sJoYoDXnFcLvC+k9jj5ONuDpuNtpd6j34VDJBRB1sk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mpkUjGDLJYOqNQPODobHN6u6/Ww7evt+C8oP3VE9Pwe3bvhbUYlsNvc1UNJiW2CTMrMBYCMHfE+st6bwgGQWh/Uq81acDMkmmsn0ciMj3i93QjUoj3+8CE5DuOoNXvwUrBIyXm4cHqhYq1QKDTQaVouXlyGICVljZQX9HZsTGLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpYYMji5; arc=none smtp.client-ip=192.198.163.15
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783537596; x=1815073596;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8sJoYoDXnFcLvC+k9jj5ONuDpuNtpd6j34VDJBRB1sk=;
+  b=hpYYMji5RaRDqi8fzgN8A5vOuFUip5Rj52mWKGyiy3fpe/btVVXYz0Dt
+   tWNJs1V3KE8BIiKZbj3wVuU9gWDuotKw5rIPgnAXwl2cNftjrt6FIspzn
+   Uwkv+jMVXOxiXNhhc2/iYM83ycZ+1y6nIw0GKu75NcJ9tVQevAnrkHMx5
+   1YODF5RP/YHKD/S3WN1wWZsnv2t04Zx1Hpw/Pp7gxblJ4bfdSPu9T4DRI
+   DCCzoTYOjRvMHOHESMTQi5KvBIRDfESnijLenR8gQNvirlVkCBuE2dQ1G
+   0wVlXueAWa+m2dzZdPY8qNxmzNAh5rxxjESd2J+7LNWyJY21Kov4aTx3C
+   g==;
+X-CSE-ConnectionGUID: 3SGSYmSAStu4IFUJPjaNUA==
+X-CSE-MsgGUID: ABCWlDqMTAWhTGO4TrZTlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84329109"
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="84329109"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 12:06:35 -0700
+X-CSE-ConnectionGUID: Pc54uQg6RseT09XFzr8nRg==
+X-CSE-MsgGUID: TTbKTADQTCKgZ61l8Nx97g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="257965295"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.120])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 12:06:32 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 238EF120FA7;
+	Wed, 08 Jul 2026 22:06:31 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1whXbG-00000001Ygf-0S3S;
+	Wed, 08 Jul 2026 22:06:26 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Yong Zhi <yong.zhi@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lixu Zhang <lixu.zhang@intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Bingbu Cao <bingbu.cao@amd.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Richard Acayan <mailingradian@gmail.com>,
+	David Heidelberg <david@ixit.cz>,
+	Frank Li <Frank.li@nxp.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>
+Subject: [PATCH v3 1/1] MAINTAINERS: Camera sensor and Intel IPU driver changes
+Date: Wed,  8 Jul 2026 22:06:26 +0300
+Message-ID: <20260708190626.371657-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -100,102 +94,216 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,linaro.org];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-67064-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:andriy.shevchenko@linux.intel.com,m:dongchun.zhu@mediatek.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:birenpandya@gmail.com,m:stable@vger.kernel.org,m:vladimir.zapolskiy@linaro.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-67065-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[intel.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,amd.com,raspberrypi.com,gmail.com,ixit.cz,nxp.com,linux.intel.com];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:yong.zhi@intel.com,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:lixu.zhang@intel.com,m:linux-kernel@vger.kernel.org,m:linux-staging@lists.linux.dev,m:bingbu.cao@amd.com,m:dave.stevenson@raspberrypi.com,m:mailingradian@gmail.com,m:david@ixit.cz,m:Frank.li@nxp.com,m:dave.hansen@linux.intel.com,s:lists@lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A76907296F7
+X-Rspamd-Queue-Id: CE8E2729CA3
 
-The ov02a10_check_hwcfg() function calls fwnode_handle_put(ep)
-immediately after allocating and parsing the endpoint. However, it
-subsequently calls fwnode_property_read_u32() using the same 'ep'
-handle, leading to a potential use-after-free.
+From: Dave Hansen <dave.hansen@linux.intel.com>
 
-Additionally, reading the optional 'ovti,mipi-clock-voltage' property
-used to overwrite the 'ret' variable. If the property was missing,
-'ret' would become negative, and this failure code would be incorrectly
-returned at the end of the function, causing probe to fail entirely.
+Tian Shu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
+media drivers (7 and 9 respectively). Bingbu's e-mail address has changed
+and Tian Shu's is bouncing.
 
-Fix the use-after-free by moving fwnode_property_read_u32() before
-the endpoint is parsed and freed. Avoid the error leak by not
-assigning the result of fwnode_property_read_u32() to 'ret'.
+Update Bingbu's e-mail address, remove Bingbu as a maintainer from Intel
+specific drivers and remove Tian Shu as maintainer. Also add Dave
+Stevenson as a maintainer and David Heidelberg as a reviewer for the
+imx355 driver.
 
-Fixes: 91807efbe8ec ("media: i2c: add OV02A10 image sensor driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Biren Pandya <birenpandya@gmail.com>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Also add Bingbu and Tian Shu to CREDITS.
+
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Yong Zhi <yong.zhi@intel.com>
+Cc: Dan Scally <dan.scally@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lixu Zhang <lixu.zhang@intel.com>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Acked-by: David Heidelberg <david@ixit.cz>
 ---
-Changes in v4:
-- Collapsed fwnode_property_read_u32() into a single line per Vladimir's review.
+since v2:
 
-Changes in v3:
-- Moved property reads before parse to avoid UAF.
-- Fixed error leak by dropping assignment to ret.
-- Added Fixes/Cc stable.
-- Picked up Reviewed-by.
----
- drivers/media/i2c/ov02a10.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+- Add Tian Shu and Bingbu to CREDITS.
 
-diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
-index 143dcfe104456..98f8fc5b6a5ae 100644
---- a/drivers/media/i2c/ov02a10.c
-+++ b/drivers/media/i2c/ov02a10.c
-@@ -820,18 +820,15 @@ static int ov02a10_check_hwcfg(struct device *dev, struct ov02a10 *ov02a10)
- 	if (!ep)
- 		return -ENXIO;
+- Fix line ordering in some entries.
+
+ CREDITS     |  7 +++++++
+ MAINTAINERS | 29 ++++++++++++-----------------
+ 2 files changed, 19 insertions(+), 17 deletions(-)
+
+diff --git a/CREDITS b/CREDITS
+index 84793a967a0b..7456c8bbffc2 100644
+--- a/CREDITS
++++ b/CREDITS
+@@ -640,6 +640,10 @@ S: 25-29 St Giles
+ S: Oxford
+ S: United Kingdom
  
-+	/* Optional indication of MIPI clock voltage unit */
-+	if (!fwnode_property_read_u32(ep, "ovti,mipi-clock-voltage", &clk_volt))
-+		ov02a10->mipi_clock_voltage = clk_volt;
++N: Bingbu Cao
++E: bingbu.cao@amd.com
++D: Ipu6, ipu7 and camera sensor drivers
 +
- 	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
- 	fwnode_handle_put(ep);
- 	if (ret)
- 		return ret;
+ N: Luiz Fernando N. Capitulino
+ E: lcapitulino@mandriva.com.br
+ E: lcapitulino@gmail.com
+@@ -3334,6 +3338,9 @@ E: rpurdie@rpsys.net
+ D: Backlight subsystem maintainer
+ S: United Kingdom
  
--	/* Optional indication of MIPI clock voltage unit */
--	ret = fwnode_property_read_u32(ep, "ovti,mipi-clock-voltage",
--				       &clk_volt);
--
--	if (!ret)
--		ov02a10->mipi_clock_voltage = clk_volt;
--
- 	for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
- 		for (j = 0; j < bus_cfg.nr_of_link_frequencies; j++) {
- 			if (link_freq_menu_items[i] ==
++N: Tian Shu Qiu
++D: Ipu6, ipu7 and camera sensor drivers
++
+ N: Daniel Quinlan
+ E: quinlan@pathname.com
+ W: https://www.pathname.com/~quinlan/
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2aec6afa8108..d794223144cd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3946,7 +3946,7 @@ F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
+ F:	drivers/leds/leds-as3668.c
+ 
+ ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
+-M:	Tianshu Qiu <tian.shu.qiu@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -13135,9 +13135,7 @@ F:	drivers/iommu/intel/
+ INTEL IPU3 CSI-2 CIO2 DRIVER
+ M:	Yong Zhi <yong.zhi@intel.com>
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-M:	Bingbu Cao <bingbu.cao@intel.com>
+ M:	Dan Scally <dan.scally@ideasonboard.com>
+-R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -13146,8 +13144,6 @@ F:	drivers/media/pci/intel/ipu3/
+ 
+ INTEL IPU3 CSI-2 IMGU DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
+-R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/admin-guide/media/ipu3.rst
+@@ -13157,8 +13153,6 @@ F:	drivers/staging/media/ipu3/
+ 
+ INTEL IPU6 INPUT SYSTEM DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-M:	Bingbu Cao <bingbu.cao@intel.com>
+-R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -13167,7 +13161,6 @@ F:	drivers/media/pci/intel/ipu6/
+ 
+ INTEL IPU7 INPUT SYSTEM DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -13469,7 +13462,6 @@ F:	drivers/net/wireless/intel/iwlwifi/
+ 
+ INTEL VISION SENSING CONTROLLER DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
+ R:	Lixu Zhang <lixu.zhang@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+@@ -19902,7 +19894,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
+ F:	drivers/media/i2c/os05b10.c
+ 
+ OMNIVISION OV01A10 SENSOR DRIVER
+-M:	Bingbu Cao <bingbu.cao@intel.com>
++M:	Bingbu Cao <bingbu.cao@amd.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -19995,9 +19988,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
+ F:	drivers/media/i2c/ov2735.c
+ 
+ OMNIVISION OV2740 SENSOR DRIVER
+-M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+-R:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
++R:	Bingbu Cao <bingbu.cao@amd.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -20139,8 +20131,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov9650.txt
+ F:	drivers/media/i2c/ov9650.c
+ 
+ OMNIVISION OV9734 SENSOR DRIVER
+-M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
++R:	Bingbu Cao <bingbu.cao@amd.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -25217,7 +25209,8 @@ F:	Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
+ F:	drivers/media/i2c/imx296.c
+ 
+ SONY IMX319 SENSOR DRIVER
+-M:	Bingbu Cao <bingbu.cao@intel.com>
++M:	Bingbu Cao <bingbu.cao@amd.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -25239,7 +25232,9 @@ F:	Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
+ F:	drivers/media/i2c/imx335.c
+ 
+ SONY IMX355 SENSOR DRIVER
+-M:	Tianshu Qiu <tian.shu.qiu@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
++M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
++R:	David Heidelberg <david@ixit.cz>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
 -- 
-2.50.1 (Apple Git-155)
+2.47.3
 
 
