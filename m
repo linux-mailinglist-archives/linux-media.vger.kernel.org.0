@@ -1,204 +1,199 @@
-Return-Path: <linux-media+bounces-66993-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66994-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XfM5IPxRTmrBKgIAu9opvQ
-	(envelope-from <linux-media+bounces-66993-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 15:34:52 +0200
+	id Rb59IfVUTmpkKwIAu9opvQ
+	(envelope-from <linux-media+bounces-66994-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 15:47:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B595D726D77
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 15:34:51 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9985A726F0F
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 15:47:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=SJ+FOWX4;
-	dmarc=pass (policy=reject) header.from=mailbox.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66993-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66993-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=OfZwUofW;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66994-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66994-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 271573064454
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 13:29:48 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 607D6301139A
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 13:44:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD4562D060B;
-	Wed,  8 Jul 2026 13:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9B3C37F755;
+	Wed,  8 Jul 2026 13:44:36 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1353451A9;
-	Wed,  8 Jul 2026 13:29:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E12F3033DE
+	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 13:44:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783517386; cv=none; b=TExHjemBiFph6QItGJzQ7s9TYelB2iqFxYNPgt7PLd6umSfEYWSF0y/IxdRDhVaNJxMcR7zYLT/R88h/0MzPo0vSuPaK+szyQKoP5oSVBVPrEm2JfdhbBoDMyjexK16OfL7tWng22Z1TXN+grrbQT7rs+nR+fTnyaAlUSN1GNzw=
+	t=1783518276; cv=none; b=vFwxxYMz1VF4d7MHih0qoQfYh6sSazFvmv08QBAHrGqGyoHSoxOgOv2hliCFs/AgmDdu3U0Q2+ri+xnz6RzeIbz71z1+AhH3A1vo452phQaDoeoIvcer2tQzFZeSKuMoInRxtbkR6eCOnPbS+sBW9lwQ+aCnylMr4C2tCjW9ihw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783517386; c=relaxed/simple;
-	bh=fQ4eodHnC2Wd8oYv7fQS19erM8JlDyvxJg/CQU+4uTQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UbqdP9/oJ5q9LEWyEqoLQeo0uEf4v3z2XXqUuv3BeglPGqWS4hShNwtAsx41swxBfzRHyzQ/VY++itlTdygEJLgKLQMirX81hFasqOZKqd/UW+CqbxR+9i5zeOGZq9ODqVD5jDbnaSFiLPSlJKQFmMgMAXt4AOeFwAIBEaWj3ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=SJ+FOWX4; arc=none smtp.client-ip=80.241.56.172
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gwJq831JYzMlGX;
-	Wed, 08 Jul 2026 15:29:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783517380; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u+QzoStC3POLvanG8ZLxpgomra4Mq3Lf3oEAWOgFql8=;
-	b=SJ+FOWX4vFmAla8qj17/+0Pkuugs68BdDuOZbdI9m4etSGdWRvIHqksjIzlS628SASzyNR
-	KUPuAEN2F+d2nP5dm5oJmToHAx6/rGkovRSSvuvYNJw4KEipQgNs6ypGI36iGA3OT+v0zP
-	ckLJYh2oyXgqaptLNEQ6df75tzywBssmzdoFvUPiqIR80LQnZMii7jWW8fQt2GW5sMbKUQ
-	rz5gVk4GXSyyi3WPj18hBS6neyBkRme4/3JrBS4lnJ1LpMb/A5KTfh1XTz/tIDI5KPpgL3
-	MSR39yvd7shKThIgh60krfYf4m9FbcKLfIFGGL9Y9R/XmzqC2qTe6QCVdPZi3w==
-Message-ID: <099ab4b0fd40c476fcb5fa804800794f11758416.camel@mailbox.org>
-Subject: Re: [PATCH v5 4/5] rust: Add dma_fence abstractions
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Philipp Stanner <phasta@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	 <bjorn3_gh@protonmail.com>, Benno
- Lossin <lossin@kernel.org>, Andreas Hindborg	 <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Sumit Semwal	
- <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Asahi Lina
- <lina+kernel@asahilina.net>, Burak Emir <bqe@google.com>,  Lorenzo Stoakes	
- <ljs@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, Alexandre Courbot
-	 <acourbot@nvidia.com>, Krishna Ketan Rai <prafulrai522@gmail.com>, Tamir
- Duberstein <tamird@kernel.org>, Mirko Adzic <adzicmirko97@gmail.com>,
- Alistair Francis	 <alistair.francis@wdc.com>, Onur =?ISO-8859-1?Q?=D6zkan?=
- <work@onurozkan.dev>,  Shankari Anand <shankari.ak0208@gmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Date: Wed, 08 Jul 2026 15:29:29 +0200
-In-Reply-To: <20260703073141.3962604-6-phasta@kernel.org>
-References: <20260703073141.3962604-2-phasta@kernel.org>
-	 <20260703073141.3962604-6-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1783518276; c=relaxed/simple;
+	bh=DpbBUQ3d+5Z3ayXRoezgA1yYLlm5MargDSMu4c0ALEo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qw1el2SpDMzR5GoazU9fDsF4SJw7niHNqJGWTwO3jYNXcJf6KunM+a9RInNpAXAIxT5+FJGvseRVXG2r0IWFHT6dj1KvlMHyX4Dt0mvlEw/Tj/DAq87SxLuvmNobI/AIVe2U0cNYM9H6wePE60LIGRvoaeScJlIN9M4u3bUnAxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OfZwUofW; arc=none smtp.client-ip=209.85.210.174
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-845c92bc464so444691b3a.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 06:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783518274; x=1784123074; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=B8NDQ3ibtUBCY1oSPQW4VmPsd8IcTMAGY4iTTxnMP1M=;
+        b=OfZwUofWoZnGbHwe00ejXWJ/lUQP5EOwgwN3ESngYTdqWFLoEVYrOKntJmLQhCKTWG
+         qP5Mi8y5ptblCIvyCzlCkZWmG2dR+BfMXx6Wd7J7LkxR/45nIQ19ZrefPTCLSl4OkKQz
+         TDd95Z8hrwpac3GmD36Z4ur+wAY0R7pt4SbM+SSsiWevaCqe7HgMiQEW6FsnuZPMeda4
+         C7M+2pCC4v/2Tk0qA6d+6gq9TjFD7wkV16U3EXqAuqEkaqCoSSz5o5CbrrI8oRikJGBm
+         6/b4Mtx8EzjKAaIODJUjZt5EizylzvwE0vwdeUyUBF+Uuc1ql5TI8ArCPL//bKjBETok
+         fWwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783518274; x=1784123074;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=B8NDQ3ibtUBCY1oSPQW4VmPsd8IcTMAGY4iTTxnMP1M=;
+        b=YB4Z93kFWORd9VV64890CW6oaq7y+fcqCYUlejGBd/XChU9rMRJI0p+sufFcwzBKWv
+         qP+g/4q6R8Y0kl40k6wkP2scFOCoG663IecITa+pw4uFDSiBpjYd1Yi4C3jpLfjL6dPg
+         FQrfaeR4ErHPfxZtiRHLMHzhrL6ifp0pqvPT3JivVDg8InxkwDaTQADL/VM1I22EFtKQ
+         3K4ZhOTENvpwq9jI5velBRH1w7gFNyT71gVKsnypfNMhSn3zVA4pV2ALFROhgasYLN+n
+         WAq4tGJSgYP1pKSpw3fATFOw61l+WowAWI5oVClmeL0k8EySBmQMygc/493Iygbq6QWx
+         kAww==
+X-Forwarded-Encrypted: i=1; AHgh+Rq5zVmed/akVhXuqlhzsPH8byCHbITTu1KSBDH7TbdXvBxk6AJt90BQrMtHrCM8O5jaJlZf5ODhZSxULQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxW5ZsvEsti8JiQeKMwjMV2P/kkM+Ew/rKeGsjwPpdXdOZ5R0mw
+	UlV/2wIZBkCVoJrJcZp5O9Yf+MiUUgjOF3AZqA//Jm6bWs/+qixcLLMo
+X-Gm-Gg: AfdE7ck/WvTtiIsPFPb2x4Ikm3yMyEJVD55+XHTRMDRyXuzrhMgC3+MlRBThluiO66Q
+	d99SCeClSfE97k/ggqKkeMRGdSFiHgMg2v7MPJkt1JAZ2OZlIej9zz9kA0bNJL70YRVgpoRq36B
+	1y0QLZocb+VqFYw0aqte7vwVvwm1Yw4N5nPkAtXXQnjg0WtSKlvCeEEMDqBDpvSxI0Qgn6baRQD
+	0Fi9/B+aKyy5VOY1vWmaRF9Pf5Qzwv3OK1x0pv6PmY/xnxwwIPXOX1dPlN3XXJeH/ZJ1HDlaosN
+	NvijaqFspGOmaE5jF09MS0Yc3UdYQfgc4o8JawOItAHPsgJhrPJa6Gq6C0zlVfG40BKqx2MuFBl
+	wHlrrpfNOnJ6Stf2yAC+z2HJTxDmNJWh8Cr2hCWkbRp4nwoPjwQ0PMEOBduKIbUUjGhPPGgkBYh
+	wGCwd6oupOJk1Xln5u/iGtfOhmYtHOrRyOuAGs5YLnHwk=
+X-Received: by 2002:a05:6300:2201:b0:3bf:7189:2d1f with SMTP id adf61e73a8af0-3c0bc9aab26mr3306766637.31.1783518274466;
+        Wed, 08 Jul 2026 06:44:34 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.223.101])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311747f72a6sm23648662eec.1.2026.07.08.06.44.31
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 08 Jul 2026 06:44:33 -0700 (PDT)
+From: Biren Pandya <birenpandya@gmail.com>
+To: slongerbeam@gmail.com,
+	sakari.ailus@linux.intel.com,
+	mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Biren Pandya <birenpandya@gmail.com>
+Subject: [PATCH v3 1/3] media: i2c: ov5640: use scoped fwnode_handle endpoint cleanup
+Date: Wed,  8 Jul 2026 19:14:04 +0530
+Message-ID: <20260708134403.45935-6-birenpandya@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260708134403.45935-5-birenpandya@gmail.com>
+References: <20260615223055.39953-1-birenpandya@gmail.com>
+ <20260708134403.45935-5-birenpandya@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 58600b92efd2db828a6
-X-MBO-RS-META: jonfcbxufdzn7z77mwmxrqxzisg6c981
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-66993-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,collabora.com,linuxfoundation.org,asahilina.net,nvidia.com,gmail.com,wdc.com,onurozkan.dev];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina+kernel@asahilina.net,m:bqe@google.com,m:ljs@kernel.org,m:joelagnelf@nvidia.com,m:acourbot@nvidia.com,m:prafulrai522@gmail.com,m:tamird@kernel.org,m:adzicmirko97@gmail.com,m:alistair.francis@wdc.com,m:work@onurozkan.dev,m:shankari.ak0208@gmail.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:lina@asahilina.net,m:shankariak0208@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66994-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:slongerbeam@gmail.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:birenpandya@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[6];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	HAS_REPLYTO(0.00)[phasta@kernel.org]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B595D726D77
+X-Rspamd-Queue-Id: 9985A726F0F
 
-On Fri, 2026-07-03 at 09:31 +0200, Philipp Stanner wrote:
->=20
-> +// Necessary to guarantee that `inner` always comes first and can be fre=
-ed by C.
-> +// Also useful for using casts instead of container_of().
-> +#[repr(C)]
-> +#[pin_data]
-> +struct DriverFenceData<'a, T: Send + Sync + FenceCtxOps> {
-> +=C2=A0=C2=A0=C2=A0 #[pin]
-> +=C2=A0=C2=A0=C2=A0 /// The inner fence.
-> +=C2=A0=C2=A0=C2=A0 // Must always be the first member so that unsafe cas=
-ting works; but also
-> +=C2=A0=C2=A0=C2=A0 // necessary so that the C backend can free the alloc=
-ation (coming from our
-> +=C2=A0=C2=A0=C2=A0 // Rust code) with kfree_rcu().
-> +=C2=A0=C2=A0=C2=A0 inner: Fence,
-> +=C2=A0=C2=A0=C2=A0 /// Callback head for dropping this in a deferred man=
-ner through RCU.
-> +=C2=A0=C2=A0=C2=A0 rcu_head: bindings::callback_head,
-> +=C2=A0=C2=A0=C2=A0 /// Reference to access the FenceCtx. Useful for obta=
-ining name parameters.
-> +=C2=A0=C2=A0=C2=A0 fctx: &'a FenceCtx<T>,
-> +=C2=A0=C2=A0=C2=A0 /// The API user's data. This must either not need dr=
-op, or must delay its
-> +=C2=A0=C2=A0=C2=A0 /// drop by a grace period. It is essential that the =
-data only performs
-> +=C2=A0=C2=A0=C2=A0 /// operations legal in atomic context in its [`Drop`=
-] implementation.
-> +=C2=A0=C2=A0=C2=A0 #[pin]
-> +=C2=A0=C2=A0=C2=A0 data: T::FenceDataType,
-> +}
-> +
-> +pub struct DriverFence<'a, T: Send + Sync + FenceCtxOps> {
-> +=C2=A0=C2=A0=C2=A0 /// The actual content of the fence. Lives in a raw p=
-ointer so that its
-> +=C2=A0=C2=A0=C2=A0 /// memory can be managed independently. Valid until =
-both the [`DriverFence`]
-> +=C2=A0=C2=A0=C2=A0 /// and all associated [`Fence`]s have disappeared.
-> +=C2=A0=C2=A0=C2=A0 data: NonNull<DriverFenceData<'a, T>>,
-> +}
-> +
-> +/// A pre-prepared DMA fence, carrying the user's data and the memory it=
- and the
-> +/// fence reside in. Only useful for creating a [`DriverFence`]. Splitti=
-ng
-> +/// allocation and full initialization is necessary because fences canno=
-t be
-> +/// allocated dynamically in some circumstances (deadlock).
-> +pub struct DriverFenceAllocation<'a, T: Send + Sync + FenceCtxOps> {
-> +=C2=A0=C2=A0=C2=A0 /// The memory for the actual content of the fence.
-> +=C2=A0=C2=A0=C2=A0 /// Handed over to a [`DriverFence`], or deallocated =
-once the
-> +=C2=A0=C2=A0=C2=A0 /// [`DriverFenceAllocation`] drops.
-> +=C2=A0=C2=A0=C2=A0 data: KBox<DriverFenceData<'a, T>>,
-> +}
+Utilize the __free(fwnode_handle) scoped guard macro from
+<linux/cleanup.h> to automate the lifecycle management of the endpoint
+fwnode in ov5640_probe().
+This eliminates the need for manual fwnode_handle_put() calls.
+Additionally, drop the redundant !endpoint check before
+v4l2_fwnode_endpoint_parse(), as the parse function already handles
+NULL endpoints safely.
 
-One issue that I'm only discovering just now is that the request of
-deriving the DriverFence's generic through the FenceCtx's generic
-causes issues like this:
+Signed-off-by: Biren Pandya <birenpandya@gmail.com>
+---
+Changes in v3:
+- Resend as a complete series to fix broken threading.
+- Moved changelogs here.
 
+Changes in v2:
+- Used scoped __free(fwnode_handle) macro (Laurent).
+- Dropped redundant !endpoint check in ov5640 (Sakari).
+ drivers/media/i2c/ov5640.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-struct DriverFoo {
-  f: DriverFence<()>, // error: must implement FenceCtxOps
-}
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 8deb5f5501faf..29d4dee9690b9 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -4,6 +4,7 @@
+  * Copyright (C) 2014-2017 Mentor Graphics Inc.
+  */
+ 
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/clkdev.h>
+@@ -3844,7 +3845,6 @@ static int ov5640_check_chip_id(struct ov5640_dev *sensor)
+ static int ov5640_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+-	struct fwnode_handle *endpoint;
+ 	struct ov5640_dev *sensor;
+ 	int ret;
+ 
+@@ -3869,15 +3869,10 @@ static int ov5640_probe(struct i2c_client *client)
+ 
+ 	sensor->ae_target = 52;
+ 
+-	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+-						  NULL);
+-	if (!endpoint) {
+-		dev_err(dev, "endpoint node not found\n");
+-		return -EINVAL;
+-	}
++	struct fwnode_handle *endpoint __free(fwnode_handle) =
++		fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
+ 
+ 	ret = v4l2_fwnode_endpoint_parse(endpoint, &sensor->ep);
+-	fwnode_handle_put(endpoint);
+ 	if (ret) {
+ 		dev_err(dev, "Could not parse endpoint\n");
+ 		return ret;
+-- 
+2.50.1 (Apple Git-155)
 
-IOW, all DriverFence::data now must implement the trait. Which is
-obviously not what we want.
-
-But I cannot get easily get rid of it. See DriverFenceData.
-
-@Boris: Do you have a suggestion? Otherwise I'd want to default back to
-PhantomData, which I still believe is cleaner.
-
-
-P.
 
