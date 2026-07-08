@@ -1,537 +1,347 @@
-Return-Path: <linux-media+bounces-66969-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66970-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SAIlC34tTmqnEgIAu9opvQ
-	(envelope-from <linux-media+bounces-66969-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 12:59:10 +0200
+	id j+JEEJ0yTmrfGQIAu9opvQ
+	(envelope-from <linux-media+bounces-66970-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 13:21:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B0472497C
-	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 12:59:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCBF724D90
+	for <lists+linux-media@lfdr.de>; Wed, 08 Jul 2026 13:21:00 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chromium.org header.s=google header.b=iQVX82Vt;
-	dmarc=pass (policy=none) header.from=chromium.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66969-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66969-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=none ("invalid DKIM record") header.d=siliconsignals.io header.s=selector1 header.b=c8f+OVPO;
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=siliconsignals.io (policy=quarantine);
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66970-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66970-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 61EAF300BC78
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 10:58:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 40D4E304116B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 11:10:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB7AE42B332;
-	Wed,  8 Jul 2026 10:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD3AB38837B;
+	Wed,  8 Jul 2026 11:10:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021117.outbound.protection.outlook.com [40.107.57.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A94B42CAE2
-	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 10:57:46 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783508275; cv=none; b=eDrn5KjKaUh03vC5B2hP9aQQAYGQtLMkfzn8/vuzw3dc8itopX+PNehZUDki9NZ/TrTuFIkSuAgn8n3vwatrpr3SVbJjvNk3jGKD8LTxR1cINgfgrEvWpif5unt/jSvJ7/bHYjaUEDSNImww8f+Drl/5Y4oNn56xqwT1Qdd7BWY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783508275; c=relaxed/simple;
-	bh=Xrk4cldUp40oD1vyTM24zti6w0HHmRpbVxee+5RCD40=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SC8yKUstuBkEnumPVZDNbiIgA9j6+9GlmgRNnyDLwzQ/P1Rram2De5Fl5wyUov0LmVQp5lQa9x4B8h2qOoc1v9jBcp92KBGDzUaWr72ji5xXLjiab84BLuG4gFTn+R8ydGz61oftAeSKQUomQ9DZUccbaogC3tKNOhNmnPUlTMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iQVX82Vt; arc=none smtp.client-ip=209.85.208.44
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6986287534eso999354a12.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 03:57:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1783508261; x=1784113061; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PjDc0BnaWi67pot4LFN2OO3lfo1OPzksV28/c8Gqg3k=;
-        b=iQVX82VtHl7Jt7NAiEj1Kh+SkkZAmgkn/muZy/c8ajYww3J9ICaaSaGM8q0xtS+Dby
-         w1UDl5sNl8dEU1RH2Y8WV+XAqKRTkxV8VrY2CsTZkSvEdmiXDOlo2Sr4VDM3toAg5WLj
-         nqyzeAUbgPnFEy9V2AN7ROoglr4ndrYmQjXO4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783508261; x=1784113061;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PjDc0BnaWi67pot4LFN2OO3lfo1OPzksV28/c8Gqg3k=;
-        b=JPql7vyvgoiWh4I/0t906ykYPblp4+u5TnEBzXU5r0MXMT2GZ4KSptBo/2LobSTXnX
-         12P9ESzAPqU167XbaQT0dYqZtTo2nknjY+e1gpTb1m+USDrQXpA0TzKwHo5PUS1YXRAs
-         uWUDBVxuOZNWN0HBdH3OeggGNMbXOta9jzlf+f9oKB8DQb0YO1ftHVsG/EQ+GNN7KHE+
-         PmEcg/Q4BHfxAbs2DQbj2PYkC7FVu3xLoownm4pABF1n/2OUPLpYyz9ygQqRUFN6Ix52
-         mZ/Ush+jWf2aDDgCXX9f9bXtIrB24OoOh1bCwwwFcQXFrf/Trn33EIVvsZSlm46VKwGH
-         eGmw==
-X-Forwarded-Encrypted: i=1; AHgh+RofJj25AAjGVwAmXWyWgooNcuFjXz5nq3ozXqZ3kueEqRFsAWYFNKyV52ZWwdEEDik5w9lrSVwMucVabg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyJoiP2Kvy7AHmU1W0bRNkbWWdD7H+mQ4cngezUeq1NEVCeHod
-	5K4otMQcYFTqhcujRuIuw7EBCHF34nyKQJ3tXMtzKQGEw96I7roOuhZDIvCZQOO+cz3oJEg6WxZ
-	R2iTqCQ==
-X-Gm-Gg: AfdE7ckyNsUBUkPuUZlydA+2pfCOVVbmfh6lZnbyyPU/zDnyNzNMG2570Mf41woo0wy
-	p5q2gTl0PxRUQaLuV0mR07xymF26gRfJzxEjEmrIkvxMzafoUvg+nmDc6pcYhlFKY2CPwNzby4R
-	hSgoeX00B20pIbkNhGxuP9j4u2tlz6S+leZ3rf+gY9DDV1Jl4tVHXqHkhFcbvW0r9hTIe1iqX8g
-	DDBRKktTp0W0oqOQbp8m6pPJpDwNyCNs1pMCYXti3x/I+uzPiMHcGllLrngcccTj7CH3jOnWKIW
-	eay03gRol9XSZ3BQSHfSDABQeO+CzK8YIbCWjwU4n9kwxJsQGI19fM6awD4y896AI6JLcOddrbP
-	0tZj48mfEEiTc2i9iJiCbd4yxSy/h7txJ6Lb5niWmNu00pZjvDp4kM/jan4NxK4TklH9pp9B7+w
-	YmdwhAdxRj5T3Vd8oPywBpVGWRKX/c9zkkNJDZnyOIHchis6l4qA==
-X-Received: by 2002:a17:906:138e:b0:c12:4ddd:ade1 with SMTP id a640c23a62f3a-c15ce013f86mr73978766b.4.1783508261113;
-        Wed, 08 Jul 2026 03:57:41 -0700 (PDT)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15d76e9dbfsm41667566b.57.2026.07.08.03.57.39
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jul 2026 03:57:39 -0700 (PDT)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c1268d56234so69549466b.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 03:57:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro1bcW6OX/4yppUz3vp1bziRfhBajUVtjUliToddRNDF/Xzw8wrerBJv7+A0pZ6hRSEszJvpw95tqZTvQ==@vger.kernel.org
-X-Received: by 2002:a17:907:1c06:b0:c15:bad1:f41f with SMTP id
- a640c23a62f3a-c15ce1cd0e0mr97023366b.53.1783508258464; Wed, 08 Jul 2026
- 03:57:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82CF3C3789;
+	Wed,  8 Jul 2026 11:10:40 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783509042; cv=fail; b=KphMFA8icbRs6SgdX4fn0CBid+k3Uqxcg8oc3bPMSuiuHDgrNu6kvpg8EcsUxT7Fjo8E1visRROM/He8Zzs8z34CoYmSK0FjIVg/s2vuZpA4y5rBqqKasQerQI3R3QSfufqFrDJcCEU7sZKkIbUmdPwv8NQn+bpie5weNwlyy+Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783509042; c=relaxed/simple;
+	bh=CzIlD1nLa+hMXdbnYbgoh1pjVgb/dfuJLUVNOPQbenA=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=H2EAlDQ2BkwvXGEXrRpTpNw0tuw+NqE/jPmCplt9AIUxy2RTqWbC9fis6hUuH5YCxzbxX/qxOZCgwS2GXoEVdtk21dWvxpyCzCtLowXogDKa6PDO639AsHzPxJcGydss5/LnGKhdnVwujiCv1gukN15MosSDuTsrWhQARzHS6Kw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=fail (0-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=c8f+OVPO reason="key not found in DNS"; arc=fail smtp.client-ip=40.107.57.117
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vHZhoxsU2nfMQwxY+wt6eD4KgcfECAuCKsRgAHJiSFiXe/BjbRqThJH5XBLXupfPTVMA9flwelSkIkwuZRc/pAcMLpkFs/x7lcAdGEkyMYgI2G7fxot6zUMnXQmKskWO7Zcwf+PM7WtyQjwx2EIO8Y0KgRo+3sCl8Bya5GjOT1BEWZbDr61kBHHZ11iR9B8RjUCxwCSqf2V311Cp3B+L4uAtAqHo8ULjcqnxnbAiSssxGZHSaai5AArEIA5BZBvh3eWLRUqWhZCdEGVtEIv4MW6uBzr66DQtHOGcPBp5w1j1o8m0Hc0+P0H6tLyGomsAWVmVCKXNRsl7fg/RKXVUKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yKS8rrF11dfqYLbML7D/r0dWaLJQA+yFaIJb3Pgs0Jk=;
+ b=s18uXZhEk+EilVm0wEjWCMZ8fzaLZAUfk39MsGYvaYYxpp7I7qx7/brb+HGNd1YgDX+Ce0u6oN69oHQDcjT73NqLMe+h7ZA/oN9i29rNG6pPmVHLHUZcn9D5yUApEdAf5FY7yAFvP3SsSo+1EMs/Z8zNMJVVh8IR/AMqgDZZR+EzZh4FA5oPAumRBVp2eBwSPVinJbb+ORhGb15rXgr3RYMCxOb+NQtiUlM2+QrSyqhi2niGHMtG1MTq97vkJopVuFlVC4baNNvjSSJzWDVpyPhwH/xo+VJRwOxFrHNeaqOqyjTPA0+VLluDJvYnkPm/1rdIS/IaPGptDFM5oXcCCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yKS8rrF11dfqYLbML7D/r0dWaLJQA+yFaIJb3Pgs0Jk=;
+ b=c8f+OVPOihYl452Oj4+EKsd4lnI8idpnMMGczmn9B2Uw7whaGv6FvmJQtRlWV8Gdm6v86wXYQPkm39Xa8InXuTC1lzzVbkwylrRRKHskvPTrpt0GxilqDjtIIESqZMsXObGqmqub+iz0usNAfO3azelw/1MoxWGmHyFu521cTzc4D4YqI/XeOWVD0cpFfjBq8PMfm4kEN8hpieFFuSMjN1EXuMI+nQr6jmEvBcNnQSSwjw0isgNCdtWK8MoG7XI8xbYfFQGrSGiaY/GXViHEurHfMt7tO2SgnfKXFhnu+RZ4OAv7cpkZyCGwYnCnzJql0GENEazx7RM0IcGBxCaCwQ==
+Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:11e::14)
+ by PN4P287MB4807.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:2c8::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Wed, 8 Jul
+ 2026 11:10:35 +0000
+Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+ ([fe80::f8da:c075:cde1:e167]) by MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+ ([fe80::f8da:c075:cde1:e167%6]) with mapi id 15.21.0181.010; Wed, 8 Jul 2026
+ 11:10:34 +0000
+From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+To: sakari.ailus@linux.intel.com,
+	vladimir.zapolskiy@linaro.org,
+	laurent.pinchart@ideasonboard.com
+Cc: tarang.raval@siliconsignals.io,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Walter Werner Schneider <contact@schnwalter.eu>,
+	Kate Hsuan <hpa@redhat.com>,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/2] media: i2c: Add os02g10 camera sensor driver
+Date: Wed,  8 Jul 2026 16:39:38 +0530
+Message-Id: <20260708110949.31313-1-elgin.perumbilly@siliconsignals.io>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PNYP287CA0108.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:2bb::11) To MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:11e::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629-uvc-racemeta-v2-0-10e91d2afba0@chromium.org>
- <20260629-uvc-racemeta-v2-1-10e91d2afba0@chromium.org> <a0e4d412-f0bf-4415-9e4b-2c6347bf8c69@kernel.org>
- <CANiDSCtv_ZmTWUzbuxuEy0JmLmFs2Wqj31O3neGZ4ee=p065-g@mail.gmail.com>
- <5327bf8c-270e-4650-8f44-6026dce36457@kernel.org> <CANiDSCskW6qhuGsDj2JN9UqAobAzqxEn7bKxVLZKEpEi0P9bWA@mail.gmail.com>
- <15b919c9-158a-45ca-8566-bf20447d397c@kernel.org>
-In-Reply-To: <15b919c9-158a-45ca-8566-bf20447d397c@kernel.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 8 Jul 2026 12:57:25 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuO5aEApqHxy6uqZheza7hgdOkH38sY5YhO_xAxSYAJbg@mail.gmail.com>
-X-Gm-Features: AVVi8CeOlli0KBxwF8aPq2M2VgI50A3F6AX3eKfd8uoNM9xAjepwey66fA_9Xys
-Message-ID: <CANiDSCuO5aEApqHxy6uqZheza7hgdOkH38sY5YhO_xAxSYAJbg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] media: uvcvideo: Fix race condition for meta
- buffer list
-To: Hans de Goede <hansg@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MA0P287MB2178:EE_|PN4P287MB4807:EE_
+X-MS-Office365-Filtering-Correlation-Id: d15bbcb0-afc1-4278-6f5e-08dedce18854
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|52116014|376014|23010399003|1800799024|366016|38350700014|18002099003|3023799007|5023799004|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	h18muNkYXo7EGnyVLbC/MxQWk8cViXxpzeXCiZPh48itrwCLIddgbnVI6Gd6i6M6IS/zWjvdJdItJGpFlJuC6+678A1hEc2hyEut22B7uL6YPSgWUEtOc3hT+/79jtf8f+Mrxw3bu5l64fSGsNdjnfep9FMKgeqE60cUPUzPDItdekHBUshDNTBa1WHhxk4IRPzxIExiVUgQwtwtLZ4Bywqc+xZEu0I/XIJlfgE8J6gV5Ig7Mt2JZVjYVu8GQMcWAN0a+mZJcIpzcgPxV4XEKyzwtelOEFL5CKVk6kzAsgI6eLiKUSpKgPdo+fJzAxhznWn4CEJZtwJWWtFwfpPVwtusZKN+pkTDZQL1BM67WDzR89wcGcD13QhBOALzPQzpt51Dn7cUZMRMATuZ0BmuvUJpuFsxEbBx/kE5Er8zzuw8gMLGT8Q4f3EE8wd0YGYD+fC/Iiwq8UysWH1L1JjDu5oxfky2ycMGEQ+KuhTaQWIIh3PsgphP7rMeB2d7FEWQ24Bwa0nweTP8DkSEockSCkWgjq0KWcxM0E362ThqgcSEkue2q4mY511KsL/eW2e74QcOMQRhntr75qo9m2gg5o036OhDT/oeCZwb18TTC0komAvB58h67ayRTBgPnsloNXt5R5Ipl1NMbNfqdjAStJ+D0YPVR7u3uzaNOIPSy+ZyjYp7uYXqfmqjj9iNSxN+oQgWkjmTUhpmCRmwOFxtbuV/jXamsirxLYkU9bQv2vI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA0P287MB2178.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(23010399003)(1800799024)(366016)(38350700014)(18002099003)(3023799007)(5023799004)(56012099006)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?aLtRpy6/r6TUiwtLICD91dcv/K40lMCg0cmQhxVT7hlML4wOdw1OEyYdzkvI?=
+ =?us-ascii?Q?lAhUQEpGZUwAPY9LK3J5tWTnGR+ZsOVy35Sh5PgyrgSOqaQVpgl9f4aGLCIZ?=
+ =?us-ascii?Q?uwB9u5by6ane1SRaRj/8NbGwtCS5hPbcD3I2POF4R07L3i2x1F03jW/NdYEC?=
+ =?us-ascii?Q?EmCNPRH+kwCbeibYtI3qU/SSifhlSOsteqJB6WkLE1qzhDaJjibmQVQRA3Nu?=
+ =?us-ascii?Q?CEwq4sAeM1+tysPE5i49Rd37twlRjuCtCoHoEyMeTROWV3KZ38ymz3k+AQAA?=
+ =?us-ascii?Q?gN/dsSlfKhWaylfgocPvmBsps9zXgFPA80jKa8TjlldFBOaRrrNlmnmAvyzG?=
+ =?us-ascii?Q?Rc/iEcsHuCysY7HFdOjsEwL8biBjez2l0vhx4a6oV9xwXPdzA6WPGYZWbx6l?=
+ =?us-ascii?Q?MQCUySWIfcXnu7yGq48g8wDLFcFJKkmJsvcIy/cEgFJXjgDmwO8+PHFOddcv?=
+ =?us-ascii?Q?cgny8UVgfal/2ha2Y6Y428iPeUWrSOxAmtl5NrtlCMFG1f9wJ9oKGbpikqbt?=
+ =?us-ascii?Q?kKDdXausKOmHLfiq9axSisGKdxWKWjRaga93uZCMMirSCcZkX6ekVKkLnpjq?=
+ =?us-ascii?Q?GA/b8C1jgAjOeKO4+pbP0HEIjcgdMkpGLmkuJyfZbYnaxo9fx2y3BMqG1iv8?=
+ =?us-ascii?Q?zCyReZ6G4BtDIX5/CV8GfM/xSH5WjuZlhn8HNBaGZ6BzmRRtqUuE9yCs0uIF?=
+ =?us-ascii?Q?yvYH2w1oKtf0qUh+pS3gB9XwzYAoQu7WLL73GpYxnzxjpYq4YJ0eFkWgNnXG?=
+ =?us-ascii?Q?NIaVcFhDLJ22IXAFx/G9eE0kNfc6o7/E39ZcVwLNrn6EbiVHsbp2+ZMToiyS?=
+ =?us-ascii?Q?GiChXhBipmOiwIjPa81e1ovGD0CvmOe5oErAAos5NLQCh+gkI9x39aO7iUzW?=
+ =?us-ascii?Q?GmX2Rz+/N1eiJdf0fgf1k9T9Pude9hZOvkDi0AvNlya1NuU4G+lD4xozZ2Ie?=
+ =?us-ascii?Q?y4AUW2S0DddF4DEEn82+yCMF0w9XRUjEPhvS6A2He+ZzmGI2fHRtSMbjBXah?=
+ =?us-ascii?Q?UZrXAx5Z4j/c8+h5h/gazFtaPw6LeKNTXKm9kNLFpeFNM5aywg7enT9wCszB?=
+ =?us-ascii?Q?qMffitKQ2xBxAMEN76l/5NMrCYdC6NBFvi7iPil/ky9FAFCv+dXjI1uqs7CM?=
+ =?us-ascii?Q?ynfnbe28e7q9I1jaayks/FR940Vyrtc/dwAI+VhCtKS6s2/7aRJru3E8q+Yt?=
+ =?us-ascii?Q?G/Z8m7FmYY7sOBi5J0eLgAR3AmNyZsa9xpxL7Zz/PUYYYY0giSLIs0OJAkJm?=
+ =?us-ascii?Q?CkkbL4UNI9AOvFlsEIl5Bgpu+jWL9wocaAa5p79TG9wuH6vOrw931bq+ShdT?=
+ =?us-ascii?Q?Dp7QiB4lgTPdm0yUtBmO9EeHa8DekV/Jhyt0nKPR82jY70I+LCgTR1FQeQy3?=
+ =?us-ascii?Q?myLu0mek1QHHjb/lvXlzrKHwVJn1XUy4QWzXX0PcEXArQz9tRmjBgjmg8jKc?=
+ =?us-ascii?Q?Csm9BtcOelzorJT97NnbV2mIKEc85DfM0wHPvIC0hEJ9uk/YUARQlaK6Hbcv?=
+ =?us-ascii?Q?S000jTxpBUOCFTHPkGAwUv8uj2AQnheEk6vU7nvY8DliedEAxgds7gHSJHGw?=
+ =?us-ascii?Q?EGWFJbAP9BWdjg8VqSRZMJ39YFzkmUhyeC9XMNNZ5zgXx20KSjNgrfTaSFwc?=
+ =?us-ascii?Q?8PaksgP3OG0v6Sz1YG1mEf5bRfPyhkWz4seyJYUqOUJMPdctparqQwiqAFyI?=
+ =?us-ascii?Q?Xpav8W9EaXI1h+b2klmM+5Jj2QGJTr06eSLaYvrZlbvPVKeQ6dAJ0/UstYHx?=
+ =?us-ascii?Q?pohLe0I7dMF5jY77/DVG+iRBN/nFnWI=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: d15bbcb0-afc1-4278-6f5e-08dedce18854
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 11:10:34.7964
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eT2QzDQCLkLKaaJ0gGgoEVHPnJ+ngliDg9zmJ8HL14eVOEwYKsEgo4A+BhExtYUza5tX6sl0+nnsHVF6aEQtzrIThiKvH6kv/hDEKZkctluA80FU7Dg2dl+7fWUUibSp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN4P287MB4807
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+X-Spamd-Result: default: False [5.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_QUARANTINE(1.50)[siliconsignals.io : SPF not aligned (relaxed),quarantine];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-66969-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-66970-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:guennadi.liakhovetski@intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:vladimir.zapolskiy@linaro.org,m:laurent.pinchart@ideasonboard.com,m:tarang.raval@siliconsignals.io,m:elgin.perumbilly@siliconsignals.io,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:himanshu.bhavani@siliconsignals.io,m:contact@schnwalter.eu,m:hpa@redhat.com,m:y-abhilashchandra@ti.com,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[elgin.perumbilly@siliconsignals.io,linux-media@vger.kernel.org];
+	GREYLIST(0.00)[pass,body];
+	FREEMAIL_CC(0.00)[siliconsignals.io,kernel.org,oss.qualcomm.com,schnwalter.eu,redhat.com,ti.com,gmail.com,vger.kernel.org];
+	R_DKIM_PERMFAIL(0.00)[siliconsignals.io:s=selector1];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[elgin.perumbilly@siliconsignals.io,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[siliconsignals.io:~];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:from_mime,chromium.org:email,chromium.org:dkim,vger.kernel.org:from_smtp,mail.gmail.com:mid,ideasonboard.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,quotefancy.com:url]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[siliconsignals.io:mid,siliconsignals.io:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 29B0472497C
+X-Rspamd-Queue-Id: CBCBF724D90
 
-Hi Hans
+The following features are supported:
+- Manual exposure and gain control support.
+- vblank/hblank control support.
+- vflip/hflip control support
+- Test pattern control support.
+- mode support 1920 x 1080 @ 30 fps, SBGGR10
 
-On Wed, 1 Jul 2026 at 17:30, Hans de Goede <hansg@kernel.org> wrote:
->
-> Hi Ricardo,
->
-> On 30-Jun-26 16:10, Ricardo Ribalda wrote:
-> > Hi Hans,
-> >
-> > On Tue, 30 Jun 2026 at 15:21, Hans de Goede <hansg@kernel.org> wrote:
-> >>
-> >> Hi Ricardo,
-> >>
-> >> On 30-Jun-26 12:17, Ricardo Ribalda wrote:
-> >>> Hi Hans,
-> >>>
-> >>> Thanks for the prompt reply.
-> >>>
-> >>> On Tue, 30 Jun 2026 at 11:47, Hans de Goede <hansg@kernel.org> wrote:
-> >>>>
-> >>>> Hi Ricardo,
-> >>>>
-> >>>> On 29-Jun-26 19:31, Ricardo Ribalda wrote:
-> >>>>> queue->irqueue contains a list of the buffers owned by the driver. The
-> >>>>> list is protected by queue->irqlock. uvc_queue_get_current_buffer()
-> >>>>> returns a pointer to the current buffer in that list, but does not
-> >>>>> remove the buffer from it. This can lead to race conditions.
-> >>>>>
-> >>>>> Inspecting the code, it seems that the candidate for such race is
-> >>>>> uvc_queue_return_buffers(). For the capture queue, that function is
-> >>>>> called with the device streamoff, so no race can occur. On the other
-> >>>>> hand, the metadata queue, could trigger a race condition, because
-> >>>>> stop_streaming can be called with the device in any streaming state.
-> >>>>>
-> >>>>> We can solve this issue introducing a flag, stream->meta.in_flight,
-> >>>>> protected with a spinlock. When there is a buffer in flight that can
-> >>>>> write into metadata the flag is raised, notifying the stop streaming
-> >>>>> that it needs to wait.
-> >>>>>
-> >>>>> Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>>> Closes: https://lore.kernel.org/linux-media/20250630141707.GG20333@pendragon.ideasonboard.com/
-> >>>>> Cc: stable@vger.kernel.org
-> >>>>> Fixes: 088ead255245 ("media: uvcvideo: Add a metadata device node")
-> >>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >>>>
-> >>>> First of all thank you for looking into fixing this.
-> >>>>
-> >>>> I'm sorry, but this feels more like a band-aid then a proper fix.
-> >>>>
-> >>>> How about adding a started bool to struct uvc_streaming which gets
-> >>>> set to 1 by uvc_video_start_streaming() and 0 by uvc_video_stop_streaming().
-> >>>>
-> >>>> And then call uvc_video_stop_streaming() from either
-> >>>> uvc_stop_streaming_video() or uvc_stop_streaming_meta()
-> >>>> depending on which one gets called first ?
-> >>>>
-> >>>> With a mutex protecting the started bool and being held
-> >>>> over calling uvc_video_stop_streaming() ?
-> >>>>
-> >>>> So stop the actual hw streaming when either of the
-> >>>> 2 possible /dev/video0 nodes gets its vb2_ops.stop_streaming
-> >>>> callback called?
-> >>>>
-> >>>> And to this before draining the buffer queue.
-> >>>>
-> >>>> That seems cleaner then this approach?
-> >>>
-> >>> Assuming /dev/video0 is the video node and /dev/video1 is the meta device.
-> >>>
-> >>> Currently, we support something like:
-> >>>
-> >>> 1) yavta -c /dev/video0 &
-> >>> 2) yavta --capture=2 /dev/video1
-> >>> 3) yavta --capture=2 /dev/video1
-> >>> 4) kill %1
-> >>>
-> >>>
-> >>> If I understood correctly, your proposal would cause the camera to
-> >>> stop streaming when step 2 completes.
-> >>
-> >> Yes. But this very much feels like a case of:
-> >>
-> >> https://quotefancy.com/media/wallpaper/1600x900/5523002-Henny-Youngman-Quote-The-patient-says-Doctor-it-hurts-when-I-do.jpg
-> >
-> > We have a similar joke in Spanish:
-> > Doctor, doctor, it hurts here, here, here, here, here. What do I have?
-> > A broken finger :P
-> >
-> >>
-> >>> I think this risks breaking use cases.
-> >>
-> >> That would have to be some rather convoluted use-case.
-> >
-> > I believe we have a similar scheme to test the metadata node in
-> > ChromeOS... but we can change that.
->
-> That seems unlikely? Either I would expect some app/lib/dameon to
-> do a quick test stream for a few frames at init time to determine metadata
-> support, in which case I would expect streaming on both queues to get
-> stopped after the quick test.
->
-> Or testing is delayed till the first real start-streaming moment in which
-> case it makes no sense to stop + restart the metadata queue. What I guess
-> may happen is stopping the metadata queue when it does not generate any
-> data for a few frames, assuming there simply is no metadata support.
->
-> Hmm, that might actually be a troublesome case.
->
-> > My worry is the outside apps that we do not control.
->
-> Ack, thinking more about this, this might be more likely then
-> I assumed in the non metadata available case, see above.
->
-> So I'm no longer really convinced of my own proposal.
->
-> >> IMHO the simplicity of fixing the race you're trying to fix is
-> >> worth the userspace regression risk (which I deem low).
-> >>
-> >> Worst case we revert the fix and go back to the drawing board.
-> >
-> > Are you concerned of this asymmetric behaviour, or do you think that it is fine?
-> >
-> > open /dev/video0 (streaming starts)
-> > open /dev/video1
-> > close /dev/video1 (streaming stops)
-> > open /dev/video1 (streaming still off)
-> >
-> >
-> > vs
-> >
-> > open /dev/video0 (streaming starts)
-> > open /dev/video1
-> > close /dev/video0 (streaming stops)
-> > open /dev/video0 (streaming resumes)
->
-> That second one actually is broken already, we don't flush
-> the metadata queue on streaming stop on the regular queue, so
-> it will possibly contain a half-filled metadata buffer which
-> we then continue to append to with fresh metadata. So any
-> multi-packet metadata will get corrupted for the first frame
-> in the second stream start in that case.
+The driver is tested on mainline branch v7.0-rc2 on IMX8MP Debix Model a.
 
-Luckily for us, it is currently "kind of" working.
+v4l2-compliance 1.31.0-5387, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 5508bc4301ac 2025-08-25 08:14:22
 
-uvc_stop_streaming_video() -> uvc_video_stop_streaming() ->
-uvc_video_stop_transfer() -> usb_poison_urb()
+Compliance test for device /dev/v4l-subdev3:
 
-This usually (though I do not think always) forces an -ENOENT at the
-URBs callback:
+Driver Info:
+        Driver version   : 7.0.0
+        Capabilities     : 0x00000000
+        Client Capabilities: 0x0000000000000002
+interval-uses-which
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
 
-uvc_video_complete() -> uvc_queue_cancel(qmeta) -> uvc_queue_return_buffers()
+Allow for multiple opens:
+        test second /dev/v4l-subdev3 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
 
-I will send a patch to explicitly call uvc_queue_return_buffers(qmeta)
-in uvc_stop_streaming_video() so we don't have to rely on this
-implicit behavior.
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-But I have a question: Do we *really* need to call
-__uvc_queue_return_buffers() from uvc_queue_cancel() if it is properly
-handled in uvc_stop_streaming_video()?
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-A side effect of relying on the URB cancellation is that we end up
-performing one flush per URB, which is not really needed. For example:
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
 
-41 (1) [-] none 176 5500 B 15166.417603 15166.449738 16.665 fps ts mono/SoE
-42 (2) [-] none 177 5478 B 15166.477640 15166.509783 16.656 fps ts mono/SoE
-43 (3) [-] none 178 5522 B 15166.537639 15166.569758 16.667 fps ts mono/SoE
-44 (4) [E] none 0 0 B 0.000000 15166.599067 -0.000 fps ts mono/SoE
-45 (5) [E] none 0 0 B 0.000000 15166.599115 0.000 fps ts mono/SoE
-46 (6) [E] none 0 0 B 0.000000 15166.599125 0.000 fps ts mono/SoE
-47 (7) [E] none 0 0 B 0.000000 15166.599133 0.000 fps ts mono/SoE
-48 (0) [E] none 0 0 B 0.000000 15166.599141 0.000 fps ts mono/SoE
-49 (1) [E] none 0 0 B 0.000000 15166.599148 0.000 fps ts mono/SoE
-50 (2) [E] none 0 0 B 0.000000 15166.599157 0.000 fps ts mono/SoE
-51 (3) [E] none 0 0 B 0.000000 15166.599167 0.000 fps ts mono/SoE
-52 (4) [E] none 0 0 B 0.000000 15166.599177 0.000 fps ts mono/SoE
-53 (5) [E] none 0 0 B 0.000000 15166.599187 0.000 fps ts mono/SoE
-54 (6) [E] none 0 0 B 0.000000 15166.599197 0.000 fps ts mono/SoE
-55 (7) [E] none 0 0 B 0.000000 15166.599224 0.000 fps ts mono/SoE
-56 (0) [E] none 0 0 B 0.000000 15166.599234 0.000 fps ts mono/SoE
-57 (1) [E] none 0 0 B 0.000000 15166.599243 0.000 fps ts mono/SoE
-58 (2) [E] none 0 0 B 0.000000 15166.599253 0.000 fps ts mono/SoE
-59 (3) [E] none 0 0 B 0.000000 15166.599261 0.000 fps ts mono/SoE
-60 (4) [E] none 0 0 B 0.000000 15166.599269 0.000 fps ts mono/SoE
-61 (5) [E] none 0 0 B 0.000000 15166.599278 0.000 fps ts mono/SoE
-62 (6) [E] none 0 0 B 0.000000 15166.599462 0.000 fps ts mono/SoE
-63 (7) [E] none 0 0 B 0.000000 15166.599485 0.000 fps ts mono/SoE
-64 (0) [E] none 0 0 B 0.000000 15166.599497 0.000 fps ts mono/SoE
-65 (1) [E] none 0 0 B 0.000000 15166.599510 0.000 fps ts mono/SoE
-66 (2) [E] none 0 0 B 0.000000 15166.599521 0.000 fps ts mono/SoE
-67 (3) [E] none 0 0 B 0.000000 15166.599528 0.000 fps ts mono/SoE
-68 (4) [E] none 0 0 B 0.000000 15166.599538 0.000 fps ts mono/SoE
-69 (5) [E] none 0 0 B 0.000000 15166.599548 0.000 fps ts mono/SoE
-70 (6) [E] none 0 0 B 0.000000 15166.599557 0.000 fps ts mono/SoE
-71 (7) [E] none 0 0 B 0.000000 15166.599567 0.000 fps ts mono/SoE
-72 (0) [E] none 0 0 B 0.000000 15166.599576 0.000 fps ts mono/SoE
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
 
->
-> In hindsight having the metadata queue be a fully independent
-> queue without clearly defining how start/stop on both queues
-> works and enforcing the defined behavior at the driver level
-> was a mistake.
->
-> I'm starting to think that ideally we would simply flush both
-> queues on the stop on the regular node and not have a stop
-> queue-op on the metadata queue at all, but that is not possible
-> I'm afraid.
->
-> So I think we do need something like this series +
-> flush metadata-queue on regular queue stop.
->
-> I'll try to make some time to review this series as is, since
-> although the waiting solution still feels ugly it may be the
-> best we can do.
->
-> Regards,
->
-> Hans
->
->
->
->
->
-> >
-> >
-> >>
-> >>> As I see it, the issue is that the camera's live capture cycle is
-> >>> controlled solely by video0. We need some kind of synchronization
-> >>> mechanism with video1 if we do not want to change the behaviour and
-> >>> risk breaking apps.
-> >>
-> >> IMHO for a device with multiple /dev/video# nodes it makes sense
-> >> to wait with actually starting streaming/DMA-engines until all
-> >> enabled queues are started and stop when the first queue is stopped.
-> >>
-> >> The problem with uvcvideo is that we do not know if the metadata
-> >> queue is going to get used at all. In hindsight we should maybe
-> >> have had some way for userspace to explictly enable/disable metadata
-> >> support.
-> >>
-> >> So we start as soon as the main video node is opened, still I think
-> >> that stopping as soon as one of the queues is stopped makes sense.
-> >>
-> >> Laurent, do you have any input here?
-> >>
-> >> Regards,
-> >>
-> >> Hans
-> >>
-> >>
-> >>
-> >>
-> >>>> p.s.
-> >>>>
-> >>>> 1. It is tempting to also apply the same approach to
-> >>>> vb2_ops.start_streaming, but allowing the meta queue to be
-> >>>> the one to start streaming will likely cause issues. E.g.
-> >>>> the streaming code assumes having a meta-queue active is
-> >>>> optional, but not the other way around.
-> >>>>
-> >>>> TL;DR: vb2_ops.start_streaming should stay as is.
-> >>>>
-> >>>> 2. While looking into this I noticed that struct uvc_streaming
-> >>>> already has an active member, but unless I'm missing something
-> >>>> that ever only gets initialized to 0. So I think that can be
-> >>>> dropped. (If you re-use this please change it to a bool, no
-> >>>> need to have it atomic while protected by a mutex).
-> >>>
-> >>> I will send a patch to fix this. Thanks for noticing :)
-> >>>
-> >>>>
-> >>>>
-> >>>>
-> >>>>> ---
-> >>>>>  drivers/media/usb/uvc/uvc_queue.c | 14 ++++++++++++++
-> >>>>>  drivers/media/usb/uvc/uvc_video.c | 30 +++++++++++++++++++++++++++++-
-> >>>>>  drivers/media/usb/uvc/uvcvideo.h  |  2 ++
-> >>>>>  3 files changed, 45 insertions(+), 1 deletion(-)
-> >>>>>
-> >>>>> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> >>>>> index 3c002c8f442f..af9dbfcf6f53 100644
-> >>>>> --- a/drivers/media/usb/uvc/uvc_queue.c
-> >>>>> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> >>>>> @@ -209,10 +209,24 @@ static void uvc_stop_streaming_video(struct vb2_queue *vq)
-> >>>>>  static void uvc_stop_streaming_meta(struct vb2_queue *vq)
-> >>>>>  {
-> >>>>>       struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> >>>>> +     struct uvc_streaming *stream = queue->stream;
-> >>>>>
-> >>>>>       lockdep_assert_irqs_enabled();
-> >>>>>
-> >>>>> +     spin_lock_irq(&stream->meta.irqlock);
-> >>>>> +     while (stream->meta.in_flight) {
-> >>>>> +             spin_unlock_irq(&stream->meta.irqlock);
-> >>>>> +             schedule();
-> >>>>> +             spin_lock_irq(&stream->meta.irqlock);
-> >>>>> +     }
-> >>>>> +     stream->meta.in_flight = true;
-> >>>>> +     spin_unlock_irq(&stream->meta.irqlock);
-> >>>>> +
-> >>>>>       uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
-> >>>>> +
-> >>>>> +     scoped_guard(spinlock_irq, &stream->meta.irqlock) {
-> >>>>> +             stream->meta.in_flight = false;
-> >>>>> +     }
-> >>>>>  }
-> >>>>>
-> >>>>>  static const struct vb2_ops uvc_queue_qops = {
-> >>>>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> >>>>> index fc3536a4399f..f6b55b3a3308 100644
-> >>>>> --- a/drivers/media/usb/uvc/uvc_video.c
-> >>>>> +++ b/drivers/media/usb/uvc/uvc_video.c
-> >>>>> @@ -1732,6 +1732,26 @@ static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
-> >>>>>       urb->transfer_buffer_length = stream->urb_size - len;
-> >>>>>  }
-> >>>>>
-> >>>>> +static struct uvc_buffer *
-> >>>>> +uvc_video_get_current_meta_buffer(struct uvc_streaming *stream)
-> >>>>> +{
-> >>>>> +     struct uvc_video_queue *queue = &stream->meta.queue;
-> >>>>> +     struct uvc_buffer *buf;
-> >>>>> +
-> >>>>> +     buf = uvc_queue_get_current_buffer(queue);
-> >>>>> +     if (!buf)
-> >>>>> +             return NULL;
-> >>>>> +
-> >>>>> +     guard(spinlock_irqsave)(&stream->meta.irqlock);
-> >>>>> +
-> >>>>> +     if (stream->meta.in_flight)
-> >>>>> +             return NULL;
-> >>>>> +
-> >>>>> +     stream->meta.in_flight = true;
-> >>>>> +
-> >>>>> +     return buf;
-> >>>>> +}
-> >>>>> +
-> >>>>>  static void uvc_video_complete(struct urb *urb)
-> >>>>>  {
-> >>>>>       struct uvc_urb *uvc_urb = urb->context;
-> >>>>> @@ -1767,7 +1787,7 @@ static void uvc_video_complete(struct urb *urb)
-> >>>>>       buf = uvc_queue_get_current_buffer(queue);
-> >>>>>
-> >>>>>       if (vb2_qmeta)
-> >>>>> -             buf_meta = uvc_queue_get_current_buffer(qmeta);
-> >>>>> +             buf_meta = uvc_video_get_current_meta_buffer(stream);
-> >>>>>
-> >>>>>       /* Re-initialise the URB async work. */
-> >>>>>       uvc_urb->async_operations = 0;
-> >>>>> @@ -1778,6 +1798,12 @@ static void uvc_video_complete(struct urb *urb)
-> >>>>>        */
-> >>>>>       stream->decode(uvc_urb, buf, buf_meta);
-> >>>>>
-> >>>>> +     if (buf_meta) {
-> >>>>> +             scoped_guard(spinlock_irqsave, &stream->meta.irqlock) {
-> >>>>> +                     stream->meta.in_flight = false;
-> >>>>> +             }
-> >>>>> +     }
-> >>>>> +
-> >>>>>       /* If no async work is needed, resubmit the URB immediately. */
-> >>>>>       if (!uvc_urb->async_operations) {
-> >>>>>               ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
-> >>>>> @@ -2330,6 +2356,8 @@ int uvc_video_init(struct uvc_streaming *stream)
-> >>>>>       for_each_uvc_urb(uvc_urb, stream)
-> >>>>>               INIT_WORK(&uvc_urb->work, uvc_video_copy_data_work);
-> >>>>>
-> >>>>> +     spin_lock_init(&stream->meta.irqlock);
-> >>>>> +
-> >>>>>       return 0;
-> >>>>>  }
-> >>>>>
-> >>>>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> >>>>> index b6bcee4a222f..6f1a3381d392 100644
-> >>>>> --- a/drivers/media/usb/uvc/uvcvideo.h
-> >>>>> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> >>>>> @@ -484,6 +484,8 @@ struct uvc_streaming {
-> >>>>>               struct uvc_video_queue queue;
-> >>>>>               u32 format;
-> >>>>>               u32 buffersize;
-> >>>>> +             bool in_flight;
-> >>>>> +             spinlock_t irqlock; /* Protects in_flight. */
-> >>>>>       } meta;
-> >>>>>
-> >>>>>       /* Context data used by the bulk completion handler. */
-> >>>>>
-> >>>>
-> >>>
-> >>>
-> >>
-> >
-> >
->
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+        test blocking wait: OK (Not Supported)
+
+Total for device /dev/v4l-subdev3: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+V4 -> V5
+
+Patch 1/2:
+- Correct typos.
+
+Patch 2/2
+- Remove the data lane check, as the sensor only supports two lanes.
+- Fix the error path in os02g10_parse_endpoint().
+- Remove the error message from the clk_prepare_enable path.
+
+V3 -> V4
+
+Patch 1/2:
+- Add the required endpoint.
+- Carry Vladimir's Reviewed-by tag.
+
+Patch 2/2:
+- Address small review comments from Vladimir and Sakari.
+- Drop Patch 3/3 as suggested by Sakari.
 
 
--- 
-Ricardo Ribalda
+V2 -> V3
+
+Patch 1/3:
+- Drop the fixed data-lanes property, as the sensor supports only a 2-lane MIPI interface.
+
+Patch 2/3:
+- Use regmap paging features for page selection.
+- Use sd instead of _sd.
+- Remove an extra blank line.
+- Remove hblank control, as it is not used to set hblank on this sensor.
+- Remove an unnecessary error check.
+- Reduce the scope of the ret variable in os02g10_set_pad_format().
+- Rely on the control value for link_freq_index.
+- Call os02g10_parse_endpoint() before initializing regulators, GPIOs, and the clock in probe().
+
+Add new Patch 3/3:
+- Add dynamic mode configuration instead of using a hardcoded specific mode, as suggested by Laurent.
+
+V1 -> V2
+
+patch 1/2:
+- Corrected $id to ovti,os02g10.yaml
+- Fixed data-lanes property structure to use proper items format
+
+patch 2/2:
+- Mode-specific register writes handled dynamically.
+- Moved page 2 registers into a dedicated page 2 block.
+- Used pm_runtime_get_if_active() in set_ctrls.
+- Resolved negative hblank issue.
+- Improved error messages in disable_stream.
+- Updated V4L2_SEL_TGT_CROP and V4L2_SEL_TGT_CROP_BOUNDS.
+- Added my name to the author list.
+
+Elgin Perumbilly (2):
+  dt-bindings: media: i2c: Add os02g10 sensor
+  media: i2c: add os02g10 image sensor driver
+
+ .../bindings/media/i2c/ovti,os02g10.yaml      |  94 ++
+ MAINTAINERS                                   |   8 +
+ drivers/media/i2c/Kconfig                     |  10 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/os02g10.c                   | 932 ++++++++++++++++++
+ 5 files changed, 1045 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,os02g10.yaml
+ create mode 100644 drivers/media/i2c/os02g10.c
+
+--
+2.34.1
+
 
