@@ -1,191 +1,496 @@
-Return-Path: <linux-media+bounces-67092-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67094-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4u9GBy4WT2o4aQIAu9opvQ
-	(envelope-from <linux-media+bounces-67092-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 05:31:58 +0200
+	id L3wgE9okT2qRbAIAu9opvQ
+	(envelope-from <linux-media+bounces-67094-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 06:34:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83FE72C4D2
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 05:31:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D0272C90F
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 06:34:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20201202 header.b=FNih6mKO;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67092-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67092-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=lWfj69Q1;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67094-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67094-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B9EBF304EB83
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 03:30:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D9D9F302EA8C
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 04:34:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ADDB3911BC;
-	Thu,  9 Jul 2026 03:30:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 752BA3A1E81;
+	Thu,  9 Jul 2026 04:34:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6F03431E7;
-	Thu,  9 Jul 2026 03:30:55 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783567855; cv=none; b=rWJtO55w9JiLNYGKj8rhUmadxjOtzamT04QXxy071E+8meGoCJDk9XJ8TOu3+P/meD5AMOm0T3joa63cW+aucVMUnQE9uNRxiaT5usDMMR97hal5iDPZFTa7oneatsJ96fMTZVj5cA03Brmqr8WyFpUZDdiqKKJo2DMFHZpeckY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783567855; c=relaxed/simple;
-	bh=vebU/IOSL4arCI7BNVBZ9A6pu8AqsIlGnYCcT/LYqyw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gyMlTqttWTsMydyoG4a+sWO6o9ViQ/KKGwwIjsgmJez1OIRCAjASh/J3L2UNjUkRkRlhkZidZRiWj8i5qNztFMxBwUHTwAGhGo3D2pT32OeryO+qGeB8I/lrUHS9VKqO8TztzLZSBXEZnBFars/qdEOnFC+3Hfmx6CWQ6cl08OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNih6mKO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 24259C2BCB9;
-	Thu,  9 Jul 2026 03:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1783567855;
-	bh=vebU/IOSL4arCI7BNVBZ9A6pu8AqsIlGnYCcT/LYqyw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FNih6mKOnim7IzfeF9w40FWC2YVy7YFGbqdwFNaB89oTloaCZv176GZ2oMSDZ7HgR
-	 iOld8xZpY7mldKeMCSPszmSylJo43ViIX3KqoBixhbzxTBoSpr0AXucqw4ICK3hndq
-	 Br3AKj+pEtcpCYk3TKaBsMxOz6UP1TOfQ3ne5/PPNfXB01gVid/tnqoT7B3uRKSvxB
-	 6joXb2aPi4TxzSazc5FhAODmBlZx4Kkp5bB5nxgSHb/iVPx3Xf5DFTYsV6YwZQw56R
-	 LNDmNd93+OimwxedSS3rgH5vZoCAfbwbcfKwXs4YBPQyZATBxvW1VpxvQx1eE1+YSQ
-	 5jECuMexr6d2Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 079F5C44506;
-	Thu,  9 Jul 2026 03:30:55 +0000 (UTC)
-From: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>
-Date: Thu, 09 Jul 2026 03:30:52 +0000
-Subject: [PATCH v2 2/2] arm64: dts: amlogic: a9: Add IR controller support
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420D62701D9
+	for <linux-media@vger.kernel.org>; Thu,  9 Jul 2026 04:34:24 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783571665; cv=pass; b=IC+A3nxe3tUkvVGYFSGqV0FWrl8BVgK+femXhblAvroujHOyn1e09PwWQSLy/T6ExtK61sbSR6crNzq5yRLM1vHMKdYKGtu6oyqm6ItGZYMEcQ8ur3uCM4H2/x0dGlxPK/3kSQd6NjGE8So+GSDAXmUcSqaI79CTY7l73H2dDGM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783571665; c=relaxed/simple;
+	bh=Xb/+x0K2HXIg+20+Or3W3rwEtW/sdi5K90Jo0JKmC08=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bBXXMJGd3HLhENpRSHaFhBDClti6CtRYxd+rfaV/n8IOu04yQIm49MqYUlVBEgDcsrahNt28o9hCJGG0Yfn5xr+0c2La+wy+YS3eb36pEb3cDDe7OdXmOjGzlA3cHUbVfELo11zttW7lhwzJBehSpZz19Fg+duepFnpggl9novQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lWfj69Q1; arc=pass smtp.client-ip=209.85.161.49
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6a1840edbabso249739eaf.1
+        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 21:34:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783571663; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OMK13UlxhffTN/BbUGhm4HjozY5QOBd1QRqQ+09+ZOP64d6TKZyzSZPegj/RIb/XTk
+         9jY4ZO6ttCASCzjWUYvELefR81p+6moAAXerDZhcWd+1LuXCuS+slPnAHJmfHLt1nGOC
+         r/vTuLnxZH+1hEA3Tu38WXMEgh+yZNTEsrfMLTWVMySzulKXGPAbSbHZnynmB0VuL0z/
+         3O7p+DrVmf7atQNbNxMqClMwsJTd/Fij1PGGDodcIbekzTGovqz19egwhj26dhoeI1LY
+         KHeyJ/wSE0+LzJwsdv4SPz4sc1sZtf6KDf2NyZxJ0kL5cYbh9g54ABs+mLsfTEvcjMkd
+         DV1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=y+5mi5LqTF73iewEa2F/cq/mCI++zy608mfHssXjHys=;
+        fh=NXDP5mrkTbBNzIl3CSB4DYq1eVPy83LvLeCmswdiENg=;
+        b=GWccbX2VZA7crvf0910NRhBgmi78g6ahTWo3UapjYSRIMY5bEgmn40PkzLcUc62iw2
+         zQDqfMAP5C8WhQQ4m6pxbpeFAaUWx5CI7osDzl4C1ThNDIlHaLEE4fvcFOAGcoCn0S2y
+         40IkBRZcGComNSoWzhqxBpdk1uK/GvhY20o8OvNz5UYd2dQednCS7adk7WWqlfpBo14k
+         E6n4VLQd/1xnpJoEtY/B4VMmnEFYV5Wzu1QSREqNeVR/TicdczQUKkTEx9beLESZzk9J
+         8bIJ8in1GJGvAzj4RVUbBD+HIGbSXwHK6YmpMMt1yTFD2jyFSKZG6RxJEbS9uFhYwGf0
+         krRg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783571663; x=1784176463; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=y+5mi5LqTF73iewEa2F/cq/mCI++zy608mfHssXjHys=;
+        b=lWfj69Q1c4RLX/y/W9qIQBXgYBDJvhDrMX+jzfkfdv4iAjezimMZWSBA8MUZddMJrD
+         W6HJMbaRZLXuIM7dsxTCQpRQUapz0SfIBhNeeF3WwXrQNIKuZgWdt83YZj61LWIwodVL
+         kgVjdW7nZ7W+w9VuG+ZFBtA8VVmcFtjAFL8qywThuKMslDyjLqAS1eL40GxqtnxvhT/T
+         F0yu42J3cb68UMEFtF/EGyTNjbAKkrRXTr20sdv0W2QYnCBTmOALsLvppd58WaOQosag
+         rVIeDf4ZsjmWXJbxs2OaY4VX2ej27zZvsZY9hRsNCOwEljQgxp8wWLzR0998J1cBRpRU
+         Q1FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783571663; x=1784176463;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y+5mi5LqTF73iewEa2F/cq/mCI++zy608mfHssXjHys=;
+        b=RoQsE29SEjnt+Uy2qqZwA+bzIzTv0ahfQr8L7xzwnHc24DwSngDEQKqTjLFW2oQfOS
+         jxKkIXcaWysRunJFu0sybDSdo0WZEjpdIltWMV/JQjzEUg7t/L//PdlDqwojxRtL3jXQ
+         p58fLaQLVTRsPoI1ZEfDAcyjs4A/f+ATvZQDOxvI3OhTsU2DYnUnsqjQRXPI4QfvEpXd
+         2oBdBGCnkWwbVT1LRyT4/Hfi152d641zYdm0naDFs1B2JUOEGKlPaTcxxf0kID4QFp1w
+         ooRbEOO0itvR5cP3wYCcNy211iiFEi0/JK+kCFrxeis3QkWEd0msxYUgTX8FJ5bu1Ds5
+         gIzA==
+X-Gm-Message-State: AOJu0YzxH5YUtY9jhof+3Ug/ZhsKLqkOx/rA8ICvamSneMueuZzTgphk
+	/13867B7y/R3PiZ2jSE1Fy41jysT7ZqOqy+PxE6rNzPX76a53ND24gggyPMbAkKiQmew8TQS1JJ
+	1u430ruRdf72n54wVEdb2/g853+AUC3k=
+X-Gm-Gg: AfdE7ckPss0XFqMvXAikl9vLxHPo+waq2hWWi9/Flz5n1q73QaeU+L6RxK7UfmupTxU
+	PDAAmhyBQgkkPqjAU5mdJ0KMMPyDWvyE0/O5QFuRlNkdgetnj5EI3ZaoDGtUAvMvuWBWNdZ0G54
+	VAoMVGeQR1dA7j8zBsRpzjK4JkabD+E2/JWd1syDwPPiXvHIVaBmvpRtkSRJbhApJBTAk7HUlsm
+	Zo8ijnNA6CC+JCRJ2vJkiO8FyariQuKgQrTOydR1TIixN8fqCtOrL5qJz8EPjBNZwYsbj7xz8zv
+	CBiRoPt2vEZMp66zO92KdxHLWq6BGwdzrM4cyUABWY/1nvGBwKZJZz6b
+X-Received: by 2002:a05:6820:1351:b0:6a1:83a4:8175 with SMTP id
+ 006d021491bc7-6a37d979bf7mr1046031eaf.27.1783571662872; Wed, 08 Jul 2026
+ 21:34:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260709-a9-ir-v2-2-42c21d7a6ffc@amlogic.com>
-References: <20260709-a9-ir-v2-0-42c21d7a6ffc@amlogic.com>
-In-Reply-To: <20260709-a9-ir-v2-0-42c21d7a6ffc@amlogic.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Xianwei Zhao <xianwei.zhao@amlogic.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783567853; l=2027;
- i=xianwei.zhao@amlogic.com; s=20251216; h=from:subject:message-id;
- bh=33MzL3Cv7uhjfti4gs/DqpQ4WXJtnpUBkHN5kst4OOM=;
- b=8SnUZjwxz3vAI+j4FX/PVcpN9cL+yAwjXwLL0gpEZn0ZorSBb+bG2CooNlUssjFmYrLhfscJx
- AEqPwtaNpmrAD2TsJBGMMgTWEItCxlcP6aIuRyMiUIGo1OVCVERRVWe
-X-Developer-Key: i=xianwei.zhao@amlogic.com; a=ed25519;
- pk=dWwxtWCxC6FHRurOmxEtr34SuBYU+WJowV/ZmRJ7H+k=
-X-Endpoint-Received: by B4 Relay for xianwei.zhao@amlogic.com/20251216 with
- auth_id=578
-X-Original-From: Xianwei Zhao <xianwei.zhao@amlogic.com>
-Reply-To: xianwei.zhao@amlogic.com
+References: <20260214050943.6306-1-arash.golgol@gmail.com> <afx-yCUZAvWfMNEe@collins>
+In-Reply-To: <afx-yCUZAvWfMNEe@collins>
+From: arash golgol <arash.golgol@gmail.com>
+Date: Thu, 9 Jul 2026 08:04:13 +0330
+X-Gm-Features: AUfX_mzXA53liaYn69cbaIPlddhq3zUcVGLrtRT5LMMElHdHeEB_6JlBdeHn1d4
+Message-ID: <CAMxPZkia0_xHtaQfcfmizPz_AX-tLA7g+nC2FhgKtATiMUkfLA@mail.gmail.com>
+Subject: Re: [PATCH v3] media: sun6i-mipi-csi2: Use V4L2 subdev active state
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org, wens@kernel.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67092-lists,linux-media=lfdr.de,xianwei.zhao.amlogic.com];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-amlogic@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:xianwei.zhao@amlogic.com,m:krzk@kernel.org,m:conor@kernel.org,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,linaro.org,baylibre.com,googlemail.com];
-	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67094-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,sholland.org,lists.linux.dev,ideasonboard.com];
+	FORGED_RECIPIENTS(0.00)[m:paulk@sys-base.io,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:linux-sunxi@lists.linux.dev,m:laurent.pinchart@ideasonboard.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[xianwei.zhao@amlogic.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amlogic.com:replyto,amlogic.com:mid,amlogic.com:email]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,vger.kernel.org:from_smtp,ideasonboard.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A83FE72C4D2
+X-Rspamd-Queue-Id: A7D0272C90F
 
-From: Xianwei Zhao <xianwei.zhao@amlogic.com>
+Hi,
 
-Add the IR controller node for the Amlogic A9 SoC and describe the
-corresponding remote input pin configuration.
+On Thu, May 7, 2026 at 3:30=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.io=
+> wrote:
+>
+> Hi Arash,
+>
+> Le Sat 14 Feb 26, 08:39, Arash Golgol a =C3=A9crit :
+> > Use the V4L2 subdev active state API to store the active format.
+> > This simplifies the driver not only by dropping the bridge mbus_format
+> > field, but it also allows dropping the bridge lock, replaced with
+> > the state lock.
+> >
+> > The sun6i-mipi-csi2 hardware does not perform any format conversion.
+> > Enforce identical formats on the sink and source pads in the set_fmt()
+> > and init_state() callbacks.
+> >
+> > Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> Looks very good. Feel free to let me know if you'd like to do the same
+> with A83T (I could test it on my side), otherwise I will take a look at
+> it later. The driver has essentially exactly the same structure.
+>
+> Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+> Tested-by: Paul Kocialkowski <paulk@sys-base.io>
 
-Enable the IR controller on the Amlogic A9 A311Y3 BY401 board with the
-proper pinctrl setting.
+This is a gentle ping for this patch.
+As far as I understand, the patch has received the required reviews and tes=
+ting.
+If there are no remaining issues, could it be considered for merging?
 
-Signed-off-by: Xianwei Zhao <xianwei.zhao@amlogic.com>
----
- arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts |  6 ++++++
- arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi             | 14 ++++++++++++++
- 2 files changed, 20 insertions(+)
+> All the best,
+>
+> Paul
+>
+> > ---
+> > Changes in v3:
+> >     - link to v2: https://patchwork.kernel.org/project/linux-media/patc=
+h/20260209055529.16644-1-arash.golgol@gmail.com/
+> >     - Keep error path jumping to error_v4l2_notifier_cleanup on
+> >     bridge setup failure
+> >
+> > Changes in v2:
+> >     - link to v1: https://patchwork.kernel.org/project/linux-media/patc=
+h/20260206123455.46476-1-arash.golgol@gmail.com/
+> >     - Simplify control flow by dropping the else at end of s_stream()
+> >     - Call v4l2_subdev_cleanup() on bridge setup failure before
+> >     notifier registration
+> >
+> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 +++++++++---------
+> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
+> >  2 files changed, 53 insertions(+), 56 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_cs=
+i2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> > index b06cb73015cd..682bdd82098c 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> > @@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mi=
+pi_csi2_device *csi2_dev)
+> >                          SUN6I_MIPI_CSI2_CTL_EN, 0);
+> >  }
+> >
+> > -static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *c=
+si2_dev)
+> > +static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *c=
+si2_dev,
+> > +                                    const struct v4l2_mbus_framefmt *m=
+bus_format)
+> >  {
+> >       struct regmap *regmap =3D csi2_dev->regmap;
+> >       unsigned int lanes_count =3D
+> >               csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus=
+_format;
+> >       const struct sun6i_mipi_csi2_format *format;
+> >       struct device *dev =3D csi2_dev->dev;
+> >       u32 version =3D 0;
+> > @@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >       struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_sub=
+dev;
+> >       union phy_configure_opts dphy_opts =3D { 0 };
+> >       struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi=
+_dphy;
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus=
+_format;
+> > +     struct v4l2_subdev_state *state;
+> > +     const struct v4l2_mbus_framefmt *mbus_format;
+> >       const struct sun6i_mipi_csi2_format *format;
+> >       struct phy *dphy =3D csi2_dev->dphy;
+> >       struct device *dev =3D csi2_dev->dev;
+> > @@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_su=
+bdev *subdev, int on)
+> >       unsigned long pixel_rate;
+> >       int ret;
+> >
+> > -     if (!source_subdev)
+> > -             return -ENODEV;
+> > +     state =3D v4l2_subdev_lock_and_get_active_state(subdev);
+> > +
+> > +     if (!source_subdev) {
+> > +             ret =3D -ENODEV;
+> > +             goto unlock;
+> > +     }
+> >
+> >       if (!on) {
+> >               v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> > @@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >
+> >       ret =3D pm_runtime_resume_and_get(dev);
+> >       if (ret < 0)
+> > -             return ret;
+> > +             goto unlock;
+> >
+> >       /* Sensor Pixel Rate */
+> >
+> > @@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >               goto error_pm;
+> >       }
+> >
+> > +     mbus_format =3D v4l2_subdev_state_get_format(state,
+> > +                                                SUN6I_MIPI_CSI2_PAD_SI=
+NK);
+> >       format =3D sun6i_mipi_csi2_format_find(mbus_format->code);
+> >       if (WARN_ON(!format)) {
+> >               ret =3D -ENODEV;
+> > @@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >
+> >       /* Controller */
+> >
+> > -     sun6i_mipi_csi2_configure(csi2_dev);
+> > +     sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
+> >       sun6i_mipi_csi2_enable(csi2_dev);
+> >
+> >       /* D-PHY */
+> > @@ -277,7 +284,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >       if (ret && ret !=3D -ENOIOCTLCMD)
+> >               goto disable;
+> >
+> > -     return 0;
+> > +     ret =3D 0;
+> > +     goto unlock;
+> >
+> >  disable:
+> >       phy_power_off(dphy);
+> > @@ -286,6 +294,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+> >  error_pm:
+> >       pm_runtime_put(dev);
+> >
+> > +unlock:
+> > +     v4l2_subdev_unlock_state(state);
+> >       return ret;
+> >  }
+> >
+> > @@ -308,21 +318,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_m=
+bus_framefmt *mbus_format)
+> >  static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+> >                                     struct v4l2_subdev_state *state)
+> >  {
+> > -     struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
+ubdev);
+> > -     unsigned int pad =3D SUN6I_MIPI_CSI2_PAD_SINK;
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D
+> > -             v4l2_subdev_state_get_format(state, pad);
+> > -     struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > +     unsigned int pad;
+> >
+> > -     mutex_lock(lock);
+> > +     /*
+> > +      * This subdev does not perform format conversion,
+> > +      * initialize both pads identically.
+> > +      */
+> > +     for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
+> > +             struct v4l2_mbus_framefmt *mbus_format;
+> >
+> > -     mbus_format->code =3D sun6i_mipi_csi2_formats[0].mbus_code;
+> > -     mbus_format->width =3D 640;
+> > -     mbus_format->height =3D 480;
+> > +             mbus_format =3D v4l2_subdev_state_get_format(state, pad);
+> >
+> > -     sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +             mbus_format->code =3D sun6i_mipi_csi2_formats[0].mbus_cod=
+e;
+> > +             mbus_format->width =3D 640;
+> > +             mbus_format->height =3D 480;
+> >
+> > -     mutex_unlock(lock);
+> > +             sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +     }
+> >
+> >       return 0;
+> >  }
+> > @@ -340,53 +352,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev=
+ *subdev,
+> >       return 0;
+> >  }
+> >
+> > -static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+> > -                                struct v4l2_subdev_state *state,
+> > -                                struct v4l2_subdev_format *format)
+> > -{
+> > -     struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
+ubdev);
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> > -     struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > -
+> > -     mutex_lock(lock);
+> > -
+> > -     if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> > -             *mbus_format =3D *v4l2_subdev_state_get_format(state,
+> > -                                                          format->pad)=
+;
+> > -     else
+> > -             *mbus_format =3D csi2_dev->bridge.mbus_format;
+> > -
+> > -     mutex_unlock(lock);
+> > -
+> > -     return 0;
+> > -}
+> > -
+> >  static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+> >                                  struct v4l2_subdev_state *state,
+> >                                  struct v4l2_subdev_format *format)
+> >  {
+> > -     struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(s=
+ubdev);
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> > -     struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > +     struct v4l2_mbus_framefmt *fmt;
+> >
+> > -     mutex_lock(lock);
+> > +     /* The format on the source pad always matches the sink pad. */
+> > +     if (format->pad !=3D SUN6I_MIPI_CSI2_PAD_SINK)
+> > +             return v4l2_subdev_get_fmt(subdev, state, format);
+> >
+> > -     sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +     sun6i_mipi_csi2_mbus_format_prepare(&format->format);
+> >
+> > -     if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> > -             *v4l2_subdev_state_get_format(state, format->pad) =3D
+> > -                     *mbus_format;
+> > -     else
+> > -             csi2_dev->bridge.mbus_format =3D *mbus_format;
+> > +     /* Set the format on the sink pad. */
+> > +     fmt =3D v4l2_subdev_state_get_format(state, format->pad);
+> > +     *fmt =3D format->format;
+> >
+> > -     mutex_unlock(lock);
+> > +     /* Propagate the format to the source pad. */
+> > +     fmt =3D v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_S=
+OURCE);
+> > +     *fmt =3D format->format;
+> >
+> >       return 0;
+> >  }
+> >
+> >  static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops =3D {
+> >       .enum_mbus_code =3D sun6i_mipi_csi2_enum_mbus_code,
+> > -     .get_fmt        =3D sun6i_mipi_csi2_get_fmt,
+> > +     .get_fmt        =3D v4l2_subdev_get_fmt,
+> >       .set_fmt        =3D sun6i_mipi_csi2_set_fmt,
+> >  };
+> >
+> > @@ -502,8 +493,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6=
+i_mipi_csi2_device *csi2_dev)
+> >       bool notifier_registered =3D false;
+> >       int ret;
+> >
+> > -     mutex_init(&bridge->lock);
+> > -
+> >       /* V4L2 Subdev */
+> >
+> >       v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+> > @@ -532,6 +521,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun=
+6i_mipi_csi2_device *csi2_dev)
+> >       if (ret)
+> >               return ret;
+> >
+> > +     /* V4L2 Subdev finalize */
+> > +
+> > +     ret =3D v4l2_subdev_init_finalize(subdev);
+> > +     if (ret < 0)
+> > +             goto error_media_entity_cleanup;
+> > +
+> >       /* V4L2 Async */
+> >
+> >       v4l2_async_subdev_nf_init(notifier, subdev);
+> > @@ -565,6 +560,9 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6=
+i_mipi_csi2_device *csi2_dev)
+> >  error_v4l2_notifier_cleanup:
+> >       v4l2_async_nf_cleanup(notifier);
+> >
+> > +     v4l2_subdev_cleanup(subdev);
+> > +
+> > +error_media_entity_cleanup:
+> >       media_entity_cleanup(&subdev->entity);
+> >
+> >       return ret;
+> > @@ -579,6 +577,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_cs=
+i2_device *csi2_dev)
+> >       v4l2_async_unregister_subdev(subdev);
+> >       v4l2_async_nf_unregister(notifier);
+> >       v4l2_async_nf_cleanup(notifier);
+> > +     v4l2_subdev_cleanup(subdev);
+> >       media_entity_cleanup(&subdev->entity);
+> >  }
+> >
+> > diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_cs=
+i2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> > index 24b15e34b5e8..d72dfbd6a993 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> > +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> > @@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
+> >       struct media_pad                pads[SUN6I_MIPI_CSI2_PAD_COUNT];
+> >       struct v4l2_fwnode_endpoint     endpoint;
+> >       struct v4l2_async_notifier      notifier;
+> > -     struct v4l2_mbus_framefmt       mbus_format;
+> > -     struct mutex                    lock; /* Mbus format lock. */
+> >
+> >       struct v4l2_subdev              *source_subdev;
+> >  };
+> > --
+> > 2.34.1
+> >
+>
+> --
+> Paul Kocialkowski,
+>
+> Independent contractor - sys-base - https://www.sys-base.io/
+> Free software developer - https://www.paulk.fr/
+>
+> Expert in multimedia, graphics and embedded hardware support with Linux.
 
-diff --git a/arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts b/arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts
-index a6b380ca47a5..389c9de3dc3c 100644
---- a/arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts
-+++ b/arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts
-@@ -38,3 +38,9 @@ secmon_reserved: secmon@5000000 {
- &uart_b {
- 	status = "okay";
- };
-+
-+&ir {
-+	status = "okay";
-+	pinctrl-0 = <&remote_input_ao_pins>;
-+	pinctrl-names = "default";
-+};
-diff --git a/arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi b/arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi
-index b0e0fadeed82..aa89b31bfe30 100644
---- a/arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi
-@@ -241,6 +241,13 @@ test_n: gpio@c0 {
- 					#gpio-cells = <2>;
- 					gpio-ranges = <&aobus_pinctrl 0 (AMLOGIC_GPIO_TEST_N<<8) 1>;
- 				};
-+
-+				func-ir-in {
-+						remote_input_ao_pins: group-remote-input-ao-pins {
-+						pinmux = <AML_PINMUX(AMLOGIC_GPIO_D, 5, 1)>;
-+						bias-disable;
-+					};
-+				};
- 			};
- 
- 			gpio_ao_intc: interrupt-controller@4080 {
-@@ -254,6 +261,13 @@ gpio_ao_intc: interrupt-controller@4080 {
- 					394 395 396 397 398 399 400 401 402 403>;
- 			};
- 
-+			ir: ir@14080 {
-+				compatible = "amlogic,a9-ir", "amlogic,meson-s4-ir";
-+				reg = <0x0 0x14080 0x0 0x30>;
-+				interrupts = <GIC_SPI 413 IRQ_TYPE_EDGE_RISING>;
-+				status = "disabled";
-+			};
-+
- 			uart_b: serial@1e000 {
- 				compatible = "amlogic,a9-uart",
- 					     "amlogic,meson-s4-uart";
-
--- 
-2.52.0
-
-
+--=20
+Regards,
+Arash Golgol
 
