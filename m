@@ -1,620 +1,227 @@
-Return-Path: <linux-media+bounces-67082-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67083-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id fBwzKDbiTmpVWAIAu9opvQ
-	(envelope-from <linux-media+bounces-67082-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 01:50:14 +0200
+	id 7iZRKHgBT2qJYwIAu9opvQ
+	(envelope-from <linux-media+bounces-67083-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 04:03:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C173272B42D
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 01:50:13 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 628C772BD1C
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 04:03:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=RNMLsxEA;
-	dmarc=pass (policy=reject) header.from=google.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67082-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-67082-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=Nvidia.com header.s=selector2 header.b=BA4vgtNw;
+	dmarc=pass (policy=reject) header.from=nvidia.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67083-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-67083-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5AE40301AC8E
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jul 2026 23:49:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E224E301C6DC
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 02:03:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D930B3AB5DE;
-	Wed,  8 Jul 2026 23:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE63C31E850;
+	Thu,  9 Jul 2026 02:03:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012058.outbound.protection.outlook.com [52.101.48.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D564639EF33
-	for <linux-media@vger.kernel.org>; Wed,  8 Jul 2026 23:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D922F8E8C;
+	Thu,  9 Jul 2026 02:03:21 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783554589; cv=pass; b=pEc6W2QaMwSRN3gGmF3DZZlq7nVxWnBLdqSxgOyuHlb85nC87tb1xE6G4OEmJxHfX4VTA61XDZiUyN0vp221/qjFuCzlWkshYtufUBzoeQAtnaNjjIzQbrV+y/vHe3SE6R5SIryKDOaxjKtx3VC8/jTMGbGjI1u6c0o3sDb5ayw=
+	t=1783562603; cv=fail; b=PvJfCFmnOaxCkIFhX5MmCACQvhwcZePLfA/jNU7/lsKshBSpjO1Z62T+eFuaga7q+m40tLsoMPg6ZVENbdrMjEnJJVtF8+Tqb5f31+ocvc32IrOoHDstIki1PAEvouo1QUPZxOUN1/Obl4nIAi3awPF3YY7Qg5O6YR/fHgtqJqM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783554589; c=relaxed/simple;
-	bh=iOu8Vu8FK8936tOh9CPH/yq1tUlz9DnfnSlQFjrnLXY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R+QcowhOpnfXIDv/xoKt460KIbris07+LQokJ6n5sjUI0A9qX40KrScRiJf/vyJkaha8y4XZJFV2TIY8xEiBdaDRf6a5X+jYyuMb+F3cdDXwQEHqdoUucX0N9I0O6F55trBskcpPULrN162WiQVfwE+oKRHNlekKSdBii3iB9qI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RNMLsxEA; arc=pass smtp.client-ip=209.85.128.50
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493b8d92a4eso10865e9.1
-        for <linux-media@vger.kernel.org>; Wed, 08 Jul 2026 16:49:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783554585; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IPx11UvVV2F3N1kW7+69aDYRNNfBGD+gMY7Z/MN94olw+nlr2Dttfjh9CCFEIGgD01
-         En1ddhGmIiLzYHJrB1hnsuIEoOFZ0g8fqO5/RHCfPEse3Xc91G6pkORosGEyfGeHZH3j
-         r4W9BbRMP7CEdnl9XXc/JZ9ZeD0rqKrJiH+flPnJOAyhpdiklKIzCV2qXSpSLNCcmDsb
-         svdEMks6tUUW2e1tZmkvIOmZx1wItP4a0urSLLDxLRqLjjxaPhnvO39eK3YVCUiEXqkA
-         13L5px8gMqbynqjZNo1yfCNkAL0FD7ykn0yY+w7oytKaqAZ90CL3qlmmfH86PRHkOnLD
-         r2jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rib4ibu+dts9p9/XbnX7ZcTmfXYVT7n2/w0qnalOJkU=;
-        fh=hlPDps8xSnVwpp8ZyTwgpCdXxYviixyr3zz/gOOy8J8=;
-        b=ematKmXVYlYyiauBH1rPbP1eltj3Lmt9bjwx4Vz+Ql+9ZTQPWZbBzNfzsHMl7aL+IX
-         SDzj0ItMoaz4Ym1reN8mK8GU54JKpYVA23WZXjQH+kmiFy4vPO8doqcTidZNbtXMk4rc
-         +bqjuT1bbv26PMGM5X4BTA8qkUCr9E3BeeGzutivyDo2p19fwZx8Az5AgiTXQJ8OHDkC
-         K9HNTOslYouTnXettVgoPJEQie8qfEdfrarDErTS7+jsyOODMxX/kLY2CHaXZNK+Xis1
-         ryVt0KwNoIW6/U6Fkw9vojiv5ygSmTDzBbjX7KglEPLdsyHjFSlMDiN29twnx26rlcpI
-         1NDQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783554585; x=1784159385; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rib4ibu+dts9p9/XbnX7ZcTmfXYVT7n2/w0qnalOJkU=;
-        b=RNMLsxEAr+xtYUGa2w2RLBYdc3vMdclo2hbrnRNoPtAxzVmN83odkQCAStJGxUynUF
-         BIf5Ujb8R0CcGtrNleby/Jxz4vg3zJXnVYz4l5gbQzms8PTZgmeCpEn/bOhuzop3GKmZ
-         Necd5686JpmAx0zKgZ55Zb97yMJ8KeaMiJsnBQank8P2z0uXUgXS/Qy2ZLbzClUWU5um
-         3vHFLLhdBPE3lliNNNQE4vnnYM4A/5oMAeJoG6w5+v/BNR1fl0BrRARjBS4i9eKZFyrV
-         E/SRiiJ20WmuGW6y9dBs9Q366OpGQptx4i7J/oPJyql07YagvKcmBKqCWW7213gubWw5
-         4O6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783554585; x=1784159385;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rib4ibu+dts9p9/XbnX7ZcTmfXYVT7n2/w0qnalOJkU=;
-        b=gtcFCnnvqXk7mRYSHceDNYHDtfd7MO4wtfeCmFslw3PA9pe/M3O1EguVzx9LmDUenE
-         kYOo9oVLboJuMBiis8AraCmQl8ixOH3QR4KHX22KGB5XomwB4Kajqa0s9ZqL099BswJR
-         DGXiwt9zZ758Qbvwu7nfmKZzbjlTTe6kiCOoKoQezdTGHJ2XMTgaseEJlCWBv6EWSsAE
-         Qf1PIl4h2ZhHjGY2pmMyHcVNtfYhXjzEdLf3mQ6EVbsNji6tWxO6zXu5qSX+aGgxnLAR
-         uPUIEs7Lrgc2E9JJvqNeVkvbUQRpjXqNktPGQhrqVBM1vdJP7VkLxb9uojQgWQ2X9axn
-         jXCw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq9WoV08bYrWNUg93i8a1d3JnhHwEIZMEM3+I6WZjvt+EN6hk6huHme2AGxc/p6ESOAQExTh2rmpaAddA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6cVbYtJ4dzLCFt0mswTeF5sCD/YvCOaJ+gszEaAteJlQMcTE9
-	RnNuuEyhqIHjElY84EFqRIS7KxYjKQv2JPJNLuD6FVSWHqZTlUSSafKwA5BmNFbMad1K67BufHJ
-	363Z3gC+xtp+4BWH905MD9CoASfyuXGzYJRYC6gIo
-X-Gm-Gg: AfdE7cnbea2Mu02vOkcH/vXy60hmaGiu0CgEPJxhS5LauadPRcR1fPVuLxulUDEKttV
-	sBFstXIIVN+sHdO3A3SUccyHAqr+d6fqfBdLxYspT7JctvZQKZaW1cywH4O5Vx77zQBSQh1UUP4
-	Nfxd3XajwVE6KLJKpnehaoPEIXOElhRSvKMBRHvb7+hCySRzyybiGM/FCsfRZTDRA8u0NPLc2j8
-	FsqwbwAs58jMM6ZLWeGZQkGfpfkxVUfIRlHtTRxnfzSxBXzZ/lJHz7oIhPD8KSNbA5zga1BlyQI
-	98iMA7jUmoqWKiGKUkcAHOOZaXhgF8cGUt492DMR0URZoCyaEnEUxG6C8Q==
-X-Received: by 2002:a05:600d:644a:10b0:490:b3cd:fc4d with SMTP id
- 5b1f17b1804b1-493ec91fb9cmr44975e9.9.1783554584679; Wed, 08 Jul 2026 16:49:44
- -0700 (PDT)
+	s=arc-20240116; t=1783562603; c=relaxed/simple;
+	bh=8F+dPOHBnlxIaKTVL0tYNSMQR82Qzks1arK4P+12eUY=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sWRxAdxblg5JGSjvJoEILl34laH85Ho+xNRA2/vNXgqOcR/DOb2+lciJISRdjmnOMRWWReU6c3t+C8/F/o189mVoW20JPGrHGwes66Urr+3ku5Pr4dCuVweFWTNTCQfiYPB3FAlk2yL6Wuld+ytUCMV805MvkFP0qi2lSs4cXTc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BA4vgtNw; arc=fail smtp.client-ip=52.101.48.58
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D3C6UBAjGvsdrDpzCEtH+885Ye+QphMtNO+OY5nWtRu8DOAXgYX6beLpQC2vdAjibOwr7GwfPlUI3GvAixGAV4K8MWP555m4s8TqNNp4m62ZINQxkhkZk50hLTQszPdBbAGp7rVxXa+/yWgmuepYbtyDYFjGyM8uuNWotpVWltkJBogKNZzBrnyqabH+jlMQSjJnWEB68nSCtHpITGSJY9rZH5aQg1qPHLYtob9yenOFmEtPjk7YaAWMM6ZC1oSj5NMljIOkDK3Aj/b1+Y56v1GNVDyNHT/4WIHbdFdI4ec/pc0eBldPpBb3sPdAD+jmhNtnSwgVpXI18R5N+g0rSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D/LiVCckba+tuo9wErnXL0a33uBkLlm1UoxO7RUSCSc=;
+ b=Lu0nMux7HTE2PzBucef8jfw518nW7/vt8zAmUNFRLq9uC4Oru1n+5CMRxVonPzIyWTKEhRVVfCNUTt2Qx1GARfxS4U7XCX5b5YLI6UUZUe/NCU6x68JFGsg+ES2sgp1yH6b9U0YwyusBqMl4OwNCWmfaqVOGmXFqitsa7eZtvxqwsFVlHoH+v6HkkdfyF9jkX3hQlHRTnmvOlnWFH6aqZOemI1HVBn+9LxPZuxN9MkXOsDcZhb6HpsdNEbR8I+6bTDvRnXwTMOb2jmK6GRuv4ZJbNT87bZnDogSpN1y/18PTKXVxsDx8gShjGj6DJkFBP55x2PB1DdkBG3UVFiK5Ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D/LiVCckba+tuo9wErnXL0a33uBkLlm1UoxO7RUSCSc=;
+ b=BA4vgtNwJ31MhYvALzdAJnBvs+ihKaWi8ODP1ZtRpFfYV1aVUocYgqk7O4LMeZxpcfOk3bU2DjbOx/W9t8isXZ3EKb7gq0bukmT8tr9w5drVQz6agkDrftfr0G6Eefj5g9lGjEOFejC9MUkeIAXVO6icGphQKM+I/HveAKj+RJzEZA+4Bo9tiAXdoWjygmFgnQvVR3CWLsVOifkp2iUFjx0zEp0ONzXAoaPDIyEzHIKVzz2McNTxWRMMXWlthgb7WhoEbxm6ZteLHU6xfzffL8TGOS8OO5UcEtKxsKwxChdSR8Az5/IxBN3A88CdcjUrPIgQOjsJLkMe5uTIvhZcjQ==
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by DS4PR12MB9818.namprd12.prod.outlook.com (2603:10b6:8:2a9::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 9 Jul
+ 2026 02:03:16 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.014; Thu, 9 Jul 2026
+ 02:03:16 +0000
+From: Yury Norov <ynorov@nvidia.com>
+To: Russell King <linux@armlinux.org.uk>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	John Allen <john.allen@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Cc: Yury Norov <ynorov@nvidia.com>,
+	sunyi <279644543@qq.com>
+Subject: [PATCH 0/5] bitmap: align bitmap_find_next_zero_area_off() output with the rest of the API
+Date: Wed,  8 Jul 2026 22:03:06 -0400
+Message-ID: <20260709020312.133977-1-ynorov@nvidia.com>
+X-Mailer: git-send-email 2.53.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR03CA0007.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::12) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260701-tegra-vpr-v3-0-d80f7b871bb4@nvidia.com> <20260701-tegra-vpr-v3-6-d80f7b871bb4@nvidia.com>
-In-Reply-To: <20260701-tegra-vpr-v3-6-d80f7b871bb4@nvidia.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 8 Jul 2026 16:49:31 -0700
-X-Gm-Features: AUfX_mzOMAhQgIZCGlz9_znmnioZkDYwZn81U0HlPggiFRGlpgF5nj0v4x5iIA0
-Message-ID: <CABdmKX2i_vxs3EgJgydEbXoTxqWe9g9pj=hqPKuwf0ge0SjZuQ@mail.gmail.com>
-Subject: Re: [PATCH v3 06/11] mm/cma: Allow dynamically creating CMA areas
-To: Thierry Reding <thierry.reding@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Russell King <linux@armlinux.org.uk>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-mm@kvack.org, iommu@lists.linux.dev, linaro-mm-sig@lists.linaro.org, 
-	linux-trace-kernel@vger.kernel.org, Thierry Reding <treding@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|DS4PR12MB9818:EE_
+X-MS-Office365-Filtering-Correlation-Id: b92c3024-f948-40fa-43cb-08dedd5e3d93
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|921020|18002099003|6133799003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	ZaPqwJCDqAoZ3fiBPNoiXSl6zYbpfQsTmMl3tgfCmhs8jjTASqVESS5rARQ67T875Bl2PRDGQPe482zRhh7iq3/pSRtm5P+6bRlfPbZYqo+JyogxtBnvi8U2nAsMpsK0KPAVs+5uHDIvlbsACwrx/aaik2+6KtOYs+vjjsZCJW483pG2GOsSZra5kbNH0bnq3SPsO79GnxTGTxtqcKVSGpLpbLXw6MMOSrmZZFlKB0uwc+VLnppmHvEZwQjyrc+BZCJpWV3Ce1F+Rd4bsPFdyaTywyl/VkVFiwXmLqAQnes7pc42zzfqh6h7u/b2eChNGP0B/SPdnwWbWUnVHbiyV5cH3Zj+VDABJkshgX52MN3fGCBYoEfKTzTWGXLgZK4PcIu092gL1FxEKTfqoC4Jbge47jxBjq+Er1TnvcpZqIXLmUhdZJCcmMeAyl6HuCjlvgWDpeyqjFDmk8dAo9RunKu/TFsEtJThmml3+ScPlw/YTqRDcjMsasRWweb/y9WLC1N5J0Dko80qK2lDYhl9UekUyenIpyNCZWQa523O7P9JMPVetE8MJcviPuGteMRsHhvyx8kA6Al63ANVE5HF8dmgKR++TlzmkTzkcs13e7LnN2rk6qgZsGBD0+L59RLZP9x3W+NU3w+bA6Qg7tRFvYMxbxxHqT1OY3Df7FHMgqORsTvUdUAaWgdJj+26+Wa5nrHGfJa8u67CAtd/dRg+7w==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(921020)(18002099003)(6133799003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?XZFPS/GtgCRcdwEdoIHvySuBetanCUwTqqON3Xs4ctiLiiGfeKJ+IHwk0PGi?=
+ =?us-ascii?Q?1QGySD958FomaHYlfBcA/GFonNwNxOvAHHq525bepkGMuY3CLnpbvNCLQGWb?=
+ =?us-ascii?Q?p6Ojh8/x1vBc1GgaYlsVJLz6qQT0ZfOnGcMU29tsjWiyGsdtG0kmX+aIzV1M?=
+ =?us-ascii?Q?TS8BseODZfEuyhqztTXs908HLknkTsYyL9jKGYQY68vDFNaJKoVyw8dGK1Q1?=
+ =?us-ascii?Q?AkiM0QMgsdMduaJZBYIGyilDKYOaUDqUbvF7S1m2yVLcaPR2wUoU9GtLXQSM?=
+ =?us-ascii?Q?ly9ujYcCFTxKEs6mKSPZ1RyxvSY/S/tzPbjXqGY2LIXg0ORvJvEdTEGhxqWy?=
+ =?us-ascii?Q?r807yk3/YI198VRd/4kFk46C0PJpNP0uvRe3GHrNAwjw1K/EwLQ6S4Mw3rDs?=
+ =?us-ascii?Q?vh9AAKx272WwqjS71NJJO6/Iv5SOr9x+EcvfysqYSbUm2lnhfWe9x8Os88lt?=
+ =?us-ascii?Q?5t1liGQdyVIRTUPsszIfc3wGqZ5kjVfOvCRNB+UqkGEEXq87/rNbgiICITcu?=
+ =?us-ascii?Q?C47isUg9QCmGxyRgxYumJsdYCtabyg9i9WsFUSg8Ca+UVIXlWLfO3Ztw8Cz5?=
+ =?us-ascii?Q?wvx88H6wVE00eqlvKHxkYJFLkNarW5BU+HZDJdswBJ2FvgLQvViFqVT6J90d?=
+ =?us-ascii?Q?7t3c8hh8z/9Z35FQJX1ilCs/CJBMEJKiVdVcp1OY3qO0E1Uumezks/XB8e0j?=
+ =?us-ascii?Q?k0aDov+VryTMv29ooSGgGuoDTFU/DX09Z6F3SjIz9r/0B4GSeEEKcBtntYJE?=
+ =?us-ascii?Q?iNprtz51W6t/EQdOivV0otFCZpMDpl7xhmcSKSpmKLuO+nC8yyI0QjgOVu9q?=
+ =?us-ascii?Q?FWkcZZb3uR4C3Vee2CD9LBtxcXIZnnycrfjTm0XbDBYWFUzb4qabQ0xOyQDD?=
+ =?us-ascii?Q?LWKeavdLaPecqFNIMaNyKrfjHKXULXh7a42B5ZymAMyzQHeLNAy/dbpOjEQ2?=
+ =?us-ascii?Q?mOfluAtcnAs8PtsvQdPcZYz9OUD/mWLU1GlR2dExrJumyPSUGJk+DvLoq6rk?=
+ =?us-ascii?Q?aYxev4SnUfDw7ZymqFXcuXYIFapyXCa9blOvV47hYNRSWH9ZWM3O6P1dCcV7?=
+ =?us-ascii?Q?li/5bgAe9bJwKCD+g+9jE6LW9pv062eQOjlXSSuHtUmtHKDUVUoAPiYuWgeF?=
+ =?us-ascii?Q?0IIrWxa7wIHI5FgiAL3bpSWeJkQDGIF+ZI3xUBK5XauGUlfp3wVQxp9/qB30?=
+ =?us-ascii?Q?/r0QNvr/60Zj4UHABG/ObWA7wUKm8qxfJF7OpER8Xbvkw339UbmnKuX5IBTh?=
+ =?us-ascii?Q?S3WIaPtKNpfptFXVbNEHGgCVE0em/ynzSitwE8G1ehIxMRNXZ6fmKKmjiLYq?=
+ =?us-ascii?Q?6zFxK+LQXnNx3ZFegvnXfdxbWcvGqbALspEISu/FCcbbveOYk3gVXmlxwwtL?=
+ =?us-ascii?Q?PnB+4widUxJlUIq+SRdmy4OFWoLGrA4qVL7GHRqgjKqKRb4oKmrtgVn0hyko?=
+ =?us-ascii?Q?mU6oAmqsH9CW1OUI2OvO89jz1TMBriEs5CcU5IY0o5drCVJMJCAn5GdOou9v?=
+ =?us-ascii?Q?fSjKpzVWcQWQd2EFjXKStQxcFBGKtBq5DdZ/N0GXKCS0OjtB/6kaLcR6/0M8?=
+ =?us-ascii?Q?WxjT5MBD6dO6sKUrkLVdI3kVMWnSWe+oc0tZBtgrQg/4sTGw/ZTLk/b8YFhw?=
+ =?us-ascii?Q?caxV4a+JSJeobb/pddeSA9bDajvha+7T/Vbea+yxwEIi3y9ZLO2sru9cENAL?=
+ =?us-ascii?Q?Z+G3njFROCCQhQanZl0emHiYAsSJ6OzXlJplO63/9jRH+HU2CqQ6ItBG0rBw?=
+ =?us-ascii?Q?kkJLTvgPWg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b92c3024-f948-40fa-43cb-08dedd5e3d93
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 02:03:16.4497
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eJrAnOLxCpc2iE4Io5yFxIY80n3frGMC3PBMWTBbRLVoR5wTtwaMlWl0Vj0i+/kC+FrfARaIGSXdTo8poWKV4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9818
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-4.16 / 15.00];
+	WHITELIST_DMARC(-7.00)[nvidia.com:D:+];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67082-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:thierry.reding@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jonathanh@nvidia.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:skomatineni@nvidia.com,m:luca.ceresoli@bootlin.com,m:mperttunen@nvidia.com,m:yury.norov@gmail.com,m:linux@rasmusvillemoes.dk,m:linux@armlinux.org.uk,m:agordeev@linux.ibm.com,m:gerald.schaefer@linux.ibm.com,m:hca@linux.ibm.com,m:gor@linux.ibm.com,m:borntraeger@linux.ibm.com,m:svens@linux.ibm.com,m:akpm@linux-foundation.org,m:david@kernel.org,m:ljs@kernel.org,m:liam@infradead.org,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:christian.koenig@amd.com,m:rostedt@goodmis.org,m:mhiramat@kernel.org,m:mathieu.desnoyers@efficios.com,m:catalin.marinas@arm.com,
- m:will@kernel.org,m:thierry.reding@gmail.com,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-s390@vger.kernel.org,m:linux-mm@kvack.org,m:iommu@lists.linux.dev,m:linaro-mm-sig@lists.linaro.org,m:linux-trace-kernel@vger.kernel.org,m:treding@nvidia.com,m:krzk@kernel.org,m:conor@kernel.org,m:yurynorov@gmail.com,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,bootlin.com,rasmusvillemoes.dk,armlinux.org.uk,linux.ibm.com,linux-foundation.org,infradead.org,google.com,suse.com,samsung.com,arm.com,linaro.org,collabora.com,amd.com,goodmis.org,efficios.com,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kvack.org,lists.linux.dev,lists.linaro.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FORGED_RECIPIENTS(0.00)[m:linux@armlinux.org.uk,m:chleroy@kernel.org,m:davem@davemloft.net,m:willy@infradead.org,m:akpm@linux-foundation.org,m:andrzej.hajda@intel.com,m:dakr@kernel.org,m:dianders@chromium.org,m:herbert@gondor.apana.org.au,m:jgg@ziepe.ca,m:john.allen@amd.com,m:kees@kernel.org,m:leon@kernel.org,m:maddy@linux.ibm.com,m:m.szyprowski@samsung.com,m:mchehab@kernel.org,m:mpe@ellerman.id.au,m:npiggin@gmail.com,m:linux@rasmusvillemoes.dk,m:thomas.lendacky@amd.com,m:yury.norov@gmail.com,m:linux-arm-kernel@lists.infradead.org,m:linux-crypto@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:ynorov@nvidia.com,m:279644543@qq.com,m:yurynorov@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67083-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[armlinux.org.uk,kernel.org,davemloft.net,infradead.org,linux-foundation.org,intel.com,chromium.org,gondor.apana.org.au,ziepe.ca,amd.com,linux.ibm.com,samsung.com,ellerman.id.au,gmail.com,rasmusvillemoes.dk,lists.infradead.org,vger.kernel.org,lists.ozlabs.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[ynorov@nvidia.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[55];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ynorov@nvidia.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[nvidia.com,qq.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid,nvidia.com:email,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,nvidia.com:mid,nvidia.com:from_mime,Nvidia.com:dkim,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C173272B42D
+X-Rspamd-Queue-Id: 628C772BD1C
 
-On Wed, Jul 1, 2026 at 9:09=E2=80=AFAM Thierry Reding <thierry.reding@kerne=
-l.org> wrote:
->
-> From: Thierry Reding <treding@nvidia.com>
->
-> There is no technical reason why there should be a limited number of CMA
-> regions, so extract some code into helpers and use them to create extra
-> functions (cma_create() and cma_free()) that allow creating and freeing,
-> respectively, CMA regions dynamically at runtime.
->
-> The static array of CMA areas cannot be replaced by dynamically created
-> areas because for many of them, allocation must not fail and some cases
-> may need to initialize them before the slab allocator is even available.
-> To account for this, keep these "early" areas in a separate list and
-> track the dynamic areas in a separate list.
+Bitmap search functions return a value greater than or equal to nbits when
+no suitable bits are found. bitmap_find_next_zero_area_off() is an
+exception: it returns a value greater than nbits.
 
-Hi, It looks like you'll also need to update the CMA dma-buf heap's
-add_cma_heaps init function so that it adds all the CMA areas, not
-just the early ones.
+Align the function with the rest of the API and adjust the affected callers
+accordingly.
 
->
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
-> Changes in v3:
-> - rebase on top of recent linux-next, update kernel/dma/contiguous.c
-> - use kzalloc_obj() instead of kzalloc() with sizeof()
->
-> Changes in v2:
-> - rename fixed number of CMA areas to reflect their main use
-> - account for pages in dynamically allocated regions
-> ---
->  arch/arm/mm/dma-mapping.c |   2 +-
->  arch/s390/mm/init.c       |   2 +-
->  include/linux/cma.h       |   8 +-
->  kernel/dma/contiguous.c   |   2 +-
->  mm/cma.c                  | 187 +++++++++++++++++++++++++++++++++++++---=
-------
->  mm/cma.h                  |   5 +-
->  6 files changed, 165 insertions(+), 41 deletions(-)
->
-> diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-> index f9bc53b60f99..934952ab2102 100644
-> --- a/arch/arm/mm/dma-mapping.c
-> +++ b/arch/arm/mm/dma-mapping.c
-> @@ -254,7 +254,7 @@ struct dma_contig_early_reserve {
->         unsigned long size;
->  };
->
-> -static struct dma_contig_early_reserve dma_mmu_remap[MAX_CMA_AREAS] __in=
-itdata;
-> +static struct dma_contig_early_reserve dma_mmu_remap[MAX_EARLY_CMA_AREAS=
-] __initdata;
->
->  static int dma_mmu_remap_num __initdata;
->
-> diff --git a/arch/s390/mm/init.c b/arch/s390/mm/init.c
-> index f07168a0d3dd..f8f78f1434ea 100644
-> --- a/arch/s390/mm/init.c
-> +++ b/arch/s390/mm/init.c
-> @@ -241,7 +241,7 @@ static int s390_cma_mem_notifier(struct notifier_bloc=
-k *nb,
->         mem_data.start =3D arg->start_pfn << PAGE_SHIFT;
->         mem_data.end =3D mem_data.start + (arg->nr_pages << PAGE_SHIFT);
->         if (action =3D=3D MEM_GOING_OFFLINE)
-> -               rc =3D cma_for_each_area(s390_cma_check_range, &mem_data)=
-;
-> +               rc =3D cma_for_each_early_area(s390_cma_check_range, &mem=
-_data);
->         return notifier_from_errno(rc);
->  }
->
-> diff --git a/include/linux/cma.h b/include/linux/cma.h
-> index 8555d38a97b1..fb7a4923c3ba 100644
-> --- a/include/linux/cma.h
-> +++ b/include/linux/cma.h
-> @@ -7,7 +7,7 @@
->  #include <linux/numa.h>
->
->  #ifdef CONFIG_CMA_AREAS
-> -#define MAX_CMA_AREAS  CONFIG_CMA_AREAS
-> +#define MAX_EARLY_CMA_AREAS    CONFIG_CMA_AREAS
->  #endif
->
->  #define CMA_MAX_NAME 64
-> @@ -57,8 +57,14 @@ struct page *cma_alloc_frozen_compound(struct cma *cma=
-, unsigned int order);
->  bool cma_release_frozen(struct cma *cma, const struct page *pages,
->                 unsigned long count);
->
-> +extern int cma_for_each_early_area(int (*it)(struct cma *cma, void *data=
-), void *data);
->  extern int cma_for_each_area(int (*it)(struct cma *cma, void *data), voi=
-d *data);
->  extern bool cma_intersects(struct cma *cma, unsigned long start, unsigne=
-d long end);
->
->  extern void cma_reserve_pages_on_error(struct cma *cma);
-> +
-> +extern struct cma *cma_create(phys_addr_t base, phys_addr_t size,
-> +                             unsigned int order_per_bit, const char *nam=
-e);
-> +extern void cma_free(struct cma *cma);
-> +
->  #endif
-> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> index f754079a287d..7975551f69b3 100644
-> --- a/kernel/dma/contiguous.c
-> +++ b/kernel/dma/contiguous.c
-> @@ -52,7 +52,7 @@
->  #define CMA_SIZE_MBYTES 0
->  #endif
->
-> -static struct cma *dma_contiguous_areas[MAX_CMA_AREAS];
-> +static struct cma *dma_contiguous_areas[MAX_EARLY_CMA_AREAS];
->  static unsigned int dma_contiguous_areas_num;
->
->  static int dma_contiguous_insert_area(struct cma *cma)
-> diff --git a/mm/cma.c b/mm/cma.c
-> index a13ce4999b39..f989e2e98594 100644
-> --- a/mm/cma.c
-> +++ b/mm/cma.c
-> @@ -34,7 +34,12 @@
->  #include "internal.h"
->  #include "cma.h"
->
-> -struct cma cma_areas[MAX_CMA_AREAS];
-> +static DEFINE_MUTEX(cma_lock);
-> +
-> +struct cma cma_early_areas[MAX_EARLY_CMA_AREAS];
-> +unsigned int cma_early_area_count;
-> +
-> +static LIST_HEAD(cma_areas);
->  unsigned int cma_area_count;
->
->  phys_addr_t cma_get_base(const struct cma *cma)
-> @@ -198,7 +203,6 @@ static void __init cma_activate_area(struct cma *cma)
->                                 free_reserved_page(pfn_to_page(pfn));
->                 }
->         }
-> -       totalcma_pages -=3D cma->count;
->         cma->available_count =3D cma->count =3D 0;
->         pr_err("CMA area %s could not be activated\n", cma->name);
->  }
-> @@ -207,8 +211,8 @@ static int __init cma_init_reserved_areas(void)
->  {
->         int i;
->
-> -       for (i =3D 0; i < cma_area_count; i++)
-> -               cma_activate_area(&cma_areas[i]);
-> +       for (i =3D 0; i < cma_early_area_count; i++)
-> +               cma_activate_area(&cma_early_areas[i]);
->
->         return 0;
->  }
-> @@ -219,41 +223,77 @@ void __init cma_reserve_pages_on_error(struct cma *=
-cma)
->         set_bit(CMA_RESERVE_PAGES_ON_ERROR, &cma->flags);
->  }
->
-> +static void __init cma_init_area(struct cma *cma, const char *name,
-> +                                phys_addr_t size, unsigned int order_per=
-_bit)
-> +{
-> +       if (name)
-> +               strscpy(cma->name, name);
-> +       else
-> +               snprintf(cma->name, CMA_MAX_NAME,  "cma%d\n", cma_area_co=
-unt);
-> +
-> +       cma->available_count =3D cma->count =3D size >> PAGE_SHIFT;
-> +       cma->order_per_bit =3D order_per_bit;
-> +
-> +       INIT_LIST_HEAD(&cma->node);
-> +}
-> +
->  static int __init cma_new_area(const char *name, phys_addr_t size,
->                                unsigned int order_per_bit,
->                                struct cma **res_cma)
->  {
->         struct cma *cma;
->
-> -       if (cma_area_count =3D=3D ARRAY_SIZE(cma_areas)) {
-> +       if (cma_early_area_count =3D=3D ARRAY_SIZE(cma_early_areas)) {
->                 pr_err("Not enough slots for CMA reserved regions!\n");
->                 return -ENOSPC;
->         }
->
-> +       mutex_lock(&cma_lock);
-> +
->         /*
->          * Each reserved area must be initialised later, when more kernel
->          * subsystems (like slab allocator) are available.
->          */
-> -       cma =3D &cma_areas[cma_area_count];
-> -       cma_area_count++;
-> +       cma =3D &cma_early_areas[cma_early_area_count];
-> +       cma_early_area_count++;
->
-> -       if (name)
-> -               strscpy(cma->name, name);
-> -       else
-> -               snprintf(cma->name, CMA_MAX_NAME,  "cma%d\n", cma_area_co=
-unt);
-> +       cma_init_area(cma, name, size, order_per_bit);
->
-> -       cma->available_count =3D cma->count =3D size >> PAGE_SHIFT;
-> -       cma->order_per_bit =3D order_per_bit;
-> -       *res_cma =3D cma;
->         totalcma_pages +=3D cma->count;
-> +       *res_cma =3D cma;
-> +
-> +       mutex_unlock(&cma_lock);
->
->         return 0;
->  }
->
->  static void __init cma_drop_area(struct cma *cma)
->  {
-> +       mutex_lock(&cma_lock);
->         totalcma_pages -=3D cma->count;
-> -       cma_area_count--;
-> +       cma_early_area_count--;
-> +       mutex_unlock(&cma_lock);
-> +}
-> +
-> +static int __init cma_check_memory(phys_addr_t base, phys_addr_t size)
-> +{
-> +       if (!size || !memblock_is_region_reserved(base, size))
-> +               return -EINVAL;
-> +
-> +       /*
-> +        * CMA uses CMA_MIN_ALIGNMENT_BYTES as alignment requirement whic=
-h
-> +        * needs pageblock_order to be initialized. Let's enforce it.
-> +        */
-> +       if (!pageblock_order) {
-> +               pr_err("pageblock_order not yet initialized. Called durin=
-g early boot?\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       /* ensure minimal alignment required by mm core */
-> +       if (!IS_ALIGNED(base | size, CMA_MIN_ALIGNMENT_BYTES))
-> +               return -EINVAL;
-> +
-> +       return 0;
->  }
->
->  /**
-> @@ -276,22 +316,9 @@ int __init cma_init_reserved_mem(phys_addr_t base, p=
-hys_addr_t size,
->         struct cma *cma;
->         int ret;
->
-> -       /* Sanity checks */
-> -       if (!size || !memblock_is_region_reserved(base, size))
-> -               return -EINVAL;
-> -
-> -       /*
-> -        * CMA uses CMA_MIN_ALIGNMENT_BYTES as alignment requirement whic=
-h
-> -        * needs pageblock_order to be initialized. Let's enforce it.
-> -        */
-> -       if (!pageblock_order) {
-> -               pr_err("pageblock_order not yet initialized. Called durin=
-g early boot?\n");
-> -               return -EINVAL;
-> -       }
-> -
-> -       /* ensure minimal alignment required by mm core */
-> -       if (!IS_ALIGNED(base | size, CMA_MIN_ALIGNMENT_BYTES))
-> -               return -EINVAL;
-> +       ret =3D cma_check_memory(base, size);
-> +       if (ret < 0)
-> +               return ret;
->
->         ret =3D cma_new_area(name, size, order_per_bit, &cma);
->         if (ret !=3D 0)
-> @@ -444,7 +471,7 @@ static int __init __cma_declare_contiguous_nid(phys_a=
-ddr_t *basep,
->         pr_debug("%s(size %pa, base %pa, limit %pa alignment %pa)\n",
->                 __func__, &size, &base, &limit, &alignment);
->
-> -       if (cma_area_count =3D=3D ARRAY_SIZE(cma_areas)) {
-> +       if (cma_early_area_count =3D=3D ARRAY_SIZE(cma_early_areas)) {
->                 pr_err("Not enough slots for CMA reserved regions!\n");
->                 return -ENOSPC;
->         }
-> @@ -1051,12 +1078,12 @@ bool cma_release_frozen(struct cma *cma, const st=
-ruct page *pages,
->         return true;
->  }
->
-> -int cma_for_each_area(int (*it)(struct cma *cma, void *data), void *data=
-)
-> +int cma_for_each_early_area(int (*it)(struct cma *cma, void *data), void=
- *data)
->  {
->         int i;
->
-> -       for (i =3D 0; i < cma_area_count; i++) {
-> -               int ret =3D it(&cma_areas[i], data);
-> +       for (i =3D 0; i < cma_early_area_count; i++) {
-> +               int ret =3D it(&cma_early_areas[i], data);
->
->                 if (ret)
->                         return ret;
-> @@ -1065,6 +1092,25 @@ int cma_for_each_area(int (*it)(struct cma *cma, v=
-oid *data), void *data)
->         return 0;
->  }
->
-> +int cma_for_each_area(int (*it)(struct cma *cma, void *data), void *data=
-)
-> +{
-> +       struct cma *cma;
-> +
-> +       mutex_lock(&cma_lock);
-> +
-> +       list_for_each_entry(cma, &cma_areas, node) {
-> +               int ret =3D it(cma, data);
-> +
-> +               if (ret) {
-> +                       mutex_unlock(&cma_lock);
-> +                       return ret;
-> +               }
-> +       }
-> +
-> +       mutex_unlock(&cma_lock);
-> +       return 0;
-> +}
-> +
->  bool cma_intersects(struct cma *cma, unsigned long start, unsigned long =
-end)
->  {
->         int r;
-> @@ -1147,3 +1193,74 @@ void __init *cma_reserve_early(struct cma *cma, un=
-signed long size)
->
->         return ret;
->  }
-> +
-> +struct cma *__init cma_create(phys_addr_t base, phys_addr_t size,
-> +                             unsigned int order_per_bit, const char *nam=
-e)
-> +{
-> +       struct cma *cma;
-> +       int ret;
-> +
-> +       ret =3D cma_check_memory(base, size);
-> +       if (ret < 0)
-> +               return ERR_PTR(ret);
-> +
-> +       cma =3D kzalloc_obj(*cma, GFP_KERNEL);
-> +       if (!cma)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       cma_init_area(cma, name, size, order_per_bit);
-> +       cma->ranges[0].base_pfn =3D PFN_DOWN(base);
-> +       cma->ranges[0].early_pfn =3D PFN_DOWN(base);
-> +       cma->ranges[0].count =3D cma->count;
-> +       cma->nranges =3D 1;
-> +
-> +       cma_activate_area(cma);
-> +
-> +       mutex_lock(&cma_lock);
-> +       list_add_tail(&cma->node, &cma_areas);
-> +       totalcma_pages +=3D cma->count;
-> +       cma_area_count++;
-> +       mutex_unlock(&cma_lock);
-> +
-> +       return cma;
-> +}
-> +
-> +void cma_free(struct cma *cma)
-> +{
-> +       unsigned int i;
-> +
-> +       /*
-> +        * Safety check to prevent a CMA with active allocations from bei=
-ng
-> +        * released.
-> +        */
-> +       for (i =3D 0; i < cma->nranges; i++) {
-> +               unsigned long nbits =3D cma_bitmap_maxno(cma, &cma->range=
-s[i]);
-> +
-> +               if (!bitmap_empty(cma->ranges[i].bitmap, nbits)) {
-> +                       WARN(1, "%s: range %u not empty\n", cma->name, i)=
-;
-> +                       return;
-> +               }
-> +       }
-> +
-> +       /* free reserved pages and the bitmap */
-> +       for (i =3D 0; i < cma->nranges; i++) {
-> +               struct cma_memrange *cmr =3D &cma->ranges[i];
-> +               unsigned long end_pfn, pfn;
-> +
-> +               end_pfn =3D cmr->base_pfn + cmr->count;
-> +               for (pfn =3D cmr->base_pfn; pfn < end_pfn; pfn++)
-> +                       free_reserved_page(pfn_to_page(pfn));
-> +
-> +               bitmap_free(cmr->bitmap);
-> +       }
-> +
-> +       mutex_destroy(&cma->alloc_mutex);
-> +
-> +       mutex_lock(&cma_lock);
-> +       totalcma_pages -=3D cma->count;
-> +       list_del(&cma->node);
-> +       cma_area_count--;
-> +       mutex_unlock(&cma_lock);
-> +
-> +       kfree(cma);
-> +}
-> diff --git a/mm/cma.h b/mm/cma.h
-> index c70180c36559..ae4db9819e38 100644
-> --- a/mm/cma.h
-> +++ b/mm/cma.h
-> @@ -41,6 +41,7 @@ struct cma {
->         unsigned long   available_count;
->         unsigned int order_per_bit; /* Order of pages represented by one =
-bit */
->         spinlock_t      lock;
-> +       struct list_head node;
->         struct mutex alloc_mutex;
->  #ifdef CONFIG_CMA_DEBUGFS
->         struct hlist_head mem_head;
-> @@ -71,8 +72,8 @@ enum cma_flags {
->         CMA_ACTIVATED,
->  };
->
-> -extern struct cma cma_areas[MAX_CMA_AREAS];
-> -extern unsigned int cma_area_count;
-> +extern struct cma cma_early_areas[MAX_EARLY_CMA_AREAS];
-> +extern unsigned int cma_early_area_count;
->
->  static inline unsigned long cma_bitmap_maxno(struct cma *cma,
->                 struct cma_memrange *cmr)
->
-> --
-> 2.54.0
->
+Patches 1-4 are sent only to their respective maintainers and mailing
+lists. Patch 5 and the cover letter are sent to all recipients.
+
+On top of -next. I plan to carry the series with bitmap-for-next.
+
+Yury Norov (5):
+  ARM: dma-mapping: Treat bitmap size as allocation failure
+  powerpc/msi: Treat bitmap size as allocation failure
+  crypto: ccp: Treat bitmap size as allocation failure
+  media: s5p-mfc: Treat bitmap size as allocation failure
+  bitmap: Return size when no zero area is found
+
+ arch/arm/mm/dma-mapping.c                            |  4 ++--
+ arch/powerpc/sysdev/msi_bitmap.c                     |  2 +-
+ drivers/crypto/ccp/ccp-dev-v3.c                      |  2 +-
+ drivers/crypto/ccp/ccp-dev-v5.c                      |  6 +++---
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.c |  2 +-
+ include/linux/bitmap.h                               |  3 +++
+ lib/bitmap.c                                         | 10 ++++------
+ 7 files changed, 15 insertions(+), 14 deletions(-)
+
+-- 
+2.53.0
 
