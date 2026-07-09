@@ -1,58 +1,57 @@
-Return-Path: <linux-media+bounces-67091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67092-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jSbYJSkWT2o1aQIAu9opvQ
-	(envelope-from <linux-media+bounces-67091-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 05:31:53 +0200
+	id 4u9GBy4WT2o4aQIAu9opvQ
+	(envelope-from <linux-media+bounces-67092-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 05:31:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37A772C4C7
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 05:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83FE72C4D2
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 05:31:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20201202 header.b=J0iQ48FX;
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b=FNih6mKO;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67091-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67091-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67092-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67092-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8509D304DE99
+	by sea.lore.kernel.org (Postfix) with ESMTP id B9EBF304EB83
 	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 03:30:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17086390CB9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ADDB3911BC;
 	Thu,  9 Jul 2026 03:30:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5F333F5BD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6F03431E7;
 	Thu,  9 Jul 2026 03:30:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783567855; cv=none; b=Da7n//sn+J0LjDKB2U6XOp4tIY33gb1katVLPnTioUnQxQEDVujKQ4S4rY8X5ZJiA8UvfCeuYQxOORfy4YWZLhjziAKeA7mxArQwDSXdZS047Y+/loT4VMa1D+dbmQC9yvMNHM3t/LVLRQ9YtRsBQhGoh/IGwUWoVre/tdXc9pQ=
+	t=1783567855; cv=none; b=rWJtO55w9JiLNYGKj8rhUmadxjOtzamT04QXxy071E+8meGoCJDk9XJ8TOu3+P/meD5AMOm0T3joa63cW+aucVMUnQE9uNRxiaT5usDMMR97hal5iDPZFTa7oneatsJ96fMTZVj5cA03Brmqr8WyFpUZDdiqKKJo2DMFHZpeckY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783567855; c=relaxed/simple;
-	bh=DK6eCsjwuQHkUAYad97gdQ+0HLjq5RiXz29EsyvdagQ=;
+	bh=vebU/IOSL4arCI7BNVBZ9A6pu8AqsIlGnYCcT/LYqyw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iY0xJT9vRc9/4XMsIOj1/qPzpIbxu5mlc7wfhF+Tef4XhpvGhON1e29S800befAHuPRho6ZEdflh7uETdbGjj+X6P8sLWi/5cWnrwx7GG+NwPbwriWgc7pp1uqYrUMHwv31pJ8mkxRYxXGyPJjYOTq9Wt0P0iV0xQ79jaiH2aDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J0iQ48FX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1687EC2BCC6;
+	 In-Reply-To:To:Cc; b=gyMlTqttWTsMydyoG4a+sWO6o9ViQ/KKGwwIjsgmJez1OIRCAjASh/J3L2UNjUkRkRlhkZidZRiWj8i5qNztFMxBwUHTwAGhGo3D2pT32OeryO+qGeB8I/lrUHS9VKqO8TztzLZSBXEZnBFars/qdEOnFC+3Hfmx6CWQ6cl08OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FNih6mKO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 24259C2BCB9;
 	Thu,  9 Jul 2026 03:30:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1783567855;
-	bh=DK6eCsjwuQHkUAYad97gdQ+0HLjq5RiXz29EsyvdagQ=;
+	bh=vebU/IOSL4arCI7BNVBZ9A6pu8AqsIlGnYCcT/LYqyw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=J0iQ48FXTbBnTQBtKMrRfGEgDcbBv4xs04QopEZa/TqGpgFzPQWvJ+GySIRU8LgQ0
-	 0AuSZRwxjcEkaxJ3BfX/+yMYAFpx9GOPY5nA8SIA1QvmnIqLw0CwlaI2xVzs1TgQMb
-	 fm7OPxJYZcNbq8jvTrceny030VRZGe82l9g6k0x5vORCOs/DqmNBnwjGZUnHyIB1SY
-	 sRRHQHmVqChGGuDCN8biTK+IAponOo0Q2xIqnTxAqf7GCDZH7bwO3E/CEyGV3dGZ30
-	 Ur4vD+i0vIC+EU4F6tuamVRfGnCHZ6WA7kxOwAvfF3/eYID7PSpBW6blX18TYle1pT
-	 neIPEle7xelyA==
+	b=FNih6mKOnim7IzfeF9w40FWC2YVy7YFGbqdwFNaB89oTloaCZv176GZ2oMSDZ7HgR
+	 iOld8xZpY7mldKeMCSPszmSylJo43ViIX3KqoBixhbzxTBoSpr0AXucqw4ICK3hndq
+	 Br3AKj+pEtcpCYk3TKaBsMxOz6UP1TOfQ3ne5/PPNfXB01gVid/tnqoT7B3uRKSvxB
+	 6joXb2aPi4TxzSazc5FhAODmBlZx4Kkp5bB5nxgSHb/iVPx3Xf5DFTYsV6YwZQw56R
+	 LNDmNd93+OimwxedSS3rgH5vZoCAfbwbcfKwXs4YBPQyZATBxvW1VpxvQx1eE1+YSQ
+	 5jECuMexr6d2Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3AEC44503;
-	Thu,  9 Jul 2026 03:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 079F5C44506;
+	Thu,  9 Jul 2026 03:30:55 +0000 (UTC)
 From: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>
-Date: Thu, 09 Jul 2026 03:30:51 +0000
-Subject: [PATCH v2 1/2] dt-bindings: media: meson6-ir: Add Amlogic A9 IR
- compatible
+Date: Thu, 09 Jul 2026 03:30:52 +0000
+Subject: [PATCH v2 2/2] arm64: dts: amlogic: a9: Add IR controller support
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,7 +60,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260709-a9-ir-v2-1-42c21d7a6ffc@amlogic.com>
+Message-Id: <20260709-a9-ir-v2-2-42c21d7a6ffc@amlogic.com>
 References: <20260709-a9-ir-v2-0-42c21d7a6ffc@amlogic.com>
 In-Reply-To: <20260709-a9-ir-v2-0-42c21d7a6ffc@amlogic.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -72,14 +71,13 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Xianwei Zhao <xianwei.zhao@amlogic.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ linux-kernel@vger.kernel.org, Xianwei Zhao <xianwei.zhao@amlogic.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783567853; l=1145;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783567853; l=2027;
  i=xianwei.zhao@amlogic.com; s=20251216; h=from:subject:message-id;
- bh=rmPAoSNSZx5LMEoeF/b4E+Q1f6fRs3+ubaclp6Z1pc8=;
- b=RFXDKk/9e5V0rL7YIoH1aU5mVnHctr+HpC13MtW6h6g2GKfJVmXzRqsXK8xhNIlM3fjV/i6GP
- FGq4facPZpuD82VxqBgua2YqJrDoeDW0d229XZ8SywdSlPokapRvkQ2
+ bh=33MzL3Cv7uhjfti4gs/DqpQ4WXJtnpUBkHN5kst4OOM=;
+ b=8SnUZjwxz3vAI+j4FX/PVcpN9cL+yAwjXwLL0gpEZn0ZorSBb+bG2CooNlUssjFmYrLhfscJx
+ AEqPwtaNpmrAD2TsJBGMMgTWEItCxlcP6aIuRyMiUIGo1OVCVERRVWe
 X-Developer-Key: i=xianwei.zhao@amlogic.com; a=ed25519;
  pk=dWwxtWCxC6FHRurOmxEtr34SuBYU+WJowV/ZmRJ7H+k=
 X-Endpoint-Received: by B4 Relay for xianwei.zhao@amlogic.com/20251216 with
@@ -98,14 +96,14 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67091-lists,linux-media=lfdr.de,xianwei.zhao.amlogic.com];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-amlogic@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:xianwei.zhao@amlogic.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67092-lists,linux-media=lfdr.de,xianwei.zhao.amlogic.com];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-amlogic@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:xianwei.zhao@amlogic.com,m:krzk@kernel.org,m:conor@kernel.org,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,linaro.org,baylibre.com,googlemail.com];
 	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
@@ -121,39 +119,70 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amlogic.com:replyto,amlogic.com:mid,amlogic.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amlogic.com:replyto,amlogic.com:mid,amlogic.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F37A772C4C7
+X-Rspamd-Queue-Id: A83FE72C4D2
 
 From: Xianwei Zhao <xianwei.zhao@amlogic.com>
 
-Document the Amlogic A9 IR controller compatible string. The A9 IR
-controller shares the same implementation as the Meson S4 IR block,
-so add "amlogic,a9-ir" with "amlogic,meson-s4-ir" as the fallback
-compatible.
+Add the IR controller node for the Amlogic A9 SoC and describe the
+corresponding remote input pin configuration.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Enable the IR controller on the Amlogic A9 A311Y3 BY401 board with the
+proper pinctrl setting.
+
 Signed-off-by: Xianwei Zhao <xianwei.zhao@amlogic.com>
 ---
- Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts |  6 ++++++
+ arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi             | 14 ++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml b/Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml
-index 0f95fe8dd9ac..db9387e43eff 100644
---- a/Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml
-+++ b/Documentation/devicetree/bindings/media/amlogic,meson6-ir.yaml
-@@ -23,6 +23,10 @@ properties:
-       - items:
-           - const: amlogic,meson-gx-ir
-           - const: amlogic,meson-gxbb-ir
-+      - items:
-+          - enum:
-+              - amlogic,a9-ir
-+          - const: amlogic,meson-s4-ir
+diff --git a/arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts b/arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts
+index a6b380ca47a5..389c9de3dc3c 100644
+--- a/arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts
++++ b/arch/arm64/boot/dts/amlogic/amlogic-a9-a311y3-by401.dts
+@@ -38,3 +38,9 @@ secmon_reserved: secmon@5000000 {
+ &uart_b {
+ 	status = "okay";
+ };
++
++&ir {
++	status = "okay";
++	pinctrl-0 = <&remote_input_ao_pins>;
++	pinctrl-names = "default";
++};
+diff --git a/arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi b/arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi
+index b0e0fadeed82..aa89b31bfe30 100644
+--- a/arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi
++++ b/arch/arm64/boot/dts/amlogic/amlogic-a9.dtsi
+@@ -241,6 +241,13 @@ test_n: gpio@c0 {
+ 					#gpio-cells = <2>;
+ 					gpio-ranges = <&aobus_pinctrl 0 (AMLOGIC_GPIO_TEST_N<<8) 1>;
+ 				};
++
++				func-ir-in {
++						remote_input_ao_pins: group-remote-input-ao-pins {
++						pinmux = <AML_PINMUX(AMLOGIC_GPIO_D, 5, 1)>;
++						bias-disable;
++					};
++				};
+ 			};
  
-   reg:
-     maxItems: 1
+ 			gpio_ao_intc: interrupt-controller@4080 {
+@@ -254,6 +261,13 @@ gpio_ao_intc: interrupt-controller@4080 {
+ 					394 395 396 397 398 399 400 401 402 403>;
+ 			};
+ 
++			ir: ir@14080 {
++				compatible = "amlogic,a9-ir", "amlogic,meson-s4-ir";
++				reg = <0x0 0x14080 0x0 0x30>;
++				interrupts = <GIC_SPI 413 IRQ_TYPE_EDGE_RISING>;
++				status = "disabled";
++			};
++
+ 			uart_b: serial@1e000 {
+ 				compatible = "amlogic,a9-uart",
+ 					     "amlogic,meson-s4-uart";
 
 -- 
 2.52.0
