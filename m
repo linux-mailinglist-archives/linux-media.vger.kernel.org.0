@@ -1,249 +1,307 @@
-Return-Path: <linux-media+bounces-67137-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67138-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WofbAWt6T2oYhwIAu9opvQ
-	(envelope-from <linux-media+bounces-67137-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 12:39:39 +0200
+	id wqCZLi+BT2pPiQIAu9opvQ
+	(envelope-from <linux-media+bounces-67138-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 13:08:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8D972FB7E
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 12:39:38 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B59A7300D8
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 13:08:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="N2yGOg/w";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67137-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-67137-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=none;
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=appspotmail.com (policy=none);
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67138-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67138-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 888523085DB6
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 10:36:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A4D0332A18E9
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 10:42:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7104640629E;
-	Thu,  9 Jul 2026 10:36:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B354071C5;
+	Thu,  9 Jul 2026 10:42:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEFF3B19C1
-	for <linux-media@vger.kernel.org>; Thu,  9 Jul 2026 10:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC8F3C062C
+	for <linux-media@vger.kernel.org>; Thu,  9 Jul 2026 10:42:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783593381; cv=none; b=XtQhzsR8SPWY1wJnobrIFejfhyhwp17ds1ysXYid5ZUvzz3S6IDpEhOAPcfUblHOO954plKWI/4jvYLbUujI+bbri+LU/cwK4v9Trt5Egz1dKNE1IoLxSzciqWSzScGzQwe/2fCqyw/zl0KpVvh0vvCyOvJEGjUyYRVFwbJCTe4=
+	t=1783593745; cv=none; b=c6FLOwcpElPBKBu2qhjbtQ2dErlozCxPz4QgEv8TfHhurzdNbHypsTTyKG0yyzkSOw5ZSg+IFiHtPfkfz13D5nyTyIKc9BG3iIMUwZISWOyGvkOYruc9qmmiUoYdsrWA/4Q81Z3hUn5dS9/VNwDXxb+kgjI+QUpDodS0Uk1CpoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783593381; c=relaxed/simple;
-	bh=qxX0dE0OBUtqw9JQvY1JePBsbgseMjd5rGtMEwrM+T8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FHyjJapJ17oCQ31E+0Qt00X5K9FohM/7X+c3rGQL0KJONRIT/Ff10oRClWG9dgE5rxbWN9Vn65uktem4JT4uqy1YMdPgAPT/n2vjvV2ehuj9wrm/8sMTNOVBUJr3FTeC1v9rwwQB/Q5VWEdR96iWqrGBQNRUzwkJ6sT6GoLjzUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2yGOg/w; arc=none smtp.client-ip=209.85.167.177
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-48f0e5e6698so431947b6e.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2026 03:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783593379; x=1784198179; darn=vger.kernel.org;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EoqXSN8PEKoTPPLhPa7oguIX3My0y2fKQVIp51mrWN4=;
-        b=N2yGOg/wWimCQ4yyA9Jx8/hkRC9cCBHKLSrkcU4+6I3P4j+JMKfwqddK+jPpaigU9A
-         r/+3MweGyLCEVaqECB0tnRSVDbQ8aZuf8lZlLznVpex2LGNL5RgfkF7aqBx2ivwsc0Ch
-         wk4ZRDOO3+VY7j7JWxyZaiN+PgcaOUXZKSC462kgbrpbCMCfU8aSzfmxmaCSPTAM7gKW
-         8ykOFEGcay3SfY/PBcv8t3aevKVQTSk6AWEJmht7reao4IM5OiDbFIEabxJnnNQgja0+
-         9f5dQ3L0RjbsZklPcQAIUWCTV9UBvYlgKjgjtsLEg7p9CKeueTuSBvgTkEZbi2C09Ni5
-         2lQg==
+	s=arc-20240116; t=1783593745; c=relaxed/simple;
+	bh=89sAFliolfnrsarvWKKrKRSkf4J2etx2MxzQZfNrCWo=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=ca4iv7AjJ3TiaSJj6odx2k9MIcJ+pZRZv23+5Yim68WgzUP4/ifcXVGM29Ef6xwPNcFqIVpH2Qkf1UUXUFz3UlLQv8aydV3LEiTdm8KhB43xrSt9Wg2GAHjw0caquSpPXRrf9ZKThZ3eWFZdzK+5RYFh3v/Sf0lKxR3yLaUCWSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-6a344ad4390so1279396eaf.2
+        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2026 03:42:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783593379; x=1784198179;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EoqXSN8PEKoTPPLhPa7oguIX3My0y2fKQVIp51mrWN4=;
-        b=g0SKknQis7jo//1ZKJEXHvFUQnzSXSfLGzloTmXr5AWqo//uySDIxNF4P2u6P4sPes
-         J9//VfcuSYhd9is2eoD/r+h7GViMSQGOfkFbCT4hlQ7i+Iin44x2yatelVQC8a6kltar
-         +yw1Pa39FHRTUnnF4NVdJt6ALC75dzMfjXlobrcUw7ybaaioVAkZZMtxEjMOIHA9FBh2
-         hsmTiwaFuKrpr+BSxBsh6u2qJt3UoJeYZRUUYg1n3izPZZ9ZRE/3yapxUo+qccBBcfRg
-         f69qwMASLSVbn/5O7kcw/AoBRBPaot61wiPZXfY0PBPVGs+WVuM60UphrzFaG19s0EUp
-         EgEg==
-X-Forwarded-Encrypted: i=1; AFNElJ8FqGWeE8h3Xn9pFXwkDbYG+sSjcY/GhukZWX4psplfifvkodsdIcwHqHxHLxwzcw7yUs2HY2lodz5eyw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMXnEcGJZ0LY6iC/gC7kd430slFI5Y9zcIYqhAWgS54OdKFQ4T
-	iUImzjNRhjZbh7oDL90Uyu7JOP/4kbdmsGbe0Y8g9AcYpzPe85DBsQ8bAS/C9MWJYnw=
-X-Gm-Gg: AfdE7clE9VO+nsHcEf1YGiUd9OOcHxRpfO/UuHy5DYM/U9TpMp+fVuPmjjs3LviV4Jm
-	SQNBE3hlUlx5GBzeY6K6ZewZx16Uc/Z6d1f98yzkWNJuVlOrcbSnVJCBHEfAIb9zqypYytguOn0
-	8IOG1Gay3DtV63mOEvUEZu+GVTc8gXkCw4xAy7q0FhBTMMK/qUFJNCWeiwneJJfEfusQ8ImF/Rh
-	QJUBitj444ipCe71SSS78Np8OPhJgZY2H+U6bTERQN01WKsNINhDqWG9j0iQvwluJC52ZqKT8J+
-	MrczOB7bCmn3X/DXSxTUyijFekMgJzES3UutirX9nJJwIeDJRAwWViRrbMAZWiFUjrEIjJgEbfj
-	mymHiSTjbsLkmtxZcSeZul58r8JaF6iLxJSWz2QDZb3hWOdYieOnmQbwpjmB1xVMpwKTrrZyaqc
-	GjVlbU
-X-Received: by 2002:a05:6808:1512:b0:497:da97:8c7b with SMTP id 5614622812f47-4a203fc1530mr5884922b6e.31.1783593379164;
-        Thu, 09 Jul 2026 03:36:19 -0700 (PDT)
-Received: from localhost ([74.80.182.70])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a1b01f1722sm3661154b6e.16.2026.07.09.03.36.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 03:36:17 -0700 (PDT)
-Date: Thu, 9 Jul 2026 13:36:11 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 98/105]
- drivers/media/pci/intel/ipu6/ipu6-isys-video.c:853
- ipu6_isys_alloc_stream_firmware() error: double free of 'stream' (line 790)
-Message-ID: <202607031449.9y46lBuM-lkp@intel.com>
+        d=1e100.net; s=20251104; t=1783593742; x=1784198542;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=103RlNDsVc9CqcukuQpvaht+DtG25Ju2mmeEoB+078U=;
+        b=GUQSiAjs68rpR9wW/gogcBq8wnrGjgx3t/SFbe2M7joQPWnrb00kzhAza9oV+jO0D5
+         T1NKzItBSOz3iKM7atekKbvbjAGcXJFxRtaa5yzJ44yws85UcU5v6ZheR3C/W7Cp1xFj
+         /fy1BdRlYQ9TdOFmyFcRFN+UXwzXmtXQO6lxwCdMpqXEhpneKtsXm4mRXgyqtiHLO5Nu
+         1A39OzRUDre6S9mM4wCHjlIkilbsLELXbDAFmXLuIMC5lv4Qnx11/wKIwYluKMjG2D96
+         pw+KAZql9Sew6phOAcNVQijiX6TkAW2M9ygG9NF+ys62jwFqS2lFJjnA3eNVj3mKSqNL
+         wrNA==
+X-Forwarded-Encrypted: i=1; AFNElJ+uYvK0xjEhVIRo6EJn1vsDYFCTKcPkUGIqDa2vKUXFPXYeL8IJBCcdSXmFAlf3r2ox/O2riODhNyRqLg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8MpcXlQPNHgpG/CidFDUTXkbqoPncqcwgbFNeh7c8D3MnNnBf
+	jfvqZEMCdsQa0QGNTa1a9Af1oqTe9skY8xRTEdNuiNQlrCyB9GtAuddzuJzk4chUcsT0h4eSgnG
+	e03mUaidIsG4CS/t/v8fUJrwbXutZbUxKglAZCCeN/w0i8sa814HXjJCIdx0=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Received: by 2002:a05:6820:340d:20b0:6a3:76ad:8ec2 with SMTP id
+ 006d021491bc7-6a376ad8f4emr2198125eaf.3.1783593742433; Thu, 09 Jul 2026
+ 03:42:22 -0700 (PDT)
+Date: Thu, 09 Jul 2026 03:42:22 -0700
+In-Reply-To: <68d145d8.050a0220.13cd81.05b4.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a4f7b0e.c76b52dc.34afef.002c.GAE@google.com>
+Subject: Re: [syzbot] [media?] KASAN: slab-use-after-free Write in dvb_device_put
+From: syzbot <syzbot+d445a71e1c011b592c16@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	mchehab@kernel.org, sameekshasankpal@gmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=48ef5c5c0f192153];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-67138-lists,linux-media=lfdr.de,d445a71e1c011b592c16];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,appspotmail.com:email,storage.googleapis.com:url,vger.kernel.org:from_smtp,syzkaller.appspot.com:url,syzkaller.appspotmail.com:from_mime];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:sameekshasankpal@gmail.com,m:syzkaller-bugs@googlegroups.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[vger.kernel.org,kernel.org,gmail.com,googlegroups.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:oe-kbuild@lists.linux.dev,m:sakari.ailus@linux.intel.com,m:lkp@intel.com,m:oe-kbuild-all@lists.linux.dev,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67137-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:mid,intel.com:email,vger.kernel.org:from_smtp,01.org:url]
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	SUBJECT_HAS_QUESTION(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: AC8D972FB7E
+X-Rspamd-Queue-Id: 0B59A7300D8
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   a6d4ce993bcd76851cfc7f28cc33aac011a30fa9
-commit: 5bd6ad739336637aa65b270823cf43a5a8f2dcab [98/105] media: ipu6: Bridge the gap between streams in V4L2 and IPU6 firmware
-config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260703/202607031449.9y46lBuM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9185-gbcc58b9c
+syzbot has found a reproducer for the following issue on:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202607031449.9y46lBuM-lkp@intel.com/
+HEAD commit:    0e35b9b6ec0f Merge tag 'mm-hotfixes-stable-2026-07-06-17-4..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16527b1e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=48ef5c5c0f192153
+dashboard link: https://syzkaller.appspot.com/bug?extid=d445a71e1c011b592c16
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=131d3739580000
 
-smatch warnings:
-drivers/media/pci/intel/ipu6/ipu6-isys-video.c:853 ipu6_isys_alloc_stream_firmware() error: double free of 'stream' (line 790)
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-0e35b9b6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c14bac7bee17/vmlinux-0e35b9b6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/36bfa5293255/bzImage-0e35b9b6.xz
 
-vim +/stream +853 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+d445a71e1c011b592c16@syzkaller.appspotmail.com
 
-5bd6ad73933663 Sakari Ailus 2026-06-26  770  struct ipu6_isys_stream *
-5bd6ad73933663 Sakari Ailus 2026-06-26  771  ipu6_isys_alloc_stream_firmware(struct ipu6_isys_csi2 *csi2,
-5bd6ad73933663 Sakari Ailus 2026-06-26  772  				struct v4l2_subdev_state *csi2_state,
-5bd6ad73933663 Sakari Ailus 2026-06-26  773  				struct v4l2_mbus_frame_desc *desc,
-5bd6ad73933663 Sakari Ailus 2026-06-26  774  				u8 vc)
-5bd6ad73933663 Sakari Ailus 2026-06-26  775  {
-5bd6ad73933663 Sakari Ailus 2026-06-26  776  	struct device *dev = &csi2->isys->adev->auxdev.dev;
-5bd6ad73933663 Sakari Ailus 2026-06-26  777  	struct ipu6_isys_stream *stream;
-5bd6ad73933663 Sakari Ailus 2026-06-26  778  	struct v4l2_subdev_route *route;
-5bd6ad73933663 Sakari Ailus 2026-06-26  779  	int ret;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  780  
-5bd6ad73933663 Sakari Ailus 2026-06-26  781  	stream = kzalloc(sizeof(*stream), GFP_KERNEL);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  782  	if (!stream) {
-5bd6ad73933663 Sakari Ailus 2026-06-26  783  		ret = -ENOMEM;
-5bd6ad73933663 Sakari Ailus 2026-06-26  784  		goto err_free_stream;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  785  	}
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  786  
-5bd6ad73933663 Sakari Ailus 2026-06-26  787  	ret = ida_alloc_max(&csi2->isys->streams, IPU6_ISYS_MAX_STREAMS - 1,
-5bd6ad73933663 Sakari Ailus 2026-06-26  788  			    GFP_KERNEL);
-5bd6ad73933663 Sakari Ailus 2026-06-26  789  	if (ret < 0) {
-5bd6ad73933663 Sakari Ailus 2026-06-26 @790  		kfree(stream);
-5bd6ad73933663 Sakari Ailus 2026-06-26  791  		goto err_free_stream;
+==================================================================
+BUG: KASAN: slab-use-after-free in instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
+BUG: KASAN: slab-use-after-free in atomic_fetch_sub_release include/linux/atomic/atomic-instrumented.h:400 [inline]
+BUG: KASAN: slab-use-after-free in __refcount_sub_and_test include/linux/refcount.h:389 [inline]
+BUG: KASAN: slab-use-after-free in __refcount_dec_and_test include/linux/refcount.h:432 [inline]
+BUG: KASAN: slab-use-after-free in refcount_dec_and_test include/linux/refcount.h:450 [inline]
+BUG: KASAN: slab-use-after-free in kref_put include/linux/kref.h:64 [inline]
+BUG: KASAN: slab-use-after-free in dvb_device_put.part.0+0x22/0x90 drivers/media/dvb-core/dvbdev.c:629
+Write of size 4 at addr ffff88802e87b210 by task syz.0.1597/11270
 
-Double free on this error path.
+CPU: 0 UID: 0 PID: 11270 Comm: syz.0.1597 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:186 [inline]
+ kasan_check_range+0x10f/0x1e0 mm/kasan/generic.c:200
+ instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
+ atomic_fetch_sub_release include/linux/atomic/atomic-instrumented.h:400 [inline]
+ __refcount_sub_and_test include/linux/refcount.h:389 [inline]
+ __refcount_dec_and_test include/linux/refcount.h:432 [inline]
+ refcount_dec_and_test include/linux/refcount.h:450 [inline]
+ kref_put include/linux/kref.h:64 [inline]
+ dvb_device_put.part.0+0x22/0x90 drivers/media/dvb-core/dvbdev.c:629
+ dvb_device_put drivers/media/dvb-core/dvbdev.c:628 [inline]
+ dvb_device_open+0x2ba/0x3b0 drivers/media/dvb-core/dvbdev.c:113
+ chrdev_open+0x234/0x6a0 fs/char_dev.c:411
+ do_dentry_open+0x6ab/0x14d0 fs/open.c:947
+ vfs_open+0x82/0x3f0 fs/open.c:1052
+ do_open fs/namei.c:4700 [inline]
+ path_openat+0x2873/0x4280 fs/namei.c:4863
+ do_file_open+0x20e/0x430 fs/namei.c:4892
+ do_sys_openat2+0x10f/0x1e0 fs/open.c:1368
+ do_sys_open fs/open.c:1374 [inline]
+ __do_sys_openat fs/open.c:1390 [inline]
+ __se_sys_openat fs/open.c:1385 [inline]
+ __x64_sys_openat+0x12d/0x210 fs/open.c:1385
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f40c6b5e68e
+Code: 08 0f 85 a5 a8 ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 80 00 00 00 00 48 83 ec 08
+RSP: 002b:00007f40c61dcb28 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f40c61dd6c0 RCX: 00007f40c6b5e68e
+RDX: 0000000000000002 RSI: 00007f40c61dcc00 RDI: ffffffffffffff9c
+RBP: 00007f40c61dcc00 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: cccccccccccccccd
+R13: 00007f40c6e26128 R14: 00007f40c6e26090 R15: 00007ffd8a94f4f8
+ </TASK>
 
-5bd6ad73933663 Sakari Ailus 2026-06-26  792  	}
-5bd6ad73933663 Sakari Ailus 2026-06-26  793  
-5bd6ad73933663 Sakari Ailus 2026-06-26  794  	stream->stream_handle = ret;
-5bd6ad73933663 Sakari Ailus 2026-06-26  795  	mutex_init(&stream->mutex);
-5bd6ad73933663 Sakari Ailus 2026-06-26  796  	init_completion(&stream->stream_open_completion);
-5bd6ad73933663 Sakari Ailus 2026-06-26  797  	init_completion(&stream->stream_close_completion);
-5bd6ad73933663 Sakari Ailus 2026-06-26  798  	init_completion(&stream->stream_start_completion);
-5bd6ad73933663 Sakari Ailus 2026-06-26  799  	init_completion(&stream->stream_stop_completion);
-5bd6ad73933663 Sakari Ailus 2026-06-26  800  	INIT_LIST_HEAD(&stream->queues);
-5bd6ad73933663 Sakari Ailus 2026-06-26  801  	stream->isys = csi2->asd.isys;
-5bd6ad73933663 Sakari Ailus 2026-06-26  802  	stream->asd = &csi2->asd;
-5bd6ad73933663 Sakari Ailus 2026-06-26  803  	stream->vc = vc;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  804  
-5bd6ad73933663 Sakari Ailus 2026-06-26  805  	scoped_guard(spinlock_irqsave, &stream->isys->power_lock) {
-5bd6ad73933663 Sakari Ailus 2026-06-26  806  		stream->isys->streams_by_handle[stream->stream_handle] =
-5bd6ad73933663 Sakari Ailus 2026-06-26  807  			stream;
-5bd6ad73933663 Sakari Ailus 2026-06-26  808  		csi2->streams_by_vc[stream->vc] = stream;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  809  	}
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  810  
-5bd6ad73933663 Sakari Ailus 2026-06-26  811  	list_add(&stream->csi2_entry, &csi2->streams);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  812  
-5bd6ad73933663 Sakari Ailus 2026-06-26  813  	for_each_active_route(&csi2_state->routing, route) {
-5bd6ad73933663 Sakari Ailus 2026-06-26  814  		struct media_pad *vdev_pad =
-5bd6ad73933663 Sakari Ailus 2026-06-26  815  			media_pad_remote_pad_first(&csi2->asd.pad[route->source_pad]);
-5bd6ad73933663 Sakari Ailus 2026-06-26  816  		struct v4l2_mbus_frame_desc_entry *entry = NULL;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  817  
-5bd6ad73933663 Sakari Ailus 2026-06-26  818  		for (unsigned int i = 0; i < desc->num_entries; i++) {
-5bd6ad73933663 Sakari Ailus 2026-06-26  819  			if (desc->entry[i].stream != route->sink_stream)
-5bd6ad73933663 Sakari Ailus 2026-06-26  820  				continue;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  821  
-5bd6ad73933663 Sakari Ailus 2026-06-26  822  			entry = &desc->entry[i];
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  823  			break;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  824  		}
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  825  
-5bd6ad73933663 Sakari Ailus 2026-06-26  826  		if (!entry) {
-5bd6ad73933663 Sakari Ailus 2026-06-26  827  			dev_dbg(dev, "cannot find stream %u in frame desc\n",
-5bd6ad73933663 Sakari Ailus 2026-06-26  828  				route->sink_stream);
-5bd6ad73933663 Sakari Ailus 2026-06-26  829  			ret = -EINVAL;
-5bd6ad73933663 Sakari Ailus 2026-06-26  830  			goto err_ida_free;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  831  		}
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  832  
-5bd6ad73933663 Sakari Ailus 2026-06-26  833  		if (entry->bus.csi2.vc != vc)
-5bd6ad73933663 Sakari Ailus 2026-06-26  834  			continue;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  835  
-5bd6ad73933663 Sakari Ailus 2026-06-26  836  		struct ipu6_isys_video *av =
-5bd6ad73933663 Sakari Ailus 2026-06-26  837  			container_of_const(vdev_pad, struct ipu6_isys_video,
-5bd6ad73933663 Sakari Ailus 2026-06-26  838  					   pad);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  839  
-5bd6ad73933663 Sakari Ailus 2026-06-26  840  		list_add(&av->aq.node, &stream->queues);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  841  
-5bd6ad73933663 Sakari Ailus 2026-06-26  842  		stream->nr_output_pins++;
-5bd6ad73933663 Sakari Ailus 2026-06-26  843  		av->stream = stream;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  844  	}
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  845  
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  846  	return stream;
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  847  
-5bd6ad73933663 Sakari Ailus 2026-06-26  848  err_ida_free:
-5bd6ad73933663 Sakari Ailus 2026-06-26  849  	list_del(&stream->csi2_entry);
-5bd6ad73933663 Sakari Ailus 2026-06-26  850  	ida_free(&csi2->isys->streams, stream->stream_handle);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  851  
-5bd6ad73933663 Sakari Ailus 2026-06-26  852  err_free_stream:
-5bd6ad73933663 Sakari Ailus 2026-06-26 @853  	kfree(stream);
+Allocated by task 1:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x2e5/0x6c0 mm/slub.c:5515
+ _kmalloc_noprof include/linux/slab.h:969 [inline]
+ _kzalloc_noprof include/linux/slab.h:1290 [inline]
+ dvb_register_device+0x1d6/0x1e20 drivers/media/dvb-core/dvbdev.c:472
+ dvb_register_frontend+0x552/0x820 drivers/media/dvb-core/dvb_frontend.c:3051
+ vidtv_bridge_dvb_init drivers/media/test-drivers/vidtv/vidtv_bridge.c:438 [inline]
+ vidtv_bridge_probe+0x44b/0xa30 drivers/media/test-drivers/vidtv/vidtv_bridge.c:510
+ platform_probe+0x106/0x1d0 drivers/base/platform.c:1439
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __driver_attach+0x21f/0x5b0 drivers/base/dd.c:1292
+ bus_for_each_dev+0x13e/0x1d0 drivers/base/bus.c:383
+ bus_add_driver+0x305/0x5b0 drivers/base/bus.c:763
+ driver_register+0x1e2/0x360 drivers/base/driver.c:174
+ vidtv_bridge_init+0x52/0x80 drivers/media/test-drivers/vidtv/vidtv_bridge.c:602
+ do_one_initcall+0x11d/0x700 init/main.c:1347
+ do_initcall_level init/main.c:1409 [inline]
+ do_initcalls init/main.c:1425 [inline]
+ do_basic_setup init/main.c:1445 [inline]
+ kernel_init_freeable+0x6ea/0x7b0 init/main.c:1658
+ kernel_init+0x1f/0x1e0 init/main.c:1548
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-Second free.
+Freed by task 11273:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2705 [inline]
+ slab_free mm/slub.c:6405 [inline]
+ kfree+0x22b/0x6c0 mm/slub.c:6720
+ dvb_free_device drivers/media/dvb-core/dvbdev.c:616 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ dvb_device_put.part.0+0x57/0x90 drivers/media/dvb-core/dvbdev.c:629
+ dvb_device_put drivers/media/dvb-core/dvbdev.c:628 [inline]
+ dvb_device_open+0x2ba/0x3b0 drivers/media/dvb-core/dvbdev.c:113
+ chrdev_open+0x234/0x6a0 fs/char_dev.c:411
+ do_dentry_open+0x6ab/0x14d0 fs/open.c:947
+ vfs_open+0x82/0x3f0 fs/open.c:1052
+ do_open fs/namei.c:4700 [inline]
+ path_openat+0x2873/0x4280 fs/namei.c:4863
+ do_file_open+0x20e/0x430 fs/namei.c:4892
+ do_sys_openat2+0x10f/0x1e0 fs/open.c:1368
+ do_sys_open fs/open.c:1374 [inline]
+ __do_sys_openat fs/open.c:1390 [inline]
+ __se_sys_openat fs/open.c:1385 [inline]
+ __x64_sys_openat+0x12d/0x210 fs/open.c:1385
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  854  
-5bd6ad73933663 Sakari Ailus 2026-06-26  855  	return ERR_PTR(ret);
-3c1dfb5a69cf83 Bingbu Cao   2024-01-31  856  }
+The buggy address belongs to the object at ffff88802e87b200
+ which belongs to the cache kmalloc-256 of size 256
+The buggy address is located 16 bytes inside of
+ freed 256-byte region [ffff88802e87b200, ffff88802e87b300)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff88802e87aa00 pfn:0x2e87a
+head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000240(workingset|head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000240 ffff88801bc42b40 ffffea0000e95890 ffffea0000f47190
+raw: ffff88802e87aa00 000000080010000e 00000000f5000000 0000000000000000
+head: 00fff00000000240 ffff88801bc42b40 ffffea0000e95890 ffffea0000f47190
+head: ffff88802e87aa00 000000080010000e 00000000f5000000 0000000000000000
+head: 00fff00000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000002
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd2040(__GFP_IO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 37, tgid 37 (kdevtmpfs), ts 20172119905, free_ts 0
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0xf48/0x3530 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x299/0x2dc0 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3294 [inline]
+ allocate_slab mm/slub.c:3408 [inline]
+ new_slab+0xa2/0x650 mm/slub.c:3454
+ refill_objects+0xe3/0x410 mm/slub.c:7338
+ refill_sheaf mm/slub.c:2832 [inline]
+ __pcs_replace_empty_main+0x376/0x680 mm/slub.c:4703
+ alloc_from_pcs mm/slub.c:4801 [inline]
+ slab_alloc_node mm/slub.c:4933 [inline]
+ __do_kmalloc_node mm/slub.c:5361 [inline]
+ __kmalloc_noprof+0x66d/0x820 mm/slub.c:5387
+ _kmalloc_noprof include/linux/slab.h:973 [inline]
+ _kmalloc_array_noprof include/linux/slab.h:1189 [inline]
+ security_inode_init_security+0x113/0x370 security/security.c:1347
+ shmem_mknod+0x2ce/0x480 mm/shmem.c:3804
+ vfs_mknod+0x3a5/0x7f0 fs/namei.c:5135
+ handle_create drivers/base/devtmpfs.c:232 [inline]
+ handle drivers/base/devtmpfs.c:384 [inline]
+ devtmpfs_work_loop+0x48d/0xae4 drivers/base/devtmpfs.c:399
+ devtmpfsd+0x3f/0x50 drivers/base/devtmpfs.c:441
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+page_owner free stack trace missing
 
+Memory state around the buggy address:
+ ffff88802e87b100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff88802e87b180: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff88802e87b200: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                         ^
+ ffff88802e87b280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88802e87b300: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
