@@ -1,175 +1,171 @@
-Return-Path: <linux-media+bounces-67098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67099-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4waFA601T2qkcAIAu9opvQ
-	(envelope-from <linux-media+bounces-67098-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 07:46:21 +0200
+	id 7iARLAM2T2rKcAIAu9opvQ
+	(envelope-from <linux-media+bounces-67099-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 07:47:47 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A45D72CDA7
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 07:46:20 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E795972CDFD
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 07:47:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=BzMErqn7;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67098-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67098-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=infradead.org header.s=bombadil.20210309 header.b=rKXGtt6L;
+	dmarc=pass (policy=none) header.from=infradead.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67099-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-67099-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9CC473058095
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 05:43:51 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6CA6230148DC
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 05:47:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0EF73AE194;
-	Thu,  9 Jul 2026 05:43:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 819C73ACA57;
+	Thu,  9 Jul 2026 05:47:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E807543932C;
-	Thu,  9 Jul 2026 05:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3F5288D0;
+	Thu,  9 Jul 2026 05:47:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783575828; cv=none; b=J6cqVpVfQnbzLtQuLE7wDETTubkNuLrShdDq0XwBtLPfkuWacATdUTFIPV/e/Q+WCSoOOAr2cuphHeWtXgRHs3NnRMmGhivW71455WHdTsXGgvyuy4g/3yKWpL9KiDoQNx8eYy0ijLtpr0FwZ9y3ZTsBQKxWQ1acdtEVWLBTkIQ=
+	t=1783576054; cv=none; b=Xow9kbPhLcN8SYE7PwAuD/7X3gDnhwfs6VCxXZcvk0/GLEyc7in18X8RXKQkWpdIaMg61sPaP5B/F0kdtR6W2Dtqxpn2K4zwAlp973HkkXVbalelk9JYHnGxGuX7ALHhp7D3lOLhQupkCO6vugRtrGsoMOV20pKm6GdYx7NsRUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783575828; c=relaxed/simple;
-	bh=c/7Wj6PdrlZXC2hh+OdKcA0brKNMahmYbkopRZsSj4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tSyI5CHFr6sr9wle9ITTkCmdtm1fXavm5qFbQHV2CtdSUkHUrZSZEd6XTNHkQRNwpyyjbvvhhMWT7Cn2Wd1ClrEmi3WoriHjRmdgHF808PNzBRRMpPga/qySEdn+IaevZqBsucUj2AAkE/b9jbAI7scTOYQbPr2Z1VJz6HYAE6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BzMErqn7; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CAF51F000E9;
-	Thu,  9 Jul 2026 05:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783575826;
-	bh=qiRZlu+pN9UCQWPo2SujBtFWkDfJIgfryKRGlCH9SOw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BzMErqn7H0tBQWhIwwL6cUV+PjYiwddzfMugre75ZSIDqZBCLeCqXrYojO2boVY6m
-	 WEHqDK9+AFssKNWzeZSrEXx6ZE8pGP7XrpR/kzxGx0xXXBHhVlVk05mMLjuZx3AN3q
-	 nFwms3UbgAZTz7CoZQfvH1PiOO0qS3P/j07senEZR/5mIK9KDJT3xrUlGAfo+o5Pzk
-	 P9PlZ9QqFsr4ZtFXhvfxdyJmNot3XsN9XOSspEw0RmfmQP+oJ0IKP8AK6VLS+VFyh4
-	 9hMocZ0tLgRbX3AucUK107XcluYsLU4ZDIC+IANdz7E7zD6WbZ1KA6LiNnn/ZYB3C4
-	 F7pcOoylRdyqw==
-Date: Thu, 9 Jul 2026 07:43:19 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>, 
-	"Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>, Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>, 
-	Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Jiri Kosina <jikos@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Zhou Wang <wangzhou1@hisilicon.com>, 
-	Longfang Liu <liulongfang@huawei.com>, Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
-	Sunil Goutham <sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, "David S . Miller" <davem@davemloft.net>, 
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, 
-	Maciej Falkowski <maciej.falkowski@linux.intel.com>, Karol Wachowski <karol.wachowski@linux.intel.com>, 
-	Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>, 
-	Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
-	Will Deacon <will@kernel.org>, Xinliang Liu <xinliang.liu@linaro.org>, 
-	Tian Tao <tiantao6@hisilicon.com>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Srujana Challa <schalla@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, 
-	Antoine Tenart <atenart@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Raag Jadav <raag.jadav@intel.com>, Hans de Goede <hansg@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Robert Richter <rric@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Nirmal Patel <nirmal.patel@linux.intel.com>, 
-	Kurt Schwemmer <kurt.schwemmer@microsemi.com>, Logan Gunthorpe <logang@deltatee.com>, 
-	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Tomasz Jeznach <tomasz.jeznach@linux.dev>, Jonathan Cameron <jic23@kernel.org>, 
-	Ulf Hansson <ulfh@kernel.org>, Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Benjamin Tissoires <bentiss@kernel.org>, 
-	linux-input@vger.kernel.org, linux-i3c@lists.infradead.org, dmaengine@vger.kernel.org, 
-	Philipp Stanner <phasta@kernel.org>, netdev@vger.kernel.org, nic_swsd@realtek.com, 
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, linux-cxl@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-serial@vger.kernel.org, mhi@lists.linux.dev, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, linux-i2c@vger.kernel.org, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	linux-spi@vger.kernel.org, Jonathan Derrick <jonathan.derrick@linux.dev>, 
-	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/37] PCI/MSI: Enforce explicit IRQ vector
- management by removing devres auto-free
-Message-ID: <vb3ywnzdult3h3bzvh2m6ye5xcuxuzvufcsp4kdos6g2a4q6tn@5ut3kgguaey6>
-References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
- <178357565325.731734.7291964273199898845.b4-ty@b4>
+	s=arc-20240116; t=1783576054; c=relaxed/simple;
+	bh=ulT0R8zHT2oSgW02qyca/sRSVMAA8oUVdAKiA3crOvY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QAAc8BiTHbNYLGr+4ngWUsFXbNoSoaU2cq6jXWYd3vZ2tAqeOAzz/s+l+1vhesddYP8VfBcNaw/VKCbsPZR/FHU50UAY0Y4NwzFHIopc4vET+w16Sy+4WtCnh8JNm6VO9LqDBoWTkcj5FzjXSDp4TRBucXkfSHxCrAvkQsrjMWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rKXGtt6L; arc=none smtp.client-ip=198.137.202.133
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=S60EzECEIRXkgmqwnVqvijepjwRrX4+UczV6eSLKP8s=; b=rKXGtt6L91jep2t+IrHE5V1mY3
+	u0R4PQcnK1g3o0A7mIFZdBWblYga1jvCKTol1Y+0K+qv4OV5suEVcIpOeAq2aK1qAfl9dcT94AOO+
+	Tk8KOJIa/gnUBM7oRQuhVSHijaRwwtdXQX9Vr+oYY3pXy0S32EIhLr9ipqd1lohxUcCXR+mgr8vbr
+	l5VHjYcTaBhFxnyqYlLAy0o4nAm1PrSWJJjKgdF4299BhVnReipeXe3bqt/THhztI8UtVjz6rkJih
+	iGbRZrcmHEv6ORtNaAlXRkK6kVzAZQduC8rjuXIEfnKndiFT9Sq8OZnAjVOfEqs2HW99wPMT83xyj
+	P6iq9kuw==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1whhbc-000000015Vn-3ZpA;
+	Thu, 09 Jul 2026 05:47:28 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] dma-buf: fix some kernel-doc warnings
+Date: Wed,  8 Jul 2026 22:47:24 -0700
+Message-ID: <20260709054728.528152-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <178357565325.731734.7291964273199898845.b4-ty@b4>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-67099-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67098-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,gmail.com,davemloft.net,oss.qualcomm.com,amd.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,linux.dev,rock-chips.com];
-	FORGED_SENDER(0.00)[mani@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[rdunlap@infradead.org,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:bhelgaas@google.com,m:vaibhaavram.tl@microchip.com,m:kumaravel.thiagarajan@microchip.com,m:even.xu@intel.com,m:xinpeng.sun@intel.com,m:srinivas.pandruvada@linux.intel.com,m:jikos@kernel.org,m:alexandre.belloni@bootlin.com,m:wangzhou1@hisilicon.com,m:liulongfang@huawei.com,m:vkoul@kernel.org,m:lee@kernel.org,m:shaojijie@huawei.com,m:shenjian15@huawei.com,m:sgoutham@marvell.com,m:andrew+netdev@lunn.ch,m:hkallweit1@gmail.com,m:davem@davemloft.net,m:jeff.hugo@oss.qualcomm.com,m:ogabbay@kernel.org,m:maciej.falkowski@linux.intel.com,m:karol.wachowski@linux.intel.com,m:mamin506@gmail.com,m:lizhi.hou@amd.com,m:andreas.noever@gmail.com,m:westeri@kernel.org,m:will@kernel.org,m:xinliang.liu@linaro.org,m:tiantao6@hisilicon.com,m:dave@stgolabs.net,m:schalla@marvell.com,m:bbhushan2@marvell.com,m:atenart@kernel.org,m:herbert@gondor.apana.org.au,m:raag.jadav@intel.com,m:hansg@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:andy@kernel.org,m:mika.westerberg
- @linux.intel.com,m:andi.shyti@kernel.org,m:rric@kernel.org,m:broonie@kernel.org,m:nirmal.patel@linux.intel.com,m:kurt.schwemmer@microsemi.com,m:logang@deltatee.com,m:linusw@kernel.org,m:brgl@kernel.org,m:sakari.ailus@linux.intel.com,m:bingbu.cao@intel.com,m:tomasz.jeznach@linux.dev,m:jic23@kernel.org,m:ulfh@kernel.org,m:shawn.lin@rock-chips.com,m:arnd@arndb.de,m:bentiss@kernel.org,m:linux-input@vger.kernel.org,m:linux-i3c@lists.infradead.org,m:dmaengine@vger.kernel.org,m:phasta@kernel.org,m:netdev@vger.kernel.org,m:nic_swsd@realtek.com,m:linux-arm-msm@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-usb@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-riscv@lists.infradead.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-cxl@vger.kernel.org,m:linux-crypto@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,m:linux-serial@vger.kernel.org,m:mhi@lists.linux.dev,m:andriy.shevchenko@linux.intel.com,m:jsd@semihalf.com,m:linux-i2c@vger.kernel.org,m:daniel@zonque.org,m:haojian.zh
- uang@gmail.com,m:linux-spi@vger.kernel.org,m:jonathan.derrick@linux.dev,m:linux-pci@vger.kernel.org,m:linux-gpio@vger.kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:rdunlap@infradead.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:christian.koenig@amd.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[86];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[arndb.de,kernel.org,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,gmail.com,ffwll.ch,linux.intel.com,semihalf.com,zonque.org,linux.dev];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[5ut3kgguaey6:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[infradead.org:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,vger.kernel.org:from_smtp,amd.com:email,infradead.org:from_mime,infradead.org:email,infradead.org:mid,infradead.org:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,lists.freedesktop.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8A45D72CDA7
+X-Rspamd-Queue-Id: E795972CDFD
 
-On Thu, Jul 09, 2026 at 07:40:53AM +0200, Manivannan Sadhasivam wrote:
-> 
-> On Mon, 23 Feb 2026 23:29:39 +0800, Shawn Lin wrote:
-> > This patch series addresses a long-standing design issue in the PCI/MSI
-> > subsystem where the implicit, automatic management of IRQ vectors by
-> > the devres framework conflicts with explicit driver cleanup, creating
-> > ambiguity and potential resource management bugs.
-> > 
-> > ==== The Problem: Implicit vs. Explicit Management ====
-> > Historically, `pcim_enable_device()` not only manages standard PCI resources
-> > (BARs) via devres but also implicitly triggers automatic IRQ vector management
-> > by setting a flag that registers `pcim_msi_release()` as a cleanup action.
-> > 
-> > [...]
-> 
-> Applied, thanks!
-> 
-> [13/37] bus: mhi: host: Replace pci_alloc_irq_vectors() with pcim_alloc_irq_vectors()
->         commit: 256995e80fcd39cab94eee8135dd90f6da6ac744
-> 
+- drop Excess description of @lock from kernel-doc
+- add missing function/macro short descriptions
 
-Sorry, this is a mistake. This patch is not applied.
+WARNING: include/linux/dma-fence-array.h:47 Excess struct member 'lock' description in 'dma_fence_array'
+WARNING: include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
+Warning: include/linux/dma-fence-chain.h:82 missing initial short description on line:
+ * dma_fence_chain_alloc
+Warning: include/linux/dma-fence-chain.h:94 missing initial short description on line:
+ * dma_fence_chain_free
 
-- Mani
+Fixes: 5943243914b9 ("dma-buf: use inline lock for the dma-fence-array")
+Fixes: a408c0ca0c41 ("dma-buf: use inline lock for the dma-fence-chain")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Christian König <christian.koenig@amd.com>
+Cc: stable@vger.kernel.org
 
--- 
-மணிவண்ணன் சதாசிவம்
+ include/linux/dma-fence-array.h |    1 -
+ include/linux/dma-fence-chain.h |    9 ++++-----
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+
+--- linext-2026-0708.orig/include/linux/dma-fence-array.h
++++ linext-2026-0708/include/linux/dma-fence-array.h
+@@ -28,7 +28,6 @@ struct dma_fence_array_cb {
+ /**
+  * struct dma_fence_array - fence to represent an array of fences
+  * @base: fence base class
+- * @lock: spinlock for fence handling
+  * @num_fences: number of fences in the array
+  * @num_pending: fences in the array still pending
+  * @fences: array of the fences
+--- linext-2026-0708.orig/include/linux/dma-fence-chain.h
++++ linext-2026-0708/include/linux/dma-fence-chain.h
+@@ -20,7 +20,6 @@
+  * @prev: previous fence of the chain
+  * @prev_seqno: original previous seqno before garbage collection
+  * @fence: encapsulated fence
+- * @lock: spinlock for fence handling
+  */
+ struct dma_fence_chain {
+ 	struct dma_fence base;
+@@ -81,9 +80,8 @@ dma_fence_chain_contained(struct dma_fen
+ }
+ 
+ /**
+- * dma_fence_chain_alloc
+- *
+- * Returns a new struct dma_fence_chain object or NULL on failure.
++ * dma_fence_chain_alloc - Returns a new &struct dma_fence_chain object or
++ * %NULL on failure.
+  *
+  * This specialized allocator has to be a macro for its allocations to be
+  * accounted separately (to have a separate alloc_tag). The typecast is
+@@ -93,7 +91,8 @@ dma_fence_chain_contained(struct dma_fen
+ 		kmalloc_obj(struct dma_fence_chain)
+ 
+ /**
+- * dma_fence_chain_free
++ * dma_fence_chain_free - Frees an allocated but not used
++ * &struct dma_fence_chain object.
+  * @chain: chain node to free
+  *
+  * Frees up an allocated but not used struct dma_fence_chain object. This
 
