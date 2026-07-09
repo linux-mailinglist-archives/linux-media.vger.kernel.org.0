@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-67122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67119-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4gFXJvpbT2qSfAIAu9opvQ
-	(envelope-from <linux-media+bounces-67122-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 10:29:46 +0200
+	id aaj6LbJaT2o1fAIAu9opvQ
+	(envelope-from <linux-media+bounces-67119-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 10:24:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307FE72E494
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 10:29:46 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C8972E39F
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 10:24:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=mu8fwC65;
+	dkim=pass header.d=intel.com header.s=Intel header.b=e6bi7pNC;
 	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67122-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67122-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67119-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-67119-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 522FA30E06BA
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 08:24:07 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2AEF33044C34
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 08:23:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E1173F5BF0;
-	Thu,  9 Jul 2026 08:23:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8C743F39EF;
+	Thu,  9 Jul 2026 08:23:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35AF13F1AC6;
-	Thu,  9 Jul 2026 08:23:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCDE3D3326;
+	Thu,  9 Jul 2026 08:23:22 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783585405; cv=none; b=a7cdBPyUK6mubURa/zTBRYPQ3frxCa2nLqmhoZO/FY6b8WLCV2HxMBzVj9KBeNAiipjSeVr2JYMH5PACD2Bu30v0SJS9nD/ePM4fXPpB3sLM18Mt2RyNVlySZfAWwV83c90fDylmxXSFhMpwCxIc7Ao4LV8TE327dmtlCynARiA=
+	t=1783585404; cv=none; b=VZeBmeAiAgxLGT8zc0uhv3+ZN8lJQLvYx2i+2oJCTOJDnkDtLHkOfYIfDnAqVsMiMX+SsLuF5K76UiM9b3WOS7h6kSfWLF1+CEAHvNKnFl2FX8NnXOTyeGtYZ/fCdsEn6XWzHGkyfbbhnRvT3zpdFqugHCmDhs2TifpH42MYPvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783585405; c=relaxed/simple;
-	bh=41xvevZ556DVVgT4Ol4iQ9h/U49oHfCnL0fcgqjSfj4=;
+	s=arc-20240116; t=1783585404; c=relaxed/simple;
+	bh=wDJbGRhWHHWJD2GwjiJ91JFiCT74FQ4d2GZYfLVNJbE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jOrmig6JICQESq7Bq0/qvQj20i29tq7tZ+Pu7y+NTPJ/5rNzpgvRW7qsuZrI8Sia2Ia9jTANfqSsfXIBmHyTUtK9GfSDRqySS/bkE8Gz+beLOh5VfGo39hZypMhZvvybjve0He5skVj4toBw6C5Tbhu2Ph1mOU5MuVENdABmczM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mu8fwC65; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=XVLZrVYZia9SmUFGDoQM/2/fhSG1LwVvuIZhZmDRp4Cp2SEwZIn6jDR6Qo7q8IxvtkniwIdfMqbJnbP3cSHF982ywNE/ZouDtjDBFnsWfi7zXT1YFRby6TqVYl2rAHq1Y3A+mDp06QX4K8LGTJGumu43rai2L7S6EDLxjRvVi0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e6bi7pNC; arc=none smtp.client-ip=192.198.163.18
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783585404; x=1815121404;
+  t=1783585402; x=1815121402;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=41xvevZ556DVVgT4Ol4iQ9h/U49oHfCnL0fcgqjSfj4=;
-  b=mu8fwC65F44b/VCyVO32AB1mzvfUWH7txM47YvJ26SByqJoW4WasJLMz
-   atI4lEQzEAaLDW49O06/7BxORgqz42yQ6alb8F3x8UG8rF/TsKc2Cs/9o
-   xKoqlOQ6gsM/Pz70mR0uS0j7/F+NT/RFDAA/pzsD4beOuNMz2NhbqkbSh
-   Wkek+OqVHcOu2e3u6bwj5akjyznrhYA3EoTdH6fgT/WU+NSG1Bnax2llc
-   +ls/v5luUTxOdMmJgnzoWR0HOCdImib3KnnE2PZxo0VS+v0QcYacvAJUL
-   F0Kwz+sfxJJiGdF7a9RbtYmezQm8Gb0YdiGdHNPm50EU4KdOKiRF0ROgy
+  bh=wDJbGRhWHHWJD2GwjiJ91JFiCT74FQ4d2GZYfLVNJbE=;
+  b=e6bi7pNCBjnncO14vTlvUsm2O6cWxcVwQvoAaAJfVSn3FZxbfmK1dygA
+   tvzOtsxJffLw7fRDvgoemzgfdOp3jWMv/gCFcbYAOIzm0BQX9VKilT88q
+   TMHGZu4jLHLZG6TFhASPS5cw+GD7hQVUCrRq3orQ7VrOWylsgbRKDF135
+   qR9sUlRvRdaANkY7XbGp6aB952hYy3ihwepeRbF9M/oyacDlnC1YwGQVB
+   /Jwc33x8hy7fHTt6Yvl4qg/3K3m82a2YnJu2MBg6qWW+1j8umJrc4P1j7
+   wKl8fF9c8WmgJEhVvXkzbhr2JAQ4zuP6pvmNMW3097Jqabcd43chk+j6v
    Q==;
-X-CSE-ConnectionGUID: 5bPAfUEbTqqD3V92BNoiaA==
-X-CSE-MsgGUID: n0LPSXomQSy4fJ98PCYCjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="83372160"
+X-CSE-ConnectionGUID: 5rrI1iyNTZ+dXtQSkBu5Tw==
+X-CSE-MsgGUID: a6+aY8KcTAmh69eMSKApLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="83372154"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="83372160"
+   d="scan'208";a="83372154"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 01:23:20 -0700
-X-CSE-ConnectionGUID: CFWOSdl0TlmCTzFx4Q8AQA==
-X-CSE-MsgGUID: duwQh1QcQd2TI/9I1OOEzg==
+X-CSE-ConnectionGUID: Pwh60GdAS42Rr2LowKQWEw==
+X-CSE-MsgGUID: 80RChK0vTeukL0ErN8AKcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="250535885"
+   d="scan'208";a="250535884"
 Received: from black.igk.intel.com ([10.91.253.5])
   by fmviesa010.fm.intel.com with ESMTP; 09 Jul 2026 01:23:19 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 878F29E; Thu, 09 Jul 2026 10:23:16 +0200 (CEST)
+	id 8B3C1A1; Thu, 09 Jul 2026 10:23:16 +0200 (CEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-media@vger.kernel.org,
@@ -70,9 +70,9 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 Cc: Hans Verkuil <hverkuil@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Ettore Chimenti <ek5.chimenti@gmail.com>
-Subject: [PATCH v1 5/8] media: cec: core: Add pr_fmt()
-Date: Thu,  9 Jul 2026 10:20:57 +0200
-Message-ID: <20260709082315.72685-6-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 6/8] media: cec: core: Consistently use CEC_NAME where it matters
+Date: Thu,  9 Jul 2026 10:20:58 +0200
+Message-ID: <20260709082315.72685-7-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260709082315.72685-1-andriy.shevchenko@linux.intel.com>
 References: <20260709082315.72685-1-andriy.shevchenko@linux.intel.com>
@@ -91,12 +91,12 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67122-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67119-lists,linux-media=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com];
 	FORWARDED(0.00)[lists@lfdr.de];
 	TO_DN_SOME(0.00)[];
@@ -114,106 +114,62 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,linux.intel.com:mid,linux.intel.com:from_mime,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,linux.intel.com:mid,linux.intel.com:from_mime,vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 307FE72E494
+X-Rspamd-Queue-Id: 57C8972E39F
 
-Several prints inconsistently use cec: or cec-%s: or nothing. To make
-it clear which prints come from cec-core.c, add a pr_fmt() macro.
+When create a debugfs folder or device nodes we use actual subsystem
+name. But in some cases it's hardcoded, while in other it uses predefined
+string literal. Make it consistently use CEC_NAME.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/media/cec/core/cec-core.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/media/cec/core/cec-core.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-index 1f12fb0caca7..dc05c5d7b2e3 100644
+index dc05c5d7b2e3..1b6f27a552db 100644
 --- a/drivers/media/cec/core/cec-core.c
 +++ b/drivers/media/cec/core/cec-core.c
-@@ -5,6 +5,8 @@
-  * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
-  */
+@@ -120,13 +120,13 @@ static int __must_check cec_devnode_register(struct cec_devnode *devnode,
+ 	devnode->dev.bus = &cec_bus_type;
+ 	devnode->dev.devt = MKDEV(MAJOR(cec_dev_t), minor);
+ 	devnode->dev.release = cec_devnode_release;
+-	dev_set_name(&devnode->dev, "cec%d", devnode->minor);
++	dev_set_name(&devnode->dev, "%s%d", CEC_NAME, devnode->minor);
+ 	device_initialize(&devnode->dev);
  
-+#define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
-+
- #include <linux/bitops.h>
- #include <linux/bug.h>
- #include <linux/cdev.h>
-@@ -107,7 +109,7 @@ static int __must_check cec_devnode_register(struct cec_devnode *devnode,
- 	minor = find_first_zero_bit(cec_devnode_nums, CEC_NUM_DEVICES);
- 	if (minor == CEC_NUM_DEVICES) {
- 		mutex_unlock(&cec_devnode_lock);
--		pr_err("could not get a free minor\n");
-+		pr_err("Could not get a free minor\n");
- 		return -ENFILE;
- 	}
+ 	/* Part 2: Initialize and register the character device */
+ 	cdev_init(&devnode->cdev, &cec_devnode_fops);
+ 	devnode->cdev.owner = owner;
+-	kobject_set_name(&devnode->cdev.kobj, "cec%d", devnode->minor);
++	kobject_set_name(&devnode->cdev.kobj, "%s%d", CEC_NAME, devnode->minor);
  
-@@ -130,7 +132,7 @@ static int __must_check cec_devnode_register(struct cec_devnode *devnode,
+ 	devnode->registered = true;
  	ret = cdev_device_add(&devnode->cdev, &devnode->dev);
- 	if (ret) {
- 		devnode->registered = false;
--		pr_err("%s: cdev_device_add failed\n", __func__);
-+		pr_err("cdev_device_add() failed\n");
- 		goto clr_bit;
- 	}
+@@ -267,7 +267,7 @@ struct cec_adapter *cec_allocate_adapter(const struct cec_adap_ops *ops,
+ 	mutex_init(&adap->devnode.lock_fhs);
+ 	mutex_init(&adap->devnode.lock);
  
-@@ -267,7 +269,7 @@ struct cec_adapter *cec_allocate_adapter(const struct cec_adap_ops *ops,
- 
- 	adap->kthread = kthread_run(cec_thread_func, adap, "cec-%s", name);
+-	adap->kthread = kthread_run(cec_thread_func, adap, "cec-%s", name);
++	adap->kthread = kthread_run(cec_thread_func, adap, "%s-%s", CEC_NAME, name);
  	if (IS_ERR(adap->kthread)) {
--		pr_err("cec-%s: kernel_thread() failed\n", name);
-+		pr_err("%s: kernel_thread() failed\n", name);
+ 		pr_err("%s: kernel_thread() failed\n", name);
  		res = PTR_ERR(adap->kthread);
- 		goto err_free_adap;
- 	}
-@@ -279,8 +281,7 @@ struct cec_adapter *cec_allocate_adapter(const struct cec_adap_ops *ops,
- 	/* Prepare the RC input device */
- 	adap->rc = rc_allocate_device(RC_DRIVER_SCANCODE);
- 	if (!adap->rc) {
--		pr_err("cec-%s: failed to allocate memory for rc_dev\n",
--		       name);
-+		pr_err("%s: failed to allocate memory for rc_dev\n", name);
- 		kthread_stop(adap->kthread);
- 		res = -ENOMEM;
- 		goto err_free_adap;
-@@ -336,8 +337,7 @@ int cec_register_adapter(struct cec_adapter *adap,
- 		res = rc_register_device(adap->rc);
- 
- 		if (res) {
--			pr_err("cec-%s: failed to prepare input device\n",
--			       adap->name);
-+			pr_err("%s: failed to prepare input device\n", adap->name);
- 			rc_free_device(adap->rc);
- 			adap->rc = NULL;
- 			return res;
-@@ -424,14 +424,14 @@ static int __init cec_devnode_init(void)
- 	int ret = alloc_chrdev_region(&cec_dev_t, 0, CEC_NUM_DEVICES, CEC_NAME);
- 
- 	if (ret < 0) {
--		pr_warn("cec: unable to allocate major\n");
-+		pr_warn("Unable to allocate major\n");
- 		return ret;
+@@ -429,9 +429,9 @@ static int __init cec_devnode_init(void)
  	}
  
  #ifdef CONFIG_DEBUG_FS
- 	top_cec_dir = debugfs_create_dir("cec", NULL);
+-	top_cec_dir = debugfs_create_dir("cec", NULL);
++	top_cec_dir = debugfs_create_dir(CEC_NAME, NULL);
  	if (IS_ERR_OR_NULL(top_cec_dir)) {
--		pr_warn("cec: Failed to create debugfs cec dir\n");
-+		pr_warn("Failed to create debugfs cec dir\n");
+-		pr_warn("Failed to create debugfs cec dir\n");
++		pr_warn("Failed to create debugfs " CEC_NAME " dir\n");
  		top_cec_dir = NULL;
  	}
  #endif
-@@ -440,7 +440,7 @@ static int __init cec_devnode_init(void)
- 	if (ret < 0) {
- 		debugfs_remove_recursive(top_cec_dir);
- 		unregister_chrdev_region(cec_dev_t, CEC_NUM_DEVICES);
--		pr_warn("cec: bus_register failed\n");
-+		pr_warn("bus_register() failed\n");
- 		return -EIO;
- 	}
- 
 -- 
 2.50.1
 
