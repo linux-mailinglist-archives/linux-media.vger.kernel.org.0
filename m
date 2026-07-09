@@ -1,227 +1,249 @@
-Return-Path: <linux-media+bounces-67136-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67137-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ABQeEbt9T2pNiAIAu9opvQ
-	(envelope-from <linux-media+bounces-67136-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 12:53:47 +0200
+	id WofbAWt6T2oYhwIAu9opvQ
+	(envelope-from <linux-media+bounces-67137-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 12:39:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D8772FE99
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 12:53:46 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8D972FB7E
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 12:39:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=SXH2uh4G;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67136-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67136-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="N2yGOg/w";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67137-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-67137-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B04CC31DB317
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 10:32:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 888523085DB6
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 10:36:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542E640629E;
-	Thu,  9 Jul 2026 10:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7104640629E;
+	Thu,  9 Jul 2026 10:36:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B153F4130;
-	Thu,  9 Jul 2026 10:31:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEFF3B19C1
+	for <linux-media@vger.kernel.org>; Thu,  9 Jul 2026 10:36:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783593115; cv=none; b=t5o2XS/rh/Dsxo/9TfdtqwYGimxTss6r0seqAyMFQW9xr4ep3g/y2xdLL8tlwwwBGeR1DA79ZmogtqK+/Rsj311CDgoIfUiaX/8SlPrLFAf2/9zRm3734lUNpDZ9BJAFmFKvHyxuFGEim90zNHXddtj3Vcc882+EJh3MZktVPEI=
+	t=1783593381; cv=none; b=XtQhzsR8SPWY1wJnobrIFejfhyhwp17ds1ysXYid5ZUvzz3S6IDpEhOAPcfUblHOO954plKWI/4jvYLbUujI+bbri+LU/cwK4v9Trt5Egz1dKNE1IoLxSzciqWSzScGzQwe/2fCqyw/zl0KpVvh0vvCyOvJEGjUyYRVFwbJCTe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783593115; c=relaxed/simple;
-	bh=4kBh0293uRNcjEIm8JcDC43jeExZf8brb6PiYAa+U60=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DseyAsOZDqPiIhFqcqVORUW2TZEb9uQpkKOqFFSU2XGAinBSCIIj6PQ2vA7KjLwxe6zO6y+1zFl1YdH0RjuRvIe5LBSy0n+rYNiSxmEoNYUA+p6Szo2pR61a0un77PXbw0mBycztC5RD4c0o0i+QfRJfD2/0G2Q1pSEGuqMqrW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXH2uh4G; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B551F000E9;
-	Thu,  9 Jul 2026 10:31:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783593114;
-	bh=Jnd0dDhsHRaigqmdT5qRVE+w4dLZnMejtZ+vWRcs3uY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SXH2uh4Ge1oNU8mwewe+yq1dyeBeAAEIBJBAzC8NLER5JpNHwEeVT70mNhvUViJU0
-	 7xE8C2QUwH+TJmmL3T4n864wDoBd6BcflN7yCKVQ7zm8eyVmvx56dBVszuV5DbKglW
-	 nOOgPQ9ruw+wB3pCytWqpBki+Rh8ocsDKMDejVVNV6TShCqwR065w85g/l9trPnmfA
-	 PpdHHXcA2aWJUDan0DZRHEo6s5ZhLDG2eLzExn1pxUHTkKMokI+ei5tY+vTtiCAnc5
-	 m7IMeKTUCN5Wfs9uLalta7dlcgH0iVCc9X81u4atqGeNtFj+AvHxt2Nod5SYfQe/7a
-	 FKTAuIsqi2IgQ==
-Message-ID: <6f38e218-d3eb-41a6-a89b-7a48fb6fc663@kernel.org>
-Date: Thu, 9 Jul 2026 11:31:39 +0100
+	s=arc-20240116; t=1783593381; c=relaxed/simple;
+	bh=qxX0dE0OBUtqw9JQvY1JePBsbgseMjd5rGtMEwrM+T8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FHyjJapJ17oCQ31E+0Qt00X5K9FohM/7X+c3rGQL0KJONRIT/Ff10oRClWG9dgE5rxbWN9Vn65uktem4JT4uqy1YMdPgAPT/n2vjvV2ehuj9wrm/8sMTNOVBUJr3FTeC1v9rwwQB/Q5VWEdR96iWqrGBQNRUzwkJ6sT6GoLjzUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2yGOg/w; arc=none smtp.client-ip=209.85.167.177
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-48f0e5e6698so431947b6e.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2026 03:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783593379; x=1784198179; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EoqXSN8PEKoTPPLhPa7oguIX3My0y2fKQVIp51mrWN4=;
+        b=N2yGOg/wWimCQ4yyA9Jx8/hkRC9cCBHKLSrkcU4+6I3P4j+JMKfwqddK+jPpaigU9A
+         r/+3MweGyLCEVaqECB0tnRSVDbQ8aZuf8lZlLznVpex2LGNL5RgfkF7aqBx2ivwsc0Ch
+         wk4ZRDOO3+VY7j7JWxyZaiN+PgcaOUXZKSC462kgbrpbCMCfU8aSzfmxmaCSPTAM7gKW
+         8ykOFEGcay3SfY/PBcv8t3aevKVQTSk6AWEJmht7reao4IM5OiDbFIEabxJnnNQgja0+
+         9f5dQ3L0RjbsZklPcQAIUWCTV9UBvYlgKjgjtsLEg7p9CKeueTuSBvgTkEZbi2C09Ni5
+         2lQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783593379; x=1784198179;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EoqXSN8PEKoTPPLhPa7oguIX3My0y2fKQVIp51mrWN4=;
+        b=g0SKknQis7jo//1ZKJEXHvFUQnzSXSfLGzloTmXr5AWqo//uySDIxNF4P2u6P4sPes
+         J9//VfcuSYhd9is2eoD/r+h7GViMSQGOfkFbCT4hlQ7i+Iin44x2yatelVQC8a6kltar
+         +yw1Pa39FHRTUnnF4NVdJt6ALC75dzMfjXlobrcUw7ybaaioVAkZZMtxEjMOIHA9FBh2
+         hsmTiwaFuKrpr+BSxBsh6u2qJt3UoJeYZRUUYg1n3izPZZ9ZRE/3yapxUo+qccBBcfRg
+         f69qwMASLSVbn/5O7kcw/AoBRBPaot61wiPZXfY0PBPVGs+WVuM60UphrzFaG19s0EUp
+         EgEg==
+X-Forwarded-Encrypted: i=1; AFNElJ8FqGWeE8h3Xn9pFXwkDbYG+sSjcY/GhukZWX4psplfifvkodsdIcwHqHxHLxwzcw7yUs2HY2lodz5eyw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMXnEcGJZ0LY6iC/gC7kd430slFI5Y9zcIYqhAWgS54OdKFQ4T
+	iUImzjNRhjZbh7oDL90Uyu7JOP/4kbdmsGbe0Y8g9AcYpzPe85DBsQ8bAS/C9MWJYnw=
+X-Gm-Gg: AfdE7clE9VO+nsHcEf1YGiUd9OOcHxRpfO/UuHy5DYM/U9TpMp+fVuPmjjs3LviV4Jm
+	SQNBE3hlUlx5GBzeY6K6ZewZx16Uc/Z6d1f98yzkWNJuVlOrcbSnVJCBHEfAIb9zqypYytguOn0
+	8IOG1Gay3DtV63mOEvUEZu+GVTc8gXkCw4xAy7q0FhBTMMK/qUFJNCWeiwneJJfEfusQ8ImF/Rh
+	QJUBitj444ipCe71SSS78Np8OPhJgZY2H+U6bTERQN01WKsNINhDqWG9j0iQvwluJC52ZqKT8J+
+	MrczOB7bCmn3X/DXSxTUyijFekMgJzES3UutirX9nJJwIeDJRAwWViRrbMAZWiFUjrEIjJgEbfj
+	mymHiSTjbsLkmtxZcSeZul58r8JaF6iLxJSWz2QDZb3hWOdYieOnmQbwpjmB1xVMpwKTrrZyaqc
+	GjVlbU
+X-Received: by 2002:a05:6808:1512:b0:497:da97:8c7b with SMTP id 5614622812f47-4a203fc1530mr5884922b6e.31.1783593379164;
+        Thu, 09 Jul 2026 03:36:19 -0700 (PDT)
+Received: from localhost ([74.80.182.70])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a1b01f1722sm3661154b6e.16.2026.07.09.03.36.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 03:36:17 -0700 (PDT)
+Date: Thu, 9 Jul 2026 13:36:11 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 98/105]
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c:853
+ ipu6_isys_alloc_stream_firmware() error: double free of 'stream' (line 790)
+Message-ID: <202607031449.9y46lBuM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] Add Qualcomm JPEG V4L2 encoder for SM8250
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
- linux-media@vger.kernel.org, loic.poulain@oss.qualcomm.com,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <437d1eb0-4495-406a-9501-b0515cfa3151@linaro.org>
- <e04cb9dc-76dd-4fa8-92f4-be002bf7ee8b@linaro.org>
- <8116c54e-4050-4e9d-b236-59d74846bd57@linaro.org>
- <8a09875d-af5f-438b-b947-bc2b61219b70@oss.qualcomm.com>
- <c8c38ec6-4422-4c91-a249-20bc20260e73@linaro.org>
- <d0768c15-453f-4d3f-8110-886a5c697b02@oss.qualcomm.com>
- <d5407ab1-1af7-4678-ae67-5cf30ce8fa4b@kernel.org>
- <VoXmpDKdgY_XxAvO5tkDze4jpmMzSuKTmIISTejJsbIO_FIO1JFfUBlaPkNdb14E95zf_qwtDB6myQ2wdRCh1Q==@protonmail.internalid>
- <8fc1ddfd-0f77-4b67-b9bd-33fbd60e2046@oss.qualcomm.com>
- <54ad9b8a-7596-4bc7-a1c3-7230cca21360@kernel.org>
- <yhaSA5BjqcRkDQ_rt8siFRdNLmWNnlPtdVL9chnAu2_uuWn1GtdaKvupCalWKTO23sj3PM17lGrbovPi66f5Ng==@protonmail.internalid>
- <wbjec4qhzkpvdfnrvffk7tjmlvli5q2jiuzdp2iqt2cbf2uat7@usg2mizurxpp>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <wbjec4qhzkpvdfnrvffk7tjmlvli5q2jiuzdp2iqt2cbf2uat7@usg2mizurxpp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-67136-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:oe-kbuild@lists.linux.dev,m:sakari.ailus@linux.intel.com,m:lkp@intel.com,m:oe-kbuild-all@lists.linux.dev,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67137-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:mid,intel.com:email,vger.kernel.org:from_smtp,01.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D3D8772FE99
+X-Rspamd-Queue-Id: AC8D972FB7E
 
-On 09/07/2026 08:33, Dmitry Baryshkov wrote:
->> Lets drop the bus idea then. I'm happy to close the conversation as
->> peer-nodes.
-> It think, this would close the path for upgrading existing platforms to
-> split the driver / bindings. If all IFE / PHY / etc. are subnodes of the
-> CAMSS, it is easy to play backwards compatibility tricks and
-> reinstantiate devices on the fly, pick up only certain resources, etc.
-> 
-> If they are sibling nodes, it becomes much more complicated.
-> 
-> I might be wrong here. Maybe we really should try a simple (heh)
-> experiment. We have your series which adds CSI PHY as a first class
-> citizen. And we have existing platforms where CSI PHYs were packed into
-> the camss node (and camss driver FWIW).
-> 
-> Which way of representing device nodes makes it easier to migrate
-> existing platform to the CSI PHY driver, while keeping compatibility
-> with old DTs (yeah, ABI, old DTs must continue to work)?
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   a6d4ce993bcd76851cfc7f28cc33aac011a30fa9
+commit: 5bd6ad739336637aa65b270823cf43a5a8f2dcab [98/105] media: ipu6: Bridge the gap between streams in V4L2 and IPU6 firmware
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260703/202607031449.9y46lBuM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9185-gbcc58b9c
 
-I agree with your concerns about old platform migration.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202607031449.9y46lBuM-lkp@intel.com/
 
-I will run the peer-node through the DT checker and if it spits out a 
-problem we can re-evaluate. x1e will test both the old way and the new 
-way - I'm prepared to take the pain of resolving this change on x1e, so 
-that both dtb bindings work or rather continue to do so.. Either way we 
-will resolve the debate here. I'd put Kona/sm8250 as "next up" for 
-migration - I have one on the desk in front of me, so its easy to work 
-with this.
+smatch warnings:
+drivers/media/pci/intel/ipu6/ipu6-isys-video.c:853 ipu6_isys_alloc_stream_firmware() error: double free of 'stream' (line 790)
 
-camss {
-     reg = <1234>;
-     reg-names = "csiphy0";
-}
+vim +/stream +853 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
 
-csiphy0@1234{}
+5bd6ad73933663 Sakari Ailus 2026-06-26  770  struct ipu6_isys_stream *
+5bd6ad73933663 Sakari Ailus 2026-06-26  771  ipu6_isys_alloc_stream_firmware(struct ipu6_isys_csi2 *csi2,
+5bd6ad73933663 Sakari Ailus 2026-06-26  772  				struct v4l2_subdev_state *csi2_state,
+5bd6ad73933663 Sakari Ailus 2026-06-26  773  				struct v4l2_mbus_frame_desc *desc,
+5bd6ad73933663 Sakari Ailus 2026-06-26  774  				u8 vc)
+5bd6ad73933663 Sakari Ailus 2026-06-26  775  {
+5bd6ad73933663 Sakari Ailus 2026-06-26  776  	struct device *dev = &csi2->isys->adev->auxdev.dev;
+5bd6ad73933663 Sakari Ailus 2026-06-26  777  	struct ipu6_isys_stream *stream;
+5bd6ad73933663 Sakari Ailus 2026-06-26  778  	struct v4l2_subdev_route *route;
+5bd6ad73933663 Sakari Ailus 2026-06-26  779  	int ret;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  780  
+5bd6ad73933663 Sakari Ailus 2026-06-26  781  	stream = kzalloc(sizeof(*stream), GFP_KERNEL);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  782  	if (!stream) {
+5bd6ad73933663 Sakari Ailus 2026-06-26  783  		ret = -ENOMEM;
+5bd6ad73933663 Sakari Ailus 2026-06-26  784  		goto err_free_stream;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  785  	}
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  786  
+5bd6ad73933663 Sakari Ailus 2026-06-26  787  	ret = ida_alloc_max(&csi2->isys->streams, IPU6_ISYS_MAX_STREAMS - 1,
+5bd6ad73933663 Sakari Ailus 2026-06-26  788  			    GFP_KERNEL);
+5bd6ad73933663 Sakari Ailus 2026-06-26  789  	if (ret < 0) {
+5bd6ad73933663 Sakari Ailus 2026-06-26 @790  		kfree(stream);
+5bd6ad73933663 Sakari Ailus 2026-06-26  791  		goto err_free_stream;
 
-Is a legal DT declaration - if the csiphy@1234{} is missing use the old 
-way, if not use the new way. if the phys = <> is found, then the driver 
-will not request the csiphy regs - this means a new kernel will work 
-with an old dtb.
+Double free on this error path.
 
-I don't have that fallback logic in the CSIPHY series right now so I 
-will add it in.
->> camss@{
->> 	existing CSID/IFE
->> 	IFE SID stuff goes here
->> 	power-domains = TITAN_TOP_GDSC, IFE_GDSC
->> }
->>
->> csiphy @ {
->> }
->>
->> jpeg@ {
->> 	JPEG SID stuff goes here
->> 	power-domains = TITAN_TOP_GDSC, JPEG_GDSC
->> }
->>
->> camnoc@ {
->> 	modelled as an ICC provider and consumed by
-> I think, it's a part of camss.
-> 
->> }
+5bd6ad73933663 Sakari Ailus 2026-06-26  792  	}
+5bd6ad73933663 Sakari Ailus 2026-06-26  793  
+5bd6ad73933663 Sakari Ailus 2026-06-26  794  	stream->stream_handle = ret;
+5bd6ad73933663 Sakari Ailus 2026-06-26  795  	mutex_init(&stream->mutex);
+5bd6ad73933663 Sakari Ailus 2026-06-26  796  	init_completion(&stream->stream_open_completion);
+5bd6ad73933663 Sakari Ailus 2026-06-26  797  	init_completion(&stream->stream_close_completion);
+5bd6ad73933663 Sakari Ailus 2026-06-26  798  	init_completion(&stream->stream_start_completion);
+5bd6ad73933663 Sakari Ailus 2026-06-26  799  	init_completion(&stream->stream_stop_completion);
+5bd6ad73933663 Sakari Ailus 2026-06-26  800  	INIT_LIST_HEAD(&stream->queues);
+5bd6ad73933663 Sakari Ailus 2026-06-26  801  	stream->isys = csi2->asd.isys;
+5bd6ad73933663 Sakari Ailus 2026-06-26  802  	stream->asd = &csi2->asd;
+5bd6ad73933663 Sakari Ailus 2026-06-26  803  	stream->vc = vc;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  804  
+5bd6ad73933663 Sakari Ailus 2026-06-26  805  	scoped_guard(spinlock_irqsave, &stream->isys->power_lock) {
+5bd6ad73933663 Sakari Ailus 2026-06-26  806  		stream->isys->streams_by_handle[stream->stream_handle] =
+5bd6ad73933663 Sakari Ailus 2026-06-26  807  			stream;
+5bd6ad73933663 Sakari Ailus 2026-06-26  808  		csi2->streams_by_vc[stream->vc] = stream;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  809  	}
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  810  
+5bd6ad73933663 Sakari Ailus 2026-06-26  811  	list_add(&stream->csi2_entry, &csi2->streams);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  812  
+5bd6ad73933663 Sakari Ailus 2026-06-26  813  	for_each_active_route(&csi2_state->routing, route) {
+5bd6ad73933663 Sakari Ailus 2026-06-26  814  		struct media_pad *vdev_pad =
+5bd6ad73933663 Sakari Ailus 2026-06-26  815  			media_pad_remote_pad_first(&csi2->asd.pad[route->source_pad]);
+5bd6ad73933663 Sakari Ailus 2026-06-26  816  		struct v4l2_mbus_frame_desc_entry *entry = NULL;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  817  
+5bd6ad73933663 Sakari Ailus 2026-06-26  818  		for (unsigned int i = 0; i < desc->num_entries; i++) {
+5bd6ad73933663 Sakari Ailus 2026-06-26  819  			if (desc->entry[i].stream != route->sink_stream)
+5bd6ad73933663 Sakari Ailus 2026-06-26  820  				continue;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  821  
+5bd6ad73933663 Sakari Ailus 2026-06-26  822  			entry = &desc->entry[i];
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  823  			break;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  824  		}
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  825  
+5bd6ad73933663 Sakari Ailus 2026-06-26  826  		if (!entry) {
+5bd6ad73933663 Sakari Ailus 2026-06-26  827  			dev_dbg(dev, "cannot find stream %u in frame desc\n",
+5bd6ad73933663 Sakari Ailus 2026-06-26  828  				route->sink_stream);
+5bd6ad73933663 Sakari Ailus 2026-06-26  829  			ret = -EINVAL;
+5bd6ad73933663 Sakari Ailus 2026-06-26  830  			goto err_ida_free;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  831  		}
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  832  
+5bd6ad73933663 Sakari Ailus 2026-06-26  833  		if (entry->bus.csi2.vc != vc)
+5bd6ad73933663 Sakari Ailus 2026-06-26  834  			continue;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  835  
+5bd6ad73933663 Sakari Ailus 2026-06-26  836  		struct ipu6_isys_video *av =
+5bd6ad73933663 Sakari Ailus 2026-06-26  837  			container_of_const(vdev_pad, struct ipu6_isys_video,
+5bd6ad73933663 Sakari Ailus 2026-06-26  838  					   pad);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  839  
+5bd6ad73933663 Sakari Ailus 2026-06-26  840  		list_add(&av->aq.node, &stream->queues);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  841  
+5bd6ad73933663 Sakari Ailus 2026-06-26  842  		stream->nr_output_pins++;
+5bd6ad73933663 Sakari Ailus 2026-06-26  843  		av->stream = stream;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  844  	}
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  845  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  846  	return stream;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  847  
+5bd6ad73933663 Sakari Ailus 2026-06-26  848  err_ida_free:
+5bd6ad73933663 Sakari Ailus 2026-06-26  849  	list_del(&stream->csi2_entry);
+5bd6ad73933663 Sakari Ailus 2026-06-26  850  	ida_free(&csi2->isys->streams, stream->stream_handle);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  851  
+5bd6ad73933663 Sakari Ailus 2026-06-26  852  err_free_stream:
+5bd6ad73933663 Sakari Ailus 2026-06-26 @853  	kfree(stream);
+
+Second free.
+
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  854  
+5bd6ad73933663 Sakari Ailus 2026-06-26  855  	return ERR_PTR(ret);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  856  }
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 
