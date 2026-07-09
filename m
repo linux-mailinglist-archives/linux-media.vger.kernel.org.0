@@ -1,279 +1,264 @@
-Return-Path: <linux-media+bounces-67110-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67111-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id lyTmIdJRT2qGeQIAu9opvQ
-	(envelope-from <linux-media+bounces-67110-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 09:46:26 +0200
+	id KJ42FZVZT2rhewIAu9opvQ
+	(envelope-from <linux-media+bounces-67111-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 10:19:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E88372DE8A
-	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 09:46:26 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD2372E2E6
+	for <lists+linux-media@lfdr.de>; Thu, 09 Jul 2026 10:19:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=ca5aqJA5;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b="c6/QT2qQ";
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67110-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67110-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="pm/HadQM";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67111-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67111-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6BEB93000887
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 07:46:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0102D304C60B
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jul 2026 08:12:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F86A3D6690;
-	Thu,  9 Jul 2026 07:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1645C3EA947;
+	Thu,  9 Jul 2026 08:12:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65A1395AF2
-	for <linux-media@vger.kernel.org>; Thu,  9 Jul 2026 07:46:12 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783583176; cv=pass; b=ABs79DsnHvhxVyEhMYu5yl2szYbKefSlLUeORqglVA1HbuHULkWYlq85jqhhibTxF6aY0qzv7PW46fMCrPSja9NQC59ENyNuBzpiQvJ9C2TD6KjrqSEW7+zhThyZ4ZZNDPJdEa/XVLyqCTfHYMBYIVPlgJ4VjnJ3vr5s4BIw4DM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783583176; c=relaxed/simple;
-	bh=07wva2+HW2Xk8v4uN43Cx4PhQoeKjtx49ALQficpH+Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t7N/oQ3UdOeS/ERdzpgX6mM9x9Sai65Yvjgao51EX4bhC/OR6lHRgKKnSX5Qf0x7Leca179ex0K00DVHwlQ/gcfz02+UQk/Zg4EOr/L3cjZhtW1c8NGclxryrd3eE0ueP92/9I5avAyLKGQMXBKqvcUpPnCvQ+Xx49fGWBNCYK8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ca5aqJA5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=c6/QT2qQ; arc=pass smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66960Gxp887939
-	for <linux-media@vger.kernel.org>; Thu, 9 Jul 2026 07:46:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	NhGxkCX28V4kHMRzxiw6nz0Sa/jpmcLA68qNhvWGngE=; b=ca5aqJA5NBD4tfAF
-	yKnSTzw+vMLvpqGGwD/U8VkWR+Dmshjaq/96UQ4Tu+ENN/SFhVJ3Np+m5TbM11Ag
-	Gcc1w9uMjI6mtzV7pDqYnRMRzmptfl2DsNs8EqyU9ToIOgO/h8i2qobqDjitDmZz
-	4bZIejbD5Vr/lup7R2Rm31EMCUniKXE3gsIEniNoc0o2hQXtkmm7cfWDLQd1dLlm
-	xZj3jRnb+1BG9HCpyt0KnqscZSYMdbZlZFO887tll6u86YwTxXe8s9dgUmgEZu/T
-	eb1+9lPfEFA5/s7o+8UDK/zu9BiYa1iC7VU0O6+s/INuJ2MpLmCUTHwXf/UBlgEh
-	9BtVLQ==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9rq33c8t-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 09 Jul 2026 07:46:11 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8eeba1d9e47so8860226d6.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2026 00:46:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783583170; cv=none;
-        d=google.com; s=arc-20260327;
-        b=s4XkZ5uMjNf7almVPVUu3bhVgw/HhPG6KHoNytnRbLfns6J4yxkGq6WntWSHzKodID
-         S0PwgZRILDsSegSvEtrTGG+oWM7oxY+/Tzqi2p5DyHRnQmCnTy2dpK6M+yItaPzDHBRg
-         vScnFgNFTAlW8SCKSwR5wWSZrZ5/s2Ad3AwBs4I9TkE9tvvr/LoKX3vPW3w8fOwuXhxs
-         FrJJ1Wghm1Gc716dWQIzh1cC3T18vl8NDRlJV5g6sUl8yPL7Adz5bkbMb18GhxpnDZ/x
-         E1x3z8eonsQv+sogu109RF6Zgb5Foc6+K1Z9ou/4OEnQaqf5pec+/td9NX2Xgh2eWIXW
-         anXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NhGxkCX28V4kHMRzxiw6nz0Sa/jpmcLA68qNhvWGngE=;
-        fh=zro6DR4hKTcp5ae00gYHe2ZX0HKfvcpT7bwQnLYlQQQ=;
-        b=ZFAjR8BJF3kgKDzWGEDwuVB5b0RJQ0FOqN/hY44rd8/1IrW33Th929XyZ342V18E56
-         6VImtgNmuj3iSGMa8bZpXWhfXH+PIqhxd0z8SsblyjsSqjkuLO19nOPKbD403q5bM12S
-         ZUYZ95qrZh5vXvGpMcNFvOyvGMsrXLwlz+81rRRrXkEBF/VCMFGHcUxhBhbpBFQtZAl2
-         wz6Chh7CBrAVZ5OSrD1hHLHxO/Bl5WcmPyqM6kCAcaJYzT5XcVHgekFetkBKMXJDNnzb
-         DklHhW46UC/RB6cKqRn5+4mVYLlcLMWkzKBglEZS31DlxnA6G41nrDQIXC8YKIgtqdwq
-         ZScA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299D13E835E
+	for <linux-media@vger.kernel.org>; Thu,  9 Jul 2026 08:12:31 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783584754; cv=none; b=oEqYj5VVgu7LRDAqyO+5jBZEw78AEQKW3lQ7/xPE7RDm4m8aHZvnbWR0W1UX/oyPKP9A9GnawB3Bg4IxP1BCTETM6nCWxD9VWJIlhtNemJPZLFTkdAdG+p8uIHkSqsvYk5izM9CAVFBbubXT8lTY/69zsQh/In8APIUSJFf5Jqk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783584754; c=relaxed/simple;
+	bh=W1OXVY9puxMvuLpLOktjHcdYOOhnW9MMsJY9qFlEz6A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SdbzX0s2byo0xBMaFBRXc9VHadh9Y1ALAOhvv3T+klfYKviWKVqu++5Ig38cOmDyaroEnN0cETULwRZWDpSeLypJzxIMTi2s9vmpNLHft7T/E6GqiS+A0XM0h1Gpj12T+Y2C30qO75tXeF8kNb6Bp/+IJN/tybeGhebEEG8sQSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pm/HadQM; arc=none smtp.client-ip=209.85.216.47
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-381ed661712so718061a91.2
+        for <linux-media@vger.kernel.org>; Thu, 09 Jul 2026 01:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783583170; x=1784187970; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NhGxkCX28V4kHMRzxiw6nz0Sa/jpmcLA68qNhvWGngE=;
-        b=c6/QT2qQfoNXGfM35oBzWZNtQaxt08eTRwKWVlH3IiMxE1+zYfOiOdQQ1nflORUu8u
-         y0n+5xVzeOQZov++dLZqJ8QIaRH7g2f6IHIJcBYiFNC7XEIhsMFhIur2TTWXuO51mrrP
-         n8W654bnYby0s4+xPpGpjV7d+leyBjAm/pJNhzMSO9J6+H4I4gVlS0DUzdMimSB4UPpJ
-         zEVZLX1pVwD8NnesMi4pn5gpPXwtRZUs8EDQAB8TTgUGmbdBRdQapPOV1rowEzKtivSX
-         RDfd9IAJBojTKcL03xWaP46B5uO1VTNYcg1rwupYeiS0BrpD9RRbnAhN8TsmXqWuK5dU
-         exNg==
+        d=gmail.com; s=20251104; t=1783584751; x=1784189551; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=fuRby/8yQ9T3IbKDfaI8jasKcp0bZvcAPDvEgOKp9H4=;
+        b=pm/HadQMTJTaSz1pTHDWiQ08wZsHo7WL/Xr5gr29ubXtwo0mjgZFiPbL47xugnI4+n
+         dfjCYLvrO2sXRiEVPiA2BtRJvbx5oo57i6FF9VitnxFc5eHdaFMtrsVAW7VTUYYGjoJv
+         BgMHO6Vw1Ops+DkM+oZAuq3FUQIhf8lcCbPTul/RysbHiFHm8mUle5DyI+nvQ3r6bRFB
+         VMHyv/KVHEkmgCfaX47KGviFuyHGF4OXYe6ff9iLqXSAT/PsbzxzhiXYSjRiPUbwiyoa
+         ImTM7oPBA9RZR60B0iMO+PQ/TmGkd6u1OkWQ4xSYMTBT0+BbwMZvyad6R4/N9KwF0m5i
+         5S/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783583170; x=1784187970;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NhGxkCX28V4kHMRzxiw6nz0Sa/jpmcLA68qNhvWGngE=;
-        b=QOpQHHl9AKLDMFIRMWnB0yeOvYijEQOpNSLEBKxHesEpekg+ghIPPVAesBvkL2dMwT
-         12/HKpABC1vBAQP9RNhpxAUepGrOeCpzIhKj6gYtlkoijx/x6TaZf3f/im0d664B0FrG
-         ip3s6o9AFSdb3KD4paO7yHm/GU6lm/BnA2MHZx8bSihikCVozY5riKv3cRM6BW6mq59O
-         Gq3wOYPf6ggWMQeXPPjlSXls9xDWHhQVP3TReJb6Nnwh+plA5ez64fqI7HSg8PYIfn58
-         f0OVQvjICGiCtQG8TLG45XiBUuUC/QwlT9zjnUdK/S8F9EaLAtlz5N3imJ9YxdjF/dH3
-         15pg==
-X-Forwarded-Encrypted: i=1; AHgh+RrkOiFUv5rKikhi7dup4ADj11KuHk1ivNRRfg7sbnUWREZh3ZpNrkJ/kWH5ia9nNvwJ6ADzehT5QLVmJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2Xg+07mdWSb6UKlWIduMhQyZKky4QX3rh7dmsEu+nx4l14iIm
-	LgLDq05WFxXWXDvaWLaPvxpWrA0FGlkCwvvrgL8S9ZV0doGF10rT8DH5EMAAJADa4nC4rld79ou
-	YnKII3fvIDXeMc4WWOjIL33U0Ol+vDMU5WmKMgj3c0Jj8ZvH3bZEGaM1qeF+a7xa25E4U7C6B6q
-	hRUia3LZKhctCStFR8RdDOe9D+ftcArfTpAE4lX3HF
-X-Gm-Gg: AfdE7cnRL7fMeBBFUpkEvt1+kDU3IyPZ/A/Z53KStc8ytWBtRM3VLD4xyuD8xaNgtbL
-	LxCkgJqANf1H31g3HYWJ2Nvl+/dy5qe0k1hLokhrERkhsreVJBGLV1EMc7/uY4UbAdRngn7hhMB
-	/Qvd5oqn6k5yeek/Y7B0cUJl/3nxSNbtACvK76ekgOjWt/udosRdEorS8x/KcLWTxsb7QBg7eB2
-	C5TpJAWOyNMcWjfuTS5g226HA/lY9E81z++tmt1C/T3NH3Mk/G0trGpnWzXZ1v2etAh978bkVKf
-	NqlP8T1Xzw==
-X-Received: by 2002:a05:6214:450b:b0:8ee:ff2e:c2f4 with SMTP id 6a1803df08f44-8fec557ab7dmr64350766d6.17.1783583170412;
-        Thu, 09 Jul 2026 00:46:10 -0700 (PDT)
-X-Received: by 2002:a05:6214:450b:b0:8ee:ff2e:c2f4 with SMTP id
- 6a1803df08f44-8fec557ab7dmr64350496d6.17.1783583170002; Thu, 09 Jul 2026
- 00:46:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783584751; x=1784189551;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fuRby/8yQ9T3IbKDfaI8jasKcp0bZvcAPDvEgOKp9H4=;
+        b=bVcRwZI2KImdREHBXwLG3qqO/5II7VZXINLBbNXVZcWCAHgEJkTLJn+olkYfG7bDme
+         nWSYyXSWFcxQV7pddVat4JLLQnug/AkZ655svi9or8waUiQy5jcQMYXz224K/5s+cVoe
+         36jDis1hjg6io0BIvoKIR74K1CB7ZUD+K2oMs7+Z9tA0+4owDCQW2NZdCidFkQkteg27
+         comGSS0z2yHCOEt746okrDXq/MH2Sx5H5JOLV9oVaufQkZ4d6UtQzHKm+skdhOApJ8Ji
+         cz9vwBiq8WQI3zgjOLOYrNHwQ3Fb8dirvugJcGO7fGktBP7KLs6Bfz2+RKQdOf4wPcio
+         3hSg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+JDENXloVga1Cn6iyOVaDlg6MEUI/FDIGBD+3iptjlAWPUJAX7rl908UTvpfld3u1qDYj7KlgpBiz8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZ9YMMJBro1Ltu1p9/YRqPq/TJzmGDy+NRshgHRlVdBPxeGS2L
+	9bOCVAXPJv2Zk8648CF21HP5Af8miD5e/hDvtneUnNalT1kK1fgYY3Km
+X-Gm-Gg: AfdE7ckb9DdMldXs4/j7XQGCsiJTyUN0UPT3IgIYsWakjDhetup4vlJgBaQ2KEOgUXD
+	YQi8vk/zKOoBO4VTMVcodbK2Xmodv14/w+mFutCulzcyNMQHj6aebpDZSpwQRVObpt/EITkM0IY
+	0JgPmE/ek2psNqfR6EAdrzXbv4xcaPk9e5BDA8tdJeqNmE4uDJ6UoOnnDtsVQkbJe4zuTY4Vfb4
+	KGVMDdfroAPPf9+OrSCJEw6kRsm6hTbQ4dXuE1FMr824p67LDYrBgAzQZRTTdtJy94pJHUDQrd0
+	Lm8CE4OTxyx5NWKIrA62uVLM4jZMl2WdzwvSEBPkZcgPHrzQ5kcyJrcaKQnNI2TbEqrbTcA1ICj
+	ZSQFx3CarYbp3yKJUkmyc0p0uyvRQ0WyFcBSBIuCvOtU6eJZgCPdJjENNSTAPT1LSmHhxqLA0Eg
+	nIuK+ScImVGC/DNKnBeA==
+X-Received: by 2002:a17:90b:3149:b0:37f:9ce1:7367 with SMTP id 98e67ed59e1d1-389416ebb78mr5632903a91.29.1783584751376;
+        Thu, 09 Jul 2026 01:12:31 -0700 (PDT)
+Received: from [127.0.1.1] ([2401:4900:8902:7295:9616:9031:8f8a:a80a])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31198cb2b99sm10274601eec.26.2026.07.09.01.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 01:12:30 -0700 (PDT)
+From: Ramshouriesh R <rshouriesh@gmail.com>
+Subject: [PATCH v5 0/2] media: Add Himax HM1092 mono NIR sensor driver
+Date: Thu, 09 Jul 2026 13:41:53 +0530
+Message-Id: <20260709-hm1092-driver-v5-0-a1f5baa6fe08@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
- <20260706071113.383215-2-atanas.filipov@oss.qualcomm.com> <d579ffd2-b99e-4e8d-b2b7-e7e896b2d71d@linaro.org>
-In-Reply-To: <d579ffd2-b99e-4e8d-b2b7-e7e896b2d71d@linaro.org>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Thu, 9 Jul 2026 09:45:58 +0200
-X-Gm-Features: AVVi8CfzimAcZqI-0huc1ogOqlRyuYjOXyQidt826_gI6qT68v2jCz-ds2hC2iI
-Message-ID: <CAFEp6-0rwuRzXM0fu0uyrvSvgG0ttpygOULkKfTT7aw8m_HUog@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] media: qcom: camss: Populate CAMSS child devices
- via DT
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
-        linux-media@vger.kernel.org, vladimir.zapolskiy@linaro.org,
-        mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: qZXjqlx2eNgib_FrsECJYF-Q45ud-uHP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDA3MiBTYWx0ZWRfX8gYmEl7Oy/zx
- /cDVkad4LSmLW6NDANzHCTHiK/k6Ph2sz9/ijkMs3oHKjjqP29Ds5K7OoKCoCdx0a6lAnVTIfJh
- 4hxA+0yf99KEQU/tgOiBcLcLGAN6RxiX0zJdZe188uwXlbU2KVQwav6J0KntA2ROCl0ClOiGsXs
- X2fxtltt0v+3BWFF/MdeJmn4uBOjCeb/KlbrEdqOerKHG+PAP1Aqyn1bjQ0HwFnx3NtdnfdM/eB
- b/M589Kju3NWxaH8n2Qab9v7CpedmSWwck2blRDNe1dfJEVJiw6MFRUyRTyqIBJIzH4xmBkI4sU
- W1kT8wH0O7HVLCnK+DBGUvRIQgnc30qaAnySm9s2DhwqQPB2jnfFzT8RfUS0mNQ7Hb8tk0o0lLj
- yzgcyhFgGRM0lww9wIL4WzDQjnPqgGI8fNHWG7xbbYgGxrwmKSWF5ztgxDzaeGV1J0UCwtXzZgp
- whcnN6d2JnnkShylDig==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDA3MiBTYWx0ZWRfX7rsyKhwzvk6E
- cekjCr4X8+yTiWWv5bm4+2KoDTLQr3wRVuY1T/BnCF0AWhyO1ddWuDiS2NeD8js0oz0aNqxzwuN
- boQOWCmYCL+9YHHH0GBXGkVf6gTXpgQ=
-X-Authority-Analysis: v=2.4 cv=PYPPQChd c=1 sm=1 tr=0 ts=6a4f51c3 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=gowsoOTTUOVcmtlkKump:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=y-x-Ysk6LtgDBV_-dcYA:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: qZXjqlx2eNgib_FrsECJYF-Q45ud-uHP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-09_01,2026-07-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 lowpriorityscore=0 impostorscore=0
- malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607090072
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NQW7DIBCF4atErEsEA8Y4q96j6mIMQ0xVxxGkq
+ FXkuwcnG4tFl0+a7587y5QiZXY63FmiEnNcLnV0bwfmJryciUdfNwMBRhhp+TRLMQD3KRZKHE0
+ ARO8DCMmquSYK8ffZ+/h87fwzfpG7bZHtYor5tqS/58Mit7tXuxeyaRfJBfdy9FYSKDV27+cZ4
+ /fRLTPb2gX2GloNVeswBGUGb1DbVqt/taradgGxD0EHcq3We921WlctUCpy0Gtvh71e1/UBUe+
+ 56nYBAAA=
+X-Change-ID: 20260618-hm1092-driver-a6f2aaddf201
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Hans Verkuil <hverkuil+cisco@kernel.org>, 
+ Bryan O'Donoghue <bod@kernel.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ramshouriesh R <rshouriesh@gmail.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5027; i=rshouriesh@gmail.com;
+ h=from:subject:message-id; bh=W1OXVY9puxMvuLpLOktjHcdYOOhnW9MMsJY9qFlEz6A=;
+ b=owEBbQKS/ZANAwAKARWVil4RHAXeAcsmYgBqT1fnu98JgGCIxuDSLTnJB0MNckA0tDSB3EqE8
+ YEE/e3bQVSJAjMEAAEKAB0WIQS/0QuzNKVfvUNlNAkVlYpeERwF3gUCak9X5wAKCRAVlYpeERwF
+ 3gjBD/wLe8MNEWtl3ZhzAzeRd/3+zjtKkWmiNdzCOjCVQ9YtVE6pOIDZGH3SaHbSGyGeg9ziiuC
+ QttRlc0PfKH23qfdJih4w8AcadHEaD3F2sPc7IQ6ZXRXB468tRYGbb8Co7Hboz10yuF/79BWW14
+ V9cWggSY+CXPIC1PahGm/7oE3bSgzFBWWYrMVBJnJgAiPHvVFrr7UAXDhAknlbGKuO0Z+VYEvkY
+ oK1LkbjoVQDVVxtIfrmNiFPsFMjQetb9UszwMIMSgxMnK7zJOMRTeZV71kaGdIhcgz0l9lKYBl0
+ FKKl5SZYCUhKdOUe/R8veWsGd0EQJGfvkTF7dS9j6kzyqJJW7ES87V4tZW5uisxsNpU3mnKQtw2
+ N9XVQboAnc27a88uk7RXaBjxjyNC//0xuO6sJxerwc83DShKjxjUBjQdZ8YsXXoHMZxtPAcgvfh
+ v3Gzq0wTKLga6fIudl1TiP2BDezWw/QDOLfnqWiWeLsAZxdxgbKNzYtBI7yUHMEyJvIAgIkYvJV
+ bLFrluxQwj0yxEYPx30sNINblM/uTZddFXu4Si+uiVkoZCt27tx9lzaj+KmyjakzpxgMTZPu7Es
+ fb0tiFhpkIHFPxwvVGm5xCw8DE72CabvJCblNaNMrYwOwC4Xffe7RD0MiK07TbqZtV3e5k6FBoF
+ A0g7RnfEZYQ+bcg==
+X-Developer-Key: i=rshouriesh@gmail.com; a=openpgp;
+ fpr=BFD10BB334A55FBD4365340915958A5E111C05DE
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-67111-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67110-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:bryan.odonoghue@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rshouriesh@gmail.com,m:conor.dooley@microchip.com,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[rshouriesh@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,vger.kernel.org,gmail.com,microchip.com];
 	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rshouriesh@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,mail.gmail.com:mid,linaro.org:email,qualcomm.com:email,qualcomm.com:dkim]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0E88372DE8A
+X-Rspamd-Queue-Id: BDD2372E2E6
 
-On Thu, Jul 9, 2026 at 12:30=E2=80=AFAM Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 06/07/2026 08:11, Atanas Filipov wrote:
-> > From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> >
-> > Use devm_of_platform_populate() so that child nodes declared under the
-> > CAMSS device tree node (e.g. OPE) are automatically instantiated as
-> > platform devices. This is required now that CAMSS is modelled as a
-> > simple-bus and ISP blocks such as OPE are described as child nodes.
-> >
-> > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> > Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> > Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
->
-> Looking at my commit logs I see this isn't my commit message ..
->
-> Anyway.
->
-> > ---
-> >   drivers/media/platform/qcom/camss/camss.c | 3 +++
-> >   1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/=
-platform/qcom/camss/camss.c
-> > index 2123f6388e3d..95e655a8b6aa 100644
-> > --- a/drivers/media/platform/qcom/camss/camss.c
-> > +++ b/drivers/media/platform/qcom/camss/camss.c
-> > @@ -16,6 +16,7 @@
-> >   #include <linux/of.h>
-> >   #include <linux/of_device.h>
-> >   #include <linux/of_graph.h>
-> > +#include <linux/of_platform.h>
-> >   #include <linux/pm_runtime.h>
-> >   #include <linux/pm_domain.h>
-> >   #include <linux/slab.h>
-> > @@ -5362,6 +5363,8 @@ static int camss_probe(struct platform_device *pd=
-ev)
-> >       if (!camss)
-> >               return -ENOMEM;
-> >
-> > +     devm_of_platform_populate(dev);
-> > +
-> >       camss->res =3D of_device_get_match_data(dev);
-> >
-> >       atomic_set(&camss->ref_count, 0);
->
-> Just drop this patch entirely and model JPEG as a peer of CAMSS. I'll do
-> the same with the CSIPHY and Loic the OPE.
->
-> Modelling for subnodes is nice if you have the idea the camera block
-> should be a bus.
->
-> But for what reason ? As you pointed out it should be possible to both
-> compile and run JPEG without the compat=3Dcamss node on sm8250.
->
-> Making the camera block a bus is a nice idea for "reasons" as this
-> thread has shown, its a problem to implement with an upside we struggle
-> to define.
->
-> When the facts change, I change my mind.
->
-> You were right to argue to have this as a peer node. Lets do that.
+This adds a V4L2 subdev driver and DT binding for the Himax HM1092, a
+1 megapixel monochrome near-infrared image sensor. On laptops it sits
+behind the IR camera used for face unlock. It speaks a single MIPI CSI-2
+data lane and outputs 10-bit RAW at 560x360.
 
-Having a camera-subsystem bus/parent still makes sense, especially
-when dealing with shared resources. Whether that should be the
-existing camss node is indeed the question. Today, camss effectively
-describes only the VFE (including the CSID) and CSIPHY, so using it as
-the subsystem parent would introduce incorrect layering unless the
-node is significantly reworked/broken. So yes, for now, keeping the
-components as peers appears to be the simpler and more scalable
-approach.
+The driver exposes that one native mode, a test pattern control and the
+standard fwnode properties (orientation, rotation). It has been tested on
+real hardware (an ASUS Zenbook A14): the sensor probes, streams, and the
+on-chip test patterns come through the full CSI-2 pipeline.
 
-Regards,
-Loic
+The available HM1092 documentation does not describe the test pattern
+modes. Their menu names are based on output observed during hardware
+testing; the register programming was recovered from the Windows driver.
+
+The pixel rate, horizontal and vertical blanking and the orientation and
+rotation controls that libcamera requires have been present since v1; v5
+adds the get_selection support requested for libcamera. The one gap is that
+this driver does not implement the V4L2_CID_ANALOGUE_GAIN and
+V4L2_CID_EXPOSURE controls that libcamera lists as mandatory for RAW
+sensors: the same lack of documentation means the gain and exposure register
+layout is not known, and the sensor is driven at the fixed exposure baked
+into the init sequence. Gain/exposure can follow if the register map is
+discovered.
+
+The sensor driver and its binding are SoC-neutral, so they are sent on
+their own through the media tree. The board-level device tree and PHY
+work that wires this camera up on the ASUS Zenbook A14 will be sent as
+its own series.
+
+Signed-off-by: Ramshouriesh R <rshouriesh@gmail.com>
+---
+Changes in v5:
+- dt-bindings: drop the data-lanes property entirely; the fixed
+  single-lane wiring is not configurable, so it does not belong in DT.
+- hm1092: implement the get_selection pad op (CROP, CROP_DEFAULT,
+  CROP_BOUNDS and NATIVE_SIZE) reporting the sensor's pixel-array
+  geometry, as required by libcamera.
+- Link to v4: https://patch.msgid.link/20260705-hm1092-driver-v4-0-0a13ec274d89@gmail.com
+
+Changes in v4:
+- dt-bindings: make data-lanes optional for the fixed single-lane sensor,
+  constrain explicit values to <1>, and omit it from the example.
+- hm1092: add the copyright notice.
+- hm1092: replace the private register representation and write helper
+  with CCI register sequences and direct CCI writes.
+- hm1092: use descriptive test-pattern names based on hardware captures;
+  the available documentation does not identify these modes.
+- hm1092: parse fwnode properties before creating controls and set
+  read-only flags after validating control creation.
+- hm1092: use the generic get_fmt callback for the fixed sensor mode.
+- hm1092: initialize endpoint parsing with the fixed one-lane default,
+  reject other lane configurations, and remove the redundant endpoint
+  presence check.
+- hm1092: use fsleep() and null-safe GPIO calls, and apply the requested
+  declaration, brace, return-value and error-path formatting cleanups.
+- Link to v3: https://patch.msgid.link/20260702-hm1092-driver-v3-0-85faa7ff4fec@gmail.com
+
+Changes in v3:
+- dt-bindings: add the Reviewed-by tag from Conor Dooley.
+- hm1092: initialize RAW colorimetry fields in the pad format helper so
+  userspace values cannot leak into subdevice state.
+- hm1092: return -ENXIO when the required firmware graph endpoint is
+  absent instead of deferring probe indefinitely.
+- Link to v2: https://patch.msgid.link/20260702-hm1092-driver-v2-0-4f9f369d6a48@gmail.com
+
+Changes in v2:
+- hm1092: use pm_ptr() instead of pm_sleep_ptr() for the dev_pm_ops
+  pointer. The ops come from DEFINE_RUNTIME_DEV_PM_OPS(), so gating them
+  on CONFIG_PM_SLEEP dropped runtime PM on a CONFIG_PM=y, PM_SLEEP=n
+  build.
+- hm1092: free the control handler on the error paths in
+  hm1092_init_controls(); the fwnode-parse and ctrl_hdlr->error returns
+  leaked the handler.
+- Link to v1: https://patch.msgid.link/20260701-hm1092-driver-v1-0-d1bd81e233b5@gmail.com
+
+To: Ramshouriesh R <rshouriesh@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+Ramshouriesh R (2):
+      media: dt-bindings: Add Himax HM1092 NIR sensor
+      media: i2c: hm1092: add Himax HM1092 mono NIR sensor driver
+
+ .../bindings/media/i2c/himax,hm1092.yaml           | 101 +++
+ MAINTAINERS                                        |   7 +
+ drivers/media/i2c/Kconfig                          |  11 +
+ drivers/media/i2c/Makefile                         |   1 +
+ drivers/media/i2c/hm1092.c                         | 767 +++++++++++++++++++++
+ 5 files changed, 887 insertions(+)
+---
+base-commit: be5c93fa674f0fc3c8f359c2143abce6bbb422e6
+change-id: 20260618-hm1092-driver-a6f2aaddf201
+
+Best regards,
+--  
+Ramshouriesh R <rshouriesh@gmail.com>
+
 
