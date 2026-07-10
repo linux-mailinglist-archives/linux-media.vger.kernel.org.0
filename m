@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-67270-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67271-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id GW/lG0/PUGp65QIAu9opvQ
-	(envelope-from <linux-media+bounces-67270-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:54:07 +0200
+	id 491iIDnQUGqo5QIAu9opvQ
+	(envelope-from <linux-media+bounces-67271-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:58:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6796739DEF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04317739E75
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:58:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=grkY1gR3;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=L22NAzx0;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67270-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67270-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67271-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67271-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7C43F3037F62
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:49:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EAEDB3021E4B
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:52:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 270A940F8E6;
-	Fri, 10 Jul 2026 10:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C50A841226D;
+	Fri, 10 Jul 2026 10:52:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928A2257435;
-	Fri, 10 Jul 2026 10:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CBF410D37;
+	Fri, 10 Jul 2026 10:52:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783680543; cv=none; b=mBBW1kekcboHQpPqLQVkpUhhuYEavfN1vhPPvhzIDTP7Aeg7YlQ1UnEdRDWZD+en4/IIbp5f8N3shp+F9ZhSQW98ijjDTowD8KbhCHe2Q/eOuAI2VM1zeoBlID+q5XVo0fc2GdnPpxhygLX36ysHcgsJTLIOd+1+cyRoUtFCVmA=
+	t=1783680724; cv=none; b=c6MWI3iwuiTwWIBAFsMjHK8CmUSjtXYr0d63iZRhMoHKLDS+phbWoB25R6UqaWYCsvf9t8k0roymzWAxuXeKlB34EJgRBBGbl+YarEl6W7+rDy8JZMDL+2gJsNkg5uHUSvPtPHDAxZW3pXM6B1uTeyqUdTgY2PcYTZOsMZ+k5VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783680543; c=relaxed/simple;
-	bh=iTBMDHLyZCEAk+JRPZKWjg9y2gILfuDMUO1/QTd9vuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cMqQFuXeZmNL4gsFzs4wzGQaUcpwViu6CLu1XfZkxZZhQXLtBPRpg6YdEoHrTABE3IZclT2MWZ1WnLSoYcMYBAOSAIXTQsLpPt8O1OfPFqnrPrTzK4GdzwQgqPEn+z1lmI2075eCbaQ+sb/j8NmtWl48HVZEh/CwK6AasczpaTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=grkY1gR3; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9539F1F000E9;
-	Fri, 10 Jul 2026 10:48:59 +0000 (UTC)
+	s=arc-20240116; t=1783680724; c=relaxed/simple;
+	bh=Eh8Jr/bt1zOt2HZr7M1nIEJDT7mOtZL5uRRxBHnXp08=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=CiHp7HzCgtgLcb991B66mRvwLR5IGpW7x87oxbqvV803aXKiQNOtzmWAgAhl1QTQ3UUequBvPgdQG92YZraarVIbKwVsqc/9I6mICUIiznXh6JdBQlOrsQd2ADALOCwA9pENBfjWSOj1EvbdWzXYbwmhrtvwZAxLrdz1R9ZW4ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L22NAzx0; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1FA51F000E9;
+	Fri, 10 Jul 2026 10:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783680542;
-	bh=a4E8F4XzXtYr9gOUicBTBa1hnzZXJhrbIu2eN/CY118=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=grkY1gR3L7UkFJ6h8wwhO20lJjE3syn/+pChOjNp1HjbQLKLYhQfB8K9I/IwEApGm
-	 WhaFj6B7eeEIRTqCZ+lOcCPnMQsBZkw9CSmPlk4+z0Su6lA13gYzjEa9klyE+uR3fK
-	 /NXGfa4w4XSmxGmyThkgy2y7qms33vACG8KuUgvdpuQWeeG5SsCMmLYGocp+TyIAD0
-	 ckzwb7ud5BRjNH71Igs/Rt0sD9Byb//LM6iNFTTGQk2QsSl96AWLVW3OufeP2A7Pzt
-	 2dQhI+v0iYoU+9TzRyStRawgcBqeI6OLiicGuQSXK/OVQIjjqkPLjygbBOtChemRcQ
-	 UHiVeOfleeO8Q==
-Message-ID: <6c7a7788-d000-4f86-9999-f2cfc147ed14@kernel.org>
-Date: Fri, 10 Jul 2026 11:48:58 +0100
+	s=k20260515; t=1783680722;
+	bh=BaH7g5yuPZ2RiR84qm+ckDuciPNtOqn5l+saj85/HzM=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=L22NAzx0fKerAZ8K4VJbMUiT9bJM/fAygqwS/NbAzL+lB4nTb98q4lLfzUMFhyTGr
+	 4KC7UXtt+XPDQHusE5JJXmUrqAkiSpTjghelEaoTMvkFprk5lgc+PY+dVl4271OltU
+	 0kyY+X6KWUl9PTOcb+8XMLBSlbveJfMFlzJZkGV4G+psc1RPxOoJq2TIVoK/rkzDHg
+	 GVgXul98+yXn4EUZtmN0FhDQPW2JP7qg08PFsXJ9Odld72akvsjWQW4IH2S5yryckn
+	 mJaG/q7+7lIXISN+bigGlz6v8gP+fiJ5ZyyJ762CgZERnipv/AARB+4MYHKKkx/Ggw
+	 WZvduL/35S+Jg==
+Message-ID: <66d59de8-7fe8-4e8b-834c-9f0ed51ca5e0@kernel.org>
+Date: Fri, 10 Jul 2026 11:51:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,22 +55,29 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 07/11] arm64: dts: qcom: hamoa: Move Iris IOMMUs to
- sub nodes
+Subject: Re: [PATCH 2/2] arm64: dts: qcom: hamoa: Reserve low IOVA range for
+ Iris
+From: Bryan O'Donoghue <bod@kernel.org>
 To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Daniel J Blueman <daniel@quora.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-References: <20260709-vpu_iommu_iova_handling-v1-0-72bb62cb2dfd@oss.qualcomm.com>
- <63t_fLehIKEom4-JPN9kAGFEjUG4_yFoHMhB2aEAppwPHb2oPbK666eGkGgXxEAHRJnfTRRUwuf2EqNRYe_gjA==@protonmail.internalid>
- <20260709-vpu_iommu_iova_handling-v1-7-72bb62cb2dfd@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260601041336.9497-1-daniel@quora.org>
+ <ecavEnqJTDXvfFykc9uJb5No7ioighpjrCdw2CFZ4c8Izr5DxpTs-606Bg7K0RtHTaOqksWivHxWQLzMBP6qow==@protonmail.internalid>
+ <20260601041336.9497-2-daniel@quora.org>
+ <ec7c564e-745a-4998-af9a-e9632fe063f7@kernel.org>
+ <CAMVG2ssnyH=KUKrdfnUOtPYU7p17inyzcYWcKhT4EAZxDzDjfg@mail.gmail.com>
+ <h8UvMzNq5TseF22NyjmyrC5yZkO_5JsVGMVaIdLfdpMyfxxemlp0xulRAiylGHWdrq5D4NM1oUk9Jzyhj_UAsw==@protonmail.internalid>
+ <cb37e7cc-4fb0-4c24-8f89-f6f9eb08a107@oss.qualcomm.com>
+ <ccf4d126-c523-4ae4-8b17-a4cafab79b33@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
  xsFNBGRJNSgBEADD7Vm2ZFa+v+JGJ2QYTJqQAkqis/uOHkhdFNXqpBarVBd47QU/DMNU5Rxg
@@ -115,28 +122,29 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <20260709-vpu_iommu_iova_handling-v1-7-72bb62cb2dfd@oss.qualcomm.com>
+In-Reply-To: <ccf4d126-c523-4ae4-8b17-a4cafab79b33@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:busanna.reddy@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-67271-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:daniel@quora.org,m:quic_vgarodia@quicinc.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:andersson@kernel.org,m:konradybcio@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TAGGED_FROM(0.00)[bounces-67270-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -150,27 +158,118 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,qualcomm.com:email,gitlab.freedesktop.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B6796739DEF
+X-Rspamd-Queue-Id: 04317739E75
 
-On 09/07/2026 13:35, Vikash Garodia wrote:
-> The Iris VPU has separate streams with different IOVA constraints. The
-> non-pixel stream must be limited to the 0-600 MB IOVA range, while the
-> pixel stream can use the full IOVA space.
-> Using a single set of IOMMU entries for the Iris node does not describe
-> these per-stream limits and can allow accesses outside the supported
-> range, which may lead to device crashes. One such issue was reported at:
-> https://gitlab.freedesktop.org/drm/msm/-/work_items/100
+On 09/06/2026 14:01, Bryan O'Donoghue wrote:
+> On 04/06/2026 07:38, Vikash Garodia wrote:
+>>
+>>
+>> On 6/2/2026 9:05 PM, Daniel J Blueman wrote:
+>>> On Tue, 2 Jun 2026 at 18:27, Bryan O'Donoghue <bod@kernel.org> wrote:
+>>>>
+>>>> On 01/06/2026 05:13, Daniel J Blueman wrote:
+>>>>> On X1-family hamoa platforms, Iris DMA below IOVA 0x25800000 (600MB)
+>>>>> triggers unhandled SMMU page faults
+>>>>
+>>>> How do we know that is a correct address - does it come from qcom
+>>>> documentation or trial and error ?
+>>>
+>>> @Vikash, beyond your comment I linked in the patch [1] kindly cite a
+>>> source for the different stream-ID <600MB behaviour, and share
+>>> specifics, eg if silicon, firmware, or driver and constraint, defect
+>>> or otherwise, so I can include a definitive description.
+>>>
+>>> Also good to know if my workaround is good for long-term, or on the
+>>> other hand handling streams <600MB is important/useful.
+>>>
+>>
+>> Thanks Daniel for raising this patch. Did you also try the memory fix i
+>> mentioned in the bug [1] discussion ?
+>>
+>> Coming to 600MB, this have been the VPU hardware restriction all the
+>> while since venus days, and since address could not go deeper all the
+>> way lower than 600MB, the issue never popped up earlier.
+>>
+>> Consider the memory layout split as below (Iris device range is capped
+>> to 0xe0000000)
+>>
+>> |-----600MB-----|-----(0xe0000000 - 600MB)-----|----IO reg--|
+>>
+>> 0-600MB range, VPU hardware would reserve this to generate different
+>> stream-IDs primarily for internal (non-pixel) buffers.
+>>
+>> 0-600 --> VPU would generate *secure* stream ID for non-pixel buffers
+>> 601 - 0xe0000000 --> VPU would generate non-secure stream ID for
+>> non-pixel buffers.
+>>
+>> When many concurrent sessions were tried, non-pixel buffers were mapped
+>> into 0-600MB range, and VPU generated secure ID for those. Since those
+>> were not associated with the iommus configured for iris node, it led to
+>> USF (un-identified stream fault) and device would crash.
+>>
+>> Keeping the region reserved, makes the non-pixel buffer always in the
+>> non secure range (601-..) and avoids the crash.
+>>
+>> Downside of this design - It would eventually reserve 0-600MB un-map
+>> 'able for all buffer types, like pixel as well which do not have any
+>> such restriction.
+>>
+>> Forward looking design - create devices dynamically and set reserve
+>> regions for those specific device using the api [1], instead of applying
+>> one reserve for all.
+>>
+>> [1]
+>> https://lore.kernel.org/all/20260119054936.3350128-1- 
+>> busanna.reddy@oss.qualcomm.com/
+> The problem here is in the reponse to the email you linked:
 > 
-> Add non-pixel and pixel child nodes, move each stream ID to its
-> corresponding child node, and add a reserved IOVA range for the
-> non-pixel stream.
+> https://lore.kernel.org/all/cfd23f75-8952-4463-abd5-815b995031b0@arm.com/
 > 
-> Co-developed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In light of this patch, we should put a pause on Daniel's workaround.
+> - Inheriting the parent's properties is wrong
+> - We should just have a bus
+> 
+> But that leads us to churning DT and we'd have to figure out how/why to 
+> do it purely for the purpose of differentiating SIDs within Iris. There 
+> is no separate hardware - its one VPU which needs to figure out its IOVA 
+> for different SIDs.
+> 
+> Krzysztof would rightly say no - again - to putting collateral into DT 
+> to differentiate pixel streams based on SID, because that's not a 
+> hardware property.
+> 
+> - You have pixel and non-pixel SIDs that have to hit Linux
+> - You have to keep non-pixel allocations >= 600 MB
+> - You can allow pixel < 600mb =>
+>    Daniel's patch is too restrictive
+> 
+> But what we can do is add information to the iris platform descriptors 
+> to enumerate what are the valid IOVA ranges for pixel and non-pixel data 
+> and then change the allocation code to operate from those platform-code 
+> described IOVAs.
+> 
+> No new iommu properties, not arguing about plonking SID/pixel-path data 
+> into DT.
+> 
+> Just teach the driver what the valid ranges are and allocate IOVAs based 
+> on those ranges.
+> 
+> I think Daniel's patch should be taken as it fixes a real bug for users 
+> right now but, I equally think its a NAK for any new SoC.
+> 
+> This IOVA allocation needs to be tackled correctly and IMO that needs to 
+> be and should be done via platform descriptors for valid ranges of IOVA.
+> 
+> No mad stuff about SIDs in DT, no lengthy arguments about adding strange 
+> iommu properties.
+> 
+> ---
+> bod
+
+Please pause merging this patch until this thread bottoms out
+
+https://lore.kernel.org/all/20260709-vpu_iommu_iova_handling-v1-7-72bb62cb2dfd@oss.qualcomm.com
 
 ---
 bod
