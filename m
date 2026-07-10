@@ -1,53 +1,45 @@
-Return-Path: <linux-media+bounces-67237-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67238-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ORrLMlCvUGq+3QIAu9opvQ
-	(envelope-from <linux-media+bounces-67237-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:37:36 +0200
+	id H4s4BVKvUGq/3QIAu9opvQ
+	(envelope-from <linux-media+bounces-67238-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:37:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F94F7388ED
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:37:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A46B7388F0
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:37:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=SLTgG8pU;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67237-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67237-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67238-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67238-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 55163303639B
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 08:32:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 77E063013B7A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 08:37:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 681233F0749;
-	Fri, 10 Jul 2026 08:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5A6B3EEAE0;
+	Fri, 10 Jul 2026 08:37:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD251352C4F;
-	Fri, 10 Jul 2026 08:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563203F077C
+	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 08:37:31 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783672333; cv=none; b=iWY60poItQ9WCpYjLhaIeKTQ2J82LZM0XCzPkrKqMsG/9fMFTNoCSUvOyS8fpnJeYTW3sfMhF1TlDweM8N7Syfcx10Po4y6qIWJGm4T93i486BH2wzsnfj+I6DnFJnsAWf5sCZQJk3Z+jEvBhBYQLx92a8dI9zcVZhI3IvCRTVA=
+	t=1783672655; cv=none; b=aX5gGUs123yt3eD6nw3jhX8E5lVG70eKBVvY9tg/qXdmLEBVex2rrUmG6l+NYAlBG2xlXvjLU/aW2CNfI/a5OuYFvSjuMymGA+v1x6e9EKkVroJw76I9luWsCC11+KIQqKWuemuKv/mhAHbh72J78/AWWQUaMdPJi4zXM0a76IE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783672333; c=relaxed/simple;
-	bh=0umg/Qev6U66+MX/BjbqfeR8wzL+8VGeY26Cko+wQm4=;
+	s=arc-20240116; t=1783672655; c=relaxed/simple;
+	bh=EeoOMqO1p/YM13KYTy1063EaCdKHKafxTRlP59YUdoc=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=CUYduj3YWH5b2iTj8FYPo5c7BdOecfI3/Y69vXg/nRpYtSD8Ik6GgstlomrZ6dwNQo9CNVvHRuZuABm6SABpHhkcZXBxs4AISYxwJN0HPZfYRDfMohja6keqMwViXbKmRNtOIGcszPrDlN1trVZE+Rhfs9QchRniOPK+iYlbnBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SLTgG8pU; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA8E1F000E9;
-	Fri, 10 Jul 2026 08:32:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783672332;
-	bh=HmEqjKUj3ImmhcKvHo/ceR2YT39mwoO9uPMEC6fJlNM=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=SLTgG8pUHxU8l2f45B+MLIJDZ0K4mKEosXrsGEMMQGD95C+INLkEpoPeH11lJfGtD
-	 QpCFai9SenoY5dlwRN6DIsLM8Z3DtF3O/+HyBlG2Yl3fa5/HbCeJrGWTVitsbMBA3R
-	 9f6jE2vYh7MkLH55DpBpMm8fCX+AQ+Pu9w6c8/M8/l0BqqzV4dNn0Je6zQ3R44uvGu
-	 djw7leftlt+F7bKRh551thWhZn3CWjPUP1xzyhvsUyffMGumdyubo5Mwf1aMT6ruPq
-	 YmX1UdmzFiEk4DpsNYK02LE/e0g4jiueg514Hgee19nz8+fMVzlyjhQ3UYjkMOyw4M
-	 WUrrbiBvA+5fg==
-Message-ID: <7519968d-920e-455b-a27d-97a2f1d0615a@kernel.org>
-Date: Fri, 10 Jul 2026 10:32:09 +0200
+	 In-Reply-To:Content-Type; b=hLolKcrAAnJpMBwXuCTSSumhWHel52W+Uncoy1dNfs0VXFU/A5gmogr/13Jy+XeXniIytuiofI2H+3/+wpb7ZlWnqeNkhz9qvcYa/pnNSj3bojKmfoGADbkla9nxtiXZvjTAngP4pUwP1kXLKTZN/1wBrvyd9ZaQe968gjPwuXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.pueschel@pengutronix.de>)
+	id 1wi6jA-0002ZO-MG; Fri, 10 Jul 2026 10:36:56 +0200
+Message-ID: <210aa2ee-8931-4dd2-a51f-eeb0c205d647@pengutronix.de>
+Date: Fri, 10 Jul 2026 10:36:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,120 +47,118 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] media: vicodec: fix out-of-bounds write in FWHT encoder
-To: Junrui Luo <moonafterrain@outlook.com>, Hans Verkuil
- <hverkuil@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Yuhao Jiang <danisjiang@gmail.com>, stable@vger.kernel.org
-References: <SYBPR01MB7881C44480F77338B6A93C61AF152@SYBPR01MB7881.ausprd01.prod.outlook.com>
-Content-Language: en-US, nl
-In-Reply-To: <SYBPR01MB7881C44480F77338B6A93C61AF152@SYBPR01MB7881.ausprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
+Subject: Re: [PATCH v3 2/4] media: v4l2-common: Add v4l2_fill_pixfmt_aligned()
+ helper
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+ biju.das.jz@bp.renesas.com,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Isaac Scott <isaac.scott@ideasonboard.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260708161406.396183-1-tommaso.merciai.xr@bp.renesas.com>
+ <20260708161406.396183-3-tommaso.merciai.xr@bp.renesas.com>
+ <ak9pPzjABetdgUiq@zed>
+Content-Language: en-US
+In-Reply-To: <ak9pPzjABetdgUiq@zed>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67237-lists,linux-media=lfdr.de,cisco];
+	DMARC_NA(0.00)[pengutronix.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[outlook.com,kernel.org];
-	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:m.szyprowski@samsung.com,m:isaac.scott@ideasonboard.com,m:paul@crapouillou.net,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	TAGGED_FROM(0.00)[bounces-67238-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:moonafterrain@outlook.com,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:mchehab+samsung@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:danisjiang@gmail.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[linux-media,samsung];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,kernel.org,collabora.com,linux.intel.com,ideasonboard.com,samsung.com,crapouillou.net];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[outlook.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,pengutronix.de:mid,pengutronix.de:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6F94F7388ED
+X-Rspamd-Queue-Id: 6A46B7388F0
 
-Hi Junrui,
+Hi Jacopo,
 
-On 01/06/2026 16:57, Junrui Luo wrote:
-> vidioc_s_fmt_vid_out() sizes the encoder CAPTURE buffer from the
-> compressed descriptor pixfmt_fwht, whose sizeimage_mult is 3:
-> coded_w * coded_h * 3 + sizeof(struct fwht_cframe_hdr). fwht_encode_frame()
-> encodes one plane per component, and an incompressible plane takes the
-> FWHT_FRAME_UNENCODED path in encode_plane(), copying the plane verbatim.
-> 
-> For a 4-component pixel format all four planes are full resolution
-> (width_div == height_div == 1), so a frame that forces every plane
-> through the unencoded fallback writes
-> sizeof(struct fwht_cframe_hdr) + 4 * coded_w * coded_h bytes, overrunning
-> the plane by coded_w * coded_h, which can result in corruption
-> of adjacent kernel heap memory.
-> 
-> Bump pixfmt_fwht.sizeimage_mult from 3 to 4, matching the largest
-> components_num among the supported raw formats, so the capture buffer is
-> always large enough for the unencoded fallback.
-> 
-> Fixes: 29a7a5e99080 ("media: vicodec: add support for more pixel formats")
+On 7/9/26 11:35 AM, Jacopo Mondi wrote:
+> Hi Tommaso
+>
+> On Wed, Jul 08, 2026 at 06:14:03PM +0200, Tommaso Merciai wrote:
+>
+>> + *
+>> + * @pixfmt: pointer to the &struct v4l2_pix_format to be filled
+>> + * @pixelformat: the V4L2 pixel format (V4L2_PIX_FMT_*)
+>> + * @width: image width in pixels
+>> + * @height: image height in pixels
+>> + * @stride_alignment: stride alignment in bytes, must be a power of 2
+>> + *
+>> + * Fills all fields of @pixfmt for the given pixel format, dimensions, and
+>> + * stride alignment. Only formats stored in a single memory plane are
+>> + * supported; returns -EINVAL for multi-memory-plane formats.
+>> + *
+>> + * @pixfmt->bytesperline is set to the stride of the primary (plane 0) plane,
+>> + * rounded up to a multiple of @stride_alignment. For formats that store
+>> + * multiple component planes in a single memory buffer (e.g. NV12), the
+>> + * alignment applied to each component plane's stride is scaled relative to
+>> + * @stride_alignment so that the chroma stride remains consistently derivable
+> Does this rather mean that
+>
+> "For formats that store multiple component planes in a single memory
+> buffer (e.g. NV12), the alignment applied to each component plane is
+> the first plane @stride_alignment scaled by the plane's sub-sampling
+> ratio" or have I mis-read this ?
 
-Actually, it's commit b40dc2bf3581 ("media: vicodec: add support for 4 new
-RGB32 pixelformats") that introduced this.
+No, for the example of NV12, no stride will get scaled (although the 
+sub-sampling of 4:2:0, resulting in a vdiv and hdiv of 2).
 
-Please update the Fixes tag.
+This is due to the fact, that while we have a hdiv of 2 we also 
+interleave the cb and cr parts in a single plane, which results in the 
+stride being the same number of bytes as for the y plane (and vdiv isn't 
+relevant for the stride).
 
-> Reported-by: Yuhao Jiang <danisjiang@gmail.com>
+Therefore the stride scaling also respects the bits per plane (bpp) 
+value to determine the scaling.
 
-Where was that reported? Is there a URL to the that report?
+@Tommaso : While the sentence looks ok, the NV12 example is misguided. 
+The intention is that for non-mp (not ending with M) formats we might do 
+the scaling (e.g. YUV420 will have it's Y component stride alignment 
+scaled to not break the u and v stride alignments, but YUV420M not)
 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
-> ---
->  drivers/media/test-drivers/vicodec/vicodec-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-> index 318e8330f16a..3ff2d06742c2 100644
-> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-> @@ -63,7 +63,7 @@ struct pixfmt_info {
->  };
->  
->  static const struct v4l2_fwht_pixfmt_info pixfmt_fwht = {
-> -	V4L2_PIX_FMT_FWHT, 0, 3, 1, 1, 1, 1, 1, 0, 1
-> +	V4L2_PIX_FMT_FWHT, 0, 4, 1, 1, 1, 1, 1, 0, 1
->  };
->  
->  static const struct v4l2_fwht_pixfmt_info pixfmt_stateless_fwht = {
-
-It should be changed here as well, otherwise the test-media regression script
-in v4l-utils will fail.
-
-Regards,
-
-	Hans
-
-> 
-> ---
-> base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
-> change-id: 20260601-fixes-7416dda13cfd
-> 
-> Best regards,
+Sincerely
+     Sven
 
 
