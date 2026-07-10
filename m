@@ -1,211 +1,165 @@
-Return-Path: <linux-media+bounces-67264-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67265-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id lf0hKX7EUGol4wIAu9opvQ
-	(envelope-from <linux-media+bounces-67264-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:07:58 +0200
+	id lwt5NkfIUGoj5AIAu9opvQ
+	(envelope-from <linux-media+bounces-67265-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:24:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF1473974B
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:07:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC3F739A58
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:24:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=UiJ3mvEb;
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67264-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-67264-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=linaro.org header.s=google header.b=o4z+NOca;
+	dmarc=pass (policy=none) header.from=linaro.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67265-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67265-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3C71830418E6
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 09:56:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3EBBD30264C4
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:20:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C23E3FBB7E;
-	Fri, 10 Jul 2026 09:56:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AED7405862;
+	Fri, 10 Jul 2026 10:20:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBAE3FB7F2;
-	Fri, 10 Jul 2026 09:56:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52905405C3E
+	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 10:20:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783677398; cv=none; b=dMHMD6O5h57oGWDeZV7Vz6y0bQIZ13/N2NiZL95oa+tnAlpHb34wPalQMBCuiMO/aZgpkHltc/k6h4SagzHAW27TX4RdXEFBDCPCIJMYiIX8JcSep76g6YhfNKWUqfGDzfnpz1emSuEPOlc7ChBPCVuB6ermoq5zJpGO1gu9Dxc=
+	t=1783678809; cv=none; b=Vo6aSaL7zLPqAhMDzBwiVed2fG9DvxVHOMojyg3OsmIqP5L99XY9qQfCyRVLvFj6N6zffn8zny/azaLWG1IxCgAsHIL/prs1cE8TBLcN5Q3Agn52f+NrRnJJ/B4/p5EpwvczKcVbPI6+JjvqHu8NIEhiRoJ6/j4NCyo2gG9vk/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783677398; c=relaxed/simple;
-	bh=cUAYZzxr3znTTToR3UQeu5Ibb8WeFw+KkgCr8E8GNTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jOxXEHHeJ6TqSW3agrQpBfQ45fXgtnyX0df5Ccgg0l9LAzSJv1dc6csZUNm21opEQnH/q3Oe2RtzEjpnnBEYkYI1qHEx5Y1Q5zzFGC9/IpQNGv2Ej3SDk96QBUmfxei/f78bsBueKCD2tiClN+PEz7A0MBqErVEnZUkCv22lJwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UiJ3mvEb; arc=none smtp.client-ip=213.167.242.64
-Received: from ideasonboard.com (mob-109-113-15-151.net.vodafone.it [109.113.15.151])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5E9312F;
-	Fri, 10 Jul 2026 11:55:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783677342;
-	bh=cUAYZzxr3znTTToR3UQeu5Ibb8WeFw+KkgCr8E8GNTM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UiJ3mvEbI5orMKvbU+g4bzqtgUp4mUtjCSPCqwmDCzKKfXpFJbyaJ2bP3c8+cFPkY
-	 SggjMI2NX5Te9Dzh2aZSIPpB8ETDtkSnnKIKy6UGCr0lOzjQqnqJLbCXJGDhEf90Rt
-	 DH7iKrm1QE91CMep9fzd/UE+PMlfkaZaHcrFvvUQ=
-Date: Fri, 10 Jul 2026 11:56:29 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Isaac Scott <isaac.scott@ideasonboard.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] media: v4l2-common: Add kernel-doc for
- v4l2_fill_pixfmt_mp_aligned()
-Message-ID: <alC9xRYyzo6nRg58@zed>
-References: <20260708161406.396183-1-tommaso.merciai.xr@bp.renesas.com>
- <20260708161406.396183-4-tommaso.merciai.xr@bp.renesas.com>
- <ak9r850ftuu830At@zed>
- <d4ee7cc1-fd04-480b-8543-46ca5c746107@pengutronix.de>
+	s=arc-20240116; t=1783678809; c=relaxed/simple;
+	bh=1dzTBexqxGti69sqvBwGnRyvqeh7Lyvxce7lH4TfQ/k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tO2+b+fYXlyqBOw1FbZTkjzgI673jBLp5zN2XTS5+1fd+RsYAlRhiYh8xBlFXcOX2FJQ2ULhaLpPxcxvawMcBqy476s21X+5Trs1qgLOzFcMwYtfXq9arzSf52+3rmZ4BScyGIrCsdokQx4jU7jR22ICSUnKjfOXSjXiFEOlBy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o4z+NOca; arc=none smtp.client-ip=209.85.128.45
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493ece78b0cso5718485e9.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 03:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1783678806; x=1784283606; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1wsFkUbAtuG6pFWmJltsHSUWbIpvemvXO5QB3k7ZUl4=;
+        b=o4z+NOcavdngiaT3I5g2DPgoylzGVWdYWbIpFvl+jFrcGALtsOZQKb76hNqCU27/sg
+         pjjnOJfKDhVYV+la3wWRpOjw2n1oYShSG8b+r48hr51Dh/OxsoOJst7Uemoap3AYuxSD
+         43tQ1SjlCPIOHxwUAGMWYV+0dPxPfC6IEWAcw99UxmHfYfqD+ReIHZqCVCv+x3VCrSo9
+         wUBt13JM9nmdqbajQ8k5WbUQEodAgq7GT/44OVulbY5T+vZQozETkqq5foVwR+Be8QWR
+         ThWSCMTiuiJRC7b7ViU+gzktI5Et0T3RxNAeGnQDdZJx4SiD9x2PzS/D6kT5riaf6NwU
+         WNqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783678806; x=1784283606;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1wsFkUbAtuG6pFWmJltsHSUWbIpvemvXO5QB3k7ZUl4=;
+        b=jSSpUTRp7Y4dXhDlPsJR/rH2jNdkmZA4lOcDypKWgI9haTwBU7cUQiYWe4omTfsAk5
+         LNROkkTlBM3bqqGSHjvexHL5lgIqY4qsrOXa03Bid1ck0xblET1iOnQ4zgQNFbjSOfuy
+         5TH4A2fQeIg09sVkhWzYeKKZf9r4jkv9QPW4+ztc6PDNm1Z9csB/7YLfKCZJtWypXZZj
+         mieso6SaozmzNGawx7OwCaVNoigro7Kz0D8ktin1hDCDvV0KYQfgkOsEEwT5qBKLZRRr
+         3zEGnJs8O3/CTHWGthUVfA2LID1elIDenixQSu+Wkvn+MmTTt/RTukmyP45JflfSS9Zj
+         fwFw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrucn0/XZ+weA/nlKNsf1R79zgGQACzdqYqm53EY8OVNLI0JsyLOzk7an4W0gaNKaAAj5IG6UR+u8tAbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiMre9nBdSFESUzJ/rIKak+V5FeyfPtmGPJP0v5OeRAIueM7Xe
+	JrgAgXhLFK3soUV7kK9zQTkI3ArK19d7qcI3LdNomithQt/TUKyb1ncrlqxLFR26DrY=
+X-Gm-Gg: AfdE7ckxr0H6S/SPKP7+qlt++IKOasYVuw2nP2g0jTwMHyzCbQpUWhhA7lU+6+5n9Nh
+	90nJMAi/4kl+jIK6T++m2rC2a9AXv9fCMW16eVdAfN837l+0d1eezItSiI9RaU4lhhVTOLoKcTK
+	+yCZWt+LDPr/tTOT7Dg4WXf7iIJWVuGoNiuBqXBNlqdPPcYmy/5iUyzvJrN+nCLVJFPU58bJDGU
+	tZOfxxUJAX1uTBH0uUKqxxegspuiOWGzfxDc08gozmy+rmaCwQXMSpGfkeldse3oOvMPDkLXqJa
+	usmcxnZc503BuQpC3YUX6j9upf6lKvTkfvi+nVJriqOO9x9lCczGeT1gIvyqq25FIpnFcnSbxMj
+	poEfckEkD5UhIJOK16XZBHV9pGRBdRemXgxRdy+Va3RWUbApDySLRdG4HsRxGxW4YKAIxjAdwoM
+	sbW8S8sn0BJIy/m3kv529+/VFS
+X-Received: by 2002:a05:600c:a0d:b0:493:c389:d434 with SMTP id 5b1f17b1804b1-493e684a968mr116415905e9.15.1783678805526;
+        Fri, 10 Jul 2026 03:20:05 -0700 (PDT)
+Received: from [192.168.0.101] ([109.76.243.23])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d53absm125534085e9.6.2026.07.10.03.20.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 03:20:05 -0700 (PDT)
+Message-ID: <d5475ff0-1296-437a-89f4-1d3d6e9ac637@linaro.org>
+Date: Fri, 10 Jul 2026 11:20:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d4ee7cc1-fd04-480b-8543-46ca5c746107@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/7] dt-bindings: media: qcom: Add CAMSS Offline
+ Processing Engine (OPE)
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260710-camss-isp-ope-v4-0-51207a0319d8@oss.qualcomm.com>
+ <20260710-camss-isp-ope-v4-4-51207a0319d8@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20260710-camss-isp-ope-v4-4-51207a0319d8@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67264-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:s.pueschel@pengutronix.de,m:jacopo.mondi@ideasonboard.com,m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:m.szyprowski@samsung.com,m:isaac.scott@ideasonboard.com,m:paul@crapouillou.net,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67265-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:loic.poulain@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:kees@kernel.org,m:gustavoars@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-hardening@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[ideasonboard.com,bp.renesas.com,gmail.com,vger.kernel.org,kernel.org,collabora.com,linux.intel.com,samsung.com,crapouillou.net];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ideasonboard.com:from_mime,ideasonboard.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,renesas.com:email]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:from_mime,linaro.org:dkim,linaro.org:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9CF1473974B
+X-Rspamd-Queue-Id: ECC3F739A58
 
-Hi Sven
+On 10/07/2026 10:04, Loic Poulain wrote:
+> +        reg = <0x5c42400 0x200>,
+> +              <0x5c42600 0x200>,
+> +              <0x5c42800 0x4400>,
+> +              <0x5c46c00 0x190>,
+> +              <0x5c46d90 0xa00>;
+> +        reg-names = "top", "qos", "pipeline",
+> +                    "bus_read", "bus_write";
+> +
 
-On Fri, Jul 10, 2026 at 10:57:41AM +0200, Sven Püschel wrote:
-> Hi Jacopo,
->
-> On 7/9/26 11:51 AM, Jacopo Mondi wrote:
-> > Hi Tommaso
-> >
-> > On Wed, Jul 08, 2026 at 06:14:04PM +0200, Tommaso Merciai wrote:
-> > > Replace the bare placeholder comment with a full kernel-doc block
-> > > documenting all parameters, the function behaviour for both single
-> > > memory plane (mem_planes == 1) and multiple memory plane (mem_planes > 1)
-> > > formats, and the return value.
-> > >
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > ---
-> > > v2->v3:
-> > >   - Moved to PATCH 3/4
-> > >   - Fixed documentation as suggested by Sven Püschel
-> > >
-> > > v1->v2:
-> > >   - New patch
-> > >
-> > >   include/media/v4l2-common.h | 28 +++++++++++++++++++++++++++-
-> > >   1 file changed, 27 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > > index be4dd9762196..f2b0c336ac81 100644
-> > > --- a/include/media/v4l2-common.h
-> > > +++ b/include/media/v4l2-common.h
-> > > @@ -591,7 +591,33 @@ static inline int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt,
-> > >   	return v4l2_fill_pixfmt_aligned(pixfmt, pixelformat, width, height, 1);
-> > >   }
-> > >
-> > > -/* @stride_alignment is a power of 2 value in bytes */
-> > > +/**
-> > > + * v4l2_fill_pixfmt_mp_aligned - Fill in a &struct v4l2_pix_format_mplane with
-> > > + *	stride alignment requirements.
-> > > + *
-> > > + * @pixfmt: pointer to the &struct v4l2_pix_format_mplane to be filled
-> > > + * @pixelformat: the V4L2 pixel format (V4L2_PIX_FMT_*)
-> > > + * @width: image width in pixels
-> > > + * @height: image height in pixels
-> > > + * @stride_alignment: stride alignment in bytes; must be a power of 2
-> > > + *
-> > > + * Fills all fields of @pixfmt for the given pixel format, dimensions, and
-> > > + * stride alignment.
-> > > + *
-> > > + * For formats stored in a single memory plane (mem_planes == 1), the
-> > > + * behaviour matches v4l2_fill_pixfmt_aligned(): plane_fmt[0].bytesperline
-> > > + * is set to the primary plane stride. The strides of all components are
-> > > + * aligned to the @stride_alignment. To keep the chroma strides consistently
-> > > + * derivable from the luma stride, strides may be aligned to a multiple of
-> > > + * the @stride_alignment instead. plane_fmt[0].sizeimage covers all
-> >
-> > I guess this
-> >
-> > "To keep the chroma strides consistently derivable from the luma
-> > stride, strides may be aligned to a multiple of the @stride_alignment
-> > instead."
-> >
-> > comes from teh v4l2_format_plane_stride() implementation.
-> >
-> > I admit is not 100% clear to me why the chroma strides is multiplied
-> > and to which format this applies. But this is not on this patch...
->
-> When not using multi-planar formats, we only have the stride value for the Y
-> component and the other stride values are derived from it. This is the cause
-> of this whole scaling.
->
-> E.g. for YUV420 4x2px picture, we have 4 bytes stride in the y plane and 2
-> byte in the cb and cr plane. If we align the stride to 4 bytes (in all
-> planes), we want both values to be a multiple of 4. As the cb/cr stride is
-> derived from the y stride, we have to set the y stride to 8 bytes to get the
-> desired 4 bytes stride in the cb/cr planes.
->
-> The rare case for scaling the component stride is NV24/42 (at least this is
-> the only one I currently know of), where we actually have 4:4:4 sub-sampling
-> and have the cb/cr parts interleaved. So for a 1x2px picture we have 1 bytes
-> in the y plane and 2 bytes in the c plane. To align to 4 bytes we need to
-> set the c plane stride to 8 to be able to set the y plane stride to 4.
+Does this register space cover the entire OPE i.e. where are the CDM 
+registers ?
 
-I see, I was probably confusing strides and strides -alignments-.
+We should map those upfront even if they are not included in your first 
+drop, we map CDM regs in the IFE even when not used.
 
-Thanks for the explanation.
+Also, I looks as though you're missing CDM S1 SID entries in your iommu 
+definition.
 
-
->
->
-> For multi-planar formats we have a separate stride for each component, so we
-> just align all component strides to the given alignment.
->
->
-> Sincerely
->     Sven
->
->
+---
+bod
 
