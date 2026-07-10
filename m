@@ -1,203 +1,144 @@
-Return-Path: <linux-media+bounces-67248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67249-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id iDyELmG2UGpx3wIAu9opvQ
-	(envelope-from <linux-media+bounces-67248-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 11:07:45 +0200
+	id kgbWKVS5UGoh4AIAu9opvQ
+	(envelope-from <linux-media+bounces-67249-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 11:20:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39778738D61
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 11:07:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E169E738F68
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 11:20:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67248-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67248-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=UMekpdue;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67249-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67249-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 91755306BBE4
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 08:58:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D47D43150C60
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 09:00:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2078B396588;
-	Fri, 10 Jul 2026 08:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A35223D093B;
+	Fri, 10 Jul 2026 09:00:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127B23C9896
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 08:58:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2160A13AA2F;
+	Fri, 10 Jul 2026 09:00:32 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783673887; cv=none; b=bPpPuc3iUNmJtBu4edvD6Fp8RbNaiNlv3dasnVf4+prf1aWIM5dFrggGrpzrp5u0K9Jg7JILjs/x9NFgRiHFrypxTw/CEPH/MaRhrgB0+IV340yS1lkUI8EDrzwW7+kn14bXB37EAbDVhLd3e0bLQe/cvngB1TI/R3gq0XSj9xQ=
+	t=1783674033; cv=none; b=gGkEMk+ciSklvRPgwxB9GUwjtFbhb5OcnhqKzvDUr9Xu5uDqefSHfzRdGCa1h10oiqz5OQd/3fZp8bd8Kj5p+9XJaRPiegWU6nNDRYkx33PRVzHwq3/2ES8oZADCyKttb6GPdq6VkEsK5Mu1vmk3/AZCmCrbo6XhdmEpJ9uGO9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783673887; c=relaxed/simple;
-	bh=L2pl+s1nG4JtEDjGR7ss4RjDd6y+PSYp9694X1GNbBc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eXloAghp/m7EGb5lc+TY2bmqLxG+KRfz/Hv9uv1MgV2gUIbm/X/Xa3+IurAMJqm5cb9DV+bnSw4+25ekPucnhLeipfYZdArRrd//3hTICxFQqGD0doasfpaycjces0xAtwNxPp5ig5uJ4Ho0oPNmpmvz2CpSinVE29pBi4wik5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1wi73H-0004DF-DQ; Fri, 10 Jul 2026 10:57:43 +0200
-Message-ID: <d4ee7cc1-fd04-480b-8543-46ca5c746107@pengutronix.de>
-Date: Fri, 10 Jul 2026 10:57:41 +0200
+	s=arc-20240116; t=1783674033; c=relaxed/simple;
+	bh=7hYeRZKqU/iA635dD/0e3+1VkT1NfPdDsivTDEwOBLM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ig1AXMwBYG137jOoXBh0CnZ5fkIAFlQBn6zRfd5c+47Uq9zHMm1fuzmRA11cVnp4Ea0J5wY6oF8BrkRVVNDkYLQoPrrEykvHDTyIal3nngRKBF55zItyZEbKO1f7Ype6FgNkS+gTMvU6VMZAH0NGLBxis7nsBy9rzucPm5Q+Ung=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UMekpdue; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE7301F000E9;
+	Fri, 10 Jul 2026 09:00:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783674031;
+	bh=PZTomhapv1GB4dPtZ31heISGx2ogyb6gdCRPTduPiCc=;
+	h=From:To:Cc:Subject:Date;
+	b=UMekpdue6x5QRMj0lrgfHkiJfql0BaTHgUQMAKo4RpskFmcxnvqgnvcGwqC/GA8Sn
+	 VP42bN56yYvEDWQhmi/yR5DOZfSkTChmTGQW3NooOSzB1EOewiT1GctJbWP26snjrb
+	 qubSbknk5Yx7hNrgV1UazD7fzfIb70wrVXlWb5ZIp4c71t4gCj/tbetaXWNjZGnZsa
+	 UfplVIcJ1fe4K7IWb350+FWS5Xig1+qHFGZ+kscKfWEYGPt2mkSkKLuj5KOiWAmyaO
+	 F/5UJswivmri3XOuF/+0Gjptq20l8yzAi84PHY95khRkw8QUOH5fKNVsvrNxVCmYmF
+	 6Co+gk/n9G59w==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.4)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1wi75y-00000000Dcy-15Ix;
+	Fri, 10 Jul 2026 11:00:30 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Clinton Phillips <clintdotphillips@gmail.com>,
+	Daniel Lundberg Pedersen <dlp@qtec.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Petr Vorel <pvorel@suse.cz>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rito Rhymes <rito@ritovision.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-media@vger.kernel.org
+Subject: [PATCH] docs: custom.css: don't limit randering to old 800px monitors
+Date: Fri, 10 Jul 2026 11:00:27 +0200
+Message-ID: <1950557405f1150acb1de50de1801f2413223b87.1783673996.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] media: v4l2-common: Add kernel-doc for
- v4l2_fill_pixfmt_mp_aligned()
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
- biju.das.jz@bp.renesas.com,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil+cisco@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Isaac Scott <isaac.scott@ideasonboard.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Daniel Scally <dan.scally+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260708161406.396183-1-tommaso.merciai.xr@bp.renesas.com>
- <20260708161406.396183-4-tommaso.merciai.xr@bp.renesas.com>
- <ak9r850ftuu830At@zed>
-Content-Language: en-US
-From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-In-Reply-To: <ak9r850ftuu830At@zed>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[pengutronix.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:m.szyprowski@samsung.com,m:isaac.scott@ideasonboard.com,m:paul@crapouillou.net,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	TAGGED_FROM(0.00)[bounces-67248-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-67249-lists,linux-media=lfdr.de,huawei];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:corbet@lwn.net,m:linux-doc@vger.kernel.org,m:mchehab+huawei@kernel.org,m:linux-kernel@vger.kernel.org,m:clintdotphillips@gmail.com,m:dlp@qtec.com,m:hverkuil+cisco@kernel.org,m:mchehab@kernel.org,m:pvorel@suse.cz,m:rdunlap@infradead.org,m:rito@ritovision.com,m:skhan@linuxfoundation.org,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com,qtec.com,suse.cz,infradead.org,ritovision.com,linuxfoundation.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,kernel.org,collabora.com,linux.intel.com,ideasonboard.com,samsung.com,crapouillou.net];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,renesas.com:email,pengutronix.de:mid,pengutronix.de:from_mime]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,huawei,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 39778738D61
+X-Rspamd-Queue-Id: E169E738F68
 
-Hi Jacopo,
+Right now, base.css style imposes a maximum limit of 800 horizontal
+pixels to be compatible with very old SVGA monitors.
 
-On 7/9/26 11:51 AM, Jacopo Mondi wrote:
-> Hi Tommaso
->
-> On Wed, Jul 08, 2026 at 06:14:04PM +0200, Tommaso Merciai wrote:
->> Replace the bare placeholder comment with a full kernel-doc block
->> documenting all parameters, the function behaviour for both single
->> memory plane (mem_planes == 1) and multiple memory plane (mem_planes > 1)
->> formats, and the return value.
->>
->> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
->> ---
->> v2->v3:
->>   - Moved to PATCH 3/4
->>   - Fixed documentation as suggested by Sven Püschel
->>
->> v1->v2:
->>   - New patch
->>
->>   include/media/v4l2-common.h | 28 +++++++++++++++++++++++++++-
->>   1 file changed, 27 insertions(+), 1 deletion(-)
->>
->> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
->> index be4dd9762196..f2b0c336ac81 100644
->> --- a/include/media/v4l2-common.h
->> +++ b/include/media/v4l2-common.h
->> @@ -591,7 +591,33 @@ static inline int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt,
->>   	return v4l2_fill_pixfmt_aligned(pixfmt, pixelformat, width, height, 1);
->>   }
->>
->> -/* @stride_alignment is a power of 2 value in bytes */
->> +/**
->> + * v4l2_fill_pixfmt_mp_aligned - Fill in a &struct v4l2_pix_format_mplane with
->> + *	stride alignment requirements.
->> + *
->> + * @pixfmt: pointer to the &struct v4l2_pix_format_mplane to be filled
->> + * @pixelformat: the V4L2 pixel format (V4L2_PIX_FMT_*)
->> + * @width: image width in pixels
->> + * @height: image height in pixels
->> + * @stride_alignment: stride alignment in bytes; must be a power of 2
->> + *
->> + * Fills all fields of @pixfmt for the given pixel format, dimensions, and
->> + * stride alignment.
->> + *
->> + * For formats stored in a single memory plane (mem_planes == 1), the
->> + * behaviour matches v4l2_fill_pixfmt_aligned(): plane_fmt[0].bytesperline
->> + * is set to the primary plane stride. The strides of all components are
->> + * aligned to the @stride_alignment. To keep the chroma strides consistently
->> + * derivable from the luma stride, strides may be aligned to a multiple of
->> + * the @stride_alignment instead. plane_fmt[0].sizeimage covers all
->
-> I guess this
->
-> "To keep the chroma strides consistently derivable from the luma
-> stride, strides may be aligned to a multiple of the @stride_alignment
-> instead."
->
-> comes from teh v4l2_format_plane_stride() implementation.
->
-> I admit is not 100% clear to me why the chroma strides is multiplied
-> and to which format this applies. But this is not on this patch...
+Remove such artificial limit, letting the output to be adjusted to
+the browser windows size.
 
-When not using multi-planar formats, we only have the stride value for 
-the Y component and the other stride values are derived from it. This is 
-the cause of this whole scaling.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx-static/custom.css | 2 ++
+ 1 file changed, 2 insertions(+)
 
-E.g. for YUV420 4x2px picture, we have 4 bytes stride in the y plane and 
-2 byte in the cb and cr plane. If we align the stride to 4 bytes (in all 
-planes), we want both values to be a multiple of 4. As the cb/cr stride 
-is derived from the y stride, we have to set the y stride to 8 bytes to 
-get the desired 4 bytes stride in the cb/cr planes.
-
-The rare case for scaling the component stride is NV24/42 (at least this 
-is the only one I currently know of), where we actually have 4:4:4 
-sub-sampling and have the cb/cr parts interleaved. So for a 1x2px 
-picture we have 1 bytes in the y plane and 2 bytes in the c plane. To 
-align to 4 bytes we need to set the c plane stride to 8 to be able to 
-set the y plane stride to 4.
-
-
-For multi-planar formats we have a separate stride for each component, 
-so we just align all component strides to the given alignment.
-
-
-Sincerely
-     Sven
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index 5aa0a1ed9864..1055db7dc1dd 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -3,6 +3,8 @@
+  * CSS tweaks for the Alabaster theme
+  */
+ 
++div.body {  max-width: none; }
++
+ /* Shrink the headers a bit */
+ div.body h1 { font-size: 180%; }
+ div.body h2 { font-size: 150%; }
+-- 
+2.55.0
 
 
