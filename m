@@ -1,52 +1,45 @@
-Return-Path: <linux-media+bounces-67283-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67284-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mlHtEobUUGru5wIAu9opvQ
-	(envelope-from <linux-media+bounces-67283-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 13:16:22 +0200
+	id FlaRItvdUGpA6gIAu9opvQ
+	(envelope-from <linux-media+bounces-67284-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 13:56:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56C073A204
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 13:16:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1629D73A763
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 13:56:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=bJ5Bl+u2;
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67283-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67283-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67284-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67284-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 70477303B7EF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 11:16:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D553B30039B5
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 11:55:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAC92413220;
-	Fri, 10 Jul 2026 11:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5306F426D37;
+	Fri, 10 Jul 2026 11:54:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10429372B41
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 11:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8526F3DF018
+	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 11:54:39 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783682169; cv=none; b=lfq7Ums5XMVEWdxpt1BgG2YmYKOJYtd4L4Go/E+5SvlWQLxZLKSLvdMo4ngrXYVLbTyaRlPo7qEzsRQAAOPQ5eoQtCOoedV/MA6tL8zqLr0bef+u0+8C1hxZpF6/Y9KZEAFFI/jx7y/ksvPzjeM0xW/3rQN8mE3akB5TcK71Yqg=
+	t=1783684485; cv=none; b=todTLSg6Po+lF4TCkF+7kwaKtxZeEuDSl3MQQ7oONb/MqBmxkRKfk1feKHIDvWLBAIhqkUK/QLHiEss5hbLpnzhKkRXSAN3wUMlfPDqAZuzHRf7IthM0nq3NBT9V7aiLPQn/6FQzgyi9xl+2KJtqE7qxaUYaKUi4qmooL0Kdxyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783682169; c=relaxed/simple;
-	bh=1f+usL2BJkwGmbs2Fr4Jq2FkbApXemYsE5L+uFlW6sg=;
-	h=Message-ID:Date:MIME-Version:From:To:Subject:Content-Type; b=pTl5u/Sm5rbVdbcOdcGZnHc/Qg7I++Ve2QVZjoUDyqFFBUK3jMh4s8gPszv4CWwjPFjEVyFHhJEjHYP8X5x0E3NXi5s4V5Sb/7jL81w2tLlj9yyg7r8z3eUmPwZyZtxqHoK2ERIc7wzQIw8UREO2zQ1cFWMSjTV9mxMKgWD4Zg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bJ5Bl+u2; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 449391F00A3F
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 11:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783682166;
-	bh=1X/XOefjad39Rq8RO4Y5in0/k8QT3+eiFXYBROpemxQ=;
-	h=Date:From:To:Subject;
-	b=bJ5Bl+u2Ofm6WmPFmm8n+WVGcivjRAMVMc6YxkpkbMj8qtHAAX2yUlB74ue1fvuNF
-	 pywwdCxR81ejQMc8Gh1DH8kuBFli2sCHCx00H4Dxde3s4OPhAKUjnk8EU7wmzMT1sf
-	 Akyn4D9RJ3d6NwFpOrKyzflERhmpFRw8/zNgY4KoEzVLWCRE+wZOo1P+JfHqC3Q8uG
-	 URKpyQMacIWHNbO5zdC3fNTdEP3ZNP8exFZHDRsC2P9rbYe6ICFSqZNtkpefHhyA7U
-	 qcbf8r/zbgK43BLF0bQ0PKNE5FYF/VBlWevzAsHuKDIznzkfpeyE16d3N0Vv4kETn7
-	 eiwSkJUoVVIDA==
-Message-ID: <65a6bd5c-4e62-4370-b654-7dce0712aae5@kernel.org>
-Date: Fri, 10 Jul 2026 13:16:04 +0200
+	s=arc-20240116; t=1783684485; c=relaxed/simple;
+	bh=GCWVyBroHWdqwDdI3fyaj+P0cYi9W1+dTfPtYlS5hoA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l6/2zNjxzodbOm1+OFLXgT9qG91Phru6gINo/kaX/N69+xegJiMkiqgsEVupyP355FH87bDLgeutgf6PEcwf0QFLvCHpjg+XZ1TC9rQsals9s4r2KHiV9xqjfY6K8xUC4TCmDiWgG1FhGXqUBsY3nCxi8br22N5Ys4VBp0TX6JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.pueschel@pengutronix.de>)
+	id 1wi9o1-0001Ng-OC; Fri, 10 Jul 2026 13:54:09 +0200
+Message-ID: <00b18307-f982-44bc-bbab-4a640753d8fc@pengutronix.de>
+Date: Fri, 10 Jul 2026 13:54:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,147 +47,103 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: [PATCH] v4l-utils: cec-compliance: test timeout handling
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 2/4] media: v4l2-common: Add v4l2_fill_pixfmt_aligned()
+ helper
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+ biju.das.jz@bp.renesas.com,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Isaac Scott <isaac.scott@ideasonboard.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260708161406.396183-1-tommaso.merciai.xr@bp.renesas.com>
+ <20260708161406.396183-3-tommaso.merciai.xr@bp.renesas.com>
+ <ak9pPzjABetdgUiq@zed> <210aa2ee-8931-4dd2-a51f-eeb0c205d647@pengutronix.de>
+ <alC6DDFZ23q5h33W@zed>
+Content-Language: en-US
+From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
+In-Reply-To: <alC6DDFZ23q5h33W@zed>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[pengutronix.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:m.szyprowski@samsung.com,m:isaac.scott@ideasonboard.com,m:paul@crapouillou.net,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-67283-lists,linux-media=lfdr.de,cisco];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	TAGGED_FROM(0.00)[bounces-67284-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[bp.renesas.com,gmail.com,vger.kernel.org,kernel.org,collabora.com,linux.intel.com,ideasonboard.com,samsung.com,crapouillou.net];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:from_mime,vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A56C073A204
+X-Rspamd-Queue-Id: 1629D73A763
 
-If we are testing against the vivid driver, then use the new timeout error injection
-mechanism to verify that timeouts while claiming logical addresses are handled correctly.
+Hi Jacopo,
 
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
----
-Note that is requires a kernel patched with this series:
+On 7/10/26 11:38 AM, Jacopo Mondi wrote:
+>> This is due to the fact, that while we have a hdiv of 2 we also interleave
+>> the cb and cr parts in a single plane, which results in the stride being the
+>> same number of bytes as for the y plane (and vdiv isn't relevant for the
+>> stride).
+>>
+>> Therefore the stride scaling also respects the bits per plane (bpp) value to
+>> determine the scaling.
+>>
+>> @Tommaso : While the sentence looks ok, the NV12 example is misguided. The
+> I guess the usage of NV12 was as example of a "formats that store
+> multiple component planes in a single memory"
+>
+> NV24/42 works the same, but being 444 it needs the chroma plane stride to
+> be a multiple of the fist plane stride and might prove as a better
+> example ?
+>
+My potential concern is that NV as an example misguides the reader into 
+one of the following:
 
-https://patchwork.linuxtv.org/project/linux-media/list/?series=27637
+- It's only for formats which interleave cb/cr into one plane (whereas 
+YUV420 also gets scaled)
+- NV24 in the example being though of including the NV24M variant 
+(whereas latter won't be affected)
 
-And a v4l-utils synced to that kernel so that the new CEC_LOG_ADDRS_FL_CONFIG_FAILED
-flag is available.
----
-diff --git a/utils/cec-compliance/cec-test-adapter.cpp b/utils/cec-compliance/cec-test-adapter.cpp
-index 1bc7d5e8..eb00d6ac 100644
---- a/utils/cec-compliance/cec-test-adapter.cpp
-+++ b/utils/cec-compliance/cec-test-adapter.cpp
-@@ -258,6 +258,43 @@ static int testAdapLogAddrs(struct node *node)
- 	return 0;
- }
+Maybe smth. like YUV420 but not YUV420M is a better example (could also 
+be NV24 but not NV24M)?
 
-+static int testAdapLogAddrsVivid(struct node *node, int fd)
-+{
-+	struct cec_log_addrs laddrs;
-+	char buf[3] = {};
-+
-+	memset(&laddrs, 0, sizeof(laddrs));
-+	strcpy(laddrs.osd_name, "Compliance");
-+	laddrs.num_log_addrs = 1;
-+	laddrs.cec_version = CEC_OP_CEC_VERSION_2_0;
-+	laddrs.log_addr_type[0] = CEC_LOG_ADDR_TYPE_TV;
-+	laddrs.primary_device_type[0] = CEC_OP_PRIM_DEVTYPE_TV;
-+	laddrs.all_device_types[0] = CEC_OP_ALL_DEVTYPE_TV;
-+	write(fd, "6", 1);
-+	fail_on_test(doioctl(node, CEC_ADAP_S_LOG_ADDRS, &laddrs));
-+	fail_on_test(!(laddrs.flags & CEC_LOG_ADDRS_FL_CONFIG_FAILED));
-+	fail_on_test(laddrs.log_addr_mask);
-+	read(fd, buf, 2);
-+	fail_on_test(strcmp(buf, "0"));
-+
-+	write(fd, "6", 1);
-+	memset(&laddrs, 0, sizeof(laddrs));
-+	strcpy(laddrs.osd_name, "Compliance");
-+	laddrs.num_log_addrs = 1;
-+	laddrs.cec_version = CEC_OP_CEC_VERSION_2_0;
-+	laddrs.log_addr_type[0] = CEC_LOG_ADDR_TYPE_TV;
-+	laddrs.primary_device_type[0] = CEC_OP_PRIM_DEVTYPE_TV;
-+	laddrs.all_device_types[0] = CEC_OP_ALL_DEVTYPE_TV;
-+	laddrs.flags = CEC_LOG_ADDRS_FL_ALLOW_UNREG_FALLBACK;
-+	fail_on_test(doioctl(node, CEC_ADAP_S_LOG_ADDRS, &laddrs));
-+	fail_on_test(laddrs.flags & CEC_LOG_ADDRS_FL_CONFIG_FAILED);
-+	fail_on_test(laddrs.log_addr_mask != 0x8000);
-+	read(fd, buf, 2);
-+	fail_on_test(strcmp(buf, "0"));
-+
-+	return 0;
-+}
-+
- static int testTransmit(struct node *node)
- {
- 	struct cec_msg msg;
-@@ -1409,12 +1446,40 @@ void testAdapter(struct node &node, struct cec_log_addrs &laddrs,
- 	printf("\tCEC_ADAP_G/S_LOG_ADDRS: %s\n", ok(testAdapLogAddrs(&node)));
- 	fcntl(node.fd, F_SETFL, fcntl(node.fd, F_GETFL) & ~O_NONBLOCK);
- 	sleep(1);
-+
-+	const char *last_slash = strrchr(node.device, '/');
-+	bool is_root = geteuid() == 0;
-+
-+	if (!node.phys_addr && node.is_vivid && last_slash && is_root) {
-+		struct cec_log_addrs clear = { };
-+
-+		doioctl(&node, CEC_ADAP_S_LOG_ADDRS, &clear);
-+		sleep(1);
-+		std::string error_inj_tx_timeouts =
-+			std::string("/sys/kernel/debug/cec") + last_slash +
-+			"/error-inj-tx-timeouts";
-+		int fd;
-+
-+		if ((fd = open(error_inj_tx_timeouts.c_str(), O_RDWR)) < 0) {
-+			fprintf(stderr, "Failed to open %s: %s\n",
-+				error_inj_tx_timeouts.c_str(),
-+				strerror(errno));
-+		} else {
-+			printf("\tCEC_ADAP_G/S_LOG_ADDRS (with vivid): %s\n",
-+			       ok(testAdapLogAddrsVivid(&node, fd)));
-+			write(fd, "0", 1);
-+			close(fd);
-+		}
-+	}
-+
- 	if (node.caps & CEC_CAP_LOG_ADDRS) {
- 		struct cec_log_addrs clear = { };
+Sincerely
+     Sven
 
- 		doioctl(&node, CEC_ADAP_S_LOG_ADDRS, &clear);
- 		doioctl(&node, CEC_ADAP_S_LOG_ADDRS, &laddrs);
-+		sleep(1);
- 	}
-+
- 	doioctl(&node, CEC_ADAP_G_LOG_ADDRS, &laddrs);
- 	if (laddrs.log_addr_mask != node.adap_la_mask)
- 		printf("\tNew Logical Address Mask   : 0x%04x\n", laddrs.log_addr_mask);
 
