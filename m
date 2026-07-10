@@ -1,270 +1,384 @@
-Return-Path: <linux-media+bounces-67292-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67293-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id JtNrHn3lUGpm8AIAu9opvQ
-	(envelope-from <linux-media+bounces-67292-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:28:45 +0200
+	id pzdHHornUGrl8AIAu9opvQ
+	(envelope-from <linux-media+bounces-67293-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:37:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F8673AC70
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:28:44 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 266D573AD59
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:37:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b="AFKuD/aQ";
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=VygyrRBs;
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67292-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67292-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=amd.com header.s=selector1 header.b=E7PjSRYM;
+	dmarc=pass (policy=quarantine) header.from=amd.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67293-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67293-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 118DF302528E
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:28:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 510883004266
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:34:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C593E423170;
-	Fri, 10 Jul 2026 12:28:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 981DC4279F3;
+	Fri, 10 Jul 2026 12:34:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012055.outbound.protection.outlook.com [52.101.48.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB55D3F58E9
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 12:28:24 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783686506; cv=none; b=IvoCLP/RmqxWi5+JIIhN8v9/CfZcgXbScvDvWKThzSkmYQS+2+AEhYWTUv938jTBXGCL0vePnOSTAd94L+x73goUlUSu6x4dLl4wV+QuwEczvJToTBGN2CPr/89wKocVoFOH/VjocXkR9/YHoqiWjPqio7jB+Gq15GMJAvzuNpw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783686506; c=relaxed/simple;
-	bh=x2yLChwyDBlhoPwQp2bdOLo9LLSk9T4KgY8wi9Fdf0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a/xKAgZRN0Fv2lSaa0KGKaYK0X2/22UbRbVAu2JRDe/0dXAZsEut/+MYIl83S8uVE0JZ540+iPGnWwPW3AwtM/zBu+FRHggLrac+eciMfx1XR2W5oadBptXsoX2yrP70n66jJ4aRWH4s4V5lJP5Z9Su244xB6GD51uDUNDKHum4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AFKuD/aQ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VygyrRBs; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66AAmpDj569600
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 12:28:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=pdrLWzgNx+QR5fQ2eGSJkfqM
-	qM4R10g9Ep491Uwct/c=; b=AFKuD/aQoo6Ty4FYZvx24pIjl0tOpgFnkWeAidru
-	dTo64hal/o7ehck4z3Sg7bLE85+AknoBrZ/AUB1ckdECFnyvW5KpqCrHFJThls4F
-	uESqDesfQDfchrxgdjLuiI6pVNn1+C6LFts+QH/zFNz6Dd9Y4z3qKxQ8R5XXjfsC
-	7vu0KbbIEqTQTK+4rTRWC/8XRPzMbXb0MTWweUQxW9kPhdf390WTtfnoDLr7mfkJ
-	DcA9dxECg7vvXWvbLtLL6Pjsg/Cb97/iWgqGNqPXqaD09FDlgcTXQj+BpfvxJIZQ
-	O4D52EU5FdFA63bquIVAef5+nWCR8WrrpaAYqXt4HDSh0A==
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fax5f8kxs-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 12:28:23 +0000 (GMT)
-Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-963d24c3886so725723241.0
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 05:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783686503; x=1784291303; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pdrLWzgNx+QR5fQ2eGSJkfqMqM4R10g9Ep491Uwct/c=;
-        b=VygyrRBsfLJry6B8NFQcA+rg3hoEWA85qEjK5nfW1QrKagr+RWINhgw2IsljTU2r4c
-         hvnPIYk2vDUhmn4UrRpnogT33smTQtbVZe/urRNIb9XdQ1WTL3BSZqIYmOceoP9VUaWJ
-         WPRijpo+BDvNsLWIUDWpt9o787a6YaxpdLXr+1qot5EmMXig7zhXH4vZL0Ljpi9u6pv6
-         xzv91T8Opbuc1saSMLHomtm/ltMch/kGhJH+60oH9/X/JMkprhP4idFJ+NDx6ccA7zvB
-         w9qT0Q/ebRIQelv8WE0h6q4qtwZ27QJ24wHAZfA9CzZ3rOY2hAePPDiMDotNaPN2Hc58
-         nG4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783686503; x=1784291303;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pdrLWzgNx+QR5fQ2eGSJkfqMqM4R10g9Ep491Uwct/c=;
-        b=DYNl6zjI27/GKGKVQcdojTi0yC5T004jTJp2zuSMJQb3v/SyaRB7OdI/74jOKS+SFC
-         SKyyEfWNopEIUP282H/71Y+ARrr9bIIHr5lFFZRTIc1ZMHNwA/JEY7HBj9TOFxSNnb01
-         Iww+NAqYfwpR44RgYBRhjK308IgaosHL6JbsxtZGi1mR4Ssbcldai1FGx6ayI/ir6njd
-         RE3TBgIzCPqsTILJ4Gj5G86ulSmlJlJ3uGxqI9f12+1X0p01Tqywjssn05c7v8gpMeS2
-         kQ656kcuFkZhVgD1Ase5/dcDPsWDXxba88TN8YCUtEYWJm5/js2Wd5/NLGASyF1wf4Gh
-         ja2g==
-X-Forwarded-Encrypted: i=1; AHgh+RqH703h8454q4UQLjSBZHmKqtSy8cZlFhCD8JuAWNHPryJGGTsTmXmVpf38dTWNRExpxX8PPAcBv49bRw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCQcKZstmDyMoDXGJcyncNThClQdzdaskKjj1HxJItNzW5BVlp
-	rYfVoFx5c88uR8FRTzqrWPaVKFjCL9gTPj0gLyTSswvKvIq0KfN5ZK88es8Gxx83+vfkWdyM3Oj
-	0g2YmOmH+rjObMqMeXCbXuGiN/xr4Izp+mMi7Kk0gq+VRXRl/fI3Z7RjQv4tsikQNrA==
-X-Gm-Gg: AfdE7ckqnuqkXr57dvStOJF5IBIGbga7itWwJBUDgw5pt0JThuXY6uG+aiB1dHRUC/0
-	JR05VOy7sKis7XKWvmijgYUMzg0IJnWwezFM7yBLdZNCXOdy+yRdAEbyv9ltoOUDVWynFcQMOH5
-	5cc1cN6kK+gqM4TSv8WzavQrAXnv9+wt1UP06caB+w91FWM6FPyGOwsgmp+lisPr/r2Ke6JAskH
-	/MXholPb4Gt6X7wimMzaxJ4Zp9nAYo+tm9ImSyinb44NxwWQDDHPfCHpK06Ctv3CtTS5gCIU/0H
-	zt5jCTGiW2PpFeGCEtQko0re0VbGr/Z1OlP4E5qCGawIMyiWl9dzZaTR3lvQ2FQ5+oe3o8wG0SU
-	DUo2kLZkHiN7u9I6sZ/GjgeHMHZzsNaNzVXiLGspwmIZCYu8ElcfHgl8AodU+WI/QtnWPjjrAYo
-	QMHEnCVY1XQfcSyS4vq6TApFET
-X-Received: by 2002:a05:6102:508e:b0:739:15ef:cdfb with SMTP id ada2fe7eead31-744dff7d21emr7063849137.5.1783686503092;
-        Fri, 10 Jul 2026 05:28:23 -0700 (PDT)
-X-Received: by 2002:a05:6102:508e:b0:739:15ef:cdfb with SMTP id ada2fe7eead31-744dff7d21emr7063826137.5.1783686502597;
-        Fri, 10 Jul 2026 05:28:22 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01ca4a297sm582454e87.7.2026.07.10.05.28.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 05:28:21 -0700 (PDT)
-Date: Fri, 10 Jul 2026 15:28:19 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
-        linux-media@vger.kernel.org, loic.poulain@oss.qualcomm.com,
-        mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] Add Qualcomm JPEG V4L2 encoder for SM8250
-Message-ID: <l5fz64drffgrep57hj7kwc7v2drbg6kdkw4f7wxrmxf2kjjhsv@pcyyjtzi7jlc>
-References: <8116c54e-4050-4e9d-b236-59d74846bd57@linaro.org>
- <8a09875d-af5f-438b-b947-bc2b61219b70@oss.qualcomm.com>
- <c8c38ec6-4422-4c91-a249-20bc20260e73@linaro.org>
- <d0768c15-453f-4d3f-8110-886a5c697b02@oss.qualcomm.com>
- <d5407ab1-1af7-4678-ae67-5cf30ce8fa4b@kernel.org>
- <VoXmpDKdgY_XxAvO5tkDze4jpmMzSuKTmIISTejJsbIO_FIO1JFfUBlaPkNdb14E95zf_qwtDB6myQ2wdRCh1Q==@protonmail.internalid>
- <8fc1ddfd-0f77-4b67-b9bd-33fbd60e2046@oss.qualcomm.com>
- <54ad9b8a-7596-4bc7-a1c3-7230cca21360@kernel.org>
- <wbjec4qhzkpvdfnrvffk7tjmlvli5q2jiuzdp2iqt2cbf2uat7@usg2mizurxpp>
- <29bbcc9d-a0b5-4966-a195-1702ed514a4a@oss.qualcomm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A487F426693;
+	Fri, 10 Jul 2026 12:33:58 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783686841; cv=fail; b=I5B2sdRoz/yMplfUkpv6JmZjav/wSomoYMwQ2CtlSuJIG2PuasOUddWzDCIteCTl9n7I021V+uP12Yl2CP8GVF0483ZOj+ina33n3vVrvlzq58DRiIB2o56RLS7c4tcNsCwbXFeBtjNc4CWVGrPPReOBjpTc1+lRJzPJzbi+0X0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783686841; c=relaxed/simple;
+	bh=JcWNzlm92HYuZD+5fE+pAyGwNNVein6glAt2sFGJgeE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=o/yoOItc+ZgbPoaIJFOtb5WyeCYUAcB8LD3TgXA7lA4DxFhvRe57ZCG+VyyDKI4WKzNnceHznkxa6HRxGI/m9Py2lzhwsPUhJMKItD1LkbDJfm7VlGDOXaHjp81LW+RH6698OSl2xVpsTw7piSijNDyEE78bOiuZBjcgaAKKuR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=E7PjSRYM; arc=fail smtp.client-ip=52.101.48.55
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V1mhNoS002StjmPlaGrpNYIlD5qe2RO+5FueH4ZV39+kYYgeJOjZ1iOSofeuiiOw20rgziZOYrBsBCHTCoudZhP6zLbTPVPjUDmWEqwan58oHCBi1WxtkXxGeutDA3BTLULZ+fvGanv5q+qQx6d8ieyK4ZYjIW9p1ZwE+LMzSRCpMNm6qU5Ns/no2TBikMF9LSaV1uHLXe9lh+hODxVlvMJ2EfXXIpU8XJQcnl9oq6UFtYETHdJQjfBKW9P0iVTZm0RJ0ufJ+maT25gSU3wambewB/wJkmRXEPk6fHSAXz5YfsGY2e56NwLlTGEtX5zUP2eSeL9L3kgqNArd1kwy6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4fJc2XVqGPSsolcEvXw6vulA0PYq460fs5OE7e+JzSg=;
+ b=N0+NfiX6h83hT2ofpgKTBSn7fbQTF6y4NhPLtxtSkt4NldUvTcNbFQDG41qfvilP85kWvM+pnD6fYcREXSFFk8WRo0IQSAT8fb1fC5JAQrieXlQCvlKevf+m6nlAQPkBTPSAfgy33A9sjormOXeWaDuZEWWpG4lK7ZOKSZYVg6mylUD1auI+iG2uterUWyvw+5tHnp5BHA+ioO3VTKCJQ0vBXp3FTi/s4BzLpzgrux3EcX9iqTGZOyTQSsaaHKRCMN+TCN8EK58efqijY8Sl4RMf9EdqYJmFQl6XXhlNu/lvPttv8MCoolmEnIjCRy79xczvxcO1JrvffF9lQz8f9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4fJc2XVqGPSsolcEvXw6vulA0PYq460fs5OE7e+JzSg=;
+ b=E7PjSRYMPC2RxuxXUO39HO0+0KzS0UTl+4b0sKAIc9dn1eTlP0ArvqiCAshl0MKG8M/3WvfFzmNIHBhgyoYxhgw+J48+JubjrKDQKxF2vBwYy37H69vWqo0ucHI5a5ItoutDYKfxWqg4qM3Ah+vcwcoBHNT7x8OIYTKZFhZ0iD0=
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB5807.namprd12.prod.outlook.com (2603:10b6:510:1d3::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.17; Fri, 10 Jul
+ 2026 12:33:53 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0181.008; Fri, 10 Jul 2026
+ 12:33:53 +0000
+Message-ID: <99679491-8dae-460b-b662-81b130829956@amd.com>
+Date: Fri, 10 Jul 2026 14:33:43 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dma-buf: dma-heap: don't publish fd before
+ copy_to_user() succeeds
+To: Baineng Shou <shoubaineng@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>, Sandeep Patil
+ <sspatil@android.com>, "Andrew F . Davis" <afd@ti.com>
+Cc: stable@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20260703080922.1838362-1-shoubaineng@gmail.com>
+ <20260710105740.3080070-1-shoubaineng@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260710105740.3080070-1-shoubaineng@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0271.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e6::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29bbcc9d-a0b5-4966-a195-1702ed514a4a@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=Ab2B2XXG c=1 sm=1 tr=0 ts=6a50e567 cx=c_pps
- a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=xQqxz70HCiEPHx7muvEA:9
- a=CjuIK1q_8ugA:10 a=o1xkdb1NAhiiM49bd1HK:22
-X-Proofpoint-ORIG-GUID: Se0bC2vQalqleVyEqEtPMs8W17bgdTFq
-X-Proofpoint-GUID: Se0bC2vQalqleVyEqEtPMs8W17bgdTFq
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEwMDEyNCBTYWx0ZWRfX30GNJAOoT9tu
- J+OJzjyXW7upzjE49zPS/Nx671F5Q9FtYWO6QhY3D2HpE8vhe9/f0s9sJGbwJmX8m5ZnIow5f5s
- XueYyCr7jCLr+lKX8HtYsOJOSQ7edOM=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEwMDEyNCBTYWx0ZWRfX+h8P/jFEAGBz
- 8hFHZ6gAY7qWhptQslfrofjE0ZrWTthBJ+rySDNnPAlZ6v8wdRFDvWNRI1Xx0lxmP7Xi+KJPpAZ
- 8urS5lplJdITJ80Ip5G/zI6n9cFj+joQxuthAZGazYjLwYZaRMb6qIqnu3HXVPbl+jVspfb9jxo
- UwpKzARMsbUX9M5mN3XKJVAiFEGMdmOITYiyUCvBrgZ8b8ijSupblok5uBnMeerJxtFjXb3trSm
- W7sSrhPQ+8fde0OoRVbTRqsHPhmAGfA9qSb5TUOiaowokbvPfGHl19g9dVW/MTpVOFOoMDmBq0E
- ApFVQsGXmnfsaf/qTgPvpuoaVdzC3sT3QrI6gW06cdJ0Z93r+Nz90bNZiUbeo5C5CQ2W5iIrhii
- uObcnRFaGFm9saSiDIbpR3oppfsE0U7YBjH0NuXu4yjk5DcrjUPHSJegOn8ho6SoCKDuhpDZFHG
- HekWT9ETiGolHOozETA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-10_03,2026-07-09_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 malwarescore=0 phishscore=0 bulkscore=0
- suspectscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607100124
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB5807:EE_
+X-MS-Office365-Filtering-Correlation-Id: cda1c5e9-33a2-4a13-828a-08dede7f808d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|23010399003|1800799024|18002099003|22082099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	lSpjfg3siqAMVAqRhwSH+QXiGJRX+N4fpvTrJY63SrgV6INrdP9SJqlcTTW0O5bBToIzeBUc8RjKgcyCY16wfoqk5EmHWM6KLpvpfmDH02XLPeU2lHMVwu0ywMqkiJCxxk0L7pJykR94qShFbE74xQy0ktJTpZ/F5AFwGhHNc5paocRWS5Ui5/cmNTz6/j2vpVDqMCNt82KbOB84iSm7K8V8xYUq2wg7CnvziCpH66Irjh6vlZZ8NOAYZDon0QgFlLBC3csPGBowGwUBuFpn4bP505OJBTR+z/qps0QTx47tjgWXVClxTLG61x851QmkM0AYIEwWBXHu7l/sRUuBppJodCgfdLzrrpyzFEbvkfBPln2N7RqHFJ8u4Pqw4EIP6goE5pIc1RNxGxm1NwQqjRYHPsJRYJ3W7cYCDIoY4D0AgH0Mg6b0ow1aSSrICzQSbtc2G7s9XufHUU7SKe6wLoilEhPrl140geTa9wGixKml5MpSegXjCuo0Aj+jlp4+L5dNKRi/pAlde5UDhtYtP1fIFLaIx6W9djfy3BG+FsElBPGj3zuVKjashpnhmnpAwgzmL77TDkDX1gs25rULQQh9ATjYtXYwzCH+MNVNrXcAP+QHxptYQtZUTr3EimVDz+YOK+76Sz5Yiy3i53tGy0bn9vNllfjZYixg9CI8XV4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(23010399003)(1800799024)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cXF4dkk0R0RSemRYejVoZGlqODRNZ2V6MzBIRHYzLzhFSXpkNCtoL1ZoYkow?=
+ =?utf-8?B?bXlqSkdYMlhFenFHMTV5Y3hGNENMSXpFN2xNSkZhaXpvb3BGbG1qcUxmV3JV?=
+ =?utf-8?B?Slk0NG9FV1dvVmMyNUJFUGlrWWgyLy8xQklZblI4cHJicGpkajhUWUFSY0JH?=
+ =?utf-8?B?OHFFZXFsNDZlU0ZYQnZQdXFTWkgvdVlUUmptQURIT2hiVFJDdW9LaUg4eFlE?=
+ =?utf-8?B?NTJFTHI4Sno5UGVKTXNPdFhoanoxUlpaK1JvTFZsYU1RdkpseUN2Q1RZYkFz?=
+ =?utf-8?B?THJNbVBSQ1V2Y0pQRkxFMTZYTUdqYkRZS1hTYUVkR0JXbWRKREVvcW5tWk5H?=
+ =?utf-8?B?bW1KZ1Z3VkVNODdGRnUwNE1adDVmdTh5eWxvNkFYamZ4cnc3Qi9qQ0hNNmNM?=
+ =?utf-8?B?c2EyVTVOUlJzcDZpWWxvbjZoTmxWSkpZdTMvZHRsLytHYStVQjB3ekl0T05l?=
+ =?utf-8?B?YzRYT21JVHZwYkJob2ttd0lxWlNhTjdhR00yMlphK2hBTHJKMGtyclJUMjdB?=
+ =?utf-8?B?N0FOc21oVUFhUFhkalRzdklDYllEQ1Q0MXB0SFZmcWloT3V0WHZ3d1hLU0F0?=
+ =?utf-8?B?ZHJJK0ZzZWpuNVBaZGcyU3d0NkYxZ0RxQVdXc2tyYnBmZ0tsRnZVMEtpY3gv?=
+ =?utf-8?B?VkRDK0FRd3k5K0tpZnpEYmc1UGRXVjNiZUF3K0JacFhmYkp1Y2dneGxJY3BM?=
+ =?utf-8?B?ekNpTVoxVGltOS9EZkZzQktXaW80Q0J4N3FKNzFzWkh6SExKSHF1USsvWGRF?=
+ =?utf-8?B?ZzZPMGJ5dXE0Ny9QazkzUFRGZ1ZadE16dHdoVng2NmJRcVRqV25TdU9nV2Uw?=
+ =?utf-8?B?cncvUjdEblN0K2ZyaWVFek10NFZpYlN5ZkNTSG5sWkdQSm9oL1prRVIzTHEx?=
+ =?utf-8?B?SUFYS1psVWhqYjZ1RUpMOWVQbXNWckkxeUxqRDRTNkg3Y0s3dy8zWW50dFBz?=
+ =?utf-8?B?TzBIS1NyZ0xCSmJQZ3BpK05ML29oM1M0UWhYcmxtUWJBRU5BMmdjZm1MbU1u?=
+ =?utf-8?B?S01pT2UvQyt1YWlvM1JNUVE0YWp2aEpSSkpnOUhQSVczeU1YdUxDK0RjcnpH?=
+ =?utf-8?B?cldCdTE0ZHdtWkVFRXRMeDNDVEZEcW9wWXNLVzVxZTZKZTV2SE81eU96YUFQ?=
+ =?utf-8?B?WVdjdzUzelMyVnNNWm04b2NUU1hOM1VjdmdZMjRHai9uVElDZVJrUFdnNWZ2?=
+ =?utf-8?B?akNjU3RkMnpNa202Z1RqZ2ZKUlNTNzRaVktndWRQeVg1MFFFQnlwYlA2a21Q?=
+ =?utf-8?B?TkcvcVRtOXdNcm5XSDJwaTFYR2ZyUXRmemhsN0Z5ekZOMzNhWDluUkxLNEVv?=
+ =?utf-8?B?K2dIY3Bia1Z6eGNGVVJxMVRCMkNnRWR5dG9SZDh6a0JYRWVxTHZyT1BENUFq?=
+ =?utf-8?B?SmE4RVFKTmtZaHNpRnJmcGlhR1lsRzJReko0OWtOSzFnQVNXT2Myb0k0c2lt?=
+ =?utf-8?B?T29UUEJiZVFKS0FUOS9pbFZYMWZ0U2lWRkNPTit5cVB0N1hXM3FnYllxZ3FH?=
+ =?utf-8?B?VXBVekhIbDVBRm9xZy9FbVN0aUlTdzJkTHVDNXpHZG5CRm1na2tyMW9wZ1NS?=
+ =?utf-8?B?R1RJcXpNei96aHRYdkQ1dXBLQnlzNm4xZU9hMXNvV3laUjRDbUVvcGFKeEQy?=
+ =?utf-8?B?b1BKVnJRNlBFSDRWSlo1b2ZQMTZMTzdpR0VkM25NSVNmWFE1aDliOGxnd0h1?=
+ =?utf-8?B?VmNRWjBXWmkveVRsdFRhUUlOc1NFYk10dWlRNWdEYzVlVTJreExYNXo4LzVN?=
+ =?utf-8?B?Smp6V1V5dUVHZFVEOTIzbTdyWjRaNkpiVVdENG9oTytaSGJhNFNxSVpJa1pw?=
+ =?utf-8?B?M2JCNytDT2tYMnJjeDlpQUxUcGg2TVZWeTUxRCtyWUYzNWc2TjdRUWQ3Y3dP?=
+ =?utf-8?B?R0dYd3RPUjMwUG9EMTJ1K21keVYzbFlXbEdqNlNGaEJVaWZnelVYanB4RGg2?=
+ =?utf-8?B?MzMzRVN4L2tkSEhJeXJEVWhRSlBScVNIVWFHb3BsSTlNaU1JMldUb3YwNDU2?=
+ =?utf-8?B?bFdtd1UranhCM3ErSCtneTNuTXlweitrUUFrNXF0a05aRW5mR3BZMXdEVE84?=
+ =?utf-8?B?NlFiUUg4bEpwRCt0VmJGMUkvUklteXRmYWtPWEJEdlZBUVhyWnh1Y2JPMDQ0?=
+ =?utf-8?B?T1ZGeUFXdkJrL1hac0hneGhsRUhvY1c2c3JWbnZzakp0NDNSUWEycHFLa0lm?=
+ =?utf-8?B?QkdicElYZlY1OFNYcHVOdXRpeUpieno3ZndzUVFYVHA5eFI0MFlnN0tSWUVC?=
+ =?utf-8?B?OXJmc1lDYVpNYXhKbE1DZnFkQmp3Snc4TGJtQ2FGbFBpTTVIZmlQYmJLSGpW?=
+ =?utf-8?Q?Xaxau7IaGEwN1pxUZe?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cda1c5e9-33a2-4a13-828a-08dede7f808d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 12:33:53.6700
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I1+7sFmQT0YwDru0A1ovKAYpiI8/6/xuGbRRAlM+hu6eQp8VZQPPkz+pKht5hp9h
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5807
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67292-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67293-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:shoubaineng@gmail.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:sspatil@android.com,m:afd@ti.com,m:stable@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,linaro.org,collabora.com,arm.com,google.com,android.com,ti.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[amd.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C7F8673AC70
+X-Rspamd-Queue-Id: 266D573AD59
 
-On Thu, Jul 09, 2026 at 08:16:21PM +0200, Konrad Dybcio wrote:
-> On 7/9/26 9:33 AM, Dmitry Baryshkov wrote:
-> > On Wed, Jul 08, 2026 at 10:21:43PM +0100, Bryan O'Donoghue wrote:
-> >> On 08/07/2026 13:19, Konrad Dybcio wrote:
-> >>> On 7/7/26 12:41 PM, Bryan O'Donoghue wrote:
-> >>>> On 07/07/2026 11:11, Konrad Dybcio wrote:
-> >>>>> On 7/7/26 12:00 PM, Bryan O'Donoghue wrote:
-> >>>>>> On 07/07/2026 10:24, Konrad Dybcio wrote:
-> >>>>>>> On 7/6/26 3:37 PM, Bryan O'Donoghue wrote:
-> >>>>>>>> On 06/07/2026 14:02, Vladimir Zapolskiy wrote:
-> >>> [...]
-> >>>
-> >>>> OK, I can see how this thread is confusing.
-> >>>>
-> >>>> The idea is to start to declare sub-nodes "on the road" to making camss into a bus. The legacy binding we have is really for the IFE domain - that is CSIPHY, CSID, IFE.
-> >>>>
-> >>>> Right now the camss binding describes those things - so linking say OPE or JPEG back to the thing that describes those isn't right.
-> >>>>
-> >>>> OTOH we_want_ to make the top-level binding into a bus, we've discussed that several times.
-> >>>>
-> >>>> To transition from monolith IFE-domain only, to camss-bus, we should have the sub-nodes fully describe themselves as "camss-bus" doesn't exist yet.
-> >>>>
-> >>>> Once we have compat="camss-bus" then fine, make that linkage, I fully support that.
-> >>>>
-> >>>> That roadmap BTW is why I'm asking Antanas and Loic to make JPEG and OPE sub-nodes of camss - but make them complete sub-nodes - power-domains, clocks, nocs, including the TOP_GDSC.
-> >>> I think this needlessly increases the amount of combinations we'll
-> >>> have to keep supporting down the line (with a ton of compatibility
-> >>> boilerplate code)
-> >>>
-> >>> Konrad
-> >>
-> >> Fine.
-> >>
-> >> Lets drop the bus idea then. I'm happy to close the conversation as
-> >> peer-nodes.
-> > 
-> > It think, this would close the path for upgrading existing platforms to
-> > split the driver / bindings. If all IFE / PHY / etc. are subnodes of the
-> > CAMSS, it is easy to play backwards compatibility tricks and
-> > reinstantiate devices on the fly, pick up only certain resources, etc.
-> > 
-> > If they are sibling nodes, it becomes much more complicated.
-> > 
-> > I might be wrong here. Maybe we really should try a simple (heh)
-> > experiment. We have your series which adds CSI PHY as a first class
-> > citizen. And we have existing platforms where CSI PHYs were packed into
-> > the camss node (and camss driver FWIW).
-> > 
-> > Which way of representing device nodes makes it easier to migrate
-> > existing platform to the CSI PHY driver, while keeping compatibility
-> > with old DTs (yeah, ABI, old DTs must continue to work)?
+On 7/10/26 12:57, Baineng Shou wrote:
+> DMA_HEAP_IOCTL_ALLOC allocates a dma-buf and installs an fd into the
+> caller's fd table via dma_buf_fd() -> fd_install() before
+> dma_heap_ioctl() copies the result back to userspace.  If the trailing
+> copy_to_user() fails, userspace never learns the fd number, but the
+> fd (and the underlying dma-buf reference) are already visible to
+> other threads in the same process and are leaked for the lifetime of
+> the process.
 > 
-> Quite frankly, I don't consider the existing (meganode) description
-> any valid, and would vote to rip it the second a replacement is
-> available. But once, not N times.
+> The obvious "close it on the failure path" fix is unsafe: once
+> fd_install() has run, another thread can already dup() the fd, send
+> it via SCM_RIGHTS, or close() it and let its number be reused, so a
+> subsequent close_fd() from the ioctl path can operate on an unrelated
+> file.  This was pointed out by Christian König on v1 [1].
 
-Rip without providing backwards compatibility?
+IIRC it was Greg who pointed that out numerous times, I'm just repeating what I was told.
 
-One of the options would be to follow the 'venus/iris' approach: land
-new set of component drivers, which target new platforms and provide
-minimal support for one old platform (maybe via autoapplied DT overlay
-or other similar techniques). Then continue migrating and phasing out
-camss driver for old platforms, while adding support for new blocks in
-the new set of drivers and ripping support from the camss driver after
-some migration time.
+> 
+> Restructure the allocation path so that fd_install() is the last,
+> unfailable step of a successful ioctl:
+> 
+>   1. heap->ops->allocate()      creates the dma_buf.
+>   2. get_unused_fd_flags()      reserves an fd number in the caller's
+>                                 fd table without publishing it, so
+>                                 no other thread can observe it.
+>   3. copy_to_user()             delivers the fd number to userspace;
+>                                 on failure the fd is returned with
+>                                 put_unused_fd() and the dma_buf
+>                                 reference is dropped with
+>                                 dma_buf_put(), leaving no user-
+>                                 visible state behind.
+>   4. fd_install()               publishes the fd -- from here on the
+>                                 ioctl cannot fail.
+> 
+> To make this possible, dma_heap_ioctl_allocate() is refactored to
+> return the struct dma_buf * directly (returning ERR_PTR on failure)
+> so the caller holds the dmabuf reference across steps 3 and 4.
+> The fd is written into the kdata buffer before copy_to_user() so
+> the reserved fd number reaches userspace atomically with the install.
+> 
+> The failure at step 3 is easily reachable from userspace: pass a
+> struct dma_heap_allocation_data that lives in a page whose protection
+> is flipped to PROT_READ between copy_from_user() and copy_to_user()
+> (e.g. via mprotect()).  Before this change each such ioctl leaks one
+> dmabuf fd; after it, the fd table is unchanged on failure and only
+> /dev/dma_heap/<name> remains open.
+> 
+> No UAPI or heap-driver interface change.
+> 
+> [1] https://lore.kernel.org/dri-devel/175e98de-f414-47d7-81c1-c0fe0a8f7f62@amd.com/
+> 
+> Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Baineng Shou <shoubaineng@gmail.com>
 
-> This is not to blame any of the original implementers, this might
-> have seemed like the right idea for the tiny subsystem on msm8916.
+Patch looks sane to me, but somebody with more background in DMA-buf heaps should probably take a look as well.
 
-Maybe...
+Acked-by: Christian König <christian.koenig@amd.com>
 
+> ---
+>  drivers/dma-buf/dma-heap.c | 80 +++++++++++++++++++-------------------
+>  1 file changed, 40 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index a76bf3f8b071..0a9bf62eb06c 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -55,33 +55,6 @@ MODULE_PARM_DESC(mem_accounting,
+>  		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
+>  EXPORT_SYMBOL_NS_GPL(mem_accounting, "DMA_BUF_HEAP");
+>  
+> -static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+> -				 u32 fd_flags,
+> -				 u64 heap_flags)
+> -{
+> -	struct dma_buf *dmabuf;
+> -	int fd;
+> -
+> -	/*
+> -	 * Allocations from all heaps have to begin
+> -	 * and end on page boundaries.
+> -	 */
+> -	len = PAGE_ALIGN(len);
+> -	if (!len)
+> -		return -EINVAL;
+> -
+> -	dmabuf = heap->ops->allocate(heap, len, fd_flags, heap_flags);
+> -	if (IS_ERR(dmabuf))
+> -		return PTR_ERR(dmabuf);
+> -
+> -	fd = dma_buf_fd(dmabuf, fd_flags);
+> -	if (fd < 0) {
+> -		dma_buf_put(dmabuf);
+> -		/* just return, as put will call release and that will free */
+> -	}
+> -	return fd;
+> -}
+> -
+>  static int dma_heap_open(struct inode *inode, struct file *file)
+>  {
+>  	struct dma_heap *heap;
+> @@ -99,30 +72,42 @@ static int dma_heap_open(struct inode *inode, struct file *file)
+>  	return 0;
+>  }
+>  
+> -static long dma_heap_ioctl_allocate(struct file *file, void *data)
+> +static struct dma_buf *dma_heap_ioctl_allocate(struct file *file, void *data)
+>  {
+>  	struct dma_heap_allocation_data *heap_allocation = data;
+>  	struct dma_heap *heap = file->private_data;
+> +	struct dma_buf *dmabuf;
+>  	int fd;
+> +	size_t len;
+>  
+>  	if (heap_allocation->fd)
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+>  
+>  	if (heap_allocation->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+>  
+>  	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	len = PAGE_ALIGN(heap_allocation->len);
+> +	if (!len)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	dmabuf = heap->ops->allocate(heap, len, heap_allocation->fd_flags,
+> +				     heap_allocation->heap_flags);
+>  
+> -	fd = dma_heap_buffer_alloc(heap, heap_allocation->len,
+> -				   heap_allocation->fd_flags,
+> -				   heap_allocation->heap_flags);
+> -	if (fd < 0)
+> -		return fd;
+> +	if (IS_ERR(dmabuf))
+> +		return dmabuf;
+> +
+> +	fd = get_unused_fd_flags(heap_allocation->fd_flags);
+> +	if (fd < 0) {
+> +		dma_buf_put(dmabuf);
+> +		return ERR_PTR(fd);
+> +	}
+>  
+>  	heap_allocation->fd = fd;
+>  
+> -	return 0;
+> +	return dmabuf;
+>  }
+>  
+>  static unsigned int dma_heap_ioctl_cmds[] = {
+> @@ -138,6 +123,8 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+>  	unsigned int in_size, out_size, drv_size, ksize;
+>  	int nr = _IOC_NR(ucmd);
+>  	int ret = 0;
+> +	int fd;
+> +	struct dma_buf *dmabuf;
+>  
+>  	if (nr >= ARRAY_SIZE(dma_heap_ioctl_cmds))
+>  		return -EINVAL;
+> @@ -174,15 +161,28 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+>  
+>  	switch (kcmd) {
+>  	case DMA_HEAP_IOCTL_ALLOC:
+> -		ret = dma_heap_ioctl_allocate(file, kdata);
+> +		dmabuf = dma_heap_ioctl_allocate(file, kdata);
+> +
+> +		if (IS_ERR(dmabuf)) {
+> +			ret = PTR_ERR(dmabuf);
+> +			break;
+> +		}
+> +
+> +		fd = ((struct dma_heap_allocation_data *)kdata)->fd;
+> +		if (copy_to_user((void __user *)arg, kdata, out_size) != 0) {
+> +			put_unused_fd(fd);
+> +			dma_buf_put(dmabuf);
+> +			ret = -EFAULT;
+> +		} else {
+> +			fd_install(fd, dmabuf->file);
+> +		}
+> +
+>  		break;
+>  	default:
+>  		ret = -ENOTTY;
+>  		goto err;
+>  	}
+>  
+> -	if (copy_to_user((void __user *)arg, kdata, out_size) != 0)
+> -		ret = -EFAULT;
+>  err:
+>  	if (kdata != stack_kdata)
+>  		kfree(kdata);
 
--- 
-With best wishes
-Dmitry
 
