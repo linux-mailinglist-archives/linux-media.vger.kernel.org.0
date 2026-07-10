@@ -1,164 +1,239 @@
-Return-Path: <linux-media+bounces-67238-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67239-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id H4s4BVKvUGq/3QIAu9opvQ
-	(envelope-from <linux-media+bounces-67238-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:37:38 +0200
+	id 2WVXIEGyUGpS3gIAu9opvQ
+	(envelope-from <linux-media+bounces-67239-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:50:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A46B7388F0
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:37:37 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D4E738A75
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 10:50:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67238-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67238-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=DPDz2reh;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67239-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67239-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 77E063013B7A
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 08:37:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2A47830528A0
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 08:42:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5A6B3EEAE0;
-	Fri, 10 Jul 2026 08:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE1F63F1AA3;
+	Fri, 10 Jul 2026 08:42:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563203F077C
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 08:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B85B296BD2;
+	Fri, 10 Jul 2026 08:42:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783672655; cv=none; b=aX5gGUs123yt3eD6nw3jhX8E5lVG70eKBVvY9tg/qXdmLEBVex2rrUmG6l+NYAlBG2xlXvjLU/aW2CNfI/a5OuYFvSjuMymGA+v1x6e9EKkVroJw76I9luWsCC11+KIQqKWuemuKv/mhAHbh72J78/AWWQUaMdPJi4zXM0a76IE=
+	t=1783672951; cv=none; b=Z4EY3amG9lQ/AKVlt9ndlUGQi12IrOZmj4xKsx0NbM7NVKwMC9ct5gsgqGgrowcryHn+VvoLKLHBxPKtY6Gbrk7W/PNlqZByJQ9IL/LaTVOETH1lY17pCDTVZOJrjhtDAyXzmZKcDX7/aUOtlkB0vYyFkQapD03QnnNWf0h3Sa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783672655; c=relaxed/simple;
-	bh=EeoOMqO1p/YM13KYTy1063EaCdKHKafxTRlP59YUdoc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hLolKcrAAnJpMBwXuCTSSumhWHel52W+Uncoy1dNfs0VXFU/A5gmogr/13Jy+XeXniIytuiofI2H+3/+wpb7ZlWnqeNkhz9qvcYa/pnNSj3bojKmfoGADbkla9nxtiXZvjTAngP4pUwP1kXLKTZN/1wBrvyd9ZaQe968gjPwuXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1wi6jA-0002ZO-MG; Fri, 10 Jul 2026 10:36:56 +0200
-Message-ID: <210aa2ee-8931-4dd2-a51f-eeb0c205d647@pengutronix.de>
-Date: Fri, 10 Jul 2026 10:36:53 +0200
+	s=arc-20240116; t=1783672951; c=relaxed/simple;
+	bh=2GWtpCyP7wC+xB3l85V9kd6n5G7kGHLECiEgXtRkPcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tmQa+pP+1ficFinJx4l/Xt/1sFvNJgZnouWYM0396AOY3PDntgXlElrpmKALcKzvUKk6lNF1nZf9y3mczO4TuxEHCqYB0jIMu38hdRZhcepZf+V0zzTJ3YwDCjAoDfLW6p7CGKMWUP/RvesKLtjnF6O6Awa8THUjNbZdk+BL9gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DPDz2reh; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 702F91F00A3A;
+	Fri, 10 Jul 2026 08:42:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783672949;
+	bh=eBzQq1U8VbvptrmLiJP28LO5PgLiYF8VHCaE1mBbTZ4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=DPDz2rehXdf4UhMXvJEyIKp0kbx/xxvvE0bKC1R8YIiej/YohWvrgt7fxB8CrVZ3r
+	 urS09QeRb4aM2bAJDSYQi/RqHW8pMT2KAVkqOtHnGXSLkE04aBa1TBpr5Kri1Y+bV6
+	 fp3Rj1q0VJBomlc7+zMUdIzXodrzkCKLEdFqVJqWccya2i3+3zEQZ8JgevXACxnRQE
+	 x81BbDfCAPZ7dywOtaVvYBz7h7Nqv/pdz66SVJCe512zKZgkDxsehtUuUxEeZ33OGs
+	 R9eG7OfPRkDEHlZHRV8lyXJYjOaKPyaUO63ONG36f5MUYPqKnFU6wyH6BpLUIpgyVH
+	 ENMgtmGPuvE2A==
+Date: Fri, 10 Jul 2026 10:42:25 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
+ Daniel Lundberg Pedersen <dlp@qtec.com>, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org
+Subject: Re: Bad wrapping in some tables
+Message-ID: <20260710104220.2b165f2d@foz.lan>
+In-Reply-To: <7fcac682-60e3-4e1d-b26b-5b23f8035a91@kernel.org>
+References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
+	<87pl0yr9ah.fsf@trenco.lwn.net>
+	<DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
+	<7fcac682-60e3-4e1d-b26b-5b23f8035a91@kernel.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-Subject: Re: [PATCH v3 2/4] media: v4l2-common: Add v4l2_fill_pixfmt_aligned()
- helper
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
- biju.das.jz@bp.renesas.com,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil+cisco@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Isaac Scott <isaac.scott@ideasonboard.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Daniel Scally <dan.scally+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260708161406.396183-1-tommaso.merciai.xr@bp.renesas.com>
- <20260708161406.396183-3-tommaso.merciai.xr@bp.renesas.com>
- <ak9pPzjABetdgUiq@zed>
-Content-Language: en-US
-In-Reply-To: <ak9pPzjABetdgUiq@zed>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[pengutronix.de];
+	FORGED_RECIPIENTS(0.00)[m:hverkuil+cisco@kernel.org,m:rito@ritovision.com,m:corbet@lwn.net,m:dlp@qtec.com,m:linux-doc@vger.kernel.org,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:m.szyprowski@samsung.com,m:isaac.scott@ideasonboard.com,m:paul@crapouillou.net,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	TAGGED_FROM(0.00)[bounces-67238-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67239-lists,linux-media=lfdr.de,huawei];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,kernel.org,collabora.com,linux.intel.com,ideasonboard.com,samsung.com,crapouillou.net];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,pengutronix.de:mid,pengutronix.de:from_mime]
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[6];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,foz.lan:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6A46B7388F0
+X-Rspamd-Queue-Id: C5D4E738A75
 
-Hi Jacopo,
+On Fri, 10 Jul 2026 10:11:20 +0200
+Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
 
-On 7/9/26 11:35 AM, Jacopo Mondi wrote:
-> Hi Tommaso
->
-> On Wed, Jul 08, 2026 at 06:14:03PM +0200, Tommaso Merciai wrote:
->
->> + *
->> + * @pixfmt: pointer to the &struct v4l2_pix_format to be filled
->> + * @pixelformat: the V4L2 pixel format (V4L2_PIX_FMT_*)
->> + * @width: image width in pixels
->> + * @height: image height in pixels
->> + * @stride_alignment: stride alignment in bytes, must be a power of 2
->> + *
->> + * Fills all fields of @pixfmt for the given pixel format, dimensions, and
->> + * stride alignment. Only formats stored in a single memory plane are
->> + * supported; returns -EINVAL for multi-memory-plane formats.
->> + *
->> + * @pixfmt->bytesperline is set to the stride of the primary (plane 0) plane,
->> + * rounded up to a multiple of @stride_alignment. For formats that store
->> + * multiple component planes in a single memory buffer (e.g. NV12), the
->> + * alignment applied to each component plane's stride is scaled relative to
->> + * @stride_alignment so that the chroma stride remains consistently derivable
-> Does this rather mean that
->
-> "For formats that store multiple component planes in a single memory
-> buffer (e.g. NV12), the alignment applied to each component plane is
-> the first plane @stride_alignment scaled by the plane's sub-sampling
-> ratio" or have I mis-read this ?
+> On 10/07/2026 08:55, Rito Rhymes wrote:
+> > I just got caught up to speed, reviewing the links, the regression, the
+> > prior state and other relevant context.
+> > 
+> > Daniel, thanks for pointing out the regression. As Jon said, it's
+> > always good to inform the author of the patch, and I'd have been happy
+> > to discuss and test out solutions with you.
+> >   
+> >> That overflow-wrap line is the problem. The patch was trying to
+> >> improve overflow from some literal blocks, but it does seem that the
+> >> cure is worse than the disease.  
+> >   
+> >> This change causes truly unreadable breaking of literal strings in a
+> >> number of settings.  
+> > 
+> > Can anyone provide any examples of issues happening outside of tables?
+> > 
+> > If not, that suggests the fix is working fine except inside tables,
+> > which means a targeted fix for tables is possible.
+> > 
+> > The intention of the fix is that inline literals in regular text bodies
+> > that have a generally defined (max) width will respect that width and
+> > not exceed it and cause overflow. It's serving that purpose and is a
+> > sensible default behavior because it is often used like text in text
+> > bodies and surrounded by other text, thus we make it also behave like
+> > text.
+> > 
+> > I don't believe a reversion is the right answer, for two reasons.
+> > 
+> > Reason 1:
+> > 
+> > Reverting the fix restores the issues outside the tables it previously
+> > fixed, and fixes some of the tables, but makes others just as
+> > unreadable.
+> > 
+> > In the second example Daniel provided, there is a two column table
+> > spanning the full width of the page on mobile viewport sizes without
+> > overflowing. The left column is inline literals only, the right column
+> > is regular text.
+> > 
+> > After my fix:
+> > https://www.kernel.org/doc/html/v7.1/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
+> > 
+> > The left column of inline literals wraps down into vertical text and is
+> > unreadable, because the column has no minimum width and expects the
+> > contents to set the width, but it wraps immediately. That's a problem.
+> > The right column text is readable, though it does some wrapping for a
+> > few words.
+> > 
+> > Before the fix:
+> > https://www.kernel.org/doc/html/v7.0/process/debugging/kgdb.html#run-time-parameter-kgdbreboot
+> > 
+> > The issue is as bad or worse. The left column is fully readable and
+> > spans literals as far as needed, but it's crushing the right column and
+> > forcing that into vertical text (maybe 2-3 characters wide), making
+> > that column unreadable.
+> > 
+> > What's worse, unreadable vertical text as inline literals or as regular
+> > text? Regular text is worse because it's meant to be descriptive, but
+> > having either one is unacceptable.
+> > 
+> > Reason 2: the real culprit here is this:
+> > 
+> > Table mobile responsiveness in general in the Linux kernel
+> > documentation is systemically pathological.
+> > 
+> > Many if not most of the tables on smaller screens overflow page width
+> > and break the page margins. And this page is another example of
+> > pathological table behavior where the table doesn't overflow and
+> > break the page margins, it respects the page margin width, but
+> > instead makes the content inside unreadable as vertical text, either
+> > from the string literal wrapping or from the text wrapping. Neither
+> > my current fix nor the reverted state resolves that issue.
+> > 
+> > The best solution:
+> > Make targeted changes to the tables to make them fundamentally behave
+> > better on smaller screen sizes.
+> > 
+> > I began this effort with:
+> > [PATCH v3] docs: wrap generated tables to contain small-screen overflow
+> > 
+> > Jon hadn't followed up after testing out the fix with CSS and my
+> > explaining why the wrapper was the better approach, because it prevented
+> > regressions. That fix is a start, but more would need to be done.
+> > 
+> > If Daniel is willing to help test out table fixes and provide examples
+> > of regressions, and if Jon has the bandwidth to review my patch
+> > submissions to improve the tables, I am willing to tackle this systemic
+> > issue, which will result in this issue being resolved as well.
+> > 
+> > Rito
+> >   
+> 
+> FYI: the Media subsystem userspace API is full of tables, e.g.:
+> 
+> https://docs.kernel.org/userspace-api/media/v4l/vidioc-enuminput.html
+> https://docs.kernel.org/userspace-api/media/cec/cec-ioc-receive.html
+> 
+> There are many, many more of those.
+> 
+> Currently it is basically unreadable due to the breaking up of the literals.
 
-No, for the example of NV12, no stride will get scaled (although the 
-sub-sampling of 4:2:0, resulting in a vdiv and hdiv of 2).
+Breaking up literals is more important on PDF output, if one wants to print
+the documentation.
 
-This is due to the fact, that while we have a hdiv of 2 we also 
-interleave the cb and cr parts in a single plane, which results in the 
-stride being the same number of bytes as for the y plane (and vdiv isn't 
-relevant for the stride).
+> Hopefully this can be fixed. I only noticed this issue yesterday, so it was
+> good to see your email so I know why it changed.
+> 
+> We're well aware that the tables in the media subsystem do not work well on
+> small screens. The only workable solution would be to move away from tables
+> and format it differently. And that's not going to happen as that would be a
+> massive job.
 
-Therefore the stride scaling also respects the bits per plane (bpp) 
-value to determine the scaling.
+IMO what should be changed is the maximum column limit at the html CSS profile.
 
-@Tommaso : While the sentence looks ok, the NV12 example is misguided. 
-The intention is that for non-mp (not ending with M) formats we might do 
-the scaling (e.g. YUV420 will have it's Y component stride alignment 
-scaled to not break the u and v stride alignments, but YUV420M not)
+Right now it sets max-width to 800px, which comes from basic.css:
 
-Sincerely
-     Sven
+	div.body {
+	    min-width: inherit;
+	    max-width: 800px;
+	}
 
+This is quite small on my monitor (it is a wide monitor with 5120px).
+
+I would override this to none, to let it auto-adjust it to the actual
+monitor limits.
+
+Thanks,
+Mauro
 
