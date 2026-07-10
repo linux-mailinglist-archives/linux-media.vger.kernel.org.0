@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-67287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67288-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 8ZQTNEbgUGrT6gIAu9opvQ
-	(envelope-from <linux-media+bounces-67287-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:06:30 +0200
+	id YPOOCdDjUGqc7wIAu9opvQ
+	(envelope-from <linux-media+bounces-67288-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:21:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7C173A834
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:06:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8760B73AB48
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:21:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=dUb9iWlg;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=rt6g6KC2;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67287-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67287-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67288-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67288-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 74E40301ECD9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:04:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2D9793092604
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:04:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05F6A413D9C;
-	Fri, 10 Jul 2026 12:04:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4091D404BCF;
+	Fri, 10 Jul 2026 12:04:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lr2-f11.google.com (mail-lr2-f11.google.com [74.125.230.75])
+Received: from mail-lr2-f9.google.com (mail-lr2-f9.google.com [74.125.230.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355CD405C59
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 12:04:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534753112A5
+	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 12:04:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783685056; cv=none; b=ljGYLmQsfRWpgw0w2TC/TMTDxUz5tbMsqkmxqUYGwpA/HfqmvMGe28L8GRJ983JwH0lZ+SJG4kdDR6wKB8G0RlWqrcCwiA243eyriDUHWqSl69ujylaX5rMjqG9qzR1Z9nTUwp8iSbP0H0uo9aMFXzvocBrFp1Xq9ymfBkQuAyc=
+	t=1783685064; cv=none; b=Z55DvsrWN48KCAaMg2KACl/bPyFvcTTbIXxnPJ4f+WoKrG6XGIxO3pkAr98IHozqk2Lx8KeD4bxcaoBLZ7NAun25lO1PLrm0YNcbK0+MPvRt62wnc+Zw5IiG3p5pIaGIPDFbjBSxsy/zN5/Rs/b3oQHrvPr6+CLez3pzdbqjlbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783685056; c=relaxed/simple;
-	bh=AcMdxG6WVyNklpjuT3lIQ6VHEOQ23DgfDmQ5D7PL48A=;
+	s=arc-20240116; t=1783685064; c=relaxed/simple;
+	bh=NbPegR6+b4GRFh+klweEbzxei3XsxqVuAPE+B5WH8DU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SYPfKxN/uUdVpaliSQYNEYE/oBDEmFxB/tQjaoYCn5bWPh4ZdBUI1xgUqd6+HE33HuYhtn1htoadEygpO2ySlIyTp+5PwbzPQgp7cHXSv5SqxB8uyNnmlEqC8ti49cCDwxxEhalZ7XiyqT8Uu+dg3KitiDXPIee7JESVgxtWMgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dUb9iWlg; arc=none smtp.client-ip=74.125.230.75
-Received: by mail-lr2-f11.google.com with SMTP id 38308e7fff4ca-39c6ffb1c2aso1633061fa.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 05:04:13 -0700 (PDT)
+	 MIME-Version; b=i3C0dCWzVT9MHcyDsZ6N/6KUeFyfR7nALKKBuUmjBayDHq+xPtWDSRUdsN89bCXM5o1c+Tve1H+mQQ7oRPTzILndeFb0DR1JHMLXZ/n0KhtYtKbDm/nVuSak+v3sqphG5jBFUb057V7KISMqsFbhtwCJshk9K9P6l8azjCEdrtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rt6g6KC2; arc=none smtp.client-ip=74.125.230.73
+Received: by mail-lr2-f9.google.com with SMTP id 38308e7fff4ca-39c91e78377so4627691fa.1
+        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 05:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783685052; x=1784289852; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783685061; x=1784289861; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1vQA/XOqAr+D3AnDEiVOaHQiAJ9i2fS6ZoQ2Vq3ASI0=;
-        b=dUb9iWlgSQmLDSVl32xa5Y3/SxU+N3lCKdWhO0gZlDnWmKpSe1PSqesNuZrya+q5fV
-         b8jSKxGQdfJanaF6Y+HZphfvAlqaU20zN3xDrUa46WZpjdBnMEAio91K68ySrnTgkDiX
-         Yg8uiTfuaLNe+O84jgR+r2mFFCNSly+1iP3S2gr1E9HeZ/yUiq4UqVkORrUA937J0yLr
-         cAzC9Bjc56ReAHkPJm4RY4KaWxMKmdclOcFdDQVaRps3nxhxOd16tBt9dnL+w0qSjBrR
-         5GCg4dAtF08xGSmG3/FExcBDeuyG+7LjWiwEjqoEKG+kixSlKyOPblKZcChZdyNCFzq7
-         G3LA==
+        bh=ikiWCXLLgYFTXokprsOQoWX6Hiq5wB0hockJYlkF4+o=;
+        b=rt6g6KC2G/cebktZ9rKAN99JEdOfbWjreqKCMNN/rrG9jOHJtrJrO5RO98mjm02J/M
+         gGckJ6Q8j5oUohv+VTtckobYNdjE0nQW/C2sdZbse5kBi5CuuxuewpowT+c8A7eSu7jl
+         sI/0W88QUyVeJJFGBub4KRsw8WmDvs0UfsDP5zpUm5C5hMiiXKOUJzEfTd59Zwo1siTc
+         V6zh11AUpclWn5aQ9+oJhc9XaxFBCDCT01A6IeLjqXaJP1UNO4pFRwY+RzdPTtDR469v
+         /TlcSs/Gx4I89kGocG2IzdO+Hu3wtICTqQbgEgPeUaBNdTsh+jVIAIIyAhaZ9SeBBlWL
+         GLqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783685052; x=1784289852;
+        d=1e100.net; s=20251104; t=1783685061; x=1784289861;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1vQA/XOqAr+D3AnDEiVOaHQiAJ9i2fS6ZoQ2Vq3ASI0=;
-        b=oF++zoWXQZyqCg3DaXEsIgxxJDah9OCqf2QpHjyLXEqne3ufsQiosm8UZgNRwi7t5E
-         ITSIZ0HBVppzhwMag1wPlq/y1HdRWD6EW1PdJMxoR10jkkB9DdlrDvFdv+kVWjayrfIO
-         GxixH6MP9rngJQ7pHl+QsLBmjjr5hdPNhS7rCyqNotTka3sIT1SznXtuwtuJ4G5qh52/
-         PohbV50EHOSFvHd2wYj/ahDRo39eOzBlW5OCmzs5FminBgrbIiTHktdm1e1N0VcG6Ffb
-         /BhKgjB08u1T2354sHDfgZu7A4LchfFAapPHi9VoljGLukBBtW57+ZXRT1UujPdlMw7j
-         sbKg==
-X-Gm-Message-State: AOJu0Yx5ft93QW5nm1Sh0kVzlWeDpYTuAH/eozuY6bpMaDuOIC5YdC1t
-	1dT7E9TPnVTO0jy3pvjO3MAJ2iyR/gzUfOG39CR7lds4MZOyu5GC/eop
-X-Gm-Gg: AfdE7cloPBYyB9vUxXVLiA9GFHTejooa4o0oiJrSz1F6UDDlkKgZ18gt/j560VWFo3f
-	LY8/wnHh1Uvfu4dCXCn5AjUJb1h+Jb5NDxLe1YuY05Z9Jx0kryeM/B7C3UZRTlupYfXkim/LOUr
-	1lCQr1oxR3StaUGmMxBTLTYh/IoN8lyj9hp/SsOOdy/W3BkGAtMrcz/cwQsZ+9q49YwFGesO4QG
-	wjWSHQ9xfCStic2Nu6A2BzGo06BCc6nGfrsrlac4FIIvmoTxv64k2bY3msteKY3U/G9+WjNXaW4
-	FyoCO0t04HoAGNiJ3tNXaPBedczI+XKmNywM4sx22CnUg1F+pxPf2LQAr88dm3yRkhDvDVSSMkg
-	/hNrkjV8bCkG+trB9t+UWlWOiE7CAWOfnz3BV5REdU4rTXgzwSg89uR2MhXs9zcu0djjKGdeNdz
-	rN5S6pG1hNJ+aAPdstnKrqmQ==
-X-Received: by 2002:a05:6512:33cd:b0:5b0:1108:c58b with SMTP id 2adb3069b0e04-5b01c618641mr777200e87.15.1783685051959;
-        Fri, 10 Jul 2026 05:04:11 -0700 (PDT)
+        bh=ikiWCXLLgYFTXokprsOQoWX6Hiq5wB0hockJYlkF4+o=;
+        b=O03b/kHJ8IULuXgTj96E2UGkZglwx/uPbIeWObT27X1urzQOYJoyr2A2AAo8o4bZWm
+         upX1dwodnJ66LZY09wUWQKdC2HMHb5VjlxUfyToKQzK3K+kimRMfaJYDZy3AFVLKPrF5
+         Y4Y477hm1nZAj8zO0p2W2abqLxOg4ZrbPpgMJBASWkBjB1fPOs4vuXQ4wU2nV9jlROcI
+         KWD6x4U/GjwUT1vqvqOq9LVTk1T9m4/I4lcQcitSLJB1A0MMiQ/Bx8hsc8uavbp9iiy+
+         erci4ZZZl7hDLIUK+uDbcDX/+7GQciAc/UI7Inbnt5c3gQvc7Me2Yl6JzTEpLlzeKI7E
+         K/Ew==
+X-Gm-Message-State: AOJu0Yzt/dnjxSS7NwVxErCASpWYhjfBYklm/H/CJ77WUJPyCiX8VAt1
+	Xq7jNorGZvZ6fIYFmsm+2i5sAEKHFMB69nwEeqJue+nZdVEur82cNCqA
+X-Gm-Gg: AfdE7cl00UvE9cTwbz1amnKTgq2lpUJhmi3acv/vgSrhMwLaIAQ8BnzI0BmfZ3x5A8J
+	oiCBXxTwQS85MySDKiDag8lNelKh/NewXXRRyXunCwhxWv5u9JIdbGqTOmJEgiyFMLtneVd5Ryy
+	I18SXsPoSxRoGhDhq4ooOdXPAx9IYHtbSuvVTzF/IPaIpl5478R1Fr5OZtHXu+H7MnaGn8zlINW
+	zWZCiIn5cdDS5crgXPlRoALxvHMo03U1rGLmiRIusYD2Fe04n3SZJOwG/Pa7sm3RoProUy6oiXD
+	M6govcTW0Os0IWVhMYq1meqMFKnqqSz9yzboIUScdmNvniTUkqSMzCQBJGM3G6yHb8+L/UYsCXU
+	j91ZrpZ5J8+M2CJGUikLtA4LPKMOLl9IMdK3FfZtVONFfQrlIbVqbCmAee8h5VOsgXmr0nYlbOe
+	FNHNk3+2gOaLU=
+X-Received: by 2002:a05:6512:118b:b0:5ae:c454:3740 with SMTP id 2adb3069b0e04-5b0114b7613mr3296895e87.60.1783685061324;
+        Fri, 10 Jul 2026 05:04:21 -0700 (PDT)
 Received: from fedora ([93.177.236.219])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01cab0191sm557397e87.72.2026.07.10.05.04.09
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01cab0191sm557397e87.72.2026.07.10.05.04.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 05:04:10 -0700 (PDT)
+        Fri, 10 Jul 2026 05:04:20 -0700 (PDT)
 From: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -82,9 +82,9 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-Subject: [PATCH v2 1/2] staging: media: atomisp: clean up block comment formatting in headers
-Date: Fri, 10 Jul 2026 15:02:53 +0300
-Message-ID: <20260710120254.23565-2-bohdandmarcus@gmail.com>
+Subject: [PATCH v2 2/2] staging: media: atomisp: fix grammar and punctuation in inline comments
+Date: Fri, 10 Jul 2026 15:02:54 +0300
+Message-ID: <20260710120254.23565-3-bohdandmarcus@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260710120254.23565-1-bohdandmarcus@gmail.com>
 References: <20260710120254.23565-1-bohdandmarcus@gmail.com>
@@ -102,14 +102,14 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-67287-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67288-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:andriy.shevchenko@linux.intel.com,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:bohdandmarcus@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
@@ -125,180 +125,92 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1B7C173A834
+X-Rspamd-Queue-Id: 8760B73AB48
 
-Fix block comment formatting issues in several header files to comply
-with the Linux kernel coding style. Specifically:
-- Move trailing '*/' to a separate line.
-- Align '*' on subsequent lines of block comments.
-- Reformat excessively long lines and remove Doxygen-style tags.
+Update inline comments in atomisp_cmd.c to comply with kernel
+coding style and maintainer expectations. Specifically:
+- Capitalize the first letter of sentences.
+- Add missing periods at the end of statements.
+- Ensure proper spacing before closing comment tags.
 
 Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
 ---
- .../media/atomisp/pci/atomisp_internal.h      |  5 +-
- .../staging/media/atomisp/pci/ia_css_mipi.h   | 19 +++---
- .../staging/media/atomisp/pci/ia_css_timer.h  | 63 ++++++++++---------
- 3 files changed, 45 insertions(+), 42 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index 5a69580b8..3d26b2138 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -19,7 +19,7 @@
- #include <media/v4l2-async.h>
- #include <media/v4l2-subdev.h>
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 6cd500d9f..6a4d04813 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -216,7 +216,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
+ 	curr_rules.fps = fps;
+ 	curr_rules.run_mode = isp->asd.run_mode->val;
  
--/* ISP2400*/
-+/* ISP2400 */
- #include "ia_css_types.h"
- #include "sh_css_legacy.h"
- 
-@@ -182,7 +182,8 @@ struct atomisp_device {
- 	struct atomisp_mipi_csi2_device csi2_port[ATOMISP_CAMERA_NR_PORTS];
- 
- 	/* Purpose of mutex is to protect and serialize use of isp data
--	 * structures and css API calls. */
-+	 * structures and css API calls.
-+	 */
- 	struct mutex mutex;
- 
- 	/*
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_mipi.h b/drivers/staging/media/atomisp/pci/ia_css_mipi.h
-index 9fb178c8f..5c803672e 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_mipi.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_mipi.h
-@@ -16,17 +16,18 @@
- #include "ia_css_stream_format.h"
- #include "ia_css_input_port.h"
- 
--/* @brief Calculate the size of a mipi frame.
-- *
-- * @param[in]	width		The width (in pixels) of the frame.
-- * @param[in]	height		The height (in lines) of the frame.
-- * @param[in]	format		The frame (MIPI) format.
-- * @param[in]	hasSOLandEOL	Whether frame (MIPI) contains (optional) SOL and EOF packets.
-- * @param[in]	embedded_data_size_words		Embedded data size in memory words.
-- * @param		size_mem_words					The mipi frame size in memory words (32B).
-- * @return		The error code.
-+/**
-+ * ia_css_mipi_frame_calculate_size() - Calculate the size of a mipi frame.
-+ * @width: The width (in pixels) of the frame.
-+ * @height: The height (in lines) of the frame.
-+ * @format: The frame (MIPI) format.
-+ * @hasSOLandEOL: Whether frame (MIPI) contains (optional) SOL and EOF packets.
-+ * @embedded_data_size_words: Embedded data size in memory words.
-+ * @size_mem_words: The mipi frame size in memory words (32B).
-  *
-  * Calculate the size of a mipi frame, based on the resolution and format.
-+ *
-+ * Return: The error code.
+-	/* search for the target frequency by looping freq rules*/
++	/* Search for the target frequency by looping freq rules. */
+ 	for (i = 0; i < dfs->dfs_table_size; i++) {
+ 		if (curr_rules.width != dfs->dfs_table[i].width &&
+ 		    dfs->dfs_table[i].width != ISP_FREQ_RULE_ANY)
+@@ -259,7 +259,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
   */
- int
- ia_css_mipi_frame_calculate_size(const unsigned int width,
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_timer.h b/drivers/staging/media/atomisp/pci/ia_css_timer.h
-index da752834a..f20c315ea 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_timer.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_timer.h
-@@ -1,61 +1,62 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--/**
--Support for Intel Camera Imaging ISP subsystem.
--Copyright (c) 2010 - 2015, Intel Corporation.
--
--*/
-+/*
-+ * Support for Intel Camera Imaging ISP subsystem.
-+ * Copyright (c) 2010 - 2015, Intel Corporation.
-+ */
+ int atomisp_reset(struct atomisp_device *isp)
+ {
+-	/* Reset ISP by power-cycling it */
++	/* Reset ISP by power-cycling it. */
+ 	int ret = 0;
  
- #ifndef __IA_CSS_TIMER_H
- #define __IA_CSS_TIMER_H
+ 	dev_dbg(isp->dev, "%s\n", __func__);
+@@ -420,7 +420,7 @@ static void print_csi_rx_errors(enum mipi_port_id port,
+ 		dev_err(isp->dev, "  line sync error");
+ }
  
--/* @file
-- * Timer interface definitions
-+/*
-+ * Timer interface definitions.
-  */
--#include <type_support.h>		/* for uint32_t */
-+#include <type_support.h>       /* for uint32_t */
- #include "ia_css_err.h"
+-/* Clear irq reg */
++/* Clear irq reg. */
+ static void clear_irq_reg(struct atomisp_device *isp)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+@@ -431,7 +431,7 @@ static void clear_irq_reg(struct atomisp_device *isp)
+ 	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, msg_ret);
+ }
  
--/* @brief timer reading definition */
-+/* Timer reading definition. */
- typedef u32 clock_value_t;
+-/* interrupt handling function*/
++/* Interrupt handling function. */
+ irqreturn_t atomisp_isr(int irq, void *dev)
+ {
+ 	struct atomisp_device *isp = (struct atomisp_device *)dev;
+@@ -481,7 +481,7 @@ irqreturn_t atomisp_isr(int irq, void *dev)
  
--/* @brief 32 bit clock tick,(timestamp based on timer-value of CSS-internal timer)*/
-+/* 32 bit clock tick (timestamp based on timer-value of CSS-internal timer). */
- struct ia_css_clock_tick {
--	clock_value_t ticks; /** measured time in ticks.*/
-+	clock_value_t ticks; /* Measured time in ticks. */
- };
+ 	if ((irq_infos & IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR) ||
+ 	    (irq_infos & IA_CSS_IRQ_INFO_IF_ERROR)) {
+-		/* handle mipi receiver error */
++		/* Handle mipi receiver error. */
+ 		u32 rx_infos;
+ 		enum mipi_port_id port;
  
--/* @brief TIMER event codes */
-+/* TIMER event codes. */
- enum ia_css_tm_event {
- 	IA_CSS_TM_EVENT_AFTER_INIT,
--	/** Timer Event after Initialization */
-+	/* Timer event after initialization. */
- 	IA_CSS_TM_EVENT_MAIN_END,
--	/** Timer Event after end of Main */
-+	/* Timer event after end of main. */
- 	IA_CSS_TM_EVENT_THREAD_START,
--	/** Timer Event after thread start */
-+	/* Timer event after thread start. */
- 	IA_CSS_TM_EVENT_FRAME_PROC_START,
--	/** Timer Event after Frame Process Start */
-+	/* Timer event after frame process start. */
- 	IA_CSS_TM_EVENT_FRAME_PROC_END
--	/** Timer Event after Frame Process End */
-+	/* Timer event after frame process end. */
- };
+@@ -532,7 +532,7 @@ void atomisp_clear_css_buffer_counters(struct atomisp_sub_device *asd)
+ 	asd->dis_bufs_in_css = 0;
+ }
  
--/* @brief code measurement common struct */
-+/* Code measurement common struct. */
- struct ia_css_time_meas {
--	clock_value_t	start_timer_value;	/** measured time in ticks */
--	clock_value_t	end_timer_value;	/** measured time in ticks */
-+	clock_value_t start_timer_value; /* Measured time in ticks. */
-+	clock_value_t end_timer_value;   /* Measured time in ticks. */
- };
+-/* 0x100000 is the start of dmem inside SP */
++/* 0x100000 is the start of dmem inside SP. */
+ #define SP_DMEM_BASE	0x100000
  
--/**@brief SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT checks to ensure correct alignment for struct ia_css_clock_tick. */
-+/*
-+ * SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT
-+ * Checks to ensure correct alignment for struct ia_css_clock_tick.
-+ */
- #define SIZE_OF_IA_CSS_CLOCK_TICK_STRUCT sizeof(clock_value_t)
--/* @brief checks to ensure correct alignment for ia_css_time_meas. */
-+
-+/* Checks to ensure correct alignment for ia_css_time_meas. */
- #define SIZE_OF_IA_CSS_TIME_MEAS_STRUCT (sizeof(clock_value_t) \
- 					+ sizeof(clock_value_t))
+ void dump_sp_dmem(struct atomisp_device *isp, unsigned int addr,
+@@ -614,7 +614,7 @@ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_s
+ 	spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
+ }
  
--/* @brief API to fetch timer count directly
--*
--* @param curr_ts [out] measured count value
--* @return 0 if success
--*
--*/
--int
--ia_css_timer_get_current_tick(
--    struct ia_css_clock_tick *curr_ts);
-+/**
-+ * ia_css_timer_get_current_tick() - API to fetch timer count directly.
-+ * @curr_ts: [out] Measured count value.
-+ *
-+ * Return: 0 if success.
-+ */
-+int ia_css_timer_get_current_tick(struct ia_css_clock_tick *curr_ts);
- 
- #endif  /* __IA_CSS_TIMER_H */
+-/* clean out the parameters that did not apply */
++/* Clean out the parameters that did not apply. */
+ void atomisp_flush_params_queue(struct atomisp_video_pipe *pipe)
+ {
+ 	struct atomisp_css_params_with_list *param;
 -- 
 2.55.0
 
