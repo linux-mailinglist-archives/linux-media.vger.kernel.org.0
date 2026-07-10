@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-67278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67280-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id x9mKLnvTUGph5gIAu9opvQ
-	(envelope-from <linux-media+bounces-67278-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 13:11:55 +0200
+	id ln5YAoDTUGpj5gIAu9opvQ
+	(envelope-from <linux-media+bounces-67280-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 13:12:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA8473A015
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 13:11:55 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F075B73A01F
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 13:11:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=kzqAscK9;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=GjNWM88E;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67278-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67278-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67280-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67280-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A8FA13004635
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 11:11:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1D09B3006220
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 11:11:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A5AE411664;
-	Fri, 10 Jul 2026 11:11:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3B2A416CE9;
+	Fri, 10 Jul 2026 11:11:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432391E5724
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 11:11:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765014071C6
+	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 11:11:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783681912; cv=none; b=DvB7eosyT0CLzn0eqX5l9PeqYKQqTsfLX6jtHV9a675+fZpMkBuF/aZnDrXlYHGhkz/9RVnB/kUgMWoEVU6clMlZ2DMDDmQIBW/RXYTnPfwZWmvfWvQaW24k+unE6H8h3T9k2tYEWH0F0DW9ZQ8FNlYxXZvM+92f/R+ms2DHAQU=
+	t=1783681914; cv=none; b=ooxID1Pt5MgqELds/lhhEECijJlT9zm5TaWsf5NI3HEqCWkiv5GNPudEjqZO+KhTdRPOppkpUbYrCBl8lTuAHxb5qn6MwtN7Zwe/obMHvTkjrYzdInhFPV49DP0tu9hxJ6Woo6H8IUo2CJDog365VdJiHL7vwQIyNY8zUq0nP2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783681912; c=relaxed/simple;
-	bh=krhrTkWKBqSrGDtIat/37kn0WVCG++aWcqslgZFqFRU=;
+	s=arc-20240116; t=1783681914; c=relaxed/simple;
+	bh=HjpP1hoGlayEeDKpn+MP8NjLeC7VE7+r2wcn9xhzb3A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ke+QhH24x2ht+jTgWRArKYks5DeOu3FuEIsBVHRc+rwzrphIuo+FDnSPG30ijBYljQFbtCjF+f+6EdD43EHuOrugMVrqI9XBJfUhu6Qq6YLXuzJCCqYtUsyOukPzKoek8bt5/m+JTOggfwuiPeuxhuj7O3K821IhboR1jwBbeIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kzqAscK9; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 685981F000E9;
-	Fri, 10 Jul 2026 11:11:50 +0000 (UTC)
+	 MIME-Version; b=Tt7uSEtQvERT83AcGvGAe5iNXKawsJH45aZYVNr3oWTMACyocdfR7nSshRbZhc+MQYX4cn6PHaLMSoax0NiF5BC/oq0ITuMP422StaIa1VjuHKiE0EcOIIzDs/I777Yo856KXZCTWiG/yAjVvu+RPIt535PSONaxA6vS2RRE7zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GjNWM88E; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D0041F00A3A;
+	Fri, 10 Jul 2026 11:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783681911;
-	bh=yAwlt6OYACV8skjRCHDfSIZBbAXaJgUZyPRv0RLK2R8=;
+	s=k20260515; t=1783681912;
+	bh=02gLolDtnSRMz3VCqLoCClfv0iGni6FANsLqP7CFi8I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kzqAscK9P1gZQDKoqqhAvk2LTL9VG8qniJnrJZgdMshTOQxWD3jvAhkqhV7OcyKzr
-	 miQAl65YSon3XegMOi3FYhDRXtLsQoGBuhFC6vGHgtBiJy0uNpicMV8wjgbmcY6eUG
-	 gHBQ/6YscA4TMGBcV03KHiHFmP71/CIeVQUxqw1D9YlilKcG2F5972VN2cuWzrJ54h
-	 wDgh1na0c7vGzg+asOW7UxjCwflr1mrXs5VcCz5op5FhY9cyKKQEZYKIvHoN8xdgzJ
-	 J0/3cdYUber3JwbQ7I/IImeslDLouoUzqdCf6DQ89z7DjrAJHa4MYvqUvhBES39dAH
-	 /jp9a8MsYnjOw==
+	b=GjNWM88E57S76CK8AApghucVTpmWuvbsnCyqAr1/5VOgAbBmsTj+3BUf9+xDk6t7R
+	 FFgo2mMXfQlTWyFSjdiLJZ+PdPC6E0+hMRk6mnobx6qpG4KKBAoPVitLC6wgfVnjPQ
+	 gCkTinUbuvIsIoscmSHubRBN8JNulDSXGVGr/0PBkiNNndyuKpRdZMv7pPLsdWD0qw
+	 UNHqzPD6LBUCvTZwHKN7CoVEBwT+plkHRDyhGWYSvMhQuvn38wlp5E27qODc/wjjeg
+	 VgWYhdR2C/NDFWjLDutf5S7R1vNxivVvlNZOneV49X3v4pKmvCCwZdnbP8THqaVBf7
+	 bAntQv2KiGpkA==
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCH 5/8] media: cec/core: flush stale STATE_CHANGE events
-Date: Fri, 10 Jul 2026 13:07:33 +0200
-Message-ID: <d4f56120e5169f9f7d259b818d300c04e9da3c3d.1783681656.git.hverkuil+cisco@kernel.org>
+Subject: [PATCH 6/8] media: cec/core: add a new CEC_LOG_ADDRS_FL_CONFIG_FAILED flag
+Date: Fri, 10 Jul 2026 13:07:34 +0200
+Message-ID: <d0615766cac30d56b1829cfc4e54f1a56c042a15.1783681656.git.hverkuil+cisco@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1783681656.git.hverkuil+cisco@kernel.org>
 References: <cover.1783681656.git.hverkuil+cisco@kernel.org>
@@ -69,7 +69,7 @@ X-Spamd-Result: default: False [-4.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -80,9 +80,9 @@ X-Spamd-Result: default: False [-4.66 / 15.00];
 	RCPT_COUNT_TWO(0.00)[2];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-67278-lists,linux-media=lfdr.de,cisco];
+	TAGGED_FROM(0.00)[bounces-67280-lists,linux-media=lfdr.de,cisco];
 	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -95,55 +95,73 @@ X-Spamd-Result: default: False [-4.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4FA8473A015
+X-Rspamd-Queue-Id: F075B73A01F
 
-If the physical address becomes invalid, then flush any
-old STATE_CHANGE events since those are no longer relevant.
+If claiming a logical address fails, then set the
+CEC_LOG_ADDRS_FL_CONFIG_FAILED flag. This makes it possible for
+userspace to detect this corner case.
 
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/cec/core/cec-adap.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ .../userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst   | 7 +++++++
+ drivers/media/cec/core/cec-adap.c                          | 3 +++
+ include/uapi/linux/cec.h                                   | 2 ++
+ 3 files changed, 12 insertions(+)
 
+diff --git a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
+index f3293a589dd6..8397bf573798 100644
+--- a/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
++++ b/Documentation/userspace-api/media/cec/cec-ioc-adap-g-log-addrs.rst
+@@ -185,6 +185,13 @@ logical address types are already defined will return with error ``EBUSY``.
+ 	are CEC devices that can only handle CDC messages.
+ 
+ 	All other messages are ignored.
++    * .. _`CEC-LOG-ADDRS-FL-CONFIG-FAILED`:
++
++      - ``CEC_LOG_ADDRS_FL_CONFIG_FAILED``
++      - 8
++      - If this flag is set, then the CEC device failed to claim a free logical
++        address and is in the unconfigured state. This can never happen if
++	``CEC_LOG_ADDRS_FL_ALLOW_UNREG_FALLBACK`` was set as well.
+ 
+ .. tabularcolumns:: |p{7.8cm}|p{1.0cm}|p{8.5cm}|
+ 
 diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 5c7ede88c3df..4d14186bfef6 100644
+index 4d14186bfef6..774bf9099183 100644
 --- a/drivers/media/cec/core/cec-adap.c
 +++ b/drivers/media/cec/core/cec-adap.c
-@@ -103,9 +103,32 @@ void cec_queue_event_fh(struct cec_fh *fh,
- 			kfree(new_entry);
- 			goto unlock;
- 		}
-+
- 		new_entry->ev = *new_ev;
- 		new_entry->ev.ts = ts;
+@@ -1482,6 +1482,7 @@ static int cec_config_thread_func(void *arg)
+ 	dprintk(1, "physical address: %x.%x.%x.%x, claim %d logical addresses\n",
+ 		cec_phys_addr_exp(adap->phys_addr), las->num_log_addrs);
+ 	las->log_addr_mask = 0;
++	las->flags &= ~CEC_LOG_ADDRS_FL_CONFIG_FAILED;
  
-+		/*
-+		 * If the physical address becomes invalid (HPD went low),
-+		 * then just flush all pending STATE_CHANGE events since
-+		 * those are all obsoleted.
-+		 *
-+		 * This ensures you will not see stale STATE_CHANGE events.
-+		 */
-+		if (new_ev->event == CEC_EVENT_STATE_CHANGE &&
-+		    new_ev->state_change.phys_addr == CEC_PHYS_ADDR_INVALID &&
-+		    fh->queued_events[ev_idx]) {
-+			/* drop all events */
-+			while (!list_empty(&fh->events[ev_idx])) {
-+				entry = list_first_entry(&fh->events[ev_idx],
-+						struct cec_event_entry, list);
-+				list_del(&entry->list);
-+				kfree(entry);
-+				fh->total_queued_events--;
-+				fh->queued_events[ev_idx]--;
-+			}
-+			new_entry->ev.flags |= CEC_EVENT_FL_DROPPED_EVENTS;
-+		}
-+
- 		if (fh->queued_events[ev_idx] < max_events[ev_idx]) {
- 			/* Add new msg at the end of the queue */
- 			list_add_tail(&new_entry->list, &fh->events[ev_idx]);
+ 	if (las->log_addr_type[0] == CEC_LOG_ADDR_TYPE_UNREGISTERED)
+ 		goto configured;
+@@ -1614,6 +1615,8 @@ static int cec_config_thread_func(void *arg)
+ unconfigure:
+ 	for (i = 0; i < las->num_log_addrs; i++)
+ 		las->log_addr[i] = CEC_LOG_ADDR_INVALID;
++	if (adap->phys_addr != CEC_PHYS_ADDR_INVALID)
++		las->flags |= CEC_LOG_ADDRS_FL_CONFIG_FAILED;
+ 	cec_adap_unconfigure(adap);
+ 	adap->is_configuring = false;
+ 	adap->must_reconfigure = false;
+diff --git a/include/uapi/linux/cec.h b/include/uapi/linux/cec.h
+index 81a05c9c0706..fdfc97a6e4ec 100644
+--- a/include/uapi/linux/cec.h
++++ b/include/uapi/linux/cec.h
+@@ -403,6 +403,8 @@ struct cec_log_addrs {
+ #define CEC_LOG_ADDRS_FL_ALLOW_RC_PASSTHRU	(1 << 1)
+ /* CDC-Only device: supports only CDC messages */
+ #define CEC_LOG_ADDRS_FL_CDC_ONLY		(1 << 2)
++/* Configuration failed */
++#define CEC_LOG_ADDRS_FL_CONFIG_FAILED		(1 << 3)
+ 
+ /**
+  * struct cec_drm_connector_info - tells which drm connector is
 -- 
 2.53.0
 
