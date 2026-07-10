@@ -1,92 +1,97 @@
-Return-Path: <linux-media+bounces-67325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67326-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id xAEqNJ1eUWpWDQMAu9opvQ
-	(envelope-from <linux-media+bounces-67325-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 23:05:33 +0200
+	id VnHmKeJeUWpvDQMAu9opvQ
+	(envelope-from <linux-media+bounces-67326-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 23:06:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC0273E9CF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 23:05:33 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E12F73E9F1
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 23:06:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ndufresne-ca.20251104.gappssmtp.com header.s=20251104 header.b="MXX/V4nO";
+	dkim=pass header.d=ndufresne-ca.20251104.gappssmtp.com header.s=20251104 header.b=qNK53DeS;
 	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=ndufresne.ca (policy=none);
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67325-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67325-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67326-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67326-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A79B93036710
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 21:05:28 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CF429300B833
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 21:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC8DC314A98;
-	Fri, 10 Jul 2026 21:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79CD3B0AD8;
+	Fri, 10 Jul 2026 21:06:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B230A38E8CC
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 21:05:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3208314A98
+	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 21:06:32 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783717525; cv=none; b=HswV3ofggkwkMIkYnnyanghDp0nTJAckHUZFP9U1C8mTWROjYazNZJWqXESHP31zjDtVCWP4bNb+YMqr3ECwkf+tFPEFG1VafnH7sEigAi42oeIdyTtdEcUPX2I4WVlRR5CVcofpte2TZvSQegi4buk2s8a6/JSOOXwwUQUf6iU=
+	t=1783717594; cv=none; b=B4W17j0oN0n8qopUzt+J7AZdPBsUjTfqmuYc0NvlOEHWG/cDAXZ9gD8AIAVKR3VpY4haCFGYm2JeT4nGExSGm2iMx5pLC4+eRf4U1v3Eodva+kqm+5CpCMA+OlyHZfXRX6vnpImOZjYoM0njBEyGKIuQ3DTm733K8dda98qK6Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783717525; c=relaxed/simple;
-	bh=FTZWWjRhWDfYbUZdVlv5lAyKBGf81/olpriaG8gMRgA=;
+	s=arc-20240116; t=1783717594; c=relaxed/simple;
+	bh=DxDrT9NmX4ZZIhVEHWLdymY2f78kT5MiLBlnK/xA7Zc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=a+QtSGe2ymWw0883oeUyERsJy/+O5BhwVh5bPVVr8u8EeID/Gn7EozybkVoJr/7p60nTzI7SWdnoaI8GTFfGiWlTJnwJnRCR1fTh12nfjN8XSbvUwTw/TBGWEWYVu4W9NGt+2fRA6WKAQMF6oJQ8huqDB/PDTiPTYJYSJ/mmjdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=MXX/V4nO; arc=none smtp.client-ip=209.85.221.175
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5bfb3347ce0so241869e0c.2
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 14:05:23 -0700 (PDT)
+	 Content-Type:MIME-Version; b=Qura9baZG38GheoyH+9j6XGEVCM5u6+MEER/TtNff/X+wnrfn3JYVuCdMc3OqiuSMOTF0gUCmEQ/I8U0S2i8nQxFrVrjQ5IUQtkci7cBwwTn+GVWlow3Lc6bgaCooPFHHcq3823l1tukWxLBRBtqUpSsnSowICV0qfTUyL9b5WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=qNK53DeS; arc=none smtp.client-ip=209.85.219.53
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-902fc790cd5so9165966d6.1
+        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 14:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1783717523; x=1784322323; darn=vger.kernel.org;
+        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1783717592; x=1784322392; darn=vger.kernel.org;
         h=mime-version:user-agent:content-type:autocrypt:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=fzdRgw5D47A6vc4awRc8DLJJmN1O3Mb0gJhGI5I9fBI=;
-        b=MXX/V4nOQRscdYvmsY9M/ipdnPSL8or6GCyUqiQs0YZ9AjF/kG4MHJ9kImVSkYDITw
-         1iLDlwo+1iBGaDOYUNhlIco6zG6SvqMAcu0b9r/KTZIl+F/1Yw729G3XO8xiYQ6xNgtu
-         YwDICLSpkevJMBRPc8fEXmXC+4KWIcaejIumYahW908K84kKSlu9DLuZ+Ehegil4A1NF
-         Zwwt7crLv5Yn2GKUtFa+PeZMDbN6KT8rswJhRM9mPeaEUAndqWLOnptZHwXICrSSHK0a
-         Ss1I5LzYdjaBb3M87vAWbx+TGACoEBz3NIyJIPP0mwHqNnGzmBv8tjBk9mBl7T5Inv8k
-         j7fQ==
+        bh=TVT9N7Zf4tzdtEz92uIESo3Z8ztU5bsCLtI2pOZcHKU=;
+        b=qNK53DeS5XlC3NfVNjSmicTw0CqC6JjmoxorKnrC1cfLGzlUhCS/DebljfFjXwA0RV
+         taGGBV1LWMtyC4hUCyPA0lj6V9u0yekr6fQUYfCx7V9BXwQDpgEqH3AOS4Q4hpmdg+xh
+         f/3XH8yeEEujOFDBZQTaiLL3nKTRuZJFMtOrgI116wTlGZXxVe/9mXVG6cVuj9DCwBB3
+         Kk/TLRbB1ddALbWLQhId2e8Y77gaaFdWGAiVkYZLnm0i59dRK3IUM8gIGicKFWiPet+V
+         3w3EeKlaxsGn7jaVlWWc+j294wN1YQsz62cNMr4L6vFDmYshDZSSNSZTq5LNBct9WEht
+         mr9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783717523; x=1784322323;
+        d=1e100.net; s=20251104; t=1783717592; x=1784322392;
         h=mime-version:user-agent:content-type:autocrypt:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fzdRgw5D47A6vc4awRc8DLJJmN1O3Mb0gJhGI5I9fBI=;
-        b=FLXL8qhJYEQWif2PXHgOu2Sf14e//isVOpuj2SFbnw2j8y/R5iZZFP/eXNU6XG0DIs
-         hTeHbDMfLjIrd2r+Q8x+CpOApQKjLPWd67GxllIImWxdJ9GVkD7ThxSXqcL0m1KJUfuU
-         qNFp/8+yBcr0WeGfLjD3QIh1u2Qwvbh3wT0/J/Ey50BvATerBeAL/xq3mzZuB00ga8Lq
-         K9Lj3nMfXdz/ryEPeZ27Y6be5Al6kHR260uuCsby/5+iN88DZ+0mkUp1bisAUzDGHC3H
-         yLnyugwDmL3cfsJ++Ij77+p9asvPJYtOVpZqhG1/ysnJP0Xtz7Rkci2dRnhG9y/mrYRx
-         AS0Q==
-X-Gm-Message-State: AOJu0YwXq17Au2xGZymh3k6XszRyaYG0TaW+THQ1IzaiiyjnX3fO0ZT5
-	k5cbd5li4CqGHNEgGZGqTJS5Pr7wOQpxKHmak7UeTOMcl5+3aw9vCNVqHXfYOCDYyVQ=
-X-Gm-Gg: AfdE7cmwuuV02enReYXZvQmkhhHrYF7/MQnUY23I4T5xEaqdv4wjQ1TnlX3I47bVNdO
-	lEVH+8wJHfG4fOzaUK0Lo850F5wRhdBb6S0YjTP8sMwD/yxuX/qxtlpo3Y/S5Wd0CJ59c3hEL+v
-	jX11RWMWhwkCuwC+mFLjGv8ski+HuW6svLjILVM6YVrh8qLUM59mGQ8M5QSnYSEwc4u2yC0Vmiw
-	8ssVSR4rrktJcl042V1zvt4oqkRncjpn9C7DD4p4Y+Ic74FxVGLW1KcpGm0p4buc+y+qJNK8RjS
-	25u7PBiiv7OjTCdt/TrLE1BxWgIGnOxt9SxKVfnSdXkvXtb1NOO13ybW0hWn/dZGLcZZmOmxQXI
-	abNaGP+uJCtIeLLSomeCm0ikUvP/vNVOFtg+ht2kTadK2t6BUGxqRPB0/4zgtq+jFOUw4KxxFtM
-	7vroVPsVJNsm4mU87QZw==
-X-Received: by 2002:a05:6122:83f2:b0:5bf:bb2c:1325 with SMTP id 71dfb90a1353d-5bfbf2b3c14mr551931e0c.11.1783717522463;
-        Fri, 10 Jul 2026 14:05:22 -0700 (PDT)
+        bh=TVT9N7Zf4tzdtEz92uIESo3Z8ztU5bsCLtI2pOZcHKU=;
+        b=OsmOQ8Nw9a+VTuPNdcRKACmTR4S9JQQ9GIFG65h8y4xutwFxyA3M1uxKrII3BBzSUH
+         cLPq+UhfxjKEsBpJp1Dp+94PzSgByCcrTO0b7IJ0NlVmzuBYXPaXUO4Q6WfA4vbCdtgS
+         XS52CmvM4+jePCDgFlqNlUQl4mTcFia6/Kt+h0+Iki1AsdXiEWYs05zdKOg4eHE3+X7D
+         AkD2SK6EVXeDh5nsMBi7at4Ds7Cf7qO8IbuuMbDA2CZmS4D0TUzImYaytNN4295GRUrP
+         WnFrGjAhwMz1NyLUc4R3He4QMhkLz0i0LZ4YHI2rKMhdpTRmf8xk1kGt7ZjUKh5aE3ES
+         /Iwg==
+X-Gm-Message-State: AOJu0YyDx+k1Y8VhcYwG24qMlOQ7c8Ex396miFRhD2v4s6jW9vwycI2b
+	kDLTD1s+FGgecGt5ODfNLW9oxbDHIV1b+WXvySUDVzPyCC4fmvopspoc2TDJ5xvuM94=
+X-Gm-Gg: AfdE7ck1rtDr3xXp9qgpfRCGU+yklUSz75EDCh/S62zsQKoTqojCxrQ8YUWmwXbiSNs
+	eWd6AcGJy7vyxcEFzQJxD3o+ZozyapF7IqzDyY1blb89GvGhddIDzyhWsewC0Wv+4K4lp4FSJJb
+	SvHVhWicPxcxn+Xwn1K/wBZUpsVMiYeTgZW5CgSLLfKpWVo6A6TnqvgdbT1NUEIudti8kExSMMj
+	6pCG8LJG8MQcmpAs3Ovj5QCpOJFNRYR6z1c5UTcADgmJFdxutPm3xiTq+cMxAOoBSI/vCAa8S9J
+	MSrDLZ/rZSU+4SZ6gZnHcNe9CwfiJKbaq6geslXyQ6Ssi2Vt+b9bKZjgkrMKZvKxc2b9Z92/4VL
+	ikD4yVtLKX8RBAVdJ862V/q6JlMJZFgrfJfQGVRVXbq70JOcCPtOA8vaBN4V1uLDl8Xz+pXJV3E
+	f8FzghMgqq6SpTdu1Zcu16Ob3KJ52t
+X-Received: by 2002:a05:6214:3b81:b0:8f1:581c:4b40 with SMTP id 6a1803df08f44-90400f9540emr8519656d6.7.1783717591801;
+        Fri, 10 Jul 2026 14:06:31 -0700 (PDT)
 Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bf6f66bdfesm6547770e0c.6.2026.07.10.14.05.20
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd87c9500sm50123616d6.46.2026.07.10.14.06.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 14:05:21 -0700 (PDT)
-Message-ID: <54627c5dcc9d0f8318163dfa63ddca9f3c3a0845.camel@ndufresne.ca>
-Subject: Re: [PATCH 12/17] media: rockchip: rga: move core initialization
- from bind to probe
+        Fri, 10 Jul 2026 14:06:31 -0700 (PDT)
+Message-ID: <1e7a3efb76d84730748b9c47c03a90b51b2d2d20.camel@ndufresne.ca>
+Subject: Re: [PATCH 13/17] media: rockchip: rga: bind all cores to the master
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: sashiko-reviews@lists.linux.dev, Sven =?ISO-8859-1?Q?P=FCschel?=
-	 <s.pueschel@pengutronix.de>
-Cc: linux-media@vger.kernel.org
-Date: Fri, 10 Jul 2026 17:05:20 -0400
-In-Reply-To: <20260605222016.84C581F00893@smtp.kernel.org>
-References: <20260606-spu-rga3multicore-v1-12-3ec2b15675f7@pengutronix.de>
-	 <20260605222016.84C581F00893@smtp.kernel.org>
+To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
+	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Philipp Zabel
+	 <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	kernel@pengutronix.de, Detlev Casanova <detlev.casanova@collabora.com>, 
+ Michael Tretter <m.tretter@pengutronix.de>
+Date: Fri, 10 Jul 2026 17:06:30 -0400
+In-Reply-To: <20260606-spu-rga3multicore-v1-13-3ec2b15675f7@pengutronix.de>
+References: <20260606-spu-rga3multicore-v1-0-3ec2b15675f7@pengutronix.de>
+	 <20260606-spu-rga3multicore-v1-13-3ec2b15675f7@pengutronix.de>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -101,7 +106,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-1IFg3XQG4ab9EwEqwNVw"
+	protocol="application/pgp-signature"; boundary="=-TbhSyHxkx/Z3fez9TIdu"
 User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -113,231 +118,153 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.66 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[bounces-67325-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sashiko-reviews@lists.linux.dev,m:s.pueschel@pengutronix.de,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
+	FORGED_RECIPIENTS(0.00)[m:s.pueschel@pengutronix.de,m:jacob-chen@iotwrt.com,m:ezequiel@vanguardiasur.com.ar,m:mchehab@kernel.org,m:heiko@sntech.de,m:p.zabel@pengutronix.de,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:kernel@pengutronix.de,m:detlev.casanova@collabora.com,m:m.tretter@pengutronix.de,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67326-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne.ca:mid,ndufresne.ca:from_mime,vger.kernel.org:from_smtp,pengutronix.de:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ndufresne-ca.20251104.gappssmtp.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ndufresne-ca.20251104.gappssmtp.com:dkim,vger.kernel.org:from_smtp,pengutronix.de:email,ndufresne.ca:mid,ndufresne.ca:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3EC0273E9CF
+X-Rspamd-Queue-Id: 9E12F73E9F1
 
 
---=-1IFg3XQG4ab9EwEqwNVw
+--=-TbhSyHxkx/Z3fez9TIdu
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-Le vendredi 05 juin 2026 =C3=A0 22:20 +0000, sashiko-bot@kernel.org a =C3=
-=A9crit=C2=A0:
-> Thank you for your contribution! Sashiko AI review found 6 potential issu=
-e(s) to consider:
+Le samedi 06 juin 2026 =C3=A0 00:06 +0200, Sven P=C3=BCschel a =C3=A9crit=
+=C2=A0:
+> Bind all core components to the master component. Previously only the
+> first core has been added to the master device to avoid creating
+> multiple video devices. As the video device creation has been moved to
+> the master component, it allows us to bind all cores without creating
+> additional video devices.
 >=20
-> New issues:
-> - [High] NULL pointer dereference in `rga_isr()` due to early shared IRQ =
-registration.
+> We expect that all cores to report the same version number, as we only
+> add cores with the same compatible value. This is important, as=C2=A0 we
+> setup the command buffer before actually scheduling the work to a
+> specific core. Therefore adjusting command buffers depending on the
+> version register only works when all cores have the same value.
+>=20
+> Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+> ---
+> =C2=A0drivers/media/platform/rockchip/rga/rga.c | 22 +++++++++++---------=
+--
+> =C2=A0drivers/media/platform/rockchip/rga/rga.h |=C2=A0 1 +
+> =C2=A02 files changed, 12 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
+atform/rockchip/rga/rga.c
+> index 0413b8518dfc8..6add6c510c127 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.c
+> +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -742,6 +742,7 @@ static int rga_core_bind(struct device *dev, struct d=
+evice *master, void *data)
+> =C2=A0{
+> =C2=A0	struct rockchip_rga *rga =3D data;
+> =C2=A0	struct rga_core *core =3D dev_get_drvdata(dev);
+> +	struct rockchip_rga_version version;
+> =C2=A0	int ret =3D 0;
+> =C2=A0
+> =C2=A0	core->rga =3D rga;
+> @@ -750,14 +751,21 @@ static int rga_core_bind(struct device *dev, struct=
+ device *master, void *data)
+> =C2=A0	if (ret < 0)
+> =C2=A0		return ret;
+> =C2=A0
+> -	rga->version =3D rga->hw->get_version(core);
+> +	version =3D rga->hw->get_version(core);
+> =C2=A0
+> =C2=A0	v4l2_info(&rga->v4l2_dev, "HW Version: 0x%02x.%02x\n",
+> -		=C2=A0 rga->version.major, rga->version.minor);
+> +		=C2=A0 version.major, version.minor);
+> +
+> +	if (rga->num_cores) {
+> +		/* we are not the first core, expect that we have the same version */
+> +		if (rga->version.major !=3D version.major || rga->version.minor !=3D v=
+ersion.minor)
+> +			v4l2_warn(&rga->v4l2_dev, "Detected multi-core setup with different c=
+ore versions!\n");
 
-Not really applicable to this type of HW.
-
-> - [Medium] Missing `pm_runtime_disable()` on `component_add()` error path=
-.
-
-relevant.
+We should fail, and not just warn.
 
 Nicolas
 
->=20
-> Pre-existing issues:
-> - [High] Unprotected hardware access in shared interrupt handler.
-> - [High] Missing `synchronize_irq()` in runtime suspend for shared IRQs.
-> - [High] Use-After-Free when the master device is unbound.
-> - [High] Missing NULL check for `devm_kzalloc` allocation.
-> --
->=20
-> commit 8a3476b206ac8426da5cf08410222d4a74238c92
-> Author: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
->=20
-> media: rockchip: rga: move core initialization from bind to probe
->=20
-> This commit moves the core initialization from the core binding function =
-to
-> the core probing function to better match the actual initialization seque=
-nce.
->=20
-> > diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/=
-platform/rockchip/rga/rga.c
-> > index 952377ae467f5..0413b8518dfc8 100644
-> > --- a/drivers/media/platform/rockchip/rga/rga.c
-> > +++ b/drivers/media/platform/rockchip/rga/rga.c
->=20
-> [ ... ]
->=20
-> > @@ -740,21 +740,49 @@ static int rga_parse_dt(struct rga_core *core)
-> > =C2=A0
-> > =C2=A0static int rga_core_probe(struct platform_device *pdev)
-> > =C2=A0{
-> > =C2=A0	struct rga_core *core;
-> > =C2=A0	const struct rga_hw *hw;
-> > =C2=A0	int ret =3D 0;
-> > =C2=A0	int irq;
-> > =C2=A0
-> > =C2=A0	if (!pdev->dev.of_node)
-> > =C2=A0		return -ENODEV;
-> > =C2=A0
-> > +	hw =3D of_device_get_match_data(&pdev->dev);
-> > +	if (!hw)
-> > +		return dev_err_probe(&pdev->dev, -ENODEV, "failed to get match data\=
-n");
-> > +
-> > =C2=A0	core =3D devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
-> > -	core->rga =3D rga;
-> > =C2=A0	core->dev =3D &pdev->dev;
->=20
-> [Severity: High]
-> This isn't a bug introduced by this patch, but does this devm_kzalloc()
-> allocation need a null pointer check?
->=20
-> If the allocation fails under memory pressure, the immediate assignment t=
-o
-> core->dev =3D &pdev->dev will cause a null pointer dereference.
->=20
-> [ ... ]
->=20
-> > @@ -775,7 +803,7 @@ static int rga_core_bind(struct device *dev, struct=
- device *master, void *data)
-> > =C2=A0	}
-> > =C2=A0
-> > =C2=A0	ret =3D devm_request_irq(core->dev, irq, rga_isr,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rga_has_internal_iommu(rga) ? =
-0 : IRQF_SHARED,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hw->has_internal_iommu ? 0 : I=
-RQF_SHARED,
-> > =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_name(core->dev), core=
-);
->=20
-> [Severity: High]
-> Since devm_request_irq() is now called here in rga_core_probe(), could th=
-is
-> trigger an early null pointer dereference in rga_isr()?
->=20
-> When hw->has_internal_iommu is false, the interrupt is registered as
-> IRQF_SHARED. For shared interrupts, the handler can be invoked immediatel=
-y by
-> another device sharing the line. However, core->rga is not initialized un=
-til
-> rga_core_bind() runs later.
->=20
-> If the interrupt service routine fires early, it will evaluate
-> rga->hw->handle_irq(core) and unconditionally dereference the null core->=
-rga
-> pointer.
->=20
-> [Severity: High]
-> This is a pre-existing issue, but does the shared interrupt handler safel=
-y
-> access hardware registers?
->=20
-> Because rga_isr() is registered as IRQF_SHARED, it can be invoked by anot=
-her
-> device while this device is runtime-suspended and unclocked. The handler
-> unconditionally calls rga->hw->handle_irq(core), which accesses registers=
+> +	} else
+> +		rga->version =3D version;
+> =C2=A0
+> =C2=A0	pm_runtime_put(core->dev);
+> =C2=A0
+> -	rga->cores[0] =3D core;
+> +	rga->cores[rga->num_cores++] =3D core;
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> @@ -983,14 +991,6 @@ static int rga_probe(struct platform_device *pdev)
+> =C2=A0		component_match_add_release(dev, &match, component_release_of,
+> =C2=A0					=C2=A0=C2=A0=C2=A0 component_compare_of, core_node);
+> =C2=A0		num_cores++;
+> -
+> -		/*
+> -		 * As multi core is not implemented yet,
+> -		 * break out of the loop to only have one core per rockchip_rga struct=
 .
-> Reading powered-off registers typically causes a synchronous external abo=
-rt.
->=20
-> Should the interrupt service routine use pm_runtime_get_if_active() befor=
-e
-> accessing registers?
->=20
-> [Severity: High]
-> This is another pre-existing issue related to the shared interrupt, but i=
-s
-> there a missing synchronize_irq() in the runtime suspend path?
->=20
-> In rga_runtime_suspend(), clocks are disabled without synchronizing the
-> interrupt. If an interrupt fires on another CPU just before clocks are
-> disabled, the handler could actively read registers exactly when the hard=
-ware
-> is powered down.
->=20
-> [Severity: High]
-> This is a pre-existing issue, but could tying the shared interrupt to the
-> core device lifetime cause a use-after-free when the master device is
-> unbound?
->=20
-> The shared interrupt is requested via devm_request_irq(core->dev, ...). W=
-hen
-> the master device is unbound, its rga structure is freed. Since the core
-> device is not removed during unbind, the devm-managed interrupt is not fr=
-eed,
-> leaving the shared handler active.
->=20
-> A subsequent interrupt will execute rga_isr(), which dereferences the
-> freed core->rga pointer.
->=20
-> [ ... ]
->=20
-> > @@ -833,11 +825,20 @@ static int rga_core_probe(struct platform_device =
-*pdev)
-> > =C2=A0
-> > =C2=A0	ret =3D component_add(&pdev->dev, &rga_core_ops);
-> > =C2=A0	if (ret < 0) {
-> > =C2=A0		dev_err(&pdev->dev, "failed to register component: %d", ret);
-> > =C2=A0		return ret;
-> > =C2=A0	}
->=20
-> [Severity: Medium]
-> If component_add() fails, does this bypass the pm_runtime_disable() clean=
-up
-> at the err_put_clk label?
->=20
-> Returning directly instead of using a goto would leak the device's Runtim=
-e
-> PM usage counter.
->=20
-> > =C2=A0	return 0;
-> > +
-> > +err_put_clk:
-> > +	pm_runtime_disable(core->dev);
-> > +
-> > +	return ret;
-> > =C2=A0}
+> -		 * Also put the node, which otherwise would've been done by the loop i=
+teration.
+> -		 */
+> -		of_node_put(core_node);
+> -		break;
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	if (!match)
+> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/pl=
+atform/rockchip/rga/rga.h
+> index fcf1ef7d2029f..6237436b984eb 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.h
+> +++ b/drivers/media/platform/rockchip/rga/rga.h
+> @@ -88,6 +88,7 @@ struct rockchip_rga {
+> =C2=A0
+> =C2=A0	const struct rga_hw *hw;
+> =C2=A0
+> +	u8 num_cores;
+> =C2=A0	struct rga_core *cores[];
+> =C2=A0};
+> =C2=A0
 
---=-1IFg3XQG4ab9EwEqwNVw
+--=-TbhSyHxkx/Z3fez9TIdu
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCalFekAAKCRDZQZRRKWBy
-9EJxAQCerJAHaLRN7FFNTY3YyPH0fqeo6LEF7j3+G+gOa6SqPAEAkqdjquJ6+79k
-yKGWesuohb6hpxdNV7L0h2dJMmp88gU=
-=YL8F
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCalFe1gAKCRDZQZRRKWBy
+9GClAP9CEDkckOHaaBs3JSr4kR2glZ91T2+Em462BGZsPI608QEAkZF6ihkk7v4x
+pzNO4wHmiemguZjKW2cONNbyb6HNbwQ=
+=KoiK
 -----END PGP SIGNATURE-----
 
---=-1IFg3XQG4ab9EwEqwNVw--
+--=-TbhSyHxkx/Z3fez9TIdu--
 
