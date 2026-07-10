@@ -1,217 +1,172 @@
-Return-Path: <linux-media+bounces-67288-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67289-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YPOOCdDjUGqc7wIAu9opvQ
-	(envelope-from <linux-media+bounces-67288-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:21:36 +0200
+	id EAthKYriUGoD7gIAu9opvQ
+	(envelope-from <linux-media+bounces-67289-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:16:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8760B73AB48
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:21:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F255073AA4E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 14:16:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=rt6g6KC2;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67288-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67288-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YsHYXBoU;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67289-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67289-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2D9793092604
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:04:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A5F293054F6C
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jul 2026 12:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4091D404BCF;
-	Fri, 10 Jul 2026 12:04:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01012421A12;
+	Fri, 10 Jul 2026 12:12:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lr2-f9.google.com (mail-lr2-f9.google.com [74.125.230.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534753112A5
-	for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 12:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2AA199931;
+	Fri, 10 Jul 2026 12:12:18 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783685064; cv=none; b=Z55DvsrWN48KCAaMg2KACl/bPyFvcTTbIXxnPJ4f+WoKrG6XGIxO3pkAr98IHozqk2Lx8KeD4bxcaoBLZ7NAun25lO1PLrm0YNcbK0+MPvRt62wnc+Zw5IiG3p5pIaGIPDFbjBSxsy/zN5/Rs/b3oQHrvPr6+CLez3pzdbqjlbk=
+	t=1783685539; cv=none; b=Db7kNDbc96aRn2HfKJIx3J4C4D9sBCdal0OPq/V8b1/RI2s8w2riNLkCy8rOig/TJuyIGwwdLB/GtpwCM3DlYnoAAvxflM7SXlGJfKyiBWzHp6JQuIfN1iFbAbFSbiVpw6e+G3VoWribTiBnZeMYSbHDX0umYapIPrN3PXSwf3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783685064; c=relaxed/simple;
-	bh=NbPegR6+b4GRFh+klweEbzxei3XsxqVuAPE+B5WH8DU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i3C0dCWzVT9MHcyDsZ6N/6KUeFyfR7nALKKBuUmjBayDHq+xPtWDSRUdsN89bCXM5o1c+Tve1H+mQQ7oRPTzILndeFb0DR1JHMLXZ/n0KhtYtKbDm/nVuSak+v3sqphG5jBFUb057V7KISMqsFbhtwCJshk9K9P6l8azjCEdrtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rt6g6KC2; arc=none smtp.client-ip=74.125.230.73
-Received: by mail-lr2-f9.google.com with SMTP id 38308e7fff4ca-39c91e78377so4627691fa.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 05:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783685061; x=1784289861; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ikiWCXLLgYFTXokprsOQoWX6Hiq5wB0hockJYlkF4+o=;
-        b=rt6g6KC2G/cebktZ9rKAN99JEdOfbWjreqKCMNN/rrG9jOHJtrJrO5RO98mjm02J/M
-         gGckJ6Q8j5oUohv+VTtckobYNdjE0nQW/C2sdZbse5kBi5CuuxuewpowT+c8A7eSu7jl
-         sI/0W88QUyVeJJFGBub4KRsw8WmDvs0UfsDP5zpUm5C5hMiiXKOUJzEfTd59Zwo1siTc
-         V6zh11AUpclWn5aQ9+oJhc9XaxFBCDCT01A6IeLjqXaJP1UNO4pFRwY+RzdPTtDR469v
-         /TlcSs/Gx4I89kGocG2IzdO+Hu3wtICTqQbgEgPeUaBNdTsh+jVIAIIyAhaZ9SeBBlWL
-         GLqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783685061; x=1784289861;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ikiWCXLLgYFTXokprsOQoWX6Hiq5wB0hockJYlkF4+o=;
-        b=O03b/kHJ8IULuXgTj96E2UGkZglwx/uPbIeWObT27X1urzQOYJoyr2A2AAo8o4bZWm
-         upX1dwodnJ66LZY09wUWQKdC2HMHb5VjlxUfyToKQzK3K+kimRMfaJYDZy3AFVLKPrF5
-         Y4Y477hm1nZAj8zO0p2W2abqLxOg4ZrbPpgMJBASWkBjB1fPOs4vuXQ4wU2nV9jlROcI
-         KWD6x4U/GjwUT1vqvqOq9LVTk1T9m4/I4lcQcitSLJB1A0MMiQ/Bx8hsc8uavbp9iiy+
-         erci4ZZZl7hDLIUK+uDbcDX/+7GQciAc/UI7Inbnt5c3gQvc7Me2Yl6JzTEpLlzeKI7E
-         K/Ew==
-X-Gm-Message-State: AOJu0Yzt/dnjxSS7NwVxErCASpWYhjfBYklm/H/CJ77WUJPyCiX8VAt1
-	Xq7jNorGZvZ6fIYFmsm+2i5sAEKHFMB69nwEeqJue+nZdVEur82cNCqA
-X-Gm-Gg: AfdE7cl00UvE9cTwbz1amnKTgq2lpUJhmi3acv/vgSrhMwLaIAQ8BnzI0BmfZ3x5A8J
-	oiCBXxTwQS85MySDKiDag8lNelKh/NewXXRRyXunCwhxWv5u9JIdbGqTOmJEgiyFMLtneVd5Ryy
-	I18SXsPoSxRoGhDhq4ooOdXPAx9IYHtbSuvVTzF/IPaIpl5478R1Fr5OZtHXu+H7MnaGn8zlINW
-	zWZCiIn5cdDS5crgXPlRoALxvHMo03U1rGLmiRIusYD2Fe04n3SZJOwG/Pa7sm3RoProUy6oiXD
-	M6govcTW0Os0IWVhMYq1meqMFKnqqSz9yzboIUScdmNvniTUkqSMzCQBJGM3G6yHb8+L/UYsCXU
-	j91ZrpZ5J8+M2CJGUikLtA4LPKMOLl9IMdK3FfZtVONFfQrlIbVqbCmAee8h5VOsgXmr0nYlbOe
-	FNHNk3+2gOaLU=
-X-Received: by 2002:a05:6512:118b:b0:5ae:c454:3740 with SMTP id 2adb3069b0e04-5b0114b7613mr3296895e87.60.1783685061324;
-        Fri, 10 Jul 2026 05:04:21 -0700 (PDT)
-Received: from fedora ([93.177.236.219])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01cab0191sm557397e87.72.2026.07.10.05.04.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 05:04:20 -0700 (PDT)
-From: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-Subject: [PATCH v2 2/2] staging: media: atomisp: fix grammar and punctuation in inline comments
-Date: Fri, 10 Jul 2026 15:02:54 +0300
-Message-ID: <20260710120254.23565-3-bohdandmarcus@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260710120254.23565-1-bohdandmarcus@gmail.com>
-References: <20260710120254.23565-1-bohdandmarcus@gmail.com>
+	s=arc-20240116; t=1783685539; c=relaxed/simple;
+	bh=nVuv/Hu964f3n0QjnsdrXirjEZ9hx5LnS/ajlZNJqtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=laflhZwtvVqRLPXlGolV0FtQs+1ldgU2u7qgrD1S4cqnYEXr6jhNCTPt4vRVJAiBdJexnfva4jntJ6ZA+2qMiiUQGCYvTG6NVr6WzWttLnZrqdT1zrlSwGbBvy41q/qGKJin0kZXui6iW7zEURKsuhuiB98hefxLyOMNvpsIaVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YsHYXBoU; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F2EC1F000E9;
+	Fri, 10 Jul 2026 12:12:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783685538;
+	bh=2mX5s+LgF61GsTT2jOOQtbwBRT5YocgNpg7DpK7Idac=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YsHYXBoUwEO/JD7uEwImzg3mv7r4evHYn6bmm/BpwFz7s+/PEwFuAjQwpC9NLZTD1
+	 uJiaFsewk7OWDBXeUTrZRYi3CisEgF1I2aAOEqad225cY6f/P7our9/zVZA9xwWjUf
+	 gWh99RMEJrfxKFrTpFsWA2bi+SyaLc9Cd6P8qCO0megJ5ZRuh7ZlTI3YW53k+vUyvV
+	 8QEaTaE63VVnw+8W2DmuU+gHjLUFXUvjCp4nuKuqEckoC1l5cvi2RdnxTeafSuYftb
+	 uui7ecoebrEKYvZpeR5W9/axJDkt1zUqKM0o3phcWbkxcx2zEVQaPpW16AabvYVH6k
+	 mcLVwF5Hg+7vA==
+Date: Fri, 10 Jul 2026 17:42:00 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: konradybcio@kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ath12k@lists.infradead.org, linux-remoteproc@vger.kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	robin.clark@oss.qualcomm.com, sean@poorly.run,
+	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+	bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
+	mathieu.poirier@linaro.org, trilokkumar.soni@oss.qualcomm.com,
+	mukesh.ojha@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
+	jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
+	vignesh.viswanathan@oss.qualcomm.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	amirreza.zarrabi@oss.qualcomm.com, jenswi@kernel.org,
+	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+	skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v9 00/14] firmware: qcom: Add OP-TEE PAS service
+ support
+Message-ID: <alDhkHVnzReCgU6H@sumit-xelite>
+References: <20260702115835.167602-1-sumit.garg@kernel.org>
+ <178362521364.2422497.1305957434056184382.b4-ty@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178362521364.2422497.1305957434056184382.b4-ty@kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-67288-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andriy.shevchenko@linux.intel.com,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:bohdandmarcus@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[bohdandmarcus@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[48];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bohdandmarcus@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-wireless@vger.kernel.org,m:ath12k@lists.infradead.org,m:linux-remoteproc@vger.kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:vikash.garodia@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:elder@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:jjohnson@kernel.org,m:mathieu.poirier@linaro.org,m:trilokkumar.soni@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:pavan.kondeti@oss.qualcomm.com,m:jorge.ramirez@oss
+ .qualcomm.com,m:tonyh@qti.qualcomm.com,m:vignesh.viswanathan@oss.qualcomm.com,m:srinivas.kandagatla@oss.qualcomm.com,m:amirreza.zarrabi@oss.qualcomm.com,m:jenswi@kernel.org,m:op-tee@lists.trustedfirmware.org,m:apurupa@qti.qualcomm.com,m:skare@qti.qualcomm.com,m:linux-kernel@vger.kernel.org,m:sumit.garg@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67289-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sumit-xelite:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,qualcomm.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8760B73AB48
+X-Rspamd-Queue-Id: F255073AA4E
 
-Update inline comments in atomisp_cmd.c to comply with kernel
-coding style and maintainer expectations. Specifically:
-- Capitalize the first letter of sentences.
-- Add missing periods at the end of statements.
-- Ensure proper spacing before closing comment tags.
+Hi Bjorn,
 
-Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+On Thu, Jul 09, 2026 at 02:32:39PM -0500, Bjorn Andersson wrote:
+> 
+> On Thu, 02 Jul 2026 17:28:16 +0530, Sumit Garg wrote:
+> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > 
+> > Qcom platforms has the legacy of using non-standard SCM calls
+> > splintered over the various kernel drivers. These SCM calls aren't
+> > compliant with the standard SMC calling conventions which is a
+> > prerequisite to enable migration to the FF-A specifications from Arm.
+> > 
+> > [...]
+> 
+> Applied, thanks!
+> 
+> [01/14] firmware: qcom: Add a generic PAS service
+>         commit: 08314e7c2c38b9ae6a5e01c58ed10a950859404d
+> [02/14] firmware: qcom_scm: Migrate to generic PAS service
+>         commit: 5c1a2975d23c51c01aca51945d0f10a4ee4c9020
+> [03/14] firmware: qcom: Add a PAS TEE service
+>         commit: b6f7978da0c4d26fe465aa6634f5a0b48f900de0
+> [14/14] MAINTAINERS: Add maintainer entry for Qualcomm PAS TZ service
+>         commit: 6701259025d49139131a0eb2257659a066dcca22
+> 
+> This is available as an immutable branch, for other subsystems to pull at:
+>   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git 20260702115835.167602-2-sumit.garg@kernel.org
+> 
+> 
+> [04/14] remoteproc: qcom_q6v5_pas: Switch over to generic PAS TZ APIs
+>         commit: 254030af0d81b12b7624d9ce85c6bdd3171629c6
+> [05/14] remoteproc: qcom_q6v5_mss: Switch to generic PAS TZ APIs
+>         commit: f3b1357673ddb37ae8b9a8fe44df73cbd2a519c5
+> [06/14] remoteproc: qcom_wcnss: Switch to generic PAS TZ APIs
+>         commit: ea3b5245f5deba916320b32a8e6510a74c034c17
+> [07/14] remoteproc: qcom: Select QCOM_PAS generic service
+>         commit: c4383254ac7a529736577e304176a10371c2ee0b
+> 
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 6cd500d9f..6a4d04813 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -216,7 +216,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
- 	curr_rules.fps = fps;
- 	curr_rules.run_mode = isp->asd.run_mode->val;
- 
--	/* search for the target frequency by looping freq rules*/
-+	/* Search for the target frequency by looping freq rules. */
- 	for (i = 0; i < dfs->dfs_table_size; i++) {
- 		if (curr_rules.width != dfs->dfs_table[i].width &&
- 		    dfs->dfs_table[i].width != ISP_FREQ_RULE_ANY)
-@@ -259,7 +259,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
-  */
- int atomisp_reset(struct atomisp_device *isp)
- {
--	/* Reset ISP by power-cycling it */
-+	/* Reset ISP by power-cycling it. */
- 	int ret = 0;
- 
- 	dev_dbg(isp->dev, "%s\n", __func__);
-@@ -420,7 +420,7 @@ static void print_csi_rx_errors(enum mipi_port_id port,
- 		dev_err(isp->dev, "  line sync error");
- }
- 
--/* Clear irq reg */
-+/* Clear irq reg. */
- static void clear_irq_reg(struct atomisp_device *isp)
- {
- 	struct pci_dev *pdev = to_pci_dev(isp->dev);
-@@ -431,7 +431,7 @@ static void clear_irq_reg(struct atomisp_device *isp)
- 	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, msg_ret);
- }
- 
--/* interrupt handling function*/
-+/* Interrupt handling function. */
- irqreturn_t atomisp_isr(int irq, void *dev)
- {
- 	struct atomisp_device *isp = (struct atomisp_device *)dev;
-@@ -481,7 +481,7 @@ irqreturn_t atomisp_isr(int irq, void *dev)
- 
- 	if ((irq_infos & IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR) ||
- 	    (irq_infos & IA_CSS_IRQ_INFO_IF_ERROR)) {
--		/* handle mipi receiver error */
-+		/* Handle mipi receiver error. */
- 		u32 rx_infos;
- 		enum mipi_port_id port;
- 
-@@ -532,7 +532,7 @@ void atomisp_clear_css_buffer_counters(struct atomisp_sub_device *asd)
- 	asd->dis_bufs_in_css = 0;
- }
- 
--/* 0x100000 is the start of dmem inside SP */
-+/* 0x100000 is the start of dmem inside SP. */
- #define SP_DMEM_BASE	0x100000
- 
- void dump_sp_dmem(struct atomisp_device *isp, unsigned int addr,
-@@ -614,7 +614,7 @@ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_s
- 	spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
- }
- 
--/* clean out the parameters that did not apply */
-+/* Clean out the parameters that did not apply. */
- void atomisp_flush_params_queue(struct atomisp_video_pipe *pipe)
- {
- 	struct atomisp_css_params_with_list *param;
--- 
-2.55.0
+Thanks for picking the partial set although I expected for you to pick
+the entire set given acks from all the other subsystem maintainers. Let
+me know how we should proceed further.
 
+-Sumit
 
