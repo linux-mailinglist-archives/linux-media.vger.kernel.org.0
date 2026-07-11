@@ -1,299 +1,327 @@
-Return-Path: <linux-media+bounces-67335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67336-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NdwEMhOWUWrzGQMAu9opvQ
-	(envelope-from <linux-media+bounces-67335-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 03:02:11 +0200
+	id WMNnJaLBUWpeIQMAu9opvQ
+	(envelope-from <linux-media+bounces-67336-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 06:08:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A05A73FE5E
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 03:02:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 541827403ED
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 06:08:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux.dev header.s=key1 header.b=RZWj00Bd;
-	dmarc=pass (policy=none) header.from=linux.dev;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67335-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67335-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=AlMs5sJc;
+	dmarc=pass (policy=none) header.from=intel.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67336-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67336-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CCE2930210D6
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 01:02:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 665433021729
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 04:07:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E18781BD9D0;
-	Sat, 11 Jul 2026 01:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1304A282F1E;
+	Sat, 11 Jul 2026 04:07:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFEA35893
-	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 01:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E8C223DE5
+	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 04:07:50 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783731721; cv=none; b=o6dmtnyb0B0LWtlWWF7K4VUzgAVoxTZMnekuWad1ynICHmS0VIBnH9qJM9aFGQ+Z+drNbvyNvfjUqlk/wxvxObpfQlZnTKNDzb4tQI8FakUlDUmTM7x6c2O0mtiF0+qd1Eb+nGAp+Gq32WYdxolbgfYLecLML1vsWmY1OS6Z6/8=
+	t=1783742873; cv=none; b=B+8UOFvmO0LpzhPk3NZdsAhTMV4Ed/kTv23B6LBPmLArbFNGcGdolMcOSIA3EGeAKJSv5f5PX4kwnEtnxgD2FNod8FnRF/RjS317DnOnEvTPrQ4osfzVfyXYvsmneULbqC8k+5/t4JcH1dsiNzcxvBSHQmn36i4fijJXJNj9qyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783731721; c=relaxed/simple;
-	bh=uWRm6BN3f3I9abq1UlnZG2afuIgAoH/b/alYsDsCWHo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=LC5RMUjCnVs19OmEKuMJZWW7DuCUm7nTPA2ocHIkKgeBJkYnIqoBdBuCOnUULpScahraAB429/MfleXGetX7L62pNfIdIP+zhEOgiqwNCHPqsC/1tfTjM7bzJ0cA/3YEC/P1u0pAJssilqVIUd+ETxCL7EaZLvX0xugLQRi6e/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RZWj00Bd; arc=none smtp.client-ip=91.218.175.174
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783731713;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eZCBMsxDFLY+JWJBokM7VsOaa28H/hhBGYpqC1U1eLI=;
-	b=RZWj00BdU16k6nmrZSIDqI5YA6Ir6YD787yKihT74c4hyqNj0QenZeDAG1gU8jmcic74Ud
-	0cYn+59NHgWe7dKD9HrOL4SlPLWWnKcajS3+S+KFxMZ3dnKc+95wgipd7/3b+fVBLMLkej
-	59vy4PMn3Y06G0yyhBhfpclByfK4Y0Q=
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Derek Barbosa <debarbos@redhat.com>,  Matthieu Baerts
- <matttbe@kernel.org>,  Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>,  Jason Gunthorpe <jgg@ziepe.ca>,  Steven
- Rostedt <rostedt@goodmis.org>,  users@kernel.org,  Linux Media Mailing
- List <linux-media@vger.kernel.org>,  Stephen Finucane
- <stephenfin@redhat.com>
-Subject: Re: Linking Patchwork with Sashiko?
-In-Reply-To: <20260710083845.23c753ca@foz.lan> (Mauro Carvalho Chehab's
-	message of "Fri, 10 Jul 2026 08:39:00 +0200")
-References: <7E971C76-0568-43EF-9EE7-C8DB78C45CA1@linux.dev>
-	<20260530200017.0fe7f685@foz.lan> <20260530204945.22ac92c6@foz.lan>
-	<20260530205351.19847fc8@foz.lan>
-	<ah7dpsLKd0Jf1Ir0@debarbos-thinkpadt14gen5.rmtusma.csb>
-	<7ia4tsrkn1k4.fsf@castle.c.googlers.com>
-	<20260602223936.27def657@foz.lan>
-	<b9f7ca3a-fa72-4a8e-94bd-9991a0882f10@kernel.org>
-	<20260604085201.177ad537@foz.lan> <20260607195656.02788791@foz.lan>
-	<akQlPSNfGEllNVhe@debarbos-thinkpadt14gen5.rmtusma.csb>
-	<20260710074528.5a6e4457@foz.lan> <20260710083845.23c753ca@foz.lan>
-Date: Fri, 10 Jul 2026 18:01:38 -0700
-Message-ID: <87wlv2jq4t.fsf@linux.dev>
+	s=arc-20240116; t=1783742873; c=relaxed/simple;
+	bh=YG+fMwnKY7c4ldfR8srAXB2raifCa8SMGQIyMWt5JMI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Jdznibdjqf6OOrlQnLIG/M69jWeIZutw5JOGJgluvt/roa2O+wdAs62egHDAOxUX9iJqnN20fBtFe80qG+d4F2fMbUUB49PQena5/mpKKomRzQvRsoy+TAsGVx2IoCTpKojpd1g3Z2AAUOVnCkmRuRM5RjUzQBJbGSDsn7RSzYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AlMs5sJc; arc=none smtp.client-ip=198.175.65.15
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783742871; x=1815278871;
+  h=date:from:to:cc:subject:message-id;
+  bh=YG+fMwnKY7c4ldfR8srAXB2raifCa8SMGQIyMWt5JMI=;
+  b=AlMs5sJcz5Rpu7ORuYEJmpNJKdtcJxsE7IXV+hpH5MyLMdXp2SMHqJr7
+   5sMDAmNIse2r6X7+evScZo00KIqE0Q1zyST2MFeZSjF2yATYixky8bamu
+   hRTf+JCUhHPf/dk6WvPG2cmx97jrIIKLKIt9l91ryaweTdG9OWR2cVNYb
+   oAbCP9F43sUADD3lIndP2wnbXVSRsrS9JTyiVKTUOA5/yKnVoX86SqCkp
+   5U4NPIwQYerOTrO8EvkAYpPsLvDZGYpNMBzwaqwLxSKZuQpLlqfpWXfbg
+   /ZdKCqZ2QwO60Kqc6wWiNafR/DkDg6Ml+cCFtXozukZejy6hDlopPxzAe
+   g==;
+X-CSE-ConnectionGUID: hnuFIHNSQI6IrE3GYNSzYQ==
+X-CSE-MsgGUID: oCbYp63yS8uwKuYC7PI7mQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88121716"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="88121716"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 21:07:51 -0700
+X-CSE-ConnectionGUID: Xi9DxTGQQIKDkGtEF+agiA==
+X-CSE-MsgGUID: aK2KCsqVRIypyyjPvHcl6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="259364775"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 10 Jul 2026 21:07:48 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wiP07-00000000JiF-28oK;
+	Sat, 11 Jul 2026 04:07:42 +0000
+Date: Sat, 11 Jul 2026 12:06:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ 85aa8122459eb96d2f3e0d32af436cf8d0961f8f
+Message-ID: <202607111235.JvoNRCDQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	SUBJECT_ENDS_QUESTION(1.00)[];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67335-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[roman.gushchin@linux.dev,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:mchehab+huawei@kernel.org,m:debarbos@redhat.com,m:matttbe@kernel.org,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,m:stephenfin@redhat.com,m:mchehab@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67336-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[roman.gushchin@linux.dev,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCPT_COUNT_TWO(0.00)[2];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TAGGED_RCPT(0.00)[linux-media,huawei];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,sashiko.dev:url,linuxtv.org:url,linuxtv.org:email,i.mx:url]
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9A05A73FE5E
+X-Rspamd-Queue-Id: 541827403ED
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: 85aa8122459eb96d2f3e0d32af436cf8d0961f8f  media: drivers/media/dvb-core: CodeStyle for dvb_frontend_open()
 
-> Hi Derek/Roman,
->
-> On Fri, 10 Jul 2026 07:45:28 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->
->> Hi Derek,
->>=20
->> On Tue, 30 Jun 2026 16:32:30 -0400
->> Derek Barbosa <debarbos@redhat.com> wrote:
->>=20
->> > On Sun, Jun 07, 2026 at 07:56:56PM +0200, Mauro Carvalho Chehab wrote:=
-=20=20
->> > > Added both global and per-project permissions to add CI checks:
->> > >=20
->> > > 	https://github.com/getpatchwork/patchwork/pull/653
->> > >=20
->> > > Tested on a docker container created on the top of current
->> > > upstream, with the database imported from linuxtv.org and
->> > > migrated to the new permissions model.=20=20=20=20
->> >=20
->> > Hi Mauro,
->> >=20
->> > Patchwork integration has been cleaned up and the original issues file=
-d against
->> > the Sashiko project have been resolved.
->> >=20
->> > Any progress on your work for the permissions modifications (or enabli=
-ng it for
->> > media)?=20=20
->>=20
->> I'd like to have the permission modification changes applied at
->> Patchwork upstream before applying it to linux-media instance, as
->> this will require a DB change, which can make it harder in the future
->> to update linux-media patchwork instance, especially if upstream ends
->> with some changes over my proposed patch.
->>=20
->> So, while patchwork doesn't have a separated permission for checks
->> addition, we'll keep using my tool to update bots feedback from
->> e-mails. To prevent too much noise at linux-media, we have now a
->>=20
->> 	media-ci@linuxtv.org
->>=20
->> mailing list that is meant to receive all bots feedback. The
->> e-mail parser is listening to it as well.
->
-> Btw, we did an inquire among the participants of the latest media
-> summit, where we discussed Sashiko.
->
-> There is a consensus of receiving Sashiko feedback at=20
-> media-ci@linuxtv.org, where people can opt-in/opt-out.
->
-> With regards to c/c authors, there was a proposal to add a custom=20
-> disclaimer's notice on each patch. Also, several people manifested
-> that it should be possible for authors to opt-out receiving Sashiko's
-> e-mails.
+elapsed time: 727m
 
-Sorry, I'm not sure how it's supposed to work (opt-in/opt-out).
-My take is that Sashiko (the sashiko.dev instance, not private/corp
-instances) is a tool for maintainers, not individual authors.
-I rely on corresponding maintainers decision on whether emails are
-sent to the corresponding mailing list. Individuals can set their
-spam filters up if they don't want to get these emails, I can't control
-it. Providing individual authors an option "I don't want my patches
-to be reviewed" sound strange to me. It's like "I don't want my patches
-to be tested by unit tests".
+configs tested: 196
+configs skipped: 4
 
-> So, at least with the current way, we were unable to reach a
-> consensus (or a large majority) about c/c the author.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-You can start with cc mailing list only or a set of enthusiasts.
+tested configs:
+alpha                             allnoconfig    gcc-16.1.0
+alpha                            allyesconfig    gcc-16.1.0
+alpha                               defconfig    gcc-16.1.0
+arc                              allmodconfig    clang-23
+arc                               allnoconfig    gcc-16.1.0
+arc                              allyesconfig    clang-23
+arc                                 defconfig    gcc-16.1.0
+arc                   randconfig-001-20260711    gcc-13.4.0
+arc                   randconfig-002-20260711    gcc-13.4.0
+arm                               allnoconfig    gcc-16.1.0
+arm                              allyesconfig    clang-23
+arm                                 defconfig    gcc-16.1.0
+arm                           omap1_defconfig    gcc-16.1.0
+arm                   randconfig-001-20260711    gcc-13.4.0
+arm                   randconfig-002-20260711    gcc-13.4.0
+arm                   randconfig-003-20260711    gcc-13.4.0
+arm                   randconfig-004-20260711    gcc-13.4.0
+arm                        vexpress_defconfig    gcc-16.1.0
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-16.1.0
+arm64                               defconfig    gcc-16.1.0
+arm64                 randconfig-001-20260711    gcc-16.1.0
+arm64                 randconfig-002-20260711    gcc-16.1.0
+arm64                 randconfig-003-20260711    gcc-16.1.0
+arm64                 randconfig-004-20260711    gcc-16.1.0
+csky                             allmodconfig    gcc-16.1.0
+csky                              allnoconfig    gcc-16.1.0
+csky                                defconfig    gcc-16.1.0
+csky                  randconfig-001-20260711    gcc-16.1.0
+csky                  randconfig-002-20260711    gcc-16.1.0
+hexagon                          allmodconfig    gcc-16.1.0
+hexagon                           allnoconfig    gcc-16.1.0
+hexagon                             defconfig    gcc-16.1.0
+hexagon               randconfig-001-20260711    gcc-16.1.0
+hexagon               randconfig-002-20260711    gcc-16.1.0
+i386                             allmodconfig    clang-22
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-16.1.0
+i386                             allyesconfig    clang-22
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20260711    gcc-14
+i386        buildonly-randconfig-002-20260711    gcc-14
+i386        buildonly-randconfig-003-20260711    gcc-14
+i386        buildonly-randconfig-004-20260711    gcc-14
+i386        buildonly-randconfig-005-20260711    gcc-14
+i386        buildonly-randconfig-006-20260711    gcc-14
+i386                                defconfig    gcc-16.1.0
+i386                  randconfig-001-20260711    clang-22
+i386                  randconfig-002-20260711    clang-22
+i386                  randconfig-003-20260711    clang-22
+i386                  randconfig-004-20260711    clang-22
+i386                  randconfig-005-20260711    clang-22
+i386                  randconfig-006-20260711    clang-22
+i386                  randconfig-007-20260711    clang-22
+i386                  randconfig-011-20260711    gcc-13
+i386                  randconfig-012-20260711    gcc-13
+i386                  randconfig-013-20260711    gcc-13
+i386                  randconfig-014-20260711    gcc-13
+i386                  randconfig-015-20260711    gcc-13
+i386                  randconfig-016-20260711    gcc-13
+i386                  randconfig-017-20260711    gcc-13
+loongarch                        allmodconfig    clang-23
+loongarch                         allnoconfig    gcc-16.1.0
+loongarch                           defconfig    clang-23
+loongarch             randconfig-001-20260711    gcc-16.1.0
+loongarch             randconfig-002-20260711    gcc-16.1.0
+m68k                             allmodconfig    gcc-16.1.0
+m68k                              allnoconfig    gcc-16.1.0
+m68k                             allyesconfig    clang-23
+m68k                                defconfig    clang-23
+microblaze                        allnoconfig    gcc-16.1.0
+microblaze                       allyesconfig    gcc-16.1.0
+microblaze                          defconfig    clang-23
+mips                             allmodconfig    gcc-16.1.0
+mips                              allnoconfig    gcc-16.1.0
+mips                             allyesconfig    gcc-16.1.0
+mips                malta_qemu_32r6_defconfig    gcc-16.1.0
+nios2                            allmodconfig    clang-20
+nios2                             allnoconfig    clang-23
+nios2                               defconfig    clang-23
+nios2                 randconfig-001-20260711    gcc-16.1.0
+nios2                 randconfig-002-20260711    gcc-16.1.0
+openrisc                         allmodconfig    clang-20
+openrisc                          allnoconfig    clang-23
+openrisc                            defconfig    gcc-16.1.0
+parisc                           allmodconfig    gcc-16.1.0
+parisc                            allnoconfig    clang-23
+parisc                           allyesconfig    clang-17
+parisc                              defconfig    gcc-16.1.0
+parisc                         randconfig-001    clang-17
+parisc                         randconfig-001    gcc-10.5.0
+parisc                randconfig-001-20260711    clang-17
+parisc                randconfig-001-20260711    gcc-10.5.0
+parisc                         randconfig-002    clang-17
+parisc                         randconfig-002    gcc-10.5.0
+parisc                randconfig-002-20260711    clang-17
+parisc                randconfig-002-20260711    gcc-10.5.0
+parisc64                            defconfig    clang-23
+powerpc                          allmodconfig    gcc-16.1.0
+powerpc                           allnoconfig    clang-23
+powerpc                    mvme5100_defconfig    gcc-16.1.0
+powerpc                        randconfig-001    clang-17
+powerpc                        randconfig-001    gcc-10.5.0
+powerpc               randconfig-001-20260711    clang-17
+powerpc               randconfig-001-20260711    gcc-10.5.0
+powerpc                        randconfig-002    clang-17
+powerpc                        randconfig-002    gcc-10.5.0
+powerpc               randconfig-002-20260711    clang-17
+powerpc64                      randconfig-001    clang-17
+powerpc64             randconfig-001-20260711    clang-17
+powerpc64             randconfig-001-20260711    gcc-10.5.0
+powerpc64                      randconfig-002    clang-17
+powerpc64                      randconfig-002    gcc-10.5.0
+powerpc64             randconfig-002-20260711    clang-17
+powerpc64             randconfig-002-20260711    gcc-10.5.0
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    clang-23
+riscv                            allyesconfig    clang-23
+riscv                               defconfig    gcc-16.1.0
+riscv                 randconfig-001-20260711    gcc-8.5.0
+riscv                 randconfig-002-20260711    gcc-8.5.0
+s390                             allmodconfig    clang-17
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-16.1.0
+s390                                defconfig    gcc-16.1.0
+s390                  randconfig-001-20260711    gcc-8.5.0
+s390                  randconfig-002-20260711    gcc-8.5.0
+sh                               allmodconfig    gcc-16.1.0
+sh                                allnoconfig    clang-23
+sh                               allyesconfig    clang-17
+sh                                  defconfig    gcc-14
+sh                    randconfig-001-20260711    gcc-8.5.0
+sh                    randconfig-002-20260711    gcc-8.5.0
+sh                   sh7724_generic_defconfig    gcc-16.1.0
+sparc                             allnoconfig    clang-23
+sparc                               defconfig    gcc-16.1.0
+sparc                 randconfig-001-20260711    gcc-16.1.0
+sparc                 randconfig-002-20260711    gcc-16.1.0
+sparc64                          allmodconfig    clang-20
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20260711    gcc-16.1.0
+sparc64               randconfig-002-20260711    gcc-16.1.0
+um                               allmodconfig    clang-17
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-16.1.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260711    gcc-16.1.0
+um                    randconfig-002-20260711    gcc-16.1.0
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-22
+x86_64                            allnoconfig    clang-23
+x86_64                           allyesconfig    clang-22
+x86_64      buildonly-randconfig-001-20260711    gcc-14
+x86_64      buildonly-randconfig-002-20260711    gcc-14
+x86_64      buildonly-randconfig-003-20260711    gcc-14
+x86_64      buildonly-randconfig-004-20260711    gcc-14
+x86_64      buildonly-randconfig-005-20260711    gcc-14
+x86_64      buildonly-randconfig-006-20260711    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-22
+x86_64                         randconfig-001    clang-22
+x86_64                randconfig-001-20260711    gcc-14
+x86_64                         randconfig-002    clang-22
+x86_64                randconfig-002-20260711    gcc-14
+x86_64                         randconfig-003    clang-22
+x86_64                randconfig-003-20260711    gcc-14
+x86_64                         randconfig-004    clang-22
+x86_64                randconfig-004-20260711    gcc-14
+x86_64                         randconfig-005    clang-22
+x86_64                randconfig-005-20260711    gcc-14
+x86_64                         randconfig-006    clang-22
+x86_64                randconfig-006-20260711    gcc-14
+x86_64                randconfig-011-20260711    gcc-14
+x86_64                randconfig-012-20260711    gcc-14
+x86_64                randconfig-013-20260711    gcc-14
+x86_64                randconfig-014-20260711    gcc-14
+x86_64                randconfig-015-20260711    gcc-14
+x86_64                randconfig-016-20260711    gcc-14
+x86_64                randconfig-071-20260711    gcc-14
+x86_64                randconfig-072-20260711    gcc-14
+x86_64                randconfig-073-20260711    gcc-14
+x86_64                randconfig-074-20260711    gcc-14
+x86_64                randconfig-075-20260711    gcc-14
+x86_64                randconfig-076-20260711    gcc-14
+x86_64                               rhel-9.4    clang-22
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-22
+x86_64                    rhel-9.4-kselftests    clang-22
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-22
+xtensa                            allnoconfig    clang-23
+xtensa                           allyesconfig    clang-20
+xtensa                randconfig-001-20260711    gcc-16.1.0
+xtensa                randconfig-002-20260711    gcc-16.1.0
 
-> So, what it is a consensus is to receive Sashiko's email via
-> media-ci@linuxtv.org, evaluating its feedback results for a couple=20
-> of kernel releases. IMO, it is better to receive there also e-mails
-> if Sashiko didn't find any issue.
-
-There is such an option, we can enable it.
-Should I move on and enable reviews to be sent to media-ci@linuxtv.org?
-
-> One interesting feedback was related to a review from i.MX DTS and DMAEng=
-ine=20
-> I3C patch series.
->
-> I guess it could be the start of a custom linux-media prompt.
->
-> The original suggestion is:
->
-> 	"I suggested add some actionable advice.  The below action when I handle
-> 	i.MX DTS and DMAEngine\I3C sashakio review feedback.=20=20
->
-> 	- "Pre existing issue" \ "not introduce by this patch", can omit this fe=
-edback,
-> 	But encourage fix at following patch
-> 	- "UAF" or lock issue,  most like is true issue, strongly suggest fix it=
-. Maintainer
-> 	Most likely double check this type issue.
-> 	- Small issue like "typo" or "indention",  please fix before maintainer =
-involve
-> 	Review.=20
-> 	- other identify severity is HIGH issue, suggest reply sashiko email and=
- provide
-> 	Your judgement when close to land."
-
-Re disclaimers and addition instructions in emails - we can discuss it,
-but my personal preference would be to keep the minimal - after getting
-like 10 emails from Sashiko it will feel like legal disclaimers written
-in small font - something that nobody reads and it just wastes the
-screen space. So maybe we can put these subsystem-specific rules
-somewhere and just provide a link in every email? Just an idea.
-
-> There was also a discussion about a magic number inside a loop:
->
-> 	for (unsigned int i =3D 0; i < 56; i++) {
->
-> (on such loop, "i" was used to access an array)
->
-> Sashiko didn't pick this one on one of his reviews.
-
-This is a good candidate for some generic prompt, not subsystem-specific.
-
->
->
-> I guess we can start with a custom RAC prompt to make Sashiko
-> classify its output according with a criteria similar to the
-> above.
->
-> E.g. maybe linux-media may start with a custom prompt similar to this
-> (as part of a more complete RAC):
->
-> 	### Classification categories and actions
->
-> 	1. **Pre=E2=80=91existing issues** - a bug or flaw that already exists i=
-n the current code and is *not introduced by this patch*.=20=20
-> 	   - **Action**: Place at the end, under "Further suggestions". Note tha=
-t the issue could be addressed on a separate patch=20=20
-> 	   - Mark as: `classification: PRE_EXISTING`, `action: DEFER_FOLLOWUP`.
->
-> 	2. **UAF / Lock issues** - use=E2=80=91after=E2=80=91free, race conditio=
-n, missing lock, double unlock, deadlock, incorrect refcounting, etc.=20=20
-> 	   - **Action**: This is almost certainly a true bug. Encourage the auth=
-or to check or consult an expert if in doubt.
-> 	   - Mark as: `classification: CRITICAL_LOCKING_UAF`, `action: MUST_FIX`.
->
-> 	3. **Small issues** - typo, indentation, coding=E2=80=91style, whitespac=
-e, missing blank line, comment grammar, overly long line, etc.=20=20
-> 	   - **Action**: These should be corrected before the maintainer becomes=
- involved in the review.=20=20
-> 	   - Mark as: `classification: STYLE_TYPO`, `action: FIX_BEFORE_MAINTAIN=
-ER`.
->
-> 	4. **Magic numbers** - when a numeric literal (like `56`, `128`) is used=
- without a defined constant or obvious connection to an array size.=20
-> 	   - **Action**: These should be corrected before the maintainer becomes=
- involved in the review.=20=20
-> 	   - Mark as: `classification: MAGIC_NUMBER`, `action: FIX_BEFORE_MAINTA=
-INER`.
->
-> 	5. **Other HIGH severity issues** =E2=80=93 any problem that is clearly =
-a functional bug (logic error, NULL deref, buffer overflow, API misuse, inc=
-orrect error handling, memory leak, etc.) that does not fall into category =
-2.=20=20
-> 	   - **Action**: the authors should provide their own judgment on the is=
-sue (e.g., explain why it is a false positive, or confirm the fix).=20=20
-> 	   - Mark as: `classification: HIGH_OTHER`, `action: REPLY_WITH_JUDGMENT=
-_NEAR_LANDING`.
->
-> 	6. **Low severity / Informational** =E2=80=93 anything that does not fit=
- the above (e.g., suggestion, minor question, potential improvement that is=
- not a bug).=20=20
-> 	   - **Action**: Optional; can be addressed at author=E2=80=99s discreti=
-on.=20=20
-> 	   - Mark as: `classification: LOW_INFO`, `action: OPTIONAL`.
->
-> Please notice that we're not a prompt experts - nor, afaikt, any media
-> developer tested running Sashiko locally themselves - so you probably can
-> come up with a better custom prompt than us.
-
-I'll take a look, thanks!
-
-Thank you!
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
