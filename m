@@ -1,327 +1,380 @@
-Return-Path: <linux-media+bounces-67336-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67337-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WMNnJaLBUWpeIQMAu9opvQ
-	(envelope-from <linux-media+bounces-67336-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 06:08:02 +0200
+	id Is8+GXvDUWrLIQMAu9opvQ
+	(envelope-from <linux-media+bounces-67337-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 06:15:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541827403ED
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 06:08:01 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5F1740470
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 06:15:54 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=AlMs5sJc;
-	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67336-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67336-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=FeV1sFhd;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67337-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67337-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 665433021729
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 04:07:55 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A9390300E306
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 04:15:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1304A282F1E;
-	Sat, 11 Jul 2026 04:07:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CC382DF6E9;
+	Sat, 11 Jul 2026 04:15:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E8C223DE5
-	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 04:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08312F5A0E
+	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 04:15:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783742873; cv=none; b=B+8UOFvmO0LpzhPk3NZdsAhTMV4Ed/kTv23B6LBPmLArbFNGcGdolMcOSIA3EGeAKJSv5f5PX4kwnEtnxgD2FNod8FnRF/RjS317DnOnEvTPrQ4osfzVfyXYvsmneULbqC8k+5/t4JcH1dsiNzcxvBSHQmn36i4fijJXJNj9qyk=
+	t=1783743320; cv=none; b=JtAnXLdlB599wmO31CgvM2Kk3umNLMzZ58v5ubjM2Rt96qBuJ4g/q6ln/1M2LJQTslvf+X5o+J/4nrYdq4y0AJU2bIOeJZifp078x3YXh6i4hGHt2NsVqmxEB4jsUvfn4xCM3+k/JYNrdinpqFHfusnCsTMnEXrYkl5+vd46YRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783742873; c=relaxed/simple;
-	bh=YG+fMwnKY7c4ldfR8srAXB2raifCa8SMGQIyMWt5JMI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Jdznibdjqf6OOrlQnLIG/M69jWeIZutw5JOGJgluvt/roa2O+wdAs62egHDAOxUX9iJqnN20fBtFe80qG+d4F2fMbUUB49PQena5/mpKKomRzQvRsoy+TAsGVx2IoCTpKojpd1g3Z2AAUOVnCkmRuRM5RjUzQBJbGSDsn7RSzYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AlMs5sJc; arc=none smtp.client-ip=198.175.65.15
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783742871; x=1815278871;
-  h=date:from:to:cc:subject:message-id;
-  bh=YG+fMwnKY7c4ldfR8srAXB2raifCa8SMGQIyMWt5JMI=;
-  b=AlMs5sJcz5Rpu7ORuYEJmpNJKdtcJxsE7IXV+hpH5MyLMdXp2SMHqJr7
-   5sMDAmNIse2r6X7+evScZo00KIqE0Q1zyST2MFeZSjF2yATYixky8bamu
-   hRTf+JCUhHPf/dk6WvPG2cmx97jrIIKLKIt9l91ryaweTdG9OWR2cVNYb
-   oAbCP9F43sUADD3lIndP2wnbXVSRsrS9JTyiVKTUOA5/yKnVoX86SqCkp
-   5U4NPIwQYerOTrO8EvkAYpPsLvDZGYpNMBzwaqwLxSKZuQpLlqfpWXfbg
-   /ZdKCqZ2QwO60Kqc6wWiNafR/DkDg6Ml+cCFtXozukZejy6hDlopPxzAe
-   g==;
-X-CSE-ConnectionGUID: hnuFIHNSQI6IrE3GYNSzYQ==
-X-CSE-MsgGUID: oCbYp63yS8uwKuYC7PI7mQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88121716"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="88121716"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 21:07:51 -0700
-X-CSE-ConnectionGUID: Xi9DxTGQQIKDkGtEF+agiA==
-X-CSE-MsgGUID: aK2KCsqVRIypyyjPvHcl6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="259364775"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 10 Jul 2026 21:07:48 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wiP07-00000000JiF-28oK;
-	Sat, 11 Jul 2026 04:07:42 +0000
-Date: Sat, 11 Jul 2026 12:06:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- 85aa8122459eb96d2f3e0d32af436cf8d0961f8f
-Message-ID: <202607111235.JvoNRCDQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1783743320; c=relaxed/simple;
+	bh=8vG0uFf7MGyfNi8QjsYZ/kY/b8C6FJhsshR30bcjGio=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V0cZZnLN87WEZcxgn4f+akj8qSMKtb/vBPM06e/VKC5fOGoseMi38vmbf4RjciFGNCzYAYPdN9fbmAEod3AsnkWQq1yIQ6x7UD7J9ZyO0G8ZxqfAaI3aBK1Z02OtnShdQii16fXk5t5PGft1ObvYy1D2RM1QxRczfE9pkQz/kjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FeV1sFhd; arc=none smtp.client-ip=209.85.210.169
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8485bd28dd0so1645566b3a.2
+        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 21:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783743308; x=1784348108; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cVmjO8YLPA661gTc9yInoWvB2zcY0L5sJjMyBUBdtk0=;
+        b=FeV1sFhdBJ8B7/NKTxFMiPAN/xHBvSeoB1QjOo/lMiUsJV5NXDcVfIkBvebRx9E3G2
+         CaVj2rPx6Dwl5czFaubiz6PUWkkulTqkuFP5fm8FwBrrYhHLwf+ByGh4ePMbcRsRwNyY
+         ZyJ/KlyMI+6RCc1g9nVU+RYHzyU+cZwB4eT5R1SHyvBLYaSPxR6iBz8mD2t84VawZBbm
+         piOIxzaaYU8v+y4J+nTxQ23ZqFhdd9dOEthyFbM0HzbVGTqRWLdjnJkHFs9VjI6hE/CY
+         HlhZ8Zdhxr9hjJZQi9aPk1vLbbHiaPnKzSlPtloc7q3/mi9hbX4PxRzEQnv0qDgmscCQ
+         e4kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783743308; x=1784348108;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cVmjO8YLPA661gTc9yInoWvB2zcY0L5sJjMyBUBdtk0=;
+        b=qHYUZKM6gKr5keoDo8VgdiTUzsNWERYMKykguNd6OgWQRnYkh0aHefbaFFv57YBoHV
+         bYrA1NSAtO3OoSwl+FSW7tN5KcEDSatWAnWun0au2uGcCJ8kRv+wUn2qrrxXuCYOl44/
+         edzQ8pzngKRTtWeGH9BM0jnQPKWdRCrn5HfsZpj7h3ryxzkXtiKNQKFhiBoWExENntJb
+         K5RmtwCC0w0o1yFfGT6zkt8zUNIRruPx9RjrRVntcNTKpDshnlD5q6CNKP0dheSiek21
+         m3f9XeU6VoL0Cu/cLgGXTZ/nI9gR3OGdKMwz1Pn6j+1wnrUAqykm7r3YvjRX+PvcZAIW
+         nc9w==
+X-Forwarded-Encrypted: i=1; AHgh+RpyDRghE/ONGsuh6pfX2FljAOPzlmhSlatXORqLhm/hvVOFnAhayIENZTIoJFeHCiuxh0Zh9iWZ80Xg7Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzbffn1zdLQTLj/EYEgm7GhLTGWsXCxJtnG/2VudfsHVnIv/rQK
+	+Fq2LWGPfVnUaOcSfB9dz5By4il2QJ3LV2VE7y0xcIJm/sdpLkN/AFS7
+X-Gm-Gg: AfdE7cnmGT/5r9X2xmU6NGpVFkdPbAx1G+b/v0ixfPHKFX+9ysfdsGPtBCZbs4rPIHk
+	ST8EaJtAAZ0qznwP+Z3+gA4j5U9w3NjBZOPU9M58GPxG591gGcW3GWzyk9aio4QYJV+1vt8/NVQ
+	zh+1id/Id6jGItvE1r2BHsV3cxTVsZ0B8M+kAkZ2V4HBqscbOVeEpGk4t5fvUr9BJvVA0DrpFaH
+	knnhtnJLfhya2eNjhKA+9vxQoFc8dSvLPwlXo9/Xsz+KAuFClKstxuqc4Xyq4JMG5oYw4CQUPHp
+	Bl/LiiR2PO1xxITypz8QBnSPwWDpoVzOpkSRyWWm0lpnOxk+JlgFuunfeU4NkfnHvvTTpMRYkIY
+	N8U+iCBqDE5UQchhfaAnWqTJlCqZ5SO6+Rqzc1QOKxCw3wr+n3/SfMM+P8LHrOWtSqCDuFhuFns
+	zJ1Jhuclp9lp6iQOpgiE6UgQniPXw=
+X-Received: by 2002:a05:6a21:4d8f:b0:3bf:d1f9:b1df with SMTP id adf61e73a8af0-3c110d2f025mr1812527637.54.1783743307902;
+        Fri, 10 Jul 2026 21:15:07 -0700 (PDT)
+Received: from baineng-pc.. ([117.133.183.252])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5afbc1208sm5769419a12.9.2026.07.10.21.15.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 21:15:07 -0700 (PDT)
+From: Baineng Shou <shoubaineng@gmail.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Sandeep Patil <sspatil@android.com>,
+	"Andrew F . Davis" <afd@ti.com>
+Cc: stable@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	Baineng Shou <shoubaineng@gmail.com>
+Subject: [PATCH v2] dma-buf: dma-heap: don't publish fd before copy_to_user() succeeds
+Date: Sat, 11 Jul 2026 12:14:55 +0800
+Message-Id: <20260711041455.3375292-1-shoubaineng@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260703080922.1838362-1-shoubaineng@gmail.com>
+References: <20260703080922.1838362-1-shoubaineng@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linaro.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67336-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67337-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[shoubaineng@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:sspatil@android.com,m:afd@ti.com,m:stable@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:shoubaineng@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[shoubaineng@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 541827403ED
+X-Rspamd-Queue-Id: 5E5F1740470
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: 85aa8122459eb96d2f3e0d32af436cf8d0961f8f  media: drivers/media/dvb-core: CodeStyle for dvb_frontend_open()
+DMA_HEAP_IOCTL_ALLOC allocates a dma-buf and installs an fd into the
+caller's fd table via dma_buf_fd() -> fd_install() before
+dma_heap_ioctl() copies the result back to userspace.  If the trailing
+copy_to_user() fails, userspace never learns the fd number, but the
+fd (and the underlying dma-buf reference) are already visible to
+other threads in the same process and are leaked for the lifetime of
+the process.
 
-elapsed time: 727m
+The obvious "close it on the failure path" fix is unsafe: once
+fd_install() has run, another thread can already dup() the fd, send
+it via SCM_RIGHTS, or close() it and let its number be reused, so a
+subsequent close_fd() from the ioctl path can operate on an unrelated
+file.  This was pointed out by Christian König on v1 [1].
 
-configs tested: 196
-configs skipped: 4
+Restructure the allocation path so that fd_install() is the last,
+unfailable step of a successful ioctl:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+  1. heap->ops->allocate()      creates the dma_buf.
+  2. get_unused_fd_flags()      reserves an fd number in the caller's
+                                fd table without publishing it, so
+                                no other thread can observe it.
+  3. copy_to_user()             delivers the fd number to userspace;
+                                on failure the fd is returned with
+                                put_unused_fd() and the dma_buf
+                                reference is dropped with
+                                dma_buf_put(), leaving no user-
+                                visible state behind.
+  4. fd_install()               publishes the fd -- from here on the
+                                ioctl cannot fail.
 
-tested configs:
-alpha                             allnoconfig    gcc-16.1.0
-alpha                            allyesconfig    gcc-16.1.0
-alpha                               defconfig    gcc-16.1.0
-arc                              allmodconfig    clang-23
-arc                               allnoconfig    gcc-16.1.0
-arc                              allyesconfig    clang-23
-arc                                 defconfig    gcc-16.1.0
-arc                   randconfig-001-20260711    gcc-13.4.0
-arc                   randconfig-002-20260711    gcc-13.4.0
-arm                               allnoconfig    gcc-16.1.0
-arm                              allyesconfig    clang-23
-arm                                 defconfig    gcc-16.1.0
-arm                           omap1_defconfig    gcc-16.1.0
-arm                   randconfig-001-20260711    gcc-13.4.0
-arm                   randconfig-002-20260711    gcc-13.4.0
-arm                   randconfig-003-20260711    gcc-13.4.0
-arm                   randconfig-004-20260711    gcc-13.4.0
-arm                        vexpress_defconfig    gcc-16.1.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-16.1.0
-arm64                               defconfig    gcc-16.1.0
-arm64                 randconfig-001-20260711    gcc-16.1.0
-arm64                 randconfig-002-20260711    gcc-16.1.0
-arm64                 randconfig-003-20260711    gcc-16.1.0
-arm64                 randconfig-004-20260711    gcc-16.1.0
-csky                             allmodconfig    gcc-16.1.0
-csky                              allnoconfig    gcc-16.1.0
-csky                                defconfig    gcc-16.1.0
-csky                  randconfig-001-20260711    gcc-16.1.0
-csky                  randconfig-002-20260711    gcc-16.1.0
-hexagon                          allmodconfig    gcc-16.1.0
-hexagon                           allnoconfig    gcc-16.1.0
-hexagon                             defconfig    gcc-16.1.0
-hexagon               randconfig-001-20260711    gcc-16.1.0
-hexagon               randconfig-002-20260711    gcc-16.1.0
-i386                             allmodconfig    clang-22
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-16.1.0
-i386                             allyesconfig    clang-22
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260711    gcc-14
-i386        buildonly-randconfig-002-20260711    gcc-14
-i386        buildonly-randconfig-003-20260711    gcc-14
-i386        buildonly-randconfig-004-20260711    gcc-14
-i386        buildonly-randconfig-005-20260711    gcc-14
-i386        buildonly-randconfig-006-20260711    gcc-14
-i386                                defconfig    gcc-16.1.0
-i386                  randconfig-001-20260711    clang-22
-i386                  randconfig-002-20260711    clang-22
-i386                  randconfig-003-20260711    clang-22
-i386                  randconfig-004-20260711    clang-22
-i386                  randconfig-005-20260711    clang-22
-i386                  randconfig-006-20260711    clang-22
-i386                  randconfig-007-20260711    clang-22
-i386                  randconfig-011-20260711    gcc-13
-i386                  randconfig-012-20260711    gcc-13
-i386                  randconfig-013-20260711    gcc-13
-i386                  randconfig-014-20260711    gcc-13
-i386                  randconfig-015-20260711    gcc-13
-i386                  randconfig-016-20260711    gcc-13
-i386                  randconfig-017-20260711    gcc-13
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    gcc-16.1.0
-loongarch                           defconfig    clang-23
-loongarch             randconfig-001-20260711    gcc-16.1.0
-loongarch             randconfig-002-20260711    gcc-16.1.0
-m68k                             allmodconfig    gcc-16.1.0
-m68k                              allnoconfig    gcc-16.1.0
-m68k                             allyesconfig    clang-23
-m68k                                defconfig    clang-23
-microblaze                        allnoconfig    gcc-16.1.0
-microblaze                       allyesconfig    gcc-16.1.0
-microblaze                          defconfig    clang-23
-mips                             allmodconfig    gcc-16.1.0
-mips                              allnoconfig    gcc-16.1.0
-mips                             allyesconfig    gcc-16.1.0
-mips                malta_qemu_32r6_defconfig    gcc-16.1.0
-nios2                            allmodconfig    clang-20
-nios2                             allnoconfig    clang-23
-nios2                               defconfig    clang-23
-nios2                 randconfig-001-20260711    gcc-16.1.0
-nios2                 randconfig-002-20260711    gcc-16.1.0
-openrisc                         allmodconfig    clang-20
-openrisc                          allnoconfig    clang-23
-openrisc                            defconfig    gcc-16.1.0
-parisc                           allmodconfig    gcc-16.1.0
-parisc                            allnoconfig    clang-23
-parisc                           allyesconfig    clang-17
-parisc                              defconfig    gcc-16.1.0
-parisc                         randconfig-001    clang-17
-parisc                         randconfig-001    gcc-10.5.0
-parisc                randconfig-001-20260711    clang-17
-parisc                randconfig-001-20260711    gcc-10.5.0
-parisc                         randconfig-002    clang-17
-parisc                         randconfig-002    gcc-10.5.0
-parisc                randconfig-002-20260711    clang-17
-parisc                randconfig-002-20260711    gcc-10.5.0
-parisc64                            defconfig    clang-23
-powerpc                          allmodconfig    gcc-16.1.0
-powerpc                           allnoconfig    clang-23
-powerpc                    mvme5100_defconfig    gcc-16.1.0
-powerpc                        randconfig-001    clang-17
-powerpc                        randconfig-001    gcc-10.5.0
-powerpc               randconfig-001-20260711    clang-17
-powerpc               randconfig-001-20260711    gcc-10.5.0
-powerpc                        randconfig-002    clang-17
-powerpc                        randconfig-002    gcc-10.5.0
-powerpc               randconfig-002-20260711    clang-17
-powerpc64                      randconfig-001    clang-17
-powerpc64             randconfig-001-20260711    clang-17
-powerpc64             randconfig-001-20260711    gcc-10.5.0
-powerpc64                      randconfig-002    clang-17
-powerpc64                      randconfig-002    gcc-10.5.0
-powerpc64             randconfig-002-20260711    clang-17
-powerpc64             randconfig-002-20260711    gcc-10.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                            allyesconfig    clang-23
-riscv                               defconfig    gcc-16.1.0
-riscv                 randconfig-001-20260711    gcc-8.5.0
-riscv                 randconfig-002-20260711    gcc-8.5.0
-s390                             allmodconfig    clang-17
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-16.1.0
-s390                                defconfig    gcc-16.1.0
-s390                  randconfig-001-20260711    gcc-8.5.0
-s390                  randconfig-002-20260711    gcc-8.5.0
-sh                               allmodconfig    gcc-16.1.0
-sh                                allnoconfig    clang-23
-sh                               allyesconfig    clang-17
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260711    gcc-8.5.0
-sh                    randconfig-002-20260711    gcc-8.5.0
-sh                   sh7724_generic_defconfig    gcc-16.1.0
-sparc                             allnoconfig    clang-23
-sparc                               defconfig    gcc-16.1.0
-sparc                 randconfig-001-20260711    gcc-16.1.0
-sparc                 randconfig-002-20260711    gcc-16.1.0
-sparc64                          allmodconfig    clang-20
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260711    gcc-16.1.0
-sparc64               randconfig-002-20260711    gcc-16.1.0
-um                               allmodconfig    clang-17
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-16.1.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260711    gcc-16.1.0
-um                    randconfig-002-20260711    gcc-16.1.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-22
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-22
-x86_64      buildonly-randconfig-001-20260711    gcc-14
-x86_64      buildonly-randconfig-002-20260711    gcc-14
-x86_64      buildonly-randconfig-003-20260711    gcc-14
-x86_64      buildonly-randconfig-004-20260711    gcc-14
-x86_64      buildonly-randconfig-005-20260711    gcc-14
-x86_64      buildonly-randconfig-006-20260711    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-22
-x86_64                         randconfig-001    clang-22
-x86_64                randconfig-001-20260711    gcc-14
-x86_64                         randconfig-002    clang-22
-x86_64                randconfig-002-20260711    gcc-14
-x86_64                         randconfig-003    clang-22
-x86_64                randconfig-003-20260711    gcc-14
-x86_64                         randconfig-004    clang-22
-x86_64                randconfig-004-20260711    gcc-14
-x86_64                         randconfig-005    clang-22
-x86_64                randconfig-005-20260711    gcc-14
-x86_64                         randconfig-006    clang-22
-x86_64                randconfig-006-20260711    gcc-14
-x86_64                randconfig-011-20260711    gcc-14
-x86_64                randconfig-012-20260711    gcc-14
-x86_64                randconfig-013-20260711    gcc-14
-x86_64                randconfig-014-20260711    gcc-14
-x86_64                randconfig-015-20260711    gcc-14
-x86_64                randconfig-016-20260711    gcc-14
-x86_64                randconfig-071-20260711    gcc-14
-x86_64                randconfig-072-20260711    gcc-14
-x86_64                randconfig-073-20260711    gcc-14
-x86_64                randconfig-074-20260711    gcc-14
-x86_64                randconfig-075-20260711    gcc-14
-x86_64                randconfig-076-20260711    gcc-14
-x86_64                               rhel-9.4    clang-22
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-22
-x86_64                    rhel-9.4-kselftests    clang-22
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-22
-xtensa                            allnoconfig    clang-23
-xtensa                           allyesconfig    clang-20
-xtensa                randconfig-001-20260711    gcc-16.1.0
-xtensa                randconfig-002-20260711    gcc-16.1.0
+To make this possible, dma_heap_ioctl_allocate() is refactored to
+return the struct dma_buf * directly (returning ERR_PTR on failure)
+so the caller holds the dmabuf reference across steps 3 and 4.
+The fd is written into the kdata buffer before copy_to_user() so
+the reserved fd number reaches userspace atomically with the install.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The failure at step 3 is easily reachable from userspace: pass a
+struct dma_heap_allocation_data that lives in a page whose protection
+is flipped to PROT_READ between copy_from_user() and copy_to_user()
+(e.g. via mprotect()).  Before this change each such ioctl leaks one
+dmabuf fd; after it, the fd table is unchanged on failure and only
+/dev/dma_heap/<name> remains open.
+
+No UAPI or heap-driver interface change.
+
+[1] https://lore.kernel.org/dri-devel/175e98de-f414-47d7-81c1-c0fe0a8f7f62@amd.com/
+
+Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
+Cc: stable@vger.kernel.org
+Signed-off-by: Baineng Shou <shoubaineng@gmail.com>
+---
+ drivers/dma-buf/dma-buf.c  | 20 ++++++++++
+ drivers/dma-buf/dma-heap.c | 80 +++++++++++++++++++-------------------
+ include/linux/dma-buf.h    |  1 +
+ 3 files changed, 61 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index d504c636dc29..4c9add51f9ef 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -803,6 +803,26 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+ 
++/**
++ * dma_buf_fd_install - install a reserved fd for a dma-buf
++ * @dmabuf:	[in]	pointer to dma_buf
++ * @fd:		[in]	fd reserved with get_unused_fd_flags()
++ *
++ * Publishes a previously reserved fd into the caller's fd table.
++ * Must only be called after all fallible work (e.g. copy_to_user)
++ * has succeeded, as it cannot be undone safely once called.
++ *
++ * The caller is responsible for having emitted the trace event
++ * (via dma_buf_fd() or get_unused_fd_flags() + this function)
++ * before calling this.
++ */
++void dma_buf_fd_install(struct dma_buf *dmabuf, int fd)
++{
++	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
++	fd_install(fd, dmabuf->file);
++}
++EXPORT_SYMBOL_NS_GPL(dma_buf_fd_install, "DMA_BUF");
++
+ /**
+  * dma_buf_get - returns the struct dma_buf related to an fd
+  * @fd:	[in]	fd associated with the struct dma_buf to be returned
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index a76bf3f8b071..43c32fb28313 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -55,33 +55,6 @@ MODULE_PARM_DESC(mem_accounting,
+ 		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
+ EXPORT_SYMBOL_NS_GPL(mem_accounting, "DMA_BUF_HEAP");
+ 
+-static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+-				 u32 fd_flags,
+-				 u64 heap_flags)
+-{
+-	struct dma_buf *dmabuf;
+-	int fd;
+-
+-	/*
+-	 * Allocations from all heaps have to begin
+-	 * and end on page boundaries.
+-	 */
+-	len = PAGE_ALIGN(len);
+-	if (!len)
+-		return -EINVAL;
+-
+-	dmabuf = heap->ops->allocate(heap, len, fd_flags, heap_flags);
+-	if (IS_ERR(dmabuf))
+-		return PTR_ERR(dmabuf);
+-
+-	fd = dma_buf_fd(dmabuf, fd_flags);
+-	if (fd < 0) {
+-		dma_buf_put(dmabuf);
+-		/* just return, as put will call release and that will free */
+-	}
+-	return fd;
+-}
+-
+ static int dma_heap_open(struct inode *inode, struct file *file)
+ {
+ 	struct dma_heap *heap;
+@@ -99,30 +72,42 @@ static int dma_heap_open(struct inode *inode, struct file *file)
+ 	return 0;
+ }
+ 
+-static long dma_heap_ioctl_allocate(struct file *file, void *data)
++static struct dma_buf *dma_heap_ioctl_allocate(struct file *file, void *data)
+ {
+ 	struct dma_heap_allocation_data *heap_allocation = data;
+ 	struct dma_heap *heap = file->private_data;
++	struct dma_buf *dmabuf;
+ 	int fd;
++	size_t len;
+ 
+ 	if (heap_allocation->fd)
+-		return -EINVAL;
++		return ERR_PTR(-EINVAL);
+ 
+ 	if (heap_allocation->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
+-		return -EINVAL;
++		return ERR_PTR(-EINVAL);
+ 
+ 	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
+-		return -EINVAL;
++		return ERR_PTR(-EINVAL);
++
++	len = PAGE_ALIGN(heap_allocation->len);
++	if (!len)
++		return ERR_PTR(-EINVAL);
++
++	dmabuf = heap->ops->allocate(heap, len, heap_allocation->fd_flags,
++				     heap_allocation->heap_flags);
+ 
+-	fd = dma_heap_buffer_alloc(heap, heap_allocation->len,
+-				   heap_allocation->fd_flags,
+-				   heap_allocation->heap_flags);
+-	if (fd < 0)
+-		return fd;
++	if (IS_ERR(dmabuf))
++		return dmabuf;
++
++	fd = get_unused_fd_flags(heap_allocation->fd_flags);
++	if (fd < 0) {
++		dma_buf_put(dmabuf);
++		return ERR_PTR(fd);
++	}
+ 
+ 	heap_allocation->fd = fd;
+ 
+-	return 0;
++	return dmabuf;
+ }
+ 
+ static unsigned int dma_heap_ioctl_cmds[] = {
+@@ -138,6 +123,8 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+ 	unsigned int in_size, out_size, drv_size, ksize;
+ 	int nr = _IOC_NR(ucmd);
+ 	int ret = 0;
++	int fd;
++	struct dma_buf *dmabuf;
+ 
+ 	if (nr >= ARRAY_SIZE(dma_heap_ioctl_cmds))
+ 		return -EINVAL;
+@@ -174,15 +161,28 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+ 
+ 	switch (kcmd) {
+ 	case DMA_HEAP_IOCTL_ALLOC:
+-		ret = dma_heap_ioctl_allocate(file, kdata);
++		dmabuf = dma_heap_ioctl_allocate(file, kdata);
++
++		if (IS_ERR(dmabuf)) {
++			ret = PTR_ERR(dmabuf);
++			break;
++		}
++
++		fd = ((struct dma_heap_allocation_data *)kdata)->fd;
++		if (copy_to_user((void __user *)arg, kdata, out_size) != 0) {
++			put_unused_fd(fd);
++			dma_buf_put(dmabuf);
++			ret = -EFAULT;
++		} else {
++			dma_buf_fd_install(dmabuf, fd);
++		}
++
+ 		break;
+ 	default:
+ 		ret = -ENOTTY;
+ 		goto err;
+ 	}
+ 
+-	if (copy_to_user((void __user *)arg, kdata, out_size) != 0)
+-		ret = -EFAULT;
+ err:
+ 	if (kdata != stack_kdata)
+ 		kfree(kdata);
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index d1203da56fc5..d15b2b31d3c9 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -567,6 +567,7 @@ void dma_buf_unpin(struct dma_buf_attachment *attach);
+ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
+ 
+ int dma_buf_fd(struct dma_buf *dmabuf, int flags);
++void dma_buf_fd_install(struct dma_buf *dmabuf, int fd);
+ struct dma_buf *dma_buf_get(int fd);
+ void dma_buf_put(struct dma_buf *dmabuf);
+ 
+-- 
+2.34.1
+
 
