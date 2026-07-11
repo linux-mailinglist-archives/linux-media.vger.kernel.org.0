@@ -1,194 +1,170 @@
-Return-Path: <linux-media+bounces-67341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67342-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id VyPJB3z8UWpwLAMAu9opvQ
-	(envelope-from <linux-media+bounces-67341-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 10:19:08 +0200
+	id t4PsLuwEUmpCLQMAu9opvQ
+	(envelope-from <linux-media+bounces-67342-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 10:55:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BCC9740E47
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 10:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E65740F36
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 10:55:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=kIk3tQIw;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67341-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67341-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=LLIWSpAQ;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67342-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67342-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E8F5D30342A8
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 08:17:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8B19730209F4
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 08:54:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDB2F382377;
-	Sat, 11 Jul 2026 08:17:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6F638425D;
+	Sat, 11 Jul 2026 08:54:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F9735F5E4
-	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 08:17:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CC376025;
+	Sat, 11 Jul 2026 08:54:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783757865; cv=none; b=BpjSqC9s8op8dcxK4yttcLJlt7IpUi9R22FfVLfOvVjneij3Pd11BxTBbHcqw5CK8CrWoBj8aRfS1N2fHwO6Q5/pn5Dr6oIYNBWYwjuCY5N1apTnAAtYxWSqLHJOsK1HM4gZFQH2qOwju3XDg7PSwMXrtryCZ2uO7uV9eM0Gwik=
+	t=1783760094; cv=none; b=WeImNMr+qSri89K9+JjSIyxhtT3J+gucMYNJOGk1cj7MzsJPH9LdIzmuwc9ZdCMyEqvE2K97PYHjBQs4ouvEYAk6yKdIQXe+mN4TPJMjFMW4m+EBt6zZ7BW8Dfniu/Y71csSm/b2Zw4xeps8ZTgs4nezaHlbHjN8w/rgxF/m8Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783757865; c=relaxed/simple;
-	bh=FwZ7bPbTTmBPzsRAYQ2XsXdqwWS6rU2eFtjqpVlPBds=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=siKfk6C6vMwukhGBzfSKXbcL8CTSCBDbWXYdaioYQHKrwdyy0Nyndngu/oWQ16IdBDu53EXxg/TanHAzOTvs9lDLNREF2zRC58asBnXqcl+VGwWQfnfivgyhe/ocw10u7QNbbsrr2PXsgYbFX+FStzUEb5BBluPZt/AvMOgmww8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kIk3tQIw; arc=none smtp.client-ip=209.85.208.169
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3997a448ecbso16510051fa.0
-        for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 01:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783757862; x=1784362662; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uYhcW1SCR6GHSegIq0BbrmPvOxPcseFc94iedjclU6A=;
-        b=kIk3tQIwu9ylINqSyl4Lwxko6Vm7yFa+Aw5cMTMtcOY2bFx6c5PR/do9lKC3zcqO6T
-         xGsIxn7Kzmai/0kNRkrTAMD15dI5LHGPcygFFGpWE1DLw22t7inIap7EmTlZl+hsxujI
-         QaGGGpbYenPS0WfRCQQXHvSle0hw/5aQSNBfk4gL4uTk28jjtssxmEnCmXqYingg/XAA
-         FFCF7IFnyHDkXJG9CgFmZKvysRvyeOVfVI90Ew9wmXb/Fk1JZxLvQpkgq7Vi15iRC4wv
-         21OknTVUhX7+Bt7SottRmIxA3FXllNVpYZIImWB2zwlXDNKR1ya2uT+hLnmlwv7zXMsa
-         RqOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783757862; x=1784362662;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uYhcW1SCR6GHSegIq0BbrmPvOxPcseFc94iedjclU6A=;
-        b=p7+s4gCurkaO6LUoEWMfmMsnwrxoe169nvCuzj+C/yUOWWKvzOMfxhV45asrvC+SxD
-         S/KYnEr8Ip5zvy/EMm+qe/1aOvYZepYaTGzBLnNQjuToMgzP/QhaU7xtWNSD+FhAZPE9
-         lovcpdInGXNWhu8KCZy8cOVKAH1HAtoSaYBj/4GlaW6cW9rVThR8LwfkJWWDEY5VAb+3
-         +GBj0Ig34V0iD8mzFxMKNJdjNkKSnZ2QTAoOKPR01dtOAImI9JYhCt79rBUo1Y4xe+DX
-         4p8BAcxnmRPXrny5v24C8Sxa6SckQ5dfEPJoEqiJhhOSpYUNfXM61gCvkn51XW3Wm1Ak
-         X5Cw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqafn78c7tLRT7RlDU+pZhH/PyMdVBsuhTFz06QRlkYnavR7YiZ0fIKJsow1okFam1xsDUAN+EoCgO3fw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSRW1E6T0iisW9NNeTBndmS4OyChJ/pS5C6vUfcNLMkuKgWDk5
-	TfwCvxJIqrttv5OWQchOloOKv3d5Z3cpqm5uV7SGZ0jSVLDCbvFpvP3L
-X-Gm-Gg: AfdE7cmcImrQhhyFXwxnT09Kc+kIUr+R1W1XHWILhdfA3Hu/fQ6MgOIWT4rBn4UGPB9
-	2AWf/TjAiXxCDqi0NGe1umRmFIK47A4oYqqylaKNLIicp8DDaH5DsDkAxmG59YQPQUyke4IecFo
-	yV1ta7PrJgWqS6XVXesXxQf5awL+yvSGkAZ9z4rc/NB7gZ+W0ZZAau/T/iIlc5h3YRKfU93Tztu
-	WQ5xq8VlF3jGlbJ0l6GcX67SaM9d1fjxFe/+M5DAtR3kjux2IFXG/5WFc7ffKDonSwZ6TEy7KHV
-	Fcax0LcztnEBo5KRonc2Vf/AU72JjVEmtVrgyAJ0OkbhXLI4PrCjtVWRuT9lO8tqXJfqCUD9Sf4
-	zGrRMFPo+RDxn6M0qT5Ito3VNloEUW1UQthypj/3Ee7b73H5HdmydJZPC/i7lIkO08aSY4+xw
-X-Received: by 2002:ac2:5d2b:0:b0:5ae:ba27:ee63 with SMTP id 2adb3069b0e04-5b023566499mr289194e87.7.1783757862104;
-        Sat, 11 Jul 2026 01:17:42 -0700 (PDT)
-Received: from linux ([195.54.40.37])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01caa5bbbsm1183891e87.58.2026.07.11.01.17.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 01:17:41 -0700 (PDT)
-From: erqeons <erqeon@gmail.com>
-To: gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	andy@kernel.org
-Cc: mchehab@kernel.org,
-	sakari.ailus@intel.com,
-	linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	erqeons <erqeon@gmail.com>
-Subject: [PATCH] staging: media: atomisp: fix indentation and remove dead return
-Date: Sat, 11 Jul 2026 12:16:57 +0400
-Message-ID: <20260711081657.37117-1-erqeon@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1783760094; c=relaxed/simple;
+	bh=cX5aTS01jtO7YO5UrRU3P+VvfZgwSgg/bHZvl2pEuv8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ouPGmTv2OkDU/+7WBG4P2xPRveSLs/kJNagVxC0x5zYdWnNomKZ7DvDbpMqsyASKNul1OfRNWO9N5NcrABe1R/Otf0NpP8k5cDoH4CQvhUmz1VwlG1NpqDuEK2rlajUJf7QZUDHVABHw0NttWjtzFxXOUilTo/zhONhF1PDZVfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LLIWSpAQ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D3A1F000E9;
+	Sat, 11 Jul 2026 08:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783760092;
+	bh=pe5Cxei5u92J5E0K6x3Pm26+rFU7OenKBJ6vpuESIuA=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=LLIWSpAQgdfdIvRIXfYo04Ast+ESTMKVFDOdDWKCLEQ8T7gaMZEn48eKfol4bwE61
+	 T4jRXdpslPAzGjOthVkSqmZP9BoT4XSBk6d1tP6ikbSk9Eel/tOK0lRi8vcKJPVX2e
+	 Mp5FZ1wdh/cueGMvEMyfK1CShkpefGPUPR+JEIAtyARi7cPoCIHknBpbzsYwVjFPwZ
+	 n/gHoLXFyzCBXapaXVOmaDUmlXdPK6VgW9VU5lJ0gO1RZ/fg5nGGDd26i8Q7nmTFW4
+	 6EZ90rmrt+bwi+NDkGGCiWWf7uapq+HK3fQeKUvBmx9ZB7WKVn2+wwJkWeSWfjY5/D
+	 VjV4SStB0UANA==
+Message-ID: <1cfd125b-7927-4a07-ade2-7520c938a69d@kernel.org>
+Date: Sat, 11 Jul 2026 10:54:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH] media: vicodec: fix out-of-bounds write in FWHT encoder
+To: Junrui Luo <moonafterrain@outlook.com>
+Cc: Hans Verkuil <hverkuil@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Yuhao Jiang <danisjiang@gmail.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <SYBPR01MB7881C44480F77338B6A93C61AF152@SYBPR01MB7881.ausprd01.prod.outlook.com>
+ <7519968d-920e-455b-a27d-97a2f1d0615a@kernel.org>
+ <E129DFAD-D5CC-45BC-BD87-0544A5A4C2C7@outlook.com>
+Content-Language: en-US, nl
+In-Reply-To: <E129DFAD-D5CC-45BC-BD87-0544A5A4C2C7@outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,intel.com,lists.linux.dev,vger.kernel.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-67341-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-67342-lists,linux-media=lfdr.de,cisco];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:hansg@kernel.org,m:andy@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@intel.com,m:linux-staging@lists.linux.dev,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:erqeon@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[erqeon@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[erqeon@gmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[outlook.com];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:moonafterrain@outlook.com,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:mchehab+samsung@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:danisjiang@gmail.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,samsung];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[outlook.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7BCC9740E47
+X-Rspamd-Queue-Id: 12E65740F36
 
-Fix style issues reported by checkpatch.pl:
-- Remove unnecessary return statement in void function.
-- Convert spaces to tabs for function arguments indentation.
+On 11/07/2026 08:29, Junrui Luo wrote:
+> Hi Hans,
+> 
+> Thanks for the review.
+> 
+> On Fri, Jul 10, 2026 at 10:32:09AM +0200, Hans Verkuil wrote:
+>> Actually, it's commit b40dc2bf3581 ("media: vicodec: add support for 4 new
+>> RGB32 pixelformats") that introduced this.
+>>
+>> Please update the Fixes tag.
+> 
+> I traced this back a bit further. Commit 16ecf6dff97c ("media:
+> vicodec: Add support for 4 planes formats") already added ARGB32 and
+> ABGR32 as four-component formats. Would this be more appropriate?
 
-Signed-off-by: erqeons <erqeon@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+Yes, you are right. That's when support for this was added.
+Good catch.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 6cd500d9f..fb1ae146b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1419,7 +1419,6 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 
- err:
- 	atomisp_css_free_stat_buffers(asd);
--	return;
- }
- 
- static void atomisp_curr_user_grid_info(struct atomisp_sub_device *asd,
-@@ -1885,8 +1884,8 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
-  * Function to check the zoom region whether is effective
-  */
- static bool atomisp_check_zoom_region(
--    struct atomisp_sub_device *asd,
--    struct ia_css_dz_config *dz_config)
-+	struct atomisp_sub_device *asd,
-+	struct ia_css_dz_config *dz_config)
- {
- 	struct atomisp_resolution  config;
- 	bool flag = false;
-@@ -1920,8 +1919,8 @@ static bool atomisp_check_zoom_region(
- }
- 
- void atomisp_apply_css_parameters(
--    struct atomisp_sub_device *asd,
--    struct atomisp_css_params *css_param)
-+	struct atomisp_sub_device *asd,
-+	struct atomisp_css_params *css_param)
- {
- 	if (css_param->update_flag.wb_config)
- 		asd->params.config.wb_config = &css_param->wb_config;
-@@ -3895,9 +3894,9 @@ enum mipi_port_id atomisp_port_to_mipi_port(struct atomisp_device *isp,
- }
- 
- static inline int atomisp_set_sensor_mipi_to_isp(
--    struct atomisp_sub_device *asd,
--    enum atomisp_input_stream_id stream_id,
--    struct camera_mipi_info *mipi_info)
-+	struct atomisp_sub_device *asd,
-+	enum atomisp_input_stream_id stream_id,
-+	struct camera_mipi_info *mipi_info)
- {
- 	struct v4l2_control ctrl;
- 	struct atomisp_device *isp = asd->isp;
--- 
-2.53.0
+> 
+>>
+>>> Reported-by: Yuhao Jiang <danisjiang@gmail.com>
+>>
+>> Where was that reported? Is there a URL to the that report?
+> 
+> It was reported to me privately by Yuhao, so there is no public URL.
+> 
+>>
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
+>>> ---
+>>>  drivers/media/test-drivers/vicodec/vicodec-core.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+>>> index 318e8330f16a..3ff2d06742c2 100644
+>>> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
+>>> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+>>> @@ -63,7 +63,7 @@ struct pixfmt_info {
+>>>  };
+>>>  
+>>>  static const struct v4l2_fwht_pixfmt_info pixfmt_fwht = {
+>>> -	V4L2_PIX_FMT_FWHT, 0, 3, 1, 1, 1, 1, 1, 0, 1
+>>> +	V4L2_PIX_FMT_FWHT, 0, 4, 1, 1, 1, 1, 1, 0, 1
+>>>  };
+>>>  
+>>>  static const struct v4l2_fwht_pixfmt_info pixfmt_stateless_fwht = {
+>>
+>> It should be changed here as well, otherwise the test-media regression script
+>> in v4l-utils will fail.
+> 
+> I will update in v2.
 
+Regards,
+
+	Hans
 
