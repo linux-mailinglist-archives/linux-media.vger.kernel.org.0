@@ -1,380 +1,359 @@
-Return-Path: <linux-media+bounces-67337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67338-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Is8+GXvDUWrLIQMAu9opvQ
-	(envelope-from <linux-media+bounces-67337-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 06:15:55 +0200
+	id tnPvOtbYUWovJgMAu9opvQ
+	(envelope-from <linux-media+bounces-67338-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 07:47:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5F1740470
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 06:15:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 342717406BD
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 07:47:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=FeV1sFhd;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67337-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67337-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=lKdLSv3u;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=MtycTzj2;
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67338-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67338-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A9390300E306
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 04:15:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A715B3023DDF
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 05:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CC382DF6E9;
-	Sat, 11 Jul 2026 04:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FB692F363F;
+	Sat, 11 Jul 2026 05:46:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08312F5A0E
-	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 04:15:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E802EC08C
+	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 05:46:46 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783743320; cv=none; b=JtAnXLdlB599wmO31CgvM2Kk3umNLMzZ58v5ubjM2Rt96qBuJ4g/q6ln/1M2LJQTslvf+X5o+J/4nrYdq4y0AJU2bIOeJZifp078x3YXh6i4hGHt2NsVqmxEB4jsUvfn4xCM3+k/JYNrdinpqFHfusnCsTMnEXrYkl5+vd46YRo=
+	t=1783748808; cv=none; b=qt4jPd51Y1mCnHkR8GqWucmWLiR7lqjNePMYCWRBsGn1dByFSwD/6j8m4h2nozOF6O2iIBb5FjSM+35a/rHq3e55uGGPFrK9ZfoyEv7/IiT+1623ArsXXJN6AWicuDeb/jP8TVRng9PF3242WTRK38Kx/4SMGF2iepULyGXf7So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783743320; c=relaxed/simple;
-	bh=8vG0uFf7MGyfNi8QjsYZ/kY/b8C6FJhsshR30bcjGio=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V0cZZnLN87WEZcxgn4f+akj8qSMKtb/vBPM06e/VKC5fOGoseMi38vmbf4RjciFGNCzYAYPdN9fbmAEod3AsnkWQq1yIQ6x7UD7J9ZyO0G8ZxqfAaI3aBK1Z02OtnShdQii16fXk5t5PGft1ObvYy1D2RM1QxRczfE9pkQz/kjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FeV1sFhd; arc=none smtp.client-ip=209.85.210.169
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8485bd28dd0so1645566b3a.2
-        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 21:15:08 -0700 (PDT)
+	s=arc-20240116; t=1783748808; c=relaxed/simple;
+	bh=KdwWMKt9xEN3xDtoDCATPMzZIWVY48mme+8NbD8tZCQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AjtQ/K4HsyikIY597DV/oMgfH20MeWl1jSluhEVq+ZwQGXBZV82A0aU/Vl6EdkKwPFydP6wRE/97w92sytugKCGoIy/lhxHxkcpmVfba1E6chvDBq4Ght/hY1IzFaQ4LpAaz1Ak73MFVos2h/9E+CjLlsZsxNdROwcF7flbD8+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lKdLSv3u; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MtycTzj2; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66B54wAr2835607
+	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 05:46:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	gevgTNUs9RHgkaUGheSyiQ8zKdBVGGi1fUkWXs8Qot0=; b=lKdLSv3ufnyHePk8
+	t9OJTg5Utyn+lWFHsXShB2UmSqXPgXtY+jwBr43owVpAxTiDjxXY6H/pTAKFTwQ4
+	7NlZIlP5+wpiNecH3NkFD+nxiAQLv0T5j/ZqVmY2t+PXGCpkubkxjEeYHoMRBXJC
+	OHk7Ele1xaAGjvpiBAeHsPvy8QnlkvgEoAGjJR6mbmfb0SjxXKBkeQygXybzwcEM
+	2xMFRSlQkF+y4fsP6zPXqiqi3nJBrgmkKsROISmnlQrCtRXQLAfhA7uIWVCOwpWH
+	5GG7Tt2FCTKIVh8tW3vyU31r1cKZ7xSLXVz7awBvY+tBITj3tS+1Aso+3wmrT7GI
+	EjAYvw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbekcg4xc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 05:46:45 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51a8c689b5fso17651551cf.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Jul 2026 22:46:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783743308; x=1784348108; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cVmjO8YLPA661gTc9yInoWvB2zcY0L5sJjMyBUBdtk0=;
-        b=FeV1sFhdBJ8B7/NKTxFMiPAN/xHBvSeoB1QjOo/lMiUsJV5NXDcVfIkBvebRx9E3G2
-         CaVj2rPx6Dwl5czFaubiz6PUWkkulTqkuFP5fm8FwBrrYhHLwf+ByGh4ePMbcRsRwNyY
-         ZyJ/KlyMI+6RCc1g9nVU+RYHzyU+cZwB4eT5R1SHyvBLYaSPxR6iBz8mD2t84VawZBbm
-         piOIxzaaYU8v+y4J+nTxQ23ZqFhdd9dOEthyFbM0HzbVGTqRWLdjnJkHFs9VjI6hE/CY
-         HlhZ8Zdhxr9hjJZQi9aPk1vLbbHiaPnKzSlPtloc7q3/mi9hbX4PxRzEQnv0qDgmscCQ
-         e4kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783743308; x=1784348108;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1783748805; x=1784353605; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=cVmjO8YLPA661gTc9yInoWvB2zcY0L5sJjMyBUBdtk0=;
-        b=qHYUZKM6gKr5keoDo8VgdiTUzsNWERYMKykguNd6OgWQRnYkh0aHefbaFFv57YBoHV
-         bYrA1NSAtO3OoSwl+FSW7tN5KcEDSatWAnWun0au2uGcCJ8kRv+wUn2qrrxXuCYOl44/
-         edzQ8pzngKRTtWeGH9BM0jnQPKWdRCrn5HfsZpj7h3ryxzkXtiKNQKFhiBoWExENntJb
-         K5RmtwCC0w0o1yFfGT6zkt8zUNIRruPx9RjrRVntcNTKpDshnlD5q6CNKP0dheSiek21
-         m3f9XeU6VoL0Cu/cLgGXTZ/nI9gR3OGdKMwz1Pn6j+1wnrUAqykm7r3YvjRX+PvcZAIW
-         nc9w==
-X-Forwarded-Encrypted: i=1; AHgh+RpyDRghE/ONGsuh6pfX2FljAOPzlmhSlatXORqLhm/hvVOFnAhayIENZTIoJFeHCiuxh0Zh9iWZ80Xg7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzbffn1zdLQTLj/EYEgm7GhLTGWsXCxJtnG/2VudfsHVnIv/rQK
-	+Fq2LWGPfVnUaOcSfB9dz5By4il2QJ3LV2VE7y0xcIJm/sdpLkN/AFS7
-X-Gm-Gg: AfdE7cnmGT/5r9X2xmU6NGpVFkdPbAx1G+b/v0ixfPHKFX+9ysfdsGPtBCZbs4rPIHk
-	ST8EaJtAAZ0qznwP+Z3+gA4j5U9w3NjBZOPU9M58GPxG591gGcW3GWzyk9aio4QYJV+1vt8/NVQ
-	zh+1id/Id6jGItvE1r2BHsV3cxTVsZ0B8M+kAkZ2V4HBqscbOVeEpGk4t5fvUr9BJvVA0DrpFaH
-	knnhtnJLfhya2eNjhKA+9vxQoFc8dSvLPwlXo9/Xsz+KAuFClKstxuqc4Xyq4JMG5oYw4CQUPHp
-	Bl/LiiR2PO1xxITypz8QBnSPwWDpoVzOpkSRyWWm0lpnOxk+JlgFuunfeU4NkfnHvvTTpMRYkIY
-	N8U+iCBqDE5UQchhfaAnWqTJlCqZ5SO6+Rqzc1QOKxCw3wr+n3/SfMM+P8LHrOWtSqCDuFhuFns
-	zJ1Jhuclp9lp6iQOpgiE6UgQniPXw=
-X-Received: by 2002:a05:6a21:4d8f:b0:3bf:d1f9:b1df with SMTP id adf61e73a8af0-3c110d2f025mr1812527637.54.1783743307902;
-        Fri, 10 Jul 2026 21:15:07 -0700 (PDT)
-Received: from baineng-pc.. ([117.133.183.252])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5afbc1208sm5769419a12.9.2026.07.10.21.15.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 21:15:07 -0700 (PDT)
-From: Baineng Shou <shoubaineng@gmail.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Sandeep Patil <sspatil@android.com>,
-	"Andrew F . Davis" <afd@ti.com>
-Cc: stable@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	Baineng Shou <shoubaineng@gmail.com>
-Subject: [PATCH v2] dma-buf: dma-heap: don't publish fd before copy_to_user() succeeds
-Date: Sat, 11 Jul 2026 12:14:55 +0800
-Message-Id: <20260711041455.3375292-1-shoubaineng@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260703080922.1838362-1-shoubaineng@gmail.com>
-References: <20260703080922.1838362-1-shoubaineng@gmail.com>
+        bh=gevgTNUs9RHgkaUGheSyiQ8zKdBVGGi1fUkWXs8Qot0=;
+        b=MtycTzj2J+UuPZ3Isrzz2FSwzudfXRtx9HkeWkgaKfn10NfT38Bs0exrIOuTQbgSwi
+         QCKmJIv7UQwPtoDHT7F6cltEslrJTswXNxpaPcDEMIg93f5e0EVwrX30xSWEHcZpPR+s
+         exXJYOeoy3BOapf7I6XmdKvqRj6BBDHh7W77TB2eH8GZkx9RCxHljn26r/q36/czHDDR
+         KKjGqX0+w72f6UMyALnscatMgHnQldTTDE5GY0bu0KpdO+RSFl6ggdlJkc+EH9Ys9pZO
+         snEGOH7Ggaw/qvU4K5/AfMKDPA5Djp5/0kX/Fby8IJ/Aih5XSpvOqdgnSahiB1ZxQNOz
+         87hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783748805; x=1784353605;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gevgTNUs9RHgkaUGheSyiQ8zKdBVGGi1fUkWXs8Qot0=;
+        b=oekT+GHVFPJCeqz5/tZwUzqyvLUTzdUTnkYhVFiRvqe0Pyk9kVUV0MU0BT/6QhY/Ge
+         TKJxgoeXxBAEwS8MwS74dgXCIEjbL+mngV7ob586XFJAWij//xltB8tMUera2wSoadk8
+         1Wjv/q4vf3l4qqOYyZIRbDsbrrShk+b0PEA8lO9fkIaeQt+Ih8+0MHwFk08l7Gha2CsK
+         N++aeZDH19jDOX5AUo01vKXJ1s+APpy9b+ulRgabP0egiWjLDz5celz7/sU4x+UmA3Xa
+         hfa35h26Asj++Qum0KrfgCJJtCJcVGfrfJEtnIkQ/V2T/7BD2x4SYx5+DcM8t86NDQXe
+         MSbQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrq62817PSEtLhr1GicZTrvN9hitajDyhLn4szNVDbh0q4esuL1Bk5qruWbVFgj5+7MOXcxlCn1mUEsNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYYTkMlOp3/uPBG6IC0jbSZrXvby2SbJjIrelfpO6DsulDs/29
+	UsyTxXvWCtdXp8CDSLGkuWkrt+CJ04CFSM+pC5i/St16504yIquc3Gr/3RZWisl3lbHQIG0JhmB
+	9x/VmTe+RJCFE+LiYKCKUTaq5IMzN3nzkzCc5+YHF4q/EtlEPqNRHnZdqXZFZ6Ncncw==
+X-Gm-Gg: AfdE7cnMiqStc3cfzjcreb00rYej584Yj2LL5rlP7sEOgC4DMWUlA8cYNrNPj0glhGk
+	hfa2iKd9UkZ0WbncxnAAjeJgymTAXJuJliiYWBdC3WnmmEG/c5oAUeQHhQPEAOSGdqJR/rihS1l
+	G6rcABcr2OLTWDArVjCNP3midXnorIjRDemINEy7TP2uVuGDgwzRRyvyTCD0dWRXAALxRrUrrnj
+	GmLW160aEFYCu9undyP8LU7xJYNv1Y1HUlWCqQjlerZk+sgt3IcY4iD+T8eA3o6aWA2A/T7B6XE
+	WzvUZB2ZPfmm2EgMW6D24yBrsJuoiBWKbeR+hwNTmb+bvfJfzYqbj6W8UvlMRF5Syn+88CqaSxQ
+	EBP0YDtnc/i1ZWonWpbqPt2t8j3ILo0zd8oMLZBHwPYYa
+X-Received: by 2002:a05:622a:2616:b0:517:9095:c329 with SMTP id d75a77b69052e-51cbf1fef01mr18790461cf.45.1783748804646;
+        Fri, 10 Jul 2026 22:46:44 -0700 (PDT)
+X-Received: by 2002:a05:622a:2616:b0:517:9095:c329 with SMTP id d75a77b69052e-51cbf1fef01mr18790251cf.45.1783748804101;
+        Fri, 10 Jul 2026 22:46:44 -0700 (PDT)
+Received: from [192.168.0.172] ([49.205.248.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15d81bbceesm457348966b.41.2026.07.10.22.46.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 22:46:41 -0700 (PDT)
+Message-ID: <71733afc-732e-47f9-8497-b09600f93612@oss.qualcomm.com>
+Date: Sat, 11 Jul 2026 11:16:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/11] dt-bindings: media: qcom,sm8550-iris: Add vpu
+ sub nodes
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+References: <20260709-vpu_iommu_iova_handling-v1-0-72bb62cb2dfd@oss.qualcomm.com>
+ <20260709-vpu_iommu_iova_handling-v1-1-72bb62cb2dfd@oss.qualcomm.com>
+ <h3kbrpbz7naivqv2urba6ai4sd7kpaqz7s7vxuxuktoc5q2ojx@u6zngnmrbenb>
+ <201e8354-fc34-4d2a-89d5-8661a3a66133@oss.qualcomm.com>
+ <b6rhqjdjzmwme4obo6qdffg6pf6zgcjf7a25kneie44bucge3y@kr3v4ylsspfv>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <b6rhqjdjzmwme4obo6qdffg6pf6zgcjf7a25kneie44bucge3y@kr3v4ylsspfv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzExMDA1MSBTYWx0ZWRfX6vHyCXxG3dKz
+ jUA3IfsEwjZbtITDP1n0VjF+oEWyJX6BP+oDDnxZf282R1I88PqoHNJvCMJfT3HAWeLwIZ9XP5h
+ TU0BBQmpL4ESZ1HHxIP52zvJ2C6+AWc/if2Q0+gjB7+yAyzujnjvfymCuBVyRVodbwRZMp4Llmx
+ 5Aue5T3yduNtsJBDAMNQrFnMfw1xnU9/6Mi0vlOLuX6o6OAwiPyUIBHsERo1We7bSxktQFA2bYc
+ AzFN8Cc4S5fKGL7Co2RYjIGuEAXTwj4BtBW4w1HXeePsWwRyXfA8J4/1bV2/h1Dy7iAfIWUCSvr
+ Rxt/RQjiIBZqC9KpswjgEcurJ3sos4BTJc5CubPtmeiMEViL86PGxWBNwN2JhNR246tnZi4PwMQ
+ lynu+SmA1Iw7nlpJ/pU+nSrA06aAzcE0WjXN1MODX6JUj/MKwAto2Exnef4xceVYo5+hP0OvzRU
+ OauFN9/XpKc54uQ3CHA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzExMDA1MSBTYWx0ZWRfX79zLw8vzZs2n
+ SaKIFzlKqW0qykNuIYaDKaFBQRz1XibKvgwklogvTNMoEsUU3rTwj16FgGrNs5vUhS1NRWfqQTg
+ i0p98aN6CtptdTiQUzmjKr2YfsBnepk=
+X-Proofpoint-GUID: sYjrMVI_hE3Me4nSReKLt0ENvSUDoN1G
+X-Authority-Analysis: v=2.4 cv=XNsAjwhE c=1 sm=1 tr=0 ts=6a51d8c5 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=wRxn6a4LM5KCmfMgYXCo/g==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8 a=2_L87j3xYGeytyR3NxoA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-ORIG-GUID: sYjrMVI_hE3Me4nSReKLt0ENvSUDoN1G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-11_01,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 spamscore=0 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607110051
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linaro.org,gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67337-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[shoubaineng@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:sspatil@android.com,m:afd@ti.com,m:stable@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:shoubaineng@gmail.com,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67338-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:busanna.reddy@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:dkim,vger.kernel.org:from_smtp];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shoubaineng@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5E5F1740470
+X-Rspamd-Queue-Id: 342717406BD
 
-DMA_HEAP_IOCTL_ALLOC allocates a dma-buf and installs an fd into the
-caller's fd table via dma_buf_fd() -> fd_install() before
-dma_heap_ioctl() copies the result back to userspace.  If the trailing
-copy_to_user() fails, userspace never learns the fd number, but the
-fd (and the underlying dma-buf reference) are already visible to
-other threads in the same process and are leaked for the lifetime of
-the process.
 
-The obvious "close it on the failure path" fix is unsafe: once
-fd_install() has run, another thread can already dup() the fd, send
-it via SCM_RIGHTS, or close() it and let its number be reused, so a
-subsequent close_fd() from the ioctl path can operate on an unrelated
-file.  This was pointed out by Christian König on v1 [1].
+On 7/10/2026 9:23 PM, Dmitry Baryshkov wrote:
+> On Fri, Jul 10, 2026 at 11:32:20AM +0530, Vikash Garodia wrote:
+>>
+>> On 7/9/2026 6:20 PM, Dmitry Baryshkov wrote:
+>>> On Thu, Jul 09, 2026 at 06:05:47PM +0530, Vikash Garodia wrote:
+>>>> VPU hardwares have a limitation where VPU streams are associated with
+>>>> dedicated addressable address range, as illustrated below
+>>>>
+>>>>       +-----------------------------------------------------------+
+>>>>       | Stream A reserved region (600 MB)                         |
+>>>>       | 0x00000000 - 0x25800000                                   |
+>>>>       +-----------------------------------------------------------+
+>>>>       | Stream B reserved region (3.5 GB)                         |
+>>>>       | 0x00000000 - 0xe0000000                                   |
+>>>>       +-----------------------------------------------------------+
+>>>>       | Other reserved regions                                    |
+>>>>       +-----------------------------------------------------------+
+>>>>
+>>>> Mapping a stream outside its expected range can cause unintended
+>>>> behavior, including device crashes, as reported at:
+>>>> https://gitlab.freedesktop.org/drm/msm/-/work_items/100
+>>>>
+>>>> To address this limitation, the subset of stream/s are now represented as
+>>>> sub nodes, so that they can be associated to the respective addressable
+>>>> range.
+>>>> The limitation could be exposed when running usecase like concurrent
+>>>> video sessions. The binding have been validated with higher concurrent
+>>>> sessions across the SOCs supported under this schema.
+>>>>
+>>>> Co-developed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+>>>> ---
+>>>>    .../bindings/media/qcom,sm8550-iris.yaml           | 66 +++++++++++++++++++++-
+>>>>    1 file changed, 63 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+>>>> index 0400ca1bff05dcef6b742c3fbf77e38adca9f280..bf4d24ce90bd38666704274390b98be450f708c0 100644
+>>>> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+>>>> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+>>>> @@ -91,6 +91,51 @@ properties:
+>>>>      opp-table:
+>>>>        type: object
+>>>> +  '#address-cells':
+>>>> +    const: 2
+>>>> +
+>>>> +  '#size-cells':
+>>>> +    const: 2
+>>>> +
+>>>> +  non-pixel:
+>>>> +    type: object
+>>>> +    description:
+>>>> +      Non pixel context bank is needed when video hardware have distinct iommus for non pixel
+>>>> +      buffers. Non pixel buffers are compressed and internal buffers.
+>>>> +    properties:
+>>>> +      iommus:
+>>>> +        maxItems: 1
+>>>> +      memory-region:
+>>>> +        maxItems: 1
+>>>> +    required:
+>>>> +      - iommus
+>>>> +      - memory-region
+>>>> +    additionalProperties: false
+>>>> +
+>>>> +  pixel:
+>>>> +    type: object
+>>>> +    description:
+>>>> +      Pixel context bank is needed when video hardware have distinct iommus for pixel buffers.
+>>>> +      Pixel buffers are uncompressed buffers.
+>>>> +    properties:
+>>>> +      iommus:
+>>>> +        maxItems: 1
+>>>> +    required:
+>>>> +      - iommus
+>>>> +    additionalProperties: false
+>>>> +
+>>>> +  firmware:
+>>>> +    type: object
+>>>> +    description:
+>>>> +      Firmware context bank represents the firmware processing domain of the VPU. Required to boot
+>>>> +      VPU when no hypervisor is present.
+>>>> +    properties:
+>>>> +      iommus:
+>>>> +        maxItems: 1
+>>>> +    required:
+>>>> +      - iommus
+>>>> +    additionalProperties: false
+>>>> +
+>>>>    required:
+>>>>      - compatible
+>>>>      - power-domain-names
+>>>> @@ -98,9 +143,15 @@ required:
+>>>>      - interconnect-names
+>>>>      - resets
+>>>>      - reset-names
+>>>> -  - iommus
+>>>>      - dma-coherent
+>>>> +oneOf:
+>>>> +  - required:
+>>>> +      - iommus
+>>>> +  - required:
+>>>> +      - non-pixel
+>>>> +      - pixel
+>>>> +
+>>>>    allOf:
+>>>>      - if:
+>>>>          properties:
+>>>> @@ -177,12 +228,21 @@ examples:
+>>>>            resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>;
+>>>>            reset-names = "bus";
+>>>> -        iommus = <&apps_smmu 0x1940 0x0000>,
+>>>> -                 <&apps_smmu 0x1947 0x0000>;
+>>>>            dma-coherent;
+>>>>            operating-points-v2 = <&iris_opp_table>;
+>>>> +        #address-cells = <2>;
+>>>> +        #size-cells = <2>;
+>>>
+>>> I think you need "ranges;" here. Also an empty line before the subnodes.
+>>
+>> Could you please elaborate on what would be the use of "ranges;" in this
+>> case ?
+> 
+> That the subblock has the same address space as the parent. I might be
+> completely wrong here.
 
-Restructure the allocation path so that fd_install() is the last,
-unfailable step of a successful ioctl:
+Yes, i explored with the same definition of "ranges", but could not see 
+a use of it in our case. I am dropping this for now, unless there are 
+suggestion on this on applicability of it in this case.
 
-  1. heap->ops->allocate()      creates the dma_buf.
-  2. get_unused_fd_flags()      reserves an fd number in the caller's
-                                fd table without publishing it, so
-                                no other thread can observe it.
-  3. copy_to_user()             delivers the fd number to userspace;
-                                on failure the fd is returned with
-                                put_unused_fd() and the dma_buf
-                                reference is dropped with
-                                dma_buf_put(), leaving no user-
-                                visible state behind.
-  4. fd_install()               publishes the fd -- from here on the
-                                ioctl cannot fail.
-
-To make this possible, dma_heap_ioctl_allocate() is refactored to
-return the struct dma_buf * directly (returning ERR_PTR on failure)
-so the caller holds the dmabuf reference across steps 3 and 4.
-The fd is written into the kdata buffer before copy_to_user() so
-the reserved fd number reaches userspace atomically with the install.
-
-The failure at step 3 is easily reachable from userspace: pass a
-struct dma_heap_allocation_data that lives in a page whose protection
-is flipped to PROT_READ between copy_from_user() and copy_to_user()
-(e.g. via mprotect()).  Before this change each such ioctl leaks one
-dmabuf fd; after it, the fd table is unchanged on failure and only
-/dev/dma_heap/<name> remains open.
-
-No UAPI or heap-driver interface change.
-
-[1] https://lore.kernel.org/dri-devel/175e98de-f414-47d7-81c1-c0fe0a8f7f62@amd.com/
-
-Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
-Cc: stable@vger.kernel.org
-Signed-off-by: Baineng Shou <shoubaineng@gmail.com>
----
- drivers/dma-buf/dma-buf.c  | 20 ++++++++++
- drivers/dma-buf/dma-heap.c | 80 +++++++++++++++++++-------------------
- include/linux/dma-buf.h    |  1 +
- 3 files changed, 61 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index d504c636dc29..4c9add51f9ef 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -803,6 +803,26 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- 
-+/**
-+ * dma_buf_fd_install - install a reserved fd for a dma-buf
-+ * @dmabuf:	[in]	pointer to dma_buf
-+ * @fd:		[in]	fd reserved with get_unused_fd_flags()
-+ *
-+ * Publishes a previously reserved fd into the caller's fd table.
-+ * Must only be called after all fallible work (e.g. copy_to_user)
-+ * has succeeded, as it cannot be undone safely once called.
-+ *
-+ * The caller is responsible for having emitted the trace event
-+ * (via dma_buf_fd() or get_unused_fd_flags() + this function)
-+ * before calling this.
-+ */
-+void dma_buf_fd_install(struct dma_buf *dmabuf, int fd)
-+{
-+	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
-+	fd_install(fd, dmabuf->file);
-+}
-+EXPORT_SYMBOL_NS_GPL(dma_buf_fd_install, "DMA_BUF");
-+
- /**
-  * dma_buf_get - returns the struct dma_buf related to an fd
-  * @fd:	[in]	fd associated with the struct dma_buf to be returned
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index a76bf3f8b071..43c32fb28313 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -55,33 +55,6 @@ MODULE_PARM_DESC(mem_accounting,
- 		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
- EXPORT_SYMBOL_NS_GPL(mem_accounting, "DMA_BUF_HEAP");
- 
--static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
--				 u32 fd_flags,
--				 u64 heap_flags)
--{
--	struct dma_buf *dmabuf;
--	int fd;
--
--	/*
--	 * Allocations from all heaps have to begin
--	 * and end on page boundaries.
--	 */
--	len = PAGE_ALIGN(len);
--	if (!len)
--		return -EINVAL;
--
--	dmabuf = heap->ops->allocate(heap, len, fd_flags, heap_flags);
--	if (IS_ERR(dmabuf))
--		return PTR_ERR(dmabuf);
--
--	fd = dma_buf_fd(dmabuf, fd_flags);
--	if (fd < 0) {
--		dma_buf_put(dmabuf);
--		/* just return, as put will call release and that will free */
--	}
--	return fd;
--}
--
- static int dma_heap_open(struct inode *inode, struct file *file)
- {
- 	struct dma_heap *heap;
-@@ -99,30 +72,42 @@ static int dma_heap_open(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
--static long dma_heap_ioctl_allocate(struct file *file, void *data)
-+static struct dma_buf *dma_heap_ioctl_allocate(struct file *file, void *data)
- {
- 	struct dma_heap_allocation_data *heap_allocation = data;
- 	struct dma_heap *heap = file->private_data;
-+	struct dma_buf *dmabuf;
- 	int fd;
-+	size_t len;
- 
- 	if (heap_allocation->fd)
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 
- 	if (heap_allocation->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 
- 	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
-+
-+	len = PAGE_ALIGN(heap_allocation->len);
-+	if (!len)
-+		return ERR_PTR(-EINVAL);
-+
-+	dmabuf = heap->ops->allocate(heap, len, heap_allocation->fd_flags,
-+				     heap_allocation->heap_flags);
- 
--	fd = dma_heap_buffer_alloc(heap, heap_allocation->len,
--				   heap_allocation->fd_flags,
--				   heap_allocation->heap_flags);
--	if (fd < 0)
--		return fd;
-+	if (IS_ERR(dmabuf))
-+		return dmabuf;
-+
-+	fd = get_unused_fd_flags(heap_allocation->fd_flags);
-+	if (fd < 0) {
-+		dma_buf_put(dmabuf);
-+		return ERR_PTR(fd);
-+	}
- 
- 	heap_allocation->fd = fd;
- 
--	return 0;
-+	return dmabuf;
- }
- 
- static unsigned int dma_heap_ioctl_cmds[] = {
-@@ -138,6 +123,8 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
- 	unsigned int in_size, out_size, drv_size, ksize;
- 	int nr = _IOC_NR(ucmd);
- 	int ret = 0;
-+	int fd;
-+	struct dma_buf *dmabuf;
- 
- 	if (nr >= ARRAY_SIZE(dma_heap_ioctl_cmds))
- 		return -EINVAL;
-@@ -174,15 +161,28 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
- 
- 	switch (kcmd) {
- 	case DMA_HEAP_IOCTL_ALLOC:
--		ret = dma_heap_ioctl_allocate(file, kdata);
-+		dmabuf = dma_heap_ioctl_allocate(file, kdata);
-+
-+		if (IS_ERR(dmabuf)) {
-+			ret = PTR_ERR(dmabuf);
-+			break;
-+		}
-+
-+		fd = ((struct dma_heap_allocation_data *)kdata)->fd;
-+		if (copy_to_user((void __user *)arg, kdata, out_size) != 0) {
-+			put_unused_fd(fd);
-+			dma_buf_put(dmabuf);
-+			ret = -EFAULT;
-+		} else {
-+			dma_buf_fd_install(dmabuf, fd);
-+		}
-+
- 		break;
- 	default:
- 		ret = -ENOTTY;
- 		goto err;
- 	}
- 
--	if (copy_to_user((void __user *)arg, kdata, out_size) != 0)
--		ret = -EFAULT;
- err:
- 	if (kdata != stack_kdata)
- 		kfree(kdata);
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index d1203da56fc5..d15b2b31d3c9 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -567,6 +567,7 @@ void dma_buf_unpin(struct dma_buf_attachment *attach);
- struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
- 
- int dma_buf_fd(struct dma_buf *dmabuf, int flags);
-+void dma_buf_fd_install(struct dma_buf *dmabuf, int fd);
- struct dma_buf *dma_buf_get(int fd);
- void dma_buf_put(struct dma_buf *dmabuf);
- 
--- 
-2.34.1
+> 
+>>
+>>>
+>>>> +        iris_non_pixel: non-pixel {
+>>>
+>>> Drop useless labels.
+>>
+>> Ack, labels can be dropped from schema.
+>>
+>>>
+>>>> +            iommus = <&apps_smmu 0x1940 0x0000>;
+>>>> +            memory-region = <&iris_resv>;
+>>>> +        };
+>>>> +
+>>>> +        iris_pixel: pixel {
+>>>> +            iommus = <&apps_smmu 0x1947 0x0000>;
+>>>> +        };
+>>>> +
+>>>>            iris_opp_table: opp-table {
+>>>>                compatible = "operating-points-v2";
+>>>>
+>>>> -- 
+>>>> 2.34.1
+>>>>
+>>>
+>>
+>> Regards,
+>> Vikash
+>>
+> 
 
 
