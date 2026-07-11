@@ -1,204 +1,181 @@
-Return-Path: <linux-media+bounces-67352-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67355-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0a9pNko9UmoCNgMAu9opvQ
-	(envelope-from <linux-media+bounces-67352-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:55:38 +0200
+	id KDcbLK5MUmoAOQMAu9opvQ
+	(envelope-from <linux-media+bounces-67355-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 16:01:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60634741906
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:55:38 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A4F741BCC
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 16:01:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="FfM/kmN/";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67352-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-67352-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ggcH2mjq;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67355-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67355-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 58E0C3008C0A
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 12:55:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E9CA23036631
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:00:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D933C769B;
-	Sat, 11 Jul 2026 12:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B27D28FFF6;
+	Sat, 11 Jul 2026 14:00:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58953C4B89
-	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 12:55:32 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783774534; cv=pass; b=mAK5BUYKMz1BsfYGGnMR1IxqD6t96/JYYZXsHmcIpBha8vE1qSSZd6BMcyi4PSy8x72Tby5gOkXlTFYHX2t/HixgQ2wXZ3VERbtxnLmt9gNnP5jZxkTbDR4VeoFePxkUC0r3CwVhWADqAeQgTfdOpl9/bpDe1q8pvorRj6Yj65I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783774534; c=relaxed/simple;
-	bh=Sl+rcNFS4n6sfV7RASsazrAsQq0F5cbeZGTcafT17Rk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DLhcfeZXwu+Rv/RhLCfEADSadgoRfR13nyUJSKYRJUTFRu1UKYhxKFOLFPfV3GBU2EtdVlwuNfPCLC75JYLs1nh6/0KWw9npnhGIgSMSP2ifHjqsbpgBmvP5ixvcmHsp7nXeeXlze7NahlmfhMU0IBttrKhu3XzSBmLqkkffZzI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfM/kmN/; arc=pass smtp.client-ip=209.85.216.48
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-383fff6e8b6so150857a91.0
-        for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 05:55:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783774532; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lwPntjErq+NzgY1iIewiQ0zHUKFA7aBJc9xu57wmPM0aSWxPyIecv+F+AAAx6deU4V
-         mX0kiACS9lE9+o1T+ldcPM2PpUPyKiA5JVgWoaPAT5kRr0DjExm/mwK17c5VM0Xay9Zb
-         WfvWqYXgCD5FYdc/tVexBxKaor6IiS2gqEjXsUlgnjxFrhLvOhZ8Y2kJmZ2vylolS4Q3
-         tTAEHE/tt984F85wohi4qyBQ26NqczZiGge5jKMpMThT0Fn3o0mAFfAA2gQZDOSaOv+F
-         7b1v3bd0q1mizPFCUpFoZmTQeqhz6XQ+FuYE0ge3WeMOb5ZDOIu8NTaZI0Wr9iGM8QVp
-         wdGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1zUvgb/Vijkk139Zbj5Mh0/O0qV2LR06s+/nZ2EMR/8=;
-        fh=UFU9YrMyiRDuSekcVrdpHe1Oo4kbsO+KaF6R5t8PORo=;
-        b=IeeqMOeotbNAdsUDbvvd9pOy3wCnwtk6t+9dC0Y3koDutGOzuhOi1rcF+dTCHR3igt
-         EenyTkJDt0DV0tXIm0zLeh8TMLBV/1UtcO9TQmXdFSQWv4NzPoJpjhMt3vc2B6K8JcaK
-         +h9VylC8RtKDfP6xHjqedgyPJx90uPr6PAB4NeKUKa0NABxLLB5226IYzzPUu8gPgXHW
-         QFZznFTTEgwOzwt9qyt785Q5TGPnTn+4QCHtX1wJgIf0u9OaDo5ZKVhJugOAJp4bQKOf
-         4s2GE9gWKlcuIbpeAv3RSFuQmbDLmzy0YyYkkhG1/PYVJpKdlQz8tfgJhYaWcqvgPQhj
-         VZSA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783774532; x=1784379332; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1zUvgb/Vijkk139Zbj5Mh0/O0qV2LR06s+/nZ2EMR/8=;
-        b=FfM/kmN/tO2vNXlVEHoYYU4Gng3x9pt3bFUHeB17lQNTYT1U7ODfEBW9B6LtFleKVP
-         i3NLMWRmDSpf57VeosLE4ZmuaEXgWlH1kAUgg5tbB/WynOpkGfXDLIeEck+RjYlXuNu/
-         EXgFjtxaV/jI2ocYua3lwDDL9wR5K7nAGbVLIeZtv3BWy/ABg234I2cX+T7e+O3rnN3v
-         2aCo2GB3J+YdiYlnCnv2wA1jqNH/+IwrerF8N72wSXv/cT3G+y/AlYDNO/CCayiLz5ue
-         djvgoWIg1BckyiY2RsCczktQUUbvGHYqjr0H1jftRXzswFo15Fw7bVafkSLU2CFq081g
-         w5Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783774532; x=1784379332;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1zUvgb/Vijkk139Zbj5Mh0/O0qV2LR06s+/nZ2EMR/8=;
-        b=AlHaZMoiv/RsewoozmUEdokqEaKr/W6hcsAtrudSriRbX5mZ7my72w3mEK+nIB5eq9
-         jCbkUcy357H8MDzy2C0hT0RdSDQrhtjLK6Uf2KznBpmFeUwZGQATO5U1Aqw2OxyrnhCW
-         8r/IOzGpNO6wi7r2qrJCdnDbPUQPJ2NIutEh5QnnA72vcIc4EHq6vDve8p0JayDivX2q
-         wX8jk210ucnFMBLaYeOjwmQMFsqkZhhKnfIO1MLE5/KLPCVqCXeV4IP9Bt1xJbWP27QC
-         AvC/sHtLSICxkynWSl+4vfmO1c7DJqWFaD2ua+5oCEjDl7Bcx+hgEt8klxnZVGN1hoeP
-         Hpyw==
-X-Forwarded-Encrypted: i=1; AHgh+RrMuN79k8YG5IVpSYPK5zmbc5/w0a47liYJsUFr9IwYxCrT4Sfi/GlWbLJslf9JRfw3uW7onWFMrdlzQg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQ7bGjtGgYs4YBxVWxsQg84VJTRMbaY9jZqGxvk2hfWWyNVheG
-	97iaRn0Y6S9keZYiM0KpWtLHz0X6R/g0LPIeRDZqVziFekXlEsggRse09FeC5XhAc+nDdwW+bRS
-	YOoDi8StTR5hGWjAaq2QP5AmSBjkW8QA=
-X-Gm-Gg: AfdE7cmuDHdlQj/37yeDwi3T//46YoETNxvg3DaXOc4LyOdZXDCXe6CzekpcbjdDPB4
-	nr5vaQ6T+9EBrbp8vhSeb3dpTtXxMToNeFJpivo1vteuUv+85DapAn/yPjVTFB4nDrXI/f6kAdy
-	28inyLXZSwjeJcZsxCxAgVCDCziGblmQViIA+mCvUqPYKNDjKytfoEdKCDYlDB52VceWriVZC/Q
-	vZGyGyzm18inhdvw/aRQe7vi2CqsmU6s1uL527rTYbaBx4Ao2cvVjXDXA1dj3Vab7NkreIEYNaN
-	TFoul8UbPwDLzQAGxfIh4eNes2TpzDjCvuLqAvTR1W6X9XqK/HMQWkBDhOkuv+bgxYW8dtYiAQQ
-	CG38TpOSWTsoY
-X-Received: by 2002:a17:90b:3e48:b0:380:7688:fc06 with SMTP id
- 98e67ed59e1d1-38dc7849860mr2139954a91.8.1783774532077; Sat, 11 Jul 2026
- 05:55:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004F728B4E2;
+	Sat, 11 Jul 2026 14:00:09 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783778411; cv=none; b=UwCr3qzU5IPSIhDQeKwzBMMaoBYoCfmmxSTdzHL4SIwmuWvkW+zKBJ7/d1EQ5J5PYG3DHUalwslhqOnN53u+ma6pWtyYaZMcV6bkXtsn0TVzP5KXCIVFoQEbWwY/kv9x0RI8hH+eV/jtl9mfLO5Y3+sjZOzj1sQHF/jTpHwIY18=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783778411; c=relaxed/simple;
+	bh=oLqReDBb5mGMXvwdKbGOBCW4hMzLjnwfa0fRsd++sh4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N4Z0YKCeQU2+R2xcVXQaXD/i7U1u8ak00Y06aAOiwcVEWp6jhsiuDc83zlWapZvPgKyh7c9Q2LeHJYo/XRmvvE37YWCU+UlnlG3Fmq15Qd5QSbcOjW45zwYftgLdovIhcQWPuOyxTyP2RAR5RIS2pwWuhT9SRJPdGpobUHDTECM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggcH2mjq; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CE041F00A3F;
+	Sat, 11 Jul 2026 14:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783778409;
+	bh=JCkU9oACHboTNrKgAOmKC3KHTez0YviRezc2qccrxZo=;
+	h=From:To:Cc:Subject:Date;
+	b=ggcH2mjqbOhwmt2EloN+F++f4rbL+hU73BmgCDvF5pRQFgfMZq3BPUtpQIWtGLtnd
+	 a9yenO5HIkL4TG4Sw24lG2+oM0Z4O+4aGTNZjukHjuy+LkLV+uj/7K+2C/7MH82x1z
+	 CCeVYbXVUPFjUlpTaYOotPAruKnvAlSTNYUPyArS262kRFZ8lSxwfe4Ri3NyrR56l1
+	 CycxP0kjeduSH9Wwpi04WhYUldWSKOyNQfDupxl4jA+wOWfPON2J7VvxzKykcl/foC
+	 ncO1Y0m97F10fiLyS2KXp6ziwCaEDK9fScaQDmpiapY+Zm/z6ILxkCtPaY4ZiAxcXs
+	 MQ9PWkpAwnmfg==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 07C665FF03; Sat, 11 Jul 2026 22:00:05 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] arm64: allwinner: h616: Support Video Engine
+Date: Sat, 11 Jul 2026 21:59:51 +0800
+Message-ID: <20260711135959.3616919-1-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260708-dma-shared-buffer-config-v1-1-8c1571000855@kernel.org>
-In-Reply-To: <20260708-dma-shared-buffer-config-v1-1-8c1571000855@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 11 Jul 2026 14:55:19 +0200
-X-Gm-Features: AUfX_mxzrtwl0-qM1WcyDgdPW3fSN_iew-N8VZzUs1Dmg7dy-KYQxeN-HmNLFeM
-Message-ID: <CANiq72m9t0y3pfZUw_KbJSjujjQcM=FHxTCLenPoC_-v2udibw@mail.gmail.com>
-Subject: Re: [PATCH] rust: helpers: guard dma_resv helpers with CONFIG_DMA_SHARED_BUFFER
-To: Andreas Hindborg <a.hindborg@kernel.org>, 
-	"Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Asahi Lina <lina+kernel@asahilina.net>, David Airlie <airlied@gmail.com>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:a.hindborg@kernel.org,m:mkchauras@gmail.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:lina+kernel@asahilina.net,m:airlied@gmail.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:lina@asahilina.net,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-67352-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67355-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,asahilina.net,gmail.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:paulk@sys-base.io,m:mchehab@kernel.org,m:wens@kernel.org,m:jernej@kernel.org,m:samuel@sholland.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:devicetree@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 60634741906
+X-Rspamd-Queue-Id: 54A4F741BCC
 
-On Wed, Jul 8, 2026 at 1:53=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
-org> wrote:
->
-> Commit 9b836641d3bf ("rust: helpers: Add bindings/wrappers for
-> dma_resv_lock") added rust_helper_dma_resv_lock() and
-> rust_helper_dma_resv_unlock() unconditionally. However, the dma-resv
-> functionality is only available when CONFIG_DMA_SHARED_BUFFER is
-> enabled, resulting in the following link error when it is not:
->
->       LD      .tmp_vmlinux1
->     ld.lld: error: undefined symbol: dma_resv_reset_max_fences
->     >>> referenced by dma-resv.h:463
->     >>>               rust/helpers/helpers.o:(rust_helper_dma_resv_unlock=
-) in archive vmlinux.a
->
-> The dma_resv_unlock() inline in <linux/dma-resv.h> calls
-> dma_resv_reset_max_fences(), which is only compiled into
-> drivers/dma-buf/dma-resv.c when CONFIG_DMA_SHARED_BUFFER is set. With
-> the option disabled the symbol is never defined, so the helper fails
-> to link.
->
-> Fix this by guarding the helper definitions with `#ifdef
-> CONFIG_DMA_SHARED_BUFFER`.
->
-> The only user of this helper is the DRM shmem abstractions, which already
-> depend on `CONFIG_DMA_SHARED_BUFFER`.
->
-> Cc: stable@vger.kernel.org
-> Fixes: 9b836641d3bf ("rust: helpers: Add bindings/wrappers for dma_resv_l=
-ock")
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+Hi folks,
 
-Please see:
 
-  https://lore.kernel.org/rust-for-linux/20260708082454.1254320-3-mkchauras=
-@gmail.com/
+This is v2 of my Allwinner H616 Cedrus series. The series is ready to be
+merged.
 
-Cheers,
-Miguel
+Changes since v1:
+- Fixed IOMMU ports on H616 (patch 7)
+- Updated comment about VP9 on H616
+
+
+This series adds support for the Cedar video engine found in the
+Allwinner H616 SoC. On the way, it also fixes some issues with the
+DT representation for the Allwinner H6 SoC.
+
+Patch 1 fixes the video engine's number of IOMMU endpoints on the
+H6 in the DT binding.
+
+Patch 2 fixes the video engine's number of SRAM regions on the
+H6 in the DT binding.
+
+Patch 3 adds a new compatible for the H616's video engine.
+
+Patch 4 adds the new compatible for the H616's video engine to the
+cedrus driver.
+
+Patch 5 adds the video engine's missing SRAM region to the H6 dtsi.
+
+Patch 6 adds the video engine's missing IOMMU endpoint to the H6 dtsi.
+
+Patch 7 adds a device node for the video engine to the H616 dtsi.
+
+
+Patches 1-4 should go through the media tree, while patches 5-7 will go
+through the soc tree via the sunxi tree.
+
+
+Please have a look.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (6):
+  dt-bindings: media: sun4i-a10-video-engine: Fix IOMMU count for H6
+  dt-bindings: media: sun4i-a10-video-engine: Fix SRAM count for H6
+  dt-bindings: media: sun4i-a10-video-engine: Add H616 compatible
+  drivers: staging: media: sunxi: cedrus: add H616 variant
+  arm64: dts: allwinner: sun50i-h6: Add missing SRAM region for video
+    engine
+  arm64: dts: allwinner: sun50i-h6: Add missing IOMMU for video engine
+
+Jernej Skrabec (1):
+  arm64: dts: allwinner: sun50i-h616: Add video engine
+
+ .../allwinner,sun4i-a10-video-engine.yaml     | 45 ++++++++++++++++++-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |  4 +-
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 12 +++++
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  4 ++
+ 4 files changed, 61 insertions(+), 4 deletions(-)
+
+-- 
+2.47.3
+
 
