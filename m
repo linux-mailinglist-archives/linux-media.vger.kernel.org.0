@@ -1,169 +1,115 @@
-Return-Path: <linux-media+bounces-67349-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67350-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id AN8AGHozUmpaNAMAu9opvQ
-	(envelope-from <linux-media+bounces-67349-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:13:46 +0200
+	id QFSZITE2UmqTNAMAu9opvQ
+	(envelope-from <linux-media+bounces-67350-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:25:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10597417A6
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:13:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBB17417E0
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:25:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=gHFB0fSe;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Z8nyOeLe;
 	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67349-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67349-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67350-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67350-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9E3063017269
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 12:13:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F031530137B1
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 12:25:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C4E13C10AA;
-	Sat, 11 Jul 2026 12:13:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A78E33C10AA;
+	Sat, 11 Jul 2026 12:25:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16453C2782
-	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 12:13:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6103A5E7B
+	for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 12:25:12 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783772001; cv=pass; b=iv2y2eTAC4cOTuTLikHuN2DAnhpqLRmrTDJ9IelisLSbehtUVFKknpIBc+Furnv1Xv4D+VUhQCkaPSHI+ZxgBF904rUiSc2p32mtdc7JkbUt+slA/LU5qs3zBw3ZSJ75Pl+DMPs+YA3bY4G5eWZL2L45mJ0USsfG+az9RwmtYU0=
+	t=1783772715; cv=pass; b=HjjhiQ2kltDQNPMM6/O2k5GH2dPoX1OSJy6mCkgwF+E2Y517vCgFV56v8Z9dxYGyQFxiocM8fqbfGLpNcebVngzOWDSKvkwe+mtVmKrMecw38xut8Mniz7nXtF18iBPZ01xoYlSrrfXAa/r6oG8F+VxWQY2RbRsH2fYmtQXRyIA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783772001; c=relaxed/simple;
-	bh=80vo3JIjnCsKn8zo158HX4vkfRXd32w7uPzzJAtLaF0=;
+	s=arc-20240116; t=1783772715; c=relaxed/simple;
+	bh=eXS2K1ZOIg4i0JyO+8HG0S1D3oCOCAXtk2WC8NBtWZk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K7AeBtbrysa03RQO7Y3e3j90F0Oj8Y6kqi8oFT5O9O/KXnXblwMPAU2wVGM9GF2DN3xVD49rkliVk0YqmesNZWob/gxkt/tJ7cgaEUt7GlN9CTovTwp2udZGGVawJ9ZALJAQMa1RN/zPLSjf4gr0UTIWC1K5RR51PHCjG5q4Sss=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHFB0fSe; arc=pass smtp.client-ip=209.85.216.42
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3856d4015e0so265651a91.2
-        for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 05:13:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783771999; cv=none;
+	 To:Cc:Content-Type; b=GevYDKYk/GrTA07YLLsp4DUftVvwZT3vr134Vu9LNzqzvJKRrU6H3C2fhfDBCMEG1WMfrnDUpojQVYNLpVOu0J/Nsf1prEdsKA5WmtS9Ee0C4DuPN6xj7IFGPjlaN/YuMJ3xR+Jv9tDob3HP/wi4KicMd+UDPBvlUVdyAtcmGuc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z8nyOeLe; arc=pass smtp.client-ip=209.85.167.171
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4960fb63c75so1034586b6e.2
+        for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 05:25:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783772711; cv=none;
         d=google.com; s=arc-20260327;
-        b=E6IkcenBbHPEO9NgQrB6HRCrn7nwSaqLpUW2lbJz+0wuHStlp5tnFiSUGT52KcfLeM
-         bXlE7WFnCgrKi1/z8lN9Peveah2GVjQly4dWZrSvBHjwHLeYObR36BgZIiTUcHTp0P4f
-         P2+f7RHDT3SnLgJQ1LXVQCfWTWBR0nfrevjzI9Khk6BdWkUVX8X1wvG7bKyKK857x8+d
-         N+QFYiJDiXvMQR9+mFZBmIqW8dj2FkFPZVPEXRqWUJY5FBC232Otwe8Htbd+vsmiXK2J
-         C7ZNYySlT7HsAebN8yrIADIwbcZfftBIsO8vTqypQ9yyawYsJ7/gOLabeh9R15jqrMi3
-         LnGQ==
+        b=fK+da54Cx1ykQa9J9QOVGomsz+3D/Uba8GpF2FSogHl6oPHd8kqjX9ur9/7QsQ1oWe
+         dlrVU7c3AgfiIzTQnXJzhpth1cXSAs5FyClyZEC7mLlzWoNhP8YpfZI7RfIDtxG40Lt8
+         Fx2h/pGtQRVVax0QnHTFnF1bKDdInuGO3U5ZA0AfusrkMV9MwNGk+u5sjrNb8v0JU4th
+         TnnFalrySWXhlYJI+dRKaCB7QUxq01n0KAyxWsHyNwdT15zHUFSeJA8zjDhNnIP8gWnj
+         8cEObO79KI1ay4B8CcljawJmgz3c6lJBFLgM1DLhYu1mH1QZ8nyEtim4J1VuvvKTPGYj
+         yGOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=80vo3JIjnCsKn8zo158HX4vkfRXd32w7uPzzJAtLaF0=;
-        fh=qG2qDrrsLKiN6HMrAODhTEjLXDgm3rBTRA2RV46Unkg=;
-        b=jkIEdwsO3nT1gdZy80Spz5M+6MBuB1PEM0VVTCrRaw7XDCFiOXfd53bQZf04ZEzNEH
-         2yQBaCPFNmVcuPDNrWduesWcCN0xLZyiI0zbQ7T7mEVFVSYX4mAbs1tQd96KJqFiIDP9
-         nHeURavAqG1v53SRnx6RUBH/UZWOhiv4anrdJGQTmPuNDXA3s18kEdb/h2ii/Zmy6/ij
-         lcOI/JAypiI9ld/ImJZ3X9NN9MUwKmADkGld+qxLqawRniwM1Dx1PsTqPcShEmIt/Pga
-         MUCSXn3gH0l6G6k19hCkQJXxqOxUF4Mpte0yPYNdMSSyddDK6oYVOPbKg9kFBMl+1wpc
-         6puA==;
+        bh=aGRyG/0ys0P2Ahtr58LtuFXAaoT80IRB3dXSGZ/SVSo=;
+        fh=6mEJzTVR3J3nDe5d3hMZ7TImkCWk8O/DJ1J0GpKZxGs=;
+        b=siHLLBrxB9XEUxSe+w4wYHb6qtL23C5ZwtRgWTd2MkyTuF6tJyQtvWbEvM/InOI4i1
+         YM+kwW0sVooWV8OWac3Hzp/rHx9L4o9V5KLx0rpyOoX1N5eHE5Ni0gXN7d56Y2CWfHHV
+         9/Sh8njyCtez284b+MIrFnDtfULMoQBeWZwLAEyIVJD0rTFepLwoZSRZhUTglE8MKglz
+         9ugmcrA5ppfPjPInD8TTV70fFpY2sYCV5NjATYYaPKEAfZBDfk5DTNYxsTmQE5SNM8Lr
+         bpVVBDWvMmulI/Nax6zDPJrzEQsA+8JCNcWf8zKiSQTkZneRvQ9RYak4EcGziWaSAmr2
+         rs7Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783771999; x=1784376799; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783772711; x=1784377511; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=80vo3JIjnCsKn8zo158HX4vkfRXd32w7uPzzJAtLaF0=;
-        b=gHFB0fSemSn6s4jVp/EuBtir/qlPGO8Vq2wg3sOO56WQSEm3m1wgLV+PH+YCzCwe4w
-         40XUJ8N3llKffVv3KvwlpEx0PwjFhEP4ejwfKckXHhOrs4COlZYMuCDJVCD700HVWfby
-         Wef44AYzEvkwlRh4pmvCSPrnSSb+EuoMS7xAp1fqanhd4vgQUbVFs9DMhr/aX2ve4EZi
-         XKK9VbugY1ax8izR6ls1BpqL9Fr7yUJMtkts2rZtlWUvAdEs5tvYZoRcRU9pXB0Y6W76
-         RQw5PmUpYS6rrCfKNmEtUvADgYNWM7gb8xCEbJGzjwstKv7ju7GWWD5f6bQVByQhgD9b
-         Verg==
+        bh=aGRyG/0ys0P2Ahtr58LtuFXAaoT80IRB3dXSGZ/SVSo=;
+        b=Z8nyOeLe2kj2cqOlSh5F0MDs8VZoUYSVvQ+oDrByP1CpifMPceGP2D0a3oWnnZFqnu
+         LyDWt9vgA5Qwbd3vtTvNTRVen0M5SbCDqyrNEejN5taR/l1B8a7yl6h+i0XKT4pm4jPq
+         klrOrm7lZBKLIL9JFWHsMSMj1/cH7eArYWGD9D2/FRziEJ31WSyt1zcijn/rSmoN6ttM
+         Mjmcm463ac8g0/3X+Z0fdI+i81F4MkLvnRXa1+M8iUYcZk+I00GWMhtW8yem95IjGhFG
+         VnKfx41MQdH6Y1u4iuxaVjJq9W969jUd8eMiYUyivLCc/1TEOPTuK3FIbFp02Ukq73Eg
+         kPeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783771999; x=1784376799;
+        d=1e100.net; s=20251104; t=1783772711; x=1784377511;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=80vo3JIjnCsKn8zo158HX4vkfRXd32w7uPzzJAtLaF0=;
-        b=ZJxsF+Lleq9lEabDdA6ZuKzcthCughkh5ZazEjKSB28tWwllBQloPxoDpttQSyhdZ0
-         8PF786RUx7uW5BKakciju4EFJ7m1ClmlBFmxzLqpVlnppo4SIFZGqdAnuGbkny1znf7h
-         OGl+/hcF+MhqJ7DrC/mPuycMJdERAGq8r9jkHeJXo4b6k7UKOz91pdwoP558dQyhqAmx
-         qUfG4QzraU1DcK8V2O9h6OFentL0Kvw1MqWsTVxsok3m+aFh36zjP7KMETrwE6wokOm2
-         9t+mLEAB1lvm4Qw3zyaWJChHd24bpNA50f5nhggRLZVY/tmHf8zv2ALkd8dXXLkUJjmA
-         JR4Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rrb7JTvAFPeLehBy05X1FaSuu2e14czS8vMp8Kg2DCsmnaiyN/euRuKz/nX1lmpILHN5hJHstECtdYH/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKqvmgItLJBfzvu7VvkNyJvukcQHPByHaaVQXJVxyKDKc4ME0Z
-	pcsaIzCn9rbNACm97z9JRW4soiCp7oWFRCLcwdlIycsTAlllmZifVJbNqOemBH8M0Jn8uUb8Qdl
-	9S/pXe6xWFHlA71NUhqbfUttRZ0rBAvE=
-X-Gm-Gg: AfdE7cn5K/w6N4Bht62HGoPMSDK4R6dbGp3t/OFt3Z/DZgNfAPYq1mJCzZnwLdRTMUc
-	ANBdUVH60E0EJjejrXNobWMLKg1qjOlMfTNX13ZtOnotL83ZHY4nF+s/EiELHrtk5DmBoABCkK1
-	QcxqESvRFjPPs6l4wSjzmFs149X9//DbqIwEQHbCdhCZfqQ2mv3S+g1znpHB2cGkMTIvLy9U82f
-	pZemkQWWLQXdXg/4NZvLYbVvMP3D3wt+2ckezeA/SdAq4Fm1M0o/8ZQga+YYbyKD56ZoqweunCG
-	bEUBY9SutLeGPhWBPvcITZH/zsau6s2ayydJL8BUZEpL8tekwG23/wLd6TzizZ629sCm/HyCMUq
-	J/2K41wLt9Uen
-X-Received: by 2002:a17:90b:4984:b0:380:9cd1:d985 with SMTP id
- 98e67ed59e1d1-38dc7c111a8mr1909664a91.6.1783771998816; Sat, 11 Jul 2026
- 05:13:18 -0700 (PDT)
+        bh=aGRyG/0ys0P2Ahtr58LtuFXAaoT80IRB3dXSGZ/SVSo=;
+        b=M6BDgKzHVLTpOgYJSIvcSvKND1JogxcBVTjgofujuAXDBlqTE4zNfz7QZo3ASyrH6j
+         v81W+FhDMOqmYKYtCzl75Ga+RmJlpM2BxOvJGNVjHmcr5ILfzXJ/t6rXcGifKKxnIyui
+         yD/O9cyM1u4QEC+oG/kgV9VziYkanCtJBAG1v8XSUTX6ZAiqUoeC6OuOWunvWaS1MHZB
+         ET0Onh1PoY2moIsLdyg9DYvHOn1unAzxrrYd/C+KtblTzpA2+eZAj23zkqcxGTIrQDY4
+         GoMYSPJTYpqMH4IkVeDIL3l/4qqexNiYS1gx/VMrrFS49rndnPDjhnhfw0F1cSnWk9kw
+         Fnww==
+X-Gm-Message-State: AOJu0YzFQj4/+zk2i4ign0DxrdWC+lIvwpBxsOhA8ayHtKFBAQS6nubd
+	dfKv6ulX1SfX87rPTbM+irSHBs1lg/ApMT14McHdFv734pg2/nFJLO92wtPl0ibsDFIORb1VKhT
+	Z4zCV27W7JTTe+DXH5+KrMs4Oaibgo4k=
+X-Gm-Gg: AfdE7cmKbuJm62KrGYsk5j8f+NS+wt/fH4QWZbUubgOO2wH06SG3UF8Bje6ONxtBWm9
+	JurcTrcA9x1ecO24dkEVI2FeXEOzoUfOyFQaWErbz6qqf1G8ez6xyaxzyYVbR4oVTx0IGGZBq/6
+	Sw/gb1xJS6yWGD04i/V8GjVQjeELcm5h9waxdX1R0PERibbLVqJcCtm/Uuzk8tedJC+hk4NRBe8
+	DfVTGBcigrWQ4KhMBKhXmQVPvj7rlz03yhAxq3A92FNj02VHx9fvy4ulBZUqbiPDuXZ+JRvpzaz
+	raEckWk3mA4AoNDKBQz9w923CKaHz2o92+KnT51u4/NSALPf+2frVi5jAQ==
+X-Received: by 2002:a05:6808:120b:b0:487:61da:70fb with SMTP id
+ 5614622812f47-4a42ad68ed8mr1719757b6e.10.1783772711465; Sat, 11 Jul 2026
+ 05:25:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260706061928.66713-1-byungchul@sk.com> <20260706061928.66713-40-byungchul@sk.com>
-In-Reply-To: <20260706061928.66713-40-byungchul@sk.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 11 Jul 2026 14:13:05 +0200
-X-Gm-Features: AUfX_mwWK6GqFCLIKCx9ivosmcno3i0b64L6R15FyNFXSSwj0HKdZlNefQKWcgc
-Message-ID: <CANiq72kEo=bGcHNaSA9JZhv4iuE+YDvu0kN+Z7aopVp3=2C+Wg@mail.gmail.com>
-Subject: Re: [PATCH v19 39/40] rust: completion: Add __rust_helper to rust_helper_wait_for_completion()
-To: Byungchul Park <byungchul@sk.com>, Gary Guo <gary@garyguo.net>
-Cc: linux-kernel@vger.kernel.org, max.byungchul.park@gmail.com, 
-	kernel_team@skhynix.com, torvalds@linux-foundation.org, 
-	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org, 
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com, 
-	peterz@infradead.org, will@kernel.org, tglx@linutronix.de, 
-	rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org, 
-	daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com, 
-	tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com, 
-	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com, 
-	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org, 
-	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org, 
-	jglisse@redhat.com, dennis@kernel.org, cl@linux.com, penberg@kernel.org, 
-	rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org, 
-	linux-block@vger.kernel.org, josef@toxicpanda.com, 
-	linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org, 
-	dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org, 
-	dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com, 
-	melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com, 
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com, boqun.feng@gmail.com, 
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com, 
-	yeoreum.yun@arm.com, netdev@vger.kernel.org, matthew.brost@intel.com, 
-	her0gyugyu@gmail.com, corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, 
-	x86@kernel.org, hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org, 
-	gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org, 
-	arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
-	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com, 
-	da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org, 
-	frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, 
-	josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com, 
-	jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, 
-	mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com, neil@brown.name, 
-	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org, 
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org, 
-	mark.rutland@arm.com, ada.coupriediaz@arm.com, kristina.martsenko@arm.com, 
-	wangkefeng.wang@huawei.com, broonie@kernel.org, kevin.brodsky@arm.com, 
-	dwmw@amazon.co.uk, shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com, 
-	yuzhao@google.com, baolin.wang@linux.alibaba.com, usamaarif642@gmail.com, 
-	joel.granados@kernel.org, richard.weiyang@gmail.com, geert+renesas@glider.be, 
-	tim.c.chen@linux.intel.com, linux@treblig.org, 
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net, 
-	chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com, 
-	link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org, brauner@kernel.org, 
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com, 
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org, 
-	neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com, 
-	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org, 
-	alex.gaynor@gmail.com, bjorn3_gh@protonmail.com, lossin@kernel.org, 
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
-	rust-for-linux@vger.kernel.org
+References: <20260515173101.8978-1-arash.golgol@gmail.com> <agowixYIRIB7D3J3@collins>
+In-Reply-To: <agowixYIRIB7D3J3@collins>
+From: arash golgol <arash.golgol@gmail.com>
+Date: Sat, 11 Jul 2026 15:54:59 +0330
+X-Gm-Features: AUfX_mzm-LNAe1Hj9LjE4lheklMeFv48h1ivIxDbQ5HN67cH33p6CC2n6a3BTpY
+Message-ID: <CAMxPZkgMMQf52aOcPUkanhEOrNJnecNgppVmJ5044SDhWUPAaA@mail.gmail.com>
+Subject: Re: [PATCH v3] media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active state
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org, wens@kernel.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org, 
+	laurent.pinchart@ideasonboard.com, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
@@ -171,20 +117,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67349-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67350-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:byungchul@sk.com,m:gary@garyguo.net,m:linux-kernel@vger.kernel.org,m:max.byungchul.park@gmail.com,m:kernel_team@skhynix.com,m:torvalds@linux-foundation.org,m:damien.lemoal@opensource.wdc.com,m:linux-ide@vger.kernel.org,m:adilger.kernel@dilger.ca,m:linux-ext4@vger.kernel.org,m:mingo@redhat.com,m:peterz@infradead.org,m:will@kernel.org,m:tglx@linutronix.de,m:rostedt@goodmis.org,m:joel@joelfernandes.org,m:sashal@kernel.org,m:daniel.vetter@ffwll.ch,m:duyuyang@gmail.com,m:johannes.berg@intel.com,m:tj@kernel.org,m:tytso@mit.edu,m:willy@infradead.org,m:david@fromorbit.com,m:amir73il@gmail.com,m:gregkh@linuxfoundation.org,m:kernel-team@lge.com,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:mhocko@kernel.org,m:minchan@kernel.org,m:hannes@cmpxchg.org,m:vdavydov.dev@gmail.com,m:sj@kernel.org,m:jglisse@redhat.com,m:dennis@kernel.org,m:cl@linux.com,m:penberg@kernel.org,m:rientjes@google.com,m:vbabka@suse.cz,m:ngupta@vflare.org,m:linux-block@vger.kernel.org,m:josef@to
- xicpanda.com,m:linux-fsdevel@vger.kernel.org,m:jack@suse.cz,m:jlayton@kernel.org,m:dan.j.williams@intel.com,m:hch@infradead.org,m:djwong@kernel.org,m:dri-devel@lists.freedesktop.org,m:rodrigosiqueiramelo@gmail.com,m:melissa.srw@gmail.com,m:hamohammed.sa@gmail.com,m:harry.yoo@oracle.com,m:chris.p.wilson@intel.com,m:gwan-gyeong.mun@intel.com,m:boqun.feng@gmail.com,m:longman@redhat.com,m:yunseong.kim@ericsson.com,m:ysk@kzalloc.com,m:yeoreum.yun@arm.com,m:netdev@vger.kernel.org,m:matthew.brost@intel.com,m:her0gyugyu@gmail.com,m:corbet@lwn.net,m:catalin.marinas@arm.com,m:bp@alien8.de,m:x86@kernel.org,m:hpa@zytor.com,m:luto@kernel.org,m:sumit.semwal@linaro.org,m:gustavo@padovan.org,m:christian.koenig@amd.com,m:andi.shyti@kernel.org,m:arnd@arndb.de,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:rppt@kernel.org,m:surenb@google.com,m:mcgrof@kernel.org,m:petr.pavlu@suse.com,m:da.gomez@kernel.org,m:samitolvanen@google.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@k
- ernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:chuck.lever@oracle.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:paulk@sys-base.io,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:laurent.pinchart@ideasonboard.com,m:linux-sunxi@lists.linux.dev,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,skhynix.com,linux-foundation.org,opensource.wdc.com,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,toxicpanda.com,lists.freedesktop.org,oracle.com,ericsson.com,kzalloc.com,arm.com,lwn.net,alien8.de,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,suse.com,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,linux.intel.com,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev,qq.com,ownmail.net,sang-engineering.com,linux-m68k.org,protonmail.com,umich.edu];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,sholland.org,ideasonboard.com,lists.linux.dev];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -192,31 +136,366 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[165];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sk.com:email,mail.gmail.com:mid]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,mail.gmail.com:mid,paulk.fr:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B10597417A6
+X-Rspamd-Queue-Id: AEBB17417E0
 
-On Mon, Jul 6, 2026 at 8:22=E2=80=AFAM Byungchul Park <byungchul@sk.com> wr=
-ote:
+Hi,
+
+On Mon, May 18, 2026 at 12:48=E2=80=AFAM Paul Kocialkowski <paulk@sys-base.=
+io> wrote:
 >
-> This is needed to inline these helpers into Rust code, which is required
-> for DEPT to play with wait_for_completion().
+> Hi Arash,
 >
-> Signed-off-by: Byungchul Park <byungchul@sk.com>
+> Le Fri 15 May 26, 21:01, Arash Golgol a =C3=A9crit :
+> > Use the V4L2 subdev active state API to store the active format.
+> > This simplifies the driver not only by dropping the bridge mbus_format
+> > field, but it also allows dropping the bridge lock, replaced with
+> > the state lock.
+> >
+> > The sun8i-a83t-mipi-csi2 hardware does not perform any format
+> > conversion. Enforce identical formats on the sink and source pads in
+> > the set_fmt() and init_state() callbacks.
+>
+> Looks good to me and works well on the hardware!
+> Thanks again for your work.
+>
+> Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+> Tested-by: Paul Kocialkowski <paulk@sys-base.io>
 
-Apart from what Gary said -- why did you need to do this in a separate
-patch in the same series?
+I'd like to gently follow up on this patch.
 
-Cheers,
-Miguel
+> All the best,
+>
+> Paul
+>
+> > Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+> > ---
+> > Changes in v3:
+> >  - Fix active state lock leak on runtime PM error path
+> >
+> > Changes in v2:
+> >  - Initialize active state before calling v4l2_subdev_state_get_format(=
+)
+> >  - Fix line wrapping reported by checkpatch
+> >  - Link to media-ci report: https://linux-media.pages.freedesktop.org/-=
+/users/patchwork/-/jobs/99865145/artifacts/report.htm
+> >
+> >  .../sun8i_a83t_mipi_csi2.c                    | 113 +++++++++---------
+> >  .../sun8i_a83t_mipi_csi2.h                    |   2 -
+> >  2 files changed, 56 insertions(+), 59 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a8=
+3t_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a8=
+3t_mipi_csi2.c
+> > index dbc51daa4fe3..2b7635f3952d 100644
+> > --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi=
+_csi2.c
+> > +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi=
+_csi2.c
+> > @@ -144,12 +144,12 @@ sun8i_a83t_mipi_csi2_disable(struct sun8i_a83t_mi=
+pi_csi2_device *csi2_dev)
+> >  }
+> >
+> >  static void
+> > -sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi=
+2_dev)
+> > +sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi=
+2_dev,
+> > +                            const struct v4l2_mbus_framefmt *mbus_form=
+at)
+> >  {
+> >       struct regmap *regmap =3D csi2_dev->regmap;
+> >       unsigned int lanes_count =3D
+> >               csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus=
+_format;
+> >       const struct sun8i_a83t_mipi_csi2_format *format;
+> >       struct device *dev =3D csi2_dev->dev;
+> >       u32 version =3D 0;
+> > @@ -205,7 +205,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l=
+2_subdev *subdev, int on)
+> >       struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_sub=
+dev;
+> >       union phy_configure_opts dphy_opts =3D { 0 };
+> >       struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi=
+_dphy;
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus=
+_format;
+> > +     struct v4l2_subdev_state *state;
+> > +     const struct v4l2_mbus_framefmt *mbus_format;
+> >       const struct sun8i_a83t_mipi_csi2_format *format;
+> >       struct phy *dphy =3D csi2_dev->dphy;
+> >       struct device *dev =3D csi2_dev->dev;
+> > @@ -215,8 +216,12 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4=
+l2_subdev *subdev, int on)
+> >       unsigned long pixel_rate;
+> >       int ret;
+> >
+> > -     if (!source_subdev)
+> > -             return -ENODEV;
+> > +     state =3D v4l2_subdev_lock_and_get_active_state(subdev);
+> > +
+> > +     if (!source_subdev) {
+> > +             ret =3D -ENODEV;
+> > +             goto unlock;
+> > +     }
+> >
+> >       if (!on) {
+> >               v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> > @@ -228,7 +233,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l=
+2_subdev *subdev, int on)
+> >
+> >       ret =3D pm_runtime_resume_and_get(dev);
+> >       if (ret < 0)
+> > -             return ret;
+> > +             goto unlock;
+> >
+> >       /* Sensor pixel rate */
+> >
+> > @@ -254,6 +259,9 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l=
+2_subdev *subdev, int on)
+> >               goto error_pm;
+> >       }
+> >
+> > +     mbus_format =3D
+> > +             v4l2_subdev_state_get_format(state,
+> > +                                          SUN8I_A83T_MIPI_CSI2_PAD_SIN=
+K);
+> >       format =3D sun8i_a83t_mipi_csi2_format_find(mbus_format->code);
+> >       if (WARN_ON(!format)) {
+> >               ret =3D -ENODEV;
+> > @@ -292,7 +300,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l=
+2_subdev *subdev, int on)
+> >
+> >       /* Controller */
+> >
+> > -     sun8i_a83t_mipi_csi2_configure(csi2_dev);
+> > +     sun8i_a83t_mipi_csi2_configure(csi2_dev, mbus_format);
+> >       sun8i_a83t_mipi_csi2_enable(csi2_dev);
+> >
+> >       /* D-PHY */
+> > @@ -309,7 +317,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l=
+2_subdev *subdev, int on)
+> >       if (ret && ret !=3D -ENOIOCTLCMD)
+> >               goto disable;
+> >
+> > -     return 0;
+> > +     ret =3D 0;
+> > +     goto unlock;
+> >
+> >  disable:
+> >       phy_power_off(dphy);
+> > @@ -318,6 +327,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l=
+2_subdev *subdev, int on)
+> >  error_pm:
+> >       pm_runtime_put(dev);
+> >
+> > +unlock:
+> > +     v4l2_subdev_unlock_state(state);
+> >       return ret;
+> >  }
+> >
+> > @@ -341,22 +352,24 @@ sun8i_a83t_mipi_csi2_mbus_format_prepare(struct v=
+4l2_mbus_framefmt *mbus_format)
+> >  static int sun8i_a83t_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+> >                                          struct v4l2_subdev_state *stat=
+e)
+> >  {
+> > -     struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> > -             v4l2_get_subdevdata(subdev);
+> > -     unsigned int pad =3D SUN8I_A83T_MIPI_CSI2_PAD_SINK;
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D
+> > -             v4l2_subdev_state_get_format(state, pad);
+> > -     struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > +     unsigned int pad;
+> >
+> > -     mutex_lock(lock);
+> > +     /*
+> > +      * This subdev does not perform format conversion,
+> > +      * initialize both pads identically.
+> > +      */
+> > +     for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
+> > +             struct v4l2_mbus_framefmt *mbus_format;
+> >
+> > -     mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
+> > -     mbus_format->width =3D 640;
+> > -     mbus_format->height =3D 480;
+> > +             mbus_format =3D v4l2_subdev_state_get_format(state, pad);
+> > +
+> > +             mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbu=
+s_code;
+> > +             mbus_format->width =3D 640;
+> > +             mbus_format->height =3D 480;
+> >
+> > -     sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +             sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +     }
+> >
+> > -     mutex_unlock(lock);
+> >
+> >       return 0;
+> >  }
+> > @@ -375,55 +388,33 @@ sun8i_a83t_mipi_csi2_enum_mbus_code(struct v4l2_s=
+ubdev *subdev,
+> >       return 0;
+> >  }
+> >
+> > -static int sun8i_a83t_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+> > -                                     struct v4l2_subdev_state *state,
+> > -                                     struct v4l2_subdev_format *format=
+)
+> > -{
+> > -     struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> > -             v4l2_get_subdevdata(subdev);
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> > -     struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > -
+> > -     mutex_lock(lock);
+> > -
+> > -     if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> > -             *mbus_format =3D *v4l2_subdev_state_get_format(state,
+> > -                                                          format->pad)=
+;
+> > -     else
+> > -             *mbus_format =3D csi2_dev->bridge.mbus_format;
+> > -
+> > -     mutex_unlock(lock);
+> > -
+> > -     return 0;
+> > -}
+> > -
+> >  static int sun8i_a83t_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+> >                                       struct v4l2_subdev_state *state,
+> >                                       struct v4l2_subdev_format *format=
+)
+> >  {
+> > -     struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> > -             v4l2_get_subdevdata(subdev);
+> > -     struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> > -     struct mutex *lock =3D &csi2_dev->bridge.lock;
+> > +     struct v4l2_mbus_framefmt *fmt;
+> >
+> > -     mutex_lock(lock);
+> > +     /* The format on the source pad always matches the sink pad. */
+> > +     if (format->pad !=3D SUN8I_A83T_MIPI_CSI2_PAD_SINK)
+> > +             return v4l2_subdev_get_fmt(subdev, state, format);
+> >
+> > -     sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> > +     sun8i_a83t_mipi_csi2_mbus_format_prepare(&format->format);
+> >
+> > -     if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> > -             *v4l2_subdev_state_get_format(state, format->pad) =3D
+> > -                     *mbus_format;
+> > -     else
+> > -             csi2_dev->bridge.mbus_format =3D *mbus_format;
+> > +     /* Set the format on the sink pad. */
+> > +     fmt =3D v4l2_subdev_state_get_format(state, format->pad);
+> > +     *fmt =3D format->format;
+> >
+> > -     mutex_unlock(lock);
+> > +     /* Propagate the format to the source pad. */
+> > +     fmt =3D v4l2_subdev_state_get_format(state,
+> > +                                        SUN8I_A83T_MIPI_CSI2_PAD_SOURC=
+E);
+> > +     *fmt =3D format->format;
+> >
+> >       return 0;
+> >  }
+> >
+> >  static const struct v4l2_subdev_pad_ops sun8i_a83t_mipi_csi2_pad_ops =
+=3D {
+> >       .enum_mbus_code =3D sun8i_a83t_mipi_csi2_enum_mbus_code,
+> > -     .get_fmt        =3D sun8i_a83t_mipi_csi2_get_fmt,
+> > +     .get_fmt        =3D v4l2_subdev_get_fmt,
+> >       .set_fmt        =3D sun8i_a83t_mipi_csi2_set_fmt,
+> >  };
+> >
+> > @@ -540,8 +531,6 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t=
+_mipi_csi2_device *csi2_dev)
+> >       bool notifier_registered =3D false;
+> >       int ret;
+> >
+> > -     mutex_init(&bridge->lock);
+> > -
+> >       /* V4L2 Subdev */
+> >
+> >       v4l2_subdev_init(subdev, &sun8i_a83t_mipi_csi2_subdev_ops);
+> > @@ -570,6 +559,12 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83=
+t_mipi_csi2_device *csi2_dev)
+> >       if (ret)
+> >               return ret;
+> >
+> > +     /* V4L2 Subdev finalize */
+> > +
+> > +     ret =3D v4l2_subdev_init_finalize(subdev);
+> > +     if (ret < 0)
+> > +             goto error_media_entity_cleanup;
+> > +
+> >       /* V4L2 Async */
+> >
+> >       v4l2_async_subdev_nf_init(notifier, subdev);
+> > @@ -603,6 +598,9 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t=
+_mipi_csi2_device *csi2_dev)
+> >  error_v4l2_notifier_cleanup:
+> >       v4l2_async_nf_cleanup(notifier);
+> >
+> > +     v4l2_subdev_cleanup(subdev);
+> > +
+> > +error_media_entity_cleanup:
+> >       media_entity_cleanup(&subdev->entity);
+> >
+> >       return ret;
+> > @@ -617,6 +615,7 @@ sun8i_a83t_mipi_csi2_bridge_cleanup(struct sun8i_a8=
+3t_mipi_csi2_device *csi2_dev
+> >       v4l2_async_unregister_subdev(subdev);
+> >       v4l2_async_nf_unregister(notifier);
+> >       v4l2_async_nf_cleanup(notifier);
+> > +     v4l2_subdev_cleanup(subdev);
+> >       media_entity_cleanup(&subdev->entity);
+> >  }
+> >
+> > diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a8=
+3t_mipi_csi2.h b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a8=
+3t_mipi_csi2.h
+> > index f1e64c53434c..819527bcd64d 100644
+> > --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi=
+_csi2.h
+> > +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi=
+_csi2.h
+> > @@ -33,8 +33,6 @@ struct sun8i_a83t_mipi_csi2_bridge {
+> >       struct media_pad                pads[SUN8I_A83T_MIPI_CSI2_PAD_COU=
+NT];
+> >       struct v4l2_fwnode_endpoint     endpoint;
+> >       struct v4l2_async_notifier      notifier;
+> > -     struct v4l2_mbus_framefmt       mbus_format;
+> > -     struct mutex                    lock; /* Mbus format lock. */
+> >
+> >       struct v4l2_subdev              *source_subdev;
+> >  };
+> > --
+> > 2.34.1
+> >
+>
+> --
+> Paul Kocialkowski,
+>
+> Independent contractor - sys-base - https://www.sys-base.io/
+> Free software developer - https://www.paulk.fr/
+>
+> Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--=20
+Regards,
+Arash Golgol
 
