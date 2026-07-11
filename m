@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-67360-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67356-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9I3nFhRNUmoUOQMAu9opvQ
-	(envelope-from <linux-media+bounces-67360-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 16:03:00 +0200
+	id +DTFIsJMUmoFOQMAu9opvQ
+	(envelope-from <linux-media+bounces-67356-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 16:01:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1F6741BFB
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 16:02:59 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD773741BDF
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 16:01:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="Fd/VIn4c";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=hL2iwygs;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67360-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67360-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67356-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67356-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 95B613047BFC
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:00:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C063C3039C93
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jul 2026 14:00:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57B472D73B6;
-	Sat, 11 Jul 2026 14:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82C422D9787;
+	Sat, 11 Jul 2026 14:00:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623B22BE7BA;
-	Sat, 11 Jul 2026 14:00:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C7428726E;
+	Sat, 11 Jul 2026 14:00:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783778415; cv=none; b=Yv0El3weu5WRiv7esnWYiFmlyiPSwEsl7YidKgsljTN+bbhzev34FHtPZ+EhW5QuXaVnYb/lQQgKTCXuqcGLWFEjdomByWlbxm8/za/9n6dyZ0XVJcYkIv6eHHIyUpfvw0chiyqYTvRarux0bZ1C/6g57tt6ik1FguVjdtF8Q1M=
+	t=1783778411; cv=none; b=RgqtBxy6IB1yO1xyaRQJ8t6wPGZroaL8uQpUn5LcVqLYbVsLZxULhbPTIe9emOVL8+gA+4jqx+jjmvTA6+m+X8aRYsbmOiDVqQux6+ZcVuc9yGQeFbCI7PpHtQ9BnaDe8P/luXiBohMAILTaKkCXfsU/xDeJUAugho25bJq4m00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783778415; c=relaxed/simple;
-	bh=w7wAhjr3OsrA14pePJOiCKmYusjZh13Z62To1CeUVP8=;
+	s=arc-20240116; t=1783778411; c=relaxed/simple;
+	bh=h8HnPa9jPNT9KN5lGEI/AtSgYlDiW6l80zMgBH26b/I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=adNFQtKE43TYTfitB4wKDccg6AOluyvQAO+uVP6puWMMPxHLyuwSUztNWrQuFBD0F25wXN0zoiTojYSuixLserO38X0HMO4JZmH6WNe7E2JIJnxllDa0qQ9VZCJcO3V9MHk2+1hhO51cDN+M6kSo1ZlS4BYjXyBNCoCIno567UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fd/VIn4c; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53C6B1F00ACA;
-	Sat, 11 Jul 2026 14:00:11 +0000 (UTC)
+	 MIME-Version; b=Br88QggPQq4RJZh8sHIO591+BwDjJZC7jbWmCK1ClPTV1kwyMexSg17UErMRSwPFIRUunCxaAUmfuJZU+4xsQoVmumKeAIwkAKfvjjssr3WK88jgGStQLUB/us9vEkxdoE25AZyxMzh7edCDG2fWkzrWqwrD13D5lV/BKzWZ7Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hL2iwygs; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 496841F00A3E;
+	Sat, 11 Jul 2026 14:00:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783778411;
-	bh=S0G6ilPkMy+tyb9WZl7gdzOFKTmLXdAZ+ze/q2dbU/c=;
+	s=k20260515; t=1783778409;
+	bh=lHn+VlrPP8+DG9eMf2EHuMFbxRRlTlKli3GayR7WGoQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Fd/VIn4c1J8V59LUaGWkWv55Qq+DISlOq2SdFQdsrm7PRTb9acBvD4EFc+GdYonOm
-	 Tk2dj34bkwLoCQOwvM8emvJaUVsaJKvXvuvCWGyqOxlZ+rMehkgbs1ywfmqH7QfVSj
-	 5by4fAspZSknuhgFRGv8TUfZIgC8gEL6uLFALxGeBzouHY8i/w9aoinw0D6hlkupui
-	 4lWEtZkFOSbhekyzSIXpLzmOma5pc9UkFc79hb0E/bXY6fBz1JKjVjS6McQKRulUeV
-	 o2j7E5WQt1feEwXv6sVzRZMcCNyjijcCTRUuDlNYx8Wq8pb8wVOG07P5isDAUg+uFz
-	 ZJCOLnmmRWUIQ==
+	b=hL2iwygst/9gzBKYB3gR43vvXyMtPra1B9ErC5aSzTvxX6k4t83pD2fsU0jrX5ez9
+	 02o/BWBEz8SMjpfhcU4yoUpo8zGAYfb+JBGF+TPxMR1IOP0IxuLgR6jPHsACHJ2QYQ
+	 pLVz6Syx2bvGSzhtYeduRL9T60iirIJL6czgoWXqVqsf/Jj3y/W6Km7oUnOQ088O3g
+	 T9L/3zjDGvMu0wxO2g/wmgj00Wn/Iyg4kL0UcKS5Tb26lYBT82KSL/eDD9pCqqNZaD
+	 LcY+v141/EYqUct2Up0Nt6FiJ+3VZDuOoJBNYrVWq90PQH9cLL3+FmhgF0h2yHVrxI
+	 JwGqvyYV+yqNg==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 6ED87601EA; Sat, 11 Jul 2026 22:00:06 +0800 (CST)
+	id 65CBB6018D; Sat, 11 Jul 2026 22:00:06 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>,
@@ -66,9 +66,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 4/7] drivers: staging: media: sunxi: cedrus: add H616 variant
-Date: Sat, 11 Jul 2026 21:59:55 +0800
-Message-ID: <20260711135959.3616919-5-wens@kernel.org>
+Subject: [PATCH v2 5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM region for video engine
+Date: Sat, 11 Jul 2026 21:59:56 +0800
+Message-ID: <20260711135959.3616919-6-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260711135959.3616919-1-wens@kernel.org>
 References: <20260711135959.3616919-1-wens@kernel.org>
@@ -87,12 +87,12 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67360-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67356-lists,linux-media=lfdr.de];
 	FREEMAIL_CC(0.00)[linuxfoundation.org,vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -110,45 +110,40 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: AB1F6741BFB
+X-Rspamd-Queue-Id: CD773741BDF
 
-The Allwinner H616 SoC has a video engine hardware block like the one
-found on previous generations such as the H6. In addition to the
-currently supported features of the H6, it also includes a VP9 decoder.
-Support for VP9 will be added separately.
+The SRAM C region contains a partial alias to the VE SRAM already
+referenced by the video engine. To avoid access through this alias
+window, the region should also be claimed by the video engine.
 
-Add the compatible for the H616 variant, using the H6 variant data.
+Add a reference to the SRAM C region to the video engine node.
 
+Fixes: b542570e5605 ("arm64: dts: allwinner: h6: Add Video Engine node")
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
-Changes since v1:
-- Updated commit message on VP9 decoder status
----
- drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index bbd186b8035b..ac0217976670 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -696,6 +696,10 @@ static const struct of_device_id cedrus_dt_match[] = {
- 		.compatible = "allwinner,sun50i-h6-video-engine",
- 		.data = &sun50i_h6_cedrus_variant,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-video-engine",
-+		.data = &sun50i_h6_cedrus_variant,
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, cedrus_dt_match);
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+index 72ce1a75647b..88c6e3e105c0 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+@@ -205,7 +205,7 @@ video-codec@1c0e000 {
+ 			clock-names = "ahb", "mod", "ram";
+ 			resets = <&ccu RST_BUS_VE>;
+ 			interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
+-			allwinner,sram = <&ve_sram 1>;
++			allwinner,sram = <&ve_sram 1>, <&de2_sram 1>;
+ 			iommus = <&iommu 3>;
+ 		};
+ 
 -- 
 2.47.3
 
