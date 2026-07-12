@@ -1,81 +1,62 @@
-Return-Path: <linux-media+bounces-67408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67409-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jTM/EriiU2pacgMAu9opvQ
-	(envelope-from <linux-media+bounces-67408-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 16:20:40 +0200
+	id olNEG++qU2rHdAMAu9opvQ
+	(envelope-from <linux-media+bounces-67409-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 16:55:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947E1744F5A
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 16:20:39 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CF57450A2
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 16:55:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=bAnVOMr+;
-	dmarc=pass (policy=none) header.from=intel.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67408-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67408-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=md92YJic;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67409-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67409-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CF0EF30209EE
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 14:20:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1EBC13010488
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 14:55:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB89D2367D3;
-	Sun, 12 Jul 2026 14:20:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80CA42750FB;
+	Sun, 12 Jul 2026 14:55:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E3E1FF5E3;
-	Sun, 12 Jul 2026 14:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D2D23394D;
+	Sun, 12 Jul 2026 14:55:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783866024; cv=none; b=mIwzRLIoYagmqRg1OwOmoLcaehRDiyXEjEmqdqvK7F5E4Xt4sAyUaq6Q0TghIAQNtO2u3lywMfcCGE5uUw93wbEf9C6gFm9ZhZkHnKToHZVaTPKPgeLLKpgYEAtIvj0pyXTAzavq980Am/YQYv6NHPmYJSFjtB3us+kb8792Sdc=
+	t=1783868131; cv=none; b=h6st2sSUkCxug1A/daN4P81tCLiDpQ0ltAbPV2LW8TBDTMPOsEas+KX2tMzKhOmPAFQXV7hwBAq0xJ8aMneSMTqkdKoqFe6XVfjJCXGqCW55EikFIefRguU2Z6QF5Byj/Khn/E7jspKtWiUK6JjsoS36eBnS9dvj1d4//c1vkvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783866024; c=relaxed/simple;
-	bh=5Nhcnc4ezLPy8605Kf9M8EI1NlsLUYRMPtnyY/wPBAk=;
+	s=arc-20240116; t=1783868131; c=relaxed/simple;
+	bh=Ac6ZfTgAaHGS71xHfdF9njHRKJ5mB29c9Dhsw2bx61U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WA4AYvlqjvo8vYZAy2ZJLK5BcVeSPm2a5gpv5O33BDzuq+gBXFvYApu+joKu+rP4uLi77LAi+KtXO75Vzt/jVTH87b/x6PQj7M5eBc5Q0Id51PgadrLxbH17P54zIZOeaOQmUzD2BreIWOagtkqHdhdMdkZATL53L4pIKfHiauM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAnVOMr+; arc=none smtp.client-ip=198.175.65.9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783866023; x=1815402023;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5Nhcnc4ezLPy8605Kf9M8EI1NlsLUYRMPtnyY/wPBAk=;
-  b=bAnVOMr+UbCRZlQfQzKHSRnT2YoWW3qWePzlWNO32uFxv9C8rJvaDbZH
-   5H5B5zOGEtiqyLd6iAK8HIB/KN4mwBDECwI9N75ndOCwXc/KRlGnq/5zj
-   VFcGu1kEo3H20uzAITWuBFrleLrkNQvkXlyfXOzDn3+k4CJ4Zf+Ub0I4P
-   8z88+ZlkVQPfEz5M5zHtAhSckiS4dnlfDDpwSLtqmheBr0dgQSVKHfnAQ
-   jfoHkUOQuzi+xIMeKKO1LbyaJtJN0Fve0sNovNAn0VUct7JqGvGqYoVNS
-   4FbVXd19ERJiFlIoDxPRd1B3qFpflJakCNSWhG4OwuRc50qfQEL2sun+7
-   A==;
-X-CSE-ConnectionGUID: 3+nraoyEQ6mrijYgxMkzpw==
-X-CSE-MsgGUID: GniPLyYqSne+qVZ2jh1eNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="107295050"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="107295050"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 07:20:22 -0700
-X-CSE-ConnectionGUID: 4tJoZCGGRTS6U1yqQB2mNA==
-X-CSE-MsgGUID: 4yjcvf6eSzinApMmCgAc3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="259628589"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 07:20:17 -0700
-Date: Sun, 12 Jul 2026 17:19:55 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dileep Sankhla <dileepsankhla.ds@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	chelsyratnawat2001@gmail.com, abdelrahmanfekry375@gmail.com,
-	matt@mattwardle.net, azpijr@gmail.com, error27@gmail.com,
-	kees@kernel.org, pontescpedro@gmail.com, starpt.official@gmail.com,
-	karthikey3608@gmail.com, roehling@debian.org, feng@innora.ai,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Drop unnecessary else block
- after return/break
-Message-ID: <alOii3vwmkWGfVNx@ashevche-desk.local>
-References: <20260706103810.71919-1-dileepsankhla.ds@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=VGwEGoM4fpaUHqRrQu3KCtMmrIntIaXX072HL/0zIdF/W9C0jqDMVySg1YM8V6EQifFAen6oG/Pxcd8WfuvQiEAhy7JkPHJ60anFi9UyYtkDbZdAPYrHnTNfhVL7MBjtcfbZ+EhPXvK20jEZwub+IcAgiLZOU4mX3JJyAF0ZnlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=md92YJic; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927E31F000E9;
+	Sun, 12 Jul 2026 14:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783868129;
+	bh=ZFzBN2QN2rCkml+dqde4dT6lV+O1vjvk1z2nt/DOeIE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=md92YJicisjFyi17HuFz0c0INC5dqJ18bD7LO+mCeoOqzUQtPgfGWzrYk1H0M9D+f
+	 BHSMSzC97nXmOpFJQq0rnJqxYYI+jYnuAEd8vC0eDB3buD9edRCfXkO+AiOBx7DD4a
+	 piH7XUlnt0sEuB9S5NxZAK/F8ibAqnxFkjUu8lGKWuvxqkyisAp/9uMWDowoxGfaHQ
+	 FJfyqWuYqJaCOfREvCrwSl6kFd6UVB4Ylzf6534Tqe/yscaV3eVEFuYKru+M7wCbCP
+	 0BFhA/3pudtHkw+cJ2/g+jBNJgg3zV4o4qnIW4GGeTEP5ZACTd620/uKtUd3b5qG4G
+	 tdxexJUso2Bgw==
+Date: Sun, 12 Jul 2026 09:55:26 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org, bryan.odonoghue@linaro.org, 
+	vladimir.zapolskiy@linaro.org, loic.poulain@oss.qualcomm.com, mchehab@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 3/5] dt-bindings: media: qcom: Add JPEG encoder binding
+Message-ID: <alOpwQx-43WNPHcL@baldur>
+References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
+ <20260706071113.383215-4-atanas.filipov@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,168 +65,231 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260706103810.71919-1-dileepsankhla.ds@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260706071113.383215-4-atanas.filipov@oss.qualcomm.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-4.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67408-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dileepsankhla.ds@gmail.com,m:andy@kernel.org,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:chelsyratnawat2001@gmail.com,m:abdelrahmanfekry375@gmail.com,m:matt@mattwardle.net,m:azpijr@gmail.com,m:error27@gmail.com,m:kees@kernel.org,m:pontescpedro@gmail.com,m:starpt.official@gmail.com,m:karthikey3608@gmail.com,m:roehling@debian.org,m:feng@innora.ai,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-staging@lists.linux.dev,m:dileepsankhlads@gmail.com,m:starptofficial@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[andersson@kernel.org,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linuxfoundation.org,gmail.com,mattwardle.net,debian.org,innora.ai,vger.kernel.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-67409-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:from_mime,intel.com:dkim,ashevche-desk.local:mid]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 947E1744F5A
+X-Rspamd-Queue-Id: 08CF57450A2
 
-On Mon, Jul 06, 2026 at 04:08:10PM +0530, Dileep Sankhla wrote:
-> Remove redundant else blocks following return or break statements. As
-> control flow exits in these cases, the else branch is unnecessary.
-> Dropping it improves code readability.
+On Mon, Jul 06, 2026 at 10:11:11AM +0300, Atanas Filipov wrote:
+> Add device-tree binding for the Qualcomm JPEG encoder hardware block
+> present in SM8250 (Kona) SoCs.
 > 
-> No functional change.
-
-...
-
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
-
->  		spin_unlock_irqrestore(&isp->lock, flags);
->  		return -EAGAIN;
-> -	} else {
-> -		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> -		irq &= BIT(INTR_IIR);
-> -		pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
-> -
-> -		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> -		if (!(irq & BIT(INTR_IIR))) {
-> -			atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
-> -			goto done;
-> -		}
-> -		dev_err(isp->dev,
-> -			"%s: error in iunit interrupt. status reg=0x%x\n",
-> -			__func__, irq);
-> -		spin_unlock_irqrestore(&isp->lock, flags);
-> -		return -EAGAIN;
->  	}
+> The JPEG encoder is a standalone hardware IP within the camera subsystem
+> that performs JPEG compression in memory-to-memory fashion.  It is
+> separate from the CAMSS ISP pipeline and has its own register space,
+> interrupt, clocks, power domain, IOMMU streams, and interconnect paths.
+> 
+> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
+> ---
+>  .../bindings/media/qcom,jpeg-encoder.yaml     | 151 ++++++++++++++++++
+>  1 file changed, 151 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml b/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
+> new file mode 100644
+> index 000000000000..e4c16388ef07
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
+> @@ -0,0 +1,151 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,jpeg-encoder.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> +	irq &= BIT(INTR_IIR);
-> +	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+> +title: Qualcomm JPEG Encoder
 > +
-> +	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> +	if (!(irq & BIT(INTR_IIR))) {
-> +		atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
-> +		goto done;
-> +	}
-> +	dev_err(isp->dev,
-> +		"%s: error in iunit interrupt. status reg=0x%x\n", __func__,
-> +		irq);
-> +	spin_unlock_irqrestore(&isp->lock, flags);
-> +	return -EAGAIN;
-
-I would really avoid touching this for now. This is non-straight workaround for
-some platforms and it needs real care on what's going on and how to make it
-look better. Since your patch does not targeting that, it's doubtful that this
-change is helpful.
-
-...
-
->  	if ((*flags) & INPUT_SYSTEM_CFG_FLAG_SET) {
->  		// Check for consistency with already set value.
-> -		if ((*lhs) == (rhs)) {
-> +		if ((*lhs) == (rhs))
-
-Unneeded parentheses, also see below.
-
->  			return INPUT_SYSTEM_ERR_NO_ERROR;
-> -		} else {
-> -			*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
-> -			return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
-> -		}
+> +maintainers:
+> +  - Atanas Filipov <atanas.filipov@oss.qualcomm.com>
 > +
-> +		*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
-> +		return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
->  	}
+> +description:
+> +  Qualcomm JPEG Encoder is the JPEG encode hardware present in Qualcomm SoCs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,sm8250-jenc
 
-In this case it's better to toggle the conditional to follow the pattern to
-check for errors first.
+I suspect you find it obvious
+that this is the block than is used to enc the js, but I don't.
 
-		if (*lhs != rhs) {
-			*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
-			return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
-		}
+We have space, can we please use some more letters here? How about
+inflating this to qcom,sm8250-jpeg-enc?
 
-		return INPUT_SYSTEM_ERR_NO_ERROR;
+Is there a qcom,sm8250-jdec as well? Is that a completely separate
+block, or is this IP-block actually the qcom,scm8250-jpeg block doing
+both encoding and decoding?
 
-And yeah, looking at the below, you might want to have a common helper for
-this. So, perhaps don't touch these three cases for now. Or we can leave them
-as in your patch, it's up to Sakari and you.
+Regards,
+Bjorn
 
-...
-
-> +		/* TMP: check discrepancy between nr of enqueued
-> +		 * parameter sets and dequeued sets
-> +		 */
-
-When moving comments with a wrong style, fix the style at the same time.
-
-		/*
-		 * TMP: check discrepancy between nr of enqueued parameter sets
-		 * and dequeued sets.
-		 */
-
-...
-
-> +		assert(g_param_buffer_enqueue_count < g_param_buffer_dequeue_count + 50);
-
-What will this do in the kernel environment? Perhaps first you need to check that and
-most likely change the assert():s to something else?
-
-...
-
-> +		ia_css_bufq_enqueue_psys_event(
-> +				IA_CSS_PSYS_SW_EVENT_BUFFER_ENQUEUED,
-> +				(uint8_t)thread_id, (uint8_t)queue_id, 0);
-
-Why do we need the castings?
-
-...
-
-Half of the patch is good to go, and the other needs more work and real work on
-the driver.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 6
+> +
+> +  clock-names:
+> +    items:
+> +      - const: hf_axi
+> +      - const: sf_axi
+> +      - const: core_ahb
+> +      - const: cpas_ahb
+> +      - const: cnoc_axi
+> +      - const: jpeg
+> +
+> +  interconnects:
+> +    maxItems: 3
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: cpu-cfg
+> +      - const: hf-mnoc
+> +      - const: sf-mnoc
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  operating-points-v2: true
+> +
+> +  opp-table:
+> +    type: object
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interconnects
+> +  - interconnect-names
+> +  - iommus
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,camcc-sm8250.h>
+> +    #include <dt-bindings/clock/qcom,gcc-sm8250.h>
+> +    #include <dt-bindings/interconnect/qcom,icc.h>
+> +    #include <dt-bindings/interconnect/qcom,sm8250.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    jpeg-encoder@ac53000 {
+> +        compatible = "qcom,sm8250-jenc";
+> +        reg = <0xac53000 0x1000>;
+> +
+> +        interrupts = <GIC_SPI 474 IRQ_TYPE_EDGE_RISING>;
+> +
+> +        clocks = <&gcc GCC_CAMERA_HF_AXI_CLK>,
+> +                 <&gcc GCC_CAMERA_SF_AXI_CLK>,
+> +                 <&camcc CAM_CC_CORE_AHB_CLK>,
+> +                 <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +                 <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+> +                 <&camcc CAM_CC_JPEG_CLK>;
+> +        clock-names = "hf_axi",
+> +                      "sf_axi",
+> +                      "core_ahb",
+> +                      "cpas_ahb",
+> +                      "cnoc_axi",
+> +                      "jpeg";
+> +
+> +        interconnects = <&gem_noc MASTER_AMPSS_M0 QCOM_ICC_TAG_ACTIVE_ONLY
+> +                         &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
+> +                        <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
+> +                         &mc_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>,
+> +                        <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
+> +                         &mc_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>;
+> +        interconnect-names = "cpu-cfg",
+> +                             "hf-mnoc",
+> +                             "sf-mnoc";
+> +
+> +        iommus = <&apps_smmu 0x2040 0x400>;
+> +
+> +        operating-points-v2 = <&jpeg_opp_table>;
+> +
+> +        jpeg_opp_table: opp-table {
+> +            compatible = "operating-points-v2";
+> +
+> +            opp-100000000 {
+> +                opp-hz = /bits/ 64 <400000000>,
+> +                         /bits/ 64 <100000000>;
+> +                opp-peak-kBps = <76800 104166 104166>;
+> +                opp-avg-kBps = <38400 33569 33569>;
+> +                required-opps = <&rpmhpd_opp_min_svs>;
+> +            };
+> +
+> +            opp-200000000 {
+> +                opp-hz = /bits/ 64 <400000000>,
+> +                         /bits/ 64 <200000000>;
+> +                opp-peak-kBps = <76800 208333 208333>;
+> +                opp-avg-kBps = <38400 67138 67138>;
+> +                required-opps = <&rpmhpd_opp_low_svs>;
+> +            };
+> +
+> +            opp-400000000 {
+> +                opp-hz = /bits/ 64 <400000000>,
+> +                         /bits/ 64 <400000000>;
+> +                opp-peak-kBps = <76800 416666 416666>;
+> +                opp-avg-kBps = <38400 134277 134277>;
+> +                required-opps = <&rpmhpd_opp_svs>;
+> +            };
+> +
+> +            opp-480000000 {
+> +                opp-hz = /bits/ 64 <400000000>,
+> +                         /bits/ 64 <480000000>;
+> +                opp-peak-kBps = <76800 500000 500000>;
+> +                opp-avg-kBps = <38400 161132 161132>;
+> +                required-opps = <&rpmhpd_opp_svs_l1>;
+> +            };
+> +
+> +            opp-600000000 {
+> +                opp-hz = /bits/ 64 <400000000>,
+> +                         /bits/ 64 <600000000>;
+> +                opp-peak-kBps = <76800 625000 625000>;
+> +                opp-avg-kBps = <38400 201416 201416>;
+> +                required-opps = <&rpmhpd_opp_nom>;
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.34.1
+> 
 
