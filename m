@@ -1,180 +1,175 @@
-Return-Path: <linux-media+bounces-67396-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67391-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ZJMHFZCAU2rHbQMAu9opvQ
-	(envelope-from <linux-media+bounces-67396-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:54:56 +0200
+	id dSOpN+x/U2qybQMAu9opvQ
+	(envelope-from <linux-media+bounces-67391-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:52:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65157448D2
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2981874488F
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:52:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Tk+E1KAQ;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67396-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67396-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=quora.org header.s=google header.b=URUmaZ9U;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67391-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67391-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1C182304E0D9
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 11:52:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9DD60302BB82
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 11:51:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ECA93A7F7E;
-	Sun, 12 Jul 2026 11:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6F4A2571DA;
+	Sun, 12 Jul 2026 11:51:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1313A3E60
-	for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 11:52:35 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783857156; cv=none; b=equljIeT8g0ekP5zApCyGsOK5P5onvcnkHzHbvXpxbkVn0wnsDGmEWoAS0DamZYlmUPfQG3IUN8sn9GinA2m/Ff7hLmRKwq1C6Q3uJ9wXUTt3oj/yQfoVV28YLvVChL0yY5SY5lzsazjNDsNvE6nVVjcCQIwIHCAPEwHD1ft6Jo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783857156; c=relaxed/simple;
-	bh=Px5tTQrrJPVZPpjYyuk0e+sO++K6EkDLnfAUJ2HiA8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ODJiM4rgdg4AfneDDEKSyRcca96AqAjQWx49UIWGPjag4JtTkLGP17Wi7ON9bjGdQ+o3lL03VYksl74XwnEUYPfz871LwsVdqbFnYIlAt4rzYgkZTEFoKpZyoE/K78BEycel/1QIy1nC/RpCs7i/PoOqk41rXbjcXJG8kKlWafY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tk+E1KAQ; arc=none smtp.client-ip=209.85.214.173
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ceaf8a1265so7699865ad.2
-        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 04:52:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D65310645
+	for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 11:51:54 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783857116; cv=pass; b=bu5S+fHe7uZqop3ED1OzxbpMB9YJiwNCf8hyWZ+i1jUC+/6pSDq26RUGryULqTaDhtDFh4IPjmUHsJB6T7Z8SmMf49WAc5WGgwY2UVIREZ0GG9nXwRAAmOn6a97apj3/oLWOQn9PDGqNjd9nMTSFc4rrlZt2vt/8moltu4A7AWE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783857116; c=relaxed/simple;
+	bh=Vq61pPu6R8RhFxhzO6MCMoN7B8JnjWnfrnKR8iKrLVo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s+1Ux35GZGQCYOjkZ3k9TJ/PslodU4DpjI3Q06W19kjvub1gCkZeJypF1dZdIUm0v5ATSjqoAdzzCQCFeHvkhUc2hxp759kG7rl0FRaHI9KBZPPla0rHkt5dCyFtE3cBedUMu1ggZ7v4CY5/H/ufVp4XIcWZYA7SUTd5wyqTDng=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=quora.org; spf=pass smtp.mailfrom=quora.org; dkim=pass (1024-bit key) header.d=quora.org header.i=@quora.org header.b=URUmaZ9U; arc=pass smtp.client-ip=209.85.210.177
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8484a0b998fso3474664b3a.2
+        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 04:51:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783857114; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QRuttIabCihPZ4VTX6QJowNwiKkR47PHyojZ4bGfhFu3vtZ8ndGjt0kQEhGErNRTYr
+         I3wiLFLwC8/SP6/zA7F6IJsFWN4lijFzISB1jgMT2sWwZyyxy0QYJaOuuwuP4wuIylR8
+         gOBvSYADWrxaqTTOflAfww5ZwNTzyvDGZoDJNK7dNelq6/WUhI9F7QxQ2gnqO7zXk37f
+         bLsfcpgfQQ50f4savp1RfqkVGFC+heQ3PqDdWl94NCKLBi98Gx0Mtaulu0TLwAp2YRar
+         FdsBqk2hE+cMltWcAI6gu51ffa3lZMCKPKCDrvXOuBBbgiPdpmRhLLVrDAwsv7RJ9RW0
+         9yjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YsQpUC4iSbhz2nXUUh9/l1xqUNQEcKgCsyiqdbNE7Cc=;
+        fh=0zOot3mH3OkLBW+UZhdHzxtJ0HY3pW8PHwheCurhXKY=;
+        b=gzeVi5gK6wSye484zw+uqppMp3Vrthm5LNRr/MongBckrTuQRDWBGSmDkyz57HR8RC
+         MT96Ya1Eb22xC066BQdn3crqi3b6AhhM+ZczpQFTQOqKL9FqBbxKbQniBAeZlp7hCnxU
+         bZerYQnyIRHi18z+yULJ5ogc8i1Fup+zHdWnluD2HS0vlAozFKdRZZJIq2cyKHkhbXh3
+         L5eN4ObGjGOM1Xp3bg3pFr5fMBC+dySOWmyRJpnConqW2eBGhgEOWiQQ+4rygeeUFjDI
+         CVkoIns2ZLE6SWbQhjFpb9YIQeEZmghgwEztRVLtcarLYYdBaJrCBLP1ESZjMVqMibbn
+         vt+Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783857154; x=1784461954; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GPtgQI3XYwQPKh88ieAfFq0tWd9+g3Yu9Pr17lmgPPI=;
-        b=Tk+E1KAQzPgBvocvOc2tlV53Y5yYuHWHTE73/jOOu+VWo3+kFEfCSwT9QlShdTs8Nn
-         f2OZvnnElg7/bwmee5KVhDpP0rumlDkfot0WX8XPvyQUaJCckGLu3PAYH1F3yL/kZJZ8
-         VctQ87gMB+OeyBcDrpqmoTG2EyPDvOGY5/qZKA46zU6rP0ixC3OQhMAH2KHg2q1NlAUT
-         Y7z0Tznc5iIdIlh1l0419rkMJPvAqhH8XHfWaIKScAQR89ehYBIu0Wvyy2DLMFWtoVFH
-         EwPQwNg2140fEUsOASrjCXPIDMlAsGfcZ6djVBAe+tSFoQIEvKgvZWKaENSpAXdqqszT
-         ublQ==
+        d=quora.org; s=google; t=1783857114; x=1784461914; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YsQpUC4iSbhz2nXUUh9/l1xqUNQEcKgCsyiqdbNE7Cc=;
+        b=URUmaZ9UW7ebsoLPmv2ZwO+NMA/F/cdUeLiUqXEHvG7svopSwPCAh2vYO8eKQx9+Uq
+         qIHblZvsk0rX4E3NZ5TVXxD941gvWnFAmHodF0VYobDRHdLxLkftPV4gzn1z/DEbX8la
+         WR0e3xpTmTybNyRCJN6NPBqgRiYhey1vgPKa4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783857154; x=1784461954;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GPtgQI3XYwQPKh88ieAfFq0tWd9+g3Yu9Pr17lmgPPI=;
-        b=V1HXsiL4LPj6TTja9RPOfmILkNq/a4zhw1CbXsMKiILpY0JydO9yoOSuwvM4u4IHac
-         jspR0Y75bzb0yZEcHtfqI3hq4tHFjXiJzAXyTA+gl88EX5Q6hoa0RMltqD3OX1HSbJ9r
-         G1HGDw7XqXz+44FrTBcgCmwLxDStirqUqHuCvIMlWKmSgPw0X+yOfuMx67e8EDRsTeRW
-         3tSOA8qDvWsjyBHXjAbSJW3sdudp5J26nTGXYwoX6xpC9+NP0bo4W+tdQB2/u2T88cCL
-         N8FWC+DIS/8N2DIotHv9gL+s6kRaXzc1xZeH/VIkjxzuFdVhq1wccOL/VfPWohks33Bu
-         pjUw==
-X-Forwarded-Encrypted: i=1; AHgh+RpiRx6hBsWpsri4qdG0R96chSny5CDCCuAJii6omdVfGMBPnEq3wyJli0WswwPfGJFulQOZMIAkl9U6EQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeI08/fcHudKyV8FBNP85XkafX7+DDuFnZxpGScKAbxzbutBjc
-	DTvwBpn/4cREk6r9HzgxWmAYjGq7x5gr1rYvNXijx0H/DRq95PZbSywl
-X-Gm-Gg: AfdE7cnBaNdwpMcix5NXLXS+hMN0tSvDNl3poeGbohXtfSEoxWa/YHOYdr4HuNfb3Up
-	si5T0rdMQFytNUKWhnTFAhmKr2w0BUp8usDmYhCe2OB1Ek2Rp5sjg6iJHc3S2pxzEDxhzQ23rr+
-	NR1qT6AEGhzLoz6MBGxJ2zANRKrLMlhIi7lzkXnqYJT6UoSS2p3C4IIJpkzmdyoT8yhTrPWNM/x
-	y4hY4arHbEM00i9bbf/2cLev0MDywcEdGJt+FVrVG2coyDxFL/cqMiAn4HonvUENy042BDIYAUG
-	+F8dpQyAhnFRd7uniZLkffeDYakefyHCiPG6QQUaZFZbwRuo+S2R43hV+c2PM1CQnpmzDmM4k/j
-	B9dacRv04xpWGGgu39W7/v6VKoOS6+ty8vsxjryrXSCioxF5rEHvd7+Da6y14HR9yoy6vNTDYXK
-	MzaSzcwaYrVMgxjMU3a69wr46KrGXE2ATbd6Qum6E/duCHozjISA==
-X-Received: by 2002:a17:902:dac6:b0:2ca:73aa:b48f with SMTP id d9443c01a7336-2ce9f154527mr49451065ad.35.1783857154348;
-        Sun, 12 Jul 2026 04:52:34 -0700 (PDT)
-Received: from nuvole ([144.202.86.13])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bfe040sm84538295ad.31.2026.07.12.04.52.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 04:52:34 -0700 (PDT)
-From: Pengyu Luo <mitltlatltl@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Martin Kepplinger-Novakovic <martink@posteo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
-Cc: devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Pengyu Luo <mitltlatltl@gmail.com>
-Subject: [PATCH v5 5/5] arm64: dts: imx8mq-librem5: Correct link frequency list
-Date: Sun, 12 Jul 2026 19:50:12 +0800
-Message-ID: <20260712115012.91600-6-mitltlatltl@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260712115012.91600-1-mitltlatltl@gmail.com>
-References: <20260712115012.91600-1-mitltlatltl@gmail.com>
+        d=1e100.net; s=20251104; t=1783857114; x=1784461914;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YsQpUC4iSbhz2nXUUh9/l1xqUNQEcKgCsyiqdbNE7Cc=;
+        b=ZJB1wEJU+Mt3+K8U+bkPFOZm7D7B42E8sMiwR0BqZTdMVbMW+OlIS0rtcHv/2/V6+T
+         k0lOa7jLsZdK2Jnf6TC8tmQ1n5YN6jpOPkAelL54Wg45mpLsA42sjDjENWtFzd2MRxmw
+         B+58KL9HdC4xOuwvaqNtMcponDujZlbN/Gwz5nCF+8hV8Knsx5U9xZwf0fz/dw3puLkl
+         VbDC+rNUL0FQJU5muuSm8OF4JW0SYLwF44ABki1fdcNpcA4zyppK0uZaFszJbUugF7ML
+         u1qfvZRJIHP9Xr53za1Mynvf9Hq2aFEeCsZ5AEbnNF4r7uLKJBkb94TQesKQ4+jbh7NS
+         7+iA==
+X-Forwarded-Encrypted: i=1; AHgh+Roo2ArqJ+hndmsRPrNNe+LchjPw9USeUqHse/8U/ZwU5THKBJ36pZeZgeqNnOCWilnxcb4Rt9VcbUxH3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfMWsXh9O4sR95a8GP5A2TevLFM6ItiWH6e0hnVJEBaAtm+/9i
+	54alSvRoYsjcDmatZqZCk5xCME6/D+KQyNNYDbuIC+L+cWv269rkfgqvkSZeKwTr3Wk2KOAaRcM
+	D6DbvYQGOOvif1JuR65lS1CwrezbvQVcTUbo/ZFkzlA==
+X-Gm-Gg: AfdE7ckI7WNyW7cR/0E37PF/UGdqqGxSJBFcOZaA3PKPfUA0HbfK2kLnC0w8X08eCeL
+	1cgxh8PfUMuCYj2jhCCJZ3GOulWuMNOoaSVULJHP5DwUTLtEzV/zu5lctuGv3gCYavsap2nH1Av
+	XdljSrRVsVal9vBuPnvI9AT9iIcDfvltX7HtxFb+KW+u1CsjwlTkNfJ7H43lIYyONQQ9ryW8J+V
+	Yp7tCjU55FyBSScibEM12pj5dcB1knULpf9HyiOkF9KzIPg1JpA6A+URp/hhRmfL5688eDDwB9j
+	Qmneyjq57MrtedC0mPl3WQIu6i5x7w5g4jPeH5fCHf4CMjlUzCDmqtCRI5PYAYqkH/5dlO2Qdaj
+	AtOB7zY2w47mAGcVvxdvUYk9BbYGDfBGFvvGP3V0qHsmf/Gmc5s0u/9OUcdhHIM60SfLTK1qlrN
+	s2EPkWjTMLCmRqmFdyZu++oRmtd/wnmkMwxT5HOGgWCgw/4huuZ/wQZjyLLHFyM3UdL71ZF8A=
+X-Received: by 2002:a05:6a00:c88:b0:848:2f77:e2dd with SMTP id
+ d2e1a72fcca58-848897a7553mr5221254b3a.70.1783857114306; Sun, 12 Jul 2026
+ 04:51:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260709-vpu_iommu_iova_handling-v1-0-72bb62cb2dfd@oss.qualcomm.com>
+In-Reply-To: <20260709-vpu_iommu_iova_handling-v1-0-72bb62cb2dfd@oss.qualcomm.com>
+From: Daniel J Blueman <daniel@quora.org>
+Date: Sun, 12 Jul 2026 19:51:43 +0800
+X-Gm-Features: AVVi8CfIxi4WIpFkevKCP00_7Hn3fE6sIEYaOzLrzMtk6xLs3rWmXH2GtZ7E-hM
+Message-ID: <CAMVG2stqOscN2CB5Uq4qVvb3vXOze35-JzqH4GpS8z4R2dr+Mw@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/11] : media: iris: Migrate iommus to iris sub nodes
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, "Bryan O'Donoghue" <bod@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_DKIM_ALLOW(-0.20)[quora.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:busanna.reddy@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[quora.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67396-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:sakari.ailus@linux.intel.com,m:martink@posteo.de,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:sebastian.krzyszkowiak@puri.sm,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mitltlatltl@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,linux.intel.com,posteo.de,puri.sm];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[mitltlatltl@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67391-lists,linux-media=lfdr.de];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
+	FROM_NEQ_ENVFROM(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[quora.org:+];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D65157448D2
+X-Rspamd-Queue-Id: 2981874488F
 
-According to the hi846 datasheet and the register lists, they are
+On Thu, 9 Jul 2026 at 20:35, Vikash Garodia
+<vikash.garodia@oss.qualcomm.com> wrote:
+> VPU hardwares have a limitation where VPU streams are associated with
+> dedicated addressable address range, as illustrated below
+...
+> Mapping a stream outside its expected range can cause unintended
+> behavior, including device crashes, as reported at:
+> https://gitlab.freedesktop.org/drm/msm/-/work_items/100
+...
+> To address this limitation, the subset of stream/s are now represented as
+> sub nodes, so that they can be associated to the respective addressable
+> range.
 
-mclk / prediv * multiplier / mipi_clk_div1 / mipi_clk_div2 =
-25Mhz / 3 * 90 / 2 / {1,2} = 187.5Mhz, 375Mhz
+Amazing work Vikash and team! This patch series applied on 7.2-rc2
+resolves spontaneous rebooting with parallel streams eg when opening
+https://ui.com in one or more browser tabs, resolving this platform
+usability blocker. As such, this is absolutely relevant for -stable.
 
-Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
----
-v5:
-- Rename post_div to mipi_clk_div
-- Correct div1 number from 1 to 2
----
- arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Tested-by: Daniel J Blueman <daniel@quora.org>
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-index f5d529c5baf3..cc5604172192 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-@@ -1122,7 +1122,7 @@ port {
- 			camera1_ep: endpoint {
- 				data-lanes = <1 2>;
- 				link-frequencies = /bits/ 64
--					<80000000 200000000 300000000>;
-+					<187500000 375000000>;
- 				remote-endpoint = <&mipi1_sensor_ep>;
- 			};
- 		};
+Thanks again,
+  Dan
 -- 
-2.54.0
-
+Daniel J Blueman
 
