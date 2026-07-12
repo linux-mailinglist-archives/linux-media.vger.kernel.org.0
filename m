@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-67376-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67378-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3ttnBJ0DU2ouWAMAu9opvQ
-	(envelope-from <linux-media+bounces-67376-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 05:01:49 +0200
+	id 5ezmHfIDU2o3WAMAu9opvQ
+	(envelope-from <linux-media+bounces-67378-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 05:03:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E3E743A05
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 05:01:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21E9743A20
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 05:03:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=PiL2Vajb;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Vy8zoUDN;
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67376-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67376-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67378-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67378-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7A9633031833
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 03:00:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5A30B3019BB0
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 03:00:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D1E36E466;
-	Sun, 12 Jul 2026 03:00:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3EC3371048;
+	Sun, 12 Jul 2026 03:00:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E0C36A01A;
-	Sun, 12 Jul 2026 03:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1688036B07C;
+	Sun, 12 Jul 2026 03:00:21 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783825221; cv=none; b=dj3kW6bZyaJyI7LXVezLZBQ9zGmZVSStk3mRTCp4sBfgrReHD5kx16ptVOFPVg6SC9jpOJhhHDS7Eka5ymVNgD3P1rI/9stV9uIH6bPNtlFLxYoRQmYUU7UErmrxmNYST7cWYPrC73P40bz0EhvDchVQtPnvW8xiFEKmT81fkcw=
+	t=1783825226; cv=none; b=omc91x4EeMp5uKNYaYIyEZrsgpqeEg2OjLFg5A2rpuplb5C2N6WXo2edU6pCEHMWfrJ1/G3UHIS/UioRb7WXlR43PKMOaTxgiFDMU32p+yt6PWXxtFL9j35C+YGWT4zHyfsWITMIAS4iBOa8MyJG4OIstQVNJ3Y+zv3DLy3FsWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783825221; c=relaxed/simple;
-	bh=q2s2FOvbicJk+TqrHhjlreyNpWh5i3wgKoewp4eJcKc=;
+	s=arc-20240116; t=1783825226; c=relaxed/simple;
+	bh=h8HnPa9jPNT9KN5lGEI/AtSgYlDiW6l80zMgBH26b/I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bXwxA/7nxNFiFRn/N6vv2qN+4CEjRDTiJDeYLGic9vVT1FGevuicWzY/sWu0ntUZ/JMsaQUxyRlQojB/DloEFt1FnFjg5kvYGt26iC9z02o12jTQNUrjyxJwxaiY6ixz4mDNfwuOpYN5ISBJFhGFjX8XA9bLIDOR9rIHEktgbE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PiL2Vajb; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F6491F00A3E;
-	Sun, 12 Jul 2026 03:00:15 +0000 (UTC)
+	 MIME-Version; b=Xe3chNhtHtfie+k5jL6MzB8IpFt7bGxXBE1d0mz14sUnl8SysiekX/PiiOMhzFgd3blAT56bgNTXxVolNI6ZRimBZyRlEiHvO93pMNrkZb2ugN0hHdBQXvRWHDFi79w9vsvps8xk/wgeu03n0l1gu4GY+dj/s/PZgXD/LA+bEXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vy8zoUDN; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE1B81F00AC4;
+	Sun, 12 Jul 2026 03:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783825215;
-	bh=+kKJ3JnDN7CMAEU7BuJ5mn/TOdxuZKO16Ai+J9jrTaQ=;
+	s=k20260515; t=1783825217;
+	bh=lHn+VlrPP8+DG9eMf2EHuMFbxRRlTlKli3GayR7WGoQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PiL2VajbblouMJbCl4hJb0obOawgU6W0DNq/OopJ6+VjFtINEurqUTitTDfoV2K5+
-	 XDnRBIpfY9iQMkmobm9cHAqbdGIUbbfGiPj0fH3miLZ8S0lFm1DJD+JC1fQznpl93/
-	 ZA57Y1/MmPmkWWzCQASiJucyVaI9MtJtQX3+AS1ErYbLOsusM/Het3OLx8/lhNgEQe
-	 Mp/dj+B8DDqrWs2ILYYK47A74i7MmjOcdyK7D1XML+yMIOKi19XvF+6GjgWIgNX6FJ
-	 MfpJ4UkdhO7DLPFwRKTOfdGqvbIH50jiVMg4SYHM4QlNovoZ3bLWkAnVUK3Cg56whH
-	 hfEl9CR0Jsy3A==
+	b=Vy8zoUDNas+vvG0c2LmFKZew4UfK+SSk56tXC0Fg46ambpKU2CcLCEQEapdMGuJso
+	 RkVe97ZOQL5eMAlMX8gyaerTuDB6oCuHmW6eld8HD7KMgK582JOcs9zdMF+FKSAEGm
+	 UN9y79Qoo/obqfiZ+xwvgueP3WNMjil1T27f8ubXOBq3RGVyiWBye77Ibw37JpIolE
+	 PpvlwyjgWpcOIML36+DlC15b2xqDcsYrRro+ioOY3jcBWkyU1dix2U7TepybWGKyYF
+	 qv8LuD+BdIIfT3lm+r0rNgZmuCsjGZS3CfxKZmmwJr4JDnN65E4Nx/4P70/eXdQCss
+	 A/EX6AmbO9WFA==
 Received: by wens.tw (Postfix, from userid 1000)
-	id 050F260162; Sun, 12 Jul 2026 11:00:12 +0800 (CST)
+	id 1245460176; Sun, 12 Jul 2026 11:00:13 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>,
@@ -66,9 +66,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 4/7] staging: media: sunxi: cedrus: add H616 variant
-Date: Sun, 12 Jul 2026 11:00:07 +0800
-Message-ID: <20260712030011.3778169-5-wens@kernel.org>
+Subject: [PATCH v3 5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM region for video engine
+Date: Sun, 12 Jul 2026 11:00:08 +0800
+Message-ID: <20260712030011.3778169-6-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260712030011.3778169-1-wens@kernel.org>
 References: <20260712030011.3778169-1-wens@kernel.org>
@@ -92,7 +92,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67376-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67378-lists,linux-media=lfdr.de];
 	FREEMAIL_CC(0.00)[linuxfoundation.org,vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -116,42 +116,34 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 92E3E743A05
+X-Rspamd-Queue-Id: D21E9743A20
 
-The Allwinner H616 SoC has a video engine hardware block like the one
-found on previous generations such as the H6. In addition to the
-currently supported features of the H6, it also includes a VP9 decoder.
-Support for VP9 will be added separately.
+The SRAM C region contains a partial alias to the VE SRAM already
+referenced by the video engine. To avoid access through this alias
+window, the region should also be claimed by the video engine.
 
-Add the compatible for the H616 variant, using the H6 variant data.
+Add a reference to the SRAM C region to the video engine node.
 
+Fixes: b542570e5605 ("arm64: dts: allwinner: h6: Add Video Engine node")
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
-Changes since v2:
-- Drop "drivers:" from subject
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes since v1:
-- Updated commit message on VP9 decoder status
----
- drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index bbd186b8035b..ac0217976670 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -696,6 +696,10 @@ static const struct of_device_id cedrus_dt_match[] = {
- 		.compatible = "allwinner,sun50i-h6-video-engine",
- 		.data = &sun50i_h6_cedrus_variant,
- 	},
-+	{
-+		.compatible = "allwinner,sun50i-h616-video-engine",
-+		.data = &sun50i_h6_cedrus_variant,
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, cedrus_dt_match);
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+index 72ce1a75647b..88c6e3e105c0 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+@@ -205,7 +205,7 @@ video-codec@1c0e000 {
+ 			clock-names = "ahb", "mod", "ram";
+ 			resets = <&ccu RST_BUS_VE>;
+ 			interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
+-			allwinner,sram = <&ve_sram 1>;
++			allwinner,sram = <&ve_sram 1>, <&de2_sram 1>;
+ 			iommus = <&iommu 3>;
+ 		};
+ 
 -- 
 2.47.3
 
