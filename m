@@ -1,164 +1,251 @@
-Return-Path: <linux-media+bounces-67407-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67408-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YbHDGyWWU2o4cAMAu9opvQ
-	(envelope-from <linux-media+bounces-67407-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 15:27:01 +0200
+	id jTM/EriiU2pacgMAu9opvQ
+	(envelope-from <linux-media+bounces-67408-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 16:20:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96A9744CA5
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 15:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947E1744F5A
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 16:20:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=googlemail.com header.s=20251104 header.b=IqYlPikd;
-	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=gmail.com (policy=none);
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67407-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67407-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=intel.com header.s=Intel header.b=bAnVOMr+;
+	dmarc=pass (policy=none) header.from=intel.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67408-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67408-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C13BB3026F08
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:26:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CF0EF30209EE
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 14:20:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 471553ABD91;
-	Sun, 12 Jul 2026 13:26:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB89D2367D3;
+	Sun, 12 Jul 2026 14:20:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07A31A6807
-	for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 13:26:41 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783862802; cv=pass; b=F+G7Fg7Osao6DegDMqZCOX20Jx0B6f6rqiaY1v1cF/oQmzVEB77njnl9+WfXX86SSDV4N6opP5EGEyvYK9Jp9eVqbq6UuR+fNAFVzFtFXdyEM7H26bRV0R9eLejSDr8WKGc2BD2JQY+4p3+Y4cPUc4Dik+jsLYH+QV1cEQT84ms=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783862802; c=relaxed/simple;
-	bh=atG8XqSPZX3CxozOHpc22+hLJIPB/QF7jvdDAJ3IDBc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g8Cn4S562zFDfQuDrAjlYJawY8sgPvmoeDCSzi/3jylkBeH0lvNdvI5D2OdygffiqMJreVJQp1AIuBPVQrJhf/vNjSq+PFUkYnO/6s9gp94fAldExm5y+fX1apermHyyMG+e7OdUhl4kzQ7/qOMjzo1I0lTXgqkvk+pJq/6zOF0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=IqYlPikd; arc=pass smtp.client-ip=209.85.214.172
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ce7d2adef4so30910525ad.3
-        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 06:26:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783862801; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TjbCKPPqf2UhgDvDG/RCVOckFtoatFHSRXS+TYsN053bt9DDEEwMGZDOMcmQ84emdd
-         z5s5SL/Jdg8jlS/AXDV+iNXqe4B/2eBBJhiDU7Fq+cFvb79czVO4Y+m0DJJRLSqKixsI
-         56PzswCtvae68Z/yPeSg8SkaluBaNc4j61dwo9EhphohCmen8VdPEaBOvDmWQ9wi3kH8
-         MvLaC93ekPQFufkyNraToNSo1WxVkBy8jPcKkLbbzg3zEw3fRBRcDTaO7r9yyIhMH4kS
-         F/FHPOAuNRSPxCL8ZB8vnQfMVGWQRK2gCIiPOPgPf9+ez4HP63tnW1BA7JezKBrYiv0k
-         trRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=atG8XqSPZX3CxozOHpc22+hLJIPB/QF7jvdDAJ3IDBc=;
-        fh=mBG6IdbLj7DVYnF9T1L+s5nLO3j0Cvuzg/Ar99kMLtI=;
-        b=Vk4K4k8fDaI8gtJTS+hALuWDFsrcqotXiU6c5jz5vPWX4BuMi/wSFyV1Q4GpPN5tiN
-         zpHiyo60W+O7N2AW2y7Cj7JQZ+Ez7bwzHgRnijb9Ck5BO8vOy6jEhacsvsD7kBTbyPx7
-         AI6/por/nxSZlffxc+jTpLnDPgIOZiTRsbtOmdp+VGtWl82/zTs69ikAwTJ3qTeIIVWT
-         XMhUaimXlOksG5GK3P22Vgeppm4LTP4+2HkInzIB07Vyz3cQhiPghf7qgOmOpH/JN3Po
-         SvmuX1bb76PRuFWo4ZUgcpSprg/UgY1oqyKMPViwvtgVKzKH6IUGEK+xbT5um0hG24/D
-         Ws6g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20251104; t=1783862801; x=1784467601; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=atG8XqSPZX3CxozOHpc22+hLJIPB/QF7jvdDAJ3IDBc=;
-        b=IqYlPikdPznLiL/uc6HyNAEVr03WVnz5J0Pp+nDRxQewiGcnA3m7cINuAiAWmIS9Qf
-         s1TuNlqNnSBeysFNxtEYEmSsUlGsTu0Ciq1X8knHptySPGgJ8gA7KcAImcFF7fkhlFUR
-         Fd+A1Bxzj16hJjT0qRajt1MzbiteefDhcZyue3w8Zvo6aufI8TLvxNWoqzHSVQVodUzY
-         FPl5Iv68ir249u77XDY2uuzmFNMIRKuhg7D9kDnGNX+OZ/PBnkWqGKZNIg8gREy4bh59
-         kp0m4XuAum87HukMSxaTwM4gaFtp9uHnfGNaifpFCdQEfOV2bJ6T0C7UErRIwHB9Ix8e
-         B10Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783862801; x=1784467601;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=atG8XqSPZX3CxozOHpc22+hLJIPB/QF7jvdDAJ3IDBc=;
-        b=XMKjN6nkrY9byNSdbmthihvFPS9X6tUmRPO4YPKWS+b2OFzu1DlmvX+X2bvSXwNmM0
-         Qav+0xqHAkrrs3SO2J/HJ1lMIGAcXH9BrLrMJUQC8hXob2yPeGIPFPPbzABbrffyJFz4
-         ms83YXQed5XABGE0F/musDp7pmStn1aEtRWf0eX8plLl4WftSl3CGNpZHLBrV6/bBTV+
-         m3W24nZj49dLbZgEpSKT2LfhRoHqQIUm6aEMVhoQew7zIPeRIlzF4L+jfLkkN6FvSNSW
-         0Mv/AKjenG/HH6kLc7xkHGPzhRu4Ub/QoflUsP7u0FAAmY7MJ8nKPPKdgkqNJqOZ2XjB
-         EWHw==
-X-Gm-Message-State: AOJu0Yx57a3H3pC3jg2l82kueBzZ5nJm676Vlsnd+B4LqXtF7atXPQva
-	huYEzZtp1HZLIOJZm1johWPAm8h1/lXzGVtmKkyrLxvussWiIfUqUxKhCz6SHbpSy1KXocW0TBO
-	XTuVdMVNjRSyY9pNy6S6PL5gFzYBzAlU=
-X-Gm-Gg: AfdE7ck02dXhB6XD3dAlbjiQ7H3eVQfBOwmRVgCJHDwesaOJMqfDqZDB27sRAKhYpRP
-	datlIWl3bdhRRi8td9MpvvnyuC9/ludX1v0OO1cwokAXyBXvZCaiV+nqw3xiztP1lkjHEIN9raB
-	XWSCvS4+nQeeMhAimXwWy5hy1BAFnfr9+tj0ydeQPgHD5uXIgtOSGrQbrxYdhZ33y1x/A+tv6Wy
-	H5qeZKoQ6kotG2eX8eE4SmTg3huCgB0ncxCdiPSlR+HtXKTvRSpvuOmeZgaCkTFbf1Y/sHc3GZL
-	yR82gLBXZL1beFED9Nxyyy+v8n+f7A==
-X-Received: by 2002:a17:903:2bcc:b0:2cc:77f3:a934 with SMTP id
- d9443c01a7336-2ce9f174650mr52007555ad.46.1783862800932; Sun, 12 Jul 2026
- 06:26:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E3E1FF5E3;
+	Sun, 12 Jul 2026 14:20:22 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783866024; cv=none; b=mIwzRLIoYagmqRg1OwOmoLcaehRDiyXEjEmqdqvK7F5E4Xt4sAyUaq6Q0TghIAQNtO2u3lywMfcCGE5uUw93wbEf9C6gFm9ZhZkHnKToHZVaTPKPgeLLKpgYEAtIvj0pyXTAzavq980Am/YQYv6NHPmYJSFjtB3us+kb8792Sdc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783866024; c=relaxed/simple;
+	bh=5Nhcnc4ezLPy8605Kf9M8EI1NlsLUYRMPtnyY/wPBAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WA4AYvlqjvo8vYZAy2ZJLK5BcVeSPm2a5gpv5O33BDzuq+gBXFvYApu+joKu+rP4uLi77LAi+KtXO75Vzt/jVTH87b/x6PQj7M5eBc5Q0Id51PgadrLxbH17P54zIZOeaOQmUzD2BreIWOagtkqHdhdMdkZATL53L4pIKfHiauM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAnVOMr+; arc=none smtp.client-ip=198.175.65.9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783866023; x=1815402023;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5Nhcnc4ezLPy8605Kf9M8EI1NlsLUYRMPtnyY/wPBAk=;
+  b=bAnVOMr+UbCRZlQfQzKHSRnT2YoWW3qWePzlWNO32uFxv9C8rJvaDbZH
+   5H5B5zOGEtiqyLd6iAK8HIB/KN4mwBDECwI9N75ndOCwXc/KRlGnq/5zj
+   VFcGu1kEo3H20uzAITWuBFrleLrkNQvkXlyfXOzDn3+k4CJ4Zf+Ub0I4P
+   8z88+ZlkVQPfEz5M5zHtAhSckiS4dnlfDDpwSLtqmheBr0dgQSVKHfnAQ
+   jfoHkUOQuzi+xIMeKKO1LbyaJtJN0Fve0sNovNAn0VUct7JqGvGqYoVNS
+   4FbVXd19ERJiFlIoDxPRd1B3qFpflJakCNSWhG4OwuRc50qfQEL2sun+7
+   A==;
+X-CSE-ConnectionGUID: 3+nraoyEQ6mrijYgxMkzpw==
+X-CSE-MsgGUID: GniPLyYqSne+qVZ2jh1eNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="107295050"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="107295050"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 07:20:22 -0700
+X-CSE-ConnectionGUID: 4tJoZCGGRTS6U1yqQB2mNA==
+X-CSE-MsgGUID: 4yjcvf6eSzinApMmCgAc3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="259628589"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 07:20:17 -0700
+Date: Sun, 12 Jul 2026 17:19:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dileep Sankhla <dileepsankhla.ds@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	chelsyratnawat2001@gmail.com, abdelrahmanfekry375@gmail.com,
+	matt@mattwardle.net, azpijr@gmail.com, error27@gmail.com,
+	kees@kernel.org, pontescpedro@gmail.com, starpt.official@gmail.com,
+	karthikey3608@gmail.com, roehling@debian.org, feng@innora.ai,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Drop unnecessary else block
+ after return/break
+Message-ID: <alOii3vwmkWGfVNx@ashevche-desk.local>
+References: <20260706103810.71919-1-dileepsankhla.ds@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1783673420.git.sean@mess.org> <2d7772d678d1815276c2d409d68ae4f4673d09aa.1783673420.git.sean@mess.org>
-In-Reply-To: <2d7772d678d1815276c2d409d68ae4f4673d09aa.1783673420.git.sean@mess.org>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 12 Jul 2026 15:26:30 +0200
-X-Gm-Features: AUfX_myC7hx4fjS4-JwPMLgRui-DB58_FebfMXfpkFKB1CdDAdfGxwKF54CFOC4
-Message-ID: <CAFBinCAPxkEfuY8orhd=R-6+2-uxWmEDJAaZmnKjJnzf_kQqUQ@mail.gmail.com>
-Subject: Re: [PATCH 5/7] media: meson-ir-tx: Ensure clock is disabled on unbind
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Viktor Prutyanov <viktor.prutyanov@phystech.edu>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706103810.71919-1-dileepsankhla.ds@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.06 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[googlemail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[gmail.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-67408-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67407-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[martinblumenstingl@gmail.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:sean@mess.org,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:neil.armstrong@linaro.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:viktor.prutyanov@phystech.edu,m:mchehab+huawei@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-amlogic@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dileepsankhla.ds@gmail.com,m:andy@kernel.org,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:chelsyratnawat2001@gmail.com,m:abdelrahmanfekry375@gmail.com,m:matt@mattwardle.net,m:azpijr@gmail.com,m:error27@gmail.com,m:kees@kernel.org,m:pontescpedro@gmail.com,m:starpt.official@gmail.com,m:karthikey3608@gmail.com,m:roehling@debian.org,m:feng@innora.ai,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-staging@lists.linux.dev,m:dileepsankhlads@gmail.com,m:starptofficial@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[googlemail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[martinblumenstingl@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linuxfoundation.org,gmail.com,mattwardle.net,debian.org,innora.ai,vger.kernel.org,lists.linux.dev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,huawei];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FREEMAIL_FROM(0.00)[googlemail.com]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:from_mime,intel.com:dkim,ashevche-desk.local:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D96A9744CA5
+X-Rspamd-Queue-Id: 947E1744F5A
 
-On Fri, Jul 10, 2026 at 10:53=E2=80=AFAM Sean Young <sean@mess.org> wrote:
->
-> clk_prepare_enabled() needs a call to clk_disable_prepare() on
-> driver unbind. Make it devm managed.
->
-> Fixes: 49be1c78d575 ("media: rc: introduce Meson IR TX driver")
-> Signed-off-by: Sean Young <sean@mess.org>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+On Mon, Jul 06, 2026 at 04:08:10PM +0530, Dileep Sankhla wrote:
+> Remove redundant else blocks following return or break statements. As
+> control flow exits in these cases, the else branch is unnecessary.
+> Dropping it improves code readability.
+> 
+> No functional change.
 
-The additional error that sashiko reported will need to be fixed too.
-Let's do that in a separate patch though to keep things simple.
+...
+
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+
+>  		spin_unlock_irqrestore(&isp->lock, flags);
+>  		return -EAGAIN;
+> -	} else {
+> -		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> -		irq &= BIT(INTR_IIR);
+> -		pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+> -
+> -		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> -		if (!(irq & BIT(INTR_IIR))) {
+> -			atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+> -			goto done;
+> -		}
+> -		dev_err(isp->dev,
+> -			"%s: error in iunit interrupt. status reg=0x%x\n",
+> -			__func__, irq);
+> -		spin_unlock_irqrestore(&isp->lock, flags);
+> -		return -EAGAIN;
+>  	}
+> +
+> +	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> +	irq &= BIT(INTR_IIR);
+> +	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+> +
+> +	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> +	if (!(irq & BIT(INTR_IIR))) {
+> +		atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+> +		goto done;
+> +	}
+> +	dev_err(isp->dev,
+> +		"%s: error in iunit interrupt. status reg=0x%x\n", __func__,
+> +		irq);
+> +	spin_unlock_irqrestore(&isp->lock, flags);
+> +	return -EAGAIN;
+
+I would really avoid touching this for now. This is non-straight workaround for
+some platforms and it needs real care on what's going on and how to make it
+look better. Since your patch does not targeting that, it's doubtful that this
+change is helpful.
+
+...
+
+>  	if ((*flags) & INPUT_SYSTEM_CFG_FLAG_SET) {
+>  		// Check for consistency with already set value.
+> -		if ((*lhs) == (rhs)) {
+> +		if ((*lhs) == (rhs))
+
+Unneeded parentheses, also see below.
+
+>  			return INPUT_SYSTEM_ERR_NO_ERROR;
+> -		} else {
+> -			*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+> -			return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
+> -		}
+> +
+> +		*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+> +		return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
+>  	}
+
+In this case it's better to toggle the conditional to follow the pattern to
+check for errors first.
+
+		if (*lhs != rhs) {
+			*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+			return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
+		}
+
+		return INPUT_SYSTEM_ERR_NO_ERROR;
+
+And yeah, looking at the below, you might want to have a common helper for
+this. So, perhaps don't touch these three cases for now. Or we can leave them
+as in your patch, it's up to Sakari and you.
+
+...
+
+> +		/* TMP: check discrepancy between nr of enqueued
+> +		 * parameter sets and dequeued sets
+> +		 */
+
+When moving comments with a wrong style, fix the style at the same time.
+
+		/*
+		 * TMP: check discrepancy between nr of enqueued parameter sets
+		 * and dequeued sets.
+		 */
+
+...
+
+> +		assert(g_param_buffer_enqueue_count < g_param_buffer_dequeue_count + 50);
+
+What will this do in the kernel environment? Perhaps first you need to check that and
+most likely change the assert():s to something else?
+
+...
+
+> +		ia_css_bufq_enqueue_psys_event(
+> +				IA_CSS_PSYS_SW_EVENT_BUFFER_ENQUEUED,
+> +				(uint8_t)thread_id, (uint8_t)queue_id, 0);
+
+Why do we need the castings?
+
+...
+
+Half of the patch is good to go, and the other needs more work and real work on
+the driver.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
