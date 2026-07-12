@@ -1,141 +1,192 @@
-Return-Path: <linux-media+bounces-67390-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67392-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 1sAuI3p4U2rubAMAu9opvQ
-	(envelope-from <linux-media+bounces-67390-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:20:26 +0200
+	id g80QHQmAU2q4bQMAu9opvQ
+	(envelope-from <linux-media+bounces-67392-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:52:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB587447D0
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:20:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37CF7448A0
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 13:52:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ritovision.com header.s=zmail header.b=P25iAD99;
-	dmarc=pass (policy=reject) header.from=ritovision.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67390-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67390-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=ahZzkFIb;
+	dmarc=pass (policy=none) header.from=gmail.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67392-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67392-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9BA82302571E
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 11:20:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 376743037482
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 11:52:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C376C3A4267;
-	Sun, 12 Jul 2026 11:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D173AA1A6;
+	Sun, 12 Jul 2026 11:51:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FAF24336D;
-	Sun, 12 Jul 2026 11:20:08 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783855210; cv=pass; b=lnP7g6rLvUFyO3oHl7vNHUXTlarJYSoAEykSc+3tkL7bfXMvGwzbi99qzWZiHX12KTOA9fXPv3TyUJOF75arXfNjmW9I/NJBUT5dzjXlzgKMgk1CYzHmcot4u8xMtsYVY3Rw5lBLSWnKku1dhJnCJX4MbCpYxxcm8F7mURQB5UE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783855210; c=relaxed/simple;
-	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=L54YLaw6kB4mS05yi8/pOO+Y4f6phONdFnXyU/jmYNX/Xrpx+5spekm4w4BQSunzFn7nMZ2qPoIj+s+FxGIkVFnHAPgX1LDIkIfgj8hSBrfmYN/7Bl0FXZ/r+QMLTmdU2SNXZwq+EzvVpKzNFqqBQnq31P4QQ5Z3ydEvapSb7I0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=P25iAD99; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal: i=1; a=rsa-sha256; t=1783855203; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=d0Zwk4omcLtVCdc345Pg3+CWDq7SLZtI3Wrc6kzkNbhzk3vaxCMEpCQQN2JR4AdkjiETXMlPg4Wr5nvwwVMErhVxbeU71pXlVmZaOdxYSgjGUfL92mX44HKYnp3r4nyWK5j86qUQnaC6kACCk7+iJAUPtg3ZPAMcFx94CcKPnQ8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783855203; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=; 
-	b=MoyUoE4N85kk9EALlU1fZ+Ocj6BCv7FmLl/IGPdR6dJyVBu9dLmnky1pa5b616HmcZX8eJjyVZRMIsRC0jwJIgFboWQdrEwwYXYBCAKj7TQq4CpQzX2DKxVPSevdBs4sq8si/rB6dWAGfoii+PHx9LDTg03/giKh2YV7l+zjoKU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783855203;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:References:In-Reply-To:Reply-To;
-	bh=czHN4mzH8v7HuuPxICj5uvc3lTRI5qw330MjxLOLEYU=;
-	b=P25iAD99dYjxX+0d3rtiVVrTmoOx0kGZ9v/bShuBMiCt0hd9cfiBzNcbiX1PP+ei
-	e4r3ueYZSXS7QIbG4upDcLuTS4VT5zrQBqxpef9hJWIh/qKkKpRof+HfJ5BONLdlQ08
-	QRIp5dwqeiWcYUQ+S377EpI37i7agZ6ggXHa1e+Q=
-Received: by mx.zohomail.com with SMTPS id 1783855201176945.8781942050364;
-	Sun, 12 Jul 2026 04:20:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1450E3A4F26
+	for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 11:51:55 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783857117; cv=none; b=LbsxrEEbMk7hNb6EBkABQRM7PS63SIgqDdO0QcAfubASSF6+I2rjwrXICqqKtV1ejBSxzQ6sE17R310v9fcHNgAAf+TGtgLL9BIqJbOYgeRbZxAJNoNUiOLLDQYXLra+3XZtQ7NnGGCBfRGig+ZgFEusLbpNOL7p87MbpRF4FfM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783857117; c=relaxed/simple;
+	bh=6+TZszz08ANN8+9ofoYjUJ5lkEzumu4XH0cVK7Cerfw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OXRRpHVOQxHw30zvHjsmf5Pyc/sk2d+mIa7jcgNXnvadr/L7NY+m4Jzl2t+ukRmy5OEjMRUA2lC1u05nosOqm/h84kT9dU1OSixTX58lzvGuEKsnFzVcIaEHW1jdgMeAXojU7ZO4940mqgqlVNCNzqNQNSGA7EcFnN3kDY3+Gbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahZzkFIb; arc=none smtp.client-ip=209.85.214.176
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so24350105ad.1
+        for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 04:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783857115; x=1784461915; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4Utm4P1WbP2lIpaXwLG1JxwvoUEmp6e9qMX5dfGldD8=;
+        b=ahZzkFIb7RNV6bXWLHbMYcxAxsTw2U/LC8/4hN/7qTqLtsZODyq6/Q0pTtYeWnJU1c
+         YxVgwzGfdX87fJxUclz9MEme2ze1ICFkC0I1xZFsYz+leeiKtkuCW05TTTDef5YaIJ5c
+         WMqi23LIXsU7BQ+xDc4KbUExhQOdj0eMt4r3tIiC3hcGbvvfGHhEMsbPQpV3sl4csPxR
+         MK5ibDnrPqXJQUtzKV3tOxdu5juTPJh9H0NQSm/CP7dSX+N/Een+OwfRriQRw9NvTNMi
+         lXHsYkSaAEWzuAnueJIUDiHkNWt0Zi2z4c6IS6aHwRQk9ttN1iSOHjTl3O5lPKxgo0kh
+         LsKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783857115; x=1784461915;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4Utm4P1WbP2lIpaXwLG1JxwvoUEmp6e9qMX5dfGldD8=;
+        b=MrDh6H+MR3S8jwHy+O4T7TraARb0UTwlxDKRNxZXDd/AQ1kHNDpwowRiw8nvhHA42q
+         dowIuvcyQji9Hm3k6bWVkyEcC0SMyLfQgvvJnYnsOZeSjMPe03XDa8n28aQ0AGYYTIdc
+         m8zfVcFxuBXAyvE/YUJd8c9h5+49upfzzkUdzTU5GsRQJF/NI9ngPKwDEyok9SmOP93a
+         YyXeU9t2RA6iaAc5xUHonFxKpz5OcwN23EjxkwwPlAkmsxyndJ+e3apWidpOAElD0Sxq
+         Kvy+KCmBCYeuC/XkGFtu4niq47MBtNBfAmeQ/wSRCyptMXfdqmI4BE0s7xVEACmuqy9J
+         YKWA==
+X-Forwarded-Encrypted: i=1; AHgh+RrmjqFfyNUAYU8HLSrLbPhRJPn/WiD+/aStEWlLtU8dGbpgEWo+UBcF3235Qo1igQ9sUG02oHyshK5TQw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRtmUn8UwL7/jokIuDnAmdQSWYF3E5eUXsVP5cZlFRaUvwBycP
+	uFSc27Mg1pE857v534tgtauAT3uTMfByLUSnvuYExrZmrp93avPxUKT+
+X-Gm-Gg: AfdE7cmpjRtlLHzPsqMvAY8ab0SsxauxJIPNpZIzTW0gQbYOmPVBdZy1XHKq7HEiIi2
+	8IFbZlhWXB+xFx2s0FbxOTEX2Q5XCTWXGFz9I9p+uHvWQMA8VvIhfq/II+Jt5vwgo0KmN3T4zCY
+	HwW0ZIlhBTYCGHVldNy9YZgVI2kFm4HNSi6E0m2/Upl5M8MrWgIpLAZMDrIvg+65cEbv6mb6s8m
+	qP6lqKWZJCJ2IGSI9VrBZavjBGIHzLs/Q0kSlR45D67uzT7Lx6cGdSV3epVQmXiEYaH7Ghldyzt
+	9MPLC67PycBb1UshKpNV67v+RAMAngeKneoo2mVZkAlPj2ikffggIpVJ3rnC+1bUbBJPIyaK1Mq
+	BpDu20JbAG9+HZlAYyjM/xkKRPFeNtagojlehXYLEcNEfYHZxtMZjUXYfIiZVonhrIm0o+XwltA
+	/8ODKqhhsEsiRHYfDocXPQr+ABjbeWkGA+/d9F7fDCrU6AcNZWNg==
+X-Received: by 2002:a17:903:4b47:b0:2c9:ff83:41fa with SMTP id d9443c01a7336-2ce9ee1890amr53777765ad.24.1783857115288;
+        Sun, 12 Jul 2026 04:51:55 -0700 (PDT)
+Received: from nuvole ([144.202.86.13])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bfe040sm84538295ad.31.2026.07.12.04.51.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jul 2026 04:51:54 -0700 (PDT)
+From: Pengyu Luo <mitltlatltl@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+Cc: devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Pengyu Luo <mitltlatltl@gmail.com>
+Subject: [PATCH v5 0/5] fix and improve for Hi846
+Date: Sun, 12 Jul 2026 19:50:07 +0800
+Message-ID: <20260712115012.91600-1-mitltlatltl@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 12 Jul 2026 07:19:57 -0400
-Message-Id: <DJWJW4K4MAFK.2RJI3ENU1NQYE@ritovision.com>
-Subject: Re: Bad wrapping in some tables
-Cc: "Rito Rhymes" <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Daniel Lundberg Pedersen" <dlp@qtec.com>, <linux-doc@vger.kernel.org>,
- <linux-media@vger.kernel.org>
-From: "Rito Rhymes" <rito@ritovision.com>
-To: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>, "Hans Verkuil"
- <hverkuil+cisco@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <c542aaf7-6a40-4730-8bd6-208c9fe932d5@qtec.com>
- <87pl0yr9ah.fsf@trenco.lwn.net> <DJUP0UXLLHJ0.3P121A982R9TP@ritovision.com>
- <7fcac682-60e3-4e1d-b26b-5b23f8035a91@kernel.org>
- <20260710104220.2b165f2d@foz.lan>
-In-Reply-To: <20260710104220.2b165f2d@foz.lan>
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[ritovision.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ritovision.com:s=zmail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67390-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[rito@ritovision.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67392-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:sakari.ailus@linux.intel.com,m:martink@posteo.de,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:sebastian.krzyszkowiak@puri.sm,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mitltlatltl@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,linux.intel.com,posteo.de,puri.sm];
 	FORWARDED(0.00)[lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:rito@ritovision.com,m:corbet@lwn.net,m:dlp@qtec.com,m:linux-doc@vger.kernel.org,m:linux-media@vger.kernel.org,m:mchehab+huawei@kernel.org,m:hverkuil+cisco@kernel.org,m:mchehab@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rito@ritovision.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ritovision.com:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[linux-media,huawei,cisco];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[mitltlatltl@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,lists.infradead.org,gmail.com];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,ritovision.com:from_mime,ritovision.com:dkim,ritovision.com:mid]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DFB587447D0
+X-Rspamd-Queue-Id: C37CF7448A0
 
-> Breaking up literals is more important on PDF output, if one wants to
-> print the documentation.
+This series fixes errors blocking Hi846 driver function, fixes
+link frequency and supports 6MP and 8MP modes on Hi846.
 
-Could you clarify what you mean by PDF output here? Are you referring to
-printing the HTML page through the browser, or to the PDF generated by
-the Sphinx build process?
+Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+---
+Changes in v5:
+- Use separated fields instead of raw register values for PLL cfg (Sakari)
+- Use mul_u64_u32_div() to avoid loss of pricision and u64/u32 issues (Sakari)
+- Use v4l2_find_nearest_size_conditional() to filter for different lane cases. (Sakari)
+- Drop line break (Sakari)
+- Rename post_div to mipi_clk_div
+- Correct div1 number from 1 to 2
+- Link to v4: https://lore.kernel.org/linux-media/20260511103927.279550-1-mitltlatltl@gmail.com
 
-Are there any known problems or constraints we should account for
-printing? I assume you may mean that long unbroken literals can make
-tables wider than the printable page and hide outer columns, that and
-horizontal scroll overflow in general may be clipped when printing,
-making wrapping preferable for that output.
+Changes in v4:
+- Correct default lane cfg in commit for 'fix link frequency handling'
+- Fix messed header (the Media CI robot)
+- Move constant to the right side when comparsion (the Media CI robot)
+- Link to v3: https://lore.kernel.org/linux-media/20260511090924.269106-1-mitltlatltl@gmail.com
 
-That makes sense for print, but it is not necessarily the preferable
-behavior for navigating the normal HTML page, where contained horizontal
-scroll overflow can preserve the page and table structure. I do not
-think the print constraint should override the primary HTML
-presentation.
+Changes in v3:
+- Fix modes handling for different lane cases (Sebastian)
+- Fix header missing (the Media CI robot)
+- Link to v2: https://lore.kernel.org/linux-media/20260501095433.1609309-1-mitltlatltl@gmail.com
 
-I would like to account for both. If this concerns browser printing, we
-may be able to apply the necessary wrapping selectively through
-`@media print`.
+Changes in v2:
+- Remove uncessary `else` (Sakari)
+- Fix link frequency (Sakari)
+- Correct link frequency for DT
+- Link to v1: https://lore.kernel.org/linux-media/20260429070351.1307204-1-mitltlatltl@gmail.com
 
-Rito
+
+Pengyu Luo (5):
+  media: hi846: fix hi846_write_reg_16 handling
+  media: hi846: Fix link frequency handling
+  media: hi846: fix modes handling for different lane cases
+  media: hi846: Add 6MP and 8MP modes support
+  arm64: dts: imx8mq-librem5: Correct link frequency list
+
+ .../boot/dts/freescale/imx8mq-librem5.dtsi    |   2 +-
+ drivers/media/i2c/hi846.c                     | 296 +++++++++++++-----
+ 2 files changed, 227 insertions(+), 71 deletions(-)
+
+-- 
+2.54.0
+
 
