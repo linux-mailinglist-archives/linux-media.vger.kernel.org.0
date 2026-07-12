@@ -1,245 +1,184 @@
-Return-Path: <linux-media+bounces-67371-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67373-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id yOxbFIjnUmqdVQMAu9opvQ
-	(envelope-from <linux-media+bounces-67371-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 03:02:00 +0200
+	id 29qcLYgDU2okWAMAu9opvQ
+	(envelope-from <linux-media+bounces-67373-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 05:01:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B780E7435A5
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 03:01:59 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1D27439EB
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 05:01:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=F2Bcm8Hw;
-	dmarc=pass (policy=reject) header.from=google.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67371-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67371-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=bkVxiSuT;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67373-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67373-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0E596301F9D6
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 01:01:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2CE76302C5EF
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 03:00:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1CE21FF5E3;
-	Sun, 12 Jul 2026 01:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBAFA2C032C;
+	Sun, 12 Jul 2026 03:00:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0F53A1DB
-	for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 01:01:34 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783818096; cv=pass; b=tW+cwta4Tz06sOtUKgxbsn9gKMBRsIVQWi1pUz6gvQUuA9oE36y7qm1okxbF7wUT4niVbtu0KxR8hEWSqOSavRtdiuqI0y6Z9Cd1qqCO5bXiTgImENCT1szf0qLfhT42BnsD+9HZoBS1Niei/qJrTviZ0/pUxLIGFI/dJ5fbtmM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783818096; c=relaxed/simple;
-	bh=R8xlg3RI6zLmG7lgrIZL1li1QImUsqosewBmuLTRodU=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TwR6Qd7yki1NqF+JmPbP/upL78QJ+76Zhi1WxC3qpErA61Nol9+cZj0nHxZ3JLweWgq6hGNgaw77MSLn2MLuNAJ8RvYK/4dLPV12F6wPQ8TWY+73R+h7XSOOrkXd06u78gE0OITLcNgnbE7TZWy5fzonkpYhbJBROglynu05hs0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F2Bcm8Hw; arc=pass smtp.client-ip=209.85.215.170
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso1493609a12.0
-        for <linux-media@vger.kernel.org>; Sat, 11 Jul 2026 18:01:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783818094; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NaKQHBrk74I+7RhOCzQlteDK5/nKxjH7pKCmYhVvaf7ff1Cb32WdpKutgCZttXsqHu
-         jL+BLZCM0+g6CsADNrlVd2ZTZoH7jUVo1+Y1sKcNO/b6Q/ntmKzI4shMtuij9GDtaTRJ
-         FCIG14xWtKNkIRRpD4k4hSj/wQA65gklBGrvEBONQCICoP0QtBytkqRH4rlYR7//gZh4
-         cLs56bai0UiskOqBCncm8L0u4YGIjWw0HIZQVyqNOnpQiKCxOnFI3xnd0GUp9GUBX6lO
-         pL+fzlO3mHVJUwGQrO7AI9Tze+++PZsFnLrP3ojHhqRbhwI45JIAb8pQ+ngP5Pi6K1iH
-         GeeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=gGEYW3UAXERRsGZl8/IlnSaBkO9PGZLTdY+qnlryyhU=;
-        fh=Et1mVx4vl1S6lVVQsFQe6e+H52YUaRVaQkh4mJbMJdg=;
-        b=FhdSrh72gmgFqyIkXd+a0QufgDnjPaPVXwsOWCPdb9/W5Jss2hQXX4lhcck+xXkSrJ
-         Z8i1Tb4f1fIAZmAF3/Jk5EryIzXWiwxpjhuZzNL5foxqeVkICsKG3xlQYiCKoSHLNOfx
-         c/8gnKI2j0YmE3bwMLuxT1kwOV5+Dcm344cM5CXvShNqTbaxhRO+dAzQeStr/Nkxo1qQ
-         OJ4CJ7h6qnEZcCQpGbV1+W1Z30UJ18pED6b4GjmDb7A3T3geqlxv7b4S1glCiHyeyLEQ
-         0dMc46l4ejuj3/ce6bmSPPF8Pq0UpD9g9vKebYGFHTV1dMI9JhBJ0FHLrTOYoTxTwICo
-         haNw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783818094; x=1784422894; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gGEYW3UAXERRsGZl8/IlnSaBkO9PGZLTdY+qnlryyhU=;
-        b=F2Bcm8HwvOLs7bxy896OiDRS7aOVkXzSRJUgxn73pPsUhRXl90cRBS7fWeF9Pq3i4P
-         6WF4MlA/qmoiDZyT4/6EZCgWbHBs7BHU/SEJlV1KHoEKOTV509ukjVajnPveJcqhRLzA
-         H4VeEjDgBH1i+to9Y+rirt/kVSzSt9LYgl7M8a0sh0p/lBukORhcnzPCxs6CDPwFEbGV
-         ya9lBdjhTycogmawCL+ZGwIYaqxCx+drVf/hhVHlRxHBXHeTvlXHfcVH0/L0RGmPpq3L
-         fUp6erk2+3hEnf9ynGSI5RbRvqqGid5Ng6zLWYZohb6uvBZX7A5VGQruM8nGFYeKrhff
-         XAaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783818094; x=1784422894;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gGEYW3UAXERRsGZl8/IlnSaBkO9PGZLTdY+qnlryyhU=;
-        b=QYLXJ2s7R3hR6rhJEamvWnR5CkQouI0cLqXmFvtOQ9/HCkyDPRdXocXVRhEwbPV9S6
-         oGGkoPH8BfkGL4Q25G5Cf4DOT6oWSPT34S6zNjpLRPn/XsH2XZElKxHAF/uKpFargVTy
-         D51vr4MJ5zYtNzxxWVCnw2ydQZUIhBUvY76Nul5E3xRzw8W4LK4BAo24mDcR4SCStdB6
-         SDyNlwr2KF2lgV/VxCknS+cgw0DtbGdQzFHkp3XY3tquA9F+0emwdgA2Qel/M1QGQs+D
-         05xzStSikHI0ddnkXMWLPG7ODoR1xmXJH+EPdmTKfLSyLfWjnmuvNJpov+a4oQAsaCgX
-         wpFw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq0l+0Lx3wYFv3LWWBBDb4DilL6ALRNSWT1pYEJhdkzcMs/XjIEhxRCaCZXuib8P4BO3dBasejg5UeRew==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOzd6/vEUqO3Lvzk1ugWgE6aVRig8euPorq4xSChN3o605Jl5t
-	CWhAFRCmFDjAmGHOK/LwMXx2rsO2cXbG32Zr/JDGp3PzjbXq7UvAZ9nrhx1rEBdlDzuV7i+o72i
-	ur+du5/5h9WklBGv6hnZydYkLH4SZph94pU275I/Q
-X-Gm-Gg: AfdE7ckFVNbztFvLfEQpGsJd4P7ygqBKmaSNW4ND7TjPNxSA0X0jh2gbq1GfMo8iA+N
-	rxgmtSwcLzQRQVEOuVWh64E6U1q+TiEjs+CN2C4hPjYZH2iO5aZ0WJG/J/jy7hAY5xcWIrLI7WP
-	JQyLCpCY6go6vlXkopQp4UmcNNiMx/rn9kX+fI0ePPy4uLma2Aga9HMHYF0HYVNmSRYSNtWadFv
-	c6RnxVI5psC177arYbKE3IhcQVaLkvJzG9dCGBSrsbowXNrG3vmOIQndI/Rx7ZnBgLDMqY3Wp/M
-	Q6z1UYJwb/gzo9SDIRpkQ+god3Qg
-X-Received: by 2002:a05:6a21:3990:b0:3bf:a7d5:df38 with SMTP id
- adf61e73a8af0-3c11075f8f6mr4812182637.9.1783818093599; Sat, 11 Jul 2026
- 18:01:33 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 11 Jul 2026 18:01:31 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 11 Jul 2026 18:01:31 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20250602133009.GC233377@nvidia.com>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-11-yilun.xu@linux.intel.com> <20250602133009.GC233377@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB13DCA52;
+	Sun, 12 Jul 2026 03:00:16 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783825221; cv=none; b=au6kpQkQvKB93z69Imc5w4lP4qpGTthRFWdbdG6xc2GxGLuUExjaAPeCaU9XTtnIYZyAqIqU7QFmn7zZXghWy03r/s/JdXbsnLQIAZJjyzeWYsyom9TtJrOmbAx1PoSYJMNNPr2YujRAdBbIe+cjjsbGrxcTiXZ2Dx0thxwC9Mw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783825221; c=relaxed/simple;
+	bh=A/ywmB7DXuB0nsapi5LzDPQVxCX9fGZDB1EHQ7pxL2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lQF//rSyu9j9YUh6zqvJsAz6mBWyRyvyfrysZjFpJWgGEq52pmIaGTkZrIr7TPKlVxIAhNlOyNpNYcBU9cvQVqoqHhfdZRzJ4EX2Dgp9TbB3zprwqjJVwtWPznw4Bbx76seJPCtio94EUxHNTZ/UaFKFBk9s/I1AeAxv36dU35M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkVxiSuT; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 060991F00A3A;
+	Sun, 12 Jul 2026 03:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783825215;
+	bh=pPMB1E9mxY98sJzlxRNQcBMbjxdnpUE7XN7dpLMKjA0=;
+	h=From:To:Cc:Subject:Date;
+	b=bkVxiSuT++4UcUJpwBGKoHrUTiEU37RsXgTTE0IJKdT48S2k9fExAiTIbQzTXllGr
+	 ygvejOln/yhZalFw0kdMOnUH2iiCntFPT+m0pmdWCWEEVKitGFSmTIQV6kYF4VzWIy
+	 RZ8kmiWRQFVScYk1KvR8xnXH+k2NftNUTgSuPE4q0zqp9ljWN6qRPxrVYOGa9vX3Xr
+	 nyzUBHZlFvh7aNe55/C+IFfv+y43SqmMLuQQO1IyQy5hOZQyRD3i30w40TlvwwnC2A
+	 c2/W9E9gcIes3wV7x1JBMbetmS3BxuVPRfGAGlRfaEFduRZvBU0OyXkPL2GvDuLRO8
+	 UgY6zPYEDtyZA==
+Received: by wens.tw (Postfix, from userid 1000)
+	id CCC695FDD4; Sun, 12 Jul 2026 11:00:12 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/7] arm64: allwinner: h616: Support Video Engine
+Date: Sun, 12 Jul 2026 11:00:03 +0800
+Message-ID: <20260712030011.3778169-1-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sat, 11 Jul 2026 18:01:31 -0700
-X-Gm-Features: AVVi8Cd0bGOMjMsYrL4vU20fXx-xb2mKPsbs-m9K5p8jfizmd9no0laxFphKWjw
-Message-ID: <CAEvNRgFpJWQ5M5sQhGpQUV3GbBq9N+MQhhaxdxa=D8ky94SCsw@mail.gmail.com>
-Subject: Re: [RFC PATCH 10/30] vfio/pci: Export vfio dma-buf specific info for importers
-To: Jason Gunthorpe <jgg@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>
-Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com, 
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com, 
-	dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com, yilun.xu@intel.com, 
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com, 
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com, 
-	zhenzhong.duan@intel.com, tao1.su@intel.com, linux-pci@vger.kernel.org, 
-	zhiw@nvidia.com, simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com, 
-	aneesh.kumar@kernel.org, iommu@lists.linux.dev, kevin.tian@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67371-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:jgg@nvidia.com,m:yilun.xu@linux.intel.com,m:kvm@vger.kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:pbonzini@redhat.com,m:seanjc@google.com,m:alex.williamson@redhat.com,m:dan.j.williams@intel.com,m:aik@amd.com,m:linux-coco@lists.linux.dev,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:vivek.kasireddy@intel.com,m:yilun.xu@intel.com,m:linux-kernel@vger.kernel.org,m:lukas@wunner.de,m:yan.y.zhao@intel.com,m:daniel.vetter@ffwll.ch,m:leon@kernel.org,m:baolu.lu@linux.intel.com,m:zhenzhong.duan@intel.com,m:tao1.su@intel.com,m:linux-pci@vger.kernel.org,m:zhiw@nvidia.com,m:simona.vetter@ffwll.ch,m:shameerali.kolothum.thodi@huawei.com,m:aneesh.kumar@kernel.org,m:iommu@lists.linux.dev,m:kevin.tian@intel.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FORGED_SENDER(0.00)[ackerleytng@google.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67373-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:paulk@sys-base.io,m:mchehab@kernel.org,m:wens@kernel.org,m:jernej@kernel.org,m:samuel@sholland.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:devicetree@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[google.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ackerleytng@google.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,nvidia.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B780E7435A5
+X-Rspamd-Queue-Id: 1B1D27439EB
 
-Jason Gunthorpe <jgg@nvidia.com> writes:
-
-> On Thu, May 29, 2025 at 01:34:53PM +0800, Xu Yilun wrote:
->> Export vfio dma-buf specific info by attaching vfio_dma_buf_data in
->> struct dma_buf::priv. Provide a helper vfio_dma_buf_get_data() for
->> importers to fetch these data. Exporters identify VFIO dma-buf by
->> successfully getting these data.
->>
->> VFIO dma-buf supports disabling host access to these exported MMIO
->> regions when the device is converted to private. Exporters like KVM
->> need to identify this type of dma-buf to decide if it is good to use.
->> KVM only allows host unaccessible MMIO regions been mapped in private
->> roots.
->>
->> Export struct kvm * handler attached to the vfio device. This
->> allows KVM to do another sanity check. MMIO should only be assigned to
->> a CoCo VM if its owner device is already assigned to the same VM.
->
-> This doesn't seem right, it should be encapsulated into the standard
-> DMABUF API in some way.
->
-
-I'd like to propose an alternative. I've been working on guest_memfd and
-new to the world of IO, please help me along! :)
-
-It seems like using dmabufs are used a little awkwardly here. IIUC
-dmabufs were originally meant to expose memory of one device to another
-device, mostly meant to share memory. Dmabufs do expose MMIO too, for
-device to device communications. Without virtualization, userspace MMIO
-would be done by mmap()-ing a VFIO fd and having the userspace program
-write to the userspace addresses.
-
-Before CoCo, device passthrough (MMIO) is mostly handled by mmap()-ing a
-VFIO fd and setting up the userspace address in a KVM memslot for the
-guest.
-
-With CoCo, is the problem we're solving that we want KVM to know what
-pfns to set up in stage 2 page tables, but not via userspace addresses?
-
-guest_memfd already does that for regular host memory, tracks the
-private/shared-ness of the memory, tracks which struct kvm the memory
-belongs to.
-
-guest_memfd functions as KVM's bridge to host memory. KVM already can
-ask guest_memfd for the pfn to map into stage 2 page tables, and already
-asks guest_memfd for the shared/private state of the memory. guest_memfd
-already also blocks the host from faulting guest private memory
-(mmap()-ing is always allowed).
+Hi folks,
 
 
-Instead of using dmabuf as the intermediary between the MMIO PFNs and
-KVM, why not use guest_memfd?
+This is v3 of my Allwinner H616 Cedrus series. The series is ready to be
+merged.
 
-What if we make guest_memfd accept a VFIO fd, or a dmabuf fd?
+Changes since v2:
+- Dropped "drivers:" from cedrus driver patch subject
 
-guest_memfd can then take the mmap() calls from userspace and .fault()
-from mm, and then forward them to VFIO or dmabuf. This way, VFIO/dmabuf
-can stick to their original functions, and the changes to VFIO/dmabuf
-would probably revolve around disabling access.
-
-Disabling access would probably involve some of these:
-
-+ When guest_memfd receives the fd, it could return error for existing
-  mappings, or perhaps it could just force-unmap.
-+ 1 extra flag or field to indicate that guest_memfd is controlling this
-  file, so that if userspace tries to take some actions with the
-  original VFIO or dmabuf fd, the request should be blocked.
-+ Perhaps just close the original fd, like dup2(oldfd, newfd) closes
-  newfd?
+Changes since v1:
+- Fixed IOMMU ports on H616 (patch 7)
+- Updated comment about VP9 on H616
 
 
-I'm about to restart work on guest_memfd HugeTLB and I'm thinking about
-a similar approach for guest_memfd HugeTLB, where perhaps the interface
-could be that userspace will give guest_memfd a HugeTLB fd at creation
-time, and then the original HugeTLB fd would be rendered unusable in the
-same way as above, perhaps like with the S_IMMUTABLE inode flag, but
-also blocking reads, and not userspace-modifiable.
+This series adds support for the Cedar video engine found in the
+Allwinner H616 SoC. On the way, it also fixes some issues with the
+DT representation for the Allwinner H6 SoC.
+
+Patch 1 fixes the video engine's number of IOMMU endpoints on the
+H6 in the DT binding.
+
+Patch 2 fixes the video engine's number of SRAM regions on the
+H6 in the DT binding.
+
+Patch 3 adds a new compatible for the H616's video engine.
+
+Patch 4 adds the new compatible for the H616's video engine to the
+cedrus driver.
+
+Patch 5 adds the video engine's missing SRAM region to the H6 dtsi.
+
+Patch 6 adds the video engine's missing IOMMU endpoint to the H6 dtsi.
+
+Patch 7 adds a device node for the video engine to the H616 dtsi.
 
 
-In the course of a CoCo guest's operation, will the guest need to
-convert between private/shared MMIO? Will the guest need some pages
-shared and others private? If these are required operations, guest_memfd
-already provides the tracking and is going to have a conversion ioctl
-very soon. Instead of further extending dmabuf to track more things, how
-about letting guest_memfd track it?
+Patches 1-4 should go through the media tree, while patches 5-7 will go
+through the soc tree via the sunxi tree.
+
+
+Please have a look.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (6):
+  dt-bindings: media: sun4i-a10-video-engine: Fix IOMMU count for H6
+  dt-bindings: media: sun4i-a10-video-engine: Fix SRAM count for H6
+  dt-bindings: media: sun4i-a10-video-engine: Add H616 compatible
+  staging: media: sunxi: cedrus: add H616 variant
+  arm64: dts: allwinner: sun50i-h6: Add missing SRAM region for video
+    engine
+  arm64: dts: allwinner: sun50i-h6: Add missing IOMMU for video engine
+
+Jernej Skrabec (1):
+  arm64: dts: allwinner: sun50i-h616: Add video engine
+
+ .../allwinner,sun4i-a10-video-engine.yaml     | 45 ++++++++++++++++++-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |  4 +-
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 12 +++++
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  4 ++
+ 4 files changed, 61 insertions(+), 4 deletions(-)
+
+-- 
+2.47.3
+
 
