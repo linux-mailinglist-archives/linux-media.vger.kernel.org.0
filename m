@@ -1,151 +1,152 @@
-Return-Path: <linux-media+bounces-67386-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67387-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id EQwnAe1jU2rwaQMAu9opvQ
-	(envelope-from <linux-media+bounces-67386-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 11:52:45 +0200
+	id g4FmIMZtU2pNawMAu9opvQ
+	(envelope-from <linux-media+bounces-67387-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 12:34:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4889574451A
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 11:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C975E744635
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 12:34:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=dorfdsl.de header.s=default header.b=H5m4LE0h;
-	dmarc=pass (policy=none) header.from=dorfdsl.de;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67386-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67386-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=KPFlYVY5;
+	dmarc=pass (policy=none) header.from=intel.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67387-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67387-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AF837301227A
-	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 09:52:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9B1443019F3C
+	for <lists+linux-media@lfdr.de>; Sun, 12 Jul 2026 10:34:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43CD0375F82;
-	Sun, 12 Jul 2026 09:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85E093A4267;
+	Sun, 12 Jul 2026 10:34:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from srv1.dorfdsl.de (srv1.dorfdsl.de [82.139.252.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA59C2F39B5
-	for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 09:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63FF175A81;
+	Sun, 12 Jul 2026 10:34:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783849958; cv=none; b=WpSlqFi/YAKtVnj0cdSWpfg3tjlnWM5SgYqZ3r6oxzQsQDIcP0uwRmlzkYDy/wHThZE18PJ5rjYR+Z6oV2+edMuUFl1X448lelmbFfCSQZHLDel9ay73sBUNQ7Zstu5wbIhxTvvQdTdtfswd8h422mjd/CmWKKHnnJd+0x1UYVY=
+	t=1783852447; cv=none; b=BbCciBx4EF1tyTLW9Jsk1mg9YFgdsAJQ/NIu8qB28FFp6ZlHPd5+XxInaAI3zUGo+AO9GkWuEdiEWsTqobP1u1OPHcOnoDa56b1gVH3lB1Ucv0Mj0VjX+QVRJvkZ3PQp7TFCf/nUSGL3r1ALcoE6rS5KuZZ8iQLAOHFM72/UehM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783849958; c=relaxed/simple;
-	bh=GSnfxiBBRpSKwt5zRlRI8Zhzrrotk5Vr1K05fsv33EA=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=LR2nAUqE/cvBlV1b1p/+xh61nW0j3pZSoXMbo59j9jVQ2gn3pDSZd/mt/8FB1IcgzKK/4Cv7ZLwoqCnGZPPsZQMjc9llJ8DaE73n2wiOCL59G0qBy15aBg0IrfN+R9d52nAMhNcRwEJjUtkMFPU99IYVd8Ydt0u6+5lvJFAQXtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dorfdsl.de; spf=pass smtp.mailfrom=dorfdsl.de; dkim=pass (2048-bit key) header.d=dorfdsl.de header.i=@dorfdsl.de header.b=H5m4LE0h; arc=none smtp.client-ip=82.139.252.16
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorfdsl.de;
-	s=default; t=1783849954;
-	bh=GSnfxiBBRpSKwt5zRlRI8Zhzrrotk5Vr1K05fsv33EA=;
-	h=Date:To:From:Subject:From;
-	b=H5m4LE0hjXxFg1Y9sTRWN24CLNLrB0w6JYMR3FSzkZb0PXTenVoc4zYmwBEQVz9BA
-	 2yOmtAH+wPuRrYs0QpGdQ/WdhXZ1bnaZ36VTo5t7mbQ+UtKFj/TYVEvGENF4CR9G7m
-	 nJufanaQWDt7xAi0L9EPkDazt4QaUvsj3UB+eqn31AshML3KYJ5wn+sJvCmQuEvAl9
-	 IkJH/dOet3M1EcaIwqhMQ69p0A0YvVHCw8Wn0hpLpk3EyfB6YZcJFodz+Icz+LYD2m
-	 Ak3DuIS/LYXdcNmB4+ptpj/niS3VA3e8B0kGbBtiTrmnNNBZHsN823VC6pBG9Nusju
-	 0dYkbHru6gu2w==
-Received: from [IPV6:2a01:170:118f:1:f5f4:a4f0:5b6b:d795] ([IPv6:2a01:170:118f:1:f5f4:a4f0:5b6b:d795])
-	(authenticated bits=0)
-	by srv1.dorfdsl.de (8.18.1/8.18.1/Debian-6) with ESMTPSA id 66C9qYT5018308
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sun, 12 Jul 2026 11:52:34 +0200
-Message-ID: <bb61a80f-70d4-4c75-b3a0-cec733662bd9@dorfdsl.de>
-Date: Sun, 12 Jul 2026 11:52:34 +0200
+	s=arc-20240116; t=1783852447; c=relaxed/simple;
+	bh=U95siTC8M97BycXakP/Qu+qDG2O/lS1PH7kT0iVl/os=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VaZBMsTb1TH5Roo0f7LYTJD4dGqaDUleJ/4zS+4ejPkL4ss9RGuKWO3qQr0jI0aqkJ4QBC6basmRZt4FvXPX8E0GGU6Pi0ud107Ii5MQYloK31PjrGEHTOnv+Up+fKpJmko1tnZmMLFZozVtNn5BtlZB8pwyifnOGJspBudEB7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPFlYVY5; arc=none smtp.client-ip=198.175.65.19
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783852445; x=1815388445;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U95siTC8M97BycXakP/Qu+qDG2O/lS1PH7kT0iVl/os=;
+  b=KPFlYVY5wInhOjAPkWK67ov9+B7XAhgYinDipOhn+JlXwnBmqZ6CA2BC
+   pKHT00hyth6u0K1L5l4m5Q6jeZS0h377WhQNbxblJy7WnCKhU7aVYOM1o
+   eAv+7tfUuEQuum/zX+xcpP7VpoA/veflX1+qRQ/UsqiO5PqAzCc8k61hz
+   REePNu9Zng73rKOoVkaXa3tpY/kUkYgU/k9YPtVk5IjddglednVe6801n
+   Dj1bZvfrjRA3XcnlHMfvIHLiZLCGwsT0K/6PQS2lKPj+A7GtC6KpLf1nt
+   w1nViJt+3wcjyNO1FQ9ISrWRJvHx64YgghqOSs2hXyUGvvAUjDbHumdBg
+   Q==;
+X-CSE-ConnectionGUID: f+oWuUpcTvevWTBnIXslLA==
+X-CSE-MsgGUID: Lkk3VWpASQOErtNwTbR+AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84456648"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="84456648"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 03:34:04 -0700
+X-CSE-ConnectionGUID: R5lhQTbbR6C5rBcQKfPjjA==
+X-CSE-MsgGUID: bcVg+fbYT6ajyKI3hKJCPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="258871487"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 03:34:03 -0700
+Date: Sun, 12 Jul 2026 13:34:00 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] staging: media: atomisp: clean up block comment
+ formatting in headers
+Message-ID: <alNtmD6nYCZoOCaA@ashevche-desk.local>
+References: <20260710120254.23565-1-bohdandmarcus@gmail.com>
+ <20260710120254.23565-2-bohdandmarcus@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:152.0) Gecko/20100101
- Thunderbird/152.0
-To: linux-media@vger.kernel.org
-Content-Language: en-US, de-DE
-From: Marco Moock <mm@dorfdsl.de>
-Subject: gspca_zc3xx Logitech QuickCam Communicate STX LED not working
-Autocrypt: addr=mm@dorfdsl.de; keydata=
- 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
- MCwzZXR/AA==
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710120254.23565-2-bohdandmarcus@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[dorfdsl.de,none];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[dorfdsl.de:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67386-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:bohdandmarcus@gmail.com,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[mm@dorfdsl.de,linux-media@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_ONE(0.00)[1];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	DKIM_TRACE(0.00)[dorfdsl.de:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-67387-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mm@dorfdsl.de,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,dorfdsl.de:from_mime,dorfdsl.de:email,dorfdsl.de:mid,dorfdsl.de:dkim]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,intel.com:dkim,vger.kernel.org:from_smtp,linux.intel.com:from_mime,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4889574451A
+X-Rspamd-Queue-Id: C975E744635
 
-Hello!
+On Fri, Jul 10, 2026 at 03:02:53PM +0300, Bohdan D. Marcus wrote:
+> Fix block comment formatting issues in several header files to comply
+> with the Linux kernel coding style. Specifically:
+> - Move trailing '*/' to a separate line.
+> - Align '*' on subsequent lines of block comments.
+> - Reformat excessively long lines and remove Doxygen-style tags.
 
-The LED is not working with the Linux driver, in Windows, it works.
+...
 
-In dmesg I see messages like this:
-gspca_zc3xx 1-8.2:1.0: URB error -71, resubmitting
+>  	/* Purpose of mutex is to protect and serialize use of isp data
+> -	 * structures and css API calls. */
+> +	 * structures and css API calls.
+> +	 */
 
-Any ideas?
+This still has a problem with the style.
+
+...
+
+Have you checked patches by Ricardo Ribalda?
+
+...
+
+Sakari, may you apply Ricardo's first two patches at least, please?
 
 -- 
-kind regards
-Marco
+With Best Regards,
+Andy Shevchenko
 
-Junk-Mail bitte an trashcan@stinkedores.dorfdsl.de
 
 
