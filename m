@@ -1,661 +1,509 @@
-Return-Path: <linux-media+bounces-67458-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67459-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id tE7TMeC3VGoIqAMAu9opvQ
-	(envelope-from <linux-media+bounces-67458-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 12:03:12 +0200
+	id 7A1gH0m7VGrwqAMAu9opvQ
+	(envelope-from <linux-media+bounces-67459-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 12:17:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB71749986
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 12:03:12 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C7F749B2B
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 12:17:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=TLKfFtwl;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67458-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67458-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b="OB2tK/ad";
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=L8f+Y0ae;
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67459-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67459-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DA8FB3026741
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 10:02:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D92A8302330A
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 10:17:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CF1D3D3D00;
-	Mon, 13 Jul 2026 10:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C63F3D9545;
+	Mon, 13 Jul 2026 10:17:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FEA3D9530
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 10:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FFC3DDDBB
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 10:17:37 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783936947; cv=none; b=sEExtGp+VasTUKmhsi6pJZweXaTZyROPCbrlKiNkEjGTRnQRMVYkwh34th2eqI+7nxxGZGYQGZJ9yipj8hslgwQ+o8M9yVHbSGdGuxQ3zlMgsFGxzVhl8egVgSuWDUBWl2QSfSf6oOUbSgBZ2QK9pbDILr8+98/oXCrcWw+LJd4=
+	t=1783937860; cv=none; b=QFKU8j13tgJgvxbQQaA3hkZ7cTEyAQZLTKEc5FJ/DA2DX0XKRf54InQvWEkm8fDauc+IZmwT8TdbcPXKHjhPtxmHT+PqMnfEo2Ruvghk1G3FZR6iIxQsLlHlZyy4SXpSy9Hdv6w/GYkPz2/IkHf+ct4bE7o0mGynfiLLnr+Ga/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783936947; c=relaxed/simple;
-	bh=BdjTtcnBZTbAUFeYba5tXLhQobbpyg9CVipGHUjKUJ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q6dFCDlvTsbTvadhmIr7z/yii34CjWwBtl9e4KtP6aVvae69J+NTX3M5iE75r4k6Fgic4RS4rxBUDpGjgtCgdZaw81jRzXm/gEgLfJYcdlyNLsgv2+iqWJhyc4k/1GTFlL05Vx2N5Kqxb2MvRtFVDdBjblo3b2d1X8FPg9HvoFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TLKfFtwl; arc=none smtp.client-ip=209.85.214.170
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cae1a3a744so19612295ad.3
-        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 03:02:20 -0700 (PDT)
+	s=arc-20240116; t=1783937860; c=relaxed/simple;
+	bh=p8LAYLlXIVIqUUU4m6ZIubR5kua6Nng7WluhdxkACjw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TrTf/QyAmF0k0sCkzymbkSRvNu/8+THAbBltufeRZtaysxpUT+mJTfzJXggmTz3kxJebycgUuWilJLkJJf3410o95406lnzbL+oui7sXXdaVLMFf3cEOGmBm1cHpf4nZUR45ZVmVYe1xEZNboz4i/QZaPFAh/S7mz157OCi3vsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OB2tK/ad; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=L8f+Y0ae; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D9MHc61090768
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 10:17:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=QeQhsheK9tMCcW1Jb0rBQa
+	F54l8phBy4AnvmfKSIuc4=; b=OB2tK/adwQaOQV1ocahG1Ih9BZfon/hDvZ73qA
+	Kq78c+7jMCQeTUhbBTZzfkCOv6LBrniGWgtxJElP1dXBldIbkgr18NGSl6F45GPC
+	3Hyz0p6VG2Rh7YIk4zFMOgnxVBC8t6kF9quK2/N0M1HpsTCw2u2maL6p6kF2clBw
+	ToeRLHYW963M6NRY3VzgurekyLQmWcQyRFGbuW2Nb9TIzKjXzoyhq5dyx5JFzInh
+	OVyDAd3E4aJWdMq2Sb77OT5oGj5hhJPaqkaoOiLhX0GmAy9UyaeFnuWO44r6RFC0
+	VPQ0d5dbif0qlWa8MSHtAf7kExxyI83aImxcr7Lah7v01sNA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fcwavr6vk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 10:17:36 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2cc8bde6318so57757255ad.3
+        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 03:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783936939; x=1784541739; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YXhvnMbzMDQQK7ghMIFo4UvjRw5RrDVZlul3buHxzk0=;
-        b=TLKfFtwlFn2z0BJS9HeNlmZfy+L+gRH9juD4qgNEi4UD0VPbRTne205nn/SmkPRm5r
-         z9JncQHrCHq5fCcCrD8qCpnxTJPV970IMkTwzQ3U2yEBiO69XQfH95Hb6OUJidpnzltF
-         jBjVaFHE8i2C4Vg+QJm5vJj8q9iUjqjL7RGwejDkxrGAHlCs+xmH+ijdO8YH0V/ynbJh
-         c+aWlvX1VNU+2TET6uxh1EmUntFhBUXgzRylAiAv1GP8MhD4C6K6XnZr0i9/PkfKSYJY
-         jlRf+isV1s4FfDAhi98FfMiFykvvVTTSq5VL5NZB5f1ujCAK1vwawiTzZRKMQ+iyY9WI
-         lbtQ==
+        d=oss.qualcomm.com; s=google; t=1783937855; x=1784542655; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=QeQhsheK9tMCcW1Jb0rBQaF54l8phBy4AnvmfKSIuc4=;
+        b=L8f+Y0aeyt/XtSAakcHOiAf/nRxn+fpl3MlYKRy1Mc23oBwcsXGKo/Kt1rrOG919+O
+         GUtIwAxVqrmaFClekyZXrMuWp0cH2vhkpcc00yuxm909/Gl1kMmYSbIeRKrRuq5sqA3R
+         Rxzn+JM3nnb9bRM76PkOBpRx87X5F06NjhQ0dI8z7NRBGI1T7SAghM47slVCCHcBRg/c
+         lW5g17+cumOJ4zif3nUxFvSbT0LQjzRYuMRkMep/EqIhsQfnK5fz7SrUYsNCjTruoQaR
+         fQQS0JK2tfmIXj5mlKWGqdbu6MnurpAWhsjzD2ayeYdxBXwRVelmeH1ns+GMz8Uyyon9
+         KVRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783936939; x=1784541739;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YXhvnMbzMDQQK7ghMIFo4UvjRw5RrDVZlul3buHxzk0=;
-        b=Je5tTKTphep8wbDsrTf3RTKwl4ry54X2FEFOKvA9WrUojQDrxJz+IHF20ov1eDbOtB
-         ArJUloKHG/a13QG1QzgmGKN1YxpzLH9IXr5aDtt43TyOV08dvzKQVJ/sJpi+883ZA/76
-         +ckb/Vncfmoh2zsD6hjAQ/Tpvgvvl6oPjieE84ndRBuUSHkZJboSVVDTVsfY9C2BcOZ1
-         5sbzyb4oduhASd64ipgyIYkTNeLp6fXE2hYQjbX7ht6SoTgoOdtIx+kGGLf6ciGNXQfc
-         xTwm7LDeXGk3C5+aDGvKdPPokkQDe4WTU7ysVkjASRhe071D1XeLdEVDPUkPdjf4pfBy
-         DRpA==
-X-Gm-Message-State: AOJu0YyBC93HBPLZMNijKzQFGrm6iqvUeLp2N/owSOWKPCzwlcivqB1s
-	rnyt7yHxrfr4cUYw6ryK6SehFetUCNU5OtQERhRakHSvtijWwIuqBnzjnmeV6we3
-X-Gm-Gg: AfdE7cll7wYGoOcp7ZG0+8LYk4Dj363z6dg2elVp1IzqYx73b6GCnAa2/SHtO5jbpsY
-	UMtHuXZLa5+59ElOwzGFBq1/BFwRfC3yS19xYh4K/TsP9ZTmVVBTKo5HyN8/4o/8mdRZTAFhc4b
-	Av85rUGwL0mrd1uUNWbMyyP1bER0FSr4a8tS1I//gXUk8IAlNltWbglWXhpeAkdEPG+rgKtyg6p
-	zg7LAONvELmL4SiO389wJRJ/ZSMVTOYMpwRUMd2dZXBpvvkR4axAq26HunECien+4zFJPiFGkjC
-	1DEoeXVcr5We3zbbhDRWHPqsc2uOa7JJGGSb/URkTTvxI77ur5H2S0MyM3eJD8t0h6OKOVFWUdt
-	XyIv2pUa/o8sXTgeOzfi42RlhbV6OPn0XbSpAPFjqyQTQ6ULJ55zrJUFGbULFXjcJByIuq07ccg
-	abMo5ZBRvN/P8VOSO+d6kKbSKYKOymKDqPSHIshg==
-X-Received: by 2002:a05:6a21:7a8b:b0:3bf:6c05:ab with SMTP id adf61e73a8af0-3c110d32da1mr8892055637.58.1783936938721;
-        Mon, 13 Jul 2026 03:02:18 -0700 (PDT)
-Received: from d.home.yangfl.dn42 ([2a09:bac1:76e0:d30::4cf:38])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5af7d5946sm7992160a12.7.2026.07.13.03.02.16
+        d=1e100.net; s=20251104; t=1783937855; x=1784542655;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QeQhsheK9tMCcW1Jb0rBQaF54l8phBy4AnvmfKSIuc4=;
+        b=PCUvqxsO4pZ6Txj5I21OJEcWz8X/LhRKO5YonBX6KBNX9XKEfDpTtjv5JCSeqyyOC/
+         pOvImCbsKiru1raLLbaQNSRLHOucFb090QoHcovNKe5oBH+Yjlv0RjHiwmofl0/EaWA+
+         9tFWPA6/AN9cWiRHD4BlGsFRw0fUKqeW3rgtKAJQQUNxc4lVFEESttRLShBEOekJ7WUm
+         DeG7ET39rWyC6dwrAwlq1NIDObBo+u8oh4mmqlo3DIcdjPN1wRBCrIBE0469WM36DAs3
+         I4Xi7QPSxdlKkXPXb2MPwsLYTn6yCXZro40AHVlMeOh+khdCzShzkyo9vbZ1rt02aqOh
+         UYuw==
+X-Gm-Message-State: AOJu0YxJUo0t+pFHfNp1qszdDPsfZfDkwHLiFWcaAxDZJmtoe0G14+6A
+	3RNpfKGIsAIgeh+XQXjoqzZeVjO6y/w8Ns34T2YfY55GRhh118iz/RkyXRjbPvy0FJRqkP4lPEX
+	Jtvug6T2pU9gTpbMNEGpz2ovjPxmS+pUx82Mzoep+o2xknah8mAx9/u7WF99oYidreQ==
+X-Gm-Gg: AfdE7cmMaVKvZ/ZY0vHvOno+d13fF0tQfzhWewTwdbNDqkfWHYAV5SSUQJPGAL0GWEO
+	mjK/+sZVZtA6W3u15Ou7tBaNaBr57/pdklaXyDoLlk4uSiL5j6SCiN+ZuOD6TXM5rGLhEVklT1+
+	Fqk9AN+Q8f5oLnlmarQmnwg3x87GlNgcmtmRPvgvuIfyawoxOSmGsBUOSOSWWK4LLUJnMjXN2ai
+	kZ8gElp0fULEfi1cVUv1mVjy+63SFq1b5eMpz8x9KHHxheHTkfaIZwUUl9gggbMwbyIvLkEtocm
+	NWC75t9HBOxN3XJ+WuMb7Rco5bK/SZ12db2hsSI4bSzMzP42J7wl9EdIA++D4JiRSm28QZrgva9
+	OFK+vA0eRdBA87K8VGZ+j+sHuPYNAUaTRu7Zw3kk9UAfqiJ/fzb8R9jzvofr91tKssDmRgotI4d
+	ZkPxws85kk6A==
+X-Received: by 2002:a17:903:230c:b0:2cc:5f9f:54ed with SMTP id d9443c01a7336-2ce9f02acc6mr82287905ad.27.1783937855473;
+        Mon, 13 Jul 2026 03:17:35 -0700 (PDT)
+X-Received: by 2002:a17:903:230c:b0:2cc:5f9f:54ed with SMTP id d9443c01a7336-2ce9f02acc6mr82287565ad.27.1783937854990;
+        Mon, 13 Jul 2026 03:17:34 -0700 (PDT)
+Received: from WANGAOW-LAB01.ap.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1e1aesm98257925ad.39.2026.07.13.03.17.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 03:02:18 -0700 (PDT)
-From: David Yang <mmyangfl@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: David Yang <mmyangfl@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] media: dvb-usb-v2: nerc: add support for NERC DtmbUSB DTMB receiver
-Date: Mon, 13 Jul 2026 18:02:08 +0800
-Message-ID: <20260713100211.29548-1-mmyangfl@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Mon, 13 Jul 2026 03:17:34 -0700 (PDT)
+From: Wangao Wang <wangao.wang@oss.qualcomm.com>
+Subject: [PATCH v9 0/2] media: iris: add support for purwa platform
+Date: Mon, 13 Jul 2026 18:17:25 +0800
+Message-Id: <20260713-enable_iris_on_purwa-v9-0-633d7b87f0c9@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADW7VGoC/33SS27DIBAG4KtErOtoeENWvUdVRQOGBim1E0jcV
+ lHuXuws4kXpBmkQfPwz4kZKyCkUstvcSA5TKmkcamFfNsQfcPgIXeprTRgwBQxsFwZ0x7BPOZX
+ 9OOxP1/yFHQKAZBrBmp7Uq6ccYvpe2Lf3R53D+Vr1y2OTOCyh8+PnZ7rsNi4ErXgvIxfUWeuj0
+ AxjcBJML6wxUTFUHimZrUMqlzH/LIknumD/h5toB53k2gsKUYGIr2Mp2/MVj/P727os7sSeFgf
+ VsFi1tIxoAAFt4A2LryzaysWr5aKJPFg03vqGJZ6WANqwRLU8aiOkZFjBhiVXFmvlktUS3ES0q
+ kcmTMNST0uCblhqtkyPEmRg3LVmr1cWFQ1Lz5ZGlK6eixQblllZzR7NPPv62ZQGIS26P6z7/f4
+ LBTeGYB8DAAA=
+X-Change-ID: 20260209-enable_iris_on_purwa-a000527a098d
+To: Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Wangao Wang <wangao.wang@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783937849; l=11399;
+ i=wangao.wang@oss.qualcomm.com; s=20251021; h=from:subject:message-id;
+ bh=p8LAYLlXIVIqUUU4m6ZIubR5kua6Nng7WluhdxkACjw=;
+ b=wsjUpZRUXHfogy2aI1c7X9tDxCMj1E5BY2ta5goahXP0dXAJa5LgBGY/PoYVFRvteGWcAWRN5
+ i7OouliVVUDB+FUWdqAXccwAWiu+jMFtodxhMUU8NTsXEzdpwA1fc+N
+X-Developer-Key: i=wangao.wang@oss.qualcomm.com; a=ed25519;
+ pk=bUPgYblBUAsoPyGfssbNR7ZXUSGF8v1VF4FJzSO6/aA=
+X-Proofpoint-GUID: ddNwADZILuhqVqSoHSknq_fxc5brG22S
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDEwNiBTYWx0ZWRfX+Y8oPM2EJmAA
+ ce5VlBTwYALMIpnib9KPkgar6u4KbZMS2TW2D04tR+wPM8hcUyM/+nqUsQENAoPK81neFbVNVir
+ EIrAr872w/pc7ej/Qisc0UzlzVD0W2kETdkGm2trf0ERvapYCsAvCuWW51EUDXr1DVJ9EFd+VCZ
+ zhZsmFYHTA0Nk/iYae3ZiOqwLPpsBVcb9Kh125Xr4RzVu1IuHfxaVfKW13IwOXf2gojLDCancK4
+ 88yJ3pARsdLdEwAYy3UH/6zlFD2o07Bll24dkQbnAcs8EsLxFSFfHCAwOBFfPdp4bNseRAM6nR3
+ LYtABsn0tBva3OD44JQ0sdHoNp9O37lIrgClawa7c5zt6gM5Nq814i1HDCPfjyNLE9SARxCG3UA
+ j3NRaujZotgD0JMu3hi6vkOToGSj1AiFIgHf5LR68Gt7fJHqvL9mjHt2TUz9UOiETml7TZzKuoq
+ 5g7Pr/lD3MXrbN0ac/g==
+X-Proofpoint-ORIG-GUID: ddNwADZILuhqVqSoHSknq_fxc5brG22S
+X-Authority-Analysis: v=2.4 cv=dZSwG3Xe c=1 sm=1 tr=0 ts=6a54bb40 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=qLdzKuw7Enaw83zpX7AA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDEwNiBTYWx0ZWRfX1Y7meZD9/63Y
+ murSOf6yeKqNe3baaO066UxHGssUEWMUymFImhNGuflj+S9o1GRCpFNL64AKeSwxyKrZfrAXQTk
+ inMYIz1IhZEEwjHR67YnevPFK4KLwJI=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-13_02,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 adultscore=0 malwarescore=0 spamscore=0
+ phishscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130106
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67458-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67459-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[mmyangfl@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:mmyangfl@gmail.com,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:wangao.wang@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[wangao.wang@oss.qualcomm.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,qualcomm.com:email,qualcomm.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mmyangfl@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[wangao.wang@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1EB71749986
+X-Rspamd-Queue-Id: 17C7F749B2B
 
-NERC DtmbUSB (04b4:1004) is a highly integrated DTMB USB receiver.
+This series enables the Iris video codec on purwa, allowing purwa to
+use hardware‑accelerated video encoding and decoding.
 
-  * USB Bridge: Cypress CY7C68013A
-  * Receiver: HDIC HD2312A
-  * Tuner: MaxLinear MxL608
-  * ROM: 24-series flash
+The Iris codec on purwa is nearly identical to the one on hamoa(X1E),
+except that it requires one additional clock and uses a different OPP
+table.
 
-Three hardware variants is found: Letv, Aiwa, and CVB.
+Therefore, purwa can reuse the Iris node from hamoa, but the clocks
+and OPP table need to be redefined.
 
-Signed-off-by: David Yang <mmyangfl@gmail.com>
+All patches have been tested with v4l2-compliance and v4l2-ctl on
+purwa. And it does not affect existing targets.
+
+The result of v4l2-compliance on purwa:
+v4l2-compliance 1.31.0-5379, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 14c988631ad4 2025-11-11 11:19:35
+
+Compliance test for iris_driver device /dev/video0:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Decoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.19.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Decoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 10 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 65 buffers
+        test MMAP (select, REQBUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 65 buffers
+        test MMAP (epoll, REQBUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 65 buffers
+        test MMAP (select, CREATE_BUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 65 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 0
+root@localhost:/lib/video_test# ./v4l2-compliance -d /dev/video1 -s
+v4l2-compliance 1.31.0-5379, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 14c988631ad4 2025-11-11 11:19:35
+
+Compliance test for iris_driver device /dev/video1:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Encoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.19.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 38 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, CREATE_BUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+fluster result:
+H.264:
+Ran 77/135 tests successfully
+
+H.265:
+Ran 131/147 tests successfully
+
+VP9:
+Ran 235/305 tests successfully
+
+Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
 ---
-v2: https://lore.kernel.org/linux-media/20260711140811.1689525-1-mmyangfl@gmail.com
-  - fix wrong memcpy arguement in nerc_control_msg
-  - fix warning from swzigzag
-v1: https://lore.kernel.org/linux-media/20260710063237.1430919-1-mmyangfl@gmail.com
-  - add a comment for checkpatch warning
-  - fix an uninitialized variable
- MAINTAINERS                           |   8 +
- drivers/media/usb/dvb-usb-v2/Kconfig  |   8 +
- drivers/media/usb/dvb-usb-v2/Makefile |   3 +
- drivers/media/usb/dvb-usb-v2/nerc.c   | 385 ++++++++++++++++++++++++++
- drivers/media/usb/dvb-usb-v2/nerc.h   |  40 +++
- include/media/dvb-usb-ids.h           |   1 +
- 6 files changed, 445 insertions(+)
- create mode 100644 drivers/media/usb/dvb-usb-v2/nerc.c
- create mode 100644 drivers/media/usb/dvb-usb-v2/nerc.h
+Changes in v9:
+- Rebased to 7.2 rc2.
+- Drop the applied patches.
+- Link to v8: https://lore.kernel.org/r/20260529-enable_iris_on_purwa-v8-0-b1b9670459ab@oss.qualcomm.com
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f37a81950e25..a86e218e79e1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9158,6 +9158,14 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
- T:	git git://linuxtv.org/mkrufky/mxl111sf.git
- F:	drivers/media/usb/dvb-usb-v2/mxl111sf*
- 
-+DVB_USB_NERC MEDIA DRIVER
-+M:	David Yang <mmyangfl@gmail.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+W:	https://linuxtv.org
-+Q:	http://patchwork.linuxtv.org/project/linux-media/list/
-+F:	drivers/media/usb/dvb-usb-v2/nerc*
-+
- DVB_USB_RTL28XXU MEDIA DRIVER
- L:	linux-media@vger.kernel.org
- S:	Orphan
-diff --git a/drivers/media/usb/dvb-usb-v2/Kconfig b/drivers/media/usb/dvb-usb-v2/Kconfig
-index 4eadc9539b4c..8f0918728de1 100644
---- a/drivers/media/usb/dvb-usb-v2/Kconfig
-+++ b/drivers/media/usb/dvb-usb-v2/Kconfig
-@@ -144,6 +144,14 @@ config DVB_USB_MXL111SF
- 	help
- 	  Say Y here to support the MxL111SF USB2.0 DTV receiver.
- 
-+config DVB_USB_NERC
-+	tristate "NERC DTMB USB2.0 support"
-+	depends on DVB_USB_V2
-+	select DVB_EC100
-+	help
-+	  Say Y here to support the NERC DTMB (Cypress CY7C68013A + HDIC
-+	  HD2312A) USB2.0 receiver.
-+
- config DVB_USB_RTL28XXU
- 	tristate "Realtek RTL28xxU DVB USB support"
- 	depends on DVB_USB_V2 && I2C_MUX
-diff --git a/drivers/media/usb/dvb-usb-v2/Makefile b/drivers/media/usb/dvb-usb-v2/Makefile
-index 58c0140e19de..0c33dd50f2f7 100644
---- a/drivers/media/usb/dvb-usb-v2/Makefile
-+++ b/drivers/media/usb/dvb-usb-v2/Makefile
-@@ -35,6 +35,9 @@ obj-$(CONFIG_DVB_USB_MXL111SF) += dvb-usb-mxl111sf.o
- obj-$(CONFIG_DVB_USB_MXL111SF) += mxl111sf-demod.o
- obj-$(CONFIG_DVB_USB_MXL111SF) += mxl111sf-tuner.o
- 
-+dvb-usb-nerc-objs := nerc.o
-+obj-$(CONFIG_DVB_USB_NERC) += dvb-usb-nerc.o
-+
- dvb-usb-rtl28xxu-objs := rtl28xxu.o
- obj-$(CONFIG_DVB_USB_RTL28XXU) += dvb-usb-rtl28xxu.o
- 
-diff --git a/drivers/media/usb/dvb-usb-v2/nerc.c b/drivers/media/usb/dvb-usb-v2/nerc.c
-new file mode 100644
-index 000000000000..4a74c19ba83c
---- /dev/null
-+++ b/drivers/media/usb/dvb-usb-v2/nerc.c
-@@ -0,0 +1,385 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * China NERC (National Engineering Research Center of Digital Television)
-+ * DTMB (Cypress CY7C68013A + HDIC HD2312A) USB2.0 receiver.
-+ *
-+ * Copyright (c) 2026 David Yang
-+ */
-+
-+#include "dvb_usb.h"
-+
-+#include "nerc.h"
-+
-+DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
-+
-+static const char *nerc_variant_name(enum nerc_variant variant)
-+{
-+	switch (variant) {
-+	case NERC_VARIANT_LETV:
-+		return "Letv";
-+	case NERC_VARIANT_AIWA:
-+		return "Aiwa";
-+	case NERC_VARIANT_CVB:
-+		return "CVB";
-+	default:
-+		return "unknown";
-+	}
-+}
-+
-+static int
-+nerc_control_msg(struct dvb_usb_device *d, u8 request, bool read,
-+		 void *data, u16 size)
-+{
-+	struct nerc_priv *priv = d_to_priv(d);
-+	unsigned int pipe;
-+	u8 requesttype;
-+	int res;
-+
-+	if (WARN_ON(size > sizeof(priv->buf)))
-+		return -EINVAL;
-+
-+	lockdep_assert_held_once(&d->usb_mutex);
-+
-+	if (read) {
-+		requesttype = USB_TYPE_VENDOR | USB_DIR_IN;
-+		pipe = usb_rcvctrlpipe(d->udev, 0);
-+	} else {
-+		requesttype = USB_TYPE_VENDOR | USB_DIR_OUT;
-+		pipe = usb_sndctrlpipe(d->udev, 0);
-+		if (size)
-+			memcpy(priv->buf, data, size);
-+	}
-+
-+	/* value seems to be ignored, but just play safe */
-+	res = usb_control_msg(d->udev, pipe, request, requesttype, 0xfe,
-+			      0, priv->buf, size, NERC_USB_TIMEOUT);
-+	dvb_usb_dbg_usb_control_msg(d->udev, request, requesttype, 0xfe,
-+				    0, priv->buf, size);
-+
-+	if (res < 0)
-+		return res;
-+	if (res != size)
-+		return -EIO;
-+	if (size && read)
-+		memcpy(data, priv->buf, res);
-+	return 0;
-+}
-+
-+static int
-+nerc_get_tune_settings(struct dvb_frontend *fe,
-+		       struct dvb_frontend_tune_settings *s)
-+{
-+	s->min_delay_ms = 800;
-+	s->step_size = 0;
-+	s->max_drift = 0;
-+
-+	return 0;
-+}
-+
-+static int nerc_read_status(struct dvb_frontend *fe, enum fe_status *status)
-+{
-+	struct dvb_usb_device *d = fe_to_d(fe);
-+	bool has_signal;
-+	bool has_lock;
-+	int res;
-+
-+	mutex_lock(&d->usb_mutex);
-+	res = nerc_control_msg(d, NERC_HAS_SIGNAL, true,
-+			       &has_signal, sizeof(has_signal));
-+	if (!res && has_signal) {
-+		res = nerc_control_msg(d, NERC_WAIT_LOCK, true,
-+				       &has_lock, sizeof(has_lock));
-+		if (res == -ETIMEDOUT) {
-+			res = 0;
-+			has_lock = false;
-+		}
-+	}
-+	mutex_unlock(&d->usb_mutex);
-+	if (res)
-+		return res;
-+
-+	if (!has_signal)
-+		*status = 0;
-+	else if (!has_lock)
-+		*status = FE_HAS_SIGNAL | FE_HAS_CARRIER;
-+	else
-+		*status = FE_HAS_SIGNAL | FE_HAS_CARRIER | FE_HAS_VITERBI |
-+			  FE_HAS_SYNC | FE_HAS_LOCK;
-+	return 0;
-+}
-+
-+static int
-+nerc_get_frontend(struct dvb_frontend *fe, struct dtv_frontend_properties *c)
-+{
-+	struct dvb_usb_device *d = fe_to_d(fe);
-+	struct nerc_priv *priv = d_to_priv(d);
-+	unsigned char frontend[6];
-+	unsigned char snr[2];
-+	unsigned char strength[4];
-+	int res;
-+
-+	mutex_lock(&d->usb_mutex);
-+
-+	res = nerc_control_msg(d, NERC_FRONTEND, true,
-+			       frontend, sizeof(frontend));
-+	if (res)
-+		goto end;
-+
-+	res = nerc_control_msg(d, NERC_SNR, true, snr, sizeof(snr));
-+	if (res)
-+		goto end;
-+
-+	res = nerc_control_msg(d, NERC_STRENGTH, true,
-+			       strength, sizeof(strength));
-+	if (res)
-+		goto end;
-+
-+end:
-+	mutex_unlock(&d->usb_mutex);
-+	if (res)
-+		return res;
-+
-+	switch (frontend[0]) {
-+	case 0:
-+		c->transmission_mode = TRANSMISSION_MODE_C1;
-+		break;
-+	case 1:
-+		c->transmission_mode = TRANSMISSION_MODE_C3780;
-+		break;
-+	default:
-+		c->transmission_mode = TRANSMISSION_MODE_AUTO;
-+	}
-+
-+	switch (frontend[1]) {
-+	case 0:
-+		c->guard_interval = GUARD_INTERVAL_PN945;
-+		break;
-+	case 1:
-+		c->guard_interval = GUARD_INTERVAL_PN595;
-+		break;
-+	case 2:
-+		c->guard_interval = GUARD_INTERVAL_PN420;
-+		break;
-+	default:
-+		c->guard_interval = GUARD_INTERVAL_AUTO;
-+	}
-+
-+	switch (frontend[2]) {
-+	case 0:
-+		c->fec_inner = FEC_2_5;
-+		break;
-+	case 1:
-+		c->fec_inner = FEC_3_5;
-+		break;
-+	case 2:
-+		c->fec_inner = FEC_4_5;
-+		break;
-+	default:
-+		c->fec_inner = FEC_AUTO;
-+	}
-+
-+	switch (frontend[3]) {
-+	case 0:
-+		c->interleaving = INTERLEAVING_720;
-+		break;
-+	case 1:
-+		c->interleaving = INTERLEAVING_240;
-+		break;
-+	default:
-+		c->interleaving = INTERLEAVING_AUTO;
-+	}
-+
-+	switch (frontend[4]) {
-+	case 0:
-+		c->modulation = QAM_4_NR;
-+		break;
-+	case 1:
-+		c->modulation = QPSK;
-+		break;
-+	case 2:
-+		c->modulation = QAM_16;
-+		break;
-+	case 3:
-+		c->modulation = QAM_32;
-+		break;
-+	case 4:
-+		c->modulation = QAM_64;
-+		break;
-+	default:
-+		c->modulation = QAM_AUTO;
-+	}
-+
-+	switch (frontend[5]) {
-+	case 0:
-+		c->inversion = INVERSION_ON;
-+		break;
-+	case 1:
-+		c->inversion = INVERSION_OFF;
-+		break;
-+	default:
-+		c->inversion = INVERSION_AUTO;
-+	}
-+
-+	if (priv->variant == NERC_VARIANT_CVB)
-+		c->strength.stat[0].svalue = -1000 * strength[3];
-+	else
-+		c->strength.stat[0].uvalue = strength[3] * 0xffff / 100;
-+	c->cnr.stat[0].svalue = 10 * (100 * snr[0] + snr[1]);
-+
-+	return 0;
-+}
-+
-+static int nerc_set_frontend(struct dvb_frontend *fe)
-+{
-+	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
-+	__be32 freq = cpu_to_be32(c->frequency);
-+	struct dvb_usb_device *d = fe_to_d(fe);
-+	int res;
-+
-+	mutex_lock(&d->usb_mutex);
-+	res = nerc_control_msg(d, NERC_FREQ_SET, false, &freq, sizeof(freq));
-+	mutex_unlock(&d->usb_mutex);
-+
-+	return res;
-+}
-+
-+static const struct dvb_frontend_ops nerc_ops = {
-+	.delsys = { SYS_DTMB },
-+	.info = {
-+		.name = "HDIC HD2312A (in NERC DtmbUSB)",
-+		.frequency_min_hz = 52 * MHz,
-+		.frequency_max_hz = 866 * MHz,
-+		.frequency_stepsize_hz = 10 * kHz,
-+		.caps = FE_CAN_INVERSION_AUTO | FE_CAN_FEC_AUTO |
-+			FE_CAN_QAM_AUTO | FE_CAN_TRANSMISSION_MODE_AUTO |
-+			FE_CAN_BANDWIDTH_AUTO | FE_CAN_GUARD_INTERVAL_AUTO
-+	},
-+	.get_tune_settings = nerc_get_tune_settings,
-+	.read_status = nerc_read_status,
-+	.get_frontend = nerc_get_frontend,
-+	.set_frontend = nerc_set_frontend,
-+};
-+
-+static int nerc_streaming_ctrl(struct dvb_frontend *fe, int on)
-+{
-+	struct dvb_usb_device *d = fe_to_d(fe);
-+	int res;
-+
-+	mutex_lock(&d->usb_mutex);
-+	res = nerc_control_msg(d, on ? NERC_STREAM_START : NERC_STREAM_STOP,
-+			       false, NULL, 0);
-+	mutex_unlock(&d->usb_mutex);
-+
-+	return res;
-+}
-+
-+static int nerc_frontend_attach(struct dvb_usb_adapter *adap)
-+{
-+	struct nerc_priv *priv = adap_to_priv(adap);
-+	struct dvb_frontend *fe = &priv->fe;
-+	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
-+
-+	/* init frontend callback ops */
-+	memcpy(&fe->ops, &nerc_ops, sizeof(struct dvb_frontend_ops));
-+
-+	c->strength.len = 1;
-+	if (priv->variant == NERC_VARIANT_CVB)
-+		c->strength.stat[0].scale = FE_SCALE_DECIBEL;
-+	else
-+		c->strength.stat[0].scale = FE_SCALE_RELATIVE;
-+	c->cnr.len = 1;
-+	c->cnr.stat[0].scale = FE_SCALE_DECIBEL;
-+
-+	adap->fe[0] = fe;
-+	return 0;
-+}
-+
-+static int nerc_power_ctrl(struct dvb_usb_device *d, int on)
-+{
-+	int res;
-+
-+	mutex_lock(&d->usb_mutex);
-+	res = nerc_control_msg(d, on ? NERC_POWER_ON : NERC_POWER_OFF,
-+			       false, NULL, 0);
-+	mutex_unlock(&d->usb_mutex);
-+
-+	return res;
-+}
-+
-+static int nerc_probe(struct dvb_usb_device *d)
-+{
-+	struct nerc_priv *priv = d_to_priv(d);
-+	unsigned char buf[4];
-+	int res;
-+
-+	mutex_lock(&d->usb_mutex);
-+	res = nerc_control_msg(d, NERC_VERSION, true, buf, sizeof(buf));
-+	mutex_unlock(&d->usb_mutex);
-+	if (res)
-+		return res;
-+
-+	if (buf[1] == 8 && buf[2] == 32 && buf[3] == 68) {
-+		if (buf[0] == 3)
-+			priv->variant = NERC_VARIANT_LETV;
-+		else if (buf[0] == 5)
-+			priv->variant = NERC_VARIANT_AIWA;
-+		else if (buf[0] == 6)
-+			priv->variant = NERC_VARIANT_CVB;
-+	}
-+
-+	if (priv->variant == NERC_VARIANT_UNKNOWN) {
-+		dev_err(&d->udev->dev, "Unknown NERC DtmbUSB v%u.%u.%u%u",
-+			buf[0], buf[1], buf[2], buf[3]);
-+		return -ENODEV;
-+	}
-+
-+	/* yes, missing the last dot */
-+	dev_info(&d->udev->dev, "NERC DtmbUSB v%u.%u.%u%u (%s)",
-+		 buf[0], buf[1], buf[2], buf[3],
-+		 nerc_variant_name(priv->variant));
-+	return 0;
-+}
-+
-+static const struct dvb_usb_device_properties nerc_props = {
-+	.driver_name = KBUILD_MODNAME,
-+	.owner = THIS_MODULE,
-+	.adapter_nr = adapter_nr,
-+	.size_of_priv = sizeof(struct nerc_priv),
-+
-+	.streaming_ctrl = nerc_streaming_ctrl,
-+	.frontend_attach = nerc_frontend_attach,
-+	.power_ctrl = nerc_power_ctrl,
-+	.probe = nerc_probe,
-+
-+	.num_adapters = 1,
-+	.adapter = {
-+		{
-+			.stream = DVB_USB_STREAM_BULK(0x82, 8, 4096),
-+		},
-+	},
-+};
-+
-+static const struct usb_device_id nerc_id_table[] = {
-+	{ DVB_USB_DEVICE(USB_VID_CYPRESS, USB_PID_NERC_DTMBUSB,
-+		&nerc_props, "NERC DtmbUSB", NULL) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(usb, nerc_id_table);
-+
-+static struct usb_driver nerc_usb_driver = {
-+	.name = KBUILD_MODNAME,
-+	.id_table = nerc_id_table,
-+	.probe = dvb_usbv2_probe,
-+	.disconnect = dvb_usbv2_disconnect,
-+	.suspend = dvb_usbv2_suspend,
-+	.resume = dvb_usbv2_resume,
-+	.reset_resume = dvb_usbv2_reset_resume,
-+	.no_dynamic_id = 1,
-+	.soft_unbind = 1,
-+};
-+
-+module_usb_driver(nerc_usb_driver);
-+
-+MODULE_AUTHOR("David Yang <mmyangfl@gmail.com>");
-+MODULE_DESCRIPTION("Driver for NERC DtmbUSB");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/media/usb/dvb-usb-v2/nerc.h b/drivers/media/usb/dvb-usb-v2/nerc.h
-new file mode 100644
-index 000000000000..7c33ba658ce7
---- /dev/null
-+++ b/drivers/media/usb/dvb-usb-v2/nerc.h
-@@ -0,0 +1,40 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Copyright (c) 2026 David Yang
-+ */
-+
-+#ifndef _DVB_USB_NERC_H_
-+#define _DVB_USB_NERC_H_
-+
-+#include "dvb_usb.h"
-+
-+#define NERC_STREAM_START	0xab
-+#define NERC_STREAM_STOP	0xac
-+#define NERC_POWER_ON		0xad
-+#define NERC_POWER_OFF		0xae
-+#define NERC_FRONTEND		0xe7
-+#define NERC_SNR		0xe8
-+#define NERC_QUALITY		0xe9
-+#define NERC_WAIT_LOCK		0xea
-+#define NERC_STRENGTH		0xeb
-+#define NERC_HAS_SIGNAL		0xec	/* 0.7s after set freq */
-+#define NERC_VERSION		0xed
-+#define NERC_FREQ_SET		0xfc
-+
-+#define NERC_USB_TIMEOUT	1000
-+
-+enum nerc_variant {
-+	NERC_VARIANT_UNKNOWN,
-+	NERC_VARIANT_LETV,
-+	NERC_VARIANT_AIWA,
-+	NERC_VARIANT_CVB,
-+};
-+
-+struct nerc_priv {
-+	struct dvb_frontend fe;
-+
-+	unsigned char variant;
-+	u8 buf[31];
-+};
-+
-+#endif
-diff --git a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
-index 1b7d10f3d4aa..7bc4e3c395f5 100644
---- a/include/media/dvb-usb-ids.h
-+++ b/include/media/dvb-usb-ids.h
-@@ -308,6 +308,7 @@
- #define USB_PID_MYGICA_T230C2				0xc68a
- #define USB_PID_MYGICA_T230C2_LITE			0xc69a
- #define USB_PID_MYGICA_T230C_LITE			0xc699
-+#define USB_PID_NERC_DTMBUSB			0x1004
- #define USB_PID_NOXON_DAB_STICK 			0x00b3
- #define USB_PID_NOXON_DAB_STICK_REV2			0x00e0
- #define USB_PID_NOXON_DAB_STICK_REV3			0x00b4
+Changes in v8:
+- Rebase onto the media-committers venus-iris-next branch.
+- Link to v7: https://lore.kernel.org/r/20260514-enable_iris_on_purwa-v7-0-47aa5b026f1a@oss.qualcomm.com
+
+Changes in v7:
+- Rebase onto the media-committers next+fixes branch.
+- Correct the firmware name.
+- Link to v6: https://lore.kernel.org/r/20260507-enable_iris_on_purwa-v6-0-48da505e23bf@oss.qualcomm.com
+
+Changes in v6:
+- Correct the firmware being used.(Dikshita)
+- Add comments to platform data.(Dikshita)
+- Link to v5: https://lore.kernel.org/r/20260429-enable_iris_on_purwa-v5-0-438fa96da248@oss.qualcomm.com
+
+Changes in v5:
+- Modify the dt-binding description.(Krzysztof)
+- Move the BSE clock on/off handling into the vpu3 code.(Krzysztof)
+- Link to v4: https://lore.kernel.org/r/20260401-enable_iris_on_purwa-v4-0-ca784552a3e9@oss.qualcomm.com
+
+Changes in v4:
+- Correct the dt-binding description.(Krzysztof)
+- Fix incorrect required-opps.(Dmitry)
+- Reuse the vpu3 power off hardware api.
+- Link to v3: https://lore.kernel.org/r/20260319-enable_iris_on_purwa-v3-0-bf8f3e9a8c9c@oss.qualcomm.com
+
+Changes in v3:
+- Correct the dt-binding description.(Krzysztof)
+- Fix warnings reported in the patch.(Krzysztof)
+- Add separate power on/off hooks for Purwa.(Dmitry)
+- Link to v2: https://lore.kernel.org/r/20260306-enable_iris_on_purwa-v2-0-75fa80a0a9e3@oss.qualcomm.com
+
+Changes in v2:
+- Improve the dt-binding description.(Krzysztof)
+- Move the BSE clock on/off handling into the vpu3 code.(Dmitry)
+- Add the required members to the platform data for Purwa.(Dikshita)
+- Link to v1: https://lore.kernel.org/r/20260209-enable_iris_on_purwa-v1-0-537c410f604f@oss.qualcomm.com
+
+---
+Wangao Wang (2):
+      arm64: dts: qcom: purwa: Override Iris clocks and operating points
+      arm64: dts: qcom: purwa-iot-som: enable video
+
+ arch/arm64/boot/dts/qcom/purwa-iot-som.dtsi |  4 +++
+ arch/arm64/boot/dts/qcom/purwa.dtsi         | 50 +++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+---
+base-commit: bee763d5f341b99cf472afeb508d4988f62a6ca1
+change-id: 20260209-enable_iris_on_purwa-a000527a098d
+
+Best regards,
 -- 
-2.53.0
+Wangao Wang <wangao.wang@oss.qualcomm.com>
 
 
