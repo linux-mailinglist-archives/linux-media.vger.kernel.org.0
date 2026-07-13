@@ -1,163 +1,270 @@
-Return-Path: <linux-media+bounces-67527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67528-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ZVWzEvZZVWoMnQAAu9opvQ
-	(envelope-from <linux-media+bounces-67527-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 23:34:46 +0200
+	id ZIvKGXVpVWoVoAAAu9opvQ
+	(envelope-from <linux-media+bounces-67528-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 00:40:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA4174F48C
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 23:34:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E120C74F8EC
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 00:40:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mess.org header.s=2020 header.b=VOGD8gWa;
-	dkim=pass header.d=mess.org header.s=2020 header.b=cXuqPrmi;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67527-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67527-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=mess.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=google.com header.s=20251104 header.b=MET43OUc;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67528-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67528-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=google.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 819EA31431EC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 21:31:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F22BE30480FF
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 22:40:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F28A936D9E0;
-	Mon, 13 Jul 2026 21:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85FF03B8BC5;
+	Mon, 13 Jul 2026 22:40:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680A3363C45;
-	Mon, 13 Jul 2026 21:31:34 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783978296; cv=none; b=XLtERcjdlMDqUDi9AUqFlMpV6UJrQY6TjG15r7i9BDo5ZfXKVi5JXZL22vZ+XFb98qyZRindyMC3uE2xLO7PWGiSoCimZoEqBtidZr//Q4GtNkLKMHZXI692vV/rWyN25R9XcUMkJ69LUK+PysBagdgw1/3wTwESlPnT8fSM54g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783978296; c=relaxed/simple;
-	bh=1yP18ZTlPXUiRlBsdmIVfczBqI+60MXCB3xkhNeyZNs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f6YQrqwTqRkmGrqtz5qR+Kn2wosQ7GRhj+jvEHGN+ijZ0Is5U7jelmbh9Es9ONJVQljwrgBjMwf+auJAZL8CZR5urMRugKKc+3CUya6KLVLcRBOvA8avH8u4BB25XgxLSbMy9yGS8xtZq+rovvwN6oO83UpriIr3X1kmZoiF15M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=VOGD8gWa; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=cXuqPrmi; arc=none smtp.client-ip=92.243.27.206
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1783978287; bh=1yP18ZTlPXUiRlBsdmIVfczBqI+60MXCB3xkhNeyZNs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VOGD8gWa+quOr9YeBp/h4VX9sJ9uaqQjyOFcR76rg3f5qxMTBi8DP03P235wN7C3x
-	 bvY8yFfAgFo+86daHResImzh+blajKWKV+Y7/FuWvzaCmM0RYzx2VrX92pa7hX1TVH
-	 evMNRbikEaH6DRswKiCeW1Nw1U6oMdxxLx//KZvP8XAnr8tLVQMj6bcIxog4Dh/uj1
-	 +FJ27Q1EDl4RWf/tqBu1ujRNxunw69XGkRJl9RpxJcEJuuUucYS6hDWFnJ8zgA6WfL
-	 d7yPq/cz2j6aWwgOnOdmCCc27H3WJ+V6DOYQKXEURUN4JgsZSi/Pz1PUE1AnTHxJZV
-	 vFnKc5UCdl5eg==
-Received: by extorris.mess.org (Postfix, from userid 1004)
-	id 5E26441F04; Mon, 13 Jul 2026 22:31:27 +0100 (BST)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1783978286; bh=1yP18ZTlPXUiRlBsdmIVfczBqI+60MXCB3xkhNeyZNs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cXuqPrmidt0dnxcHe8V5AM1bmdamGmL8yswwwk8ITkwdMjNvUAPU59YsldlUNIxKl
-	 NxZw3IPA1tlC5rDViDXGtYbfcQVNf3o0dU6k5U9E/66FLD8krs0PWONQH0v9ZwsRHM
-	 sBNUlTsXmm6tV9PmE/x2dRZhEM+tnD1u6AMo8zYu/sGJkq7r3LqAehVdMsQ/2TfWO4
-	 OacQFJw79kk6acd+K/ZJRKqNA7ZNRCTQ43CNIpVmULtycChVOvhYHznLNaQaCtt1Ny
-	 Rier5SZK8mI9GAmHTfo03FsLjMeGFz4g6Zl7Ni89jR88Ix5N/++0+Ff/L1o7T4HMGK
-	 O9uQWEvp5qWcA==
-Received: from maru.home (host86-148-148-68.range86-148.btcentralplus.com [86.148.148.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by extorris.mess.org (Postfix) with ESMTPSA id 13A9241EFB;
-	Mon, 13 Jul 2026 22:31:26 +0100 (BST)
-From: Sean Young <sean@mess.org>
-To: linux-media@vger.kernel.org,
-	Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 09/11] media: meson-ir-tx: Ensure probe error is propagated
-Date: Mon, 13 Jul 2026 22:31:03 +0100
-Message-ID: <b1ba67cf06df907bb1e25dd13554fb72f2ee09d8.1783977550.git.sean@mess.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1783977550.git.sean@mess.org>
-References: <cover.1783977550.git.sean@mess.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3715F35DA5D
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 22:40:23 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783982425; cv=pass; b=K7dZKxqk0rH/Vkdq2Xfpy8bLdXVNWvWYYt3+NUmbA3jMdtCNIA8nYKQAfY/OEaFJ4evtB0AdMy6yKth78QAHmcGg9Lj+cgXFGo+bPHQW/847bmYRfqE0SHtQqLJaxGdS/12//WCRr9/JLbJEnBNK+9CRxJ6L33h59vMXuNrQ5H0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783982425; c=relaxed/simple;
+	bh=7LkfD6aXl9dK90wHStXoX1dSfuVb2Ck7kctZehI6Xxk=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E9LN8RLSnz5IE4xlhlD6uXZSIYKP2EZRAIFySGpAQGJt7x3B9AY7ozjBZvcGZ+e3sWxHtojE/XwM3VAwFLGjlR/jNG8BcQjhxaQgAdkkH6S+PdnG5j3rXgo7RDZsnTWZdXKBpPB5igjofSveUGgqhdJH6Dbsvq2ne6xmaglRERo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MET43OUc; arc=pass smtp.client-ip=209.85.218.48
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c15cf78d1a2so62946366b.1
+        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 15:40:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783982421; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cbOtvH0LaPRt9mnr6XBtzFxp8IQW0qA7crGFrJWGNbpuUjXp7m9zVk9RUj8h6qk+HB
+         aKZ30E/K0M6FEgbOSe8KKVhzAd86vAn+/tJjyDrKQsuPZo2epGibO0daL3uMPm+cRO2m
+         LTO16az4+HqgY72c1Wi6OQQtKVS8HEp0SvWZZO+1Wbjn2jjezxqxd3t2rNu75sQiSf/c
+         NpoleapBaXBOG5pqbf0fKkSkTesYAkveBJVv7++X6TYZAlBmG0CYKuivLDtyOa0Qmgn0
+         rW9dyTpaJJ473R+CPJWSKokWmX5bErwc/FIEd7ZFrdOgr9nL+vrak72VwkZHeVMAaraV
+         nLOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=7LkfD6aXl9dK90wHStXoX1dSfuVb2Ck7kctZehI6Xxk=;
+        fh=XzR+YQ5ZfK2rHEE4EC1AO1LSIg8r7EHuQgB5vS/bGQU=;
+        b=i10RtDWTYj6xtqmU4uZ2qQk2w7uO/hgnbZQnpDCEpAE8DuJdG/PgB2Jk1T6BPXYcz3
+         c8QfrZhb+LE4M0mwCcJnF6a+t1gegjVPDFe4v1b3QBPGcwJ4bWiBayp7h+DWTeLkHJ0k
+         Nug/kwsAirye//12qOHvmU04M88eQmvl4t2dWd1w+qD0Nx7xFFiey0VLe1jaijXFRLBt
+         d6hFe3vi5HZTuwxN+UviK9dVE8k9IPESZ7RAHuNqEvTPTHe/m+pMPKPJTWVxYFiqZREl
+         WLO/TLmfRxA8Bv4Vdo3iML12l08JCmHiygqSVKSmy3seR1H7Mc7Q1aQX8MSqSksq+2vw
+         gIQw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1783982421; x=1784587221; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7LkfD6aXl9dK90wHStXoX1dSfuVb2Ck7kctZehI6Xxk=;
+        b=MET43OUcURM8pFPrJQDWyENy3H19795XEqQCyrqsduHYio7M5nTQXLYG/OmO9cp7pu
+         NSSIOdLDvXWVZ9I0oqHIPHx2CUMjFjdXlMjUOYtxQRcEe+Dvyq3MDcJYRF4IZqwcNW2Z
+         1hfEhawPHBmOGGjG5SGkQ5i2ptqFmy8aS9H0YzRMa+i6hYP7EPL5lZkT/Eo5A9f2ZEIF
+         xZcjgdxAwdiRI8yIW1fMgK8wsKugVNDr7Cl3XaNqvTN64quYFZc3g5Rxu1pspm/jay9b
+         GeMTQKsBFEdtQKWr0fqjg8EB0f2b9eodHg8CqAhpyh5mMy+THoxXrrWrVf7r1k2OZbPh
+         uuag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783982421; x=1784587221;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7LkfD6aXl9dK90wHStXoX1dSfuVb2Ck7kctZehI6Xxk=;
+        b=SrivX5jPFw8DnOzIE635y1fCJKBu0rZirYPMWgCRIhU7/eS2eVcpafNeLxir4v3tg0
+         Am/+1JxhZ/72RQ5KHTroQwKaqLjYNzsEr3tgG978IFgt/54SAuC8nDgUb0aWHaXHSEyZ
+         zx8Z1u75IXwvuU1uZzEY1unTM+z053Knr57FulvspIj78rwUIuKhZMh6nRyspVftTq0B
+         9F0PoNS7EyXqUkNpKHrtqoziJfW/VMlr04bDo1TJKeF87zq5micIA24+fjGj29BYtpEa
+         fmJhhVgd7ygecYJKg7c6SIAdO8ujSixXiUjVYZO9iqpNTTlt+X/dLBnLgDtKk0tnBGil
+         oZqA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp14p0lxy5qppKqyrEl3COGlNeERS+QMtIct8sD6Uan9N6Lpk1+eGcdT9BLZFk/f7KJkv/XwIaAeg5Pqw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2thUKdaf9HeYUVo4ajnVD+TXE2O7HRZQBq/c6908FugAZHrhI
+	BYfKG1jUppGYYaexyJM/KTbgFMZ65TgruWrtLJO1NTe6hOi1zv6zIipMJydYJGp77e0ZSm1hYbD
+	xxjMKalaz4Crm9hEgKo9Q0z37reMaGV/fnpBUpsOR
+X-Gm-Gg: AfdE7ckKw9O69rKUf+3kDCgAhyjiYOyfhfGPv4GXBL+jWS5yTdiUlVZLr+S+BoiYYZh
+	ZwlRb5dZoviIDCISBWIRojoyszD5MNofH7bPLsL3omH01dnaCb2QyEpmgDV60styDR29ZYyIJXx
+	4kxff4iGW1d0BXg2JqXYN64hf6bibvR00fWmwvrL9aaIof/FBG7WXU0zpbr/V1/0r+Q7FV9T7+b
+	X/7f55Yf3GCEMLdXKyrygqBXEYwFZVUWcf2Rh0z77NdP+uQO+L0yhAiRREbiEABBS0UpK0KP5Cs
+	hTMHS8GucZ9WM6d2oqp5OpAWKNNDlxCyWxH4yPw5X3bpW4uclKZPQqJfn7o=
+X-Received: by 2002:a17:907:398c:b0:c16:13e7:fd63 with SMTP id
+ a640c23a62f3a-c161de05ceemr462764166b.0.1783982420699; Mon, 13 Jul 2026
+ 15:40:20 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 13 Jul 2026 15:40:18 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 13 Jul 2026 15:40:18 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20260713191727.GH674038@nvidia.com>
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+ <20250529053513.1592088-11-yilun.xu@linux.intel.com> <20250602133009.GC233377@nvidia.com>
+ <CAEvNRgFpJWQ5M5sQhGpQUV3GbBq9N+MQhhaxdxa=D8ky94SCsw@mail.gmail.com>
+ <CA+EHjTwd9uku-ZV5y8xcK8VWdOfhcchyW=_fzjpCf5Vk2wQoGQ@mail.gmail.com> <20260713191727.GH674038@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Mon, 13 Jul 2026 15:40:18 -0700
+X-Gm-Features: AVVi8CeLrPp9U0h6s0bW1dfkDuvwNQDlx835UcZJGSgXNK2eLWnyQH0juXRBY34
+Message-ID: <CAEvNRgEvGmOK3dXD4qdw5uXYD2sXNEVGT9NV2Zz-4H8VPb+KUw@mail.gmail.com>
+Subject: Re: [RFC PATCH 10/30] vfio/pci: Export vfio dma-buf specific info for importers
+To: Jason Gunthorpe <jgg@nvidia.com>, Fuad Tabba <fuad.tabba@linux.dev>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org, sumit.semwal@linaro.org, 
+	christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com, 
+	alex.williamson@redhat.com, dan.j.williams@intel.com, aik@amd.com, 
+	linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	vivek.kasireddy@intel.com, yilun.xu@intel.com, linux-kernel@vger.kernel.org, 
+	lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, 
+	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, 
+	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com, 
+	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com, 
+	aneesh.kumar@kernel.org, iommu@lists.linux.dev, kevin.tian@intel.com, 
+	fvdl@google.com
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
-	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-67527-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[vger.kernel.org,mess.org,kernel.org,linaro.org,baylibre.com,googlemail.com,phystech.edu];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:sean@mess.org,m:mchehab@kernel.org,m:neil.armstrong@linaro.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:viktor.prutyanov@phystech.edu,m:mchehab+huawei@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-amlogic@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[sean@mess.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67528-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:jgg@nvidia.com,m:fuad.tabba@linux.dev,m:yilun.xu@linux.intel.com,m:kvm@vger.kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:pbonzini@redhat.com,m:seanjc@google.com,m:alex.williamson@redhat.com,m:dan.j.williams@intel.com,m:aik@amd.com,m:linux-coco@lists.linux.dev,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:vivek.kasireddy@intel.com,m:yilun.xu@intel.com,m:linux-kernel@vger.kernel.org,m:lukas@wunner.de,m:yan.y.zhao@intel.com,m:daniel.vetter@ffwll.ch,m:leon@kernel.org,m:baolu.lu@linux.intel.com,m:zhenzhong.duan@intel.com,m:tao1.su@intel.com,m:linux-pci@vger.kernel.org,m:zhiw@nvidia.com,m:simona.vetter@ffwll.ch,m:shameerali.kolothum.thodi@huawei.com,m:aneesh.kumar@kernel.org,m:iommu@lists.linux.dev,m:kevin.tian@intel.com,m:fvdl@google.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[mess.org:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	FORGED_SENDER(0.00)[ackerleytng@google.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[google.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ackerleytng@google.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,huawei];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mess.org:from_mime,mess.org:mid,mess.org:email,mess.org:dkim]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,mail.gmail.com:mid,nvidia.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9FA4174F48C
+X-Rspamd-Queue-Id: E120C74F8EC
 
-devm_clk_get_enabled() may return -EPROBE_DEFER which needs to be
-propagated else the probe will not be deferred, it will fail instead.
+Jason Gunthorpe <jgg@nvidia.com> writes:
 
-Fixes: 49be1c78d575 ("media: rc: introduce Meson IR TX driver")
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/meson-ir-tx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> On Mon, Jul 13, 2026 at 08:08:14PM +0100, Fuad Tabba wrote:
+>> On Sun, 12 Jul 2026 at 02:02, Ackerley Tng <ackerleytng@google.com> wrote:
+>> >
+>> > Jason Gunthorpe <jgg@nvidia.com> writes:
+>> >
+>> > > On Thu, May 29, 2025 at 01:34:53PM +0800, Xu Yilun wrote:
+>> > >> Export vfio dma-buf specific info by attaching vfio_dma_buf_data in
+>> > >> struct dma_buf::priv. Provide a helper vfio_dma_buf_get_data() for
+>> > >> importers to fetch these data. Exporters identify VFIO dma-buf by
+>> > >> successfully getting these data.
+>> > >>
+>> > >> VFIO dma-buf supports disabling host access to these exported MMIO
+>> > >> regions when the device is converted to private. Exporters like KVM
+>> > >> need to identify this type of dma-buf to decide if it is good to use.
+>> > >> KVM only allows host unaccessible MMIO regions been mapped in private
+>> > >> roots.
+>> > >>
+>> > >> Export struct kvm * handler attached to the vfio device. This
+>> > >> allows KVM to do another sanity check. MMIO should only be assigned to
+>> > >> a CoCo VM if its owner device is already assigned to the same VM.
+>> > >
+>> > > This doesn't seem right, it should be encapsulated into the standard
+>> > > DMABUF API in some way.
+>> > >
+>> >
+>> > I'd like to propose an alternative. I've been working on guest_memfd and
+>> > new to the world of IO, please help me along! :)
+>> >
+>> > It seems like using dmabufs are used a little awkwardly here. IIUC
+>> > dmabufs were originally meant to expose memory of one device to another
+>> > device, mostly meant to share memory. Dmabufs do expose MMIO too, for
+>> > device to device communications. Without virtualization, userspace MMIO
+>> > would be done by mmap()-ing a VFIO fd and having the userspace program
+>> > write to the userspace addresses.
+>> >
+>> > Before CoCo, device passthrough (MMIO) is mostly handled by mmap()-ing a
+>> > VFIO fd and setting up the userspace address in a KVM memslot for the
+>> > guest.
+>> >
+>> > With CoCo, is the problem we're solving that we want KVM to know what
+>> > pfns to set up in stage 2 page tables, but not via userspace addresses?
+>> >
+>> > guest_memfd already does that for regular host memory, tracks the
+>> > private/shared-ness of the memory, tracks which struct kvm the memory
+>> > belongs to.
+>> >
+>> > guest_memfd functions as KVM's bridge to host memory. KVM already can
+>> > ask guest_memfd for the pfn to map into stage 2 page tables, and already
+>> > asks guest_memfd for the shared/private state of the memory. guest_memfd
+>> > already also blocks the host from faulting guest private memory
+>> > (mmap()-ing is always allowed).
+>> >
+>> >
+>> > Instead of using dmabuf as the intermediary between the MMIO PFNs and
+>> > KVM, why not use guest_memfd?
+>> >
+>> > What if we make guest_memfd accept a VFIO fd, or a dmabuf fd?
+>>
+>> This is interesting for pKVM too, provided it covers more than MMIO.
+>>
+>> We need guest_memfd to be backable by a dmabuf for ordinary guest memory, not
+>> only for device MMIO. There is mobile hardware that doesn't tolerate scattered
+>> private memory (DMA engines that can't gather, IOMMU page-table size
+>> constraints), and a CMA-backed dmabuf heap is the practical way to get
+>> contiguous memory at runtime.
+>
+> Why can't guestmemfd allocate directly from CMA? Allocating struct
+> page memory through dmabuf just to put it back in a guestmemfd sounds
+> very ugly to me.
+>
 
-diff --git a/drivers/media/rc/meson-ir-tx.c b/drivers/media/rc/meson-ir-tx.c
-index abb107d19e8c..174d5135e1bb 100644
---- a/drivers/media/rc/meson-ir-tx.c
-+++ b/drivers/media/rc/meson-ir-tx.c
-@@ -290,7 +290,7 @@ static int meson_irtx_mod_clock_probe(struct meson_irtx *ir,
- 
- 	clock = devm_clk_get_enabled(ir->dev, "xtal");
- 	if (IS_ERR(clock))
--		return -ENODEV;
-+		return PTR_ERR(clock);
- 
- 	*clk_nr = IRB_MOD_XTAL3_CLK;
- 	ir->clk_rate = clk_get_rate(clock) / 3;
-@@ -324,7 +324,7 @@ static int meson_irtx_probe(struct platform_device *pdev)
- 
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
--		return -ENODEV;
-+		return irq;
- 
- 	ir->dev = dev;
- 	ir->carrier = MIRTX_DEFAULT_CARRIER;
--- 
-2.55.0
+I'd like to understand this use case better too, is using CMA through
+dmabuf basically because CMA doesn't really have a direct userspace
+interface? As in, for HugeTLB there's fd = memfd_create(HUGETLB) and
+HugeTLBfs fds, but not CMA?
 
+I did hope for this API shape to extend beyong VFIO and HugeTLB to
+anything that has an fd today, but Frank did bring up the counter point
+that not all memory has an fd.
+
+>> HugeTLB doesn't help, it wants boot-time
+>> reservation. Those pages are struct-page backed, so it's a different problem
+>> from the non-struct-page MMIO case, and the shared parts still need to be
+>> GUP-able.
+>
+> Isn't dmabuf pretty allergic to mmaping refcounted struct page backed
+> memory since that wrecks its lifetime model?
+>
+>> More important for the API shape: conversions have to work on subsets of such a
+>> region, at page granularity. A pKVM guest doesn't know what backs its memory, so
+>> it will issue share/unshare hypercalls over arbitrary ranges of whatever it was
+>> given.
+
+For my future reference, does this mean for the CMA case, some page
+splitting on conversion to shared (so each page can have its own
+refcount to track users) will be necessary? (and merging)
+
+>> If a dmabuf-backed guest_memfd can only be converted as a whole, we can't
+>> use it for memory, and the guest can't be taught to care.
+>
+> More reasons not to involve DMABUF since guestmemfd already does all
+> of this...
+>
+> Jason
 
