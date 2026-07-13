@@ -1,104 +1,105 @@
-Return-Path: <linux-media+bounces-67464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67465-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id tWIyHArFVGrqSgAAu9opvQ
-	(envelope-from <linux-media+bounces-67464-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 12:59:22 +0200
+	id MhU6LR7HVGpeSwAAu9opvQ
+	(envelope-from <linux-media+bounces-67465-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 13:08:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B223974A129
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 12:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F89B74A249
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 13:08:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b="l/SfQ9Zw";
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=hR0lH+5G;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67464-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67464-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=QL89H+8s;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=eGRsJW7H;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67465-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67465-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 21FA5305C2FC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 10:57:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 34CC430EBA9A
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 11:03:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9052C3EA968;
-	Mon, 13 Jul 2026 10:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E53F36BCDA;
+	Mon, 13 Jul 2026 11:03:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B4F3E7BB6
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 10:56:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33ECA340DA6
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 11:03:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783940220; cv=none; b=MVmsrYieq4BlNXfV7OP4452j2dvNRQa4LKXd6DbXcMZspxbpGSItNX0aXdBSPfieU9e7aMD/85mgmVyMzToBtLNCNRUrvC/U74mrQFOa8NOTMQujIILhIx17rxoax8vaEWJGrt/0k5HDCYWkVt0mwgAoUPDWwqFNCdsjnt2TTkQ=
+	t=1783940592; cv=none; b=qRZ0c+JKDA0OYel1uzf9KNyX36zRibGDd1ywvXWdfB/soCSvcZAelHb/CZ1TlSSY07u8QD06vCJxQRulFXrkYJMFyUhNOm4TAY0FH2M/wwJq+cRS4otnTYPnoek6OP82JiimaZaHCuGxWd5jmHqyUCdfNJVdiLl3OdfRs53OlCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783940220; c=relaxed/simple;
-	bh=2MnR6I2BNqAMzfZRvFYRC3qwQP/EwvJfFx5TSQWZhdg=;
+	s=arc-20240116; t=1783940592; c=relaxed/simple;
+	bh=C4QZYbBlFNaRzZh8cobwiO3amW/kadIjpcXjCdnRuMY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RVgR6A5/9iWknyqyPhm9CwEcLtIZMuGsBvWmZOUv+e9du7yp+Xngv+6qHB1nAA0/sNZSrza0Q4ArJH2CrEJ35GJVTOZl2HX+5MxHZNNhRgY//DSHAJsjtt1umXsBn2XRdOmd+e4iUaHp9+GMlhtGtfKBZggKtmQO160+KyHINs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=l/SfQ9Zw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hR0lH+5G; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D9dVaM952913
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 10:56:57 GMT
+	 In-Reply-To:Content-Type; b=FsXzJ36TWHABy7u9oCc8TcolbN4mYe2/0RljZlpS6acQPWfg8DBe7t9PQ6okk1mCjTKMKcVHwysa2avRQEJuqU/ZgC6LW5fSLVENBtQgic2/IE7mOii3ejGUOHI8A3Z5MFEpifqQvOXFDAppD7C25OfcT5C/Tr7IclTtpILY7as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QL89H+8s; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eGRsJW7H; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D99Fbl793988
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 11:03:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	XWIXGPO/zIvgoe73Zp0dqFW7Zs8Gu8Gr0uQZbbJn3bg=; b=l/SfQ9ZwZka8OfZz
-	Y069JmsT+LReaToRF/qODJaKS4vlORk8uYQ8doBOB3YUKhHw/H02UzwQBvYW8SdF
-	Q5tmj0Xuyt0FHRE4eZVBa4WfWrPIU1kXZhsD7pHf/vc/SRuBmH1rMmgQ+jApYocZ
-	+b3ET493Y2uU/Ij60Sm+qE4JDi28SzEWlTtwZnCiwpQnM8QBB09FzrOUPAOtw/O1
-	3jd++pZ6sgHUQITHefGBcWUjBe64OtrE699QuC3wn7jVyU7U+/3cwUcDfcx8fAZq
-	Dk7XTCMvORNghlPUtzpfvhqBewh7ZiX1COe250xfpNCF4litHAmqiziqQVxgp5Qn
-	MMndDw==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fcwk3g8nj-1
+	fVhLKlR88sVPwds33NtmxQTsMcLVRFlVMJgHZK/hY1s=; b=QL89H+8s2EI9zfQS
+	LMnojl0kBThcrMRJDE5eKDn1gVxGwuWecXcO3yU71rrjwkWq/NHZPU9OuvAfDSos
+	3F/XVqHkzr9/Uay8zVYa9kYqMfDCnjhL7mYsj3XX2ErX70EJ+H9TfjC87F1TBEDh
+	V1NoP0pdnJqm7eFyXDHNBNW11mPBNZIkoAxG8Yn0ctDF1r6B/ZUYxSc9UD0V8CbJ
+	9kWu4TXiOe0T3rgMiLPWY9HHI6IbllJvOp/IFCcIwJbpb3O9TLN4u2KHkkQH6Oga
+	XZJ7CD+hzpB8SrY10MnpfRygEaWEeVlwu9wkdfEPOskSUW1Z+jBJ23Bz4SKGZnAk
+	/OpfXw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fcw4qrcjn-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 10:56:57 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51a87ef9713so41337051cf.1
-        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 03:56:57 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 11:03:09 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-92e62e3459fso366620285a.0
+        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 04:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783940216; x=1784545016; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1783940588; x=1784545388; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XWIXGPO/zIvgoe73Zp0dqFW7Zs8Gu8Gr0uQZbbJn3bg=;
-        b=hR0lH+5GzQYxl9oIYaycpUWGLYnCNK2lTe3mrwc3u9D73LuKt230G+DFUUNCsOF+Ms
-         nVwlTRq3BAjzkB5vNnC9WoLlzQArGyPbJSml+UXkXS3U6AmUAPQeupMPFyoDvbZBdwqS
-         iaoqRqHCNGYy/QAy+0mgwDxXDmYhakUUt5I9RbkhH/C0MHrNFOTXwtSmm1cdLKRFXTjc
-         3xY6HBEUt5mJ+zushAsVxgce8ElK9Qrzp5v/SGXlqjtvSFDvtorOQXt/U9jQ0B6nx+CQ
-         jCKsSzSskVHlcfitoItZfq6J7TTP0nfsu7QIgF5IYRecib/5KSpia8U8XcSyP5c9Otmy
-         5I7Q==
+        bh=fVhLKlR88sVPwds33NtmxQTsMcLVRFlVMJgHZK/hY1s=;
+        b=eGRsJW7H1ggEL3xwQoFgHo4DCXTEfzrRjoIlpqe8vqn3sIweTrov3w7H4cJUCe55ul
+         mBkULMughlkhEK0x5zk+FYP6FJXqsVH0OgnNI1+Md0N6knwsF7M6LIaOj8H2XQdIWn/N
+         oKPS6LgVBbEBRrZka0kF1zHDDL2M8gl1xd2/COnp5bBbVYtV3QLhCKmLqtIAUKeDqTu/
+         rppi52M48egKtW9buWF3ILVaGA49mIv22NpbchtJSc80orfuSisFVkvOlnv+NGf7ZIgl
+         Jq1j127Kx3XIlOj9nj77hCmelTvjiWyU14MhOOVAWVL2W5xOlLMvIWoyWL9T2ZpllD1m
+         5xJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783940216; x=1784545016;
+        d=1e100.net; s=20251104; t=1783940588; x=1784545388;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XWIXGPO/zIvgoe73Zp0dqFW7Zs8Gu8Gr0uQZbbJn3bg=;
-        b=cvarGovKYgOAQS3FPSMpy40k6bL1rUaeJTmOw+a9TKUIn/f9+HvGDd5LCxpe1Eazvr
-         G9KFv5sxvwa26fikHWz12M75CFNHlxmiXG9rX2MgYm9+DePzYW7eBzpdZ0pbXdKlXYBh
-         qrVusetSIAD18dIDopw+xtbKre01F5tDv3Zba67KYcY4qair+i1grhm/+i77kz6svOAw
-         Z7DXrt/jm9EFoP679tf/C2xdgPyjhvDJDlArHjsibneYuAxSlRK0zw3OTgVd4Q89WBJJ
-         AFqpcxAT4JKZ/yWI6geqx9HDs0qbc+eXYS6VtN6Q4vRExKrFClQOOu26mPdxZ49PvcFj
-         27TQ==
-X-Gm-Message-State: AOJu0YxbKFKgp3Egw2tS0Wc9h1bgtXPfrL5axhpYPHNmUXnXXnl0XA8Q
-	iZJrAaX2LGDMWQg0V7t/Ut4+Rnyc6z0h6ARZLFlssUd+EB1c6mMZjbKtDfcC4/nTpGNGy/liezl
-	WI34bTgsU9bWwmhNwyzy+2Cr/kuuTnAhIAZoxEGkj0qE/BDjzG7OS2fownm4e41sZ/Q==
-X-Gm-Gg: AfdE7cncLJu7euA6DYuGV/hyqQWTpvKkSi55XTIo6hAMfdoOKsk9npVVynAMPwoZFzX
-	M/CofAQPpSRQ2caa1m8NE/9jyDk1dqlIM1+SRRtmI6MwcyuFgQptvVjsXjaSERbtRMpaRxz5QkR
-	+BbYYmX5Z/AfoqrP7YCGnacP+CCcFB3lTIFwztqaJ2/HadLw9+zswdL8uJXjxchcnr3/5b6HWcW
-	n9XcumI+GHn2tuAEZjDxvX9T2afyPz92nXHI4oP6EwcpPHTgqV3iAU6TRCMeDFMIJvDKxyv67e9
-	5fv/jgxyKtBBJsD/ItdacK+Niq+6AEErQf0t5RR6GRTNTr4fJ2E5fL1E3R4edu7iiLMc79IMyGm
-	skVNCmXJeSNRuhfn3N7YQQV3er9q0GABZ4HXbY10YpRs=
-X-Received: by 2002:a05:622a:4d8e:b0:517:c582:9161 with SMTP id d75a77b69052e-51caa02e846mr120942261cf.7.1783940216490;
-        Mon, 13 Jul 2026 03:56:56 -0700 (PDT)
-X-Received: by 2002:a05:622a:4d8e:b0:517:c582:9161 with SMTP id d75a77b69052e-51caa02e846mr120942041cf.7.1783940216036;
-        Mon, 13 Jul 2026 03:56:56 -0700 (PDT)
+        bh=fVhLKlR88sVPwds33NtmxQTsMcLVRFlVMJgHZK/hY1s=;
+        b=pADDUPFWdXNywDrRedaAFHMOSjcfzaM8oZpo6hjzdR4EHnapZL8pD/RKSJlVjAlixn
+         yk3avgCzVcbAQCTENC+G2ZaR5aC9E50ysA7ZzwIRhwfxAQqBMZmYVdZOLKPiM2WjcjjI
+         m8vfRVAqTZJYf9xQ9Ei5SCoZ60SgsnpVUJYhx6cc4yE3GmxiZ3qzjh35VuRI0mwgbtui
+         /PZM/FP+INP+5A5GdhlwGwtMUrKLJXNk8aHCFOZBC+3T+Rk2AiMFDOF0l+skjgZoqn6h
+         Bmnsuuh5N+xmPF+D0VI2UAP/IqEf2Jod6MSruv77eUNpGINxVJJjKuQaonWoEYaGRTkY
+         VU5Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrbGaTDomUfINnEVcVt1ULcNWtuZ8QOUFUkS9F/COLX/M6z/Y9s3QIdXU6mvCtz3XoObM1UultNZBe2fQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2W/cK3nBmFkgT2zUnOoPmoNYapwovyMsuP6bnBIt4JJDrEzsW
+	MlG8owRO+RvrEIvgC0U3uSOJ4GLonvYMLSGOeO2GReaBzBDGcpLoGD+iRZrImErO1SbWrknT3eH
+	YXDwMlneLUvod0DjUik7DWn6AOCdcINKhSQ8Ojeewu/6WZ9SocCrh4wVGIFSGJZ5lfg==
+X-Gm-Gg: AfdE7ckdEnxF1niAZ4vdWOb+0gxW7DcxebiG+fUNBQLut8NXZdvIgVhwQEUkgKSceS6
+	kZmUDlawLGkrK+q2DZE8BlG0d5llLUZ7Dve+Hv5I0K1DNZF+WzEx0UemQmKnhXH8yC3hSA+G8uC
+	358S4PZh3hnpY6K8rBJMw9ShyQk2yfOKowIDEujvPduX6ShfYjGTHe+rW4Q1iTK+MTbszzBWZQP
+	tl+chN+xYBOCy5EBU3F0bYG5dlkb6pfblSW2jUhnW18t3oyeClzQZZrI8+J4UFIvX34Pfj3RcNM
+	lV7X49ge23VtfFeJsBNK9Wnt4WrCZluGUSH1J17cxZxahPFbbIt+iMbW9ArXMAOCH19KC3l/Mhj
+	q66xe9mYYYL57QFMT5xrSc1qk2uY7gQiPMS3DQ5IHzjg=
+X-Received: by 2002:ac8:5ad2:0:b0:51c:1967:5098 with SMTP id d75a77b69052e-51cbf147113mr84526101cf.38.1783940587742;
+        Mon, 13 Jul 2026 04:03:07 -0700 (PDT)
+X-Received: by 2002:ac8:5ad2:0:b0:51c:1967:5098 with SMTP id d75a77b69052e-51cbf147113mr84525561cf.38.1783940586963;
+        Mon, 13 Jul 2026 04:03:06 -0700 (PDT)
 Received: from [192.168.1.73] ([92.247.57.178])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19ce4a60sm14666982a12.8.2026.07.13.03.56.54
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15bb51af39sm883307766b.29.2026.07.13.04.03.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jul 2026 03:56:55 -0700 (PDT)
-Message-ID: <b385b69a-4c4d-49cb-add5-285bb9a182a9@oss.qualcomm.com>
-Date: Mon, 13 Jul 2026 13:56:53 +0300
+        Mon, 13 Jul 2026 04:03:05 -0700 (PDT)
+Message-ID: <6048ee9c-746f-46db-8cac-36ad9913bdcc@oss.qualcomm.com>
+Date: Mon, 13 Jul 2026 14:03:04 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -107,48 +108,48 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 5/5] media: qcom: jpeg: Add Qualcomm JPEG V4L2 encoder
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org, bryan.odonoghue@linaro.org,
-        vladimir.zapolskiy@linaro.org, loic.poulain@oss.qualcomm.com,
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        linux-media@vger.kernel.org
+Cc: bryan.odonoghue@linaro.org, loic.poulain@oss.qualcomm.com,
         mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
         conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org
 References: <20260706071113.383215-1-atanas.filipov@oss.qualcomm.com>
  <20260706071113.383215-6-atanas.filipov@oss.qualcomm.com>
- <gri2pdgawm2ymbmebzzxfel5kx5nmyqzrdg6oikfhv5bgt7xem@uld56b6csqhi>
+ <51a0abf2-2a72-4551-894b-2c2de91ba0c2@linaro.org>
 Content-Language: en-US
 From: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
-In-Reply-To: <gri2pdgawm2ymbmebzzxfel5kx5nmyqzrdg6oikfhv5bgt7xem@uld56b6csqhi>
+In-Reply-To: <51a0abf2-2a72-4551-894b-2c2de91ba0c2@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: HqVUvpnV5I3ssrxNBmg5JYvVNC0jxwrg
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDExMyBTYWx0ZWRfX8nS6tgH5N0cv
- WKFuFCHKgHcT34SLPP7XS7newz3ulo70JmaeZiuwuExX4Arrd+t/8X7lc3t2WtVNb3rNDv+xqch
- rwo57EhckGBAa3ynjCRQ9N94kZ6+EyI=
-X-Authority-Analysis: v=2.4 cv=e6c2j6p/ c=1 sm=1 tr=0 ts=6a54c479 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=ybD9qRDIDfZaXNPQ7Ca20A==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDExNSBTYWx0ZWRfXxk1DeKX5tu6g
+ 8vBxxyYqv5RHgtpuUKkaXq/z5hZkXLgL0sD/5bqUr0bRFhRYSo7UFNxBCLjp7Xk2LZqZzOPbNd/
+ yt4TQQ2w/GvoAvMfmLQYrXP6T6BU4hNRHIdwExvkZPC42z7l7nws95oo0TeC6oF5RKY50EjEaw0
+ GwQ7FABDFZXjvKkMK/eKgTKqC5EaHycPfoHwH9a2CtxOa08pIs81KJwd9yXabUCbNaW2bq4j1y8
+ kfFkRgWO7iG2e/rnqY0M7R+3wQ+NH3VQ5lkGARgF+2NbRlZdC2q1O9p94J5PG8vK1kBAJNCv97z
+ nY3Rpm04gqbM6OHNzHtzvjE45VxRXA3EODkjJpU/PJjuZPZb+6XbcoGkX/exHNJrDqqMFyKyu83
+ kJQDoPrCpIhltYHz+AqAt4858DqfyjXEi7rrYIpn74QPrLJMTJX92vvJFsLnddFelR2/pUtdGDq
+ 0dd/zSQwPhR6ik84l/w==
+X-Authority-Analysis: v=2.4 cv=HJrz0Itv c=1 sm=1 tr=0 ts=6a54c5ed cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ybD9qRDIDfZaXNPQ7Ca20A==:17
  a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=SSmOFEACAAAA:8 a=csZBsyBRHWlIDgxsDZoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDExMyBTYWx0ZWRfX0pK1BUDZxJHr
- IGqW/nB3EQ+SXRGfg41XFP5nSH6Knb1yPFJLtRcccGVAcgxCB6FZ1TpHf0Sklb65dtDeTYiqNiB
- I10wkYwEpaX4mK/K7yDQkye1GprKIalmxR6Y/n6t4ab1UozRo4pshbahuzurYu4lG0Bl+JDTKj8
- v9nuzDM5PBwplzR5hL07eBBFugX6M/o4VLxaq0yw9FP36D4EgmFVx3hi0e+GRZ18o9jNmGqYcQ4
- 0SGi3nffrIQOnxWYozL5ijyvIxJzlCczwCqA1b5Meglk9Yk3FUd5eq0vR96oylJbTN17+MMAvjk
- 0EkJBTTF0KByuwtH/96kBaxoA/vOBR53QS86g3+AWYj0bvAbKwfUQARKaAoP49Fl3+uJ2u+UfWj
- lhWboumbFJmTAsfzoiP7oxrrYfgv2BVpbGm4oGsxMA7bhtJn42hk2hfnKX76cP/j8XTPuk/q1AP
- OxN8ksptl2UttLaM6QQ==
-X-Proofpoint-GUID: HqVUvpnV5I3ssrxNBmg5JYvVNC0jxwrg
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=iBs_2JLk4Nf4k2A5_gQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: pBbmZM-tNNRrbC29v8nKqEkhqKUDloSv
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDExNSBTYWx0ZWRfX4IxYXh4rnt1N
+ ED4+KVox6pvxo/naCVk5GNsj83W8/sAWDU38Vic7iGnmcOsw2Mjm8orKn+qgPkgD7OhVIzRojrG
+ 6diX506RGcLG3kcS6Jo/Sduqw8DaAb8=
+X-Proofpoint-ORIG-GUID: pBbmZM-tNNRrbC29v8nKqEkhqKUDloSv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-13_02,2026-07-10_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 phishscore=0 lowpriorityscore=0 spamscore=0
- adultscore=0 malwarescore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ clxscore=1015 malwarescore=0 priorityscore=1501 suspectscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130113
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130115
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -158,22 +159,23 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67464-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[atanas.filipov@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67465-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:linux-media@vger.kernel.org,m:bryan.odonoghue@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[atanas.filipov@oss.qualcomm.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[atanas.filipov@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:email,qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[atanas.filipov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
@@ -181,10 +183,14 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B223974A129
+X-Rspamd-Queue-Id: 8F89B74A249
 
-On 7/6/2026 4:11 PM, Dmitry Baryshkov wrote:
-> On Mon, Jul 06, 2026 at 10:11:13AM +0300, Atanas Filipov wrote:
+On 7/6/2026 10:46 AM, Vladimir Zapolskiy wrote:
+> Hi Atanas.
+> 
+> lt me provide a few initial simple review comments.
+> 
+> On 7/6/26 10:11, Atanas Filipov wrote:
 >> Add a Qualcomm JPEG encoder driver implemented on top of the
 >> V4L2 mem2mem framework.
 >>
@@ -200,502 +206,781 @@ On 7/6/2026 4:11 PM, Dmitry Baryshkov wrote:
 >> Usage examples:
 >>
 >> - Check of related video node: v4l2-ctl --list-devices
->>    The expected result:
->>     qcom-jpeg-enc (platform:qcom-jpeg-enc):
->>          /dev/videoX
+>>    The expected result:
+>>     qcom-jpeg-enc (platform:qcom-jpeg-enc):
+>>          /dev/videoX
 >>
+>> V4L2 Examples:
 >>
->> diff --git a/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml b/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
+>> v4l2-ctl -d /dev/video14 \
+>> --set-fmt-video-out=width=1920,height=1080,pixelformat=NM12 \
+>> --stream-mmap --stream-out-mmap
+>>
+>> v4l2-ctl -d /dev/video14 \
+>> -c compression_quality=100 \
+>> --set-fmt-video-out=width=1920,height=1080,pixelformat=NM12 \
+>> --stream-mmap --stream-out-mmap \
+>> --stream-count=100
+>>
+>> v4l2-ctl -d /dev/video14 \
+>> --set-fmt-video-out=width=1920,height=1080,pixelformat=NM12 \
+>> --stream-mmap --stream-out-mmap \
+>> --set-ctrl=perf_level_auto=1 \
+>> --set-ctrl=fps_target=30 \
+>> --stream-count=100
+>>
+>> v4l2-ctl -d /dev/video14 \
+>> --set-fmt-video-out=width=8192,height=8192,pixelformat=NM12 \
+>> --stream-mmap --stream-out-mmap \
+>> --stream-count=1 \
+>> --stream-to=8192x8192_NM12.jpg
+>>
+>> v4l2-ctl -d /dev/video14 \
+>> --set-fmt-video-out=width=8192,height=8192,pixelformat=GREY \
+>> --stream-mmap --stream-out-mmap \
+>> --stream-count=1 \
+>> --stream-to=OUT_8192x8192.jpg
+>>
+>> v4l2-ctl -d /dev/video14 \
+>> -c compression_quality=100 \
+>> --set-fmt-video-out=width=1920,height=1088,pixelformat=NM12 \
+>> --stream-mmap=4 --stream-out-mmap=4 \
+>> --stream-count=100 \
+>> --stream-out-pattern=21 \
+>> --stream-to=OUT_1920x1088_100F.mjpg
+>>
+>> GStreamer examples:
+>>
+>> gst-launch-1.0 videotestsrc \
+>> is-live=false pattern=ball num-buffers=50 ! \
+>> video/x-raw,format=NV12,width=1920,height=1080 ! \
+>> videoscale ! videoconvert ! \
+>> video/x-raw,format=NV12,width=1920,height=1088 ! \
+>> v4l2jpegenc ! \
+>> fakesink sync=false
+>>
+>> gst-launch-1.0 videotestsrc is-live=true pattern=smpte ! \
+>> video/x-raw,format=NV12,width=1920,height=1088 ! \
+>> v4l2jpegenc extra-controls="controls,compression_quality=85" ! \
+>> fpsdisplaysink -v sync=false
+>>
+>> Performance measurements on SM8250
+>> (NV12, quality=100, GStreamer v4l2jpegenc vs jpegenc):
+>>
+>> +------------+-----------------------------+-------------------+
+>> | Resolution |    HW v4l2jpegenc (q100)    | SW jpegenc (q100) |
+>> |            | Execution | avrFPS | maxFPS | Execution |  FPS  |
+>> +------------+-----------+--------+--------+-----------+-------+
+>> |   512x512  | 2.2332    | 1139.1 | 1195.4 | 7.1055    | 358.0 |
+>> |  1280x720  | 1.7300    |  418.5 |  457.2 | 5.0585    | 143.1 |
+>> | 1024x1024  | 1.6991    |  374.3 |  397.4 | 4.7304    | 134.4 |
+>> | 1920x1088  | 1.6596    |  192.8 |  193.8 | 3.7913    |  84.4 |
+>> | 2048x2048  | 1.7277    |   92.0 |   91.6 | 3.6343    |  43.7 |
+>> | 4096x4096  | 1.5887    |   25.2 |   25.3 | 4.2163    |   9.5 |
+>> | 8192x8192  | 1.3104    |    7.6 |    8.0 | 2.9987    |   3.3 |
+>> +------------+-----------+--------+--------+-----------+-------+
+>>
+>> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
+>> ---
+>>   .../bindings/media/qcom,jpeg-encoder.yaml     |  143 +-
+>>   drivers/media/platform/qcom/Kconfig           |    1 +
+>>   drivers/media/platform/qcom/Makefile          |    1 +
+>>   drivers/media/platform/qcom/jpeg/Kconfig      |   15 +
+>>   drivers/media/platform/qcom/jpeg/Makefile     |    9 +
+>>   .../media/platform/qcom/jpeg/qcom_jenc_defs.h |   37 +
+>>   .../media/platform/qcom/jpeg/qcom_jenc_dev.c  |  314 ++++
+>>   .../media/platform/qcom/jpeg/qcom_jenc_dev.h  |  109 ++
+>>   .../media/platform/qcom/jpeg/qcom_jenc_hdr.c  |  331 ++++
+>>   .../media/platform/qcom/jpeg/qcom_jenc_hdr.h  |  119 ++
+>>   .../media/platform/qcom/jpeg/qcom_jenc_ops.c  | 1625 +++++++++++++++++
+>>   .../media/platform/qcom/jpeg/qcom_jenc_ops.h  |   52 +
+>>   .../media/platform/qcom/jpeg/qcom_jenc_res.c  |   15 +
+>>   .../media/platform/qcom/jpeg/qcom_jenc_res.h  |   19 +
+>>   .../qcom/jpeg/qcom_jenc_v420_hw_info.h        |  410 +++++
+>>   .../media/platform/qcom/jpeg/qcom_jenc_v4l2.c | 1154 ++++++++++++
+>>   .../media/platform/qcom/jpeg/qcom_jenc_v4l2.h |   23 +
+>>   include/media/jpeg.h                          |   33 +
+>>   include/uapi/linux/v4l2-controls.h            |   21 +
+>>   19 files changed, 4357 insertions(+), 74 deletions(-)
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/Kconfig
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/Makefile
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_dev.h
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.h
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_ops.c
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_ops.h
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_res.c
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_res.h
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/ 
+>> qcom_jenc_v420_hw_info.h
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.c
+>>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.h
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/qcom,jpeg- 
+>> encoder.yaml b/Documentation/devicetree/bindings/media/qcom,jpeg- 
+>> encoder.yaml
 >> index e4c16388ef07..53e83ebe4699 100644
 >> --- a/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
 >> +++ b/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
 >> @@ -72,80 +72,75 @@ examples:
->>       #include <dt-bindings/interconnect/qcom,sm8250.h>
->>       #include <dt-bindings/interrupt-controller/arm-gic.h>
->>   
->> -    jpeg-encoder@ac53000 {
->> -        compatible = "qcom,sm8250-jenc";
->> -        reg = <0xac53000 0x1000>;
+>>       #include <dt-bindings/interconnect/qcom,sm8250.h>
+>>       #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> -    jpeg-encoder@ac53000 {
+>> -        compatible = "qcom,sm8250-jenc";
+>> -        reg = <0xac53000 0x1000>;
+>> -
+>> -        interrupts = <GIC_SPI 474 IRQ_TYPE_EDGE_RISING>;
+>> -
+>> -        clocks = <&gcc GCC_CAMERA_HF_AXI_CLK>,
+>> -                 <&gcc GCC_CAMERA_SF_AXI_CLK>,
+>> -                 <&camcc CAM_CC_CORE_AHB_CLK>,
+>> -                 <&camcc CAM_CC_CPAS_AHB_CLK>,
+>> -                 <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+>> -                 <&camcc CAM_CC_JPEG_CLK>;
+>> -        clock-names = "hf_axi",
+>> -                      "sf_axi",
+>> -                      "core_ahb",
+>> -                      "cpas_ahb",
+>> -                      "cnoc_axi",
+>> -                      "jpeg";
+>> -
+>> -        interconnects = <&gem_noc MASTER_AMPSS_M0 
+>> QCOM_ICC_TAG_ACTIVE_ONLY
+>> -                         &config_noc SLAVE_CAMERA_CFG 
+>> QCOM_ICC_TAG_ACTIVE_ONLY>,
+>> -                        <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
+>> -                         &mc_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>,
+>> -                        <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
+>> -                         &mc_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>;
+>> -        interconnect-names = "cpu-cfg",
+>> -                             "hf-mnoc",
+>> -                             "sf-mnoc";
+>> -
+>> -        iommus = <&apps_smmu 0x2040 0x400>;
+>> -
+>> -        operating-points-v2 = <&jpeg_opp_table>;
+>> -
+>> -        jpeg_opp_table: opp-table {
+>> -            compatible = "operating-points-v2";
+>> -
+>> -            opp-100000000 {
+>> -                opp-hz = /bits/ 64 <400000000>,
+>> -                         /bits/ 64 <100000000>;
+>> -                opp-peak-kBps = <76800 104166 104166>;
+>> -                opp-avg-kBps = <38400 33569 33569>;
+>> -                required-opps = <&rpmhpd_opp_min_svs>;
+>> -            };
+>> -
+>> -            opp-200000000 {
+>> -                opp-hz = /bits/ 64 <400000000>,
+>> -                         /bits/ 64 <200000000>;
+>> -                opp-peak-kBps = <76800 208333 208333>;
+>> -                opp-avg-kBps = <38400 67138 67138>;
+>> -                required-opps = <&rpmhpd_opp_low_svs>;
+>> -            };
+>> -
+>> -            opp-400000000 {
+>> -                opp-hz = /bits/ 64 <400000000>,
+>> -                         /bits/ 64 <400000000>;
+>> -                opp-peak-kBps = <76800 416666 416666>;
+>> -                opp-avg-kBps = <38400 134277 134277>;
+>> -                required-opps = <&rpmhpd_opp_svs>;
+>> -            };
+>> -
+>> -            opp-480000000 {
+>> -                opp-hz = /bits/ 64 <400000000>,
+>> -                         /bits/ 64 <480000000>;
+>> -                opp-peak-kBps = <76800 500000 500000>;
+>> -                opp-avg-kBps = <38400 161132 161132>;
+>> -                required-opps = <&rpmhpd_opp_svs_l1>;
+>> -            };
+>> -
+>> -            opp-600000000 {
+>> -                opp-hz = /bits/ 64 <400000000>,
+>> -                         /bits/ 64 <600000000>;
+>> -                opp-peak-kBps = <76800 625000 625000>;
+>> -                opp-avg-kBps = <38400 201416 201416>;
+>> -                required-opps = <&rpmhpd_opp_nom>;
+>> +    soc {
 > 
-> What is going on here? And why?
-
-The binding example was updated in the driver patch by mistake. v5
-will have binding and driver in separate patches.
-
+> The 'jpeg-encoder' devicetree node is not placed directly under 'soc', 
+> which
+> invalidates this one change in the dt-bindings documentation.
 > 
->> -
->> -        interrupts = <GIC_SPI 474 IRQ_TYPE_EDGE_RISING>;
->> -
->> -        clocks = <&gcc GCC_CAMERA_HF_AXI_CLK>,
->> -                 <&gcc GCC_CAMERA_SF_AXI_CLK>,
->> -                 <&camcc CAM_CC_CORE_AHB_CLK>,
->> -                 <&camcc CAM_CC_CPAS_AHB_CLK>,
->> -                 <&camcc CAM_CC_CAMNOC_AXI_CLK>,
->> -                 <&camcc CAM_CC_JPEG_CLK>;
->> -        clock-names = "hf_axi",
->> -                      "sf_axi",
->> -                      "core_ahb",
->> -                      "cpas_ahb",
->> -                      "cnoc_axi",
->> -                      "jpeg";
->> -
->> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h b/drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h
+> In any case, this change shall be squashed with 3/5, and the doc file 
+> should
+> be named by compatible value, i.e. 'qcom,sm8250-jenc.yaml'.
+> 
+
+Acknowledged. In v5 the binding change will be in its own patch and
+the file will be named qcom,sm8250-jpeg-enc.yaml (encoder-only block).
+
+Best regards,
+Atanas
+
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +        jpeg-encoder@ac53000 {
+>> +            compatible = "qcom,sm8250-jenc";
+>> +            reg = <0 0x0ac53000 0 0x1000>;
+>> +
+>> +            interrupts = <GIC_SPI 474 IRQ_TYPE_EDGE_RISING>;
+>> +
+>> +            clocks = <&gcc GCC_CAMERA_HF_AXI_CLK>,
+>> +                     <&gcc GCC_CAMERA_SF_AXI_CLK>,
+>> +                     <&camcc CAM_CC_CORE_AHB_CLK>,
+>> +                     <&camcc CAM_CC_CPAS_AHB_CLK>,
+>> +                     <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+>> +                     <&camcc CAM_CC_JPEG_CLK>;
+>> +            clock-names = "hf_axi",
+>> +                          "sf_axi",
+>> +                          "core_ahb",
+>> +                          "cpas_ahb",
+>> +                          "cnoc_axi",
+>> +                          "jpeg";
+>> +
+>> +            interconnects = <&gem_noc MASTER_AMPSS_M0 
+>> QCOM_ICC_TAG_ACTIVE_ONLY
+>> +                             &config_noc SLAVE_CAMERA_CFG 
+>> QCOM_ICC_TAG_ACTIVE_ONLY>,
+>> +                            <&mmss_noc MASTER_CAMNOC_HF 
+>> QCOM_ICC_TAG_ALWAYS
+>> +                             &mc_virt SLAVE_EBI_CH0 
+>> QCOM_ICC_TAG_ALWAYS>,
+>> +                            <&mmss_noc MASTER_CAMNOC_SF 
+>> QCOM_ICC_TAG_ALWAYS
+>> +                             &mc_virt SLAVE_EBI_CH0 
+>> QCOM_ICC_TAG_ALWAYS>;
+>> +            interconnect-names = "cpu-cfg",
+>> +                                 "hf-mnoc",
+>> +                                 "sf-mnoc";
+> 
+> This is the topic, which may raise a disagreement, but I'll repeat my
+> position about the need to remove all "CAMSS bus" specific resources from
+> the device node, they are found and should be allocated on parent's side.
+> 
+>  From what I see it is applicable to all but one clock and all 
+> interconnects.
+> 
+>> +
+>> +            iommus = <&apps_smmu 0x2040 0x400>;
+>> +
+>> +            operating-points-v2 = <&jpeg_opp_table>;
+>> +
+>> +            jpeg_opp_table: opp-table {
+>> +                compatible = "operating-points-v2";
+>> +
+>> +                opp-100000000 {
+>> +                    opp-hz = /bits/ 64 <400000000>,
+>> +                             /bits/ 64 <100000000>;
+>> +                    required-opps = <&rpmhpd_opp_min_svs>;
+>> +                };
+>> +
+>> +                opp-200000000 {
+>> +                    opp-hz = /bits/ 64 <400000000>,
+>> +                             /bits/ 64 <200000000>;
+>> +                    required-opps = <&rpmhpd_opp_low_svs>;
+>> +                };
+>> +
+>> +                opp-400000000 {
+>> +                    opp-hz = /bits/ 64 <400000000>,
+>> +                             /bits/ 64 <400000000>;
+>> +                    required-opps = <&rpmhpd_opp_svs>;
+>> +                };
+>> +
+>> +                opp-480000000 {
+>> +                    opp-hz = /bits/ 64 <400000000>,
+>> +                             /bits/ 64 <480000000>;
+>> +                    required-opps = <&rpmhpd_opp_svs_l1>;
+>> +                };
+>> +
+>> +                opp-600000000 {
+>> +                    opp-hz = /bits/ 64 <400000000>,
+>> +                             /bits/ 64 <600000000>;
+>> +                    required-opps = <&rpmhpd_opp_nom>;
+>> +                };
+>>               };
+>>           };
+>>       };
+> 
+> <snip>
+> 
+>> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_res.c b/ 
+>> drivers/media/platform/qcom/jpeg/qcom_jenc_res.c
 >> new file mode 100644
->> index 000000000000..2ab29bfb9b88
+>> index 000000000000..f9ab7c86792f
 >> --- /dev/null
->> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h
->> @@ -0,0 +1,37 @@
+>> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_res.c
+>> @@ -0,0 +1,15 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> + */
+>> +
+>> +#include "qcom_jenc_ops.h"
+>> +#include "qcom_jenc_res.h"
+>> +
+>> +#include "qcom_jenc_v420_hw_info.h"
+>> +
+>> +const struct qcom_dev_resources qcom_t165_t480_jpeg_drvdata = {
+>> +    .hw_ops            = &qcom_jpeg_default_ops,
+>> +    .ref_clk_hz        = 600000000UL,
+>> +    .ref_throughput_mpps    = 110UL,
+>> +};
+>> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_res.h b/ 
+>> drivers/media/platform/qcom/jpeg/qcom_jenc_res.h
+>> new file mode 100644
+>> index 000000000000..91c6e789cffa
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_res.h
+>> @@ -0,0 +1,19 @@
 >> +/* SPDX-License-Identifier: GPL-2.0-only */
 >> +/*
 >> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 >> + */
 >> +
->> +#ifndef QCOM_JENC_DEFS_H
->> +#define QCOM_JENC_DEFS_H
+>> +#ifndef QCOM_JENC_RES_H
+>> +#define QCOM_JENC_RES_H
 >> +
->> +#include <linux/types.h>
->> +#include <uapi/linux/v4l2-controls.h>
-> 
-> There includes are not necessary for this header.
-> 
+>> +#include "qcom_jenc_defs.h"
 >> +
->> +/* Offline JPEG encoder constraints */
->> +#define QCOM_JPEG_HW_MAX_WIDTH	8192
->> +#define QCOM_JPEG_HW_MAX_HEIGHT	8192
->> +#define QCOM_JPEG_HW_MIN_WIDTH	256
->> +#define QCOM_JPEG_HW_MIN_HEIGHT	256
+>> +struct qcom_dev_resources {
+>> +    const struct qcom_jpeg_hw_ops    *hw_ops;
+>> +    unsigned long            ref_clk_hz;
+>> +    unsigned long            ref_throughput_mpps;
+>> +};
 >> +
->> +#define QCOM_JPEG_HW_DEF_HSTEP	16
->> +#define QCOM_JPEG_HW_DEF_VSTEP	16
+>> +extern const struct qcom_dev_resources qcom_t165_t480_jpeg_drvdata;
 >> +
->> +#define QCOM_JPEG_HW_DEF_WIDTH	1920
->> +#define QCOM_JPEG_HW_DEF_HEIGHT	1088
->> +
->> +#define QCOM_JPEG_MAX_PLANES	3
->> +
->> +#define QCOM_JPEG_QUALITY_MIN	1
->> +#define QCOM_JPEG_QUALITY_DEF	98
->> +#define QCOM_JPEG_QUALITY_MAX	100
->> +#define QCOM_JPEG_QUALITY_MID	(QCOM_JPEG_QUALITY_MAX / 2)
->> +#define QCOM_JPEG_QUALITY_UNT	1
->> +
->> +#define QCOM_JPEG_FPS_MIN	1
->> +#define QCOM_JPEG_FPS_MAX	240
->> +#define QCOM_JPEG_FPS_DEF	30
->> +#define QCOM_JPEG_FPS_UNT	1
-> 
-> This is a collection of random defines, which are mostly used once.
-> Please move them to the corresponding source file.
->
-
-Acknowledged. v5 will remove the unnecessary includes and move the
-defines to their respective source files.
-
->> +
->> +#endif /* QCOM_JENC_DEFS_H */
->> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c b/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c
+>> +#endif    /* QCOM_JENC_RES_H */
+>> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_v420_hw_info.h 
+>> b/drivers/media/platform/qcom/jpeg/qcom_jenc_v420_hw_info.h
 >> new file mode 100644
->> index 000000000000..ddfa84838b6b
+>> index 000000000000..ebf69128cc2b
 >> --- /dev/null
->> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c
->> @@ -0,0 +1,314 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
+>> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_v420_hw_info.h
+>> @@ -0,0 +1,410 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
 >> +/*
 >> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 >> + */
 >> +
->> +#include <linux/clk.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/mod_devicetable.h>
->> +#include <linux/module.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/pm_opp.h>
->> +#include <linux/pm_runtime.h>
->> +#include <linux/slab.h>
+>> +#ifndef QCOM_JENC_V420_HW_INFO_H
+>> +#define QCOM_JENC_V420_HW_INFO_H
 >> +
->> +#include <media/v4l2-mem2mem.h>
+>> +#include "qcom_jenc_defs.h"
 >> +
->> +#include "qcom_jenc_dev.h"
->> +#include "qcom_jenc_ops.h"
->> +#include "qcom_jenc_res.h"
->> +#include "qcom_jenc_v4l2.h"
+>> +#define JPEG_V420_HW_VER_STEP_POS 0
+>> +#define JPEG_V420_HW_VER_STEP_MSK \
+>> +    (0xffffu << JPEG_V420_HW_VER_STEP_POS)
 >> +
->> +enum jpeg_opp_clks_id {
->> +	JPEG_OPP_CNOC_IDX = 0,
->> +	JPEG_OPP_CORE_IDX
->> +};
+>> +#define JPEG_V420_HW_VER_MINOR_POS 16
+>> +#define JPEG_V420_HW_VER_MINOR_MSK \
+>> +    (0x0fffu << JPEG_V420_HW_VER_MINOR_POS)
 >> +
->> +static const char * const opp_clk_names[] = {
->> +	[JPEG_OPP_CNOC_IDX] = "cnoc_axi",
+>> +#define JPEG_V420_HW_VER_MAJOR_POS 28
+>> +#define JPEG_V420_HW_VER_MAJOR_MSK \
+>> +    (0xfu << JPEG_V420_HW_VER_MAJOR_POS)
+>> +
+>> +#define JPEG_V420_HW_CAP_ENCODE_MSK BIT_U32(0)
+>> +#define JPEG_V420_HW_CAP_DECODE_MSK BIT_U32(1)
+>> +
+>> +#define JPEG_V420_HW_CAP_UPSCALE_POS 4
+>> +#define JPEG_V420_HW_CAP_UPSCALE_MSK \
+>> +    (0x7u << JPEG_V420_HW_CAP_UPSCALE_POS)
+>> +
+>> +#define JPEG_V420_HW_CAP_DOWNSCALE_POS 8
+>> +#define JPEG_V420_HW_CAP_DOWNSCALE_MSK \
+>> +    (0x7u << JPEG_V420_HW_CAP_DOWNSCALE_POS)
+>> +
+>> +#define JPEG_V420_RST_CMD_FE_RESET_MSK            BIT_U32(0)
+>> +#define JPEG_V420_RST_CMD_WE_RESET_MSK            BIT_U32(1)
+>> +#define JPEG_V420_RST_CMD_ENCODER_RESET_MSK        BIT_U32(4)
+>> +#define JPEG_V420_RST_CMD_DECODER_RESET_MSK        BIT_U32(5)
+>> +#define JPEG_V420_RST_CMD_BLOCK_FORMATTER_RST_MSK    BIT_U32(6)
+>> +#define JPEG_V420_RST_CMD_SCALE_RESET_MSK        BIT_U32(7)
+>> +#define JPEG_V420_RST_CMD_REGISTER_RESET_MSK        BIT_U32(13)
+>> +#define JPEG_V420_RST_CMD_MISR_RESET_MSK        BIT_U32(16)
+>> +#define JPEG_V420_RST_CMD_CORE_RESET_MSK        BIT_U32(17)
+>> +#define JPEG_V420_RST_CMD_JPEG_V420_DOMAIN_RESET_MSK    BIT_U32(29)
+>> +#define JPEG_V420_RST_CMD_RESET_BYPASS_MSK        BIT_U32(31)
+>> +
+>> +#define JPEG_V420_CORE_CFG_FE_ENABLE_MSK    BIT_U32(0)
+>> +#define JPEG_V420_CORE_CFG_WE_ENABLE_MSK    BIT_U32(1)
+>> +#define JPEG_V420_CORE_CFG_ENC_ENABLE_MSK    BIT_U32(4)
+>> +#define JPEG_V420_CORE_CFG_SCALE_ENABLE_MSK    BIT_U32(7)
+>> +#define JPEG_V420_CORE_CFG_TESTBUS_ENABLE_MSK    BIT_U32(19)
+>> +#define JPEG_V420_CORE_CFG_MODE_MSK        BIT_U32(24)
+>> +#define JPEG_V420_CORE_CFG_CGC_DISABLE_MSK    BIT_U32(31)
+>> +
+>> +#define JPEG_V420_CMD_HW_START_MSK        BIT_U32(0)
+>> +#define JPEG_V420_CMD_HW_STOP_MSK        BIT_U32(1)
+>> +#define JPEG_V420_CMD_CLR_RD_PLN0_QUEUE_MSK    BIT_U32(4)
+>> +#define JPEG_V420_CMD_CLR_RD_PLN1_QUEUE_MSK    BIT_U32(5)
+>> +#define JPEG_V420_CMD_CLR_RD_PLN2_QUEUE_MSK    BIT_U32(6)
+>> +#define JPEG_V420_CMD_CLR_WR_PLN0_QUEUE_MSK    BIT_U32(8)
+>> +#define JPEG_V420_CMD_CLR_WR_PLN1_QUEUE_MSK    BIT_U32(9)
+>> +#define JPEG_V420_CMD_CLR_WR_PLN2_QUEUE_MSK    BIT_U32(10)
+>> +#define JPEG_V420_CMD_APPLY_SWC_RD_PARAMS_MSK    BIT_U32(11)
+>> +
+>> +#define JPEG_V420_CORE_STATE_STATUS_ENCODE_STATE_MSK    BIT_U32(0)
+>> +#define JPEG_V420_CORE_STATE_STATUS_SCALE_STATE_MSK    BIT_U32(2)
+>> +#define JPEG_V420_CORE_STATE_STATUS_REALTIME_STATE_MSK    BIT_U32(4)
+>> +#define JPEG_V420_CORE_STATE_STATUS_BUS_STATE_MSK    BIT_U32(8)
+>> +#define JPEG_V420_CORE_STATE_STATUS_CGC_STATE_MSK    BIT_U32(9)
+>> +
+>> +#define JPEG_V420_FE_CFG_BYTE_ORDERING_POS 0
+>> +#define JPEG_V420_FE_CFG_BYTE_ORDERING_MSK \
+>> +    (0xfu << JPEG_V420_FE_CFG_BYTE_ORDERING_POS)
+>> +
+>> +#define JPEG_V420_FE_CFG_BURST_LENGTH_MAX_POS 4
+>> +#define JPEG_V420_FE_CFG_BURST_LENGTH_MAX_MSK \
+>> +    (0xfu << JPEG_V420_FE_CFG_BURST_LENGTH_MAX_POS)
+>> +
+>> +#define JPEG_V420_FE_CFG_MEMORY_FORMAT_POS 8
+>> +#define JPEG_V420_FE_CFG_MEMORY_FORMAT_MSK \
+>> +    (0x3u << JPEG_V420_FE_CFG_MEMORY_FORMAT_POS)
+>> +
+>> +#define JPEG_V420_FE_CFG_CBCR_ORDER_MSK        BIT_U32(12)
+>> +#define JPEG_V420_FE_CFG_BOTTOM_VPAD_EN_MSK    BIT_U32(13)
+>> +#define JPEG_V420_FE_CFG_PLN0_EN_MSK        BIT_U32(16)
+>> +#define JPEG_V420_FE_CFG_PLN1_EN_MSK        BIT_U32(17)
+>> +#define JPEG_V420_FE_CFG_PLN2_EN_MSK        BIT_U32(18)
+>> +#define JPEG_V420_FE_CFG_SIXTEEN_MCU_EN_MSK    BIT_U32(21)
+>> +#define JPEG_V420_FE_CFG_MCUS_PER_BLOCK_MSK    BIT_U32(22)
+>> +#define JPEG_V420_FE_CFG_MAL_BOUNDARY_MSK    BIT_U32(24)
+>> +#define JPEG_V420_FE_CFG_MAL_EN_MSK        BIT_U32(27)
+>> +
+>> +#define JPEG_V420_PLN_RD_OFFS_OFFSET_POS 0
+>> +#define JPEG_V420_PLN_RD_OFFS_OFFSET_MSK \
+>> +    (0x1fffffffu << JPEG_V420_PLN_RD_OFFS_OFFSET_POS)
+>> +
+>> +#define JPEG_V420_PLN_RD_BUFF_SIZE_WIDTH_POS 0
+>> +#define JPEG_V420_PLN_RD_BUFF_SIZE_WIDTH_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_RD_BUFF_SIZE_WIDTH_POS)
+>> +
+>> +#define JPEG_V420_PLN_RD_BUFF_SIZE_HEIGHT_POS 16
+>> +#define JPEG_V420_PLN_RD_BUFF_SIZE_HEIGHT_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_RD_BUFF_SIZE_HEIGHT_POS)
+>> +
+>> +#define JPEG_V420_PLN_RD_STRIDE_STRIDE_POS 0
+>> +#define JPEG_V420_PLN_RD_STRIDE_STRIDE_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_RD_STRIDE_STRIDE_POS)
+>> +
+>> +#define JPEG_V420_PLN_RD_HINIT_FRACTIONAL_POS 0
+>> +#define JPEG_V420_PLN_RD_HINIT_FRACTIONAL_MSK \
+>> +    (0x1fffffu << JPEG_V420_PLN_RD_HINIT_FRACTIONAL_POS)
+>> +
+>> +#define JPEG_V420_PLN_RD_VINIT_FRACTIONAL_POS 0
+>> +#define JPEG_V420_PLN_RD_VINIT_FRACTIONAL_MSK \
+>> +    (0x1fffffu << JPEG_V420_PLN_RD_VINIT_FRACTIONAL_POS)
+>> +
+>> +#define JPEG_V420_WE_CFG_BYTE_ORDERING_POS 0
+>> +#define JPEG_V420_WE_CFG_BYTE_ORDERING_MSK \
+>> +    (0xfu << JPEG_V420_WE_CFG_BYTE_ORDERING_POS)
+>> +
+>> +#define JPEG_V420_WE_CFG_BURST_LENGTH_MAX_POS 4
+>> +#define JPEG_V420_WE_CFG_BURST_LENGTH_MAX_MSK \
+>> +    (0xfu << JPEG_V420_WE_CFG_BURST_LENGTH_MAX_POS)
+>> +
+>> +#define JPEG_V420_WE_CFG_MEMORY_FORMAT_POS 8
+>> +#define JPEG_V420_WE_CFG_MEMORY_FORMAT_MSK \
+>> +    (0x3u << JPEG_V420_WE_CFG_MEMORY_FORMAT_POS)
+>> +
+>> +#define JPEG_V420_WE_CFG_CBCR_ORDER_MSK        BIT_U32(12)
+>> +#define JPEG_V420_WE_CFG_PLN0_EN_MSK        BIT_U32(16)
+>> +#define JPEG_V420_WE_CFG_PLN1_EN_MSK        BIT_U32(17)
+>> +#define JPEG_V420_WE_CFG_PLN2_EN_MSK        BIT_U32(18)
+>> +#define JPEG_V420_WE_CFG_MAL_BOUNDARY_MSK    BIT_U32(24)
+>> +#define JPEG_V420_WE_CFG_MAL_EN_MSK        BIT_U32(27)
+>> +#define JPEG_V420_WE_CFG_POP_BUFF_ON_EOS_MSK    BIT_U32(28)
+>> +
+>> +#define JPEG_V420_PLN_WR_BUFF_SIZE_WIDTH_POS 0
+>> +#define JPEG_V420_PLN_WR_BUFF_SIZE_WIDTH_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_WR_BUFF_SIZE_WIDTH_POS)
+>> +
+>> +#define JPEG_V420_PLN_WR_BUFF_SIZE_HEIGHT_POS 16
+>> +#define JPEG_V420_PLN_WR_BUFF_SIZE_HEIGHT_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_WR_BUFF_SIZE_HEIGHT_POS)
+>> +
+>> +#define JPEG_V420_PLN_WR_STRIDE_STRIDE_POS 0
+>> +#define JPEG_V420_PLN_WR_STRIDE_STRIDE_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_WR_STRIDE_STRIDE_POS)
+>> +
+>> +#define JPEG_V420_PLN_WR_HINIT_INTEGER_POS 0
+>> +#define JPEG_V420_PLN_WR_HINIT_INTEGER_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_WR_HINIT_INTEGER_POS)
+>> +
+>> +#define JPEG_V420_PLN_WR_VINIT_INTEGER_POS 0
+>> +#define JPEG_V420_PLN_WR_VINIT_INTEGER_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_WR_VINIT_INTEGER_POS)
+>> +
+>> +#define JPEG_V420_PLN_WR_HSTEP_INTEGER_POS 0
+>> +#define JPEG_V420_PLN_WR_HSTEP_INTEGER_MSK \
+>> +    (0x1ffffu << JPEG_V420_PLN_WR_HSTEP_INTEGER_POS)
+>> +
+>> +#define JPEG_V420_PLN_WR_VSTEP_INTEGER_POS 0
+>> +#define JPEG_V420_PLN_WR_VSTEP_INTEGER_MSK \
+>> +    (0x1ffffu << JPEG_V420_PLN_WR_VSTEP_INTEGER_POS)
+>> +
+>> +#define JPEG_V420_PLN_WR_BLK_CFG_BLOCKS_PER_COL_POS 0
+>> +#define JPEG_V420_PLN_WR_BLK_CFG_BLOCKS_PER_COL_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_WR_BLK_CFG_BLOCKS_PER_COL_POS)
+>> +
+>> +#define JPEG_V420_PLN_WR_BLK_CFG_BLOCKS_PER_ROW_POS 16
+>> +#define JPEG_V420_PLN_WR_BLK_CFG_BLOCKS_PER_ROW_MSK \
+>> +    (0xffffu << JPEG_V420_PLN_WR_BLK_CFG_BLOCKS_PER_ROW_POS)
+>> +
+>> +#define JPEG_V420_ENC_CFG_IMAGE_FORMAT_POS 0
+>> +#define JPEG_V420_ENC_CFG_IMAGE_FORMAT_MSK \
+>> +    (0x7u << JPEG_V420_ENC_CFG_IMAGE_FORMAT_POS)
+>> +
+>> +#define JPEG_V420_ENC_CFG_APPLY_EOI_MSK        BIT_U32(7)
+>> +#define JPEG_V420_ENC_CFG_HUFFMAN_SEL_MSK    BIT_U32(8)
+>> +#define JPEG_V420_ENC_CFG_FSC_ENABLE_MSK    BIT_U32(11)
+>> +#define JPEG_V420_ENC_CFG_OUTPUT_DISABLE_MSK    BIT_U32(15)
+>> +#define JPEG_V420_ENC_CFG_RST_MARKER_PERIOD_MSK    BIT_U32(16)
+>> +
+>> +#define JPEG_V420_ENC_IMG_SIZE_ENCODE_WIDTH_POS 0u
+>> +#define JPEG_V420_ENC_IMG_SIZE_ENCODE_WIDTH_MSK \
+>> +    (0x1fffu << JPEG_V420_ENC_IMG_SIZE_ENCODE_WIDTH_POS)
+>> +
+>> +#define JPEG_V420_ENC_IMG_SIZE_ENCODE_HEIGHT_POS 16u
+>> +#define JPEG_V420_ENC_IMG_SIZE_ENCODE_HEIGHT_MSK \
+>> +    (0x1fffu << JPEG_V420_ENC_IMG_SIZE_ENCODE_HEIGHT_POS)
+>> +
+>> +#define JPEG_V420_STATUS_OUT_SIZE_BYTES_POS 0
+>> +#define JPEG_V420_STATUS_OUT_SIZE_BYTES_MSK \
+>> +    (0x1fffffffu << JPEG_V420_STATUS_OUT_SIZE_BYTES_POS)
+>> +
+>> +#define JPEG_V420_SCALE_CFG_HSCALE_ENABLE_MSK        BIT_U32(4)
+>> +#define JPEG_V420_SCALE_CFG_VSCALE_ENABLE_MSK        BIT_U32(5)
+>> +#define JPEG_V420_SCALE_CFG_UPSAMPLE_EN_MSK        BIT_U32(6)
+>> +#define JPEG_V420_SCALE_CFG_SUBSAMPLE_EN_MSK        BIT_U32(7)
+>> +#define JPEG_V420_SCALE_CFG_HSCALE_ALGO_MSK        BIT_U32(8)
+>> +#define JPEG_V420_SCALE_CFG_VSCALE_ALGO_MSK        BIT_U32(9)
+>> +
+>> +#define JPEG_V420_SCALE_CFG_H_SCALE_FIR_ALGO_POS  12u
+>> +#define JPEG_V420_SCALE_CFG_H_SCALE_FIR_ALGO_MSK \
+>> +    (0x3u << JPEG_V420_SCALE_CFG_H_SCALE_FIR_ALGO_POS)
+>> +
+>> +#define JPEG_V420_SCALE_CFG_V_SCALE_FIR_ALGO_POS  16u
+>> +#define JPEG_V420_SCALE_CFG_V_SCALE_FIR_ALGO_MSK \
+>> +    (0x3u << JPEG_V420_SCALE_CFG_V_SCALE_FIR_ALGO_POS)
+>> +
+>> +#define JPEG_V420_SCALE_OUT_CFG_BLOCK_WIDTH_POS 0
+>> +#define JPEG_V420_SCALE_OUT_CFG_BLOCK_WIDTH_MSK \
+>> +    (0xffu << JPEG_V420_SCALE_OUT_CFG_BLOCK_WIDTH_POS)
+>> +
+>> +#define JPEG_V420_SCALE_OUT_CFG_BLOCK_HEIGHT_POS 16
+>> +#define JPEG_V420_SCALE_OUT_CFG_BLOCK_HEIGHT_MSK \
+>> +    (0xfu << JPEG_V420_SCALE_OUT_CFG_BLOCK_HEIGHT_POS)
+>> +
+>> +#define JPEG_V420_SCALE_PLN_HSTEP_FRACTIONAL_POS 0
+>> +#define JPEG_V420_SCALE_PLN_HSTEP_FRACTIONAL_MSK \
+>> +    (0x1fffffu << JPEG_V420_SCALE_PLN_HSTEP_FRACTIONAL_POS)
+>> +
+>> +#define JPEG_V420_SCALE_PLN_HSTEP_INTEGER_POS 21
+>> +#define JPEG_V420_SCALE_PLN_HSTEP_INTEGER_MSK \
+>> +    (0x3fu << JPEG_V420_SCALE_PLN_HSTEP_INTEGER_POS)
+>> +
+>> +#define JPEG_V420_SCALE_PLN_VSTEP_FRACTIONAL_POS 0
+>> +#define JPEG_V420_SCALE_PLN_VSTEP_FRACTIONAL_MSK \
+>> +    (0x1fffffu << JPEG_V420_SCALE_PLN_VSTEP_FRACTIONAL_POS)
+>> +
+>> +#define JPEG_V420_SCALE_PLN_VSTEP_INTEGER_POS 21
+>> +#define JPEG_V420_SCALE_PLN_VSTEP_INTEGER_MSK \
+>> +    (0x3fu << JPEG_V420_SCALE_PLN_VSTEP_INTEGER_POS)
+>> +
+>> +#define JPEG_V420_DMI_CFG_MEM_SEL_POS 0
+>> +#define JPEG_V420_DMI_CFG_MEM_SEL_MSK \
+>> +    (0x7u << JPEG_V420_DMI_CFG_MEM_SEL_POS)
+>> +
+>> +#define JPEG_V420_DMI_CFG_AUTO_INC_EN_MSK    BIT_U32(4)
+>> +
+>> +/* DMI_CFG value to select quantization table memory and enable auto- 
+>> increment */
+>> +#define JPEG_DMI_ENABLE_UPLOAD            
+>> (JPEG_V420_DMI_CFG_AUTO_INC_EN_MSK | 0x1u)
+>> +
+>> +#define JPEG_V420_DMI_ADDR_ADDR_POS 0
+>> +#define JPEG_V420_DMI_ADDR_ADDR_MSK \
+>> +    (0x3ffu << JPEG_V420_DMI_ADDR_ADDR_POS)
+>> +
+>> +#define JPEG_V420_TESTBUS_CFG_BUS_SEL_POS 0
+>> +#define JPEG_V420_TESTBUS_CFG_BUS_SEL_MSK \
+>> +    (0x3fu << JPEG_V420_TESTBUS_CFG_BUS_SEL_POS)
+>> +
+>> +#define JPEG_V420_FE_VBPAD_CFG_BLOCK_ROW_POS 0
+>> +#define JPEG_V420_FE_VBPAD_CFG_BLOCK_ROW_MSK \
+>> +    (0x1fffu << JPEG_V420_FE_VBPAD_CFG_BLOCK_ROW_POS)
+>> +
+>> +#define JPEG_V420_PLN_RD_HINIT_INT_INTEGER_POS 0
+>> +#define JPEG_V420_PLN_RD_HINIT_INT_INTEGER_MSK \
+>> +    (0x1ffffu << JPEG_V420_PLN_RD_HINIT_INT_INTEGER_POS)
+>> +
+>> +#define JPEG_V420_PLN_RD_VINIT_INT_INTEGER_POS 0
+>> +#define JPEG_V420_PLN_RD_VINIT_INT_INTEGER_MSK \
+>> +    (0x1ffffu << JPEG_V420_PLN_RD_VINIT_INT_INTEGER_POS)
+>> +
+>> +#define JPEG_V420_IRQ_STATUS_SESSION_DONE_MSK        BIT_U32(0)
+>> +#define JPEG_V420_IRQ_STATUS_RD_BUF_PLN0_DONE_MSK    BIT_U32(4)
+>> +#define JPEG_V420_IRQ_STATUS_RD_BUF_PLN1_DONE_MSK    BIT_U32(5)
+>> +#define JPEG_V420_IRQ_STATUS_RD_BUF_PLN2_DONE_MSK    BIT_U32(6)
+>> +#define JPEG_V420_IRQ_STATUS_RD_BUF_PLN0_REQ_ATTN_MSK    BIT_U32(7)
+>> +#define JPEG_V420_IRQ_STATUS_RD_BUF_PLN1_REQ_ATTN_MSK    BIT_U32(8)
+>> +#define JPEG_V420_IRQ_STATUS_RD_BUF_PLN2_REQ_ATTN_MSK    BIT_U32(9)
+>> +#define JPEG_V420_IRQ_STATUS_WR_BUF_PLN0_DONE_MSK    BIT_U32(10)
+>> +#define JPEG_V420_IRQ_STATUS_WR_BUF_PLN1_DONE_MSK    BIT_U32(11)
+>> +#define JPEG_V420_IRQ_STATUS_WR_BUF_PLN2_DONE_MSK    BIT_U32(12)
+>> +#define JPEG_V420_IRQ_STATUS_WR_BUF_PLN0_REQ_ATTN_MSK    BIT_U32(13)
+>> +#define JPEG_V420_IRQ_STATUS_WR_BUF_PLN1_REQ_ATTN_MSK    BIT_U32(14)
+>> +#define JPEG_V420_IRQ_STATUS_WR_BUF_PLN2_REQ_ATTN_MSK    BIT_U32(15)
+>> +#define JPEG_V420_IRQ_STATUS_DCD_UNESCAPED_FF_MSK    BIT_U32(19)
+>> +#define JPEG_V420_IRQ_STATUS_DCD_HUFFMAN_ERROR_MSK    BIT_U32(20)
+>> +#define JPEG_V420_IRQ_STATUS_DCD_COEFF_ERROR_MSK    BIT_U32(21)
+>> +#define JPEG_V420_IRQ_STATUS_DCD_MISSING_BITSTUFF_MSK    BIT_U32(22)
+>> +#define JPEG_V420_IRQ_STATUS_DCD_SCAN_UNDERFLOW_MSK    BIT_U32(23)
+>> +#define JPEG_V420_IRQ_STATUS_DCD_INVALID_RSM_MSK    BIT_U32(24)
+>> +#define JPEG_V420_IRQ_STATUS_DCD_INVALID_RSM_SEQ_MSK    BIT_U32(25)
+>> +#define JPEG_V420_IRQ_STATUS_DCD_MISSING_RSM_MSK    BIT_U32(26)
+>> +#define JPEG_V420_IRQ_STATUS_STOP_ACK_MSK        BIT_U32(27)
+>> +#define JPEG_V420_IRQ_STATUS_RESET_ACK_MSK        BIT_U32(28)
+>> +
+>> +#define    JPEG_V420_IRQ_STATUS_RD_BUF_PLNS_DONE_MSK \
+>> +    (JPEG_V420_IRQ_STATUS_RD_BUF_PLN0_DONE_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_RD_BUF_PLN1_DONE_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_RD_BUF_PLN2_DONE_MSK)
+>> +
+>> +#define    JPEG_V420_IRQ_STATUS_WR_BUF_PLNS_DONE_MSK \
+>> +    (JPEG_V420_IRQ_STATUS_WR_BUF_PLN0_DONE_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_WR_BUF_PLN1_DONE_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_WR_BUF_PLN2_DONE_MSK)
+>> +
+>> +#define    JPEG_V420_IRQ_STATUS_RD_BUF_PLNS_REQ_ATTN_MSK \
+>> +    (JPEG_V420_IRQ_STATUS_RD_BUF_PLN0_REQ_ATTN_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_RD_BUF_PLN1_REQ_ATTN_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_RD_BUF_PLN2_REQ_ATTN_MSK)
+>> +
+>> +#define    JPEG_V420_IRQ_STATUS_WR_BUF_PLNS_REQ_ATTN_MSK \
+>> +    (JPEG_V420_IRQ_STATUS_WR_BUF_PLN0_REQ_ATTN_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_WR_BUF_PLN1_REQ_ATTN_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_WR_BUF_PLN2_REQ_ATTN_MSK)
+>> +
+>> +#define    JPEG_V420_IRQ_STATUS_SESION_ERROR_MSK \
+>> +    (JPEG_V420_IRQ_STATUS_DCD_UNESCAPED_FF_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_DCD_HUFFMAN_ERROR_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_DCD_COEFF_ERROR_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_DCD_MISSING_BITSTUFF_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_DCD_SCAN_UNDERFLOW_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_DCD_INVALID_RSM_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_DCD_INVALID_RSM_SEQ_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_DCD_MISSING_RSM_MSK)
+>> +
+>> +#define JPEG_V420_IRQ_STATUS_ALL_BITS \
+>> +    (JPEG_V420_IRQ_STATUS_SESSION_DONE_MSK        | \
+>> +     JPEG_V420_IRQ_STATUS_RD_BUF_PLNS_DONE_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_WR_BUF_PLN0_DONE_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_RD_BUF_PLNS_REQ_ATTN_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_WR_BUF_PLNS_REQ_ATTN_MSK    | \
+>> +     JPEG_V420_IRQ_STATUS_SESION_ERROR_MSK        | \
+>> +     JPEG_V420_IRQ_STATUS_STOP_ACK_MSK        | \
+>> +     JPEG_V420_IRQ_STATUS_RESET_ACK_MSK)
+>> +
+>> +/* Register offsets for JPEG v4.2.0 hardware */
+>> +#define JPEG_V420_REG_HW_VERSION    0x000
+>> +#define JPEG_V420_REG_HW_CAPABILITY    0x004
+>> +#define JPEG_V420_REG_RESET_CMD        0x008
+>> +#define JPEG_V420_REG_CORE_CFG        0x00c
+>> +#define JPEG_V420_REG_HW_CMD        0x010
+>> +#define JPEG_V420_REG_ENC_CORE_STATE    0x014
+>> +#define JPEG_V420_REG_INT_MASK        0x018
+>> +#define JPEG_V420_REG_INT_CLR        0x01c
+>> +#define JPEG_V420_REG_INT_STATUS    0x020
+>> +#define JPEG_V420_REG_FE_CFG        0x024
+>> +
+>> +/* FE (fetch engine) plane registers */
+>> +#define JPEG_V420_REG_FE_PNTR_0        0x038
+>> +#define JPEG_V420_REG_FE_PNTR_1        0x044
+>> +#define JPEG_V420_REG_FE_PNTR_2        0x050
+>> +#define JPEG_V420_REG_FE_OFFS_0        0x03c
+>> +#define JPEG_V420_REG_FE_OFFS_1        0x048
+>> +#define JPEG_V420_REG_FE_OFFS_2        0x054
+>> +#define JPEG_V420_REG_FE_PNTR_CNT    0x05c
+>> +#define JPEG_V420_REG_FE_BSIZE_0    0x060
+>> +#define JPEG_V420_REG_FE_BSIZE_1    0x068
+>> +#define JPEG_V420_REG_FE_BSIZE_2    0x070
+>> +#define JPEG_V420_REG_FE_STRIDE_0    0x064
+>> +#define JPEG_V420_REG_FE_STRIDE_1    0x06c
+>> +#define JPEG_V420_REG_FE_STRIDE_2    0x08c
+>> +#define JPEG_V420_REG_FE_HINIT_0    0x074
+>> +#define JPEG_V420_REG_FE_HINIT_1    0x078
+>> +#define JPEG_V420_REG_FE_HINIT_2    0x07c
+>> +#define JPEG_V420_REG_FE_VINIT_0    0x080
+>> +#define JPEG_V420_REG_FE_VINIT_1    0x084
+>> +#define JPEG_V420_REG_FE_VINIT_2    0x088
+>> +#define JPEG_V420_REG_FE_VBPAD_CFG    0x2e8
+>> +
+>> +/* WE (write engine) plane registers */
+>> +#define JPEG_V420_REG_WE_CFG        0x0c0
+>> +#define JPEG_V420_REG_WE_PNTR_CNT    0x0e4
+>> +#define JPEG_V420_REG_WE_PNTR_0        0x0cc
+>> +#define JPEG_V420_REG_WE_PNTR_1        0x0d0
+>> +#define JPEG_V420_REG_WE_PNTR_2        0x0d4
+>> +#define JPEG_V420_REG_WE_BSIZE_0    0x0e8
+>> +#define JPEG_V420_REG_WE_BSIZE_1    0x0ec
+>> +#define JPEG_V420_REG_WE_BSIZE_2    0x0f0
+>> +#define JPEG_V420_REG_WE_STRIDE_0    0x0f4
+>> +#define JPEG_V420_REG_WE_STRIDE_1    0x0f8
+>> +#define JPEG_V420_REG_WE_STRIDE_2    0x0fc
+>> +#define JPEG_V420_REG_WE_HINIT_0    0x100
+>> +#define JPEG_V420_REG_WE_HINIT_1    0x104
+>> +#define JPEG_V420_REG_WE_HINIT_2    0x108
+>> +#define JPEG_V420_REG_WE_VINIT_0    0x10c
+>> +#define JPEG_V420_REG_WE_VINIT_1    0x110
+>> +#define JPEG_V420_REG_WE_VINIT_2    0x114
+>> +#define JPEG_V420_REG_WE_HSTEP_0    0x118
+>> +#define JPEG_V420_REG_WE_HSTEP_1    0x11c
+>> +#define JPEG_V420_REG_WE_HSTEP_2    0x120
+>> +#define JPEG_V420_REG_WE_VSTEP_0    0x124
+>> +#define JPEG_V420_REG_WE_VSTEP_1    0x128
+>> +#define JPEG_V420_REG_WE_VSTEP_2    0x12c
+>> +#define JPEG_V420_REG_WE_BLOCKS_0    0x130
+>> +#define JPEG_V420_REG_WE_BLOCKS_1    0x134
+>> +#define JPEG_V420_REG_WE_BLOCKS_2    0x138
+>> +
+>> +/* Encoder registers */
+>> +#define JPEG_V420_REG_ENC_CFG        0x13c
+>> +#define JPEG_V420_REG_ENC_IMG_SIZE    0x140
+>> +#define JPEG_V420_REG_ENC_OUT_SIZE    0x180
+>> +
+>> +/* Scaler registers */
+>> +#define JPEG_V420_REG_SCALE_CFG        0x26c
+>> +#define JPEG_V420_REG_SCALE_OUT_CFG_0    0x270
+>> +#define JPEG_V420_REG_SCALE_OUT_CFG_1    0x274
+>> +#define JPEG_V420_REG_SCALE_OUT_CFG_2    0x278
+>> +#define JPEG_V420_REG_SCALE_HSTEP_0    0x27c
+>> +#define JPEG_V420_REG_SCALE_HSTEP_1    0x280
+>> +#define JPEG_V420_REG_SCALE_HSTEP_2    0x284
+>> +#define JPEG_V420_REG_SCALE_VSTEP_0    0x28c
+>> +#define JPEG_V420_REG_SCALE_VSTEP_1    0x290
+>> +#define JPEG_V420_REG_SCALE_VSTEP_2    0x294
+>> +
+>> +/* DMI registers */
+>> +#define JPEG_V420_REG_DMI_CFG        0x298
+>> +#define JPEG_V420_REG_DMI_ADDR        0x29c
+>> +#define JPEG_V420_REG_DMI_DATA        0x2a0
+>> +
+>> +#endif /* QCOM_JENC_V420_HW_INFO_H */
 > 
-> This way your driver will force its own frequency on the CNOC_AXI clock.
-> There are other clients of the clock, so there should be some kind of
-> voting on it. Either use icc-clk or add CAMSS API to sum the votes on
-> the CNOC_AXI.
+> qcom_jenc_v420_hw_info.h shall be removed, and its content goes to
+> qcom_jenc_res.c file, no info is shared from the header, and static
+> declarations in header files are not favoured.
 > 
-
-Addressed in the reply to your DTS comment.
-
->> +	[JPEG_OPP_CORE_IDX] = "jpeg",
->> +	NULL,
->> +};
->> +
->> +static struct dev_pm_opp_config opp_config = {
->> +	.clk_names = opp_clk_names,
->> +	.config_clks = dev_pm_opp_config_clks_simple,
->> +};
->> +
->> +static int qcom_jpeg_opp_init(struct qcom_jenc_dev *jenc)
->> +{
->> +	struct dev_pm_opp *opp;
->> +	int rc;
->> +
->> +	rc = devm_pm_opp_set_config(jenc->dev, &opp_config);
->> +	if (rc)
->> +		return rc;
->> +
->> +	rc = devm_pm_opp_of_add_table(jenc->dev);
->> +	if (rc && rc != -ENODEV)
->> +		return rc;
->> +
->> +	/* initialize the maximum available frequency for the JPEG core */
->> +	jenc->max_freq = ULONG_MAX;
->> +	opp = dev_pm_opp_find_freq_floor_indexed(jenc->dev, &jenc->max_freq, JPEG_OPP_CORE_IDX);
->> +	if (IS_ERR(opp))
->> +		return PTR_ERR(opp);
->> +
->> +	dev_pm_opp_put(opp);
->> +
->> +	/* initialize the default optimized frequency for the JPEG core */
->> +	jenc->opt_freq = jenc->max_freq;
->> +
->> +	dev_dbg(jenc->dev, "JPEG max clocks is: %lu\n", jenc->max_freq);
->> +
->> +	return 0;
->> +}
->> +
->> +static int qcom_jpeg_clk_init(struct qcom_jenc_dev *jenc)
->> +{
->> +	jenc->num_clks = devm_clk_bulk_get_all(jenc->dev, &jenc->clks);
->> +	if (jenc->num_clks < 0)
->> +		return jenc->num_clks;
->> +
->> +	return 0;
->> +}
->> +
->> +static int qcom_jpeg_clk_on(struct qcom_jenc_dev *jenc)
->> +{
->> +	struct dev_pm_opp *opp;
->> +	int rc;
->> +
->> +	rc = clk_bulk_prepare_enable(jenc->num_clks, jenc->clks);
->> +	if (rc)
->> +		return rc;
->> +
->> +	/* setup the OPP according to the calculated optimal frequency */
->> +	opp = dev_pm_opp_find_freq_ceil_indexed(jenc->dev, &jenc->opt_freq, JPEG_OPP_CORE_IDX);
->> +	if (IS_ERR(opp)) {
->> +		rc = PTR_ERR(opp);
->> +		goto err_clk_disable;
->> +	}
->> +
->> +	rc = dev_pm_opp_set_opp(jenc->dev, opp);
->> +	if (rc)
->> +		goto err_dev_pm_opp;
->> +
->> +	dev_dbg(jenc->dev, "selected OPP clocks cnoc=%lu, core=%lu\n",
->> +		dev_pm_opp_get_freq_indexed(opp, JPEG_OPP_CNOC_IDX),
->> +		dev_pm_opp_get_freq_indexed(opp, JPEG_OPP_CORE_IDX));
-> 
-> Drop extra debugging, you can enable debugging for OPP via
-> CONFIG_DEBUG_DRIVER.
-> 
-
-Acknowledged. v5 will drop the dev_dbg.
-
->> +
->> +	dev_pm_opp_put(opp);
->> +
->> +	return 0;
->> +
->> +err_dev_pm_opp:
->> +	dev_pm_opp_put(opp);
-> 
-> Once you drop excessive debugging code, the dev_pm_opp_put() will find
-> its natural place right after dev_pm_opp_set_opp(), before checking the
-> rc.
-> 
-
-Acknowledged. Will be fixed in v5.
-
->> +err_clk_disable:
->> +	clk_bulk_disable_unprepare(jenc->num_clks, jenc->clks);
->> +
->> +	return rc;
->> +}
->> +
->> +static void qcom_jpeg_clk_off(struct qcom_jenc_dev *jenc)
->> +{
->> +	dev_pm_opp_set_opp(jenc->dev, NULL);
->> +	clk_bulk_disable_unprepare(jenc->num_clks, jenc->clks);
->> +	jenc->opt_freq = jenc->max_freq;
->> +}
->> +
->> +/* qcom_jpeg_camss_get - resume the parent CAMSS device */
->> +static int qcom_jpeg_camss_get(struct qcom_jenc_dev *jenc)
->> +{
->> +	return pm_runtime_resume_and_get(jenc->camss_dev);
-> 
-> Use devlinks instead.
-> 
-
-Acknowledged. v5 will model JPEG as a standalone peer node —
-the camss_dev parent reference will be dropped entirely.
-
->> +}
->> +
->> +/* qcom_jpeg_camss_put - release the parent CAMSS device */
->> +static void qcom_jpeg_camss_put(struct qcom_jenc_dev *jenc)
->> +{
->> +	pm_runtime_put_sync(jenc->camss_dev);
->> +}
->> +
->> +static int qcom_jpeg_pm_suspend(struct device *dev)
->> +{
->> +	struct qcom_jenc_dev *jenc = dev_get_drvdata(dev);
->> +
->> +	qcom_jpeg_clk_off(jenc);
->> +	qcom_jpeg_camss_put(jenc);
->> +
->> +	return 0;
->> +}
->> +
->> +static int qcom_jpeg_pm_resume(struct device *dev)
->> +{
->> +	struct qcom_jenc_dev *jenc = dev_get_drvdata(dev);
->> +	int rc;
->> +
->> +	rc = qcom_jpeg_camss_get(jenc);
->> +	if (rc)
->> +		return rc;
->> +
->> +	rc = qcom_jpeg_clk_on(jenc);
->> +	if (rc) {
->> +		qcom_jpeg_camss_put(jenc);
->> +		return rc;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int qcom_jpeg_pm_system_suspend(struct device *dev)
->> +{
->> +	struct qcom_jenc_dev *jenc = dev_get_drvdata(dev);
->> +	int rc;
->> +
->> +	v4l2_m2m_suspend(jenc->m2m_dev);
->> +
->> +	rc = pm_runtime_force_suspend(dev);
->> +	if (rc)
->> +		v4l2_m2m_resume(jenc->m2m_dev);
->> +
->> +	return rc;
->> +}
->> +
->> +static int qcom_jpeg_pm_system_resume(struct device *dev)
->> +{
->> +	struct qcom_jenc_dev *jenc = dev_get_drvdata(dev);
->> +	int rc;
->> +
->> +	rc = pm_runtime_force_resume(dev);
->> +	if (rc)
->> +		return rc;
->> +
->> +	v4l2_m2m_resume(jenc->m2m_dev);
->> +
->> +	return 0;
->> +}
->> +
->> +static _DEFINE_DEV_PM_OPS(qcom_jpeg_pm_ops,
->> +			  qcom_jpeg_pm_system_suspend, qcom_jpeg_pm_system_resume,
->> +			  qcom_jpeg_pm_suspend, qcom_jpeg_pm_resume, NULL);
->> +
->> +static int qcom_jpeg_probe(struct platform_device *pdev)
->> +{
->> +	const struct qcom_dev_resources *res;
->> +	struct qcom_jenc_dev *jenc;
->> +	int rc;
->> +
->> +	jenc = devm_kzalloc(&pdev->dev, sizeof(*jenc), GFP_KERNEL);
->> +	if (!jenc)
->> +		return -ENOMEM;
->> +
->> +	jenc->dev = &pdev->dev;
->> +	jenc->camss_dev = pdev->dev.parent;
->> +	platform_set_drvdata(pdev, jenc);
->> +	rc = devm_mutex_init(&pdev->dev, &jenc->dev_mutex);
->> +	if (rc)
->> +		goto err_free_jenc;
->> +	spin_lock_init(&jenc->hw_lock);
->> +	init_completion(&jenc->reset_complete);
->> +	init_completion(&jenc->stop_complete);
->> +
->> +	res = device_get_match_data(jenc->dev);
->> +	if (!res) {
->> +		rc = dev_err_probe(jenc->dev, -ENODEV, "unsupported SoC\n");
->> +		goto err_free_jenc;
-> 
-> drop the gotos, it's an empty label now.
-> 
-
-Acknowledged. Will be fixed in v5.
-
-Best regards,
-Atanas
-
->> +	}
->> +	jenc->res = res;
->> +
->> +	if (!jenc->res->hw_ops) {
->> +		rc = dev_err_probe(jenc->dev, -EINVAL, "missing hw resources\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	rc = dma_set_mask_and_coherent(jenc->dev, DMA_BIT_MASK(32));
->> +	if (rc) {
->> +		dev_err_probe(jenc->dev, rc, "failed to set DMA mask\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	jenc->jpeg_base = devm_platform_ioremap_resource(pdev, 0);
->> +	if (IS_ERR(jenc->jpeg_base)) {
->> +		rc = dev_err_probe(jenc->dev, PTR_ERR(jenc->jpeg_base),
->> +				   "failed to map JPEG resource\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	rc = qcom_jpeg_opp_init(jenc);
->> +	if (rc) {
->> +		dev_err_probe(jenc->dev, rc, "failed to init OPP\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	rc = qcom_jpeg_clk_init(jenc);
->> +	if (rc) {
->> +		dev_err_probe(jenc->dev, rc, "failed to init clocks\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	jenc->irq = platform_get_irq(pdev, 0);
->> +	if (jenc->irq < 0) {
->> +		rc = dev_err_probe(jenc->dev, jenc->irq, "failed to get IRQ\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	rc = devm_request_threaded_irq(jenc->dev, jenc->irq,
->> +				       jenc->res->hw_ops->hw_irq_top,
->> +				       jenc->res->hw_ops->hw_irq_bot,
->> +				       IRQF_ONESHOT | IRQF_NO_AUTOEN, dev_name(jenc->dev), jenc);
->> +	if (rc) {
->> +		dev_err_probe(jenc->dev, rc, "failed to request IRQ\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	rc = v4l2_device_register(jenc->dev, &jenc->v4l2_dev);
->> +	if (rc) {
->> +		dev_err_probe(jenc->dev, rc, "failed to register V4L2 device\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	rc = devm_add_action_or_reset(jenc->dev,
->> +				      (void (*)(void *))v4l2_device_unregister,
->> +				      &jenc->v4l2_dev);
->> +	if (rc)
->> +		goto err_free_jenc;
->> +
->> +	rc = devm_pm_runtime_enable(jenc->dev);
->> +	if (rc)
->> +		goto err_free_jenc;
->> +
->> +	rc = qcom_jpeg_v4l2_register(jenc);
->> +	if (rc) {
->> +		dev_err_probe(jenc->dev, rc, "failed to register video device\n");
->> +		goto err_free_jenc;
->> +	}
->> +
->> +	dev_dbg(jenc->dev, "Qualcomm JPEG encoder registered\n");
->> +
->> +	return 0;
->> +
->> +err_free_jenc:
->> +	return rc;
->> +}
->> +
-> 
-> [...]
-> 
->> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c b/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c
->> new file mode 100644
->> index 000000000000..c9959518c64d
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c
->> @@ -0,0 +1,331 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->> + */
->> +
->> +#include <linux/errno.h>
->> +#include <linux/string.h>
->> +
->> +#include <media/jpeg.h>
->> +#include <media/v4l2-jpeg.h>
->> +
->> +#include "qcom_jenc_dev.h"
->> +#include "qcom_jenc_hdr.h"
->> +
->> +/*
->> + * The elements defined in this header are specified
->> + * in the ITU-T T.81 / JPEG specification.
->> + *
->> + * https://www.w3.org/Graphics/JPEG/itu-t81.pdf
->> + */
->> +
->> +#define JFIF_HEADER_WIDTH_OFFS		0x07
->> +#define JFIF_HEADER_HEIGHT_OFFS		0x05
-> 
-> This is offset_of(), no need to define those.
-> 
-> I think, you already got a review from me. Move all standard-related
-> defines and code to the generic v4l2 code, unless you get an explicit
-> blessing from one of V4L2 maintainers not to do so.
-> 
->> +#define JFIF_APP0_LENGTH_HI		0x00
->> +#define JFIF_APP0_LENGTH_LO		0x10
->> +#define JFIF_IDENT_TERM		0x00
->> +#define JFIF_VERSION_MAJOR		0x01
->> +#define JFIF_VERSION_MINOR		0x01
->> +#define JFIF_DENSITY_HI			0x00
->> +#define JFIF_DENSITY_LO			0x01
->> +#define JFIF_THUMBNAIL_SIZE		0x00
->> +
->> +#define JPEG_SEG_LEN_HI			0x00
->> +#define JPEG_LEN_DQT_LUMA_LO		0x43
->> +#define JPEG_LEN_DQT_CHROMA_LO		0x43
->> +#define JPEG_LEN_SOF0_MONO_LO		0x0b
->> +#define JPEG_LEN_SOF0_COLOR_LO		0x11
->> +#define JPEG_LEN_DHT_MONO_LO		0xd2
->> +#define JPEG_LEN_DHT_COLOR_HI		0x01
->> +#define JPEG_LEN_DHT_COLOR_LO		0xa2
->> +#define JPEG_LEN_SOS_MONO_LO		0x08
->> +#define JPEG_LEN_SOS_COLOR_LO		0x0c
->> +
->> +struct jpeg_header_buf {
->> +	u8  *ptr;
->> +	u32 size;
->> +	u32 pos;
->> +};
->> +
+> In general the driver loos good.
 > 
 
 
