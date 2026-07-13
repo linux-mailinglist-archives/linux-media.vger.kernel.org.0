@@ -1,75 +1,82 @@
-Return-Path: <linux-media+bounces-67520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67525-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qHewKFFZVWrgnAAAu9opvQ
-	(envelope-from <linux-media+bounces-67520-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 23:32:01 +0200
+	id QlPWDulZVWoHnQAAu9opvQ
+	(envelope-from <linux-media+bounces-67525-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 23:34:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11ECC74F449
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 23:32:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9AA74F47E
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 23:34:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mess.org header.s=2020 header.b=A3d1pQdm;
-	dkim=pass header.d=mess.org header.s=2020 header.b=A3d1pQdm;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67520-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67520-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mess.org header.s=2020 header.b=FNbRC4gB;
+	dkim=pass header.d=mess.org header.s=2020 header.b=tk+Uuiz7;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67525-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67525-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=mess.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C90330053E7
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 21:31:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CB784313B876
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 21:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F08D735E1D9;
-	Mon, 13 Jul 2026 21:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A71369D6D;
+	Mon, 13 Jul 2026 21:31:36 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C243426B2CE;
-	Mon, 13 Jul 2026 21:31:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9D33630B2;
+	Mon, 13 Jul 2026 21:31:34 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783978293; cv=none; b=nAWEAv8AYDGu7zMVeLFQFHYJLgJ4+TYjrkRMHKHMWcePe06XHtFiNzLvf1nuIalKBj4T/enCC1ukpnLhZSk/Al/JmewWF44rHn5fiFLPplmUJcppwK3Veu8OS3GSJRXtKaJq2rYwCUQbWazTZAeLR/MQhPJeoLgzZ7MLk1hoXio=
+	t=1783978296; cv=none; b=Avo1kIwStVNETU9nKc+joyEzSxu0YCq3wVZF6y0KvfR/A5XvT1IHsCnXc8sVDijwMmPfn4suYNOMKF0+XxfT8Sr5H2weAObe8WsuRfl0vVJ/rX18CEeuxkN+IMotb9+xp4khciB7d7afgiYDsA86DGZwch4mLcOIKLuyvQpTjJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783978293; c=relaxed/simple;
-	bh=jom5Sfj2r2NA+T+rZSarTiq+DJb0dHfs+u328K9p5yY=;
+	s=arc-20240116; t=1783978296; c=relaxed/simple;
+	bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cUDnJlAN0DY4djTutRGOyCNOkoELrSTrgBr9h3ccdke/XLsqCW43xIT9zIQaJ9EcKSChvzYNJZC0c0prKaHSsC414SHLsRcO6fTXMPahiBMkmIdYzqspFmr4e6z+fw4Gr1KFia6nlUOqFm1EgVdxSA1Fuxy7PdQupTh/MLObFqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=A3d1pQdm; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=A3d1pQdm; arc=none smtp.client-ip=92.243.27.206
+	 MIME-Version; b=axCw+mlVt+NifdfVUoIOC5NxA5PxFeXH34fRrlH9HV20JgA4wjJJpDqQxBLfGNvPETW+E7Ld1EJ58J1l7mqME4hroCCDC2xaLpxEnFI6lCxwaJtIDThfd9BggwimmC+gBk48hG2zI1g/6S0CZsppU4kdTivBf9PshSojBbWwF4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=FNbRC4gB; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=tk+Uuiz7; arc=none smtp.client-ip=92.243.27.206
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1783978283; bh=jom5Sfj2r2NA+T+rZSarTiq+DJb0dHfs+u328K9p5yY=;
+	t=1783978285; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A3d1pQdmwAFZ2JdWYYWWLCYzmT3HomNMyxoiDR7Puk3FnFPbagIEDxRb7WzuIZ3uh
-	 TCtTaeGi7LhGjTYUjTNLQRk91CeDamR6rYDffO3DvHZh0ErnydiQf5lMGO9RopLHYq
-	 v+1iib0+fKG+8xD8Q/neEOklIzk6UmUAO4TLQ/g/J2o0sG6gisa4yowmvntv53eNqr
-	 x8McQJYGYxjUDmQS15JNgLKQBWUAbobEks/iFWUDc55KWrT5C+lpvSZEMfBAb537CN
-	 UXy5+6GT983SfatZnJJgwsBFttabTMe/F9gYUCGIt5bbmKtKtQE58VXYQr4KGsh8EL
-	 Qd8UcssY0uxNw==
+	b=FNbRC4gB+SpWMGW8ztCekBfJlfqz/+8jkaE/JIF0M3HML2U5xHhmiP+MO8lCGXfus
+	 b7+4obJeouYqeRt4/behFBvhLx2CseixLojP9NtyIoMqyISsUY+9YZ4akcDGJ8k6dl
+	 cBocm+0q9tQVstwxIAfUPHMpSNqgjVCHEyW6/gSimX7v16UIUtbwIcb+8wDa6HBaO7
+	 EywYz9jak7YxPmjZwoO5FVXmqXm0dbIBjZL29Sxp+vZmUHNtxZuxCfwRIrdYRZiEmO
+	 AYfOl2AEVlVWOFZ/eZsmJ9BLpmUlxlXwfe+0UbbfAPDSzdSYLyIn1t2wbIJmSYNqLr
+	 bLo2SnKLnt5Xw==
 Received: by extorris.mess.org (Postfix, from userid 1004)
-	id A9B8040A4B; Mon, 13 Jul 2026 22:31:23 +0100 (BST)
+	id 129D341E9F; Mon, 13 Jul 2026 22:31:25 +0100 (BST)
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1783978283; bh=jom5Sfj2r2NA+T+rZSarTiq+DJb0dHfs+u328K9p5yY=;
+	t=1783978284; bh=PFYYQhVg4NRarAQ81g5gFeRQ3Pkd+XUXZYeUxj9P9Kk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A3d1pQdmwAFZ2JdWYYWWLCYzmT3HomNMyxoiDR7Puk3FnFPbagIEDxRb7WzuIZ3uh
-	 TCtTaeGi7LhGjTYUjTNLQRk91CeDamR6rYDffO3DvHZh0ErnydiQf5lMGO9RopLHYq
-	 v+1iib0+fKG+8xD8Q/neEOklIzk6UmUAO4TLQ/g/J2o0sG6gisa4yowmvntv53eNqr
-	 x8McQJYGYxjUDmQS15JNgLKQBWUAbobEks/iFWUDc55KWrT5C+lpvSZEMfBAb537CN
-	 UXy5+6GT983SfatZnJJgwsBFttabTMe/F9gYUCGIt5bbmKtKtQE58VXYQr4KGsh8EL
-	 Qd8UcssY0uxNw==
+	b=tk+Uuiz7dx6b0K76rO+IqBr7UYSiJuIM3z/Nm1TLA1YJECFKTxPulnLmu6f3PWM98
+	 d38LYkaWefQXGkU15JYrHREz1+XE2OJYiqVzitLuI8qMJfvjxVsjK2+pPYAdbUTEFv
+	 oPSeMjTTtMUUs+xCkBRuQyAHP3d2gkuB/7/FWJPWxVmwyXX7qQf/XuZZjH7KW12ekS
+	 DXPghBtGhMJEPhtdp1xfU4nSaitT5urfWLpvwrLFB0F5ooN+aELeVveuJT29CdlLcn
+	 YOHuMYcSP/7L7ox8/ZAe4FVPJDpqae82Lgc+LzekMTunD0O33RAdYuBxGmep8cw3Jg
+	 W7VfVBwzgYrpA==
 Received: from maru.home (host86-148-148-68.range86-148.btcentralplus.com [86.148.148.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by extorris.mess.org (Postfix) with ESMTPSA id 64A2340A3B;
+	by extorris.mess.org (Postfix) with ESMTPSA id D531040155;
 	Mon, 13 Jul 2026 22:31:23 +0100 (BST)
 From: Sean Young <sean@mess.org>
 To: linux-media@vger.kernel.org,
 	Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/11] media: redrat3: Error path leaves device in transmitting state
-Date: Mon, 13 Jul 2026 22:30:59 +0100
-Message-ID: <d8be8047def26d35726666fee2f3ca309da200ef.1783977550.git.sean@mess.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 06/11] media: sunxi-cir: Ensure no more interrupts can occur before free
+Date: Mon, 13 Jul 2026 22:31:00 +0100
+Message-ID: <397628f5644f6488f111a3a3ee07d00ce01a13b0.1783977550.git.sean@mess.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1783977550.git.sean@mess.org>
 References: <cover.1783977550.git.sean@mess.org>
@@ -81,73 +88,65 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67520-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:sean@mess.org,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:sean@mess.org,m:mchehab@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:patrice.chotard@foss.st.com,m:hverkuil+cisco@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[sean@mess.org,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67525-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[vger.kernel.org,mess.org,kernel.org,gmail.com,sholland.org,foss.st.com];
 	DKIM_TRACE(0.00)[mess.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mess.org:from_mime,mess.org:mid,mess.org:email,mess.org:dkim]
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mess.org:from_mime,mess.org:mid,mess.org:email,mess.org:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 11ECC74F449
+X-Rspamd-Queue-Id: 8C9AA74F47E
 
-If the allocation fails, transmitting is left as true and the transmitter
-cannot be used any more.
+Only call rc_free_device() once the hardware has been stopped.
 
+Fixes: dccc0c3ddf8f ("media: rc: fix race between unregister and urb/irq callbacks")
 Signed-off-by: Sean Young <sean@mess.org>
 ---
- drivers/media/rc/redrat3.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/rc/sunxi-cir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/rc/redrat3.c b/drivers/media/rc/redrat3.c
-index 468907d6c3a8..b64c6440b062 100644
---- a/drivers/media/rc/redrat3.c
-+++ b/drivers/media/rc/redrat3.c
-@@ -781,9 +781,6 @@ static int redrat3_transmit_ir(struct rc_dev *rcdev, unsigned *txbuf,
- 	if (count > RR3_MAX_SIG_SIZE - RR3_TX_TRAILER_LEN)
- 		return -EINVAL;
+diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+index 28e840a7e5b8..af1ee08ffdbe 100644
+--- a/drivers/media/rc/sunxi-cir.c
++++ b/drivers/media/rc/sunxi-cir.c
+@@ -374,8 +374,8 @@ static void sunxi_ir_remove(struct platform_device *pdev)
+ 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
  
--	/* rr3 will disable rc detector on transmit */
--	rr3->transmitting = true;
--
- 	sample_lens = kzalloc_objs(*sample_lens, RR3_DRIVER_MAXLENS);
- 	if (!sample_lens)
- 		return -ENOMEM;
-@@ -794,6 +791,9 @@ static int redrat3_transmit_ir(struct rc_dev *rcdev, unsigned *txbuf,
- 		goto out;
- 	}
+ 	rc_unregister_device(ir->rc);
+-	rc_free_device(ir->rc);
+ 	sunxi_ir_hw_exit(&pdev->dev);
++	rc_free_device(ir->rc);
+ }
  
-+	/* rr3 will disable rc detector on transmit */
-+	rr3->transmitting = true;
-+
- 	for (i = 0; i < count; i++) {
- 		cur_sample_len = redrat3_us_to_len(txbuf[i]);
- 		if (cur_sample_len > 0xffff) {
+ static void sunxi_ir_shutdown(struct platform_device *pdev)
 -- 
 2.55.0
 
