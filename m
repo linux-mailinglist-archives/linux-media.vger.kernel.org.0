@@ -1,292 +1,233 @@
-Return-Path: <linux-media+bounces-67502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67503-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0PRWL4U1VWrQlQAAu9opvQ
-	(envelope-from <linux-media+bounces-67502-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 20:59:17 +0200
+	id 2O2LK9k3VWpflgAAu9opvQ
+	(envelope-from <linux-media+bounces-67503-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 21:09:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B9474E9F7
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 20:59:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED62E74EA54
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 21:09:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b="WdU4k/7w";
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=IjgjV8tY;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67502-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67502-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	dkim=pass header.d=linux.dev header.s=key1 header.b=YjDE7zLJ;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67503-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67503-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linux.dev;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CF35E30841F2
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 18:58:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 102D0304D72F
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 19:09:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 867803546C1;
-	Mon, 13 Jul 2026 18:58:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 834712745E;
+	Mon, 13 Jul 2026 19:09:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22FF350D7D
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 18:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2573833A9FF
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 19:09:03 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783969123; cv=none; b=RYB5IvnW9yeZFzx+VKO9yuk5t88bOWQnAmXtensCL4bqmZ5SRIMIkRlC3424bdRHv8SyUpEr9O5BoVBMtAkRx7PGJHjKY4HpUl9SztaFhX5ATfZ00V95JXszGyF6w+1JhTy+A6eYejfLq06q2cG6Y9Q1wtUosC3t1XV2ICkbIiA=
+	t=1783969746; cv=none; b=X5J2jmONS1rPHt0pidbTAtg3me/sgYhyw5Vl9TRVLaQC+alPmkBOJRI2yo1rqNymn1PjTMGpmVvaIV4buzXDrHXMAmxKgGvk6j8RmgiEl0fCwIjpTvPNwgCKsTMgZojqvG+knzBod9Q+cWU4V2vvpipYlOEPnabiKlTyOyRmukU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783969123; c=relaxed/simple;
-	bh=Q4FlDRCpngp1x0aC0AgdewQ8wbrSnrUV0YCYHer0W7s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gAKLr4aLI7CaSH6z3U5a+/SpHmPVOaozL3UYTikj1wqX3Mq3gHcLz0SH9SBqQsy5DLiNgu4cPlS9wzfMwFJKCRHDXH7q0KERzyfFDW0Hi6H/b/EE78XkW9weANF6gwOiaIZVZlZi+9T0+inVitzK9UksFVaIwlUcW4yrpSlk/RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WdU4k/7w; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IjgjV8tY; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66DH6ld42108624
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 18:58:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	EGm08z2QRTZQR1FZakby7UHoEn+vMY549zyGYn80n3k=; b=WdU4k/7wJY4565Q3
-	OBIv/l/9/g9bOCtXtJdW5RUd40bhhXJJtBGCi5XyLAHtadKYz5hVdLU8knWINlps
-	bNUIkviKqHLWLxv9gNI9iqXdGJ2UVEa6jsENcnQVNwq4EoYLEz470KHRNeHUHT8o
-	sa+g5Qw8UDN99M8RL+ra2kDJC1ovboKK5zPW4s1STq08y2RwX3+UBJFecEuQ8H0O
-	9XnFwJm6nPXYLi65NhRQ+zIzTRuprHoYo7OT+5G6P0c+/w8vIfA0qbM/PnP+tnvS
-	HmjjtQxXp4vx87eHAWKG9gGELlUiYgWMLYLOoSeiuwkqWt+92FJ1lGBo9st/xAKt
-	nCGidg==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fd44j0e4g-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 18:58:40 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c88aab7c1d4so5308689a12.3
-        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 11:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783969120; x=1784573920; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EGm08z2QRTZQR1FZakby7UHoEn+vMY549zyGYn80n3k=;
-        b=IjgjV8tYOBtwKq394jANMNx59r6lzns1gtRUHwX5v7l1Q9zJYLUKbHXNR52tQSXVUr
-         ZOeEtRot9hVlcPw7uMa7gqFshIpNN2qUSDiBIrTPtG3R3yllId9kw/DF45Fguja1uhnR
-         33otf8h84juUsW3oMxzdl7kXKZYUMfhnXsX3UnO9Uk3w5ah+ZWvmdFMM+I0FNMc9W7OW
-         360eAFp5JhphHlymvmT1BfFDfd0XE0BKmVXOQ1pf/C+89h3UDNcgc22JV/nVcYNFtJuq
-         UVPHEr1dyJsG2BkXGHj7FK6bNxx+Taj9EcloALrolP2R2SfSTrU6MC1ocUF2YO1KuG+d
-         qd/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783969120; x=1784573920;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EGm08z2QRTZQR1FZakby7UHoEn+vMY549zyGYn80n3k=;
-        b=DW3O3joSgHwyLIOKhTI/Jy5Y3vbZrdL3+/I8l3IMSPtZ/liYatQ21oJrIml/k7zZaS
-         m6UG0dK0rRrGLt2/CArvIA4sCft5uZYhrskFlaGnkdbNSDQq3NYZ4At9Qx9QNNJOE2pY
-         /qDP81P0LvvBGpxsTG9j5fOXHJMPu76W09T6whNAvhhLapkUDrET7eOr9VhmnoIWIIJS
-         mf+bd3S9vWbs6n+PpWQNSr4SmnmtLjsLFvGpcIXFQ2SmSxNukbCCR9zNgkPghGUlrZoU
-         Og6ynyC3DwHWeAQkCOrWLkjc4gawO2x7/dshP24IXXpqQy7B+Mw0QxHnkO5LIm7bMdU0
-         RsQA==
-X-Forwarded-Encrypted: i=1; AHgh+RpgTHFpyK44PqfShT2PQLBO48/sTA1hbKXMvT2jNvAZcX5FRnKb8dlOn9E5fJ5MM50MrbHyKN+eArq3vg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywk1dEZymHdxbekgfKMXxBJOQ/rO7WEIcw8Nsg+yEbLyJizXWKl
-	IYVonetWjUSD0lDzZHnSIKtcoFFezxN9QqZE56ZWwFQqCXSsQTBdeZ7fNnIVgK8MGgyGOPgReBG
-	PxIW6tF0qNL1FkGlv2P88NvFzongqhE4j4KnC1X1xuyZS5VHAewPmiBBpq41yAa9zdg==
-X-Gm-Gg: AfdE7clL2QP+i/nuAK0dbcTLCOgXWmlK6x/paCt29MqdVqCsQ4XFjx+N1NlZK34mmZG
-	Mg0hdmDI4hgGOao3bEVI8OdV7eXfLxVS2dfCfvNV0qtR1+S4cPRfMSTUX69jnlIqeB1Mz5v+8Q+
-	m3XLdFQi6BK0bJt9D3YZTscHpRJXwx5fgJh7Xqg7Wl60dragP2E9JHZwXpz50nLidfkvty5+Zva
-	w1RWugv9SKwttP0KGgr7cXddNkKspDUabOemIv59Wdg7RogFnVmu/ieiNr7Ktrb2coqHn9CVE/Q
-	FoeixJeOjaer7cItzK17PiqrZrmX3Vw6uNcZ9VEz/Du0TiG+lrYmEvOHYVWTvIueumK4S+OKmbZ
-	h3UTBXzmgnyZW8CEXEEA4uC7y0GfwNI/AY2eS7OVdBeL1ZhnIjvDsrrGNwBNWWWSR8lpP
-X-Received: by 2002:a05:6a20:b7a7:b0:3bf:63af:859 with SMTP id adf61e73a8af0-3c110ad2e6amr11568612637.45.1783969119584;
-        Mon, 13 Jul 2026 11:58:39 -0700 (PDT)
-X-Received: by 2002:a05:6a20:b7a7:b0:3bf:63af:859 with SMTP id adf61e73a8af0-3c110ad2e6amr11568594637.45.1783969119131;
-        Mon, 13 Jul 2026 11:58:39 -0700 (PDT)
-Received: from [192.168.1.11] (15.sub-75-218-246.myvzw.com. [75.218.246.15])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3118ee6091dsm83117734eec.14.2026.07.13.11.58.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jul 2026 11:58:38 -0700 (PDT)
-Message-ID: <09e17504-d1b3-4e3a-b547-3c3c1040015c@oss.qualcomm.com>
-Date: Mon, 13 Jul 2026 11:58:34 -0700
+	s=arc-20240116; t=1783969746; c=relaxed/simple;
+	bh=nhHMniB5o329beYkhgim27yilfQiRt1Q9Yt+NkIt/XU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sEf4Y/JDnx0wyODMEQeIKeQcGXjWTQRv60GhS+WWAe8j1WBiIxJ0oVt+PifHZC+IDC7CU3fU/Qkcsjx7p6socawTwWXpYumb8xJ2feZ5Tl+j9UHSt7Y1CbrP3DqdqzC5QkEIK3++ZKmCb2fxNgJBbrLzz0S+DMYCsgDleWMeAbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YjDE7zLJ; arc=none smtp.client-ip=95.215.58.176
+X-Forwarded-Encrypted: i=1; AHgh+RqMXxem7r5CmePyw1O3LpLBEjpbDGtuwoFagzom1Rd2wWyrguGw+6A1WhmXtvLzSIM2LMhSKkaDa362IA==@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783969741;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P+3EWmrn9TlytCVwvSjefnIQTVg7nZtucIhvwx2Wfn4=;
+	b=YjDE7zLJ7jZx64IMrIQ0d5PKct8P7Lr0wlf29UaODmf7bKpV8rjeXzi4D/A4y++t5ccFnt
+	u+b43Q+IhInyuZN5k0IqoZNqm6lIBDrR+NuTYZCt9ANwbEsQzqW+eTFiofXpdhx/ykHVxQ
+	m+tBaYDnvOuWnlaFCS9kO7auAJFVpbk=
+X-Gm-Message-State: AOJu0YwBxcQErqYa9j/aPycwbrJvb92gkI8lkrQbfiz8cqKsC/+Y/C9t
+	AgQS0FtPibbSLeE/Jn6Hdp7SpR1r8YPHu4++k29CVj2W0JjCR+gHRI5kPApQOQoHLbMY2ykmzlL
+	tZU9P6i+iWM1iZNlFW6Lz3lVatQB+cpquC8Aaxi+n
+X-Received: by 2002:a05:622a:4d47:b0:517:5e32:2d14 with SMTP id
+ d75a77b69052e-51d7bc5094cmr5957821cf.10.1783969731978; Mon, 13 Jul 2026
+ 12:08:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 12/14] wifi: ath12k: Switch to generic PAS TZ APIs
-To: Sumit Garg <sumit.garg@kernel.org>, andersson@kernel.org,
-        konradybcio@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
-        akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
-        jesszhan0024@gmail.com, marijn.suijten@somainline.org,
-        airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
-        bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
-        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
-        mathieu.poirier@linaro.org, trilokkumar.soni@oss.qualcomm.com,
-        mukesh.ojha@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
-        jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
-        vignesh.viswanathan@oss.qualcomm.com,
-        srinivas.kandagatla@oss.qualcomm.com,
-        amirreza.zarrabi@oss.qualcomm.com, jenswi@kernel.org,
-        op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
-        skare@qti.qualcomm.com, linux-kernel@vger.kernel.org,
-        Sumit Garg <sumit.garg@oss.qualcomm.com>
-References: <20260702115835.167602-1-sumit.garg@kernel.org>
- <20260702115835.167602-13-sumit.garg@kernel.org>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20260702115835.167602-13-sumit.garg@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDE5NyBTYWx0ZWRfX/9/fX1K6MYfi
- b3dawZOww4YyIUC7X4BYIEPK5V2jpf3rqCaR+lVJjJzHti7yYcCRsDOxWyFS8ExwDm0js4ZzVgA
- +gdMA7ZxLh0mEbXabMU8zEJqw+A74Sg=
-X-Authority-Analysis: v=2.4 cv=N4UZ0W9B c=1 sm=1 tr=0 ts=6a553560 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=6VQYfvmiyQ8t40WkS/mQdw==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=CBpSC656wZACrugyqBAA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-GUID: aIcrB3-r2kHhsbvHCM7xO0mSdBwMn-5n
-X-Proofpoint-ORIG-GUID: aIcrB3-r2kHhsbvHCM7xO0mSdBwMn-5n
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDE5NyBTYWx0ZWRfXzLiqLpzlFepK
- KQ1UWyrLPkxNmC8wvDiOvRhLaF43qf2sdZtVKEQhz0jtiqBVTvRnt7pQO7f8saolV+/j+ti70gP
- oeVCitcKOXx7aDyrAmiJcV9Z81JXIm+MMllvUACeQYEnjLseL38h+/LuzRRjDMqstL6JuLfNu0T
- W9IxLs9t+bWYwWYWFcQ5EWJGLheEujiqw6u/LDPk3G5bnOknqFrwD0/RyXxvq+tY/UGPA00vc/c
- Yrt2bsgQ3E0JC4r5FSsAQVYYnyreNMWmBvyb/N7KMqRmq6TfbkKbTMvGxjck5gLxUhJ9RXGLglu
- lpZJ3KDQHvERBwourYNhEWzUqJiS4W6EPtrmNsaDtqan7WUgwx6G0viUsxDpQUP5VDi7n584sE6
- I+YgeCn/xBmWOgZ/31it0zr/Mm1NFdQWq0lfgfmDtIegQbAMpDnNN5d5/R0uHo83aPIRIjCgl86
- eTa49SbXENmUl11i4Bg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-13_04,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 phishscore=0 priorityscore=1501 suspectscore=0
- bulkscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130197
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+ <20250529053513.1592088-11-yilun.xu@linux.intel.com> <20250602133009.GC233377@nvidia.com>
+ <CAEvNRgFpJWQ5M5sQhGpQUV3GbBq9N+MQhhaxdxa=D8ky94SCsw@mail.gmail.com>
+In-Reply-To: <CAEvNRgFpJWQ5M5sQhGpQUV3GbBq9N+MQhhaxdxa=D8ky94SCsw@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Mon, 13 Jul 2026 20:08:14 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTwd9uku-ZV5y8xcK8VWdOfhcchyW=_fzjpCf5Vk2wQoGQ@mail.gmail.com>
+X-Gm-Features: AUfX_mw-84x_DmgF59r9sD3Wt_uWXnd6_ELlU4FK10Faaz6XnikTNIHgvUm1jO4
+Message-ID: <CA+EHjTwd9uku-ZV5y8xcK8VWdOfhcchyW=_fzjpCf5Vk2wQoGQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 10/30] vfio/pci: Export vfio dma-buf specific info for importers
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org, 
+	sumit.semwal@linaro.org, christian.koenig@amd.com, pbonzini@redhat.com, 
+	seanjc@google.com, alex.williamson@redhat.com, dan.j.williams@intel.com, 
+	aik@amd.com, linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	vivek.kasireddy@intel.com, yilun.xu@intel.com, linux-kernel@vger.kernel.org, 
+	lukas@wunner.de, yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, 
+	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, 
+	tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com, 
+	simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com, 
+	aneesh.kumar@kernel.org, iommu@lists.linux.dev, kevin.tian@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Migadu-Flow: FLOW_OUT
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[49];
-	TAGGED_FROM(0.00)[bounces-67502-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sumit.garg@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-wireless@vger.kernel.org,m:ath12k@lists.infradead.org,m:linux-remoteproc@vger.kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:vikash.garodia@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:elder@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:jjohnson@kernel.org,m:mathieu.poirier@linaro.org,m:trilokkumar.soni@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:pavan.kondeti@oss.qualcomm
- .com,m:jorge.ramirez@oss.qualcomm.com,m:tonyh@qti.qualcomm.com,m:vignesh.viswanathan@oss.qualcomm.com,m:srinivas.kandagatla@oss.qualcomm.com,m:amirreza.zarrabi@oss.qualcomm.com,m:jenswi@kernel.org,m:op-tee@lists.trustedfirmware.org,m:apurupa@qti.qualcomm.com,m:skare@qti.qualcomm.com,m:linux-kernel@vger.kernel.org,m:sumit.garg@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:ackerleytng@google.com,m:jgg@nvidia.com,m:yilun.xu@linux.intel.com,m:kvm@vger.kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:pbonzini@redhat.com,m:seanjc@google.com,m:alex.williamson@redhat.com,m:dan.j.williams@intel.com,m:aik@amd.com,m:linux-coco@lists.linux.dev,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:vivek.kasireddy@intel.com,m:yilun.xu@intel.com,m:linux-kernel@vger.kernel.org,m:lukas@wunner.de,m:yan.y.zhao@intel.com,m:daniel.vetter@ffwll.ch,m:leon@kernel.org,m:baolu.lu@linux.intel.com,m:zhenzhong.duan@intel.com,m:tao1.su@intel.com,m:linux-pci@vger.kernel.org,m:zhiw@nvidia.com,m:simona.vetter@ffwll.ch,m:shameerali.kolothum.thodi@huawei.com,m:aneesh.kumar@kernel.org,m:iommu@lists.linux.dev,m:kevin.tian@intel.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[fuad.tabba@linux.dev,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[jeff.johnson@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,vger.kernel.org:from_smtp];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jeff.johnson@oss.qualcomm.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	TAGGED_FROM(0.00)[bounces-67503-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[fuad.tabba@linux.dev,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux.dev:from_mime,linux.dev:dkim,nvidia.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 21B9474E9F7
+X-Rspamd-Queue-Id: ED62E74EA54
 
-On 7/2/2026 4:58 AM, Sumit Garg wrote:
-> From: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> 
-> Switch ath12k client driver over to generic PAS TZ APIs. Generic PAS TZ
-> service allows to support multiple TZ implementation backends like QTEE
-> based SCM PAS service, OP-TEE based PAS service and any further future TZ
-> backend service.
-> 
-> Acked-by: Jeff Johnson <jjohnson@kernel.org>
-> Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> ---
->  drivers/net/wireless/ath/ath12k/Kconfig |  2 +-
->  drivers/net/wireless/ath/ath12k/ahb.c   | 10 +++++-----
->  2 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/net/wireless/ath/ath12k/Kconfig b/drivers/net/wireless/ath/ath12k/Kconfig
-> index 4a2b240f967a..0d5d1c55bfc1 100644
-> --- a/drivers/net/wireless/ath/ath12k/Kconfig
-> +++ b/drivers/net/wireless/ath/ath12k/Kconfig
-> @@ -18,7 +18,7 @@ config ATH12K_AHB
->  	bool "Qualcomm ath12k AHB support"
->  	depends on ATH12K && REMOTEPROC
->  	select QCOM_MDT_LOADER
-> -	select QCOM_SCM
-> +	select QCOM_PAS
->  	help
->  	  Enable support for Ath12k AHB bus chipsets, example IPQ5332.
->  
-> diff --git a/drivers/net/wireless/ath/ath12k/ahb.c b/drivers/net/wireless/ath/ath12k/ahb.c
-> index 30733a244454..69e21214e629 100644
-> --- a/drivers/net/wireless/ath/ath12k/ahb.c
-> +++ b/drivers/net/wireless/ath/ath12k/ahb.c
-> @@ -5,7 +5,7 @@
->   */
->  
->  #include <linux/dma-mapping.h>
-> -#include <linux/firmware/qcom/qcom_scm.h>
-> +#include <linux/firmware/qcom/qcom_pas.h>
->  #include <linux/of.h>
->  #include <linux/of_device.h>
->  #include <linux/platform_device.h>
-> @@ -420,7 +420,7 @@ static int ath12k_ahb_power_up(struct ath12k_base *ab)
->  
->  	if (ab_ahb->scm_auth_enabled) {
->  		/* Authenticate FW image using peripheral ID */
-> -		ret = qcom_scm_pas_auth_and_reset(pasid);
-> +		ret = qcom_pas_auth_and_reset(pasid);
->  		if (ret) {
->  			ath12k_err(ab, "failed to boot the remote processor %d\n", ret);
->  			goto err_fw2;
-> @@ -485,10 +485,10 @@ static void ath12k_ahb_power_down(struct ath12k_base *ab, bool is_suspend)
->  		pasid = (u32_encode_bits(ab_ahb->userpd_id, ATH12K_USERPD_ID_MASK)) |
->  			 ATH12K_AHB_UPD_SWID;
->  		/* Release the firmware */
-> -		ret = qcom_scm_pas_shutdown(pasid);
-> +		ret = qcom_pas_shutdown(pasid);
->  		if (ret)
-> -			ath12k_err(ab, "scm pas shutdown failed for userPD%d\n",
-> -				   ab_ahb->userpd_id);
-> +			ath12k_err(ab, "PAS shutdown failed for userPD%d: %d\n",
-> +				   ab_ahb->userpd_id, ret);
->  	}
->  }
->  
+On Sun, 12 Jul 2026 at 02:02, Ackerley Tng <ackerleytng@google.com> wrote:
+>
+> Jason Gunthorpe <jgg@nvidia.com> writes:
+>
+> > On Thu, May 29, 2025 at 01:34:53PM +0800, Xu Yilun wrote:
+> >> Export vfio dma-buf specific info by attaching vfio_dma_buf_data in
+> >> struct dma_buf::priv. Provide a helper vfio_dma_buf_get_data() for
+> >> importers to fetch these data. Exporters identify VFIO dma-buf by
+> >> successfully getting these data.
+> >>
+> >> VFIO dma-buf supports disabling host access to these exported MMIO
+> >> regions when the device is converted to private. Exporters like KVM
+> >> need to identify this type of dma-buf to decide if it is good to use.
+> >> KVM only allows host unaccessible MMIO regions been mapped in private
+> >> roots.
+> >>
+> >> Export struct kvm * handler attached to the vfio device. This
+> >> allows KVM to do another sanity check. MMIO should only be assigned to
+> >> a CoCo VM if its owner device is already assigned to the same VM.
+> >
+> > This doesn't seem right, it should be encapsulated into the standard
+> > DMABUF API in some way.
+> >
+>
+> I'd like to propose an alternative. I've been working on guest_memfd and
+> new to the world of IO, please help me along! :)
+>
+> It seems like using dmabufs are used a little awkwardly here. IIUC
+> dmabufs were originally meant to expose memory of one device to another
+> device, mostly meant to share memory. Dmabufs do expose MMIO too, for
+> device to device communications. Without virtualization, userspace MMIO
+> would be done by mmap()-ing a VFIO fd and having the userspace program
+> write to the userspace addresses.
+>
+> Before CoCo, device passthrough (MMIO) is mostly handled by mmap()-ing a
+> VFIO fd and setting up the userspace address in a KVM memslot for the
+> guest.
+>
+> With CoCo, is the problem we're solving that we want KVM to know what
+> pfns to set up in stage 2 page tables, but not via userspace addresses?
+>
+> guest_memfd already does that for regular host memory, tracks the
+> private/shared-ness of the memory, tracks which struct kvm the memory
+> belongs to.
+>
+> guest_memfd functions as KVM's bridge to host memory. KVM already can
+> ask guest_memfd for the pfn to map into stage 2 page tables, and already
+> asks guest_memfd for the shared/private state of the memory. guest_memfd
+> already also blocks the host from faulting guest private memory
+> (mmap()-ing is always allowed).
+>
+>
+> Instead of using dmabuf as the intermediary between the MMIO PFNs and
+> KVM, why not use guest_memfd?
+>
+> What if we make guest_memfd accept a VFIO fd, or a dmabuf fd?
 
-My code review agent is flagging:
+This is interesting for pKVM too, provided it covers more than MMIO.
 
-**Missing probe-defer guard** (`ahb.c:422`) — `qcom_pas_is_available()` is
-explicitly documented as mandatory before any PAS call. The OP-TEE backend
-registers its ops asynchronously; without an `if (!qcom_pas_is_available())
-return -EPROBE_DEFER` in the probe path, firmware auth silently returns
-`-ENODEV` with no retry.
+We need guest_memfd to be backable by a dmabuf for ordinary guest memory, not
+only for device MMIO. There is mobile hardware that doesn't tolerate scattered
+private memory (DMA engines that can't gather, IOMMU page-table size
+constraints), and a CMA-backed dmabuf heap is the practical way to get
+contiguous memory at runtime. HugeTLB doesn't help, it wants boot-time
+reservation. Those pages are struct-page backed, so it's a different problem
+from the non-struct-page MMIO case, and the shared parts still need to be
+GUP-able.
 
-Is it an existing deficiency in ath12k that there is no probe deferral?
-Or did the qcom_scm_*() calls somehow guarantee something that is no longer
-true with the qcom_pas_*() calls?
+More important for the API shape: conversions have to work on subsets of such a
+region, at page granularity. A pKVM guest doesn't know what backs its memory, so
+it will issue share/unshare hypercalls over arbitrary ranges of whatever it was
+given. If a dmabuf-backed guest_memfd can only be converted as a whole, we can't
+use it for memory, and the guest can't be taught to care.
 
-And also for future cleanup:
-**Misleading field name** (`ahb.c:384`) — `scm_auth_enabled` should be
-`pas_auth_enabled` to match the backend-agnostic API it now guards.
+Quentin made both points on the in-place conversion series [1], and covered the
+wider framing at KVM Forum [2].
 
-I plan on taking this patch as-is through the ath tree since it is currently
-just simple API changes. Any additional changes can come separately.
+Cheers,
+/fuad
 
-/jeff
+[1] https://lore.kernel.org/all/od4dx6snqsl2qiocgf3jxm4dndxhrlvsfr22eveuno6nskgfdj@mxsywvku2jk5/
+[2] https://www.youtube.com/watch?v=zaBxoyRepzA
 
-
+>
+> guest_memfd can then take the mmap() calls from userspace and .fault()
+> from mm, and then forward them to VFIO or dmabuf. This way, VFIO/dmabuf
+> can stick to their original functions, and the changes to VFIO/dmabuf
+> would probably revolve around disabling access.
+>
+> Disabling access would probably involve some of these:
+>
+> + When guest_memfd receives the fd, it could return error for existing
+>   mappings, or perhaps it could just force-unmap.
+> + 1 extra flag or field to indicate that guest_memfd is controlling this
+>   file, so that if userspace tries to take some actions with the
+>   original VFIO or dmabuf fd, the request should be blocked.
+> + Perhaps just close the original fd, like dup2(oldfd, newfd) closes
+>   newfd?
+>
+>
+> I'm about to restart work on guest_memfd HugeTLB and I'm thinking about
+> a similar approach for guest_memfd HugeTLB, where perhaps the interface
+> could be that userspace will give guest_memfd a HugeTLB fd at creation
+> time, and then the original HugeTLB fd would be rendered unusable in the
+> same way as above, perhaps like with the S_IMMUTABLE inode flag, but
+> also blocking reads, and not userspace-modifiable.
+>
+>
+> In the course of a CoCo guest's operation, will the guest need to
+> convert between private/shared MMIO? Will the guest need some pages
+> shared and others private? If these are required operations, guest_memfd
+> already provides the tracking and is going to have a conversion ioctl
+> very soon. Instead of further extending dmabuf to track more things, how
+> about letting guest_memfd track it?
+>
 
