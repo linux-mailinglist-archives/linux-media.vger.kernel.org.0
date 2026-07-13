@@ -1,549 +1,313 @@
-Return-Path: <linux-media+bounces-67419-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67420-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id u3eWMa5FVGpEkAMAu9opvQ
-	(envelope-from <linux-media+bounces-67419-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 03:55:58 +0200
+	id etMWO51YVGqmkwMAu9opvQ
+	(envelope-from <linux-media+bounces-67420-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 05:16:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11860746822
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 03:55:58 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE59746E1D
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 05:16:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=kKKTXOg+;
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67419-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67419-lists+linux-media=lfdr.de@vger.kernel.org";
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=mediatek.com header.s=dk header.b=mOBeczpA;
+	dkim=pass header.d=mediateko365.onmicrosoft.com header.s=selector2-mediateko365-onmicrosoft-com header.b=s6JHlR3N;
+	dmarc=pass (policy=quarantine) header.from=mediatek.com;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67420-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67420-lists+linux-media=lfdr.de@vger.kernel.org";
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 760B8300CBF1
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 01:55:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5086A300820C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 03:16:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03E98290DBB;
-	Mon, 13 Jul 2026 01:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7222EB5B8;
+	Mon, 13 Jul 2026 03:16:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5001818CBE1;
-	Mon, 13 Jul 2026 01:55:45 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783907749; cv=none; b=s+z8f4GrXat03tGYR4tRqdUTP7JrwiqgXrafA15ZHhi4lAVhSSogMnnu0SiTYGxeJKjaZWOw0W9+pTH0yNTd+gWgdUxSt1BeFkMlrcpXy1t0XMxPEtb0N/7dj6I73GYW/sD10WorKdL76t7JswddKeFIVU42DSVfk9XCcyahHpI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783907749; c=relaxed/simple;
-	bh=R8heZzhx0Rbh/T9aeambSHqG3wFIiGP4zx6NIPVOf1w=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=iryI+nsbIg52mohBqORCWTj7SFZYpgGvFwLNNdAUNaZFqdN+QBDBC00i2UsUWT5X9cLXCoFEhvCkfJ8wJT75vPS1mhh9SfGVNdUV78Yg/g2eU5uPFAnYeNkmcwK2BAUhTvAt5bjT2kjoFiHkwvWCtG8aWKP8VydFyPlvNv46/GU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kKKTXOg+; arc=none smtp.client-ip=213.167.242.64
-Received: from neptunite.rasen.tech (unknown [IPv6:2404:7a81:160:2100:9e15:c3c3:480a:b02e])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DB3AEB2D;
-	Mon, 13 Jul 2026 03:54:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783907683;
-	bh=R8heZzhx0Rbh/T9aeambSHqG3wFIiGP4zx6NIPVOf1w=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=kKKTXOg+ozj7JOq4sbVmFtE8cnDZNwt4iF7X7GMm++vRzd+8Ri4v4ZeM74zy/4pSm
-	 zJ5K+1QgTVR2nOSjpRpXeMiLSZFiWFLBMbT9IitsioLenJF3ZR6wgwOcOlKe0iVZrm
-	 2uLuFnuHlmkJIkkgXRIBRSJqghaI+r+e87Uq7ioE=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AF72E2DFB;
+	Mon, 13 Jul 2026 03:16:26 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783912591; cv=fail; b=dUg9x/+1Qx5hJmlIM8434KyOQsYcZHEqkJ0Qvb2Tm5Ym1Z0lf9wQoOYF87V+aGsMdqqjT55CWv47HkBMvayyuX850cYU61JxOPc6iKNCBtxrr+hKQzmaQUz3Qv9oOWXiKFpuHHkE8tIKy+LpxTq7rL1mvqE3+3y2gz5RbVopMm4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783912591; c=relaxed/simple;
+	bh=F5k88jUeM0P+V+lADkfj/P8EbX+8qnMS+/odOo5Bjdo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=C0Y0mz6k2d+zl8Yfjo+kwTaYcwCEWT/0hzUS5sH0XgkNyY7C8HSWJP03Ygi8mSFnDvme0OU056AMB8v4h4PrRdGMATBVoj0K2VdD2asQ0x0OrAio5is0H43DjadFlVQBC0JjMo7WnuKNJyqSOdN6n3CEIalry4CubFrKOLpaNcc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=mOBeczpA; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=s6JHlR3N; arc=fail smtp.client-ip=210.61.82.184
+X-UUID: 377ca2ec7e6911f18dc8c9802ae25ab1-20260713
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=F5k88jUeM0P+V+lADkfj/P8EbX+8qnMS+/odOo5Bjdo=;
+	b=mOBeczpAbhrUC7Di1VMKH2Wr2K7U1wfjJ8tmzOr6IB0B5ELMvWDQiYaMt/4nTFtsfOgsWo4NpbdcEUIWuCHIALHuaVXH+lOXeB5qzuaC9YvyYHKNfDaczDMX7CcPmA+zu12J1GOB2bY8/NSbk9ESs5ad6EhzynSD4fOVQGA/FM0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.17,REQID:467422bc-6dfe-4cf3-b95c-a7c4df6a9e63,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:d497b38,CLOUDID:7bda9f55-f38b-430b-a6f2-741debd53b1f,B
+	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|836|865|888|898,TC:-5,
+	Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-
+	1,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 377ca2ec7e6911f18dc8c9802ae25ab1-20260713
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
+	(envelope-from <kyrie.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1928178649; Mon, 13 Jul 2026 11:16:19 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 13 Jul 2026 11:16:19 +0800
+Received: from SG2PR04CU010.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.2562.29 via Frontend Transport; Mon, 13 Jul 2026 11:16:18 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RgWDaj8cFpQtO6ZWEafAzKKVrCeuKRJymcVdwZI5eUkr4bQX+jv9Ft4JNW/ApzbeBGu9OS1Pv+CJ0DCnTCeL+k6g5ESJxRYdgcctVrgUI/wST0xNEwXCdIheZiObRN8XiUkFR4eV34RZK3ry1zn6Ri7uQKeRL9IOQOH5MJtt5wyAH34HJA8dYsLZeooPKVRV00zDKAlUaW/mRmVOSC/Ocv/Mr0fDZt1urSxGKa+IHY6mHbt0LLVP4I5KOcXxBBF5B4+d6Q7+vJiQtF2XSZHnii6+fAXL6ZUHY92nETc/323Ln0k1e1mqmQLK8j81Vz2/TJfkY5fvqsNNxnHV1p4l9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F5k88jUeM0P+V+lADkfj/P8EbX+8qnMS+/odOo5Bjdo=;
+ b=qlInwqAbdU+k19QrBsaoPdN4+svu1Ib5atDkUCbQXIUJjNp/MYGwmhB51CrvTHMpCYz2FuCCPIFZh9u4vcAGbW/HwL6/tALkUouEKNCXZ7W1YCoF6vwTryzBC6dYTkAQxmKydTO64DTz+cfbHJyOiGDa7xMbYyBoKfiMTj61ODPksRhRCJqLcG6D8rtuR5uS69zd7mf0PF1nllo6ckFgEOLBseHphOjAeOxBlu4uvr7YgNg6z7ur5Z+/h7owVEuo9FRuQuJmeJYH0+tGq1U+DRq6W5o0I+k/WqxSPBRp5j9G/QqBqDLfkTNott+ciw6VvfdViajg4pVlvV1/V4Mfug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F5k88jUeM0P+V+lADkfj/P8EbX+8qnMS+/odOo5Bjdo=;
+ b=s6JHlR3NiL9DRlskJ2WHhIjzrtPXS0nXsYYFdOdJk4JUM6YfideyqyR2SASGVQKg1jd2x9JmCcdTctRcxOuDnKajNT1OaFLN1ig1ddp5ITuvULF/ktrLougLkEoSOZvt4yn6z+fD7FEdHt+qCMAdMAUANOFrvsScn3h/VPtqSBo=
+Received: from SI2PR03MB6195.apcprd03.prod.outlook.com (2603:1096:4:14f::13)
+ by TYZPR03MB6472.apcprd03.prod.outlook.com (2603:1096:400:1c8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
+ 2026 03:16:15 +0000
+Received: from SI2PR03MB6195.apcprd03.prod.outlook.com
+ ([fe80::ea95:8d21:d28a:6b2c]) by SI2PR03MB6195.apcprd03.prod.outlook.com
+ ([fe80::ea95:8d21:d28a:6b2c%6]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
+ 03:16:15 +0000
+From: =?utf-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
+To: "conor@kernel.org" <conor@kernel.org>
+CC: "fshao@chromium.org" <fshao@chromium.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, =?utf-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?=
+	<Yunfei.Dong@mediatek.com>, "fanwu01@zju.edu.cn" <fanwu01@zju.edu.cn>,
+	"jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
+	"haoxiang_li2024@163.com" <haoxiang_li2024@163.com>, "tfiga@chromium.org"
+	<tfiga@chromium.org>, "rongqianfeng@vivo.com" <rongqianfeng@vivo.com>,
+	=?utf-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?=
+	<Andrew-CT.Chen@mediatek.com>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "ribalda@chromium.org" <ribalda@chromium.org>,
+	"wenst@chromium.org" <wenst@chromium.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "kees@kernel.org" <kees@kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+	=?utf-8?B?SXJ1aSBXYW5nICjnjovnkZ4p?= <Irui.Wang@mediatek.com>,
+	=?utf-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "p.zabel@pengutronix.de"
+	<p.zabel@pengutronix.de>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>,
+	=?utf-8?B?VGlmZmFueSBMaW4gKOael+aFp+ePiik=?= <tiffany.lin@mediatek.com>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, "sebastian.fricke@collabora.com"
+	<sebastian.fricke@collabora.com>, "robh@kernel.org" <robh@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "tzungbi@kernel.org"
+	<tzungbi@kernel.org>, "nicolas.dufresne@collabora.com"
+	<nicolas.dufresne@collabora.com>, "hverkuil+cisco@kernel.org"
+	<hverkuil+cisco@kernel.org>, "laurent.pinchart+renesas@ideasonboard.com"
+	<laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v5 11/14] dt-bindings: media: mediatek: vcodec: add
+ decoder dt-bindings for mt8196
+Thread-Topic: [PATCH v5 11/14] dt-bindings: media: mediatek: vcodec: add
+ decoder dt-bindings for mt8196
+Thread-Index: AQHc8zTJmQAHSFF55UedyoJlOeRSeLYtAc6AgCziDoCAAN5kgIAQQucA
+Date: Mon, 13 Jul 2026 03:16:14 +0000
+Message-ID: <f7b6225063d1cb92d5ea12d0d40f8a1c1d51c9c8.camel@mediatek.com>
+References: <20260603084045.17488-1-kyrie.wu@mediatek.com>
+	 <20260603084045.17488-12-kyrie.wu@mediatek.com>
+	 <20260603-pentagram-unleveled-8729d0003aa7@spud>
+	 <6cb7ae4a09d476a04ceefca50564646712ad391b.camel@mediatek.com>
+	 <20260702-parlor-disband-fdc2f049336c@spud>
+In-Reply-To: <20260702-parlor-disband-fdc2f049336c@spud>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SI2PR03MB6195:EE_|TYZPR03MB6472:EE_
+x-ms-office365-filtering-correlation-id: 66cbaef1-b3c3-40dd-02c8-08dee08d194a
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|18002099003|22082099003|6133799003|56012099006|11063799006|4143699003|3023799007|38070700021;
+x-microsoft-antispam-message-info: irrcMl9DBvqqDChpIHdOgL1tYzL7IiwtocOkrLYk5CkYqhYkdaakyLWrjyOsHF2IQ8dbuHblMIYAfYDLXBpU6JwZArmA5tHgZY1IlZfdt5I2AGatUrW9kKv4rj9Yxne2XdubY2/0N6KaiN0hDV2aq5WOhJrqTE9aWwAj0fMlZ8pWdW+uE06IY2mMrH/4Z8Gy88lKuj5b93pm0QUChuCtgdXLho9kG01BWSG+pT4lLSLlEUHDYW6tiFNuUF3t5ki17QQiEnT8Q2b3PzPJvwh+9bXjK3V02ljbehPeCLhdA9SEPyNGoPqCQswvGCkSHp34XUE+Vcd8Ire0+YzYU5xLiDgS2bKpnzSi2je4+M902U7swnRlCYnxGkVu+GXq7//Qmn6SCXwA8T+AMiCM7TFOOq9R9c23DOgifaO2ulJOrL+dmbUNyaAbiNd2CMb6J0jjzetxo4Ol5w1DI161z6qzApVXGQQcqlInl0izYeDU0pqJKIxgZBRkhdj42c1uUWWQWMJitOIPsH3bN3KmzD6aPcGjQwWy2dj3qoP22OY6HTLnKA0gbANFs0UN737frTO4A/OtDs3wgY0cEVcgukEOvWv9fy9lmm+w0GpzrxLNK9OD0auHnOgQNOPToI0xE1+PNBm/nhbVl5fZfE/GEiy878YnRWoK6wBbfa21nB8y2ScH1AgSMhTHiH+JT8916a2qZkNVo154TKcZzLWCqPejJh4ATKaV2kqijrLuj5cPWuk=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB6195.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(18002099003)(22082099003)(6133799003)(56012099006)(11063799006)(4143699003)(3023799007)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RkhSaWhLa0pmOGVOZ1cxajU3MGd6cENkRzJ5UGFTcjRTalgyNWNSWVVnbEpJ?=
+ =?utf-8?B?S05ONm5wamliU2JIS2ZjYnp0ZjU5T1hvYmlPMHRlMWd5a1d6VE14OVhLTi9x?=
+ =?utf-8?B?NEljUlZ5WDVLS1F0cHNYUUVjUG93b1pnRXB2SWtYdXJQL2VvUkJOUHplUU0v?=
+ =?utf-8?B?RHJPeXE0VU5VSktCZEc5T3hMczZ0TUNuTHNNVnQ3WTdDR0RlK1loNVRIREpt?=
+ =?utf-8?B?Y2dZQmtGRTRlamMzTmJtZ3NMNDU1OVBSRTlkci9aNVhKdEtUWHVnbGFqRDRN?=
+ =?utf-8?B?NU5VUTlHVnlvOEd4dzNRbzhmV2JVTUN2OGdRUlFRV0JHZUovc3krK0Zwdzh0?=
+ =?utf-8?B?T2E3Sm55Wkl5bndBMzVVbmZQMmpmcGxkWFhHUEhyU3dyL3pKaXlUMjEvRUtV?=
+ =?utf-8?B?TTNCT004bG01c1VKZ2lRMmZ1cXFiS2pWeHBieUxnaUp0akRORExqSS9aYVFt?=
+ =?utf-8?B?dnkvOHpjN3YwTVR2QW4wNFQ0SFUyTXhuZ3FSaW5KT3lIWjVzUGVReXNpS3h1?=
+ =?utf-8?B?cENzS2xSM2w2UW5PV1B5dndHblA1dWN3a0lYUi9PeEdJZEpRVDN4ZHk4Rm5S?=
+ =?utf-8?B?aG5IdzJUcTJVdlBJazAyMDhrdWdpZ1Bka0sxKytFcUppbUtmcVljQTBMNmNO?=
+ =?utf-8?B?djd6aVZuY1FXMjFMTVdJYjZpa0U3NjlMelA4a2dUbHBJMEJXWENZT0k2N0VP?=
+ =?utf-8?B?MzY1NHNDejdDQzFDYUxGc0xLZzlDdW5zT0xZakZnaTllYVJXRFIycFNwR3M5?=
+ =?utf-8?B?OEd5NHJjMXZwQkR2T2x5U1BYa1FDZUlJR1J3bi9uU240Y3kxeUxPVFY5amVz?=
+ =?utf-8?B?UDE3NFhTT1luSUN3eE05Zk1LanM4WFFvVnZxMU4xOHdTaCtNNi9rK2pHSjRI?=
+ =?utf-8?B?MGdiTVJ3bTZ2Ync5elV2UnNybkVxUWs2Z3dIbm5sRXp0NEVZdHpXUVlueEVq?=
+ =?utf-8?B?Q3crMmdxamUyRTJOZTZwWlMxY09OdHZ3Q1hyck1MMHpzZE5yQUFZaDRuMGk0?=
+ =?utf-8?B?S1FkSDY0RmFjdDlsa0ZvTkVsblV5WE02a21QVzBGQVFFb0hCcUloZVFPQjUy?=
+ =?utf-8?B?U2tOWGZvY3hJN053OGsyRm10ODloRFp1b1FacDE4M1hWSGl5Y1FLQWNhWHY4?=
+ =?utf-8?B?K2txV3gwN0ppNHpwdy9pb004dHJaeWpqM1ZPekdMSTY2ZzhhN2xGTmpZVmpW?=
+ =?utf-8?B?cFZWejBvRWNsc2pSZkZ2aW5DOUNJdkpXWFVJTUJZQ1lHNkVwRncyWnNJV1dl?=
+ =?utf-8?B?Zi9OWC9MamRJb1J4aXVRbzJyRTcrZmhVMTI4VWh2SksrTzgwWFdqZzNqWWdi?=
+ =?utf-8?B?M0NneG80bnlRNlhaZVZCR1p4TTJ0WjJ4anozVjBTcXFMVnBwVDNvU3d1ZGhF?=
+ =?utf-8?B?QW9MelFWYy9pMUZmYXg3WnF1UjVuUGJLYmwwMWUySVhaYjQrM3ozOVZESDRO?=
+ =?utf-8?B?dnpCNStWTWdTRzF2Y00wVXI1enQvOFZKWmwyNkZsTUc0ZGFiaWZkbmJROStw?=
+ =?utf-8?B?ZExLSC9FRmQ4bkhHcHFnVjRNNVRoRFZBVkdPdStzc0tHMFJNaVpsUm5jbUxy?=
+ =?utf-8?B?RktCWGxEei8reHFiMWRDeEhFWnlCcHE0aXVTWEpPUmNjN0M1Ynk4Zkl0NFVj?=
+ =?utf-8?B?dkdWbmtTV2tGV0M5bEd3VTlIUlduaUdkK2xsbkxkMzVLRDFPWWdiT292NVE2?=
+ =?utf-8?B?d2R4b0FmQ25rbndqSmd2dk50Tm1DYlpkdVNEL2RMK0t4cWNFTVM1czYwL2Fv?=
+ =?utf-8?B?NjJLRll4ZVFLa2Z6cmk4eFpsb1ZYS1VzZGVSWkV1c3p5ZjlvMkZhRzduaVE3?=
+ =?utf-8?B?L0NvYkZ1SlhFbHBMbTk0K09tSW9WZkg5L25WK2t1bTR3bm5IeTdrOWxKYjVB?=
+ =?utf-8?B?WjlhWkI1SXFlelRoaFVZc3JpeG5IZHlFRkpxMUxuTHdvYmorZWcxQncrVlly?=
+ =?utf-8?B?Yno2VlczenUvbGdiTFNXYUhGbEdlTkdaOXE1SkRmRUhJdSt5QXZxakQ2UUxp?=
+ =?utf-8?B?eTlXOHNOa0Z5MWIvZ2pZQWxKWVE2R3QwZ1RTcUhwUzkyejUzaTlZSUFIUjZ0?=
+ =?utf-8?B?bUpTVGwvMkRIRzJsekR5VzRLUjA4dDgvblQ4ZXloSzR3TGdROXJvVHlZU1d3?=
+ =?utf-8?B?Sk9DMEZHWDJLQlEvZ2J2TFBMS3hMMFd2MUovZnN6cHlOa25HYkFPUUlRVjl1?=
+ =?utf-8?B?R1RFdG9XbFZ3a3d5YXRBbjY5OGNPeDZ2QlhnVnI5T0xxRUU0YWFRRWFienRm?=
+ =?utf-8?B?SUtRQTV5V3BmS3JqN3NIUzZ5RnJIRm40NVRueHgvTUNsY20rc0xZdVpWRTVn?=
+ =?utf-8?B?by9Rd0EycnBETXA2eFhSSnY5RGE1V3lEVzhMWWxDbjBUWXlpVFJhdz09?=
 Content-Type: text/plain; charset="utf-8"
+Content-ID: <B6ED1E0F1E167C4F9C6E37CB8175A43E@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <e5f16200-3881-4f25-b67d-7053b3b8af19@collabora.com>
-References: <20260619052637.1110672-1-paul.elder@ideasonboard.com> <20260619052637.1110672-2-paul.elder@ideasonboard.com> <e5f16200-3881-4f25-b67d-7053b3b8af19@collabora.com>
-Subject: Re: [RFC PATCH 1/6] media: mc: Implement shared media graph
-From: Paul Elder <paul.elder@ideasonboard.com>
-Cc: xuhf@rock-chips.com, stefan.klug@ideasonboard.com, kieran.bingham@ideasonboard.com, dan.scally@ideasonboard.com, jacopo.mondi@ideasonboard.com, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, hverkuil+cisco@kernel.org, nicolas.dufresne@collabora.com, ribalda@chromium.org, sakari.ailus@linux.intel.com
-To: Michael Riesch <michael.riesch@collabora.com>, laurent.pinchart@ideasonboard.com
-Date: Mon, 13 Jul 2026 10:55:29 +0900
-Message-ID: <178390772961.8891.12325171786588563297@neptunite.rasen.tech>
-User-Agent: alot/0.0.0
+X-Exchange-RoutingPolicyChecked: hQuDwYxK59RJknLbHkDcMAjKNf69jXfWPrPntxSN4hSujcAiCegnUPJqeYhGgLa5ubjsf0wILElRlhffuGkmcWydx/TibdFBSiIXknfXsXBfQE+CBFjuMZMk0PZ7qB6shf0+mMrMEM7ixFK6NIin3ZMwUQ+/fxHQiJXwSfYeQT1CU4ii0Vv17tjh312qAXRgqVKPxWMC1iWFVICRKKcXlPjqbzWZFQpqeZi4JdewdeOj/vruAcDNtalEnsBXFigRKTD62rtwVqG++ZKWBKzXx5tKIM5HB/fMdR8g2J9QFm8FkZDu3Noi6dAu1t5WXEbB3dbVsTp1/vCsoIxZhPxqFg==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB6195.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66cbaef1-b3c3-40dd-02c8-08dee08d194a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2026 03:16:15.1784
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4gmaaDV5EENMnmE2QQSrxKiqN0i/cie0cTJ4sJQsrVcpiazUsc3SSR1qmUioOF964GeRdAcftQn8LscHtgFe1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB6472
+X-MTK: N
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.44 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[mediatek.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[mediatek.com:s=dk,mediateko365.onmicrosoft.com:s=selector2-mediateko365-onmicrosoft-com];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:michael.riesch@collabora.com,m:laurent.pinchart@ideasonboard.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	TAGGED_FROM(0.00)[bounces-67420-lists,linux-media=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-67419-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[Kyrie.Wu@mediatek.com,linux-media@vger.kernel.org];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[chromium.org,kernel.org,mediatek.com,zju.edu.cn,ideasonboard.com,163.com,vivo.com,vger.kernel.org,collabora.com,pengutronix.de,lists.infradead.org,linux.intel.com,gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:conor@kernel.org,m:fshao@chromium.org,m:conor+dt@kernel.org,m:Yunfei.Dong@mediatek.com,m:fanwu01@zju.edu.cn,m:jacopo.mondi@ideasonboard.com,m:haoxiang_li2024@163.com,m:tfiga@chromium.org,m:rongqianfeng@vivo.com,m:Andrew-CT.Chen@mediatek.com,m:devicetree@vger.kernel.org,m:ribalda@chromium.org,m:wenst@chromium.org,m:linux-media@vger.kernel.org,m:kees@kernel.org,m:linux-kernel@vger.kernel.org,m:benjamin.gaignard@collabora.com,m:Irui.Wang@mediatek.com,m:Kyrie.Wu@mediatek.com,m:krzk+dt@kernel.org,m:p.zabel@pengutronix.de,m:linux-mediatek@lists.infradead.org,m:tiffany.lin@mediatek.com,m:sakari.ailus@linux.intel.com,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:mchehab@kernel.org,m:sebastian.fricke@collabora.com,m:robh@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:tzungbi@kernel.org,m:nicolas.dufresne@collabora.com,m:hverkuil+cisco@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:krzk@kernel.org,m:matthiasbgg@gmail.com,m:hverku
+ il@kernel.org,m:laurent.pinchart@ideasonboard.com,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,mediateko365.onmicrosoft.com:dkim,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mediatek.com:from_mime,mediatek.com:email,mediatek.com:mid,mediatek.com:dkim];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Kyrie.Wu@mediatek.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[mediatek.com:+,mediateko365.onmicrosoft.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,neptunite.rasen.tech:mid]
+	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco,renesas];
+	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 11860746822
+X-Rspamd-Queue-Id: 4AE59746E1D
 
-Hi Michael,
-
-Thanks for the review!
-
-Quoting Michael Riesch (2026-07-11 05:23:50)
-> Hi Paul,
->=20
-> Thanks for your work! And sorry for the long silence.
->=20
-> On 6/19/26 07:26, Paul Elder wrote:
-> > Currently, a media graph contains a main device whose driver is
-> > responsible for creating the media device. We have however recently run
-> > into devices that have multiple devices that can quality as a main
-> > device. Examples are the RK3588 which has a VICAP and two ISP
-> > instances, and another example is the i.MX8MP which has an ISI and two
-> > ISP instances. As there is currently no way to reconcile who the main
-> > device is in the media device, these setups simple cannot be used
-> > simultaneously.
-> >=20
-> > This patch extends the media controller API with a "shared media graph"
-> > framework. This allows drivers to share a media device, thus enabling
-> > the setups mentioned above. Instead of owning and creating a media
-> > device, drivers can join-or-create a shared media device via the shared
-> > media graph API. The matching is done automatically based on the
-> > detected endpoints in the device tree.
-> >=20
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
->=20
-> Frenetically-cheered-by: Michael Riesch <michael.riesch@collabora.com>
->=20
-> OK, what follows is pretty much a rubberducking session in which I try
-> to explain myself the concept you came up with. Possibly there are one
-> or two thoughts and/or questions you can use to develop the concept furth=
-er.
->=20
-> IIUC this is a new API with four calls. There is _join() and _leave()
-> that more or less replace the creation and deletion of a media device in
-> a V4L2 driver. And there is join_link_source() and join_link_sink() that
-> are called for each cross-device connection on the source and sink side,
-> respectively.
->=20
-> There is one shared media device per disjoint graph in the device tree.
-> If a new device calls _join(), the function iterates over all shared
-> media devices, iterates over all DT endpoints of the new device, and
-> iterates over all members of each shared media device. If the fwnode of
-> the parent of the remote endpoint of a certain endpoint of the new
-> device equals the fwnode of a certain member of a certain shared media
-> device, we found a match. This certain shared media device is then used
-> in the driver of the new device. Before that, a member for the new
-> device is added to the shared media device.
->=20
-> In case no shared media device is found, a new one is created and used.
-> A member for the new device is added to the shared device in this case, t=
-oo.
->=20
-> The actual linking takes place in the _join_link_{sink,source}
-> functions, which iterate over the links of the shared media device and
-> check whether a link has a pointer to a source (or sink) respectively.
-> If a source (or sink) is found, a link is created. Otherwise, a link (in
-> the form of a newly introduced data structure, not a media_link) is
-> added to the links of a shared media device. The latter somewhat
-> corresponds to the v4l2 async notifier mechanism.
->=20
-> So far, so good. Even if the genitive construction chain that describes
-> the matching above is a bit daunting. All in all I think we are on a
-> reasonable path here.
-
-\o/
-
-Yes the overview is right.
-
->=20
-> > [...]
-> > +// TODO figure out locking for when multiple drivers touch the media g=
-raph;
-> > +// maybe macros for shared versions?
-> > +struct media_device_shared {
-> > +     struct media_device mdev;
-> > +     struct list_head members;
-> > +     struct list_head links;
-> > +
-> > +     struct list_head list;
-> > +     struct kref refcount;
-> > +
-> > +     struct device *removed_device;
-> > +};
->=20
-> [discussed in other thread]
->=20
-> > [...]
-> > +/* Callers should hold media_device_shared_lock when calling this func=
-tion */
-> > +static bool __media_device_shared_find_match(struct media_device_share=
-d *mds,
-> > +                                          struct fwnode_handle *fwnode)
-> > +{
-> > +     struct media_device_shared_member *member;
-> > +     struct fwnode_handle *ep;
-> > +     struct fwnode_handle *remote_ep;
-> > +     bool match =3D false;
-> > +
-> > +     // TODO: parse the device tree endpoints graph instead of finding=
- just the
-> > +     // first-level neighbours
-> > +     fwnode_graph_for_each_endpoint(fwnode, ep) {
-> > +             list_for_each_entry(member, &mds->members, list) {
-> > +                     remote_ep =3D fwnode_graph_get_remote_port_parent=
-(ep);
-> > +                     match =3D (member->fwnode =3D=3D remote_ep);
-> > +                     fwnode_handle_put(remote_ep);
-> > +
-> > +                     if (!match)
-> > +                             continue;
-> > +
-> > +                     goto match_complete;
-> > +             }
-> > +     }
-> > +
-> > +match_complete:
-> > +     fwnode_handle_put(ep);
-> > +     return match;
-> > +}
->=20
-> <rubberducking>
-> IIUC there could be devices A -> B -> C that share a DT graph (and thus
-> should share a media device), but suppose the probe order is driver A,
-> C, B then A would rightfully create a new shared media device, but C
-> would not see it and create yet another shared media device. Thus, the
-> the find_match() function needs to traverse C -> B -> A to find the
-> correct shared media device.
-> </rubberducking>
-
-Yeah I guess traversing the graph is kind of a critical feature.
-
->=20
-> Just saying that with one and only one media device to rule them all we
-> wouldn't have to deal with this. Another option would be to assume that
-
-Hm yeah that's true; we'd just have a sea of media entities and we can link
-whoever we want...
-
-We didn't really discuss that part very hard last time.
-
-> each driver knows to which shared media device it belongs. For example,
-> the rkcif driver could be aware that it belongs to the
->     {
->         .id =3D MEDIA_SHARED_ROCKCHIP_CAMERA,
->         .name =3D "Rockchip Camera Subsystem",
->      }
-
-The problem is where would this information go? We can't put it in the driv=
-er;
-it *must* come from the device tree. And I don't think we can just add a new
-property that defines a media subsystem. So I think our only option is to
-traverse the endpoint graph in the device tree.
-
-> shared media device. This would reduce the magic above to a lookup
-> operation. All that said, it should be feasible of course to traverse
-> and find.
->=20
-> > [...]
-> > +/* Callers should hold media_device_shared_lock when calling this func=
-tion */
-> > +static struct media_device *__media_device_shared_create(struct device=
- *dev)
-> > +{
-> > +     struct media_device_shared *mds;
-> > +     struct media_device_shared_member *member;
-> > +     struct fwnode_handle *fwnode =3D dev_fwnode(dev);
-> > +     int ret;
-> > +
-> > +     mds =3D kzalloc_obj(*mds);
-> > +     if (!mds)
-> > +             return NULL;
-> > +
-> > +     member =3D kzalloc_obj(*member);
-> > +     if (!member)
-> > +             goto err_free_mds;
-> > +
-> > +     media_device_init(&mds->mdev);
-> > +
-> > +     ret =3D media_device_register(&mds->mdev);
-> > +     if (ret)
-> > +             goto err_free_member;
-> > +
-> > +     INIT_LIST_HEAD(&mds->members);
-> > +     member->dev =3D dev;
-> > +     member->fwnode =3D fwnode;
-> > +     list_add_tail(&member->list, &mds->members);
->=20
-> This can be refactored as this is carried out either way, right?
-
-Yes.
-
->=20
-> > +
-> > +     INIT_LIST_HEAD(&mds->links);
-> > +
-> > +     kref_init(&mds->refcount);
-> > +     list_add_tail(&mds->list, &media_device_shared_list);
-> > +
-> > +     // TODO figure out how to reconcile this with multiple members
-> > +     mds->mdev.dev =3D dev;
-> > +
-> > +     devv_dbg(dev, "%s: Allocated media device with %pfwf at %p\n",
-> > +              __func__, fwnode, &mds->mdev);
-> > +     return &mds->mdev;
-> > +
-> > +err_free_member:
-> > +     kfree(member);
-> > +err_free_mds:
-> > +     kfree(mds);
-> > +     return NULL;
-> > +}
->=20
-> OK, what options do we have?!
-
-(Just in general or with respect to this function...?)
-
->=20
-> We could pick one device of many. But based on what criteria? If there
-> was a good way to pick one, we could equally pick a driver that
-> registers the media device and move on. We conclude that apparently
-> that's not the case, otherwise we wouldn't be doing this exercise. Next.
-
-Yes; given that both rkcif and rkisp2 could potentially exist on devices wh=
-ere
-the other does not, this is not realistically doable. (I mean if we really =
-want
-to we could but it would be a high-cost mess)
-
->=20
-> We could introduce a pseudo device that provides the umbrella. But
-> again, that would be close to creating an umbrella driver that registers
-> the media device. And at some point we decided not to do that. Next.
-
-Similar problem as above (can't choose main driver), the one above that (no
-place to put group member list).
-
->=20
-> We move from the notion of a media **device** to a media **graph**
-> (which is in alignment with the subject of this mail). The media graph
-
-I always thought that media device and media graph were the
-same/interchangable...
-
-> is something owned by the subsystem, not by any device/driver. The media
-> entities therein, however, could be owned by devices/drivers. Maybe
-> struct media_entity should feature a struct device *dev; member.
->=20
-> I could imagine that the dev member is used mostly for
-> dev_{info,err,...}, we would need to get rid of them. If there is
-
-afaict that's the case.
-
-> actually something with devm_ then this requires more thought.
->=20
-> IMHO the third option is the way to go.
-
-I'm glad we agree :)
-
->=20
-> > +
-> > +// TODO figure out how to resolve the identifiers (model, driver name,=
- etc);
-> > +// atm it's racy and whoever gets it last wins
-> > +struct media_device *media_device_shared_join(struct device *dev)
-> > +{
-> > +     struct media_device *mdev;
-> > +
-> > +     mutex_lock(&media_device_shared_lock);
-> > +
-> > +     mdev =3D __media_device_shared_get(dev);
-> > +     if (!!mdev) {
-> > +             dev_dbg(dev, "%s: found media device for %pfwf", __func__=
-, dev_fwnode(dev));
-> > +             mutex_unlock(&media_device_shared_lock);
-> > +             return mdev;
-> > +     }
-> > +
-> > +     mdev =3D __media_device_shared_create(dev);
-> > +     if (!mdev) {
-> > +             dev_warn(dev, "%s: failed to create media device for %pfw=
-f", __func__, dev_fwnode(dev));
-> > +             mutex_unlock(&media_device_shared_lock);
-> > +             return ERR_PTR(-ENOMEM);
-> > +     }
-> > +
-> > +     dev_dbg(dev, "%s: created media device for %pfwf", __func__, dev_=
-fwnode(dev));
-> > +     mutex_unlock(&media_device_shared_lock);
-> > +     return mdev;
-> > +}
-> > +EXPORT_SYMBOL_GPL(media_device_shared_join);
->=20
-> Similarly, we have to bid farewell to the notion of a media **device**.
-> Can we agree on making
->     struct device *dev;
->     char driver_name[32];
->     char serial[40];
->     char bus_info[32];
->     u32 hw_revision;
-> optional for shared media devices (or, better, graphs)?
-
-Well I think driver_name and (maybe) hw_revision are still useful to have. =
-The
-only problem is I have no clue where to put/get that information.
-
-The only good-ish idea I could come up with was something like
-"shared_media_graph_{board compatible}_{smallest base address of media graph
-member}". So like "shared_media_graph_rockchip,rk3588_fdcb0000" for the rk3=
-588
-since between the csi receivers and vicap and isp, the isp has the smallest
-address. That way:
-- the information comes from the device tree
-- the name is persistent
-- it can identify separate shared media graphs on the same platform
-
-idk about the hardware revision though. I think probably only driver match =
-data
-can hold that information. But then we'd probably have duplicate information
-since otherwise if one of the member drivers doesn't probe then we'd be mis=
-sing
-the hw_revision. Or maybe we don't care about hardware revision since it
-doesn't make sense for the shared media graph part and it only makes sense =
-for
-the individual IP cores. In which case that information is lost unless we m=
-ove
-it somewhere else. Or maybe it's not used anyway so we can indeed just drop=
- it.
-
->=20
-> I could imagine, though, that we provide some minimally meaningful info
-> in a struct
->     {
->         .id =3D MEDIA_SHARED_ROCKCHIP_CAMERA,
->         .name =3D "Rockchip Camera Subsystem",
->         .driver_name =3D "rkcss",
->         .hw_revision =3D 42,
->         ...
->      }
-
-Same problem as above: there's no reasonable place to put this information.
-
-> and apply that info here.
->=20
-> > [...]
-> > +int media_device_shared_join_link_source(struct media_device *mdev,
-> > +                                      struct device *dev,
-> > +                                      struct media_entity *source,
-> > +                                      u16 source_pad, u32 flags)
-> > +{
-> > +     struct media_device_shared *mds =3D to_media_device_shared(mdev);
-> > +     struct media_device_shared_link *link;
-> > +     struct media_device_shared_link *link_tmp;
-> > +     int ret =3D 0;
-> > +
-> > +     mutex_lock(&media_device_shared_lock);
-> > +
-> > +     /*
-> > +      * TODO Figure out flags. Should we use greatest common denominat=
-or? Or
-> > +      * prioritize sink? Or whoever wins the race? For now we just tak=
-e the flags
-> > +      * from the sink.
->=20
-> The phrase "whoever wins the race" is surely gold in the documentation
-> ;-) I guess it should be same as with any _notifier_bound setup, and
-
-Hehe :)
-
-> IIUC it's typically the sink that passes some flags to
-> v4l2_create_fwnode_links_to_pad. So prioritizing the sink seems reasonabl=
-e.
-
-Ok good.
-
->=20
-> > +      *
-> > +      * TODO Figure out how to actually do the matching. For now we ju=
-st match
-> > +      * whoever comes in first. This works with the simple example we'=
-re running
-> > +      * with now (rkcif + one rkisp2) but with setups with multiple co=
-pies of
-> > +      * hardware this will cause problems, like with rkcif + two rkisp=
-2 and
-> > +      * imx8-isi + two rkisp1.
-> > +      */
->=20
-> In the end, shouldn't this follow whatever v4l2_async does? Not exactly
-> sure, but I think storing a struct media_entity * and a struct
-> fwnode_endpoint * for side A should do the trick. Side B would appear
-> later with the second struct fwnode_endpoint. The check would then be if
-> fwnode_graph_get_remote_endpoint(fwnode_A) =3D=3D fwnode_B (+ maybe vice
-> versa). The link would then be filled with media_entity_{A,B} and
-> media_entity_{A,B}->ops.get_fwnode_pad(media_entity_{A,B},
-> fwnode_{A,B}). Obviously we need some selector that tells us whether
-> A=3Dsource and B=3Dsink or vice versa for that.
-
-Oh, good idea!
-
->=20
-> > +     list_for_each_entry_safe(link, link_tmp, &mds->links, list) {
-> > +             if (link->sink) {
-> > +                     ret =3D media_create_pad_link(source, source_pad,
-> > +                                                 link->sink, link->sin=
-k_pad,
-> > +                                                 link->flags);
-> > +                     list_del(&link->list);
-> > +                     kfree(link);
-> > +                     goto exit_join_link_source;
-> > +             }
-> > +     }
-> > +
-> > +     link =3D kzalloc_obj(*link);
-> > +     if (!link) {
-> > +             ret =3D -ENOMEM;
-> > +             goto exit_join_link_source;
-> > +     }
-> > +
-> > +     link->source =3D source;
-> > +     link->source_pad =3D source_pad;
-> > +     link->flags =3D flags;
-> > +     list_add_tail(&link->list, &mds->links);
-> > +
-> > +exit_join_link_source:
-> > +     mutex_unlock(&media_device_shared_lock);
-> > +     return ret;
-> > +}
-> > +EXPORT_SYMBOL_GPL(media_device_shared_join_link_source);
-> > +
-> > +// TODO deduplicate from above
->=20
-> Should be possible to have some helper with (..., bool is_source) and
-> then two nice functions that are exposed to the public.
-> To start the bike shedding: Maybe
-> media_device_shared_register_{source,sink}?
-
-Yeah that sounds like a good idea.
-
-
-Thanks,
-
-Paul
-
->=20
-> > [...]
->=20
-> Thanks and best regards,
-> Michael
+T24gVGh1LCAyMDI2LTA3LTAyIGF0IDE5OjU1ICswMTAwLCBDb25vciBEb29sZXkgd3JvdGU6DQo+
+IE9uIFRodSwgSnVsIDAyLCAyMDI2IGF0IDA1OjM5OjI0QU0gKzAwMDAsIEt5cmllIFd1ICjlkLTm
+mZcpIHdyb3RlOg0KPiA+IE9uIFdlZCwgMjAyNi0wNi0wMyBhdCAxNzoxNCArMDEwMCwgQ29ub3Ig
+RG9vbGV5IHdyb3RlOg0KPiA+ID4gT24gV2VkLCBKdW4gMDMsIDIwMjYgYXQgMDQ6NDA6NDFQTSAr
+MDgwMCwgS3lyaWUgV3Ugd3JvdGU6DQo+ID4gPiA+IEZyb206IFl1bmZlaSBEb25nIDx5dW5mZWku
+ZG9uZ0BtZWRpYXRlay5jb20+DQo+ID4gPiA+IA0KPiA+ID4gPiBUaGUgTVQ4MTk2IGRlY29kZXIg
+ZGlmZmVycyBmcm9tIHByZXZpb3VzIGdlbmVyYXRpb25zIGluIHNldmVyYWwNCj4gPiA+ID4ga2V5
+IGFzcGVjdHMsIG1vc3Qgbm90YWJseSBpbiBpdHMgdXNlIG9mIFZDUCBpbnN0ZWFkIG9mIFNDUC4N
+Cj4gPiA+ID4gQWRkaXRpb25hbGx5LCB0aGUgTVQ4MTk2IGVuaGFuY2VzIGNvZGVjIGNhcGFiaWxp
+dGllcyBieQ0KPiA+ID4gPiBzdXBwb3J0aW5nDQo+ID4gPiA+IEhFVkMgTWFpbjEwIHByb2ZpbGUg
+ZGVjb2RpbmcuIFRvIGFjY29tbW9kYXRlIHRoZXNlIGhhcmR3YXJlDQo+ID4gPiA+IGNoYW5nZXMs
+DQo+ID4gPiA+IHRoZSBiaW5kaW5nIGNvbnN0cmFpbnRzIHNwZWNpZnkgYSB0b3RhbCBvZiAxMiBj
+bG9jayBpbnB1dHMsDQo+ID4gPiA+IGNvbnNpc3Rpbmcgb2YgOSBkZWNvZGVyIGNsb2NrcyBhbmQg
+MyBWQ1AgaW50ZXJmYWNlIGNsb2NrcywNCj4gPiA+ID4gYWxvbmcgd2l0aCAyIHBvd2VyIGRvbWFp
+bnMgY292ZXJpbmcgYm90aCB0aGUgZGVjb2RlciBhbmQgVkNQDQo+ID4gPiA+IHN1YnN5c3RlbXMu
+DQo+ID4gPiANCj4gPiA+IEknbSBwcmV0dHkgcHJldHR5IGNvbmZ1c2VkIGJ5IHRoaXMgc3RhdGVt
+ZW50IGFib3V0IGNvbnN0cmFpbnRzLA0KPiA+ID4gc2luY2UNCj4gPiA+IHRoZXJlJ3Mgbm9uZSBh
+ZGRlZD8NCj4gPiA+IFRoZSB2Y29kZWMtZGVjIG5vZGUgZG9lc24ndCBldmVuIHNlZW0gdG8gcGVy
+bWl0IGNsb2NrcyBhdCBhbGw/DQo+ID4gPiANCj4gPiBEZWFyIENvbm9yLA0KPiA+IA0KPiA+IEkg
+YXBvbG9naXplIGZvciBhbnkgY29uZnVzaW9uIG15IGNvbW1pdCBtZXNzYWdlIGNhdXNlZC4gV2hh
+dCBJDQo+ID4gd2FudGVkDQo+ID4gdG8gY29udmV5IHdhcyB0aGUgaGFyZHdhcmUgZGlmZmVyZW5j
+ZXMgYmV0d2VlbiB0aGUgTVQ4MTk2IGFuZA0KPiA+IHByZXZpb3VzDQo+ID4gSUNzLiBJZiB5b3Ug
+ZmVlbCB0aGF0IHRoZSBWQ1AgYW5kIGNsb2NrIGluZm9ybWF0aW9uIGFyZSBub3QNCj4gPiBzdWl0
+YWJsZQ0KPiA+IGZvciB0aGlzIGxvY2F0aW9uLCBJIHdvdWxkIGxpa2UgdG8gcmV3cml0ZSB0aGUg
+Y29tbWl0IG1lc3NhZ2UgYXMNCj4gPiBmb2xsb3dzOg0KPiA+IENvbXBhcmVkIHRvIHByZXZpb3Vz
+IElDcywgdGhlIE1UODE5NiBzdXBwb3J0cyBhIDEwLWJpdCBkZWNvZGVyIGFuZA0KPiA+IGhhcw0K
+PiA+IGEgZGVjb2RpbmcgY2FwYWJpbGl0eSBvZiA0S0AxMjBmcHMsIHVzaW5nIGEgZHVhbCBoYXJk
+d2FyZSBkZWNvZGluZw0KPiA+IGFyY2hpdGVjdHVyZSBvZiBMQVQrQ09SRS4NCj4gDQo+IFN1cmU/
+IEJ1dCB5b3VyIGNvbW1lbnRzIGFib3V0IHRoZSBjb25zdHJhaW50cyBhcmUgb2RkIGFuZCBJIGRv
+IG5vdA0KPiBrbm93DQo+IGlmIHRoYXQgbWVhbnMgeW91IG9taXR0ZWQgY2hhbmdpbmcgY29uc3Ry
+YWludHMgd2hlbiB5b3Ugc2hvdWxkIGhhdmU/DQo+IEZvciBleGFtcGxlLCB1c2luZyBsYXQrY29y
+ZSBvbmx5IHBlcm1pdHMgeW91IDEwIGlucHV0IGNsb2NrcyBidXQgeW91cg0KPiBjb21taXQgbWVz
+c2FnZSB0YWxrcyBhYm91dCAxMi4NCj4gDQoNCkRlYXIgQ29ub3IsDQoNCkkgYXBvbG9naXplIGZv
+ciBhbnkgY29uZnVzaW9uIG15IGNvbW1pdCBtZXNzYWdlIGNhdXNlZC4gV2hhdCBJIHdhbnRlZA0K
+dG8gY29udmV5IHdhcyB0aGUgaGFyZHdhcmUgZGlmZmVyZW5jZXMgYmV0d2VlbiB0aGUgTVQ4MTk2
+IGFuZCBwcmV2aW91cw0KSUNzLiBJIHdvdWxkIGxpa2UgdG8gcmV3cml0ZSB0aGUgY29tbWl0IG1l
+c3NhZ2UgYXMgZm9sbG93czoNCkNvbXBhcmVkIHRvIHByZXZpb3VzIElDcywgdGhlIE1UODE5NiBz
+dXBwb3J0cyBhIDEwLWJpdCBkZWNvZGVyIGFuZCBoYXMNCmEgZGVjb2RpbmcgY2FwYWJpbGl0eSBv
+ZiA0S0AxMjBmcHMsIGFsc28gc3VwcG9ydHMgMzYtYml0IERSQU0gSU9WQQ0KYWRkcmVzcyBhbmQg
+VmlkZW8gUG93ZXIgQ29udHJvbCB0byBvcHRpbWl6ZSBiYW5kd2lkdGggYW5kIHZvbHRhZ2UNCnVz
+YWdlLg0KDQpJIHdpbGwgdXBkYXRlIHRoZSBjb21taXQgbWVzc2FnZSBhY2NvcmRpbmdseSBpbiB0
+aGUgbmV4dCByZXZpc2lvbi4NCg0KVGhhbmtzIGEgbG90Lg0KDQpSZWdhcmRzLA0KS3lyaWUNCg0K
+PiA+IA0KPiA+IFRoYW5rcy4NCj4gPiANCj4gPiBSZWdhcmRzLA0KPiA+IEt5cmllLg0KPiA+ID4g
+PiANCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogWXVuZmVpIERvbmcgPHl1bmZlaS5kb25nQG1lZGlh
+dGVrLmNvbT4NCj4gPiA+ID4gQWNrZWQtYnk6IE5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVm
+cmVzbmVAY29sbGFib3JhLmNvbT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+IMKgLi4uL2JpbmRpbmdz
+L21lZGlhL21lZGlhdGVrLHZjb2RlYy1zdWJkZXYtDQo+ID4gPiA+IGRlY29kZXIueWFtbMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHwgDQo+ID4gPiA+IDEgKw0KPiA+ID4gPiDCoDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKQ0KPiA+ID4gPiANCj4gPiA+ID4gZGlmZiAtLWdpdA0KPiA+ID4gPiBh
+L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlayx2Y29kZWMt
+DQo+ID4gPiA+IHN1YmRldi0NCj4gPiA+ID4gZGVjb2Rlci55YW1sDQo+ID4gPiA+IGIvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL21lZGlhdGVrLHZjb2RlYy0NCj4gPiA+
+ID4gc3ViZGV2LQ0KPiA+ID4gPiBkZWNvZGVyLnlhbWwNCj4gPiA+ID4gaW5kZXggYmY4MDgyZDg3
+YWMwLi43NGUxZDg4ZDMwNTYgMTAwNjQ0DQo+ID4gPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlayx2Y29kZWMtDQo+ID4gPiA+IHN1YmRldi1k
+ZWNvZGVyLnlhbWwNCj4gPiA+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL21lZGlhL21lZGlhdGVrLHZjb2RlYy0NCj4gPiA+ID4gc3ViZGV2LWRlY29kZXIueWFtbA0K
+PiA+ID4gPiBAQCAtNzYsNiArNzYsNyBAQCBwcm9wZXJ0aWVzOg0KPiA+ID4gPiDCoMKgwqDCoMKg
+wqAgLSBtZWRpYXRlayxtdDgxODYtdmNvZGVjLWRlYw0KPiA+ID4gPiDCoMKgwqDCoMKgwqAgLSBt
+ZWRpYXRlayxtdDgxODgtdmNvZGVjLWRlYw0KPiA+ID4gPiDCoMKgwqDCoMKgwqAgLSBtZWRpYXRl
+ayxtdDgxOTUtdmNvZGVjLWRlYw0KPiA+ID4gPiArwqDCoMKgwqDCoCAtIG1lZGlhdGVrLG10ODE5
+Ni12Y29kZWMtZGVjDQo+ID4gPiA+IMKgDQo+ID4gPiA+IMKgwqAgcmVnOg0KPiA+ID4gPiDCoMKg
+wqDCoCBtaW5JdGVtczogMQ0KPiA+ID4gPiAtLSANCj4gPiA+ID4gMi40NS4yDQo+ID4gPiA+IA0K
+DQo=
 
