@@ -1,230 +1,378 @@
-Return-Path: <linux-media+bounces-67431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67432-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id J3iqC2yaVGqYoAMAu9opvQ
-	(envelope-from <linux-media+bounces-67431-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 09:57:32 +0200
+	id q2n8OgmaVGqHoAMAu9opvQ
+	(envelope-from <linux-media+bounces-67432-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 09:55:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A03DC7486FF
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 09:57:31 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4AC7486BE
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 09:55:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=UTq3nK44;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=cFTWfXOi;
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67431-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67431-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=m6K9D4EZ;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67432-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67432-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4FD92302D30A
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 07:53:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 66842301B4D7
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 07:55:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1C6C395AD3;
-	Mon, 13 Jul 2026 07:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60539397B09;
+	Mon, 13 Jul 2026 07:55:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7D1395AD0
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 07:52:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C37D3033FD
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 07:55:43 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783929178; cv=none; b=V/3t85G5ssZeIQB2JfBdND/5469TiLZ9UXm4BCOO5XMUsK/KhCxKS2t/lHi3CyDPr55QEwRzklF8d1KZuWmwSmc5LibyJPMi0kaZkkNF/JRRDKv+nHOORnQAw9wyIZGxLYRsYcr5gIpk8AOI7fz5Qpr8q0sBW3I1J+7Qp4pl9ig=
+	t=1783929344; cv=none; b=BGYUiogRdE/WHKU4KAq/uybfbyLdqo2cCR+dSYptzdXlkMeybth6uNOjmbPUdfGY0usJKAoMrFpgqx06WwBZhi5cAD4HxgnCjBiXUAMq8EIxgqrBj6JrWUEgdbMvPrvu+Ul9+TG4FCwYCWh5g6Kvni0NXJA53WFPQoBiyM/XUrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783929178; c=relaxed/simple;
-	bh=33h9TgXtBd68jPl2HkwHza+nUO8E2LiJsacvUz/rfuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PiW9n24NoXbw6qStEXz8ClZDRusrgXBp3j234ANqvXr/M9Xv1kWvDeujVaRmXLB4BJj69ZVy4ZBOym/DWcWVUdzwezSoh1UNt0bc8VIncgrZRMZoKxOjOy/V8JO9F8MBNdwvolgl3YAlu+78mYleBdsXdKyhe2nr14DjQoYqgGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UTq3nK44; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cFTWfXOi; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D6NdOL469194
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 07:52:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	rLbH1VkbJCXGoSZ+uSVdMOzYeAY15F1YaTx2sQeEbys=; b=UTq3nK44NefQGw0C
-	eTjdguAOkpJ03yKLwIvaUADv2JPy7/pSOkt0D+whIZ3xUgQvVEw8E9FV7ZL7nPHb
-	BRbo0b1dQhLH+P5W6W6CoV3kzB8bvdEjmASiaoj01l3iXP2yXkJVn0AJyH6tdVCb
-	16MjSnYosw6TD67KRF5Jh8sAScgp7jWjcN1KDz9uGIeCgd5+sCk4ZrkK3DXKHC6X
-	7xAUUbHyyPv24OauqKEAaOYU5BTqGs6M/fkO955KOvo4daiEKiiHOcB9I4vQ+eZk
-	z1pkQEzxcCTJ5qzILQG0wGhGy2xaNFg/0mpPyx2qcS5F33Y08nWSOJ1TCw+qUCH2
-	VYkSKA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbf4851mm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 07:52:56 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-51c07f25de2so28601361cf.3
-        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 00:52:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783929175; x=1784533975; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rLbH1VkbJCXGoSZ+uSVdMOzYeAY15F1YaTx2sQeEbys=;
-        b=cFTWfXOi4bzt8CtsuUJZKP6mjSouuZONMO3AWgX7jWj/9rSqKuafS5ZgD6MKnMTJGj
-         tLL1msqP+39e6HI5Zwv66AconERk/r/u9PekBphqeZXeBnEucrBDo1GqUr2Z/qu5seBP
-         gAqKlRseHoKtEgeb7gjBfjssL/d6u9slArq79xrQ86qXymvcl/LMA5AoMfc6kOl1wuMP
-         GuiINFmGHwfrz3hkL0yozucJHTNHV1TLbYjd3w7mwLn2/Z/4ir6srnok2eN51eLjAwYZ
-         q4olmcaHaspMqsM6tMcvym2dFkmcqInuOQNjv937TXDiC30P8MDV0Ct6oVyA69wROdV9
-         GEsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783929175; x=1784533975;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rLbH1VkbJCXGoSZ+uSVdMOzYeAY15F1YaTx2sQeEbys=;
-        b=ibcfcYDrrjp8aK1Vnt8PzZDEbPxZrQUCYJSNPlJLmuaYwfZ3n29FPkp2Ejp80zG8JQ
-         a6/9ALH45b/nJjkcsoW7FOItYQbB2ZgFfB9lmpG66MtrwQRDhkkcfCdqnj+46tw+G7Nn
-         bYTqStaQNx72CXPnBwtD2FcYlnuYpa/Vv1YfEHXD9iCDZ+s3JE0GiKLTrTNJL0wXDxGg
-         0PPe0Ewt/88/73Y9DKPeYhLccwqI2DIraCfOHzU2FZlbv5wHPSOvTssAHB80bqF4fvXN
-         ZEzE2cAJ6XDHDK7a9lk3rV89hS/ovz5eX1ds96lPJokcGF8GTi3175xkINYSJKzHezjW
-         xLGg==
-X-Forwarded-Encrypted: i=1; AHgh+RooMk4eCFf78a0GOp50A5sj1bwX5R6YTE/rfAxy6KHq0ZPlhIOoaeqHd4QJP92XGpUc173cOqJUp71oFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxU8vTcjnNHo55ujk/0Z8OD3vNx9AuMkpOMuVCYF+dfGuG53lB
-	k0i2/NllzfUyxbLJAv1OptBjDRl6WhW+r00FHIsHswhedFDMQsIw3qROVMgAPuva66u69BRGrO5
-	OyC08/nEW2xkOBBVl8RPNBRy6R57Ys+r+s0p9NEBl9xngXGm/d9rH3QynLpRvxYcb/B0lfZGq5w
-	==
-X-Gm-Gg: AfdE7cnTcCPJAzMZNNYOlTCADAdgYN7AsUlZ8mSEz0vYjon017fFQ6aXRg/kTBmFBj6
-	Bf/syc1GnuOfcg8ac0+bsEqVP4l3k4CVPSTiICqQRg5mSSMcvRudJRqQaOV6H7yX5hFm+tiWcKz
-	Y/oJy16VUiFWO4EnAnXU8XBFkXxCkv1FGrhTmOpRj6/2lzhBy538Md1AReriaH+KZBYanM4wm8f
-	oBuQNjSgM+vabQwBYhlBl5Xe1tHMgDtl3nWmUfueSrvJZ0UEqcS4Tw3a6rcOExAYRiBj+rzr83q
-	d6aoHNoUrCg10sA8qC4Ai4c6sehdlCAR/rNvzmL4S4fsliokAfMG6TIWW4+Yy5JA3HwivWrdFVs
-	g7fiTFmkny4I/Mu8nhojnTfrpf8jeKzoLRPcTf7eD6AQ=
-X-Received: by 2002:ac8:5f0a:0:b0:51c:1132:c80d with SMTP id d75a77b69052e-51cbf1ecad3mr81897711cf.28.1783929175152;
-        Mon, 13 Jul 2026 00:52:55 -0700 (PDT)
-X-Received: by 2002:ac8:5f0a:0:b0:51c:1132:c80d with SMTP id d75a77b69052e-51cbf1ecad3mr81897541cf.28.1783929174774;
-        Mon, 13 Jul 2026 00:52:54 -0700 (PDT)
-Received: from [192.168.1.73] ([92.247.57.178])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15adb488desm960961466b.63.2026.07.13.00.52.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jul 2026 00:52:54 -0700 (PDT)
-Message-ID: <9da6be10-cec7-4582-b259-97fd4b9f7997@oss.qualcomm.com>
-Date: Mon, 13 Jul 2026 10:52:52 +0300
+	s=arc-20240116; t=1783929344; c=relaxed/simple;
+	bh=pW24w9t37CqWdRB80vlqwoOe3HY/tbzSkziFN988rkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mDTbgZhW9fMzcHhIIYgzt8kPEAt1VUkrwCGcbGCpCEwipFaOqTyoU2AGC65nwHMFHdVlzzpGlEd4Co4nHIcAkoP8jFdqDHWfXVrB3hcrca0lVf6PwLhXxwb8AXDefo6XpPSX39hzK4S4qoSQboFqHdqtIXBVBaKHFm74z+tZDyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m6K9D4EZ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2987A1F000E9;
+	Mon, 13 Jul 2026 07:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783929343;
+	bh=OD5wqg/gaJ4wAJRbJHHX8N7GBf/+2MJoFhCRwUxPRD8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=m6K9D4EZELpuXiyk836qcHMHaLlN83fTOCYkW7uAdiuPxmCkSWd9qWlXyxB9PSChj
+	 XSHSt1jqfmDj70fD+DzH3GQ/uFB1///o7QyZNHuvE2TXKNm7JftvIGmm0h6IDAbQFX
+	 FlgJ7tvC3LI6o/Ja0kIYrY0EkebKc662N0l0Cc2GoHRIz1yv67gNA1R9mRPYMr+apM
+	 DoW7MV57V0+wSque8mk/Tq1ZmhkvsA5DvqUGB+J1UYP1n+F9EYhHER557VyCWxUvaQ
+	 lT0kpBf0YodChuBVbkt/by40yTD0xPupn7QE7CDEcZRefvZMit2gqqxlTZZWvxZhZS
+	 8WRyIUYs9rIGA==
+Date: Mon, 13 Jul 2026 09:55:38 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Derek Barbosa <debarbos@redhat.com>, Matthieu Baerts
+ <matttbe@kernel.org>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Jason Gunthorpe <jgg@ziepe.ca>, Steven
+ Rostedt <rostedt@goodmis.org>, users@kernel.org, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Stephen Finucane <stephenfin@redhat.com>
+Subject: Re: Linking Patchwork with Sashiko?
+Message-ID: <20260713095538.3d5e86f1@foz.lan>
+In-Reply-To: <87wlv2jq4t.fsf@linux.dev>
+References: <7E971C76-0568-43EF-9EE7-C8DB78C45CA1@linux.dev>
+	<20260530200017.0fe7f685@foz.lan>
+	<20260530204945.22ac92c6@foz.lan>
+	<20260530205351.19847fc8@foz.lan>
+	<ah7dpsLKd0Jf1Ir0@debarbos-thinkpadt14gen5.rmtusma.csb>
+	<7ia4tsrkn1k4.fsf@castle.c.googlers.com>
+	<20260602223936.27def657@foz.lan>
+	<b9f7ca3a-fa72-4a8e-94bd-9991a0882f10@kernel.org>
+	<20260604085201.177ad537@foz.lan>
+	<20260607195656.02788791@foz.lan>
+	<akQlPSNfGEllNVhe@debarbos-thinkpadt14gen5.rmtusma.csb>
+	<20260710074528.5a6e4457@foz.lan>
+	<20260710083845.23c753ca@foz.lan>
+	<87wlv2jq4t.fsf@linux.dev>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/4] This series adds support for the Qualcomm JPEG
- V4L2 mem2mem encoder.
-To: Krzysztof Kozlowski <krzk@kernel.org>, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, bod@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260612194417.1737009-1-atanas.filipov@oss.qualcomm.com>
- <364a79bf-e424-4237-ab13-18e38299ecec@oss.qualcomm.com>
- <c9006b67-aa43-41d3-8b13-f20dd2e544c6@kernel.org>
-Content-Language: en-US
-From: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
-In-Reply-To: <c9006b67-aa43-41d3-8b13-f20dd2e544c6@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDA4MCBTYWx0ZWRfX1TKR/RU4+N3s
- 0oW/ekOfVJ57gE/Uwjc4YHQuymyV4fXsW9XXbshgTDd4fwDr4rfQ2rMNJvih7ChcohN2McCgN/I
- 66Pj2sHy58yIfZOy08oA4Vfpgu8qhq0=
-X-Authority-Analysis: v=2.4 cv=OsJ/DS/t c=1 sm=1 tr=0 ts=6a549958 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=ybD9qRDIDfZaXNPQ7Ca20A==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=k8JpAAtuEXT-_s9VV8sA:9 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDA4MCBTYWx0ZWRfX/DsNZD4iEL6h
- SYFDBhZTSVFiASx1wkriizbxRz9ShvL6uQFZgX4ayXikM7eD4rMwYS5KKMTvdxflCIdqa+WRk3+
- tvnYjNiMs0uR7cNgaUesSDpCK7FrtK8jIMnaTDVdZVzucJO5BGRCrRN+I2onfQaKqKE5NPRlkgz
- shKJrdfvKFNd8pl/BmiPr8SYsR9hmkQxhtaOV2Wu5E2WFfmP4qTv6kCKzH5oTAJpRzXEZ0Gpc0N
- /tTJocGczfAJt2b7VeuTqHRSaeaP4dms0s3ZpFNLND95BA3oQabJlDztbopZLrNKP/0sVyPkiKA
- puftzZQj2Fzi15KddTCDR4SlUtC355ERjTX7K4YPqfju+Wc/NNckvZLtytAL5gCmj1JlWiN5oNB
- 2HHzGeQti5zNxoVhTTK6OuQ0DYtO338UqyaZvchxyTcu7Uzf6na4Bk+Ch8xJOw9VhrD2yrpJAIo
- gaICOPhuXFbhms3hdug==
-X-Proofpoint-GUID: 8ZpTuj1LhSPsQfrUeuvLbnmLOs7AhAUu
-X-Proofpoint-ORIG-GUID: 8ZpTuj1LhSPsQfrUeuvLbnmLOs7AhAUu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-13_02,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 clxscore=1015 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130080
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-4.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67431-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:roman.gushchin@linux.dev,m:debarbos@redhat.com,m:matttbe@kernel.org,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,m:stephenfin@redhat.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:bod@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[atanas.filipov@oss.qualcomm.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[atanas.filipov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67432-lists,linux-media=lfdr.de,huawei];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,sashiko.dev:url,linuxtv.org:url,linuxtv.org:email,i.mx:url,foz.lan:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A03DC7486FF
+X-Rspamd-Queue-Id: 5B4AC7486BE
 
-On 6/25/2026 4:53 PM, Krzysztof Kozlowski wrote:
-> On 25/06/2026 15:43, Atanas Filipov wrote:
->> On 6/12/2026 10:44 PM, Atanas Filipov wrote:
->>>    19 files changed, 5067 insertions(+)
->>>    create mode 100644 Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/Kconfig
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/Makefile
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_dev.h
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.h
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_ops.c
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_ops.h
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_res.c
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_res.h
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v420_hw_info.h
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.c
->>>    create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.h
->>>
->>>
->>> base-commit: e7ae89a0c97ce2b68b0983cd01eda67cf373517d
->>
->> Hi all,
->>
->> Thank you for the review. v2 has been sent and addresses all comments:
->>
->> https://lore.kernel.org/linux-media/20260625133828.3221781-1-atanas.filipov@oss.qualcomm.com/T/#t
->>
-> 
-> Problem is that is not true. You did not address all comments. You did
-> not reply to them and you did not implement them. I just checked FIRST
-> comment and stopped there.
-> 
-> Best regards,
-> Krzysztof
-You are correct, I apologize. v2 was sent prematurely without properly
-addressing your feedback. Per-comment responses have been sent inline
-to your v1 comments. v5 will address all remaining items.
+On Fri, 10 Jul 2026 18:01:38 -0700
+Roman Gushchin <roman.gushchin@linux.dev> wrote:
 
-Best regards,
-Atanas
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>=20
+> > Hi Derek/Roman,
+> >
+> > On Fri, 10 Jul 2026 07:45:28 +0200
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > =20
+> >> Hi Derek,
+> >>=20
+> >> On Tue, 30 Jun 2026 16:32:30 -0400
+> >> Derek Barbosa <debarbos@redhat.com> wrote:
+> >>  =20
+> >> > On Sun, Jun 07, 2026 at 07:56:56PM +0200, Mauro Carvalho Chehab wrot=
+e:   =20
+> >> > > Added both global and per-project permissions to add CI checks:
+> >> > >=20
+> >> > > 	https://github.com/getpatchwork/patchwork/pull/653
+> >> > >=20
+> >> > > Tested on a docker container created on the top of current
+> >> > > upstream, with the database imported from linuxtv.org and
+> >> > > migrated to the new permissions model.     =20
+> >> >=20
+> >> > Hi Mauro,
+> >> >=20
+> >> > Patchwork integration has been cleaned up and the original issues fi=
+led against
+> >> > the Sashiko project have been resolved.
+> >> >=20
+> >> > Any progress on your work for the permissions modifications (or enab=
+ling it for
+> >> > media)?   =20
+> >>=20
+> >> I'd like to have the permission modification changes applied at
+> >> Patchwork upstream before applying it to linux-media instance, as
+> >> this will require a DB change, which can make it harder in the future
+> >> to update linux-media patchwork instance, especially if upstream ends
+> >> with some changes over my proposed patch.
+> >>=20
+> >> So, while patchwork doesn't have a separated permission for checks
+> >> addition, we'll keep using my tool to update bots feedback from
+> >> e-mails. To prevent too much noise at linux-media, we have now a
+> >>=20
+> >> 	media-ci@linuxtv.org
+> >>=20
+> >> mailing list that is meant to receive all bots feedback. The
+> >> e-mail parser is listening to it as well. =20
+> >
+> > Btw, we did an inquire among the participants of the latest media
+> > summit, where we discussed Sashiko.
+> >
+> > There is a consensus of receiving Sashiko feedback at=20
+> > media-ci@linuxtv.org, where people can opt-in/opt-out.
+> >
+> > With regards to c/c authors, there was a proposal to add a custom=20
+> > disclaimer's notice on each patch. Also, several people manifested
+> > that it should be possible for authors to opt-out receiving Sashiko's
+> > e-mails. =20
+>=20
+> Sorry, I'm not sure how it's supposed to work (opt-in/opt-out).
+> My take is that Sashiko (the sashiko.dev instance, not private/corp
+> instances) is a tool for maintainers, not individual authors.
+
+IMO, sashiko.dev could have an e-mail interface to enable/disable
+delivers to authors on a similar way to what mailman does. For instance,=20
+if an author replies to be "unsubscribed" (or access some web interface),
+a confirm e-mail with an unique token ID would be sent to his e-mail.
+After replying to it, the author would be blacklisted on e-mail
+delivery.
+
+This is for authors only.
+
+> I rely on corresponding maintainers decision on whether emails are
+> sent to the corresponding mailing list.=20
+
+Mailing lists is a different case: the decision should be taken by
+maintainers. Only maintainers can change that.
+
+> Individuals can set their
+> spam filters up if they don't want to get these emails, I can't control
+> it. Providing individual authors an option "I don't want my patches
+> to be reviewed" sound strange to me. It's like "I don't want my patches
+> to be tested by unit tests".
+
+I agree with you, and, on my head, not sending e-mails to the author
+is a clear violation to one of the most basic net etiquette rule on
+mailing lists: any replies to posts there should reach the author.
+
+Unfortunately, some people have too strong opinions against LLM,
+and don't even want to setup filters related to it.
+
+> > So, at least with the current way, we were unable to reach a
+> > consensus (or a large majority) about c/c the author. =20
+>=20
+> You can start with cc mailing list only or a set of enthusiasts.
+
+Yes.
+
+>=20
+> > So, what it is a consensus is to receive Sashiko's email via
+> > media-ci@linuxtv.org, evaluating its feedback results for a couple=20
+> > of kernel releases. IMO, it is better to receive there also e-mails
+> > if Sashiko didn't find any issue. =20
+>=20
+> There is such an option, we can enable it.
+> Should I move on and enable reviews to be sent to media-ci@linuxtv.org?
+
+Yes, please. This way, media developers interested on receiving Sashiko
+reviews may get access to it. It will also feed media patchwork instance
+at:
+	https://patchwork.linuxtv.org/project/linux-media/list/
+
+> > One interesting feedback was related to a review from i.MX DTS and DMAE=
+ngine=20
+> > I3C patch series.
+> >
+> > I guess it could be the start of a custom linux-media prompt.
+> >
+> > The original suggestion is:
+> >
+> > 	"I suggested add some actionable advice.  The below action when I hand=
+le
+> > 	i.MX DTS and DMAEngine\I3C sashakio review feedback. =20
+> >
+> > 	- "Pre existing issue" \ "not introduce by this patch", can omit this =
+feedback,
+> > 	But encourage fix at following patch
+> > 	- "UAF" or lock issue,  most like is true issue, strongly suggest fix =
+it. Maintainer
+> > 	Most likely double check this type issue.
+> > 	- Small issue like "typo" or "indention",  please fix before maintaine=
+r involve
+> > 	Review.=20
+> > 	- other identify severity is HIGH issue, suggest reply sashiko email a=
+nd provide
+> > 	Your judgement when close to land." =20
+>=20
+> Re disclaimers and addition instructions in emails - we can discuss it,
+> but my personal preference would be to keep the minimal - after getting
+> like 10 emails from Sashiko it will feel like legal disclaimers written
+> in small font - something that nobody reads and it just wastes the
+> screen space. So maybe we can put these subsystem-specific rules
+> somewhere and just provide a link in every email? Just an idea.
+
+Disclaimers on e-mails are, IMO, important to new contributors. You're
+right that experienced developers will ignore it, but having a simple
+disclaimer's notice informing that bot reviews may make mistakes and
+that, in case of doubt one must consult an experienced developer is a
+good thing. We had some discussions on media to have a prompt similar
+to this:
+
+    This is an LLM-generated review that can be prone to hallucinations.
+    It is fine to ignore this review.
+    When in doubt about some of the findings, please consult
+    an experienced developer.
+
+I even tried wrote some code adding it at:
+	https://github.com/mchehab/sashiko/commit/5e3ec00772e9bc7a9e7d90993674d822=
+a7bc200f
+	https://github.com/mchehab/sashiko/commit/eff8622fe2828efc56cd38037cb837d2=
+8ebd3914
+
+they are on this branch:
+	https://github.com/mchehab/sashiko/tree/linux-media
+
+but this was before the discussions with regards to c/c authors.
+Also, please notice that I never wrote Rust code before, so the
+rust patch is likely not perfect: it is compile-tested only.
+
+>=20
+> > There was also a discussion about a magic number inside a loop:
+> >
+> > 	for (unsigned int i =3D 0; i < 56; i++) {
+> >
+> > (on such loop, "i" was used to access an array)
+> >
+> > Sashiko didn't pick this one on one of his reviews. =20
+>=20
+> This is a good candidate for some generic prompt, not subsystem-specific.
+
+Agreed.
+
+>=20
+> >
+> >
+> > I guess we can start with a custom RAC prompt to make Sashiko
+> > classify its output according with a criteria similar to the
+> > above.
+> >
+> > E.g. maybe linux-media may start with a custom prompt similar to this
+> > (as part of a more complete RAC):
+> >
+> > 	### Classification categories and actions
+> >
+> > 	1. **Pre=E2=80=91existing issues** - a bug or flaw that already exists=
+ in the current code and is *not introduced by this patch*. =20
+> > 	   - **Action**: Place at the end, under "Further suggestions". Note t=
+hat the issue could be addressed on a separate patch =20
+> > 	   - Mark as: `classification: PRE_EXISTING`, `action: DEFER_FOLLOWUP`.
+> >
+> > 	2. **UAF / Lock issues** - use=E2=80=91after=E2=80=91free, race condit=
+ion, missing lock, double unlock, deadlock, incorrect refcounting, etc. =20
+> > 	   - **Action**: This is almost certainly a true bug. Encourage the au=
+thor to check or consult an expert if in doubt.
+> > 	   - Mark as: `classification: CRITICAL_LOCKING_UAF`, `action: MUST_FI=
+X`.
+> >
+> > 	3. **Small issues** - typo, indentation, coding=E2=80=91style, whitesp=
+ace, missing blank line, comment grammar, overly long line, etc. =20
+> > 	   - **Action**: These should be corrected before the maintainer becom=
+es involved in the review. =20
+> > 	   - Mark as: `classification: STYLE_TYPO`, `action: FIX_BEFORE_MAINTA=
+INER`.
+> >
+> > 	4. **Magic numbers** - when a numeric literal (like `56`, `128`) is us=
+ed without a defined constant or obvious connection to an array size.=20
+> > 	   - **Action**: These should be corrected before the maintainer becom=
+es involved in the review. =20
+> > 	   - Mark as: `classification: MAGIC_NUMBER`, `action: FIX_BEFORE_MAIN=
+TAINER`.
+> >
+> > 	5. **Other HIGH severity issues** =E2=80=93 any problem that is clearl=
+y a functional bug (logic error, NULL deref, buffer overflow, API misuse, i=
+ncorrect error handling, memory leak, etc.) that does not fall into categor=
+y 2. =20
+> > 	   - **Action**: the authors should provide their own judgment on the =
+issue (e.g., explain why it is a false positive, or confirm the fix). =20
+> > 	   - Mark as: `classification: HIGH_OTHER`, `action: REPLY_WITH_JUDGME=
+NT_NEAR_LANDING`.
+> >
+> > 	6. **Low severity / Informational** =E2=80=93 anything that does not f=
+it the above (e.g., suggestion, minor question, potential improvement that =
+is not a bug). =20
+> > 	   - **Action**: Optional; can be addressed at author=E2=80=99s discre=
+tion. =20
+> > 	   - Mark as: `classification: LOW_INFO`, `action: OPTIONAL`.
+> >
+> > Please notice that we're not a prompt experts - nor, afaikt, any media
+> > developer tested running Sashiko locally themselves - so you probably c=
+an
+> > come up with a better custom prompt than us. =20
+>=20
+> I'll take a look, thanks!
+
+Thank you!
+
+Btw, it occurred to me that we could also pick some things from Media Subsy=
+stem=20
+profile as well, from its addendum:
+	https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html#sub=
+mit-checklist-addendum
+
+like adding a feedback that new drivers need to pass at the compliance
+tools if the patch series is adding new drivers.
+
+Thanks,
+Mauro
 
