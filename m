@@ -1,252 +1,191 @@
-Return-Path: <linux-media+bounces-67510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67511-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id fiSiGWlDVWrymAAAu9opvQ
-	(envelope-from <linux-media+bounces-67510-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 21:58:33 +0200
+	id 4n3MNMJEVWoamQAAu9opvQ
+	(envelope-from <linux-media+bounces-67511-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 22:04:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FD674EED6
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 21:58:32 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A05974EEF3
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 22:04:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=collabora.com header.s=mail header.b=O6etSBjV;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67510-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67510-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=collabora.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=KuwCMtee;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67511-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67511-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2F67C3040A90
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 19:58:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EB44530B42E8
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jul 2026 20:03:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F84A35BDB2;
-	Mon, 13 Jul 2026 19:58:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B51AA34DB74;
+	Mon, 13 Jul 2026 20:03:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f3.google.com (mail-yx2-f3.google.com [74.125.224.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308CB31283E;
-	Mon, 13 Jul 2026 19:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5FA4499B9
+	for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 20:03:46 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783972695; cv=none; b=QRBDrz6KflO2/Mz37zYV3KdXL3G5+I7GQsrg9b0+U9ADG1eaBtlhGjIJpiInfK4XOGfOi1KuVMEywBo71KIbkVavVh9e+yNLZkuE/DGTcjukg0sKSj6U1ao249l+jirTkZlN9MUDiBBt3wd98e/fiP/cFfNxY1uMGa1v7LJ3OT8=
+	t=1783973028; cv=none; b=s80UZrx7fA9zTShRn9fBs68TNvgtWStnYb0lpOHy7wsGFjVoI1Q4I3aoS8NAIsA17JAq3hp7X98b22gv8of3ol/isr5tmm94WzTvSQ5nUM/HJQmr+77FWsNohlOPQdccPSYgxTPqabg7rXRV6TojHH/GJAvqJRmZ+HASFpHqXRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783972695; c=relaxed/simple;
-	bh=YWJDCyT186dHX81KVVE+O5xBOZa9fYqrWM9YYEL3dk0=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aUX4JNIa7Fjr6cypfd0M8FSYNiWe1qrQ7LyytUHIlkOC/1QmAgpjpWibPBOjYK9wqCQ8XHIfx06GqakfheAOLSFSli3T7T+QsSthXdWu38rhaB7FJIwkMSPkMA0MgDsHYGhyvP621oJnxlFQBwE17M293czO7Z9K8OZcjt+IQ8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=O6etSBjV; arc=none smtp.client-ip=148.251.105.195
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1783972692;
-	bh=YWJDCyT186dHX81KVVE+O5xBOZa9fYqrWM9YYEL3dk0=;
-	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=O6etSBjVtAmdzcSxXi/mkCykAKcecNb3kPZtUgRfa628X6uT+6uvaZgXFuH8uu6PG
-	 954tufeuMi5vJz9jl9JO/gFQoVA2TzGIC5AgLbP76FqcMcrRlOCQ+0s1PcqczhnoSs
-	 bzRbAq4l79Ok8eVXa3MeOwm4+zN9SEV8BfciT3r/SnBPsBe5e5ikoirtEqjM4RKcfS
-	 5M2kInrA5nur0gRlcipsacU2af7FZcjzVZ3JBkNntiE16ZSencGlgn8JZfVbZl3Z1t
-	 kmaR6xjeJcIBgzwLXL0Y4V/RjV8apS0rzchDnws3KIVrUdP09MJ1EdyvSY/0m3zvMP
-	 rGPQ7RT3uDoTw==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 94AB017E02BA;
-	Mon, 13 Jul 2026 21:58:10 +0200 (CEST)
-Message-ID: <cf949589ca13c1206724c5dbaaa441bed4e163e9.camel@collabora.com>
-Subject: Re: [PATCH v15 06/12] media: mediatek: jpeg: fix decoding buffer
- number setting timing issue
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Kyrie Wu <kyrie.wu@mediatek.com>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>,  Mauro Carvalho Chehab	 <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger	
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Date: Mon, 13 Jul 2026 15:58:08 -0400
-In-Reply-To: <20260702072614.10373-7-kyrie.wu@mediatek.com>
-References: <20260702072614.10373-1-kyrie.wu@mediatek.com>
-	 <20260702072614.10373-7-kyrie.wu@mediatek.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-+eCo3b9gsBb1UHx9JQhS"
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	s=arc-20240116; t=1783973028; c=relaxed/simple;
+	bh=lNq9HbHx84bO0jNzQuDP2EuhbElpWCYOSVhU+wGOVjw=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QyHgE7Irq0qcOwOy0cl6y+sTbSvE+32TMZ2uWbHHw5eVGypQ7wI4T0qZd0AuGpEbQAoLos+duTyZ4KD3V9BTu2kwnYxBaBNYpSxAXIVZrGtTprdVnbFcNG/jaqGQVAexlwgU863SwtqZNzMJcOQDjOk0bFmCqscrur866EPUqUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KuwCMtee; arc=none smtp.client-ip=74.125.224.131
+Received: by mail-yx2-f3.google.com with SMTP id 00721157ae682-81e8f17ac11so816957b3.0
+        for <linux-media@vger.kernel.org>; Mon, 13 Jul 2026 13:03:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783973025; x=1784577825; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TQ/EY59cpu1jkc21PGftgoguMZtfT9udSMBKlCW2BmU=;
+        b=KuwCMtee78wyGv6kJxK+OP+nxLdIXQfY3/EfQKhg43cPIZV5hC8Ipa05wp7MAfRX6o
+         b/i4Zt/4TyLLYx4ml5UIu3Ttaxk3pQG5e56BDrTvsIHVKzh65VkGafpBC5x5Z/H1HXUz
+         IOcRPBqwjarlsNzka4ODITVzfDEJ5yDp5VEN39EwXYcGnxmToC8s2Da5AsIdN7ERvqol
+         wIdh/V8drKP+9JUHN41ERyJlHxcx4viZXwYUd1k8jkNKA5MJtc1Gw3mY/QkhVTqwY3bL
+         2ORnXJjxzrpz1qgDmF1bCKPbBwTUw/QQRGn+OT2H46C+iXToj5Prm8HUYpCFCYV35vK3
+         T7Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783973025; x=1784577825;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TQ/EY59cpu1jkc21PGftgoguMZtfT9udSMBKlCW2BmU=;
+        b=osmJINUs2raRvv26u8FqFuXoRdM+gayoubyBO2irdIuX8PyVYiNXFZCfNW7YvpdkFr
+         n7et78+5PGl2kqDbicwVGZYmOzF+AkR19DesEEnVIugnUf2PF4XJBXN/3S50pTCeVQSN
+         n59B/nf7ETVvUz/Ul3617sUkorzElu6NMoCiHla2/unUNNtDoXfuh4hp+80xJTTtKywt
+         Hqz4p1ZV1bsW6/bgwYN1V9KVKifXUTYMsCOEOgeydPHveTJvu/SRLXGZLAxPwku1ZcXd
+         xjYIbyHOBL6njjTlLc1Mb3ekwoFhSivVIUAKXyLJTcGoPFxzFKocOtU2j5VWbmF7Hfog
+         wBrw==
+X-Forwarded-Encrypted: i=1; AHgh+RrqaQBKWNF7m7Af89GS6FZhj7qFg3OAWbwULXlXygIunHTVsMZ3YlVM3ivNxhBovxEhtHaUj3tFF1ClNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVvjxL10n809+oFLUdXP0EtVcZn+u6Z5ApBSprGGftCHUlLOhF
+	pZY8tiMcFmuVpEcWEeqDYV1rs8H896z8YqKu4ji2EuJ9vWBKGqc1yBe4
+X-Gm-Gg: AfdE7cl5O5MSuePzUWCUZSRb7KlA52HqNKKPv4IHcOIaqnQfz9cOtyJ4GAUqITTDz1X
+	yFX4rtMVNOrOFHIJZ8SGnQo7OgCe4/PqB4MssXJBPFQvFzAiXpDcBB9WVsjkhaV3GRLfNMOFAyY
+	I0TRA5nkUGxCIqXgTZNofd2GgNZ0QP2QAmsbwwT7YdjKW/e/xfNmR3ZIehLMal2TZoWXIV4zcXq
+	8LOC3g3C1ZhsLjfIwQ+ivY6GdYl1QhmUF33xjdRwTudqXWYytpu5uL38X9s5yJY133OHOrbHNtl
+	T7TLdQbeF7NoPYbgszgE/XWsTrPeZOmv6IIOjQbWtQjJHV+VOKA8NglNDjMLXSnrrolFQG+DzdK
+	v2mcN5Ra2PTuX4T9sG6X/HLXzQUAEKeX23rnAEg2In/RbiB4qBlHqtPnn4AziWuA2KYwZJsGp2E
+	0bjwDIavdph+uIgVTCHAXKb7k4dB7yiZUo6W57dL9YCH4g/fYK3y67jGC5s94ibkQg3LHgHMlic
+	HaNWA==
+X-Received: by 2002:a05:690c:3344:b0:814:5840:2f92 with SMTP id 00721157ae682-81e9014da15mr83359257b3.48.1783973020642;
+        Mon, 13 Jul 2026 13:03:40 -0700 (PDT)
+Received: from pendragon (76-234-45-214.lightspeed.cicril.sbcglobal.net. [76.234.45.214])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c23939fsm123926137b3.46.2026.07.13.13.03.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 13:03:40 -0700 (PDT)
+From: Colin Braun <colinbrauncl@gmail.com>
+X-Google-Original-From: Colin Braun <electrolitic21@gmail.com>
+Date: Mon, 13 Jul 2026 15:03:38 -0500
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Colin Braun <colinbrauncl@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, Mathias Nyman <mathias.nyman@intel.com>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-media@vger.kernel.org, Colin Braun <colin.braun.cl@gmail.com>, oneukum@suse.com
+Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
+ abstractions
+Message-ID: <alVEUR0JrF1ga3S8@pendragon>
+References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+ <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
+ <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-67511-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67510-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:kyrie.wu@mediatek.com,m:hverkuil-cisco@xs4all.nl,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_TO(0.00)[mediatek.com,xs4all.nl,kernel.org,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER(0.00)[colinbrauncl@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:colinbrauncl@gmail.com,m:ojeda@kernel.org,m:gregkh@linuxfoundation.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:mchehab@kernel.org,m:stern@rowland.harvard.edu,m:mathias.nyman@intel.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-media@vger.kernel.org,m:colin.braun.cl@gmail.com,m:oneukum@suse.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,rowland.harvard.edu,intel.com,vger.kernel.org,suse.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[colinbrauncl@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:from_mime,collabora.com:mid,collabora.com:email,collabora.com:dkim,vger.kernel.org:from_smtp,mediatek.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,pendragon:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B9FD674EED6
+X-Rspamd-Queue-Id: 2A05974EEF3
 
+On Mon, Jul 13, 2026 at 03:22:33PM +0200, Danilo Krummrich wrote:
+> (Cc: Oliver)
+> 
+> On Sun Jul 12, 2026 at 11:07 PM CEST, Colin Braun wrote:
+> > @@ -382,8 +556,8 @@ fn as_ref(&self) -> &device::Device<Ctx> {
+> >      }
+> >  }
+> >  
+> > -impl<Ctx: device::DeviceContext> AsRef<Device> for Interface<Ctx> {
+> > -    fn as_ref(&self) -> &Device {
+> > +impl<Ctx: device::DeviceContext> AsRef<Device<Ctx>> for Interface<Ctx> {
+> > +    fn as_ref(&self) -> &Device<Ctx> {
+> >          // SAFETY: `self.as_raw()` is valid by the type invariants.
+> >          let usb_dev = unsafe { bindings::interface_to_usbdev(self.as_raw()) };
+> 
+> Please see commit f12140f21acb ("rust: usb: don't retain device context for the
+> interface parent").
+> 
+> We can't derive the device context of a USB device from a USB interface. Please
+> also see the device context documentation in [1].
+> 
+> USB device drivers are separate from USB interface drivers, we can't assume that
+> a USB device is bound to a USB device driver just because a USB interface (of
+> that same device) is bound to an USB interface driver.
+> 
+> The same is true from the Core context, which means the device is in a bus
+> device callback, where the device lock is held.
+> 
+> This is also the reason why I keep proposing to only expose simple forwarding
+> helpers on usb::Interface to implement URBs (see also [2] and [3]).
+> 
+> An URB requires either usb::Interface<Bound> or, for a USB device driver,
+> usb::Device<Bound>. But since we can't derive usb::Device<Bound> from
+> usb::Interface<Bound> a simple forwarding helper does the trick.
 
---=-+eCo3b9gsBb1UHx9JQhS
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+That makes sense, thank you for pointing this out. I should have taken a
+look at the git log for that line to try to understand its background.
 
-Le jeudi 02 juillet 2026 =C3=A0 15:26 +0800, Kyrie Wu a =C3=A9crit=C2=A0:
-> The src buffer doesn't need set information and dst buf parameters
-> only need to set when the power set succussed and protect the
-
-Can you rework this, I'm not sure I understand what you are trying to say.
-
-> setting by spinlock ensuring that any later operations acting
-> on this buffer reflect accurate state and frame data.
->=20
-> Fixes: dedc21500334 ("media: mtk-jpegdec: add jpeg decode worker interfac=
-e")
-> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
-> ---
-> =C2=A0drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c=C2=A0=C2=A0 | =
-9 +++------
-> =C2=A0drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c | 1 +
-> =C2=A0drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c | 1 +
-> =C2=A03 files changed, 5 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drive=
-rs/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index 89048aba8dca..4dc574e03bd5 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -1734,7 +1734,6 @@ static void mtk_jpegdec_worker(struct work_struct *=
-work)
-> =C2=A0
-> =C2=A0	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf);
-> =C2=A0	jpeg_src_buf =3D mtk_jpeg_vb2_to_srcbuf(&src_buf->vb2_buf);
-> -	jpeg_dst_buf =3D mtk_jpeg_vb2_to_srcbuf(&dst_buf->vb2_buf);
-> =C2=A0
-> =C2=A0	if (mtk_jpeg_check_resolution_change(ctx,
-> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0 &jpeg_src_buf->dec_param)) {
-> @@ -1743,11 +1742,6 @@ static void mtk_jpegdec_worker(struct work_struct =
-*work)
-> =C2=A0		goto getbuf_fail;
-> =C2=A0	}
-> =C2=A0
-> -	jpeg_src_buf->curr_ctx =3D ctx;
-> -	jpeg_src_buf->frame_num =3D ctx->total_frame_num;
-> -	jpeg_dst_buf->curr_ctx =3D ctx;
-> -	jpeg_dst_buf->frame_num =3D ctx->total_frame_num;
-> -
-> =C2=A0	mtk_jpegdec_set_hw_param(ctx, hw_id, src_buf, dst_buf);
-> =C2=A0	ret =3D pm_runtime_resume_and_get(comp_jpeg[hw_id]->dev);
-> =C2=A0	if (ret < 0) {
-> @@ -1772,6 +1766,9 @@ static void mtk_jpegdec_worker(struct work_struct *=
-work)
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msecs_to_jiffies(MTK_JPEG_HW_TIME=
-OUT_MSEC));
-> =C2=A0
-> =C2=A0	spin_lock_irqsave(&comp_jpeg[hw_id]->hw_lock, flags);
-
-I didn't dig very deep, but in extreme case, the timeout worker (hidden abo=
-ve)
-could be called concurrently to the remaining of this code, which gives me =
-the
-impression everything would be left in a unstable state since that spinlock=
- is
-not being held by the timeout worker. Perhaps something to improve further =
-?
-
-This is a step in the right direction for sure, so for this patch:
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-> +	jpeg_dst_buf =3D mtk_jpeg_vb2_to_srcbuf(&dst_buf->vb2_buf);
-> +	jpeg_dst_buf->curr_ctx =3D ctx;
-> +	jpeg_dst_buf->frame_num =3D ctx->total_frame_num;
-> =C2=A0	ctx->total_frame_num++;
-> =C2=A0	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
-> =C2=A0	mtk_jpeg_dec_set_config(comp_jpeg[hw_id]->reg_base,
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/dri=
-vers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> index 9a8dbca6af00..e4d2c5d4ec73 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> @@ -513,6 +513,7 @@ static void mtk_jpegdec_put_buf(struct mtk_jpegdec_co=
-mp_dev *jpeg)
-> =C2=A0				v4l2_m2m_buf_done(&tmp_dst_done_buf->b,
-> =C2=A0						=C2=A0 VB2_BUF_STATE_DONE);
-> =C2=A0				ctx->last_done_frame_num++;
-> +				break;
-> =C2=A0			}
-> =C2=A0		}
-> =C2=A0	}
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/dri=
-vers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-> index 5d1c217fea0f..2adea3aca50b 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-> @@ -242,6 +242,7 @@ static void mtk_jpegenc_put_buf(struct mtk_jpegenc_co=
-mp_dev *jpeg)
-> =C2=A0				v4l2_m2m_buf_done(&tmp_dst_done_buf->b,
-> =C2=A0						=C2=A0 VB2_BUF_STATE_DONE);
-> =C2=A0				ctx->last_done_frame_num++;
-> +				break;
-> =C2=A0			}
-> =C2=A0		}
-> =C2=A0	}
-
---=-+eCo3b9gsBb1UHx9JQhS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCalVDUAAKCRDZQZRRKWBy
-9ErRAQCeOKVNMHSoVQWdtAOdSHr7nFSY8kQ3qswexzAWQS4Y+gD9GGe9PN7D0YKg
-lSbELCzmu3axHR6kr7PSTY6wQqhezAg=
-=PL/X
------END PGP SIGNATURE-----
-
---=-+eCo3b9gsBb1UHx9JQhS--
+I'll remove the usb::Device<device::Bound>::set_interface() and
+usb::Device<device::Bound>::control_msg() implementations in my next
+revision (since they will no longer be used) and just implement them on
+usb::Interface<device::Bound>.
 
