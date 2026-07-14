@@ -1,243 +1,200 @@
-Return-Path: <linux-media+bounces-67531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67532-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jaFUFDGAVWoMpQAAu9opvQ
-	(envelope-from <linux-media+bounces-67531-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 02:17:53 +0200
+	id 79cFBVOaVWoGqwAAu9opvQ
+	(envelope-from <linux-media+bounces-67532-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 04:09:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEBA74FD4F
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 02:17:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F7275049D
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 04:09:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=jpkzku14;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67531-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67531-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67532-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67532-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5B7D2302D515
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 00:17:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 69E43308CB0E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 02:05:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3371819CCF5;
-	Tue, 14 Jul 2026 00:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5849D37B03C;
+	Tue, 14 Jul 2026 02:05:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D41D184
-	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 00:17:45 +0000 (UTC)
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4FED35957;
+	Tue, 14 Jul 2026 02:05:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783988267; cv=none; b=pb5D4CekjItrzwYv3lhNo73Uff7JwVwgZrMZpUAJN2ml/CNe4r8ny13/GMakeEvkiEr5jcigVHZjef2N8vXqW5MrMXTMrEZ9d/rSTaPgwJUkGPx8WSr/q6bwyXZij2skZ+jeNl9uN94NN6lLUwj1Sy0co7QIO3jA7peCI1Jupz0=
+	t=1783994753; cv=none; b=P8SrfBoSYe9EeK+L7ubSZ9duDu8Fsv4I6bhL8GxHZkN0fpIV3zHo4PJOu+OZaSL1PeS1gloKLbIguxDoXTWh4KwyhATJEmdfhAWxoUycSTj9BMH19SJfDhePC8D5HTZpxjyys09lOcbh6BupDMakMekeaAJ1RJ9EK5G57zHRPpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783988267; c=relaxed/simple;
-	bh=XAlGeUdZ25SqZx3pcRzKzyL2pTl8yfbUSjgStgfztIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JjAXrQWpWFpSv5ITkQQIVtP16l66jBBxPgyMeBvcHJ4uj0d9V1EHo9FeXoAiA8YHjiOT95MGXmcjo1P6iBbHUOTJsOX/Kuc9GMq8lC4dEWA/I0+PHO5P8WPEXFYFqtMAwPVy4BcJr1avM8CJfe85DG1Nvt0PMpI4OcwPJzYW2SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jpkzku14; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02D6F1049;
-	Tue, 14 Jul 2026 02:16:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783988209;
-	bh=XAlGeUdZ25SqZx3pcRzKzyL2pTl8yfbUSjgStgfztIQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jpkzku14kNNHIscQNixqEe07wU7kIfyQq+zRHXKlg3MmGIKSChgRwguFLbbBedM9o
-	 yxSoHzukq1hXLacWlBO9NE85R+q7HShx5ys1qaqJzoLISMKOXUJImVkalw2GvBw8TY
-	 jWWPJILtC9TSI9CbtSFnYNFsSieA7AIvANGGjUdU=
-Date: Tue, 14 Jul 2026 03:17:41 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 6/8] media: platform: broadcom: Move unicam driver to
- subdir
-Message-ID: <20260714001741.GA1573511@killaraus.ideasonboard.com>
-References: <20260210-b4-vchiq-isp-v2-0-4403944152fe@ideasonboard.com>
- <20260210-b4-vchiq-isp-v2-6-4403944152fe@ideasonboard.com>
+	s=arc-20240116; t=1783994753; c=relaxed/simple;
+	bh=0ti1Ldu58kffWfgSL38M+Cff0aojGKXgxJSvseRuz9E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R0XhON3uRmH2cVIGvILnJyDnBaQVaGaElu1fdbfIhvqz1F0BmoLtTQIamryr3OiADSyI3ghkxi8ld2BPfEi3vkGpL6AZly33uNX8R59iO45etFUFrCbqq20LTuHfMeDmxQXZyhGQd2VhXnlexSTrMsgTB7PC4faxUx2XKMVebqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.161.220
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wA3AuJzmVVqpHlJAA--.6138S3;
+	Tue, 14 Jul 2026 10:05:40 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app1 (Coremail) with SMTP id yy_KCgBXyKFymVVqmyDSAg--.28764S2;
+	Tue, 14 Jul 2026 10:05:38 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: kwliu@nuvoton.com,
+	kflin@nuvoton.com
+Cc: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>
+Subject: [PATCH] media: nuvoton: npcm-video: quiesce VCD IRQ before teardown in remove
+Date: Tue, 14 Jul 2026 02:04:43 +0000
+Message-Id: <20260714020443.2795883-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260210-b4-vchiq-isp-v2-6-4403944152fe@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:yy_KCgBXyKFymVVqmyDSAg--.28764S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?iUNvXwXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnVCjTgEH9dVomQuWcozCBBFuQHMub3xCTcaqJhWvQUrmJzcPvPZRWmrwNbr1jlDSOWph
+	btrZUVyggrj9ydiDOc6p9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoWxZF45Kr15Cr4UJFWxtrWrWFX_yoWrWr4xpF
+	WrKa13ArZ8JF10q3WUZF4rZFy5Awn7CF4akryjk34fA345JryFqF10vFyUt3y5Ar97WrW2
+	qrWFvw4kur4YqFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
+	JbIYCTnIWIevJa73UjIFyTuYvjxU7gAwDUUUU
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67531-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:florian.fainelli@broadcom.com,m:tfiga@chromium.org,m:m.szyprowski@samsung.com,m:mchehab@kernel.org,m:kernel-list@raspberrypi.com,m:kieran.bingham@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:naush@raspberrypi.com,m:wahrenst@gmx.net,m:jacopo.mondi@ideasonboard.com,m:dan.scally@ideasonboard.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[broadcom.com,chromium.org,samsung.com,kernel.org,raspberrypi.com,ideasonboard.com,gmx.net,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	DMARC_NA(0.00)[zju.edu.cn];
+	TAGGED_FROM(0.00)[bounces-67532-lists,linux-media=lfdr.de];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:kwliu@nuvoton.com,m:kflin@nuvoton.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:openbmc@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:fanwu01@zju.edu.cn,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[fanwu01@zju.edu.cn,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:from_mime,ideasonboard.com:email,ideasonboard.com:dkim,killaraus.ideasonboard.com:mid,raspberrypi.com:email]
+	FROM_NEQ_ENVFROM(0.00)[fanwu01@zju.edu.cn,linux-media@vger.kernel.org];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,zju.edu.cn:from_mime,zju.edu.cn:email,zju.edu.cn:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9AEBA74FD4F
+X-Rspamd-Queue-Id: 76F7275049D
 
-On Tue, Feb 10, 2026 at 01:51:23PM +0530, Jai Luthra wrote:
-> The BCM283x/BCM2711x SoCs capture camera frames using CSI-2, and
-> optionally processes the raw frames using a VC4 firmware based ISP
+The VCD interrupt is requested with devm_request_threaded_irq() in
+npcm_video_init(), so it stays registered until the devm release that
+follows npcm_video_remove().  remove() itself calls kfree(video), so a
+VCD interrupt delivered between kfree(video) and that devm release
+dereferences freed memory: npcm_video_irq() reads VCD_STAT off
+video->vcd_regmap before the VIDEO_STREAMING flag early-return, so the
+use-after-free is unconditional on delivery, not gated by streaming
+state.
 
-s/processes/process/
-s/firmware based/firmware-based/
+With streaming active, stop_streaming() (run from vb2_queue_release())
+masks VCD_INTE and resets the VCD, but an in-flight handler can
+re-enable VCD_INTE afterward.  On a DONE or FIFO-overrun/overflow
+interrupt the handler finishes its buffer under buffer_lock and then
+calls npcm_video_start_frame().  start_frame() drops buffer_lock before
+it re-enables VCD_INTE (VCD_INTE_DONE_IE) and starts the next capture
+(npcm_video_command() with VCD_CMD_GO); it can therefore perform those
+operations after stop_streaming() masks and resets the VCD.
 
-> block.
-> 
-> As the driver for the ISP will be added subsequently, to ease
-> distinction between the two drivers' files, move the files related to
-> the unicam driver to a separate subdirectory.
-> 
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+For the re-arm to happen, start_frame() must take buffer_lock, find a
+next queued buffer, and release the lock before stop_streaming() empties
+the list.  Once start_frame() has released the lock, the VCD re-enable
+and capture start that follow are outside buffer_lock, so emptying the
+list afterwards cannot stop them.  buffer_lock protects the buffer list
+only; it is not held for the re-arm and capture start, nor for
+stop_streaming()'s mask and reset, so those VCD writes are not
+serialized with each other.  start_frame() returns without re-arming
+when no next buffer is queued, there is no video signal, or the VCD
+stays busy past its poll timeout.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+That capture can complete and raise VCD_STAT_DONE; with VCD_INTE
+re-armed, a new interrupt can then fire after kfree(video), and the
+handler dereferences the freed per-device structure.
 
-> ---
->  MAINTAINERS                                        |  2 +-
->  drivers/media/platform/broadcom/Kconfig            | 22 ++-------------------
->  drivers/media/platform/broadcom/Makefile           |  2 +-
->  .../media/platform/broadcom/bcm2835-unicam/Kconfig | 23 ++++++++++++++++++++++
->  .../platform/broadcom/bcm2835-unicam/Makefile      |  3 +++
->  .../{ => bcm2835-unicam}/bcm2835-unicam-regs.h     |  0
->  .../broadcom/{ => bcm2835-unicam}/bcm2835-unicam.c |  0
->  7 files changed, 30 insertions(+), 22 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 34f779679f1d0eff4cfbdc2533db153fb5f8fe2e..e9e8e735ecb2057581345fb7faad6608849fc3bf 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4956,7 +4956,7 @@ M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
-> -F:	drivers/media/platform/broadcom/bcm2835-unicam*
-> +F:	drivers/media/platform/broadcom/bcm2835-unicam/*
->  
->  BROADCOM BCM47XX MIPS ARCHITECTURE
->  M:	Hauke Mehrtens <hauke@hauke-m.de>
-> diff --git a/drivers/media/platform/broadcom/Kconfig b/drivers/media/platform/broadcom/Kconfig
-> index 32b76ebfcd9a194e285381fc4f1d0fbac7d62b4d..cab44885182ce658fa136e31485913b1f0547968 100644
-> --- a/drivers/media/platform/broadcom/Kconfig
-> +++ b/drivers/media/platform/broadcom/Kconfig
-> @@ -1,23 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0
->  
-> -config VIDEO_BCM2835_UNICAM
-> -	tristate "Broadcom BCM283x/BCM271x Unicam video capture driver"
-> -	depends on ARCH_BCM2835 || COMPILE_TEST
-> -	depends on COMMON_CLK && PM
-> -	depends on VIDEO_DEV
-> -	select MEDIA_CONTROLLER
-> -	select V4L2_FWNODE
-> -	select VIDEO_V4L2_SUBDEV_API
-> -	select VIDEOBUF2_DMA_CONTIG
-> -	help
-> -	  Say Y here to enable support for the BCM283x/BCM271x CSI-2 receiver.
-> -	  This is a V4L2 driver that controls the CSI-2 receiver directly,
-> -	  independently from the VC4 firmware.
-> +comment "Broadcom BCM283x/BCM271x media platform drivers"
->  
-> -	  This driver is mutually exclusive with the use of bcm2835-camera. The
-> -	  firmware will disable all access to the peripheral from within the
-> -	  firmware if it finds a DT node using it, and bcm2835-camera will
-> -	  therefore fail to probe.
-> -
-> -	  To compile this driver as a module, choose M here. The module will be
-> -	  called bcm2835-unicam.
-> +source "drivers/media/platform/broadcom/bcm2835-unicam/Kconfig"
-> diff --git a/drivers/media/platform/broadcom/Makefile b/drivers/media/platform/broadcom/Makefile
-> index 03d2045aba2e4dd8989ca35a23e1be4ea1811787..33a89bdb0029bc67d90d16bc0910a681b7675ad7 100644
-> --- a/drivers/media/platform/broadcom/Makefile
-> +++ b/drivers/media/platform/broadcom/Makefile
-> @@ -1,3 +1,3 @@
->  # SPDX-License-Identifier: GPL-2.0
->  
-> -obj-$(CONFIG_VIDEO_BCM2835_UNICAM) += bcm2835-unicam.o
-> +obj-y += bcm2835-unicam/
-> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam/Kconfig b/drivers/media/platform/broadcom/bcm2835-unicam/Kconfig
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..32b76ebfcd9a194e285381fc4f1d0fbac7d62b4d
-> --- /dev/null
-> +++ b/drivers/media/platform/broadcom/bcm2835-unicam/Kconfig
-> @@ -0,0 +1,23 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +config VIDEO_BCM2835_UNICAM
-> +	tristate "Broadcom BCM283x/BCM271x Unicam video capture driver"
-> +	depends on ARCH_BCM2835 || COMPILE_TEST
-> +	depends on COMMON_CLK && PM
-> +	depends on VIDEO_DEV
-> +	select MEDIA_CONTROLLER
-> +	select V4L2_FWNODE
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	help
-> +	  Say Y here to enable support for the BCM283x/BCM271x CSI-2 receiver.
-> +	  This is a V4L2 driver that controls the CSI-2 receiver directly,
-> +	  independently from the VC4 firmware.
-> +
-> +	  This driver is mutually exclusive with the use of bcm2835-camera. The
-> +	  firmware will disable all access to the peripheral from within the
-> +	  firmware if it finds a DT node using it, and bcm2835-camera will
-> +	  therefore fail to probe.
-> +
-> +	  To compile this driver as a module, choose M here. The module will be
-> +	  called bcm2835-unicam.
-> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam/Makefile b/drivers/media/platform/broadcom/bcm2835-unicam/Makefile
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..03d2045aba2e4dd8989ca35a23e1be4ea1811787
-> --- /dev/null
-> +++ b/drivers/media/platform/broadcom/bcm2835-unicam/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +obj-$(CONFIG_VIDEO_BCM2835_UNICAM) += bcm2835-unicam.o
-> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam-regs.h b/drivers/media/platform/broadcom/bcm2835-unicam/bcm2835-unicam-regs.h
-> similarity index 100%
-> rename from drivers/media/platform/broadcom/bcm2835-unicam-regs.h
-> rename to drivers/media/platform/broadcom/bcm2835-unicam/bcm2835-unicam-regs.h
-> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam/bcm2835-unicam.c
-> similarity index 100%
-> rename from drivers/media/platform/broadcom/bcm2835-unicam.c
-> rename to drivers/media/platform/broadcom/bcm2835-unicam/bcm2835-unicam.c
+Unregister the video device, then mask the VCD interrupt source and
+unregister and drain the threaded handler with devm_free_irq() before
+releasing the vb2 buffers, the ECE state and the per-device structure.
+devm_free_irq() also clears the devm action, so the later devm release
+is a no-op and does not double-free.  Gating the re-arm alone would not
+close the window: the handler dereferences the per-device structure
+before any streaming-flag check, so any interrupt delivered after
+kfree(video) is fatal regardless of re-arm.
 
+This issue was found by an in-house static analysis tool.
+
+Fixes: 46c15a4ff1f4 ("media: nuvoton: Add driver for NPCM video capture and encoding engine")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+ drivers/media/platform/nuvoton/npcm-video.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
+index 52505af35c08..637b1fe54824 100644
+--- a/drivers/media/platform/nuvoton/npcm-video.c
++++ b/drivers/media/platform/nuvoton/npcm-video.c
+@@ -120,6 +120,7 @@ struct npcm_video {
+ 
+ 	struct list_head buffers;
+ 	struct mutex buffer_lock; /* buffer list lock */
++	int irq;
+ 	unsigned long flags;
+ 	unsigned int sequence;
+ 
+@@ -1707,6 +1708,7 @@ static int npcm_video_init(struct npcm_video *video)
+ 		dev_err(dev, "Failed to find VCD IRQ\n");
+ 		return -ENODEV;
+ 	}
++	video->irq = irq;
+ 
+ 	rc = devm_request_threaded_irq(dev, irq, NULL, npcm_video_irq,
+ 				       IRQF_ONESHOT, DEVICE_NAME, video);
+@@ -1808,6 +1810,8 @@ static void npcm_video_remove(struct platform_device *pdev)
+ 	struct npcm_video *video = to_npcm_video(v4l2_dev);
+ 
+ 	video_unregister_device(&video->vdev);
++	regmap_write(video->vcd_regmap, VCD_INTE, 0);
++	devm_free_irq(dev, video->irq, video);
+ 	vb2_queue_release(&video->queue);
+ 	v4l2_ctrl_handler_free(&video->ctrl_handler);
+ 	v4l2_device_unregister(v4l2_dev);
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
