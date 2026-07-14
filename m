@@ -1,162 +1,212 @@
-Return-Path: <linux-media+bounces-67579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67580-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 52HnL+VmVmqD4wAAu9opvQ
-	(envelope-from <linux-media+bounces-67579-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 18:42:13 +0200
+	id g6pxDpp4Vmq76QAAu9opvQ
+	(envelope-from <linux-media+bounces-67580-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 19:57:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DD575703C
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 18:42:13 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC6F757A9E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 19:57:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=datapath.co.uk header.s=mailjet header.b=A8LCEiVF;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67579-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67579-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed)" header.from=datapath.co.uk (policy=none);
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="QKLP/USo";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67580-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67580-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B4D3E303903F
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 16:42:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BB62131B39E5
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 17:53:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0774D8DBC;
-	Tue, 14 Jul 2026 16:42:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B55F31F9B7;
+	Tue, 14 Jul 2026 17:53:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from o84.p38.mailjet.com (o84.p38.mailjet.com [185.250.237.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008064D90B6
-	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 16:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0202EB5B8;
+	Tue, 14 Jul 2026 17:53:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784047323; cv=none; b=k4rm8AAmSeil6zmDPFfTDMwzvkw8JZmP1vT45OLfhvAmWAY9OAWLgp68b0ApBg5ymDbW2w9/1NnKZseypKIBcNsoXq9FIxHNuj5E4aEidq21+mwfeKoTFrY6EgexIT9uZ57jWWz4EaqRHfobNjFhHQ4W8lnhCekR+sJp4P8ZF8g=
+	t=1784051592; cv=none; b=DBnqP6rrPqm0TfsB9ZTKbap6BPaeMpm2bHKHgMrIlZo3lWBjCLQ6/ZRKJcvwcKL5GxPPPAe5LogDWr3Xj8rUFf0A6MK3TvX9p7dFaGGz9GfleMw7DZm54P+zByUV+Et1jmMpp9vl9D+0pf8xctHGjYkvRdP19TWvLaJGDlXE8+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784047323; c=relaxed/simple;
-	bh=dcD3gkL5ewMWLDxgLbQlUZf6q5rbERuY06bERkOlGaI=;
-	h=Message-Id:MIME-Version:From:To:Subject:Date:Cc:In-Reply-To:
-	 References; b=Gg6/Ua4ID4NXmrH2zfbELoJbaIZ6NYgcxYS64F5ktbxHvWAoc/LsJTLq7V80xPgZk9qUxFyM9RJRXmmv2tmAhpOBeApX4EbilrJ37xdN17rsnnUN7WD41sJ6KUCibyrz/1WGy7JwtCI0tX8LrGb5AfHwr7XSBrBDOgGO0xWspT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=datapath.co.uk; spf=pass smtp.mailfrom=a1809859.bnc3.mailjet.com; dkim=pass (1024-bit key) header.d=datapath.co.uk header.i=przemek.gajos@datapath.co.uk header.b=A8LCEiVF; arc=none smtp.client-ip=185.250.237.84
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; q=dns/txt;
-  d=datapath.co.uk; i=przemek.gajos@datapath.co.uk; s=mailjet; t=1784047318; x=1784054518;
-  h=Message-Id: MIME-Version: From: Reply-To: To: Subject: Date:
-   List-Unsubscribe: List-Unsubscribe-Post: Cc: Feedback-Id:
-   In-Reply-To: References: X-CSA-Complaints: X-MJ-Mid:
-   X-MJ-SMTPGUID: X-REPORT-ABUSE-TO:
-   Content-Transfer-Encoding: To: From: Sender: Subject: Date;
-  bh=nQDkSqRId+ENCRqrt+PD+Zgdn82mU+WHdGoWctIchuc=;
-  b=A8LCEiVF2NTIu0YqXKT2ZtM8U6JJYrOtCByqJzqR/2AzgRHng1lt2PVA7
- FC2v3ISStvpOBW1H/ew0jApzHm1FcQinXChRJfYU+LtLl+g0Od7MPWdoqf2z
- lq12yUqhtzqVMYJQBhW4yjfJT/70g4H8Liret9OYvLh9JeDFgvd8KE=
-Message-Id: <e921d18a.AWUAAKFWI7AAAAAAAAAAA-L_6E0AAYDONroAAAAAABudwwBqVmbW@mailjet.com>
+	s=arc-20240116; t=1784051592; c=relaxed/simple;
+	bh=tAmRuwe4iOiZT6cYgNdW2yQayZgtadz1k07EyAMjkzs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=bzEqVeUUKMbi3eE47a0PmjhKZpH0JB+39u02wmxkREAKN+iEpnG75uaRneRPgGhMSjm7XZkclXsEIaJ3a7OoLA1DI+Nz+60AGQSoxlmY9HV7NZ5aPmlT8hKFIUoc5VabOMh4R1+7HvBtZnhi08GRsqYVrW8Twqqj6+zBgF1zf+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QKLP/USo; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33C71F000E9;
+	Tue, 14 Jul 2026 17:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784051589;
+	bh=fo4ZCxgBFuMzvv8i+e0hgQz7BHe+qOPEpLPG7BxIRjo=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=QKLP/USoaDZQRALN2GqyPg7rpQJZEJLlGfakooKdTCqcfJgRnsFVZZm5ffeC5wBIu
+	 FwuUZpuM+hr6OGA5Ltfsg+Js7hrmu6CQAqHMobIpgc1Y00Nucqf5Dm+Ip9ZIpBUWyQ
+	 7ZmKsm8CE60AygzxIZkzp5k5u2UCRcS6H9BaYY2ivLecPdovJzsdqzalBfLE0t5G+t
+	 dccwmjPP1xdmB8eJYiRPS/5skhlXjezkI6T9+WIrBbgl9hbPUPZ7Vi5DF8rw/BYJuk
+	 r74Nf0ZwCX4FqoHL27lsky7LQQp9hh2tzBnABa/fy0iu8Ory6c3vh559LoZ64yjcHz
+	 1kt1lvN3FNJlw==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Przemek Gajos <przemek.gajos@datapath.co.uk>
-Reply-To: przemek.gajos@datapath.co.uk
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: Re: [RFC] media: Question about reserving V4L2 UAPI control IDs for
- out-of-tree rgb133 kernel driver
-Date: Tue, 14 Jul 2026 17:41:29 +0100
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Cc: Przemek Gajos <przemek.gajos@datapath.co.uk>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org
-Feedback-Id: 42.1809859.1736069:MJ
-In-Reply-To: <619056acd2d8493315e8ca1055d4ce0068e3e95f.camel@ndufresne.ca>
-References:
-	<fb3f8857.AVEAAKBfiogAAAAAAAAAA-L_6E0AAYDONroAAAAAABudwwBqVkiC@mailjet.com>
-	<619056acd2d8493315e8ca1055d4ce0068e3e95f.camel@ndufresne.ca>
-X-CSA-Complaints: csa-complaints@eco.de
-X-MJ-Mid:
-	AWUAAKFWI7AAAAAAAAAAA-L_6E0AAYDONroAAAAAABudwwBqVmbWGLg0eT6uTsikLqAXZJ1jegAafYU
-X-MJ-SMTPGUID: ef4076b2-8eb4-48d6-9158-7a407644363b
-X-REPORT-ABUSE-TO: Message sent by Mailjet please report to
-	abuse@mailjet.com with a copy of the message
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 14 Jul 2026 19:53:03 +0200
+Message-Id: <DJYHI6W0VJ73.NP4QFGU57J50@kernel.org>
+Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
+ abstractions
+Cc: "Oliver Neukum" <oneukum@suse.com>, "Colin Braun"
+ <colinbrauncl@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Mathias Nyman" <mathias.nyman@intel.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-media@vger.kernel.org>, "Colin Braun"
+ <colin.braun.cl@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ <driver-core@lists.linux.dev>
+To: "Alan Stern" <stern@rowland.harvard.edu>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+ <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
+ <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org> <alVEUR0JrF1ga3S8@pendragon>
+ <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
+ <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
+ <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
+ <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
+In-Reply-To: <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.14 / 15.00];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[datapath.co.uk:s=mailjet];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[datapath.co.uk : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67579-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[suse.com,gmail.com,kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,intel.com,vger.kernel.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:nicolas@ndufresne.ca,m:przemek.gajos@datapath.co.uk,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:mchehab@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67580-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[datapath.co.uk:-];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[przemek.gajos@datapath.co.uk,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	HAS_REPLYTO(0.00)[przemek.gajos@datapath.co.uk];
-	FROM_NEQ_ENVFROM(0.00)[przemek.gajos@datapath.co.uk,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:oneukum@suse.com,m:colinbrauncl@gmail.com,m:ojeda@kernel.org,m:gregkh@linuxfoundation.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:mchehab@kernel.org,m:mathias.nyman@intel.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-media@vger.kernel.org,m:colin.braun.cl@gmail.com,m:rafael@kernel.org,m:driver-core@lists.linux.dev,m:stern@rowland.harvard.edu,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailjet.com:mid,vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 86DD575703C
+X-Rspamd-Queue-Id: 9FC6F757A9E
 
-Hi Nicolas,
+(Cc: driver-core)
 
-Thanks for the quick reply.
+On Tue Jul 14, 2026 at 6:26 PM CEST, Alan Stern wrote:
+> I don't see why Rust needs to distinguish between a USB device that is=20
+> bound and one that is unbound.  There isn't much you can do with one=20
+> that can't be done with the other.
 
-> I could not find specific changes between 6.19 and 7.0 that would explain=
- this
-> failure. Perhaps you could share a bit more details on what you are doing=
-, and
-> how it fails ? Are you using v4l2_ctrl_new_custom() ?
+It has nothing to do with Rust, those driver lifecycle rules exist regardle=
+ss
+and they are present universally, including in C.
 
-It is a fairly old driver we are now modernising. We have a set of
-hardware-specific controls for which we have been using
-V4L2_CID_PRIVATE_BASE (0x08000000) as a CID base. We have now
-integrated the driver into the v4l2 control framework and noticed
-that controls that fall into that range are rejected by
-v4l2_ctrl_new_custom(). Specifically, there is a gate in the
-internal helper v4l2_ctrl_new() that rejects any id greater than or
-equal to V4L2_CID_PRIVATE_BASE:
+The only difference is that in C all the responsibility to enforce them is
+usually on the driver -- e.g. by creating, destroying and calling things in=
+ the
+correct order in probe() and remove() -- and a lot of drivers have bugs in =
+this
+regard as a consequence.
 
-    /* Sanity checks */
-    if (id =3D=3D 0 || name =3D=3D NULL || !elem_size ||
-        id >=3D V4L2_CID_PRIVATE_BASE ||
-        (type =3D=3D V4L2_CTRL_TYPE_MENU && qmenu =3D=3D NULL) ||
-        (type =3D=3D V4L2_CTRL_TYPE_INTEGER_MENU && qmenu_int =3D=3D NULL))=
- {
-            handler_set_err(hdl, -ERANGE);
-            return NULL;
-    }
+With Rust we can enforce those rules with the help of the type system at co=
+mpile
+time; device context states are a part of that.
 
-I understand that V4L2_CID_PRIVATE_BASE belongs to the legacy
-model. From looking into uapi/linux/v4l2-controls.h, my current
-understanding is that custom controls should use the User Class
-Base and that drivers can get a dedicated offset within that base,
-e.g.:
+> Similarly, I don't see why Rust needs to distinguish between an=20
+> interface that is bound and one that isn't.
+>
+> Even from the point of view of the device core, a device that is bound=20
+> to a driver is the same kind of data structure as one that isn't bound;=
+=20
+> the only difference is whether the ->driver pointer is set.
 
-    #define V4L2_CID_USER_<MY_DRIVER_NAME>_BASE \
-            (V4L2_CID_USER_BASE + <MY_DRIVER_OFFSET>)
+This is a huge understatement.
 
-> Up-streaming is the path forward.
+The state of a device being bound to a driver defines which entity (i.e. wh=
+ich
+driver) is in charge of operating the underlying device, and thus defines w=
+ho
+owns the device (associated) resources.
 
-We have not made the decision to up-stream the driver yet.
-Is up-streaming a requirement for a driver to reserve an offset within the
-V4L2_CID_USER_BASE in the v4l2-controls.h header?
+Many APIs rely on this, as in they only guarantee valid behavior when calle=
+d
+from a scope where the device is guaranteed to be bound to a driver, or IOW
+where a driver can prove that it actually operates the device.
 
-Thank you,
-Przemyslaw Gajos
-=
+Drivers must only acquire device resources when they are actually bound to =
+the
+corresponding device, and must hand them back before the device is unbound.=
+ The
+devres API, for instance, exists for this fundamental reason.
+
+For instance, we can't have drivers manage IRQs, mess with I/O memory, prog=
+ram
+IOMMU page tables (e.g. through DMA APIs), etc. for devices they are not bo=
+und
+to and hence are not allowed to operate (anymore).
+
+Those device resources all have a lifetime that is tied to the lifetime of =
+the
+device being bound to a driver.
+
+Consequently, any asynchronous scopes such as IOCTLs from class device
+registrations, IRQs, work queued on workqueues, etc. must all be synchroniz=
+ed in
+some way such that those asynchronous scopes do not access device resources=
+ that
+have already been destroyed on driver unbind.
+
+Or in other words, they must be synchronized against the "bound" scope, whi=
+ch is
+exactly what the Device<Bound> type state in Rust represents.
+
+So, again, all those lifetime rules around the driver lifecycle exist
+universally, it's just that in Rust we enforce them through the type system=
+.
+
+For instance, tying it back to USB, we don't want that a usb_driver still m=
+esses
+with a usb_interface, e.g. initiating transfers after it has been unbound f=
+rom
+the interface and hence must not operate it anymore. This can easily happen=
+ if
+e.g. a class device registration is not properly synchronized and the drive=
+r
+still receives IOCTLs after driver unbind. In Rust we know through the "Bou=
+nd"
+type state which scope provides the guarantee that the device is still boun=
+d,
+such that mistakes like this become impossible.
 
