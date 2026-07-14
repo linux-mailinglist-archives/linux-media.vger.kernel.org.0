@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-67530-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67531-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hRJYD0N/VWrlpAAAu9opvQ
-	(envelope-from <linux-media+bounces-67530-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 02:13:55 +0200
+	id jaFUFDGAVWoMpQAAu9opvQ
+	(envelope-from <linux-media+bounces-67531-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 02:17:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7423074FD42
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 02:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEBA74FD4F
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 02:17:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=Anx6hkBP;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67530-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67530-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=jpkzku14;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67531-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67531-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9DE4E304DEA2
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 00:13:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5B7D2302D515
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 00:17:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288881DFFB;
-	Tue, 14 Jul 2026 00:13:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3371819CCF5;
+	Tue, 14 Jul 2026 00:17:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2DE79CD
-	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 00:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D41D184
+	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 00:17:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783988028; cv=none; b=p2Dwjzi28+zBXj4Cm/T3KZ80aBngzPgHUztxG30xJA5o4Rl4rRfVhLtZdZ/4L1Is5emsqSE0QGR4fuyPFBOiIuC8M86rKVl9hAGD0K66BiZoHNkRb9qSXRMoHxVlKgzg6AjHD1GCXwi/XvRHr1snY6VmePt1ueN2YBPn9GqTatA=
+	t=1783988267; cv=none; b=pb5D4CekjItrzwYv3lhNo73Uff7JwVwgZrMZpUAJN2ml/CNe4r8ny13/GMakeEvkiEr5jcigVHZjef2N8vXqW5MrMXTMrEZ9d/rSTaPgwJUkGPx8WSr/q6bwyXZij2skZ+jeNl9uN94NN6lLUwj1Sy0co7QIO3jA7peCI1Jupz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783988028; c=relaxed/simple;
-	bh=+GhOfx/YSoDvZeHGmvEqCoLH41UL5X1KDSWW7CveRh4=;
+	s=arc-20240116; t=1783988267; c=relaxed/simple;
+	bh=XAlGeUdZ25SqZx3pcRzKzyL2pTl8yfbUSjgStgfztIQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SEipQ1B0rlSDgQOnhAT+nDc7y0pt8SQuTAnG8GrdhhNPsR0gHa4JTV5sAN007qS69z+ZpQrZD7pJl2Md82sIxC6Ce721zHFBSaJKrOKuJ8i4mYu6F8mLApJYT4jchqC1C1qWSUKETL1zWiKH2oBSi9891va3F8+mRwoPHFTkAdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Anx6hkBP; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=JjAXrQWpWFpSv5ITkQQIVtP16l66jBBxPgyMeBvcHJ4uj0d9V1EHo9FeXoAiA8YHjiOT95MGXmcjo1P6iBbHUOTJsOX/Kuc9GMq8lC4dEWA/I0+PHO5P8WPEXFYFqtMAwPVy4BcJr1avM8CJfe85DG1Nvt0PMpI4OcwPJzYW2SI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jpkzku14; arc=none smtp.client-ip=213.167.242.64
 Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92A171049;
-	Tue, 14 Jul 2026 02:12:47 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02D6F1049;
+	Tue, 14 Jul 2026 02:16:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1783987967;
-	bh=+GhOfx/YSoDvZeHGmvEqCoLH41UL5X1KDSWW7CveRh4=;
+	s=mail; t=1783988209;
+	bh=XAlGeUdZ25SqZx3pcRzKzyL2pTl8yfbUSjgStgfztIQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Anx6hkBPt22ZVxYkpHrUG1YokGulSUfS5yH8vgVO8xa3rJvx118AqEIgzWKjOx9sz
-	 MJPiWv9CXxN6YGcXD+pMhW8vjf2zaGHGIkYKsavtHqQq4WiMs9NQndEIqGaK2I9KCb
-	 OSkpZTb2TYR/GsMUSSjUf3MhYmqocqAHoJJOjdj8=
-Date: Tue, 14 Jul 2026 03:13:40 +0300
+	b=jpkzku14kNNHIscQNixqEe07wU7kIfyQq+zRHXKlg3MmGIKSChgRwguFLbbBedM9o
+	 yxSoHzukq1hXLacWlBO9NE85R+q7HShx5ys1qaqJzoLISMKOXUJImVkalw2GvBw8TY
+	 jWWPJILtC9TSI9CbtSFnYNFsSieA7AIvANGGjUdU=
+Date: Tue, 14 Jul 2026 03:17:41 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jai Luthra <jai.luthra@ideasonboard.com>
 Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -59,11 +59,11 @@ Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Daniel Scally <dan.scally@ideasonboard.com>,
 	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/8] platform/raspberrypi: vchiq-mmal: Move headers to
- include/linux
-Message-ID: <20260714001340.GK1127719@killaraus.ideasonboard.com>
+Subject: Re: [PATCH v2 6/8] media: platform: broadcom: Move unicam driver to
+ subdir
+Message-ID: <20260714001741.GA1573511@killaraus.ideasonboard.com>
 References: <20260210-b4-vchiq-isp-v2-0-4403944152fe@ideasonboard.com>
- <20260210-b4-vchiq-isp-v2-1-4403944152fe@ideasonboard.com>
+ <20260210-b4-vchiq-isp-v2-6-4403944152fe@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,23 +72,23 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260210-b4-vchiq-isp-v2-1-4403944152fe@ideasonboard.com>
+In-Reply-To: <20260210-b4-vchiq-isp-v2-6-4403944152fe@ideasonboard.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67530-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67531-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:florian.fainelli@broadcom.com,m:tfiga@chromium.org,m:m.szyprowski@samsung.com,m:mchehab@kernel.org,m:kernel-list@raspberrypi.com,m:kieran.bingham@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:naush@raspberrypi.com,m:wahrenst@gmx.net,m:jacopo.mondi@ideasonboard.com,m:dan.scally@ideasonboard.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	FREEMAIL_CC(0.00)[broadcom.com,chromium.org,samsung.com,kernel.org,raspberrypi.com,ideasonboard.com,gmx.net,vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:florian.fainelli@broadcom.com,m:tfiga@chromium.org,m:m.szyprowski@samsung.com,m:mchehab@kernel.org,m:kernel-list@raspberrypi.com,m:kieran.bingham@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:naush@raspberrypi.com,m:wahrenst@gmx.net,m:jacopo.mondi@ideasonboard.com,m:dan.scally@ideasonboard.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -106,131 +106,135 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:from_mime,ideasonboard.com:email,ideasonboard.com:dkim,killaraus.ideasonboard.com:mid,raspberrypi.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7423074FD42
+X-Rspamd-Queue-Id: 9AEBA74FD4F
 
-On Tue, Feb 10, 2026 at 01:51:18PM +0530, Jai Luthra wrote:
-> Now that VCHIQ interface is destaged, different drivers (like ISP or
-> codec) no longer live under the same tree as VCHIQ MMAL, but in their
-> relevant trees like media or audio.
+On Tue, Feb 10, 2026 at 01:51:23PM +0530, Jai Luthra wrote:
+> The BCM283x/BCM2711x SoCs capture camera frames using CSI-2, and
+> optionally processes the raw frames using a VC4 firmware based ISP
+
+s/processes/process/
+s/firmware based/firmware-based/
+
+> block.
 > 
-> Enable access to VCHIQ headers for such drivers by moving these headers
-> under include/linux/raspberrypi with other VCHIQ related headers.
-
-s/VCHIQ/VCHIQ MMAL/ twice in this paragraph.
-
-> While at it, add the missing videobuf2-v4l2.h include to mmal-common.h
-> as it references struct vb2_v4l2_buffer.
-
-mmal-common.h should also include list.h and types.h. I'd move all that
-to a separate patch.
-
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> As the driver for the ISP will be added subsequently, to ease
+> distinction between the two drivers' files, move the files related to
+> the unicam driver to a separate subdirectory.
+> 
 > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
-> Changes in v2:
-> - Explain the addition of videobuf2-v4l2.h in the commit message
-> - Add Kieran's R-by
-> - No code change
-> ---
->  MAINTAINERS                                                      | 1 +
->  drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c             | 9 ++++-----
->  .../vchiq-mmal => include/linux/raspberrypi}/mmal-common.h       | 2 ++
->  .../vchiq-mmal => include/linux/raspberrypi}/mmal-encodings.h    | 0
->  .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-common.h   | 0
->  .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-format.h   | 0
->  .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-port.h     | 0
->  .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg.h          | 0
->  .../vchiq-mmal => include/linux/raspberrypi}/mmal-parameters.h   | 0
->  .../vchiq-mmal => include/linux/raspberrypi}/mmal-vchiq.h        | 0
->  10 files changed, 7 insertions(+), 5 deletions(-)
+>  MAINTAINERS                                        |  2 +-
+>  drivers/media/platform/broadcom/Kconfig            | 22 ++-------------------
+>  drivers/media/platform/broadcom/Makefile           |  2 +-
+>  .../media/platform/broadcom/bcm2835-unicam/Kconfig | 23 ++++++++++++++++++++++
+>  .../platform/broadcom/bcm2835-unicam/Makefile      |  3 +++
+>  .../{ => bcm2835-unicam}/bcm2835-unicam-regs.h     |  0
+>  .../broadcom/{ => bcm2835-unicam}/bcm2835-unicam.c |  0
+>  7 files changed, 30 insertions(+), 22 deletions(-)
 > 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9bb9943fe3deba7fd27f745b6fb2e0b10daf34cb..34f779679f1d0eff4cfbdc2533db153fb5f8fe2e 100644
+> index 34f779679f1d0eff4cfbdc2533db153fb5f8fe2e..e9e8e735ecb2057581345fb7faad6608849fc3bf 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -4931,6 +4931,7 @@ F:	Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
->  F:	drivers/pci/controller/pcie-brcmstb.c
->  F:	drivers/platform/raspberrypi/vchiq-*
->  F:	drivers/staging/vc04_services
-> +F:	include/linux/raspberrypi/mmal*
->  F:	include/linux/raspberrypi/vchiq*
->  N:	bcm2711
->  N:	bcm2712
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
-> index a228098d8cc0af5d5900b92b2847a1626a6d599c..3ead81dd2d0f48be7a5dd87256c38d6ba0dbcd0e 100644
-> --- a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
-> +++ b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
-> @@ -22,17 +22,16 @@
->  #include <linux/mm.h>
->  #include <linux/slab.h>
->  #include <linux/completion.h>
-> +#include <linux/raspberrypi/mmal-common.h>
-> +#include <linux/raspberrypi/mmal-parameters.h>
-> +#include <linux/raspberrypi/mmal-vchiq.h>
-> +#include <linux/raspberrypi/mmal-msg.h>
->  #include <linux/raspberrypi/vchiq.h>
->  #include <linux/raspberrypi/vchiq_arm.h>
->  #include <linux/raspberrypi/vc_sm_knl.h>
->  #include <linux/vmalloc.h>
->  #include <media/videobuf2-vmalloc.h>
+> @@ -4956,7 +4956,7 @@ M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> -F:	drivers/media/platform/broadcom/bcm2835-unicam*
+> +F:	drivers/media/platform/broadcom/bcm2835-unicam/*
 >  
-> -#include "mmal-common.h"
-> -#include "mmal-parameters.h"
-> -#include "mmal-vchiq.h"
-> -#include "mmal-msg.h"
+>  BROADCOM BCM47XX MIPS ARCHITECTURE
+>  M:	Hauke Mehrtens <hauke@hauke-m.de>
+> diff --git a/drivers/media/platform/broadcom/Kconfig b/drivers/media/platform/broadcom/Kconfig
+> index 32b76ebfcd9a194e285381fc4f1d0fbac7d62b4d..cab44885182ce658fa136e31485913b1f0547968 100644
+> --- a/drivers/media/platform/broadcom/Kconfig
+> +++ b/drivers/media/platform/broadcom/Kconfig
+> @@ -1,23 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  
+> -config VIDEO_BCM2835_UNICAM
+> -	tristate "Broadcom BCM283x/BCM271x Unicam video capture driver"
+> -	depends on ARCH_BCM2835 || COMPILE_TEST
+> -	depends on COMMON_CLK && PM
+> -	depends on VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select V4L2_FWNODE
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select VIDEOBUF2_DMA_CONTIG
+> -	help
+> -	  Say Y here to enable support for the BCM283x/BCM271x CSI-2 receiver.
+> -	  This is a V4L2 driver that controls the CSI-2 receiver directly,
+> -	  independently from the VC4 firmware.
+> +comment "Broadcom BCM283x/BCM271x media platform drivers"
+>  
+> -	  This driver is mutually exclusive with the use of bcm2835-camera. The
+> -	  firmware will disable all access to the peripheral from within the
+> -	  firmware if it finds a DT node using it, and bcm2835-camera will
+> -	  therefore fail to probe.
 > -
->  /*
->   * maximum number of components supported.
->   * This matches the maximum permitted by default on the VPU
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h b/include/linux/raspberrypi/mmal-common.h
-> similarity index 97%
-> rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
-> rename to include/linux/raspberrypi/mmal-common.h
-> index 6c5092a68b99594a0234f56b48b785fbc611bf5a..e7f065c539bcae7480a8dc2000d2a1e4cec7883c 100644
-> --- a/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
-> +++ b/include/linux/raspberrypi/mmal-common.h
-> @@ -16,6 +16,8 @@
->  #ifndef MMAL_COMMON_H
->  #define MMAL_COMMON_H
+> -	  To compile this driver as a module, choose M here. The module will be
+> -	  called bcm2835-unicam.
+> +source "drivers/media/platform/broadcom/bcm2835-unicam/Kconfig"
+> diff --git a/drivers/media/platform/broadcom/Makefile b/drivers/media/platform/broadcom/Makefile
+> index 03d2045aba2e4dd8989ca35a23e1be4ea1811787..33a89bdb0029bc67d90d16bc0910a681b7675ad7 100644
+> --- a/drivers/media/platform/broadcom/Makefile
+> +++ b/drivers/media/platform/broadcom/Makefile
+> @@ -1,3 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0
 >  
-> +#include <media/videobuf2-v4l2.h>
+> -obj-$(CONFIG_VIDEO_BCM2835_UNICAM) += bcm2835-unicam.o
+> +obj-y += bcm2835-unicam/
+> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam/Kconfig b/drivers/media/platform/broadcom/bcm2835-unicam/Kconfig
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..32b76ebfcd9a194e285381fc4f1d0fbac7d62b4d
+> --- /dev/null
+> +++ b/drivers/media/platform/broadcom/bcm2835-unicam/Kconfig
+> @@ -0,0 +1,23 @@
+> +# SPDX-License-Identifier: GPL-2.0
 > +
->  #define MMAL_FOURCC(a, b, c, d) ((a) | (b << 8) | (c << 16) | (d << 24))
->  #define MMAL_MAGIC MMAL_FOURCC('m', 'm', 'a', 'l')
->  
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h b/include/linux/raspberrypi/mmal-encodings.h
+> +config VIDEO_BCM2835_UNICAM
+> +	tristate "Broadcom BCM283x/BCM271x Unicam video capture driver"
+> +	depends on ARCH_BCM2835 || COMPILE_TEST
+> +	depends on COMMON_CLK && PM
+> +	depends on VIDEO_DEV
+> +	select MEDIA_CONTROLLER
+> +	select V4L2_FWNODE
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	help
+> +	  Say Y here to enable support for the BCM283x/BCM271x CSI-2 receiver.
+> +	  This is a V4L2 driver that controls the CSI-2 receiver directly,
+> +	  independently from the VC4 firmware.
+> +
+> +	  This driver is mutually exclusive with the use of bcm2835-camera. The
+> +	  firmware will disable all access to the peripheral from within the
+> +	  firmware if it finds a DT node using it, and bcm2835-camera will
+> +	  therefore fail to probe.
+> +
+> +	  To compile this driver as a module, choose M here. The module will be
+> +	  called bcm2835-unicam.
+> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam/Makefile b/drivers/media/platform/broadcom/bcm2835-unicam/Makefile
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..03d2045aba2e4dd8989ca35a23e1be4ea1811787
+> --- /dev/null
+> +++ b/drivers/media/platform/broadcom/bcm2835-unicam/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +obj-$(CONFIG_VIDEO_BCM2835_UNICAM) += bcm2835-unicam.o
+> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam-regs.h b/drivers/media/platform/broadcom/bcm2835-unicam/bcm2835-unicam-regs.h
 > similarity index 100%
-> rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h
-> rename to include/linux/raspberrypi/mmal-encodings.h
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h b/include/linux/raspberrypi/mmal-msg-common.h
+> rename from drivers/media/platform/broadcom/bcm2835-unicam-regs.h
+> rename to drivers/media/platform/broadcom/bcm2835-unicam/bcm2835-unicam-regs.h
+> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam/bcm2835-unicam.c
 > similarity index 100%
-> rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h
-> rename to include/linux/raspberrypi/mmal-msg-common.h
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h b/include/linux/raspberrypi/mmal-msg-format.h
-> similarity index 100%
-> rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h
-> rename to include/linux/raspberrypi/mmal-msg-format.h
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h b/include/linux/raspberrypi/mmal-msg-port.h
-> similarity index 100%
-> rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h
-> rename to include/linux/raspberrypi/mmal-msg-port.h
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h b/include/linux/raspberrypi/mmal-msg.h
-> similarity index 100%
-> rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h
-> rename to include/linux/raspberrypi/mmal-msg.h
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h b/include/linux/raspberrypi/mmal-parameters.h
-> similarity index 100%
-> rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h
-> rename to include/linux/raspberrypi/mmal-parameters.h
-> diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h b/include/linux/raspberrypi/mmal-vchiq.h
-> similarity index 100%
-> rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h
-> rename to include/linux/raspberrypi/mmal-vchiq.h
+> rename from drivers/media/platform/broadcom/bcm2835-unicam.c
+> rename to drivers/media/platform/broadcom/bcm2835-unicam/bcm2835-unicam.c
 
 -- 
 Regards,
