@@ -1,168 +1,188 @@
-Return-Path: <linux-media+bounces-67568-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67569-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id MBgkCMxBVmpD2QAAu9opvQ
-	(envelope-from <linux-media+bounces-67568-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 16:03:56 +0200
+	id Pj64HB9CVmpQ2QAAu9opvQ
+	(envelope-from <linux-media+bounces-67569-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 16:05:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADEF755772
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 16:03:54 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D0975579E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 16:05:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=fQYhA4+L;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67568-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67568-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Oqi9Xb0m;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67569-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67569-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 37B1630A6240
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 14:00:38 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BDA8830090A6
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 14:05:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87DE4477986;
-	Tue, 14 Jul 2026 14:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CA2A47D920;
+	Tue, 14 Jul 2026 14:05:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F4B36C9C0;
-	Tue, 14 Jul 2026 14:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E0C47D92D
+	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 14:05:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784037636; cv=none; b=aMVZOYpXHoyCdqZvpdHysastTC53zoZfL9q1UEWL3ErfU7uQG4B0eSrA0PfZ8PH1tr4JMCc3M7LMIPqe+F5XRkQzGThQ1FiFzL6TTyvQiydIMJbe3T0LZBR7bHem/TzuZkVDbr4F0ubQuLj8RBcuXXp7a68lWhSjxqQA5H52sX0=
+	t=1784037908; cv=none; b=RV/K9OCgiXsjr1yR+s+QORvoFx3CCVGB6wGCetQIyWPQeH9NBbwitpMlZnT1Coz2c9iKzkL776o8s0GrX1r5NLaYkR87ZyM4a5ly393gnIM/J+pu3B/qjTI1895eRFZo8IjWseH7W98Ucx5L398X7ExErQihd9RyIA3XFdPrzwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784037636; c=relaxed/simple;
-	bh=JlTtuTgyttUoJX1tzSz3FCb8u2Xjs4nbU6LV982KfNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bmCer+JZfsQVluQKIUX9Kcn7VxmPlY/5KQk+oKVaiQUBSIO5KKlp6XQ1iXph37FznwxeRMKHHXNvp7crJS9q9xbbxSLnVkUceHQauwfOdm1gAH9KwreaLrrCkA2I2SY1GUjfUt96RKC9t6+vW17vxMPk3kSILMZEggw1NLWyR+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQYhA4+L; arc=none smtp.client-ip=192.198.163.18
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784037634; x=1815573634;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JlTtuTgyttUoJX1tzSz3FCb8u2Xjs4nbU6LV982KfNo=;
-  b=fQYhA4+LarETgrVfmE1QOP1+S17OQlzm5Wxa/4vgky9bCtdmzi5sIUIW
-   2zHdDejDa8cnxaieTNJickMQwB1OyVIHuLwo7WXvJmbcU1gAzcbzHQE/G
-   gu356fcD6Jt7ECeZ3kpCn2w9xpViZE418lsPi5wHcRRriwAmY29Gp2sww
-   PUG2Hm9WHagwV4w/cVkpkVzdhXj5oiMMIjqE79Qbm6noH3ioyk7JOzZij
-   pHxArxP9FnwMdyjV1jUJyAAhQmf9h3BZXyWuSLuIheM5Rb2le/ndVSzuZ
-   PKdOAF+wu0LgvedTCjXGXZkBiOB7idCsFQORMgBDsAmKffknhA7nrLXNq
-   Q==;
-X-CSE-ConnectionGUID: TiUgVMlLTpCTVsctFbDeog==
-X-CSE-MsgGUID: d0F/3Y40Qb6aK9FkPRmdeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="83781030"
-X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
-   d="scan'208";a="83781030"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 07:00:34 -0700
-X-CSE-ConnectionGUID: z8g/5vJ7ROme4zo2zAVSAQ==
-X-CSE-MsgGUID: 4ZauGFZWRNeP3PVTEl3ffw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
-   d="scan'208";a="260764911"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Jul 2026 07:00:32 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wjdgT-00000000Mh2-258m;
-	Tue, 14 Jul 2026 14:00:29 +0000
-Date: Tue, 14 Jul 2026 21:59:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alfie Varghese <alfievarghese22@gmail.com>, neil.armstrong@linaro.org,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alfie Varghese <alfievarghese22@gmail.com>
-Subject: Re: [PATCH v2] staging: media: meson: vdec: fix advanced concurrency
- and UAF bugs
-Message-ID: <202607142142.HnOYDndp-lkp@intel.com>
-References: <20260713181602.773-1-alfievarghese22@gmail.com>
+	s=arc-20240116; t=1784037908; c=relaxed/simple;
+	bh=ggzyTfjEV0/9dpcpFtZ9kFFL7YcUs8Yp4tvAlAGWUbI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VNtVWqe85yZq7WvZ3SFeWqMVLJSNzCzkVwRns6sSvvSpvQ1qVR1iWGl6oVz/LOaEKa79zGkStYUkGDJrZocKMzhxK0a8DnvBDB7cuE9xdzEm1CXeBZE030Q/aBDXTMZwCPl82ql6pHuMY1PmvcCTSlI6shNqv2WGkbWnAIXHYbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oqi9Xb0m; arc=none smtp.client-ip=209.85.216.52
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-382ef647e20so3989857a91.1
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 07:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784037905; x=1784642705; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bCS+xhHigKk4Qit1FS738ySqpbHn6h48fVzGRxbPZzk=;
+        b=Oqi9Xb0mI9qJrKIlNLfPx3ICZTOSNkSHZw03S8Qtn3hSl2piXUqtyg99DpaSp/kCOZ
+         gfiAQBtrHshJs4v9LBTxXElaivLFqJG0WKJjSN+aKU7aNSeA/vNwG7sRRWjsxK7Un450
+         iIWJ5/5yywMccfJnr+R3lkxXQl/e7KivjZ0NnmwlPAWc+EDZ4aM5uftvZpzQVjYGp1Xr
+         K5SmIK+5Yy1MArmc6YXYPqk7naVbsl/alJIzrrkTJO8Yxc6R5lC551CnoZ28uv10eGe+
+         ykMt616zKlochXVV/in/eMd2GFUXx9/R4kDyHywPIDOW9LJJYu1fJycwmnZ82yKcosdv
+         sc9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784037905; x=1784642705;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bCS+xhHigKk4Qit1FS738ySqpbHn6h48fVzGRxbPZzk=;
+        b=Pq6RcrQbuVjsqp2dPQASPqhpLy6VnAWs/C5GOVr1C+rSL7nkFHFhB3p0JRWCffNsz6
+         vkqaNqHsb/lsN4pPr4hpaAWX5Kr8HVflBxbGqcgzpQP/F7k1K9i2aOqMrAzxdJGqTQay
+         4FTmN/Dsn5MLMg+brHHOXePd8ldQeCb2lp9ssvQgRFta3uGB00DpQUvJQumgFXsg+dao
+         SsbcQzFHDX3OHkGzVe2xQWxmby+98XDlNXmRfQjxx5BA0ib556Prdf76V+xhKwP2+ZmG
+         B0tcELmPnaZCLF2MSZJKKgsx1Db0fulwMhd0TJZvCEjRkSk0pakOYfMd75q5v8pT3AXT
+         Zy/Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rpnx0HocVwE/p0en8eZgKqaU9xmgvCS2FC1JkHNOkB1ccDTF3T2B1q/tfDNvffACoGgDwCzPKhj9qImLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxgjXPIghvgugx2ViJq5OfNcSnbgO3w33jMo6gPGcf7KAQrvdt
+	a2wZ1qb/R9F3xsfiWn4vpeTD6dgB6MSxF/RNL7zUS80xIR+EvIxqyxuUOZebH/DF
+X-Gm-Gg: AfdE7cm6J81MyrpszTZWSeVCwavYkatLilzW+CtDbI8UtZsjAYi2X/PXp0NxDiU4R+J
+	73IW1teha0ehrcrN4SCJFPOaFr7Unw7SE6yXzrmsZ/rQt/QXWq8ci2ZTDPZzhEEJijsIyBe8SHb
+	iJwf5l4lz2Sc8Vqkag/kyOLbuuFLLtNRletVeM3rKWmoeheQoq8A62sDhErG5rTYu3HJtKhgBqt
+	cCY7pZ2xfnrm8/Uy29l4je3aDCxKmzNRgm0ZJ+igDDh+7DAdKje39MRRD65oO1jPpA8aZp2ztP8
+	uj0cQTKkoSRJfiQw/VApczdjamteXH36DdwFNIvdxQbdB/TbSe+Ibw+jj5Sf9e0AY1sNNUykKMk
+	3CWOXj+AMfjzg1zhoVCaXRF9ETiePVVFQXxUojFECqq+onHYlDDjy6dIusqSeexxFqiSNnohwm7
+	Tb9Rrm3EWxQbUq63AVR8tm2/pTzHmJMeITPltxVnyzOkeAhzedRVfRIv+PbD4IRxJ4r39ybIq/Z
+	+8PQ++T558qs7W6bE1GEymseJ2QkStCDOagqshE/dKywVo=
+X-Received: by 2002:a17:90b:3c8a:b0:381:5bd6:eb19 with SMTP id 98e67ed59e1d1-38dc7605e7dmr12912747a91.18.1784037904733;
+        Tue, 14 Jul 2026 07:05:04 -0700 (PDT)
+Received: from OMEN ([103.184.238.250])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ac14f2sm86964943eec.27.2026.07.14.07.05.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 07:05:04 -0700 (PDT)
+From: Alfie Varghese <alfievarghese22@gmail.com>
+To: neil.armstrong@linaro.org
+Cc: gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	dan.carpenter@linaro.org,
+	error27@gmail.com,
+	alfievarghese22@gmail.com
+Subject: [PATCH v2] staging: media: meson: vdec: propagate devm_clk_get() errors
+Date: Tue, 14 Jul 2026 19:34:58 +0530
+Message-ID: <20260714140458.1276-1-alfievarghese22@gmail.com>
+X-Mailer: git-send-email 2.54.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260713181602.773-1-alfievarghese22@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67568-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[lists.linux.dev,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linaro.org,linuxfoundation.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	FORGED_SENDER(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,vger.kernel.org,lists.linux.dev,lists.infradead.org,linaro.org,gmail.com];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67569-lists,linux-media=lfdr.de];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:dan.carpenter@linaro.org,m:error27@gmail.com,m:alfievarghese22@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[alfievarghese22@gmail.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:alfievarghese22@gmail.com,m:neil.armstrong@linaro.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:oe-kbuild-all@lists.linux.dev,s:lists@lfdr.de];
+	FROM_NEQ_ENVFROM(0.00)[alfievarghese22@gmail.com,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RSPAMD_EMAILBL_FAIL(0.00)[alfievarghese22@gmail.com:query timed out];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:from_mime,intel.com:mid,intel.com:email,intel.com:dkim,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,01.org:url]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CADEF755772
+X-Rspamd-Queue-Id: 57D0975579E
 
-Hi Alfie,
+vdec_probe() hardcodes -EPROBE_DEFER for all devm_clk_get() failures.
+This masks the actual error code returned by the clock framework, such
+as -ENOENT when a clock is not registered or -ENOMEM on allocation
+failure.
 
-kernel test robot noticed the following build errors:
+Return PTR_ERR() instead to propagate the real error to the caller.
 
-[auto build test ERROR on staging/staging-testing]
+Fixes: 4f75e7dfa6dc ("media: meson: vdec: add driver")
+Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
+---
+ drivers/staging/media/meson/vdec/vdec.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alfie-Varghese/staging-media-meson-vdec-fix-advanced-concurrency-and-UAF-bugs/20260714-023427
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260713181602.773-1-alfievarghese22%40gmail.com
-patch subject: [PATCH v2] staging: media: meson: vdec: fix advanced concurrency and UAF bugs
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260714/202607142142.HnOYDndp-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607142142.HnOYDndp-lkp@intel.com/reproduce)
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index a039d925c0fe..fba1e7f88d81 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -1026,24 +1026,24 @@ static int vdec_probe(struct platform_device *pdev)
+ 	    core->platform->revision == VDEC_REVISION_SM1) {
+ 		core->vdec_hevcf_clk = devm_clk_get(dev, "vdec_hevcf");
+ 		if (IS_ERR(core->vdec_hevcf_clk))
+-			return -EPROBE_DEFER;
++			return PTR_ERR(core->vdec_hevcf_clk);
+ 	}
+ 
+ 	core->dos_parser_clk = devm_clk_get(dev, "dos_parser");
+ 	if (IS_ERR(core->dos_parser_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->dos_parser_clk);
+ 
+ 	core->dos_clk = devm_clk_get(dev, "dos");
+ 	if (IS_ERR(core->dos_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->dos_clk);
+ 
+ 	core->vdec_1_clk = devm_clk_get(dev, "vdec_1");
+ 	if (IS_ERR(core->vdec_1_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->vdec_1_clk);
+ 
+ 	core->vdec_hevc_clk = devm_clk_get(dev, "vdec_hevc");
+ 	if (IS_ERR(core->vdec_hevc_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->vdec_hevc_clk);
+ 
+ 	irq = platform_get_irq_byname(pdev, "vdec");
+ 	if (irq < 0)
+-- 
+2.54.0.windows.1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607142142.HnOYDndp-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/staging/media/meson/vdec/vdec.c: In function 'vdec_m2m_job_abort':
->> drivers/staging/media/meson/vdec/vdec.c:156:33: error: 'struct amvdec_session' has no member named 'm2m_dev'
-     156 |         v4l2_m2m_job_finish(sess->m2m_dev, sess->m2m_ctx);
-         |                                 ^~
-
-
-vim +156 drivers/staging/media/meson/vdec/vdec.c
-
-3e7f51bd96077ac Maxime Jourdan 2019-06-06  151  
-3e7f51bd96077ac Maxime Jourdan 2019-06-06  152  static void vdec_m2m_job_abort(void *priv)
-3e7f51bd96077ac Maxime Jourdan 2019-06-06  153  {
-3e7f51bd96077ac Maxime Jourdan 2019-06-06  154  	struct amvdec_session *sess = priv;
-3e7f51bd96077ac Maxime Jourdan 2019-06-06  155  
-3e7f51bd96077ac Maxime Jourdan 2019-06-06 @156  	v4l2_m2m_job_finish(sess->m2m_dev, sess->m2m_ctx);
-3e7f51bd96077ac Maxime Jourdan 2019-06-06  157  }
-3e7f51bd96077ac Maxime Jourdan 2019-06-06  158  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
