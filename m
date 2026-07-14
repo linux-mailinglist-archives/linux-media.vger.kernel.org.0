@@ -1,184 +1,163 @@
-Return-Path: <linux-media+bounces-67547-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67548-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cF+jAkTzVWrnwgAAu9opvQ
-	(envelope-from <linux-media+bounces-67547-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 10:28:52 +0200
+	id uGhWLtn/VWq3xgAAu9opvQ
+	(envelope-from <linux-media+bounces-67548-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 11:22:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F98D752637
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 10:28:51 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD14A752CBD
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 11:22:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=ep5NBuq9;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67547-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-67547-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=JlMpiiPu;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67548-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67548-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D570F300A33D
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 08:28:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 858C830148E7
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 09:22:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C130404BF7;
-	Tue, 14 Jul 2026 08:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54BF643E9FF;
+	Tue, 14 Jul 2026 09:22:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C3D3F9F51;
-	Tue, 14 Jul 2026 08:28:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4773F43D4FB
+	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 09:22:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784017722; cv=none; b=JMEIsR8Ir1Tp30hyBq90p3ukoJdhliuXsOJPhKB0Y+EDtfrr2IHruhR47nG0JvWXV0E4/8/80mE+iq8LvguRW6bWrm+pI27oH/uQo97BdX53jQ2P06flt4JNy45Bv/+7tHZfInvgMnQXyKNWHrhFGOyThROzoMosT35Tmq84R8s=
+	t=1784020929; cv=none; b=RM5GKlP1mWzzb3y1wmQdw+MR4Gm9SL0hy6HUoAL5c5zbAHhNbV1WszuxuSk2GAnaLwkvyJcm2IpTtiJqNbCxcvnDPc6iT3AzWr07fqYQhSnuXWp1WY5B8pm3+tW1K0s/ugbY5pDRRY+OGZ8htQsDziHcltQq2+b5qNil58l/Dqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784017722; c=relaxed/simple;
-	bh=Qmk/zcQuiUWy/lQsND7Tk1pGYfzrXjw+QtefMWJZBa0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FVNwhDzFzVS0j1GNhvYqwC/lkthAO1VKth4i8CqqXFFF7JxXCVQU7PgZ7YNt7B7xqcS1CwWlunvoPO3qXiKEKu41NrVUzl6TYV2cHtKooPdLu6y8lqizA0JaOyaqO7VAJitCULEx1IJ1fqO/D2ItoOxEW62jkO75DAPjqU2QIbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ep5NBuq9; arc=none smtp.client-ip=192.198.163.18
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784017716; x=1815553716;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Qmk/zcQuiUWy/lQsND7Tk1pGYfzrXjw+QtefMWJZBa0=;
-  b=ep5NBuq91hK40pWy8LFnBSlReaToQlsj5cmjsGsxG30WNITOfQ3sAqLz
-   xAeNhi9ycze7+33bra8gwOLggLup+1ua29Az5AVEOez4To0ZSIeXW1/FA
-   TiRpEryDCCFedhdn+AWSL3Q9+yXCqtcpytyvQdLMMiTyxaqwfIr4Dl5ij
-   pqV1VUzPyFC5aygc4p+NilK/PMXYk6hX5GAudICmSpe/4/PjzVJo2W7wh
-   IlfH5nAEJG59qDJdk5JC/Qz3oleyhWpDnfFlCbxI7J6eSigAQgUO3BgcP
-   qr8Vij4r5j9dbUnlB6eP761He5o1MeJrS0pCKeYWYt9D6+20W8NodFkyn
-   Q==;
-X-CSE-ConnectionGUID: d/A+tXcESRWZOSaxUTVWoQ==
-X-CSE-MsgGUID: /XmZPlOcQKGH1dSNsigzNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="83756698"
-X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
-   d="scan'208";a="83756698"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 01:28:30 -0700
-X-CSE-ConnectionGUID: 5CA7uqEQSN2BkbZL+OyBOg==
-X-CSE-MsgGUID: NU28rdnOReedPWyNMDjJ1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
-   d="scan'208";a="254668704"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.245])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 01:28:28 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id DF3DC11F8D1;
-	Tue, 14 Jul 2026 11:28:25 +0300 (EEST)
-Date: Tue, 14 Jul 2026 11:28:25 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-Cc: linux-media@vger.kernel.org, tarang.raval@siliconsignals.io,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Xiaolei Wang <xiaolei.wang@windriver.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] media: i2c: imx412: Convert to CCI register
- access helpers
-Message-ID: <alXzKeKnDPk99Y5m@kekkonen.localdomain>
-References: <20260316090059.121605-1-elgin.perumbilly@siliconsignals.io>
- <20260316090059.121605-2-elgin.perumbilly@siliconsignals.io>
+	s=arc-20240116; t=1784020929; c=relaxed/simple;
+	bh=W8OT6ovmAQkwBwCI5qoFSNzG+sz1ik3/qbazlMkp4fM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tOeFzbP+H3TZsLh/ACIlQmFj2LKjoj+N3RwUnlGNRpKnXUX2OJfN7ViS1ssYjpr/N9kvzrwC4MSTLTD/UfZgjcMHyq0Q5EFMS/rzj/Tj7EOu+/MNFTZieLP684lXrlNTtXjW2w+65guVa7nLwfW+TG94sWbaHcszjmeNsHWqg74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JlMpiiPu; arc=none smtp.client-ip=209.85.221.49
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47d6c634f45so2210026f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 02:22:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784020926; x=1784625726; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ersi/mYvINkBI2FWvIZV+GjZx0POxK8U4eXz4ZcSu2s=;
+        b=JlMpiiPuB/c2oZZrBc95DV5SlirlC+vI33zg0SPOc/HulQ6PRfzknxCCkoafPIpvrP
+         /EJj/1KtO89mjrSwAg804DK5vh0COyxGNwuawFtnFZ7KMBigbh7Zzl57kK43Uc+sUCpE
+         GCcqSMQeeV9CRff6mbMZEH7sAKA5t6q/8IcQVSdLwXCGd07VBWMpDWIVtj2UX6ZZVhsX
+         0NgcdbBMpU5zzjkqiMRgF/+NQWG+NLTSjvp/R3LTfmwft2KTKXT4bD3XsaWvDLQ9qOGc
+         i61iRKqNiiAd7ancftpI04EnANyP1jtq9AboinBkMGpTe2fYXFve0PE4fjxU28iAycwY
+         oXWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784020926; x=1784625726;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ersi/mYvINkBI2FWvIZV+GjZx0POxK8U4eXz4ZcSu2s=;
+        b=cL9k2ayXtzTC8XhPjLArSBlaksvYtq/1KDM3UQ/yygQgBIp1doxikX82OZ5E72oOC3
+         6xPVIU3CsOtiC6GLoV8kYWgwudOs8tnWqnnC7tN1RT8fWKYAlf8FNSsWqXkm2CkNAAjl
+         rvZMdUkUq7mHP3ekdfMFl69MElcB1ucVJHlzEi5Sgzudei4KNbOfCeu210+zsZtmP8HT
+         ujFCYoEFnmwGtZFJkgl8tGq58DBC4zrn+rRH//zINmi+zolpvNuFpR7MbjN1POdJwZdm
+         8ycQYcuvk7kc+cE86RZCt6DuogdV/gQ5kowYSjV8uT/aSUut5G1kyoTFbU/kbs0/YEQj
+         yoqQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqmEh+zY85aFc1VBUrc+l73+JzRuz4WJ6b4nZksalhBlYFC0Vgrbsu+rLwxihY8Vx+lOpQLbeBX07UBtg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw70gMtRJTtXLu4yTqy9Q7c3D5X+5+837uFIBLkiPntnDAM6lxf
+	1NOjKyWAJnrMuw6oCnBnW591PY9w/9DXXoqzlZuu3nDzi6jTHPDef4ec
+X-Gm-Gg: AfdE7cknh8ncCbB8tcTFmeQyPo9yojk3xcMir8a44OhKcErxxIGLMYuN/bgecJjz1Tw
+	kuI7YmOUceqmQQVulk8mydxSBGlY/QAfNqbPEwsQzx9uyTZZof56hFZitkIKDQxEeiC46ZfVkx/
+	gHRj5yf8rE8z4jtxf74d54TqQb6/K2JRMGJdxc13vo1V3ai+s3Wc7u5joLDXE9Wi5ccLg/eneib
+	QobpgWQ9VD8ySpp9Yctl/B44Mr7orMCVR58tR2Bb8HjXI9a+hAvj5jfUWxTyaXhiS+gMvnahsj/
+	ifyrWQAPoynBHQ8STTURgY8HQHDI0+m4sBxQvy9aTgHxz1W5CZY67sARy8QwObwKJjmTcWdIB9N
+	2NLW7FFTlJ6MpLqhX72Y9CVAMHOh/O5v93AH9Ed82Iz759N6yDssWWzRKDXMvwyzLEUPrmks4+W
+	uJbqyKtRKOHF8tl7kbCtr8mXfaIqk00HZEomCfc4Bjs/2+ukeaNxIuRaahkrzm6MhKqGKinwQIi
+	hryutTBTzOa/l7Z6wWDZ9KGBu7gOpkSEGA+cWc8B7kGuw==
+X-Received: by 2002:adf:e186:0:b0:475:6c34:2120 with SMTP id ffacd0b85a97d-47f4887dd78mr2004457f8f.18.1784020926324;
+        Tue, 14 Jul 2026 02:22:06 -0700 (PDT)
+Received: from [192.168.0.207] (nat-wifi0.uniroma3.it. [193.204.167.180])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f476e9d02sm6291743f8f.19.2026.07.14.02.22.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jul 2026 02:22:03 -0700 (PDT)
+Message-ID: <619bb771-1038-4ec1-8d4c-17dc69df33d6@gmail.com>
+Date: Tue, 14 Jul 2026 10:22:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260316090059.121605-2-elgin.perumbilly@siliconsignals.io>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+ <20260713071828.GB30168@lst.de>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20260713071828.GB30168@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,linux.intel.com,windriver.com,ideasonboard.com,foss.st.com,gmail.com];
-	TAGGED_FROM(0.00)[bounces-67547-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:elgin.perumbilly@siliconsignals.io,m:linux-media@vger.kernel.org,m:tarang.raval@siliconsignals.io,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:johannes.goede@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:mehdi.djait@linux.intel.com,m:xiaolei.wang@windriver.com,m:laurent.pinchart@ideasonboard.com,m:sylvain.petinot@foss.st.com,m:benjamin.mugnier@foss.st.com,m:clamor95@gmail.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67548-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:hch@lst.de,m:axboe@kernel.dk,m:kbusch@kernel.org,m:sagi@grimberg.me,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:akpm@linux-foundation.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-block@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-nvme@lists.infradead.org,m:linux-fsdevel@vger.kernel.org,m:io-uring@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:nj.shetty@samsung.com,m:joshi.k@samsung.com,m:anuj20.g@samsung.com,m:tushar.gohad@intel.com,m:william.power@intel.com,m:phil.cayton@intel.com,m:jgg@nvidia.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[asmlsilence@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[asmlsilence@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8F98D752637
+X-Rspamd-Queue-Id: DD14A752CBD
 
-Hi Elgin,
+Hi Christoph,
 
-On Mon, Mar 16, 2026 at 02:30:54PM +0530, Elgin Perumbilly wrote:
-> @@ -543,29 +445,25 @@ static int imx412_update_controls(struct imx412 *imx412,
->  static int imx412_update_exp_gain(struct imx412 *imx412, u32 exposure, u32 gain)
->  {
->  	u32 lpfr;
-> -	int ret;
-> +	int ret = 0;
-> +	int ret_hold;
+On 7/13/26 08:18, Christoph Hellwig wrote:
+> Hi Pavel,
 > 
->  	lpfr = imx412->vblank + imx412->cur_mode->height;
-> 
->  	dev_dbg(imx412->dev, "Set exp %u, analog gain %u, lpfr %u\n",
->  		exposure, gain, lpfr);
-> 
-> -	ret = imx412_write_reg(imx412, IMX412_REG_HOLD, 1, 1);
-> -	if (ret)
-> -		return ret;
-> +	cci_write(imx412->cci, IMX412_REG_HOLD, 1, &ret);
-> 
-> -	ret = imx412_write_reg(imx412, IMX412_REG_LPFR, 2, lpfr);
-> -	if (ret)
-> -		goto error_release_group_hold;
-> +	cci_write(imx412->cci, IMX412_REG_LPFR, lpfr, &ret);
-> 
-> -	ret = imx412_write_reg(imx412, IMX412_REG_EXPOSURE_CIT, 2, exposure);
-> -	if (ret)
-> -		goto error_release_group_hold;
-> +	cci_write(imx412->cci, IMX412_REG_EXPOSURE_CIT, exposure, &ret);
-> 
-> -	ret = imx412_write_reg(imx412, IMX412_REG_AGAIN, 2, gain);
-> +	cci_write(imx412->cci, IMX412_REG_AGAIN, gain, &ret);
-> 
-> -error_release_group_hold:
-> -	imx412_write_reg(imx412, IMX412_REG_HOLD, 1, 0);
-> +	ret_hold = cci_write(imx412->cci, IMX412_REG_HOLD, 0, NULL);
+> do you plan to resend this series?  A lot of people are eagerly waiting
+> for it to land.
 
-	return cci_write(...);
-
-I'll fix it while applying.
-
-> +	if (ret_hold)
-> +		return ret_hold;
-> 
->  	return ret;
->  }
+Absolutely, I'm going to finish v4 next or hopefully this week.
 
 -- 
-Regards,
+Pavel Begunkov
 
-Sakari Ailus
 
