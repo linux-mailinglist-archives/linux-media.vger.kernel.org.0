@@ -1,183 +1,241 @@
-Return-Path: <linux-media+bounces-67590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67591-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WC5iMAaIVmqU8QAAu9opvQ
-	(envelope-from <linux-media+bounces-67590-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 21:03:34 +0200
+	id tkzfEEOLVmrv8gAAu9opvQ
+	(envelope-from <linux-media+bounces-67591-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 21:17:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C41B758127
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 21:03:34 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F95E758299
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 21:17:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=rowland.harvard.edu header.s=google header.b=sFUA0vLM;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67590-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67590-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=rowland.harvard.edu;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=me7iHFdS;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67591-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67591-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 08A583047F3F
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 19:03:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8AB4230F0BB1
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 19:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81A3E3DB331;
-	Tue, 14 Jul 2026 19:03:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 733882931FB;
+	Tue, 14 Jul 2026 19:16:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A191B41B8E6
-	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 19:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996F22931DE;
+	Tue, 14 Jul 2026 19:16:41 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784055798; cv=none; b=LaUv6Peg1cqgdJNcR1yurKxMkntgIKWuQ0rTItx6VZf6aHBIbNR11Qq1kY60noj215Ccv4xASSH6RXsA2RcJ2i6HhBht66/uTQmRXGy+CMsqwu3y4u1InIQcgKiCKGDrzq2xFK6cs8F76TXtDgrGfDn7s6iZXHpkF5tAOfDpwGQ=
+	t=1784056605; cv=none; b=BX5HcgpsBhK86NcWHSsFFRf9uLs0SokNRu1ThO3f0g5rtRyZxp00P+XspaivalnpBnL+Gn7DkQ1epxNTxOsMiNoF8SwYXs/cfAZDriZTJpGzPe2ez5/0DSHMJYcqhLBR3Vseo4HhAPt89c0xTZPWTyYEKLBWrb9uWuowky7aAQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784055798; c=relaxed/simple;
-	bh=TD8lKq4ystLfYg3uzT5qVpSCjbcK7ollxAN9yl/ptS0=;
+	s=arc-20240116; t=1784056605; c=relaxed/simple;
+	bh=2dS2v3qnhLY566oru+A0DB5KY2waS9BxkCNo8OGMFqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RICkoxDYPYX2MLfiodCqE1lYY4dHyZpvipRKfidl5H5y+EqJgEOwnR6XRrBB3RRffnLstXEgghswZn1fLrJYfouTM/CTIeBmn1YMr6Un0e88OH5DGNaz5jpzM4HF71UTek3NgOI1jYogyyM4indKEqpR37wqw3/2o0Gf5hbj5jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=sFUA0vLM; arc=none smtp.client-ip=209.85.160.181
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51bfbe05683so36970231cf.2
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 12:03:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1784055795; x=1784660595; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AON4maRAJUj4gBm9jpFXBi/aAje+mEu1tQ86oVKIt54=;
-        b=sFUA0vLM0WAmlgLOzDG0CCdw8Jkeknx6HduBgOWHgy+ZaonojrzP9GpbxqULZpvlZo
-         ualUMuPWYF9I4y++1dmA4ju0RfzVAg3FyapOqmCvdDb5gvjhVuSNwDYhsgrPV4re5tBx
-         0tIH6LOzLhS1KSUaA0R4wQxtjr4SL+G75IoYiM7CI4ezG+j/0jbCeNDv2/XpdStg7OOz
-         t3BnCj9D1kXz9ncoKESyr05QV2F+Yoi6BEfHKgRr4mBrVdduxe2vlMN898l98Rwbsixt
-         vowdDTID8g17j7EVpu+l6c0ChLx0glbIHGPcMW7h+KD5Mm6DBKLOFOGU2Q9dpbE/PwMy
-         8CnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784055795; x=1784660595;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AON4maRAJUj4gBm9jpFXBi/aAje+mEu1tQ86oVKIt54=;
-        b=MiRSs8GJyaSS34TjboFAZKQmRVdt3EPMUZSd8d5na1HtYZGAkV60UJicJaOcACxzJf
-         poA0k0jILGDFHWAul4mTWpnVbw8FfOjMhqm6AqmuLPq6jpt1Mr+2s8qPW4JxuFBzP/UI
-         BZthFmGVv4f21UyjUEL11jEoIV/qRh9xLwLqWB+ZTfn0G6LwCkg/48TlhmS8/fydMgwu
-         JshjSzAtyyIDnge+ty+AH4kXidZ5Fb0hueF79ZXD09porSmys1uTM4QY10mKMXtVg6wT
-         X5JPnpT7jq8ccnRAjbMwjbALPfN4qamrGtb28VUhyrhjZR+mk6h9+fI7Lo8+68u/BecO
-         jYPA==
-X-Forwarded-Encrypted: i=1; AHgh+RoveZNYq1mkT9ESc+8n7UWXAMr50vkhLePPxBR5mWZY81NnlN9i5X2Y7ftViqF+9wmKmoYTQjIy/ED0sw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YziEsnVBcHtJx3l3BEIqlKVJ4z6Q9INXuKYQHjjCjRLNgHrlwGj
-	TQPpmk3v6GicXQkTa9jrwWVPOQkzwmNIxK9HroXXS8YJ5x6orA3SXfOJv5f7rbyvbg==
-X-Gm-Gg: AfdE7ckMWV1tVuhZ7TYOYDIoUGaXnGfaXo5G1sRdEu44g2p/bYDgGTd7L7MnlhVInDV
-	JZRple2xKbaWVooqxmn+d2hwpjTVxGT8crXc44XzISbRPbIY3Q9ZQ5A64jibNVHFIQLEcM06Xfc
-	cx8u1VOGLAWGya4EdPjmTcatkSpWMryHlfwkVRuS++IypW3hJ5NKa8VOrWpZ84zAjWEeHRLcOOw
-	zl7TaUNSdBWZpuITZZsqQN7pM/tYBDYrUXwVo3i89FMTrCF6I5GixlX/nqj+WPiblO2Au4ndNUv
-	JefeIYsJkkhmYkQ/gdzPELacBndgC++dojrmmvay4APG1dUZ20DPAfsB2JatXJOIvdRrcaEGuYX
-	KVgr9ABhd2udIASd+yX7qlnQh6xGHYCT+s81Qv3tGHwbu6XiVnGUziMrR+uGeIFmIGNbTCWCUtO
-	0iuMIIy0wIpaH7og==
-X-Received: by 2002:a05:622a:152:b0:51b:fe30:b8da with SMTP id d75a77b69052e-51e3c1cffe9mr50820721cf.33.1784055795355;
-        Tue, 14 Jul 2026 12:03:15 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd80fd82csm174762066d6.35.2026.07.14.12.03.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 12:03:14 -0700 (PDT)
-Date: Tue, 14 Jul 2026 15:03:12 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Colin Braun <colinbrauncl@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBNUVOXv35gHSRTk5gjpYcxd/gVljQkEC5wat05MXx2g7Gl1bZKEcw7fVSktp1dJ3coW/F5bpJYjk+IBbwQWECcjbDQTWQ31ea+b8rVpdAus4yyoTtPVoaOK6SeLtQy1sEJD4zFy9NVpWt+MsYMMr3COS5Z55Z7mwZPuMiC8d/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=me7iHFdS; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B1BB558;
+	Tue, 14 Jul 2026 21:15:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1784056544;
+	bh=2dS2v3qnhLY566oru+A0DB5KY2waS9BxkCNo8OGMFqc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=me7iHFdSCDBYn9uOtTJEFHduib+YCytN2BjWlznyMQXKRsTv2rTxkgb9NMRdCPOrG
+	 fKhltDXgOfQc1L453OVO+mX4zz9pjtnH9PihmOIufg+sffE8HKXZr1r85cU+TVoTR0
+	 XLiVidbGxvcWCFyZjdhqoT3K4fjNqhuFM66+N5t4=
+Date: Tue, 14 Jul 2026 22:16:37 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	Colin Braun <colin.braun.cl@gmail.com>
-Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
- abstractions
-Message-ID: <59f596b7-5c90-4084-87f3-cc085ad4962b@rowland.harvard.edu>
-References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
- <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
- <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org>
- <alVEUR0JrF1ga3S8@pendragon>
- <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
- <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
- <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
- <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
- <8d39b5df-1b85-4cb6-88c5-7478d6f4bbed@suse.com>
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1 RESEND] media: i2c: mt9m114: Add get_fwnode_pad
+ operation for IFP
+Message-ID: <20260714191637.GA1675278@killaraus.ideasonboard.com>
+References: <20260625082111.47898-1-clamor95@gmail.com>
+ <20260625082111.47898-2-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8d39b5df-1b85-4cb6-88c5-7478d6f4bbed@suse.com>
+In-Reply-To: <20260625082111.47898-2-clamor95@gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[rowland.harvard.edu,none];
-	R_DKIM_ALLOW(-0.20)[rowland.harvard.edu:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,intel.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-67590-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:oneukum@suse.com,m:dakr@kernel.org,m:colinbrauncl@gmail.com,m:ojeda@kernel.org,m:gregkh@linuxfoundation.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:mchehab@kernel.org,m:mathias.nyman@intel.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-media@vger.kernel.org,m:colin.braun.cl@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_SENDER(0.00)[stern@rowland.harvard.edu,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[rowland.harvard.edu:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:clamor95@gmail.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67591-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[stern@rowland.harvard.edu,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,ideasonboard.com:from_mime,ideasonboard.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2C41B758127
+X-Rspamd-Queue-Id: 8F95E758299
 
-On Tue, Jul 14, 2026 at 07:57:21PM +0200, Oliver Neukum wrote:
-> On 14.07.26 18:26, Alan Stern wrote:
-> > At first I thought that we ought to have such a guarantee.  But in fact
-> > we don't, because the user can at any time write to a USB device's
-> > bConfigurationValue sysfs attribute even if the device isn't bound to a
-> > driver.  This can create interfaces which may then be bound to drivers.
-> > I just tried it and it worked.
-> > 
-> > This wasn't the original intent, but I don't see any good reason to
-> > prevent people from doing it.
+Hi Svyatoslav,
+
+Thank you for the patch.
+
+On Thu, Jun 25, 2026 at 11:21:11AM +0300, Svyatoslav Ryhel wrote:
+> Currently, the driver's binding exposes only one endpoint, which maps to
+> the IFP subdevice's SOURCE pad. This configuration causes failures for
+> many devices using this camera because both the DT binding and the
+> one-to-one pad mapping logic map the endpoint to the wrong pad.
+
+Could you please explain what failures this causes ? A brief analysis of
+the code seems to indicate the patch will only make a difference when
+the DT node has multiple endpoints, and will prevent links to be created
+for any endpoint but the first one. I don't think that's desirable.
+
+> Fix this
+> by implementing the get_fwnode_pad operation for the IFP, which correctly
+> matches the endpoint to the corresponding IFP pad.
 > 
-> I hardly dare ask, but what happens if you unplug the device?
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/media/i2c/mt9m114.c | 44 ++++++++++++++++++++++++++++---------
+>  1 file changed, 34 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index e395e2d14e97..16c2582551d3 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -1020,14 +1020,6 @@ static int mt9m114_stop_streaming(struct mt9m114 *sensor)
+>  	return ret;
+>  }
+>  
+> -/* -----------------------------------------------------------------------------
+> - * Common Subdev Operations
+> - */
+> -
+> -static const struct media_entity_operations mt9m114_entity_ops = {
+> -	.link_validate = v4l2_subdev_link_validate,
+> -};
+> -
+>  /* -----------------------------------------------------------------------------
+>   * Pixel Array Control Operations
+>   */
+> @@ -1381,6 +1373,10 @@ static const struct v4l2_subdev_internal_ops mt9m114_pa_internal_ops = {
+>  	.init_state = mt9m114_pa_init_state,
+>  };
+>  
+> +static const struct media_entity_operations mt9m114_pa_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+>  static int mt9m114_pa_init(struct mt9m114 *sensor)
+>  {
+>  	struct v4l2_ctrl_handler *hdl = &sensor->pa.hdl;
+> @@ -1403,7 +1399,7 @@ static int mt9m114_pa_init(struct mt9m114 *sensor)
+>  
+>  	/* Initialize the media entity. */
+>  	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> -	sd->entity.ops = &mt9m114_entity_ops;
+> +	sd->entity.ops = &mt9m114_pa_entity_ops;
+>  	pads[0].flags = MEDIA_PAD_FL_SOURCE;
+>  	ret = media_entity_pads_init(&sd->entity, 1, pads);
+>  	if (ret < 0)
+> @@ -2092,6 +2088,29 @@ static int mt9m114_ifp_registered(struct v4l2_subdev *sd)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * The IFP has only one fwnode endpoint, which corresponds to the pad
+> + * linked to the PA (PA SINK), while it should be the SOURCE for the
+> + * next media device in the pipe.
+> + */
+> +static int mt9m114_ifp_get_fwnode_pad(struct media_entity *entity,
+> +				      struct fwnode_endpoint *endpoint)
+> +{
+> +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+> +	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+> +	struct fwnode_handle *ifp_port = dev_fwnode(&sensor->client->dev);
 
-Exactly what you would expect: The interface driver is unbound and the 
-device and interface disappear.  This line shows up in the dmesg log (I 
-didn't have dynamic debugging turned on):
+This is not a port fwnode. I'd name the variable just fwnode.
 
-[406254.947595] usb 3-1: USB disconnect, device number 15
+> +	struct fwnode_handle *ifp_ep;
+> +	int ret;
+> +
+> +	ifp_ep = fwnode_graph_get_next_endpoint(ifp_port, NULL);
+> +
+> +	ret = endpoint->local_fwnode == ifp_ep ? 1 : -ENXIO;
+> +
+> +	fwnode_handle_put(ifp_ep);
+> +
+> +	return ret;
 
-You can try it for yourself; it's an easy experiment to do.  I used a 
-USB mouse for the test.
+Let's use the cleanup API:
 
-Alan Stern
+#include <cleanup.h>
+
+...
+
+	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+	struct fwnode_handle *fwnode = dev_fwnode(&sensor->client->dev);
+	struct fwnode_handle *ifp_ep __free(fwnode_handle) =
+		fwnode_graph_get_next_endpoint(fwnode, NULL);
+
+	return endpoint->local_fwnode == ifp_ep ? 1 : -ENXIO;
+
+> +}
+> +
+>  static const struct v4l2_subdev_video_ops mt9m114_ifp_video_ops = {
+>  	.s_stream = mt9m114_ifp_s_stream,
+>  };
+> @@ -2119,6 +2138,11 @@ static const struct v4l2_subdev_internal_ops mt9m114_ifp_internal_ops = {
+>  	.unregistered = mt9m114_ifp_unregistered,
+>  };
+>  
+> +static const struct media_entity_operations mt9m114_ifp_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +	.get_fwnode_pad = mt9m114_ifp_get_fwnode_pad,
+> +};
+> +
+>  static int mt9m114_ifp_init(struct mt9m114 *sensor)
+>  {
+>  	struct v4l2_subdev *sd = &sensor->ifp.sd;
+> @@ -2136,7 +2160,7 @@ static int mt9m114_ifp_init(struct mt9m114 *sensor)
+>  
+>  	/* Initialize the media entity. */
+>  	sd->entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
+> -	sd->entity.ops = &mt9m114_entity_ops;
+> +	sd->entity.ops = &mt9m114_ifp_entity_ops;
+>  	pads[0].flags = MEDIA_PAD_FL_SINK;
+>  	pads[1].flags = MEDIA_PAD_FL_SOURCE;
+>  	ret = media_entity_pads_init(&sd->entity, 2, pads);
+
+-- 
+Regards,
+
+Laurent Pinchart
 
