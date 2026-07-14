@@ -1,195 +1,206 @@
-Return-Path: <linux-media+bounces-67577-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67578-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9iV3MVlWVmqC3gAAu9opvQ
-	(envelope-from <linux-media+bounces-67577-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 17:31:37 +0200
+	id j6UPET1jVmpg4gAAu9opvQ
+	(envelope-from <linux-media+bounces-67578-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 18:26:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5551756766
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 17:31:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6AA9756EA7
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 18:26:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=m6uRfOwM;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67577-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-67577-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=rowland.harvard.edu header.s=google header.b=ajOdG0QT;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67578-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67578-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=rowland.harvard.edu;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 03C5130AD335
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 15:20:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0A909301C6F5
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 16:26:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E4B14C8FEA;
-	Tue, 14 Jul 2026 15:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5C174BC015;
+	Tue, 14 Jul 2026 16:26:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10C64BC032
-	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 15:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF84837B010
+	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 16:26:18 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784042233; cv=none; b=NMo4H2XfN0IGw/ylO7lAfISJADcxAJjx1IAahHK+gTnGDeTxyFm9RiYJUESG0QhcXjEw6SOWGS2ZpwCPNXlwVX5dEccErzdBwSUgzzlol/2nWjRuKw5GuziJ1X97k+izjLApzHK+Tv7NLXzoodvuOjhgt5mIJ4SGE8h9z5Yr7Bs=
+	t=1784046380; cv=none; b=mgYLBVr92SoPvbQlxbpWqma0WL7QXOAdMmzeGCR8VX68x3Hp83uZdvMQ62Tfw7dQTEc85DbGTFrXIDbRiUFTHXTMIC1vCg9eDg7UZxzaesBRNoWXepg3Ib8nhCnHdW1YSSL2TDzir2s/tvQZgQyXgcDkG7rl2rdRXpCPLN2n1Pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784042233; c=relaxed/simple;
-	bh=qvhInT/SgcuGyP/ork55nnSJpC2mxeW1HjGP20C6WSM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=YFm/2fIbIPgVKVE+3msReEAyw0HZVRONJ7yXKX+pov1hQ8H5AzJmalfP/aY6eqXyvTkYJS17HqhR6V+N96HoFTrI9InW29wAvWzjX574MkaT02Pr9NEik6qg/6LsrapNPhLZ3ZLrFup6vM0v5myIj8iIvnyLQif7JELYpIy5NyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6uRfOwM; arc=none smtp.client-ip=209.85.216.48
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-381891a9525so4803331a91.3
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 08:17:11 -0700 (PDT)
+	s=arc-20240116; t=1784046380; c=relaxed/simple;
+	bh=9QB/17nM4/R4mx4h2n5NdP9dfwITN4STF9A4EmU1/6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ea5CWulCrvvo0dhjctAR+1auQHE6Gs/v+VeUBRCeIniGmJlqq3s8vONFpRxPh671pb6yCJeC9okwU9p9jdFSjlYrRQaL3o/L1d2P+VY6SDcWOF9e7S3+FNrHeGxt+E0Q1PWJfWdZd5F0s//KXzysjZMq9jtZTZWfkX0Js6hr9iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ajOdG0QT; arc=none smtp.client-ip=209.85.160.180
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51c0c45c580so37436951cf.0
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 09:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784042231; x=1784647031; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=joYU7SNNWgacv3mwvw+01Lka//SvlR+4VPR0uOgRcXA=;
-        b=m6uRfOwMwwqO6OqQ1QAXW3oNIeNE7f8ckkX4ncMbFIpNzHMJPc7jnLzTX7oK7ArYqq
-         tWqPRM74fokn+3JKrsEhf13xmau7vu8LF/hMS903BV+CLxpgkKQ8VYQnl9fpOl23vO1B
-         RT7LrOtFB26+hmxXEl4fs+Q94IWeHG9UVdhtCbC1W7PnyQ3kNbUZp+PK8ETHLvyXDYD1
-         BqBNyOV8Fl30uya4ncCfjRNG0W1z/jo6yxLIL7hLuOtU+2sYWfR1U5dV+BmJOLQkD5En
-         9PKjnT+H/6hquJsRS0j2xmtjnfC0uBIgadlvq4b8KaYgIkbGcZPqbE9RoD9RLwTAchma
-         PgVQ==
+        d=rowland.harvard.edu; s=google; t=1784046378; x=1784651178; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=K2Wx4ci415T2EcKJc2YaFvxNMNUQo+sVpQO5XLInrL0=;
+        b=ajOdG0QTtDhTzsbNOF6G8o22nrNSHvbFHgSTh5STGruCqxzUbuw01YZVyOlH6WYpV4
+         yBn6S1mIaptgx/BSOEbwzt53j34PvcQ1guh+Pw/mZL3W8qD4LVOtlxIiJ78BRDVxIUMd
+         sNUmLxzVxSwdEFtmGp2FnHMgxtUDQTuiii1dnadDpGDCirkQu7bG5/W8bZcBhCB90AHa
+         KLrFC2U/5o8QWJ9TQiCc4hQDiAPiYeUP5B4rA/0DsWfxoQSqvTtFxlPkIhmFRBl6neHM
+         7JSkuO5AgH/ackG27VR2SakVlaJEy4pn3PvEkVf7LqX0BIXwT70CLTlTU/q6s2rHZ9q5
+         jf1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784042231; x=1784647031;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=joYU7SNNWgacv3mwvw+01Lka//SvlR+4VPR0uOgRcXA=;
-        b=dRrQjHwKCf/qWQhd9M0w++QGNQUFYaVeWC92Wtrv5t3P2Mo68TwVbS+FR1X4HYVseJ
-         hT5bnnImKQiBCSbRENvRue+8dr8G1Wy6QLBmUxAeFsENk5zVXdQFZyoVwdpkOyOe/9sr
-         3yz+3GjOKISdZN7gkj+59VOBq3SScsor2HcxM/+MMHjNQXys8Lglp2+OlCdvDd4IUUoM
-         gdXaPhuAA9PrnNI4yQWL3ElQFSR7li+MQCUoQPIA8EWEwu1KAav3FkQS9colHkAK0gGZ
-         WiFJSQcsp6htWIIoMDeZzVmacY/yhMhwKdEpVa16EmGRREmwYvNpj+kpX0FnLuVxYmmN
-         41ag==
-X-Forwarded-Encrypted: i=1; AHgh+RpnUaWq+xAM9SHgRZZxIKquZQgnb47LMmhaf3cmcS/gPcCmPYq5m2WkAayKSSWO6dwj0R3L5VCOm4xvOg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoPXcR6PdJl+M+/gqGXnSvvfnJVbdUScUdU5hKTxXQ4LBSyJMl
-	owtbFpexOQLlYM0hGwEFoT+mUiifLjqMk1x9VomuBo2CBP5udtzlI1yZ
-X-Gm-Gg: AfdE7cnchEru7gK8ArY6nA6/p9nQjGDXAeBTqfEwe8u6HOIl044tXLiS2Nd19d2aUU6
-	MqjYsottfaxJjSoCJOR9UH0aHqqhHSrc9rNfNbSCNF21cQZgZxwxofSuV3fAEbPM9wlSZ7pwiAg
-	XxGWiNIim7ypClxJThrmSOV/KzKfzeiQ/xIxHuNehQJNvfBbFUu3Kyd8VJLq2oBiMVK36qrtlao
-	nRj3L7spPSfqdMoFrJGI9GNLeBmEUvsNE5AkIcEXFH0gOH3LSY++WJa/AUTBbkU+12l9oqEWIw+
-	9x6k4thAHa6jn7Mlke/MZjnc0fUFQ8pCnCHfAHkt9kiS0jDO9hTXodplaKRHK1SPYm7aG+FFkKU
-	gxIkEZt5pVdo06ZKdhY/ins7bZFCG5KJXvqqBTyGXa760HWV31TB0ZVDDZjrKg2Q3IQeV3ccrnf
-	YdGndh04uAVulbRxP86SDm
-X-Received: by 2002:a17:90b:5830:b0:387:e0bb:57f7 with SMTP id 98e67ed59e1d1-38e1af72937mr2984017a91.40.1784042231006;
-        Tue, 14 Jul 2026 08:17:11 -0700 (PDT)
-Received: from lgs.. ([101.76.249.46])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38d305ce5d1sm3935600a91.2.2026.07.14.08.17.08
+        d=1e100.net; s=20251104; t=1784046378; x=1784651178;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=K2Wx4ci415T2EcKJc2YaFvxNMNUQo+sVpQO5XLInrL0=;
+        b=rsQfyd1CLX3S0flk58iDEXpJJw8ZVWJeGsOZFtpxrkYtjhtVbCOM15HnDMMyqULMPL
+         dTZhmaZOPakiDGV17J0RN6JwX+G9FQ+zLyY/lnMKGr/NJ+puw4SpzXvwAHUn+jko51V7
+         cHy9Jj0Tw0K7fOM97WBBFXCbhCLfotvGhm86jAwKq/CN2Nh4uKt5WSJO4mp+e0C7r1Fq
+         nV/fYYSMyzK0QgRESHAP7v5RZCoY566WwlBKjFeRBZeqpeIDBO4Ty4ha/bvRgin4QGcG
+         UcidMWcY+EMzHBUmr7GuK0f2FXXU9K+sGkEdvpqB6kz0jOUZgN/mK0me48MZ//W57J3W
+         ymwQ==
+X-Forwarded-Encrypted: i=1; AHgh+RogF8Q1ps73kfquvHfd7UTV1yWCa6JbdDaHjoKoO97DLwkTMZAVOKCvSHwUcN/0hFDlgEj44XmNWeZIOg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJjQHT1QJ2siepPlA55uzUZ8s1ttCAtUUtYTXIDA9MDS9g8gMp
+	TwWs7VI4Eh99LsaIGOCCXEAvvKCuCpm2WEjnmckGDS5jfqK3PwV6r9dQcrzQrXELOQ==
+X-Gm-Gg: AfdE7cnYIAozau6kiKRrHPpgKwR3RpgLDYVQCYzDxvldOoT8Jk6a6DBD6w8G6gonA7v
+	CJrTo6dwGW96d6Z3piRjGajK9NGg/RXxFTNf3kRU1tn96j1bwjg1LmjidNl3vdwHWwJMEQqMQuQ
+	6d836WM3yxwHZSoM7eTOdqAVgjo/YwW5iR7gi9Ti+MMfv4V8BjtmZepfeII5UdgY2Re4WbfNXLx
+	knFim3MnJIa/D6RD79L9GskuQ8uzLTQ1pYLFIzxbDAG1tgWwXc6eu2O/uON4fvrAzOyOwY9e3hp
+	CeOD3+DYpFZCb1fEtaeF2P+DOpZrLV+gYmnBq4Ogpd1IbqNChjK2syGyAG42HfT/q0nRpvuGaZK
+	Gpc/O36a6wj3qUhFsV37zdaYAOnxv2HnbAp52FGJRNC3ETOO2P7mmU9R4pEU2hf1yl8hGTPTBxw
+	NWc3iXf95IWqTjLg==
+X-Received: by 2002:ac8:7f85:0:b0:51c:2022:cf0b with SMTP id d75a77b69052e-51e3c2ca712mr44748001cf.56.1784046377696;
+        Tue, 14 Jul 2026 09:26:17 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51caae23f42sm114990581cf.19.2026.07.14.09.26.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 08:17:10 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: usbtv: Fix V4L2 refcount leak on probe failure
-Date: Tue, 14 Jul 2026 23:16:48 +0800
-Message-ID: <20260714151648.1724134-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Tue, 14 Jul 2026 09:26:16 -0700 (PDT)
+Date: Tue, 14 Jul 2026 12:26:13 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Oliver Neukum <oneukum@suse.com>, Colin Braun <colinbrauncl@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+	Colin Braun <colin.braun.cl@gmail.com>
+Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
+ abstractions
+Message-ID: <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
+References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+ <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
+ <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org>
+ <alVEUR0JrF1ga3S8@pendragon>
+ <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
+ <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
+ <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[rowland.harvard.edu,none];
+	R_DKIM_ALLOW(-0.20)[rowland.harvard.edu:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67577-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:johan@kernel.org,m:hverkuil+cisco@kernel.org,m:lgs201920130244@gmail.com,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	FORGED_SENDER(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[suse.com,gmail.com,kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,nvidia.com,onurozkan.dev,intel.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67578-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:oneukum@suse.com,m:colinbrauncl@gmail.com,m:ojeda@kernel.org,m:gregkh@linuxfoundation.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:daniel.almeida@collabora.com,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:mchehab@kernel.org,m:mathias.nyman@intel.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-media@vger.kernel.org,m:colin.braun.cl@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FORGED_SENDER(0.00)[stern@rowland.harvard.edu,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[rowland.harvard.edu:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[stern@rowland.harvard.edu,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rowland.harvard.edu:from_mime,rowland.harvard.edu:dkim,rowland.harvard.edu:mid,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C5551756766
+X-Rspamd-Queue-Id: C6AA9756EA7
 
-usbtv_probe() allocates usbtv before usbtv_video_init() registers its
-embedded v4l2_device. v4l2_device_register() initializes the reference
-count to one, with usbtv_release() providing the final cleanup.
+On Tue, Jul 14, 2026 at 03:05:16PM +0200, Danilo Krummrich wrote:
+> On Tue Jul 14, 2026 at 11:26 AM CEST, Oliver Neukum wrote:
+> > You can see that there is no way a configuration and thereby its interfaces
+> > can last longer than its device.
+> 
+> So, what you're saying is that, in the generic case, there is a guarantee that
+> if a usb_interface is bound to a usb_driver, then the usb_interface's parent
+> usb_device is also bound to a usb_device_driver.
 
-If video_register_device() fails, usbtv_video_init() unregisters the
-V4L2 device and returns an error without dropping the initial
-v4l2_device reference. The probe error path then calls kfree() on usbtv
-directly, leaving the reference stranded and bypassing
-usbtv_release().
+At first I thought that we ought to have such a guarantee.  But in fact 
+we don't, because the user can at any time write to a USB device's 
+bConfigurationValue sysfs attribute even if the device isn't bound to a 
+driver.  This can create interfaces which may then be bound to drivers.  
+I just tried it and it worked.
 
-Leave the initialized V4L2 device intact on this failure path. After
-releasing the USB reference, call v4l2_device_put() so the final
-reference invokes usbtv_release(). Retain the direct kfree() path for
-failures that occur before v4l2_device_register().
+This wasn't the original intent, but I don't see any good reason to 
+prevent people from doing it.
 
-This issue was found by a static analysis tool I am developing.
+> But the relevant question is whether this always holds. In a previous discussion
+> [1] Alan explained that it currently doesn't hold.
+> 
+> Note that I'm not looking at this from a USB topology perspective, but from a
+> driver model perspective. All I'm saying is that usb::Device<Bound> from the
+> driver model side means "it is guaranteed that the usb_device is bound to a
+> usb_device_driver" and therefore can implement functions that rely on this
+> invariant.
 
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
----
- drivers/media/usb/usbtv/usbtv-core.c  | 5 ++++-
- drivers/media/usb/usbtv/usbtv-video.c | 4 +---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+I don't see why Rust needs to distinguish between a USB device that is 
+bound and one that is unbound.  There isn't much you can do with one 
+that can't be done with the other.
 
-diff --git a/drivers/media/usb/usbtv/usbtv-core.c b/drivers/media/usb/usbtv/usbtv-core.c
-index 6c4facf4f41a..4f10f6613bc4 100644
---- a/drivers/media/usb/usbtv/usbtv-core.c
-+++ b/drivers/media/usb/usbtv/usbtv-core.c
-@@ -119,7 +119,10 @@ static int usbtv_probe(struct usb_interface *intf,
- 
- usbtv_video_fail:
- 	usb_set_intfdata(intf, NULL);
--	kfree(usbtv);
-+	if (usbtv->v4l2_dev.dev)
-+		v4l2_device_put(&usbtv->v4l2_dev);
-+	else
-+		kfree(usbtv);
- 
- 	return ret;
- }
-diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
-index de0328100a60..92bc7a2509c3 100644
---- a/drivers/media/usb/usbtv/usbtv-video.c
-+++ b/drivers/media/usb/usbtv/usbtv-video.c
-@@ -949,13 +949,11 @@ int usbtv_video_init(struct usbtv *usbtv)
- 	ret = video_register_device(&usbtv->vdev, VFL_TYPE_VIDEO, -1);
- 	if (ret < 0) {
- 		dev_warn(usbtv->dev, "Could not register video device\n");
--		goto vdev_fail;
-+		return ret;
- 	}
- 
- 	return 0;
- 
--vdev_fail:
--	v4l2_device_unregister(&usbtv->v4l2_dev);
- v4l2_fail:
- ctrl_fail:
- 	v4l2_ctrl_handler_free(&usbtv->ctrl);
--- 
-2.43.0
+> Analogously, usb::Interface<Bound> means that the usb_interface is bound to a
+> usb_driver. So, if we want to be able to derive usb::Device<Bound> from
+> usb::Interface<Bound> it must always be guaranteed that this holds, not just in
+> the most common case.
 
+Similarly, I don't see why Rust needs to distinguish between an 
+interface that is bound and one that isn't.
+
+Even from the point of view of the device core, a device that is bound 
+to a driver is the same kind of data structure as one that isn't bound; 
+the only difference is whether the ->driver pointer is set.
+
+I'm aware that Rust has separate types for pointers that may be NULL and 
+pointers that cannot be NULL.  Putting that into the language helps 
+prevent a lot of bugs.  How would making the language be aware of 
+whether a device is bound to a driver be similarly useful?
+
+Alan Stern
 
