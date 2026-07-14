@@ -1,177 +1,659 @@
-Return-Path: <linux-media+bounces-67565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67566-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XDznGIE4Vmq51gAAu9opvQ
-	(envelope-from <linux-media+bounces-67565-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 15:24:17 +0200
+	id uimRKUY5Vmrx1gAAu9opvQ
+	(envelope-from <linux-media+bounces-67566-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 15:27:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC387550C5
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 15:24:16 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 157C275516E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 15:27:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=TURxFoUS;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67565-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67565-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=FvRCxAVC;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67566-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67566-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B972A3219746
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 13:14:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A267330B2870
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jul 2026 13:21:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 421DD46AEE1;
-	Tue, 14 Jul 2026 13:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7536230BB8D;
+	Tue, 14 Jul 2026 13:21:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4554F410D2D
-	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 13:14:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529A112CDA5
+	for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 13:21:33 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784034844; cv=none; b=F7mSP4h1pLKtca/NmnHoDCvjIpUFOShSI5GRmxyc/H4MVCzZenu04tWiHDTLcch7u9eKaOrbZxiDcWiprsQqaiLCIhPR4zrdjH5Ce6d6S+t6kYhlohc4IBEdaH7ooXfhBMpepN77o6VulaG90eaPyQcFiP+ZR+ZTJLDL4Jjco4E=
+	t=1784035294; cv=none; b=iOz+BJwqatq7nyKqTr7SQFvQDyivx1KqwqF5/TvRyHqnA+j8geSRSHMEpqinI6XXGFPdPQ6Ak0RA0JWNmvzzAQ69UwPLl+JYD4IUt9citDxwlPqBcq7ih23SS9oBYVsLYQHZqPNYGkBczQUtUodJTJhs41+sDtx30SqsrARvxoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784034844; c=relaxed/simple;
-	bh=MtotPDhuzhIIvZBQmRSCVo0ZcnrH0YTdHYKCpqdh+5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u3BLH5x2yiqwzpMjzL6yAXgGx/Jp3DzGLOYl66+dg92xx7HQDDYmoOZSxs2IaMUEEX/vdOpbQYkWEEFMHxrrxeG1/hEhOhTMzu5ez4TSmREFvXBkWiHXTiYQnvDi01ZvQu4G3bsM+b/23/QdjM0/Ncmt9ZfgPnu3Ri3Mr/JSMYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TURxFoUS; arc=none smtp.client-ip=209.85.208.48
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-698ab9aae16so1812458a12.3
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 06:14:03 -0700 (PDT)
+	s=arc-20240116; t=1784035294; c=relaxed/simple;
+	bh=Srv5fLjlcBt+I4Y2YUvAixlGYoBjMd5dwR1EsTURdrY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hyNG1nq5lkelzo6a6DNzX5C6GM7PywHYBW9mWapfsA5Q3m1KDIjrAJx/oAbRY/3eOj6udsqVZcczRQ1mPnM265qcJjM9BbHb+0BZL75FKVsHITXw7157XldkWDNJJm/4TwLMFaoDAhqynlJhJw+I52xIz+sd5OBUt6WGn9bviqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FvRCxAVC; arc=none smtp.client-ip=209.85.210.169
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-845c92bc464so956834b3a.2
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 06:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784034841; x=1784639641; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ny5+3yiTMDoQJssQpPJVjH5n2qiBSxJZzbYo0RMA4qo=;
-        b=TURxFoUSnQcZdZTMzki54XbbsritsNyE5wfUOwKJtz+XqjImvEPn0hzlYIn6Xb7FFH
-         RDvzEA5MN8AXdrNoL8mc1aq2b+10fWDyOm9fHY7g1FREOMStaZC9WczDhx4+/7X5QRUY
-         fHXD+yH7Y6flG1P9De8Xqm38X6etWOmf9/VipAJ5exzG9nFCbLC8BiIX18Twlq8osr0P
-         +rPNI8cme+sVw+c8ApdPYEv3zdjgvf50+YY8+oqhfGmZnNB38lze+/y/t5dE+cdTFXEo
-         DY4OQtpbNgh2BoEpPMyuhevxih+MxMIZk0DKEozf8tW++WEqYhzwNEVGTLxjrjB9IEyC
-         siwQ==
+        d=gmail.com; s=20251104; t=1784035293; x=1784640093; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SWA2pdRQ6l8w4+g2rx0Pkw+ZVozyVuWGGSCZMNK3koU=;
+        b=FvRCxAVCpASYzRUVuj1QMBj3PjRY6yd3PH4WG1yj/+O9lkFGvTWuuPhRNE4Trmqkrc
+         HrS18QTAmcP1h4OraD0xuIunWquf6oTRbfiX1BqyRC5TUcIGhXIGFnKT1oagreWost/q
+         sA2t2dLFlwAwVPI2iG2X+MyIlwZUB6SwDthntEVTsGVKQxtQO0a2M/4wwjJDA8EjXZzX
+         zSACmLoZLXObgNCoL/XliZZYpmTTX1B+3e50Gq/6I83C0w5wTSYh9OcR8GDEXLYAjq1y
+         g0Y04EZ4BTI5Ew81Mn3nIySTppJbfhFFvKb9/Q1CRd0EyCr9Hjrm5Hd8ftuS/kYs6lGY
+         X0iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784034841; x=1784639641;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ny5+3yiTMDoQJssQpPJVjH5n2qiBSxJZzbYo0RMA4qo=;
-        b=IwFL1+aIZqjEdLbCv4b4+MqHButcAPVF+NF8Ha5+x5Uz/4Y67dqOqjxU0nKtALVnQm
-         sjAhXnN+puizU1cGA5JvipBWH/Tqdva9f7jbctmFr/fvI8BOeQEtg7Hi+DzGVfGIEcBh
-         tAK5AH48tla5B2F9Wq+daeE1/XSANBc/M40h/y7y2NGmL2tC7aHmv/kHrFv6CZOpHqSa
-         q8YCn2CdZfhz2vkUYXHW+2zhYCCVM7jckxc8nKMiam4rQPcIc8D1o80m7Ri0jc2w/X5Q
-         C9zLWRcXyB5Al4CRNQ6DEhVqDSTsGhS8yTxPY9TkdSw+3dohgyepDungwfaTEgkVOFJE
-         6reA==
-X-Forwarded-Encrypted: i=1; AHgh+RpXLfqew0x4/rKTPKzlnJm6/U5gZI0gxsrDBsyZhFjIiyhowCl+7ZQsE8P5j1lYZ/Gdgxxis4QSIrKyMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkjoU6W4DDjuZcCmlpdbsmxUwGS2lEhVpu4bSuyVthnhj7+ozp
-	oWC+3UMisV8k5huAFlarRt7nIPlbGbHnXXAdkiVYjF/r3G7fUfYldGPU
-X-Gm-Gg: AfdE7cnv1e+691UUzA9XG+4oiV1NhWEQjZjnBJfPaiRcu8WSnZxmau8Zu5PW79ySwP5
-	i9AUbnMpVR4ZfOF/mMcLOtAk9756YiNTG/gnPrS95mFTfM6hGeI/hDAetWzUZeTxKb00tJ1AugC
-	v9tkmEG5kQxsT0IuHrqMtDCE/CRHy7xmPr+X75Zi7Mlj/Nf6jiAHQ0RXg6raQkDC1EC8dO/MetC
-	ydNM0j1zZ5bYO07p9G1MYanaBE2v8784lyMR8f3kxDOZj+EO4+9cFwnMAKQ6ik6fr/2sz1IT6lQ
-	LtVLXfkgdOCZOKmDAVWItJVZTCZPZvgOGFxXprdvEfoWrg7zYjfZHst+iqqJXuE8eNgLirI4Smf
-	B0cnVwq+pfCcPVH5aeJhpfDuR4VFYJiTN3YBe8r8mP2X/zdg10ILKeJ1Nf1cO/MutHkRbL9iY5H
-	4j+pdAGzMMPj25W1iGybW0xWCYaE1Fw/vspIscg3TFLDWHTOakYg==
-X-Received: by 2002:a05:6402:1e8c:b0:683:e394:cc0c with SMTP id 4fb4d7f45d1cf-69c5ef84424mr6428415a12.4.1784034841275;
-        Tue, 14 Jul 2026 06:14:01 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd2952836sm1533316a12.27.2026.07.14.06.14.00
+        d=1e100.net; s=20251104; t=1784035293; x=1784640093;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SWA2pdRQ6l8w4+g2rx0Pkw+ZVozyVuWGGSCZMNK3koU=;
+        b=TL8tD/LR8ujDI3nAC+tmVNvmpac4/+RNYQ3zx/Xbi+WnSRhEAr4U7o9YyVwqhv8WYz
+         cXBGEEPmXdAqg+oQkSFhdLh+2QNCBtsHckcAESta2ttmsRNWNVjsxMwF8dnEyr0zLfOI
+         8eD49F4fDEhDBlRegwlvz7KZJloNrWb8SpcB7MzClOG5nbBoKTvsxDTg/5sQkrROwSfn
+         88cnBKcdhOJZFidmhS5KveyYBy2PM+i8xEn9+m5GaFoc1EfRWGGOZu5DtR9AyQA/DWGd
+         YJE0ofMgxE06Pat4dpEYvVFAgGRG9isHP24SPDNm9L3lrJpLT1CKlWyB7ff0lRodPmaO
+         ZNPw==
+X-Gm-Message-State: AOJu0YzYOW2OygFaFftfVHvpuPzOt9Wi3KyD9goca27b1d/0z+reIQRF
+	hNBQEZYOVfHOzq7pwMxSgShh5dVoP28XQ5gtfIB/zbyMfDJaN3HBvbAcIJ7HoUsJ
+X-Gm-Gg: AfdE7cmq28tTySex5F3ibxvxtAlRYVx4YVscwIRHbBZq9N5IS0LX8LaTQDUOpmfz8/D
+	PL+GYEvDXnpBVfdZctyWfzfN2dPdsOe/cNkcrPx5pa6GGx3+dth02wl4/0l+wBrP85hDktlEANd
+	1Taij2aAr4XI2KVr6ZBxjq71YlSWvOnuwJ2cJQK0w9V6TNft2XzpGIkQJSQNZo7jJLK/rbqF8J7
+	nzkm3r3W4k/sYhxzM6Z+lGCeMg+mrScJz0OAcwTAz3FSFyh9aXeIh7vgcST66+xIimztqrwUwK7
+	xB7GDRsHbThQ9NI2DNc655DKV65JLUlzyhVw6HfQme+X9pV0rkulQA6dVwtB4amdNaHzL1Qp0LA
+	XiQaPDxSuZB0/3fVa0W7aOt7txlPa0qhawV0u60h2FmntOgVmS9Jw3KVb9fO4wWv3syNVeXz7H/
+	T047zfOk+U/Sr5FF3zejfw8cmip/K1TsJzBdb+HuM=
+X-Received: by 2002:a05:6a00:9295:b0:847:7a61:e68e with SMTP id d2e1a72fcca58-84889618fdfmr12660747b3a.31.1784035292328;
+        Tue, 14 Jul 2026 06:21:32 -0700 (PDT)
+Received: from d.home.yangfl.dn42 ([2a09:bac5:661f:3046::4cf:36])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f6be668sm1515482b3a.35.2026.07.14.06.21.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 06:14:00 -0700 (PDT)
-Date: Tue, 14 Jul 2026 14:13:59 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Baineng Shou <shoubaineng@gmail.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, "T . J . Mercier" <tjmercier@google.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
- <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, Sandeep Patil
- <sspatil@android.com>, "Andrew F . Davis" <afd@ti.com>, Srinivas Kandagatla
- <srini@kernel.org>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dma-buf: dma-heap: don't publish fd before
- copy_to_user() succeeds
-Message-ID: <20260714141359.7758575d@pumpkin>
-In-Reply-To: <20260714114654.3885457-2-shoubaineng@gmail.com>
-References: <CABdmKX21NHc2=9Sk2F-BFpu6is0vTg-QXLE+wiFNEPdsWWjvog@mail.gmail.com>
-	<20260714114654.3885457-1-shoubaineng@gmail.com>
-	<20260714114654.3885457-2-shoubaineng@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Tue, 14 Jul 2026 06:21:31 -0700 (PDT)
+From: David Yang <mmyangfl@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: David Yang <mmyangfl@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] media: dvb-usb-v2: nerc: add support for NERC DtmbUSB DTMB receiver
+Date: Tue, 14 Jul 2026 21:21:19 +0800
+Message-ID: <20260714132121.109385-1-mmyangfl@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:shoubaineng@gmail.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:tjmercier@google.com,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:sspatil@android.com,m:afd@ti.com,m:srini@kernel.org,m:stable@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-67565-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-67566-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[mmyangfl@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:mmyangfl@gmail.com,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mmyangfl@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DCC387550C5
+X-Rspamd-Queue-Id: 157C275516E
 
-On Tue, 14 Jul 2026 19:46:53 +0800
-Baineng Shou <shoubaineng@gmail.com> wrote:
+NERC DtmbUSB (04b4:1004) is a highly integrated DTMB USB receiver.
 
-> DMA_HEAP_IOCTL_ALLOC allocates a dma-buf and installs an fd into the
-> caller's fd table via dma_buf_fd() -> fd_install() before
-> dma_heap_ioctl() copies the result back to userspace.  If the trailing
-> copy_to_user() fails, userspace never learns the fd number, but the
-> fd (and the underlying dma-buf reference) are already visible to
-> other threads in the same process and are leaked for the lifetime of
-> the process.
->=20
-> The obvious "close it on the failure path" fix is unsafe: once
-> fd_install() has run, another thread can already dup() the fd, send
-> it via SCM_RIGHTS, or close() it and let its number be reused, so a
-> subsequent close_fd() from the ioctl path can operate on an unrelated
-> file.  This was pointed out by Christian K=C3=B6nig on v1 [1].
-...
+  * USB Bridge: Cypress CY7C68013A
+  * Receiver: HDIC HD2312A
+  * Tuner: MaxLinear MxL608
+  * ROM: 24-series flash
 
-My 2c:
+Three hardware variants is found: Letv, Aiwa, and CVB.
 
-The other option is just to leave it as a 'problem for user space'.
-No reasonable program is going to handle the EFAULT return by doing
-anything other than exiting.
-Even getting an EFAULT is really an indication that the application
-is already in a real mess - most likely with a badly corrupted heap.
+Signed-off-by: David Yang <mmyangfl@gmail.com>
+---
+v3: https://lore.kernel.org/linux-media/20260713100211.29548-1-mmyangfl@gmail.com
+  - fix timeout issue
+v2: https://lore.kernel.org/linux-media/20260711140811.1689525-1-mmyangfl@gmail.com
+  - fix wrong memcpy arguement in nerc_control_msg
+  - fix warning from swzigzag
+v1: https://lore.kernel.org/linux-media/20260710063237.1430919-1-mmyangfl@gmail.com
+  - add a comment for checkpatch warning
+  - fix an uninitialized variable
+ MAINTAINERS                           |   8 +
+ drivers/media/usb/dvb-usb-v2/Kconfig  |   8 +
+ drivers/media/usb/dvb-usb-v2/Makefile |   3 +
+ drivers/media/usb/dvb-usb-v2/nerc.c   | 381 ++++++++++++++++++++++++++
+ drivers/media/usb/dvb-usb-v2/nerc.h   |  40 +++
+ include/media/dvb-usb-ids.h           |   1 +
+ 6 files changed, 441 insertions(+)
+ create mode 100644 drivers/media/usb/dvb-usb-v2/nerc.c
+ create mode 100644 drivers/media/usb/dvb-usb-v2/nerc.h
 
-Anything else leaves error recovery code in the kernel that is pretty
-much never executed and open to a variety of bugs.
-While the recovery here is probably ok, there are some sockopt calls
-where it is all more complicated.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f37a81950e25..a86e218e79e1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9158,6 +9158,14 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+ T:	git git://linuxtv.org/mkrufky/mxl111sf.git
+ F:	drivers/media/usb/dvb-usb-v2/mxl111sf*
+ 
++DVB_USB_NERC MEDIA DRIVER
++M:	David Yang <mmyangfl@gmail.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++W:	https://linuxtv.org
++Q:	http://patchwork.linuxtv.org/project/linux-media/list/
++F:	drivers/media/usb/dvb-usb-v2/nerc*
++
+ DVB_USB_RTL28XXU MEDIA DRIVER
+ L:	linux-media@vger.kernel.org
+ S:	Orphan
+diff --git a/drivers/media/usb/dvb-usb-v2/Kconfig b/drivers/media/usb/dvb-usb-v2/Kconfig
+index 4eadc9539b4c..8f0918728de1 100644
+--- a/drivers/media/usb/dvb-usb-v2/Kconfig
++++ b/drivers/media/usb/dvb-usb-v2/Kconfig
+@@ -144,6 +144,14 @@ config DVB_USB_MXL111SF
+ 	help
+ 	  Say Y here to support the MxL111SF USB2.0 DTV receiver.
+ 
++config DVB_USB_NERC
++	tristate "NERC DTMB USB2.0 support"
++	depends on DVB_USB_V2
++	select DVB_EC100
++	help
++	  Say Y here to support the NERC DTMB (Cypress CY7C68013A + HDIC
++	  HD2312A) USB2.0 receiver.
++
+ config DVB_USB_RTL28XXU
+ 	tristate "Realtek RTL28xxU DVB USB support"
+ 	depends on DVB_USB_V2 && I2C_MUX
+diff --git a/drivers/media/usb/dvb-usb-v2/Makefile b/drivers/media/usb/dvb-usb-v2/Makefile
+index 58c0140e19de..0c33dd50f2f7 100644
+--- a/drivers/media/usb/dvb-usb-v2/Makefile
++++ b/drivers/media/usb/dvb-usb-v2/Makefile
+@@ -35,6 +35,9 @@ obj-$(CONFIG_DVB_USB_MXL111SF) += dvb-usb-mxl111sf.o
+ obj-$(CONFIG_DVB_USB_MXL111SF) += mxl111sf-demod.o
+ obj-$(CONFIG_DVB_USB_MXL111SF) += mxl111sf-tuner.o
+ 
++dvb-usb-nerc-objs := nerc.o
++obj-$(CONFIG_DVB_USB_NERC) += dvb-usb-nerc.o
++
+ dvb-usb-rtl28xxu-objs := rtl28xxu.o
+ obj-$(CONFIG_DVB_USB_RTL28XXU) += dvb-usb-rtl28xxu.o
+ 
+diff --git a/drivers/media/usb/dvb-usb-v2/nerc.c b/drivers/media/usb/dvb-usb-v2/nerc.c
+new file mode 100644
+index 000000000000..fe25614067cf
+--- /dev/null
++++ b/drivers/media/usb/dvb-usb-v2/nerc.c
+@@ -0,0 +1,381 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * China NERC (National Engineering Research Center of Digital Television)
++ * DTMB (Cypress CY7C68013A + HDIC HD2312A) USB2.0 receiver.
++ *
++ * Copyright (c) 2026 David Yang
++ */
++
++#include "dvb_usb.h"
++
++#include "nerc.h"
++
++DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
++
++static const char *nerc_variant_name(enum nerc_variant variant)
++{
++	switch (variant) {
++	case NERC_VARIANT_LETV:
++		return "Letv";
++	case NERC_VARIANT_AIWA:
++		return "Aiwa";
++	case NERC_VARIANT_CVB:
++		return "CVB";
++	default:
++		return "unknown";
++	}
++}
++
++static int
++nerc_control_msg(struct dvb_usb_device *d, u8 request, bool read,
++		 void *data, u16 size)
++{
++	struct nerc_priv *priv = d_to_priv(d);
++	unsigned int pipe;
++	u8 requesttype;
++	int res;
++
++	if (WARN_ON(size > sizeof(priv->buf)))
++		return -EINVAL;
++
++	lockdep_assert_held_once(&d->usb_mutex);
++
++	if (read) {
++		requesttype = USB_TYPE_VENDOR | USB_DIR_IN;
++		pipe = usb_rcvctrlpipe(d->udev, 0);
++	} else {
++		requesttype = USB_TYPE_VENDOR | USB_DIR_OUT;
++		pipe = usb_sndctrlpipe(d->udev, 0);
++		if (size)
++			memcpy(priv->buf, data, size);
++	}
++
++	/* value seems to be ignored, but just play safe */
++	res = usb_control_msg(d->udev, pipe, request, requesttype, 0xfe,
++			      0, priv->buf, size, NERC_USB_TIMEOUT);
++	dvb_usb_dbg_usb_control_msg(d->udev, request, requesttype, 0xfe,
++				    0, priv->buf, size);
++
++	if (res < 0)
++		return res;
++	if (res != size)
++		return -EIO;
++	if (size && read)
++		memcpy(data, priv->buf, res);
++	return 0;
++}
++
++static int
++nerc_get_tune_settings(struct dvb_frontend *fe,
++		       struct dvb_frontend_tune_settings *s)
++{
++	s->min_delay_ms = 800;
++	s->step_size = 0;
++	s->max_drift = 0;
++
++	return 0;
++}
++
++static int nerc_read_status(struct dvb_frontend *fe, enum fe_status *status)
++{
++	struct dvb_usb_device *d = fe_to_d(fe);
++	bool has_signal;
++	bool has_lock;
++	int res;
++
++	mutex_lock(&d->usb_mutex);
++	res = nerc_control_msg(d, NERC_HAS_SIGNAL, true,
++			       &has_signal, sizeof(has_signal));
++	if (!res && has_signal) {
++		res = nerc_control_msg(d, NERC_HAS_LOCK, true,
++				       &has_lock, sizeof(has_lock));
++	}
++	mutex_unlock(&d->usb_mutex);
++	if (res)
++		return res;
++
++	if (!has_signal)
++		*status = 0;
++	else if (!has_lock)
++		*status = FE_HAS_SIGNAL | FE_HAS_CARRIER;
++	else
++		*status = FE_HAS_SIGNAL | FE_HAS_CARRIER | FE_HAS_VITERBI |
++			  FE_HAS_SYNC | FE_HAS_LOCK;
++	return 0;
++}
++
++static int
++nerc_get_frontend(struct dvb_frontend *fe, struct dtv_frontend_properties *c)
++{
++	struct dvb_usb_device *d = fe_to_d(fe);
++	struct nerc_priv *priv = d_to_priv(d);
++	unsigned char frontend[6];
++	unsigned char snr[2];
++	unsigned char strength[4];
++	int res;
++
++	mutex_lock(&d->usb_mutex);
++
++	res = nerc_control_msg(d, NERC_FRONTEND, true,
++			       frontend, sizeof(frontend));
++	if (res)
++		goto end;
++
++	res = nerc_control_msg(d, NERC_SNR, true, snr, sizeof(snr));
++	if (res)
++		goto end;
++
++	res = nerc_control_msg(d, NERC_STRENGTH, true,
++			       strength, sizeof(strength));
++	if (res)
++		goto end;
++
++end:
++	mutex_unlock(&d->usb_mutex);
++	if (res)
++		return res;
++
++	switch (frontend[0]) {
++	case 0:
++		c->transmission_mode = TRANSMISSION_MODE_C1;
++		break;
++	case 1:
++		c->transmission_mode = TRANSMISSION_MODE_C3780;
++		break;
++	default:
++		c->transmission_mode = TRANSMISSION_MODE_AUTO;
++	}
++
++	switch (frontend[1]) {
++	case 0:
++		c->guard_interval = GUARD_INTERVAL_PN945;
++		break;
++	case 1:
++		c->guard_interval = GUARD_INTERVAL_PN595;
++		break;
++	case 2:
++		c->guard_interval = GUARD_INTERVAL_PN420;
++		break;
++	default:
++		c->guard_interval = GUARD_INTERVAL_AUTO;
++	}
++
++	switch (frontend[2]) {
++	case 0:
++		c->fec_inner = FEC_2_5;
++		break;
++	case 1:
++		c->fec_inner = FEC_3_5;
++		break;
++	case 2:
++		c->fec_inner = FEC_4_5;
++		break;
++	default:
++		c->fec_inner = FEC_AUTO;
++	}
++
++	switch (frontend[3]) {
++	case 0:
++		c->interleaving = INTERLEAVING_720;
++		break;
++	case 1:
++		c->interleaving = INTERLEAVING_240;
++		break;
++	default:
++		c->interleaving = INTERLEAVING_AUTO;
++	}
++
++	switch (frontend[4]) {
++	case 0:
++		c->modulation = QAM_4_NR;
++		break;
++	case 1:
++		c->modulation = QPSK;
++		break;
++	case 2:
++		c->modulation = QAM_16;
++		break;
++	case 3:
++		c->modulation = QAM_32;
++		break;
++	case 4:
++		c->modulation = QAM_64;
++		break;
++	default:
++		c->modulation = QAM_AUTO;
++	}
++
++	switch (frontend[5]) {
++	case 0:
++		c->inversion = INVERSION_ON;
++		break;
++	case 1:
++		c->inversion = INVERSION_OFF;
++		break;
++	default:
++		c->inversion = INVERSION_AUTO;
++	}
++
++	if (priv->variant == NERC_VARIANT_CVB)
++		c->strength.stat[0].svalue = -1000 * strength[3];
++	else
++		c->strength.stat[0].uvalue = strength[3] * 0xffff / 100;
++	c->cnr.stat[0].svalue = 10 * (100 * snr[0] + snr[1]);
++
++	return 0;
++}
++
++static int nerc_set_frontend(struct dvb_frontend *fe)
++{
++	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
++	__be32 freq = cpu_to_be32(c->frequency);
++	struct dvb_usb_device *d = fe_to_d(fe);
++	int res;
++
++	mutex_lock(&d->usb_mutex);
++	res = nerc_control_msg(d, NERC_FREQ_SET, false, &freq, sizeof(freq));
++	mutex_unlock(&d->usb_mutex);
++
++	return res;
++}
++
++static const struct dvb_frontend_ops nerc_ops = {
++	.delsys = { SYS_DTMB },
++	.info = {
++		.name = "HDIC HD2312A (in NERC DtmbUSB)",
++		.frequency_min_hz = 52 * MHz,
++		.frequency_max_hz = 866 * MHz,
++		.frequency_stepsize_hz = 10 * kHz,
++		.caps = FE_CAN_INVERSION_AUTO | FE_CAN_FEC_AUTO |
++			FE_CAN_QAM_AUTO | FE_CAN_TRANSMISSION_MODE_AUTO |
++			FE_CAN_BANDWIDTH_AUTO | FE_CAN_GUARD_INTERVAL_AUTO
++	},
++	.get_tune_settings = nerc_get_tune_settings,
++	.read_status = nerc_read_status,
++	.get_frontend = nerc_get_frontend,
++	.set_frontend = nerc_set_frontend,
++};
++
++static int nerc_streaming_ctrl(struct dvb_frontend *fe, int on)
++{
++	struct dvb_usb_device *d = fe_to_d(fe);
++	int res;
++
++	mutex_lock(&d->usb_mutex);
++	res = nerc_control_msg(d, on ? NERC_STREAM_START : NERC_STREAM_STOP,
++			       false, NULL, 0);
++	mutex_unlock(&d->usb_mutex);
++
++	return res;
++}
++
++static int nerc_frontend_attach(struct dvb_usb_adapter *adap)
++{
++	struct nerc_priv *priv = adap_to_priv(adap);
++	struct dvb_frontend *fe = &priv->fe;
++	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
++
++	/* init frontend callback ops */
++	memcpy(&fe->ops, &nerc_ops, sizeof(struct dvb_frontend_ops));
++
++	c->strength.len = 1;
++	if (priv->variant == NERC_VARIANT_CVB)
++		c->strength.stat[0].scale = FE_SCALE_DECIBEL;
++	else
++		c->strength.stat[0].scale = FE_SCALE_RELATIVE;
++	c->cnr.len = 1;
++	c->cnr.stat[0].scale = FE_SCALE_DECIBEL;
++
++	adap->fe[0] = fe;
++	return 0;
++}
++
++static int nerc_power_ctrl(struct dvb_usb_device *d, int on)
++{
++	int res;
++
++	mutex_lock(&d->usb_mutex);
++	res = nerc_control_msg(d, on ? NERC_POWER_ON : NERC_POWER_OFF,
++			       false, NULL, 0);
++	mutex_unlock(&d->usb_mutex);
++
++	return res;
++}
++
++static int nerc_probe(struct dvb_usb_device *d)
++{
++	struct nerc_priv *priv = d_to_priv(d);
++	unsigned char buf[4];
++	int res;
++
++	mutex_lock(&d->usb_mutex);
++	res = nerc_control_msg(d, NERC_VERSION, true, buf, sizeof(buf));
++	mutex_unlock(&d->usb_mutex);
++	if (res)
++		return res;
++
++	if (buf[1] == 8 && buf[2] == 32 && buf[3] == 68) {
++		if (buf[0] == 3)
++			priv->variant = NERC_VARIANT_LETV;
++		else if (buf[0] == 5)
++			priv->variant = NERC_VARIANT_AIWA;
++		else if (buf[0] == 6)
++			priv->variant = NERC_VARIANT_CVB;
++	}
++
++	if (priv->variant == NERC_VARIANT_UNKNOWN) {
++		dev_err(&d->udev->dev, "Unknown NERC DtmbUSB v%u.%u.%u%u",
++			buf[0], buf[1], buf[2], buf[3]);
++		return -ENODEV;
++	}
++
++	/* yes, missing the last dot */
++	dev_info(&d->udev->dev, "NERC DtmbUSB v%u.%u.%u%u (%s)",
++		 buf[0], buf[1], buf[2], buf[3],
++		 nerc_variant_name(priv->variant));
++	return 0;
++}
++
++static const struct dvb_usb_device_properties nerc_props = {
++	.driver_name = KBUILD_MODNAME,
++	.owner = THIS_MODULE,
++	.adapter_nr = adapter_nr,
++	.size_of_priv = sizeof(struct nerc_priv),
++
++	.streaming_ctrl = nerc_streaming_ctrl,
++	.frontend_attach = nerc_frontend_attach,
++	.power_ctrl = nerc_power_ctrl,
++	.probe = nerc_probe,
++
++	.num_adapters = 1,
++	.adapter = {
++		{
++			.stream = DVB_USB_STREAM_BULK(0x82, 8, 4096),
++		},
++	},
++};
++
++static const struct usb_device_id nerc_id_table[] = {
++	{ DVB_USB_DEVICE(USB_VID_CYPRESS, USB_PID_NERC_DTMBUSB,
++		&nerc_props, "NERC DtmbUSB", NULL) },
++	{ }
++};
++MODULE_DEVICE_TABLE(usb, nerc_id_table);
++
++static struct usb_driver nerc_usb_driver = {
++	.name = KBUILD_MODNAME,
++	.id_table = nerc_id_table,
++	.probe = dvb_usbv2_probe,
++	.disconnect = dvb_usbv2_disconnect,
++	.suspend = dvb_usbv2_suspend,
++	.resume = dvb_usbv2_resume,
++	.reset_resume = dvb_usbv2_reset_resume,
++	.no_dynamic_id = 1,
++	.soft_unbind = 1,
++};
++
++module_usb_driver(nerc_usb_driver);
++
++MODULE_AUTHOR("David Yang <mmyangfl@gmail.com>");
++MODULE_DESCRIPTION("Driver for NERC DtmbUSB");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/usb/dvb-usb-v2/nerc.h b/drivers/media/usb/dvb-usb-v2/nerc.h
+new file mode 100644
+index 000000000000..bfe3fc24e401
+--- /dev/null
++++ b/drivers/media/usb/dvb-usb-v2/nerc.h
+@@ -0,0 +1,40 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (c) 2026 David Yang
++ */
++
++#ifndef _DVB_USB_NERC_H_
++#define _DVB_USB_NERC_H_
++
++#include "dvb_usb.h"
++
++#define NERC_STREAM_START	0xab
++#define NERC_STREAM_STOP	0xac
++#define NERC_POWER_ON		0xad
++#define NERC_POWER_OFF		0xae
++#define NERC_FRONTEND		0xe7
++#define NERC_SNR		0xe8
++#define NERC_QUALITY		0xe9
++#define NERC_HAS_LOCK		0xea	/* 1.7s timeout */
++#define NERC_STRENGTH		0xeb
++#define NERC_HAS_SIGNAL		0xec	/* 0.7s after set freq */
++#define NERC_VERSION		0xed
++#define NERC_FREQ_SET		0xfc
++
++#define NERC_USB_TIMEOUT	2000
++
++enum nerc_variant {
++	NERC_VARIANT_UNKNOWN,
++	NERC_VARIANT_LETV,
++	NERC_VARIANT_AIWA,
++	NERC_VARIANT_CVB,
++};
++
++struct nerc_priv {
++	struct dvb_frontend fe;
++
++	unsigned char variant;
++	u8 buf[31];
++};
++
++#endif
+diff --git a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
+index 1b7d10f3d4aa..7bc4e3c395f5 100644
+--- a/include/media/dvb-usb-ids.h
++++ b/include/media/dvb-usb-ids.h
+@@ -308,6 +308,7 @@
+ #define USB_PID_MYGICA_T230C2				0xc68a
+ #define USB_PID_MYGICA_T230C2_LITE			0xc69a
+ #define USB_PID_MYGICA_T230C_LITE			0xc699
++#define USB_PID_NERC_DTMBUSB			0x1004
+ #define USB_PID_NOXON_DAB_STICK 			0x00b3
+ #define USB_PID_NOXON_DAB_STICK_REV2			0x00e0
+ #define USB_PID_NOXON_DAB_STICK_REV3			0x00b4
+-- 
+2.53.0
 
-	David
 
