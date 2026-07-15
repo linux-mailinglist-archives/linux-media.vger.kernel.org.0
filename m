@@ -1,194 +1,213 @@
-Return-Path: <linux-media+bounces-67602-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67603-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nCUlB0XyVmpqDQEAu9opvQ
-	(envelope-from <linux-media+bounces-67602-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 04:36:53 +0200
+	id kcpwFUP5VmpgDwEAu9opvQ
+	(envelope-from <linux-media+bounces-67603-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 05:06:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F6075A146
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 04:36:52 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FAC275A354
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 05:06:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=collabora.com header.s=zohomail header.b=X40AoUZd;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67602-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67602-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=collabora.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=linuxfoundation.org header.s=google header.b=YhvNqO8J;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67603-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67603-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linuxfoundation.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F1E5D30254AF
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 02:36:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2160A300FEF1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 03:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86EFB3A873A;
-	Wed, 15 Jul 2026 02:36:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E21B352021;
+	Wed, 15 Jul 2026 03:06:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF4F25776;
-	Wed, 15 Jul 2026 02:36:34 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784082995; cv=pass; b=VUh5E+Kpx/fv9SZKW3E1uhfv7iQyoDnopBlKT+SebV4u6rpSQhlA57l3JAET9affkY9GhJ+8rMTeGsXoJ8AmkRFybCMOR/0ZiREfMZjjsyzwU48KUem3OFKUM+Gm0eFAW/ZcXS9HE5IYZyZbqYnJ8OlXnwA2LLFecHqvw+vQnd0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784082995; c=relaxed/simple;
-	bh=CCCoBKWdYOZIqsZgs6d6JT73LJGIMyFaB4POVbHF6tk=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=bXoNkeJ6PbSl8Xmgws+pb50BCFv67/zdY5Za5omn2Mp2kiiB3eNMwI+SmjSFTyOQ6m+f9tvl+6nnVzzPRraadBvBzJlMCWkIGrDnl5UlD1TxCtZI8MNO1NhuwY4BtdW3ZcLyZRCQRYwOigXXG05XSx6tMmDajWMSt4hspY5zL7Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=X40AoUZd; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal: i=1; a=rsa-sha256; t=1784082971; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EDMJI5+Zxodtl29AzYLlxHF57BTQIVOnpBYHfLqeaaKfm4KN402UVrwnQ6z58zUD2cfzR6Wo+K5qm2Wf8H614lVlHMBRPYDVKK0836cBgOFPhh4/I/xSjNlPDZUsVBcjCCtb+9sbR/75Stjze82gUR2pQ3S0Vce85fjNrmEX7xc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784082971; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=CCCoBKWdYOZIqsZgs6d6JT73LJGIMyFaB4POVbHF6tk=; 
-	b=UEmXXmSGthgKtaAlykKaIpMraEpboC50k978gJBOQSgrS8SrLOW7jGGaoJdmweOk3iTqAzNsp9arabgrxuHnPXQa2VEbYH6IrKa4kSDUkvHlFWn/1XrK2uvDSoWAZIF4+1t2LvPv8+D9iLIZrNDmDfIEx/x6xxGWAaE+1k27Uo0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784082971;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=CCCoBKWdYOZIqsZgs6d6JT73LJGIMyFaB4POVbHF6tk=;
-	b=X40AoUZdJrMD6AA+fIConpeuYtY+IfQs3BgFWVGlwjjTTigymnkm/P4FHOq4GOYZ
-	UIY/qPO7nlqzKY25ii63TsxVQuV7aHoiTU1NiqGDF/3153D4MhYihznqgM6Na0F8752
-	6vmttJ+ULPVtsj7fJ+eanxiJT0uKI1wq06qu95Mw=
-Received: by mx.zohomail.com with SMTPS id 1784082969609978.1531201799045;
-	Tue, 14 Jul 2026 19:36:09 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D40D1A3029
+	for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 03:06:33 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784084796; cv=none; b=frpWPK5tntq3XiqZBg4hc77hu2XurT838stCaCmQFxah00SpeORTgD9D5ufCrOH9Em/JjIfck/sYoiaKwcFexcxbYK8qlU64gVZYJViiaIVB9kI8NAHOMidu9+egP5rwuBR6OQvgVbpDq1veH11AkhUh6bFxx4WSvUdvWzjwE5I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784084796; c=relaxed/simple;
+	bh=MHpk1OfhALXQJApxVYkVQIlOkRwb625SY/m0BiEbrWQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HuNp+NmXnB6LFKWogK9AiQ+cqq+FjntwJ7EqCHh3qv5H3OqoIrbriJdRaQb/Ytxovt6TPh0j23VndkGhecj9J0j0IZ6QzUoCT37Va5lMu7cmVNXUZmZmpXJWTBWTxsZBJcRvTW17Y+zSfGXSYrtiG43jxG0hhiqvpE0kFdoCPg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YhvNqO8J; arc=none smtp.client-ip=209.85.208.52
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6986287534eso8995323a12.3
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 20:06:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1784084792; x=1784689592; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5Oah0XDycOtY1xhMJPJ3ymJEXgGFITe2QDZ98tXb9LA=;
+        b=YhvNqO8JaYgkRz+dg94catE56rzZXAWslbgn4Tyn8b3NgpkGEVOAGoT4PttuMDLVNo
+         Peve9CzOjQecc+0l6j1SCVGi2f0o/wbJt/GGuCcEoFFpcjFP65JvE5KHwW7ftnFXKXM8
+         dH3SGcNqlNVJ4I82h7Jt/4EI7f+lJrC40CZwY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784084792; x=1784689592;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5Oah0XDycOtY1xhMJPJ3ymJEXgGFITe2QDZ98tXb9LA=;
+        b=ME3qHKiZ50Sshi8x7QaZJeLt/hyN/rbv2Pw6nKaXxgH+MQ3st14xf/vj/lHY9hwVmb
+         u7rNsj8Qj2GfvaCDGwJRLIcAVKixNw/eT82+Lh0ThnGPjDVD4LajS/98t6Y3xtlRphq4
+         HY0Na5pB/yX7l9SVkLFWRyjIKVOkXC3rlYtwCqGGw76s7DA3HiBRHUabbdCkhNUlTxKV
+         5IrC2P1+iWmh282KL1FJw7RH4BlJuLSvy08H0aYjLFQzm8fN9OwarOEdnC1dFTFK7CSZ
+         qA3FT5qvllPzKnxO4/lvI2HhgyXzvWwUPpy5e15hZqJ7xRdF/BpKtb2S5Uo1Xqu8Qdml
+         TK4A==
+X-Forwarded-Encrypted: i=1; AHgh+RrHRyJRZXcHzsSEbQvIpE0WN/MKHADDvS3yo5hd4WuhfAwMztwzA5CEnFa5FlC35sdvwHEYfy07APV00g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1Xmn62sCBkb0SEjbh4LGdE0Tdm03F2a9PFTpwMhHRFJKSfR3O
+	CcZ0B0Xp5VJEjv9zSGVULLu2hXNoFME8S11JXqxhA/LyGh2Q6dyqvJvYtfhlYBUR+oaTP8POT8Y
+	PhHrZ+rE=
+X-Gm-Gg: AfdE7ckufzlJKdMypJrAOmIID+GZ/8LQzE6lt8ww31KP7hvt7++j7uqd4G5EXzzk6cr
+	zcOWJ1X6NfIclgrSS0vBc7YqMCy8sMs3x6628DziSLRIGWUAOpZWHTASgm+Pf/tfIakL/6HGIwN
+	bOTGtZg/akppNMF1PEaDHa3w3KesQUZCwNGJUob7oYAPgip9ljgUzH+dIBApqepGK8GcAlfDzaq
+	BJLakaqX8oEMMsMD8qsyrXosdS2vgfo7JTMGu4duZPr8QajXiqS8Btvrfl23LuW+txchDATZU0L
+	zK43G5pUXb5bZsji2PkCD4gDxBH89uaEw0FORWwbEQAN8ivF8LKAG1o25PL2iKZJsZHGyCboCR9
+	DaEdh+MEeedexrz07H/1Wi+Wv2PaAHllhO15qlU1vzZ3o8ypt/MxeLZoMI21ulELSy+YPny7a8K
+	WhKaHikJnyixtcb/1TcumLv9G5dZTcvmq88TtGOBpHD37rbQyg2Fd89ew6Bp0q
+X-Received: by 2002:a05:6402:e05:b0:69c:7798:407c with SMTP id 4fb4d7f45d1cf-69cd29f2000mr3582221a12.6.1784084792131;
+        Tue, 14 Jul 2026 20:06:32 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd2952836sm2295196a12.27.2026.07.14.20.06.31
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jul 2026 20:06:31 -0700 (PDT)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-69c5fda04a8so7524209a12.1
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 20:06:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rrj3/ONvb0hHdjlUoMpwHwv574uUfBs17uWAZEMGMbICqYva4TQcrgEnGw/6Rs5PQqtTgW7zRhsP0OE1w==@vger.kernel.org
+X-Received: by 2002:a17:907:3f22:b0:c15:9350:dfa6 with SMTP id
+ a640c23a62f3a-c16619ad2b0mr326688366b.60.1784084790705; Tue, 14 Jul 2026
+ 20:06:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [RFC PATCH 0/4] rust: usb: add usb request block abstractions and
- a user
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <alVGanOux7SJ5dpM@pendragon>
-Date: Tue, 14 Jul 2026 23:35:50 -0300
-Cc: Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- Mathias Nyman <mathias.nyman@intel.com>,
- linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org,
- linux-usb@vger.kernel.org,
- linux-media@vger.kernel.org,
- Colin Braun <colin.braun.cl@gmail.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
+MIME-Version: 1.0
+References: <20260715005909.GF1656185@killaraus.ideasonboard.com> <4928C919-7999-4E76-ADCB-F8643FED105B@linux.dev>
+In-Reply-To: <4928C919-7999-4E76-ADCB-F8643FED105B@linux.dev>
+From: Linus Torvalds <torvalds@linuxfoundation.org>
+Date: Tue, 14 Jul 2026 20:06:14 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wi4zC+Ze8e+p3tMv8TtG_80KzsZ1syL9anBtmEh5Z40vg@mail.gmail.com>
+X-Gm-Features: AUfX_mx8ZSjXcuPJvd3iUkA0-q7mYf-tl1EE8rFa7q8zX5xY72kSpsyl1CruPtg
+Message-ID: <CAHk-=wi4zC+Ze8e+p3tMv8TtG_80KzsZ1syL9anBtmEh5Z40vg@mail.gmail.com>
+Subject: Re: Linking Patchwork with Sashiko?
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Derek Barbosa <debarbos@redhat.com>, 
+	Matthieu Baerts <matttbe@kernel.org>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Steven Rostedt <rostedt@goodmis.org>, users@kernel.org, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, Stephen Finucane <stephenfin@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <0CCB6F69-1336-4254-AE1A-5DDC63BCA7B1@collabora.com>
-References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
- <1E924102-5CC7-427A-9FD0-3B15BA1BEAEB@collabora.com>
- <alVGanOux7SJ5dpM@pendragon>
-To: Colin Braun <colinbrauncl@gmail.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:gregkh@linuxfoundation.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:tamird@kernel.org,m:acourbot@nvidia.com,m:work@onurozkan.dev,m:mchehab@kernel.org,m:stern@rowland.harvard.edu,m:mathias.nyman@intel.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-media@vger.kernel.org,m:colin.braun.cl@gmail.com,m:nicolas.dufresne@collabora.com,m:colinbrauncl@gmail.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-67602-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67603-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[daniel.almeida@collabora.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,nvidia.com,onurozkan.dev,rowland.harvard.edu,intel.com,vger.kernel.org,gmail.com,collabora.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS(0.00)[m:roman.gushchin@linux.dev,m:laurent.pinchart@ideasonboard.com,m:mchehab+huawei@kernel.org,m:debarbos@redhat.com,m:matttbe@kernel.org,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,m:stephenfin@redhat.com,m:mchehab@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[torvalds@linuxfoundation.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	APPLE_MAILER_COMMON(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[torvalds@linuxfoundation.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:from_mime,linuxfoundation.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux.dev:email,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 78F6075A146
+X-Rspamd-Queue-Id: 9FAC275A354
 
-Hi Colin,
+On Tue, 14 Jul 2026 at 19:01, Roman Gushchin <roman.gushchin@linux.dev> wro=
+te:
+>
+> I think it makes the point of sashiko - helping maintainers - unachievabl=
+e. If the point to not use
+> LLMs in general, let=E2=80=99s discuss this, not how to make each use cas=
+e more complex.
+>
+> It seems like [1]  expresses a very anti-LLM position in general
 
-> On 13 Jul 2026, at 17:32, Colin Braun <colinbrauncl@gmail.com> wrote:
->=20
-> On Mon, Jul 13, 2026 at 10:53:53AM -0300, Daniel Almeida wrote:
->>=20
->> Have you talked to the media people about adding a Rust driver?
->>=20
->=20
-> I have not. I was actually wondering if this belongs in
-> drivers/staging/media, given how much work still needs to be done for =
-it
-> to support basic functionality. I had seen some v4l2 Rust abstraction
-> work done but not merged in, so I had hoped this could eventually be a
+Yes.
 
-Yep, I was behind this for a few years, in a few different ways.
+And no, that's not the position of the Linux kernel.
 
-> user of that work. Still trying to get a lay of the land, this is my
-> first attempt at contributing to the kernel.
->=20
+I realize that some people really dislike AI, but this is an area
+where I'm willing to absolutely put my foot down as the top-level
+maintainer.
 
-I=E2=80=99m cc=E2=80=99ing my colleague Nicolas. He was at the media =
-summit this year
-discussing a topic somewhat related to Rust.
+Linux is not one of those anti-AI projects, and if somebody has issues
+with that, they can do the open-source thing and fork it.
 
-IIUC, the consensus is unfavorable for Rust media drivers at the moment. =
-They
-are waiting for more progress on gcc-rs before allowing it, as clang =
-does not
-fit some of their infrastructure.
+Or just walk away.
 
-This doesn't have to discourage you from this work, though. Last I spoke =
-to
-Greg, I think he was OK with having enough infrastructure to build a =
-Rust
-version of usb-skeleton.c. You could perhaps work on that? I never =
-really found
-the time to, but I can chime in with reviews. It's always nice to =
-onboard new people :)
+AI is a tool, just like other tools we use.  And it's clearly a useful one.
 
-As Danilo pointed out, there is a competing implementation, though that =
-seems
-to be completely AI-generated, IIRC. Perhaps Mike would be interested in
-letting you take it over? It's already a lot of work on their plate to =
-do
-hardware RE + KMS + usb, so you could work together instead.
+It may not have been that "clearly" even just a year ago, but it's no
+longer in question today.
 
-Just a suggestion, of course.
+There are other questions around AI (like what the economy of it will
+actually look like in the end), but "is it useful" is no longer one of
+those questions. Anybody who doubts that clearly hasn't actually used
+it.
 
--- Daniel
+Yes, it can also be a somewhat painful tool, both for maintainer
+workloads and just from a "it keeps finding embarrassing bugs"
+standpoint.
 
+But the solution is not to put your head in the sand and sing "La La
+La, I can't hear you" at the top of your voice like some people seem
+to do.
 
+The solution is to make sure those LLM tools _help_ maintainers
+instead of just causing them pain. There's no question on that side.
 
+We're not forcing anybody to use it, but I will very loudly ignore
+people who try to argue against other people from using it.
 
+And no, AI isn't perfect. But Christ, anybody who points to the
+problems at AI had better be looking in the mirror and pointing at
+themselves at the same time.
 
+Because it's not like natural intelligence is always all that great either.
 
+The kernel project has been and will continue to be about the technology.
+
+Sure, the social angle of working on open source is important and
+often a very motivating part of the project, but in the end that's a
+side benefit, not the _point_ of the project.
+
+This is *NOT* some kind of "social warrior" project, never has been,
+and never will be.
+
+In the kernel community we do open source because it results in better
+technology, not because of religious reasons.
+
+And so we make decisions primarily based on technical merit. Not fear
+of new tools.
+
+              Linus
 
