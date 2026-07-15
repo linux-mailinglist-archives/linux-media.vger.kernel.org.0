@@ -1,170 +1,279 @@
-Return-Path: <linux-media+bounces-67636-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67637-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9W3YEOlHV2o8IgEAu9opvQ
-	(envelope-from <linux-media+bounces-67636-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:42:17 +0200
+	id 7T/QOSZIV2pFIgEAu9opvQ
+	(envelope-from <linux-media+bounces-67637-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:43:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E6275BFC8
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:42:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4135F75BFDA
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:43:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67636-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67636-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=HvKWGZlr;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67637-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67637-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8A8743038BAF
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:40:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 880BD3086557
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:40:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B74C3CCFB4;
-	Wed, 15 Jul 2026 08:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FBD03CE49E;
+	Wed, 15 Jul 2026 08:40:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03EE1FFC59;
-	Wed, 15 Jul 2026 08:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E4A362130
+	for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 08:40:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784104812; cv=none; b=Lfjcm4ak5weK2OfwdTOrFY25HWnFctcZFNUfLE+DjeRSYg6+XQrLWcmRXYx7vcBxSkpn4QRi2zzdudvO+SrmNwjcgCVFlUZJbivQZFj9RYx2sKcoLqHAhuHHypsqpx34Y3QKWbEp4MvGdHoYSyST7lICrGqLRh0VKo2YF/u+Usc=
+	t=1784104818; cv=none; b=CeY8EMX8JGkFO04FnvRNo4Fe9ejndYaL9yUQ+BeaE2qZKGUIRzjZkQONh0qyhyfMa+AJifmZ9wH6SfebLQI65iUMyOQk5tkNfY6J4VEizKNhGlB2IEZZDHnbAhGWISZceOtU6J1YOoECHp6Lpm9g3fSJ5B+tN0IaNJYPWolD6QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784104812; c=relaxed/simple;
-	bh=DtKNGi4IZ5/I+3fMt4ih3b9LM3eNTB0Ei4iJADOBR14=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lfv4bHhemczrA9+hmBFKGwdoJW3dKnvXvPPOPN7yAPdzJuu2agRBhhTfFa8V8nb/ZWUomrdKXwWS6asKFEqtNmFl68H1FkaFoXleQaQGmOGhc10JelbkCRhrditFFsElo2eVIf51PIcvy71hcI+tfSsTqKMr9M9domJNM0L0ZSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowABXo8ZmR1dqRV9HGA--.10286S2;
-	Wed, 15 Jul 2026 16:40:06 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Laura Abbott <labbott@fedoraproject.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] media: si2157: validate firmware record length
-Date: Wed, 15 Jul 2026 16:40:06 +0800
-Message-ID: <20260715084006.34310-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1784104818; c=relaxed/simple;
+	bh=04alqDAZRlvdzVoCbgR5tQxu79n3jUpnPSCtyAmZfp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Zq0xrKqT+Lnj0H9N9lEQbol2ZdjVgpf5DQFrG/ocMGHwBlfyOiB4/bonIYMF88/Js4nEoEzmV/3wZmScCcJKl8D0sgKaE3TeKmXieIlrer+hQqKbHhMSLxj0DQB0nlRljLg8ynAcq4istQYH6xrjf8h5al+zUNz/J8dUcIXW28o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HvKWGZlr; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A00961F000E9;
+	Wed, 15 Jul 2026 08:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784104816;
+	bh=nlO11ynP+LYmmr68oxPYsKPXdknBw8947JPyILhhTT0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=HvKWGZlrnk1DmbvlvbYc3wmkzPyeamogf39TQ/8zcl8l/yLneSdQQaQe2ieoz566d
+	 aeudr5rEt458N83inl4cykwq8E9lBDF0a4kybkvcMUX6bjQF7JJHmgzHSbF8LPjSOB
+	 Vu1/Ow890HSX0RbLjDYWHA2NjXkf5+l3f/8p5lf/5ZFI2FH8WJQz19c7ByKAizFcUd
+	 q5uSAYCScli/L81ZqjgoYUaHTElFzPLOAPlrFy8Q/dgeccPY7JkaVx28vQYEJB68HI
+	 lWH8PWFQHPU578WrVbWBi2N4F68YLhyPuWWJ7CGS2UUb+tbTugxtsJdmcgVIIzSsJZ
+	 n65BiO7roDXSw==
+Date: Wed, 15 Jul 2026 10:40:12 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Derek Barbosa <debarbos@redhat.com>,
+ Matthieu Baerts <matttbe@kernel.org>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Jason Gunthorpe <jgg@ziepe.ca>, Steven
+ Rostedt <rostedt@goodmis.org>, users@kernel.org, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Stephen Finucane <stephenfin@redhat.com>
+Subject: Re: Linking Patchwork with Sashiko?
+Message-ID: <20260715104012.7fd5c23a@foz.lan>
+In-Reply-To: <alc3gAJfAkG5DULJ@zed>
+References: <20260715005909.GF1656185@killaraus.ideasonboard.com>
+	<4928C919-7999-4E76-ADCB-F8643FED105B@linux.dev>
+	<alc3gAJfAkG5DULJ@zed>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABXo8ZmR1dqRV9HGA--.10286S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw1kKw1xAF43tw18ZFy7Jrb_yoW5JrWfpF
-	W5XFZ8JFWqqF4S93Z7Cay3uFySv3yxGayUGa9xuwnYyr1YvF1kArWjga42qF1I9rn3ta4U
-	Jr97try3u3ZrAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
-	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU2Q6
-	JUUUUU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-4.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:pengpeng@iscas.ac.cn,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:labbott@fedoraproject.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-67636-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:roman.gushchin@linux.dev,m:laurent.pinchart@ideasonboard.com,m:debarbos@redhat.com,m:matttbe@kernel.org,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,m:stephenfin@redhat.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-67637-lists,linux-media=lfdr.de,huawei];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	R_DKIM_NA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:from_mime,iscas.ac.cn:email,iscas.ac.cn:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,foz.lan:mid,ideasonboard.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 97E6275BFC8
+X-Rspamd-Queue-Id: 4135F75BFDA
 
-The Si2157 firmware loader treats the firmware blob as fixed 17-byte
-records.  Each record starts with a command length byte and has only
-16 bytes remaining for command data.
+On Wed, 15 Jul 2026 09:59:57 +0200
+Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
 
-The existing check compares the command length only with
-SI2157_ARGLEN.  That protects the local destination array, but not the
-source span of the current firmware record.  A length from 17 through
-SI2157_ARGLEN therefore makes the memcpy() read into the next record,
-or past the final record at the end of the firmware blob.
+> Hi Roman
+>=20
+> On Tue, Jul 14, 2026 at 07:00:54PM -0700, Roman Gushchin wrote:
+> > > On Jul 14, 2026, at 5:59=E2=80=AFPM, Laurent Pinchart <laurent.pincha=
+rt@ideasonboard.com> wrote:
+> > >
+> > > =EF=BB=BFOn Tue, Jul 14, 2026 at 10:55:42PM +0000, Roman Gushchin wro=
+te: =20
+> > >> Mauro Carvalho Chehab writes: =20
+> > >>>> On Mon, 13 Jul 2026 12:41:20 +0300 Laurent Pinchart wrote: =20
+> > >>>>>>> Individuals can set their
+> > >>>>>>> spam filters up if they don't want to get these emails, I can't=
+ control
+> > >>>>>>> it. Providing individual authors an option "I don't want my pat=
+ches
+> > >>>>>>> to be reviewed" sound strange to me. It's like "I don't want my=
+ patches
+> > >>>>>>> to be tested by unit tests". =20
+> > >>>>>>
+> > >>>>>> I agree with you, and, on my head, not sending e-mails to the au=
+thor
+> > >>>>>> is a clear violation to one of the most basic net etiquette rule=
+ on
+> > >>>>>> mailing lists: any replies to posts there should reach the autho=
+r. =20
+> > >>>>>
+> > >>>>> I don't know where that one comes from.
+> > >>>>>
+> > >>>>> What happened to this other "most basic rule" that subscription to
+> > >>>>> services that deliver e-mails should be opt-in ? =20
+> > >>>
+> > >>> Replying to an e-mail is not subscribing to a service. It is the
+> > >>> author's right to know if one replies publicly to his e-mails.
+> > >>> Explicitly removing him from the C/C of such replies is a violation
+> > >>> of his rights.
+> > >>>
+> > >>> On other words, it is implicit that, if you post an e-mail, you'll =
+be
+> > >>> expecting actions or answers to it.
+> > >>>
+> > >>> Now, if one really doesn't really want to receive e-mails from a
+> > >>> particular sender, a block list solves it. Alternatively, a way to
+> > >>> opt-out is welcomed.
+> > >>>
+> > >>> See, this is different than adding someone to a mailing list without
+> > >>> his consent: On such case, people receive e-mails unrelated to their
+> > >>> preferences. For those, opt-in is the right net etiquette. =20
+> > >>
+> > >> I agree with this.
+> > >>
+> > >> But also just practically: if someone who opted out from sashiko ema=
+ils
+> > >> posts a patch and sashiko finds say a critical issue, do we expect t=
+he
+> > >> maintainer to go and manually check each time whether the author opt=
+ed
+> > >> out and forward the review? =20
+> > >
+> > > I expect maintainers who want to act on sashiko reviews to triage and
+> > > verify them first before bothering authors, yes. I believe we should
+> > > follow the first two recommendations of the Software Freedom Conserva=
+ncy
+> > > on using LLM-backed generative AI systems for FOSS contributions ([1]=
+).
+> > >
+> > > [1] https://sfconservancy.org/llm-gen-ai/llm-backed-generative-ai-rec=
+ommendations.html =20
+> >
+> > I think it makes the point of sashiko - helping maintainers - unachieva=
+ble. If the point to not use
+> > LLMs in general, let=E2=80=99s discuss this, not how to make each use c=
+ase more complex.
+> > =20
+>=20
+> Having been in the discussion within the media group, let me try to
+> re-express here the point I made within that circle already.
+>=20
+> The decision to not send Sashiko replies to developers but rather have
+> them sent to a different mailing list, has been suggested because,
+> after a brief interim period where Sashiko reviews has been sent to
+> the main mailing list, it has caused more load for maintainers, not
+> less.
 
-Name the record and payload sizes, and require the command length to
-fit both the current record payload and the destination array before
-copying it.
+At the beginning, any new process generate more load for=20
+maintainers. The question yet to be answered is how this will
+affect our workflow in long term.
 
-Fixes: a828d72df216 ("[media] si2157: Bounds check firmware")
-Cc: stable@vger.kernel.org
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- drivers/media/tuners/si2157.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+> Far-fetched review comments, very convincing word salads mixed with
+> valuable findings have often been escalated by authors to maintainers
+> to have them distil the good from the bad.
+>=20
+> This might have merits: analyzing 3 false reports to find a bug is
+> still worth it, but has so far caused more load for maintainers and
+> reviewers, not less. Considering reviewers are the most scarce
+> resource we have, analyzing Sashiko reports has been made an opt-in
+> feature by sending its review to a dedicated mailing list where
+> maintainers can (optionally) decide if something's worth acting upon.
 
-diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-index d517a91e6fbc..126703e9d92f 100644
---- a/drivers/media/tuners/si2157.c
-+++ b/drivers/media/tuners/si2157.c
-@@ -13,6 +13,9 @@ static int tuner_lock_debug;
- module_param(tuner_lock_debug, int, 0644);
- MODULE_PARM_DESC(tuner_lock_debug, "if set, signal lock is briefly waited on after setting params");
- 
-+#define SI2157_FIRMWARE_RECORD_SIZE 17
-+#define SI2157_FIRMWARE_RECORD_PAYLOAD_SIZE (SI2157_FIRMWARE_RECORD_SIZE - 1)
-+
- /* execute firmware command */
- static int si2157_cmd_execute(struct i2c_client *client, struct si2157_cmd *cmd)
- {
-@@ -103,7 +106,7 @@ static int si2157_load_firmware(struct dvb_frontend *fe,
- 		return ret;
- 
- 	/* firmware should be n chunks of 17 bytes */
--	if (fw->size % 17 != 0) {
-+	if (fw->size % SI2157_FIRMWARE_RECORD_SIZE != 0) {
- 		dev_err(&client->dev, "firmware file '%s' is invalid\n",
- 			fw_name);
- 		ret = -EINVAL;
-@@ -113,9 +116,11 @@ static int si2157_load_firmware(struct dvb_frontend *fe,
- 	dev_info(&client->dev, "downloading firmware from file '%s'\n",
- 		 fw_name);
- 
--	for (remaining = fw->size; remaining > 0; remaining -= 17) {
-+	for (remaining = fw->size; remaining > 0;
-+	     remaining -= SI2157_FIRMWARE_RECORD_SIZE) {
- 		len = fw->data[fw->size - remaining];
--		if (len > SI2157_ARGLEN) {
-+		if (len > SI2157_FIRMWARE_RECORD_PAYLOAD_SIZE ||
-+		    len > SI2157_ARGLEN) {
- 			dev_err(&client->dev, "Bad firmware length\n");
- 			ret = -EINVAL;
- 			goto err_release_firmware;
--- 
-2.43.0
+I'm pretty sure we'll need custom prompts to better adjust reviews,
+and maybe even adjusting temperature parameters. Media is a complex=20
+subsystem which deals with a wide range of hardware, several of them
+with their own specialized processor units (ISPs) and ASICs.
 
+Any no non-specialized static analyzer tools may report more false
+positives on such scenario. Yet, we need authors and maintainers
+feedback to adjust such media-specific LLM prompts.
+
+The long term goal should be clear. We expect that, with Sashiko:
+
+- patch quality will be improved after using Sashiko's reviews;
+- maintainer's overhead will be reduced, as they won't need to
+  restate issues already exposed by CI. They'll only start=20
+  reviewing once the patches are on a better shape.
+
+If, after using it and customizing its prompts, it turns that the
+patch quality decreases or that the maintainers overhead become
+too high with very little benefit, then we should review the decision
+of using it.=20
+
+Not before.
+
+On my personal experience with Sashiko and other LLM-based review
+tools, they're very good to check error paths. By using it, we can
+avoid receiving extra patches later on to fix things that could
+already be solved at the original commit.=20
+
+=46rom my experience as maintainer, sometimes it takes years until
+someone send us patches fixing error check conditions.
+
+Just take for instance a random fix patch send on May, 22:
+	06cb687a5132 ("media: v4l2-fwnode: Fix subdev owner overwritten in v4l2_as=
+ync_register_subdev_sensor()")
+
+It fixed a patch wrote in 2017:
+	Fixes: aef69d54755d ("media: v4l: fwnode: Add a convenience function for r=
+egistering sensors")
+
+It would be great if, on that time, we had a tool that would be
+able to identify such problem and not needing to take ~10 years=20
+to have it fixed.
+
+> This would also give some buffer time to evaluate Sashiko and maybe
+> reconsider later on.
+>=20
+> > It seems like [1]  expresses a very anti-LLM position in general, which=
+ I can understand and I agree
+> > with some of concerns. But I think it=E2=80=99s up to project leaders t=
+o decide if Linux in general  takes this
+> > position and my take so far is that the answer is not.
+> > =20
+>=20
+> All discussions around AI inevitably ends being about principles and
+> good vs bad. I'm surprised Linus and Ted had to weight in to re-state
+> the "we're not against AI!" principle while I would like to discuss
+> signal-to-noise metrics instead.
+>=20
+> Maybe you have number I've not seen yet.
+>=20
+> Thanks
+>    j
+>=20
+> > Thanks =20
+
+
+
+Thanks,
+Mauro
 
