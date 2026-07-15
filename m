@@ -1,217 +1,245 @@
-Return-Path: <linux-media+bounces-67640-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67641-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kS3xDz9JV2qLIgEAu9opvQ
-	(envelope-from <linux-media+bounces-67640-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:47:59 +0200
+	id gqDiC/BSV2o4JQEAu9opvQ
+	(envelope-from <linux-media+bounces-67641-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 11:29:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41ED75C08D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:47:58 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F90875C7FC
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 11:29:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=bp.renesas.com header.s=selector1 header.b="f6WT3/Nh";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67640-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67640-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=renesas.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=raspberrypi.com header.s=google header.b=LKKRMplK;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67641-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67641-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=raspberrypi.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 82F69300A53D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:47:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6329630BAB8E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 09:21:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B23F3D75BF;
-	Wed, 15 Jul 2026 08:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 825B4423E93;
+	Wed, 15 Jul 2026 09:21:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010031.outbound.protection.outlook.com [52.101.229.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42D63D6461;
-	Wed, 15 Jul 2026 08:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E1B423783
+	for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 09:21:33 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784105269; cv=fail; b=FwmfO6UMhURRo1HWtq4jw6qDjLt8gH06ymGXjM3cl9kw8JFKM3pWfy+rSDKeC7alOZeNJo8WmnQtm6mR0wKVp/sHAUZ5GDZbb+wBDLP+gXkcDyllSod28bPGQOqvG5PAt5abN2pe9xt8BFV1oe0Jd57wto6miIfP2fK1MjQsaes=
+	t=1784107295; cv=pass; b=hWgl3KIZVu2dlAH5VOMFVJ5NJYjemyTW0AI+GM0njoFoMGfptK9vchowyWyHnpRG1+NdEfiryASlOd/42oVc/BWP0PH3/8WKe7skkx84lSDAUJm9oaD8uk4h1i0o5fEnRI083/PdQU+xAbHJXbHH5I70Up0jA90nVQVtyCJkuVU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784105269; c=relaxed/simple;
-	bh=5oxxw0hF2hzYDliLEth9fdZXL9jaN9eNUnRs/7gOpYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ogTV5kbafxTQg84l9tKFBy488uKq5vi566ToJXenlyjJ5dvTRBa5uG4GL+WvqONsgivEnx5sFpmzLxwa8GNB7lXxsbF93UjPpIA169ShHmXC7D1A+XoHYPcPAHTbpBslNivc0nWSA1X1wCiHPwWG35ayoA3PQ1dxZCP7yM8usr8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=f6WT3/Nh; arc=fail smtp.client-ip=52.101.229.31
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GZj3u/m+mwhQzdMZe4bECfrbzX7qguyGcmZhcACsiYzMJt5FlRyJ57cOZch3Erq2jY9sSL2flMSMmPEDD0uDsJmVnVmfi7kNlNIsvywkrBOyRu+fD5DCDKu113kKpLxGO6kHLkGEuMB6fxlRSF4T1ycP97Sbt1BB+mXT+k2Jds5KKxi9u9Hr7gHblFNOGuAVtmfhVvS45B4VuxjJlUTOIkzb1Y12Vhh/OxEnRfsMNDkJGtQNc9QWYaWNnr77vaYNUuSsUAHMKpdWyVJrCvdX5QBdOhL5UGvkqYOHzY0cz0lPIsj/yfeOnm3At60LprUlKDOODX3NUTLSYzeBQRrpvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bW9dR1O0ch4CsBwS2pS18SCG83fQWP/bH5or/RlBiak=;
- b=HTU2F4Lbkd4qQkIDnlx0n4tN8VCtXSJomGMdkgLBRGlKk6O9iUvGpbeaCssYThEMtqtKxBfPSBOtYlo0+fL4yD/NW2Vuo0Zq7r9iOWsdwyUbkB811LAJpCsr39d/A9dYByGorb32BPFxJfFRID1eY+UW1aVfXGZsvLZqRiwpiB2Os1Dog+2HDedjUdJ89YxUDs7yflMDiE1vucVI2UYnIKaafyqlBDDKQFN9s+eN9cF1/5yc1RR6BvnCYFMiXLvb/zjzPhzeEvGSor0GPWYNGdzOcG179+xUfOl/19X8EXHBwqDofrIMq0TP/MVxPiSD9woO7z5XJW6poisLtgpfKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bW9dR1O0ch4CsBwS2pS18SCG83fQWP/bH5or/RlBiak=;
- b=f6WT3/NhiT51afUK/Xkb8YTKBFpioRter0P8dAN93321Vk6poDWtXORuY47cQ2HajcqMBE4O6cVgws1aXmjq/hqNH5dXt0e7M5jnl4ao50YPFjOKxampiPcEeUz/7qxJ8biojqvG0y8z1CZSJeT6m0d83vlenQ3xmQCDt4aypWo=
-Received: from TYRPR01MB13588.jpnprd01.prod.outlook.com (2603:1096:405:18d::7)
- by TYCPR01MB10070.jpnprd01.prod.outlook.com (2603:1096:400:1eb::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.10; Wed, 15 Jul
- 2026 08:47:38 +0000
-Received: from TYRPR01MB13588.jpnprd01.prod.outlook.com
- ([fe80::2f5b:8560:48ed:3828]) by TYRPR01MB13588.jpnprd01.prod.outlook.com
- ([fe80::2f5b:8560:48ed:3828%4]) with mapi id 15.21.0202.014; Wed, 15 Jul 2026
- 08:47:38 +0000
-Date: Wed, 15 Jul 2026 10:47:21 +0200
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/9] media: rzg2l-cru: Add suspend/resume support
-Message-ID: <aldJGTkPPCvtlwmj@tom-desktop>
-References: <20260616170542.447804-1-tommaso.merciai.xr@bp.renesas.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260616170542.447804-1-tommaso.merciai.xr@bp.renesas.com>
-X-ClientProxiedBy: FR3P281CA0081.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1f::11) To TYRPR01MB13588.jpnprd01.prod.outlook.com
- (2603:1096:405:18d::7)
+	s=arc-20240116; t=1784107295; c=relaxed/simple;
+	bh=Hd5amGQyf5d7sp4D/OZ6c1BHeDBP0x2XX9BRCpzpK1Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ncS7y4aj+g+VIFVJVHbeoVWvE0kweQThFjQW9bXsIuSom0ahcsE5AhpEOVVCNq5G7ZX0x+d5CFVL5lU/WCsC8yIcXhjp9uSEMf9w+5Yx32z+GS7HOmhn85RM59XsLfWnIoLMK5BE5sSJGh2JeXPZnsn5QE9wTVvKuL9e9BJhGEU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=LKKRMplK; arc=pass smtp.client-ip=209.85.210.50
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7e9f5637634so1127193a34.3
+        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 02:21:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784107292; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DrxG1XEexSd111ote1tfnuC7QFYQkoH1h2xag6wyhgUWY0R07D8eZSG7okwDtfmN5z
+         0pmvNYYvhzs/g+AyTrotjigM9mNSEmOc7VV+1YZPeAXVlk42k88TLtdN0Q9ovgwzV2Qi
+         huJzAWCXLILISKD/NyKIeXI+lVxk1tvW+WZ7Hkt7S5G/2gZ1zFMBsiRcff+z8YOa09cp
+         WFO2BdZUv27tLsFu17Q/P7tYJE28ApntIVtgoibH7rPzWlZnVuzAC362/L2f5XAF1Wb4
+         43zc6PySgIncjFbox9C7Pd0zX6/4/8lM+KLs1Um8paVppgxSrjEdnvK7/GrQ50k0uZel
+         s0TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=q13SU6ITtTBdmGlSBxUH2RoASVTqkGnEBShwZvrhOJA=;
+        fh=8qElnQpPcDloH88nWRVzggBloHgdIfFRkWddXJ+cJU0=;
+        b=r2aFe/kMJp/NOv2P3JV0HoWMc+x8GKNwXkP2zstws/JBYhcbrp8iYWnlUFo+9dFwYg
+         2d66+AkmbsDAS1QaW/Ej+JREdfMtzJeCMWsL8/lMk25Mfx722N7xOMmLh8tlX6LVpbFK
+         7D/OwYR5ZU+bUixDqbVERSPkydhmF2ji160xn0OJbz3k1GsyQ0AbHQDTpF+kilNyaGGh
+         TyhR+C2UwDsSpY9Wcvs2GrMcD+iJXXUm7TAHKwDttOprhHQOLOqgFWadO/iBxiGs99cU
+         0EPTr4C1iyPB9wlhQWr8ydGbO6ZNDcn1YclWYsBsi+D2MHVZMCqt//v57LAyId9LL7Ox
+         EpIA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1784107292; x=1784712092; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=q13SU6ITtTBdmGlSBxUH2RoASVTqkGnEBShwZvrhOJA=;
+        b=LKKRMplKNRXNvFPkIJ3RNyNrOBHt36SCHHZ4ifdiW0t//H1fwVjPv6R02Phhk0nWuv
+         X9sZIR4Erm7o+dD3qBiqwnSAsSkzKm0C9E0MmKdw2cKtDv2phUrWoQVvhGroc8GgKVFb
+         +GgZasKoG1LK0U6sHRHA2UCwBZY6vY7blZTlUrngdHBzC0womF+ZCxv9tbFyLPew326i
+         wZrZ81n7Q7hLs4lYwkXwj037UHNT5V2s+5Vv2y4I9yJVFJ3HHXw4191+gbZdBoJuDZxF
+         UrM/FiUvO/YCLe6m4QHknlG4mRPNcMDIV766VRJ947UZttPK9WT2obkDRxNfPB7BeJ2z
+         IqPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784107292; x=1784712092;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=q13SU6ITtTBdmGlSBxUH2RoASVTqkGnEBShwZvrhOJA=;
+        b=D2AMIhZba7cm+fSJGdmiVkSYqUoCjOY5Un3MhmoCkM3o9wAgxTOH4vWuel4PEBoz9p
+         E5T+wtI705cuWaI4SKTYNnaaph0yRva4WJ3sYTtuO7Y5Kl3I5smz6lZiz6cXH5Y0aXxh
+         BIV6CRFdRx5JbFtNv61Hrww4IfYdJx96ANjUY4+Vz1T2AfMXYFvBUvrgqPRhpBAPG9b3
+         e8h2im/CyKj02Vyaj2rAtYBs1Ul3izSGvOqnH0ema4LfpfAVjUMrtwqZTK/Yxq/2mUVn
+         LoCS4eNnhEtpccti4N7jI4LYP2IO/MOsvFRDzqL+vn6DHGU+zsJvvMBRSsUVdqND6NIh
+         BieA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr6ne+PIbXkYYVzAPi9ZPEkawD64f5uiGuWXYu0nhFeNf9bl9LhYwxIn1ozpCd0gVAzaxO15ewAdNniWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsMJ9i8PWEBXWCfUVJnaL838cOvnpiHg8B4ChimGle9dCLpkRR
+	VVLg3TWXHV+B60zbszAKsxbW8AsJR4ofnD7WchTUJC3TaOrmGu2UwtmMWIdIZ/bdgLP+Fm0q137
+	qEfUeab/ESoqbYwueYCQASd2MLCFr75/CYQ9sgK1gvg==
+X-Gm-Gg: AfdE7cnTLBl/7YXr4XIFi+9fcXo2/AEGen1HbYHhFM2SW8S8WifVwYGhpRW6w1yHo5T
+	WEoJEgZAfnTx6riMSj4TYkfbBLR2xpc2OrGD0q2R4TnkX0G68DYSDwmtO9Z7H0eAVp3Y7uBB6o2
+	OBHsNLFtFORkPXwQ1OIWrRcig2y1JeaPwOX0PWSyTmx9XPnGDReqKoLn3NjQZJ4tXLUxMjxUFfn
+	E0cC/jtLbNvLrHkmpag8+GiKqRlmgeq8shblS0cJhkeTGxdfa8N78AOz74szDw5XH9i/TcKvEy7
+	5yXc66YAF6E6doG/mO1CzzEjfdQMWFgk43nOI1O51ptCW+zlMXRv0LJyYWZay3tur2NDy+Z+Bom
+	HNR/BQmLKZH2Fb3eA3iHEtmw=
+X-Received: by 2002:a05:6830:710a:b0:7e9:f6ca:e59d with SMTP id
+ 46e09a7af769-7ec097a2316mr10470988a34.19.1784107292358; Wed, 15 Jul 2026
+ 02:21:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYRPR01MB13588:EE_|TYCPR01MB10070:EE_
-X-MS-Office365-Filtering-Correlation-Id: 229898e7-35a3-4017-aa7d-08dee24db90e
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|52116014|23010399003|1800799024|11063799006|56012099006|22082099003|18002099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	EG0uAUU31xigEhclxR+xjsvfpJ/jB9eQLofeM7IcM4oOdSZeLCukAS/g3EmEsa+icJfm6qwLLOfF7b3knlOVTzf5iiHEnefMAPx8vJhU+1cwpOqOxhAP2l7LjcPgGkEfj/1wccR6LO/JCAWHHghT5fIkP0sU21uTSJz5lZdhFr1ZIopPPeO9aRC8tp+DJf7hi4cvoz7lvFbOCFaIvnDjWsgI9TCPnyBBLNRc4MUjGposb4mezg4EQvgj45Rh1eZSH+ZwS3t2xBqGVn/GjJUQa8i24/739ErP40pZqkZ8ZuL+UPcAQLeymyGVZjSaVczA5uc/Ock9oaU8YKr74S+Rhd3Ec/ze6UhDd0aPYjxojro7EUmCUWMa6IG09Ei32+NZUrMqyZydN+lqhReTro+Wpos6hUazfXpKJF+S20U5OaxDSmIqJmjFnVElcgawB+K1ShihVlaiuUclPgWbt+42B9osZbPwrV6nkcS5nekV2sVYk64BvN6HpH0pEUsK2i+GSPDgcXf2eyBTxMhwjS/XNL1M2QEf87CzDm87vYvTEHUwCk/uiVtCVU9SVcz5bN5tR1SSvBRaU25Cwj9bFgqL0lgsLjDFTQaTLC3Vg9uVmCcppkkCBNAhna2pvh6DhqKfTPQG9dxPRygMPnApSlx4cRObscA4OxmJc1UxJzrmSAT5CAb7abIE1DdEt9NjpqwyWNB6iGbt/Tj4pUYh0QtYBngZr2ub9JZwNaXl4QEzQSs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB13588.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(23010399003)(1800799024)(11063799006)(56012099006)(22082099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gr43JW+wX+zCAnVv9KHhiGO1OmA5kQWb66E3xqnlRkuRVq0wMZDDTZ0ctjT+?=
- =?us-ascii?Q?FdzoiibDNpJ3RGHlljXJLNIPCkpag3++Lil7sySHDr5uPfEO/dAsVaaJDgam?=
- =?us-ascii?Q?4D3PTZWTxcfZ8n4EZeMOpvv0RWnuF3E2AlfaHVZBjB2CrHnCsoFNRtKwnn5R?=
- =?us-ascii?Q?EVGNmARAnH7mF8GL6GvyscIUxhGIt3vLmaPzo1PnbUgfpNpb1kmxnwNupJ/V?=
- =?us-ascii?Q?UjylDunjixaZdUuFPAa2Sn4ckIWPdfKy5mbJzNImnPl6Pl2VUk5Y784JGqpF?=
- =?us-ascii?Q?5dpNcGR23POfCuhr1trWlNZjAxSVliVyLhVmfeIg2IKBwLhGb2BIHOyMUlmQ?=
- =?us-ascii?Q?dMQXxksWfyXkM8DHBSyuToKubTTgrSESqQIsZ5pN37gdWC/osUoSBkzlNfnY?=
- =?us-ascii?Q?24gVJXNbYCbU3ULuU7QJX8VxejmbKHGFoir2rTbhEMufwZ57haTaB3L2VEZL?=
- =?us-ascii?Q?W0t9uiQILx18uZc5zRUITL8ixrcteaYe3zyf8jLqVzwto0XCE/+crBkxBXvy?=
- =?us-ascii?Q?YbCYbDEqxcBZJhtjRBdZpAzP4PSvs4ULkVzOfVo4t2npcxAPIQpKRTKKEtro?=
- =?us-ascii?Q?gqWz7ruxbvuMCWIGLRKV6/mdg3A/cywuW5GFY9CInpPzpzLhQ3xp6PqAObji?=
- =?us-ascii?Q?O9eFxqggJHzXVdAWJ9XFLWN1f8cqoSpHooiA+CjufWq/srwQ138PGfOziNYJ?=
- =?us-ascii?Q?nGT28Jk0GI8HIwxuHAaHfAuVzm6/SxNVJTR/9wAVjMs5hcYuHo/wy9ZWq57C?=
- =?us-ascii?Q?F+pkuVvDnWHR0gie66dQZklnRdGqi7PfiaMGqbmTCY2REJsSYtORemp8Tx1f?=
- =?us-ascii?Q?F1HZ5kr5g1P5D/+pbEZLEXzXMm5ZpuwHKGnjMD593AMAhcyao3rURCAY4AnE?=
- =?us-ascii?Q?iomRAxPB7VSUYLz8+iR+e8Iyf2Z89Oa8alPuDX6e643zINicllyo+mY7smlj?=
- =?us-ascii?Q?IrNdBz/jdpGK4PhzDgsb7X9+VIRd9QoXf+Y9a5DwOLhmFYIuXrfNlFAhtGB/?=
- =?us-ascii?Q?BpxWMHiBjzSaCxFILaS3oY2kDw1UJroC7DFmCWaFcCALGDFyKhH2Ggccss6L?=
- =?us-ascii?Q?EEp1NZmeL4NCOTvSIxzI4XoHt1oIUl3i/nI3/P+9vSQ5k+dEQwdqc9ehSnOq?=
- =?us-ascii?Q?srs3bckJ8NudFY3M5y9j8kZgffGVqF7nw8kpQj8OIpa8H44c1jBEt9biR9ar?=
- =?us-ascii?Q?+E0nhLrUt8MtQNhmC1OXI5ZfwHcoyTK0V23hRHAvzeRpqrWpEOEuUSnLkvm6?=
- =?us-ascii?Q?V0NIo84XyeMjTVIgaFv+SArn1MpBaG3utCWnm3uQXbTjD9HdfG8LAev8KizA?=
- =?us-ascii?Q?pfkWEFXnqQ4nXH7x+tFd5aMnZiX97UfM9LF1kT5HSx3T8Uih4dP0CkfI589x?=
- =?us-ascii?Q?uBnR5xeUHD7E7YWbP0pNlZXDB0+GM1shbVTWHKGldzYw9OpvGLs96MUYrril?=
- =?us-ascii?Q?TctXl57TuAMAu1vETPmQzUWZBobYpn7w0/NXWf8RXXbWALFM94vv3mg/Sw4W?=
- =?us-ascii?Q?Hq5tUmtLZg2CLMB/aXl155pw6skKvDyXZAtyJ5BXfrpjqJXnfl6zf/AW/RTw?=
- =?us-ascii?Q?RIfElMmnGYaejVwV3bwCrMauFVMZz4SJrY+RGoKl63xYH7SbCkClJavTWdlZ?=
- =?us-ascii?Q?N7mxOXts2QkFXMofcJj4HnPeHXOqUdIU8LR6vgsdwbzPSt1X20B05/73rxA8?=
- =?us-ascii?Q?Dp/yBTjZDiuJPoGPSp9ZEegIognLYlcrsyqwB8RZODkhi61bhdwu6fPgQZXX?=
- =?us-ascii?Q?iJ+xwBzpgITIZDKAmIlyVAMPAwLDhiq1FFp+ZmRWZsW4uMNI+EQo?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 229898e7-35a3-4017-aa7d-08dee24db90e
-X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB13588.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 08:47:38.2069
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HBxQguKyTXx+AImSSVnl0urGW5/q3wBJkIrgqyyMPplu3J/OP67JrIerTYKn1zKsmtq1TfKMZoOkrKFT8OtgiWEjPSpc6SualTDQnLsfWJ9/tZbpwJJPpyv7EJxJWk8H
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10070
+References: <20260708-media-imx355-v3-0-9df386a623d7@raspberrypi.com>
+ <20260708-media-imx355-v3-12-9df386a623d7@raspberrypi.com> <alYfNhqYLLP7Ob2m@kekkonen.localdomain>
+In-Reply-To: <alYfNhqYLLP7Ob2m@kekkonen.localdomain>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 15 Jul 2026 10:21:15 +0100
+X-Gm-Features: AUfX_my3kG0frO1GrVnJ7ehCBbH7PHfESPzj6OQyX5yeLJHNv31QUmhUkhMWQAk
+Message-ID: <CAPY8ntDaA6w44u88hfomYCkbTAiFW14rp2CK0WXGZP+g1+ntrg@mail.gmail.com>
+Subject: Re: [PATCH v3 12/20] media: imx355: Use pm_runtime autosuspend_delay
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Richard Acayan <mailingradian@gmail.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, David Heidelberg <david@ixit.cz>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67640-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-67641-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,ixit.cz,ideasonboard.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mailingradian@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:david@ixit.cz,m:jacopo.mondi@ideasonboard.com,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:p.zabel@pengutronix.de,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,tom-desktop:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,ideasonboard.com:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,raspberrypi.com:from_mime,raspberrypi.com:email,raspberrypi.com:dkim,intel.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A41ED75C08D
+X-Rspamd-Queue-Id: 8F90875C7FC
 
-Dear All,
+Hi Sakari
 
-On Tue, Jun 16, 2026 at 07:05:30PM +0200, Tommaso Merciai wrote:
-> Dear All,
-> 
-> This patch series adds suspend/resume support to the CRU/CSI-2 driver.
-> The series has been tested using ov5645 camera sensor connected to
-> the RZ/G3E via CSI-2 connector of the RZ SMARC Carrier II board.
-> 
-> Thanks & Regards,
-> Tommaso
-> 
-> Tommaso Merciai (9):
->   media: rzg2l-cru: Add device_link from CRU to CSI-2
->   media: rzg2l-cru: csi2: Add device_link from CSI-2 to sensor
->   media: rzg2l-cru: Use bulk reset API in rzg2l_cru_start_streaming_vq()
->   media: rzg2l-cru: Drop stop streaming function
->   media: rzg2l-cru: Move active_slot reset into rzg2l_cru_set_stream()
->   media: rzg2l-cru: Add suspend/resume support
->   media: rzg2l-cru: csi2: Add system sleep PM support
->   media: i2c: ov5645: Switch to RUNTIME_PM_OPS() and pm_ptr()
->   media: i2c: ov5645: Add suspend/resume support
+On Tue, 14 Jul 2026 at 12:36, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Dave,
+>
+> On Wed, Jul 08, 2026 at 03:48:48PM +0100, Dave Stevenson wrote:
+> > Avoid powering the sensor up and down unnecessarily by using
+> > pm_runtime's autosuspend_delay feature.
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/imx355.c | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
+> > index ee1f41a66a0b..f01a1a5ae7c9 100644
+> > --- a/drivers/media/i2c/imx355.c
+> > +++ b/drivers/media/i2c/imx355.c
+> > @@ -1073,7 +1073,7 @@ static int imx355_set_stream(struct v4l2_subdev *sd, int enable)
+> >                       goto err_rpm_put;
+> >       } else {
+> >               imx355_stop_streaming(imx355);
+> > -             pm_runtime_put(imx355->dev);
+> > +             pm_runtime_put_autosuspend(imx355->dev);
+> >       }
+> >
+> >       /* vflip and hflip cannot change during streaming */
+> > @@ -1085,7 +1085,7 @@ static int imx355_set_stream(struct v4l2_subdev *sd, int enable)
+> >       return ret;
+> >
+> >  err_rpm_put:
+> > -     pm_runtime_put(imx355->dev);
+> > +     pm_runtime_put_autosuspend(imx355->dev);
+> >  err_unlock:
+> >       mutex_unlock(&imx355->mutex);
+> >
+> > @@ -1436,6 +1436,8 @@ static int imx355_probe(struct i2c_client *client)
+> >       pm_runtime_set_active(imx355->dev);
+> >       pm_runtime_enable(imx355->dev);
+> >       pm_runtime_idle(imx355->dev);
+> > +     pm_runtime_set_autosuspend_delay(imx355->dev, 1000);
+> > +     pm_runtime_use_autosuspend(imx355->dev);
+>
+> I think it'd make sense to do this before calling pm_runtime_idle(),
+> wouldn't it?
+>
+> There's also a pre-existing bug here: if pm_runtime_idle() powers the
+> sensor off before calling pm_runtime_disable(), imx355_power_off() will get
+> called twice. The easiest fix is to call pm_runtime_idle() only after
+> v4l2_async_register_subdev_sensor().
+>
+> This should be fixed before adding autosuspend support.
 
-A gentle ping on this series.
+Ack, I'll do that.
 
-Kind Regards,
-Tommaso
+I'm aiming to have a new revision out tomorrow to address the build
+breakage in the middle of the set (I've updated my test frameworks to
+catch this in future), and the Sashiko comments that the device-tree
+list bot has flagged.
 
-> 
->  drivers/media/i2c/ov5645.c                    |  5 +-
->  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 74 +++++++++++++++++++
->  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  5 ++
->  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 25 +++++--
->  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 55 ++++++++------
->  5 files changed, 135 insertions(+), 29 deletions(-)
-> 
-> -- 
-> 2.54.0
-> 
+  Dave
+
+
+> >
+> >       ret = v4l2_async_register_subdev_sensor(&imx355->sd);
+> >       if (ret < 0)
+> > @@ -1446,6 +1448,7 @@ static int imx355_probe(struct i2c_client *client)
+> >  error_media_entity_runtime_pm:
+> >       pm_runtime_disable(imx355->dev);
+> >       pm_runtime_set_suspended(imx355->dev);
+> > +     pm_runtime_dont_use_autosuspend(imx355->dev);
+> >       media_entity_cleanup(&imx355->sd.entity);
+> >
+> >  error_handler_free:
+> > @@ -1476,6 +1479,8 @@ static void imx355_remove(struct i2c_client *client)
+> >               pm_runtime_set_suspended(imx355->dev);
+> >       }
+> >
+> > +     pm_runtime_dont_use_autosuspend(imx355->dev);
+> > +
+> >       mutex_destroy(&imx355->mutex);
+> >  }
+> >
+> >
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
