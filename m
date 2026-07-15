@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-67635-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67636-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cx1eM2NHV2ogIgEAu9opvQ
-	(envelope-from <linux-media+bounces-67635-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:40:03 +0200
+	id 9W3YEOlHV2o8IgEAu9opvQ
+	(envelope-from <linux-media+bounces-67636-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:42:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C26475BF74
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:40:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E6275BFC8
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:42:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
 	dkim=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67635-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67635-lists+linux-media=lfdr.de@vger.kernel.org";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67636-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67636-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 016CC301A16D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:39:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8A8743038BAF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:40:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EB413C942E;
-	Wed, 15 Jul 2026 08:39:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B74C3CCFB4;
+	Wed, 15 Jul 2026 08:40:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327A742BC31;
-	Wed, 15 Jul 2026 08:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03EE1FFC59;
+	Wed, 15 Jul 2026 08:40:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784104790; cv=none; b=e1doMb9NkN9cxPfo+H03apvICxmPY9Gh7BoCSNZqVN7SV/3p9GUtCxYP7eCDubhdNSV3DEsN+R7UJKkcXGC08myzm3Bz8/5ItIODT97DOM/zficxhTTM876ntRBx0OycTUx8JMixpid+6Aqch55BhEnCvyeD8kl36V1xQRlghfQ=
+	t=1784104812; cv=none; b=Lfjcm4ak5weK2OfwdTOrFY25HWnFctcZFNUfLE+DjeRSYg6+XQrLWcmRXYx7vcBxSkpn4QRi2zzdudvO+SrmNwjcgCVFlUZJbivQZFj9RYx2sKcoLqHAhuHHypsqpx34Y3QKWbEp4MvGdHoYSyST7lICrGqLRh0VKo2YF/u+Usc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784104790; c=relaxed/simple;
-	bh=E5EYzML7R643gT8cXq5HdAwgJAnViqY0BBoJjVXvreo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TFpKlWx/xt6JZTYC7Fbu7nN4MVnUPrJj1IKQQTIBE8n3cWP7M00bb4ndZno8u7f4GIOkQ0nPpjgFqvTnrQ6KoUVBY26WeavQa78HvED+wjpilIm5pKko0YHiEYXpGSCP9vbDmSWbLOvwCh62bs1NefsdAmDTl0RXU2mpA1GBBjc=
+	s=arc-20240116; t=1784104812; c=relaxed/simple;
+	bh=DtKNGi4IZ5/I+3fMt4ih3b9LM3eNTB0Ei4iJADOBR14=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lfv4bHhemczrA9+hmBFKGwdoJW3dKnvXvPPOPN7yAPdzJuu2agRBhhTfFa8V8nb/ZWUomrdKXwWS6asKFEqtNmFl68H1FkaFoXleQaQGmOGhc10JelbkCRhrditFFsElo2eVIf51PIcvy71hcI+tfSsTqKMr9M9domJNM0L0ZSQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowAB30NNRR1dqzF1HGA--.14562S2;
-	Wed, 15 Jul 2026 16:39:45 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowABXo8ZmR1dqRV9HGA--.10286S2;
+	Wed, 15 Jul 2026 16:40:06 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
@@ -43,9 +43,9 @@ Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
 	linux-kernel@vger.kernel.org,
 	Laura Abbott <labbott@fedoraproject.org>,
 	stable@vger.kernel.org
-Subject: [PATCH v2] media: dvb-frontends: si2168: validate firmware record length
-Date: Wed, 15 Jul 2026 16:39:45 +0800
-Message-ID: <20260715083945.33781-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH] media: si2157: validate firmware record length
+Date: Wed, 15 Jul 2026 16:40:06 +0800
+Message-ID: <20260715084006.34310-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -54,30 +54,30 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAB30NNRR1dqzF1HGA--.14562S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCF43WrWrAr1fKw48Gr17Jrb_yoW5Aw1fpF
-	Z8JF98tF4UWrW3Ca43Gay3Z3WfA393G34UGay7G3ZYgrnI9Fyrtayjg3yj9r1Ykr4Sy3yU
-	XrZ2qry8ZFy3JF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:zQCowABXo8ZmR1dqRV9HGA--.10286S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tw1kKw1xAF43tw18ZFy7Jrb_yoW5JrWfpF
+	W5XFZ8JFWqqF4S93Z7Cay3uFySv3yxGayUGa9xuwnYyr1YvF1kArWjga42qF1I9rn3ta4U
+	Jr97try3u3ZrAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjnmRU
-	UUUUU==
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
+	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU2Q6
+	JUUUUU=
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.04 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -86,7 +86,7 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	DMARC_NA(0.00)[iscas.ac.cn];
 	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:pengpeng@iscas.ac.cn,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:labbott@fedoraproject.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-67635-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67636-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
@@ -100,89 +100,70 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	R_DKIM_NA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,iscas.ac.cn:from_mime,iscas.ac.cn:email,iscas.ac.cn:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:from_mime,iscas.ac.cn:email,iscas.ac.cn:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4C26475BF74
+X-Rspamd-Queue-Id: 97E6275BFC8
 
-The new Si2168 firmware format stores one command in each 17-byte record:
-the first byte is the command length and the remaining 16 bytes are the
-command data.
+The Si2157 firmware loader treats the firmware blob as fixed 17-byte
+records.  Each record starts with a command length byte and has only
+16 bytes remaining for command data.
 
-The existing check only compares the length with SI2168_ARGLEN, which
-protects the destination command array but not the current firmware record.
-A length from 17 through SI2168_ARGLEN makes cmd_init() copy from the next
-record, or past the firmware blob for the final record.  An empty firmware
-file also passes the modulo test before fw->data[0] is read.
+The existing check compares the command length only with
+SI2157_ARGLEN.  That protects the local destination array, but not the
+source span of the current firmware record.  A length from 17 through
+SI2157_ARGLEN therefore makes the memcpy() read into the next record,
+or past the final record at the end of the firmware blob.
 
-Reject empty files and require each new-format command length to fit the
-16-byte payload of its record before copying it.
+Name the record and payload sizes, and require the command length to
+fit both the current record payload and the destination array before
+copying it.
 
-Fixes: 47810b4341ac ("[media] si2168: Bounds check firmware")
+Fixes: a828d72df216 ("[media] si2157: Bounds check firmware")
 Cc: stable@vger.kernel.org
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
-Changes since v1:
-- Reject empty firmware blobs before reading the first record byte.
-- Name the old and new record sizes while retaining the current-record
-  payload bound.
+ drivers/media/tuners/si2157.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-Link: https://lore.kernel.org/r/20260705084706.62129-1-pengpeng@iscas.ac.cn
-
- drivers/media/dvb-frontends/si2168.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-index 8bc3b6eb1dd3..182c2b671508 100644
---- a/drivers/media/dvb-frontends/si2168.c
-+++ b/drivers/media/dvb-frontends/si2168.c
-@@ -11,6 +11,9 @@
+diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
+index d517a91e6fbc..126703e9d92f 100644
+--- a/drivers/media/tuners/si2157.c
++++ b/drivers/media/tuners/si2157.c
+@@ -13,6 +13,9 @@ static int tuner_lock_debug;
+ module_param(tuner_lock_debug, int, 0644);
+ MODULE_PARM_DESC(tuner_lock_debug, "if set, signal lock is briefly waited on after setting params");
  
- static const struct dvb_frontend_ops si2168_ops;
- 
-+#define SI2168_NEW_FIRMWARE_RECORD_SIZE 17
-+#define SI2168_OLD_FIRMWARE_RECORD_SIZE 8
++#define SI2157_FIRMWARE_RECORD_SIZE 17
++#define SI2157_FIRMWARE_RECORD_PAYLOAD_SIZE (SI2157_FIRMWARE_RECORD_SIZE - 1)
 +
- static void cmd_init(struct si2168_cmd *cmd, const u8 *buf, int wlen, int rlen)
+ /* execute firmware command */
+ static int si2157_cmd_execute(struct i2c_client *client, struct si2157_cmd *cmd)
  {
- 	memcpy(cmd->args, buf, wlen);
-@@ -459,11 +462,15 @@ static int si2168_init(struct dvb_frontend *fe)
- 	dev_info(&client->dev, "downloading firmware from file '%s'\n",
- 			dev->firmware_name);
+@@ -103,7 +106,7 @@ static int si2157_load_firmware(struct dvb_frontend *fe,
+ 		return ret;
  
--	if ((fw->size % 17 == 0) && (fw->data[0] > 5)) {
-+	if (fw->size &&
-+	    fw->size % SI2168_NEW_FIRMWARE_RECORD_SIZE == 0 &&
-+	    fw->data[0] > 5) {
- 		/* firmware is in the new format */
--		for (remaining = fw->size; remaining > 0; remaining -= 17) {
-+		for (remaining = fw->size; remaining > 0;
-+		     remaining -= SI2168_NEW_FIRMWARE_RECORD_SIZE) {
- 			len = fw->data[fw->size - remaining];
--			if (len > SI2168_ARGLEN) {
-+			if (len > SI2168_ARGLEN ||
-+			    len >= SI2168_NEW_FIRMWARE_RECORD_SIZE) {
- 				ret = -EINVAL;
- 				break;
- 			}
-@@ -473,10 +480,13 @@ static int si2168_init(struct dvb_frontend *fe)
- 			if (ret)
- 				break;
- 		}
--	} else if (fw->size % 8 == 0) {
-+	} else if (fw->size &&
-+		   fw->size % SI2168_OLD_FIRMWARE_RECORD_SIZE == 0) {
- 		/* firmware is in the old format */
--		for (remaining = fw->size; remaining > 0; remaining -= 8) {
--			cmd_init(&cmd, &fw->data[fw->size - remaining], 8, 1);
-+		for (remaining = fw->size; remaining > 0;
-+		     remaining -= SI2168_OLD_FIRMWARE_RECORD_SIZE) {
-+			cmd_init(&cmd, &fw->data[fw->size - remaining],
-+				 SI2168_OLD_FIRMWARE_RECORD_SIZE, 1);
- 			ret = si2168_cmd_execute(client, &cmd);
- 			if (ret)
- 				break;
+ 	/* firmware should be n chunks of 17 bytes */
+-	if (fw->size % 17 != 0) {
++	if (fw->size % SI2157_FIRMWARE_RECORD_SIZE != 0) {
+ 		dev_err(&client->dev, "firmware file '%s' is invalid\n",
+ 			fw_name);
+ 		ret = -EINVAL;
+@@ -113,9 +116,11 @@ static int si2157_load_firmware(struct dvb_frontend *fe,
+ 	dev_info(&client->dev, "downloading firmware from file '%s'\n",
+ 		 fw_name);
+ 
+-	for (remaining = fw->size; remaining > 0; remaining -= 17) {
++	for (remaining = fw->size; remaining > 0;
++	     remaining -= SI2157_FIRMWARE_RECORD_SIZE) {
+ 		len = fw->data[fw->size - remaining];
+-		if (len > SI2157_ARGLEN) {
++		if (len > SI2157_FIRMWARE_RECORD_PAYLOAD_SIZE ||
++		    len > SI2157_ARGLEN) {
+ 			dev_err(&client->dev, "Bad firmware length\n");
+ 			ret = -EINVAL;
+ 			goto err_release_firmware;
 -- 
 2.43.0
 
