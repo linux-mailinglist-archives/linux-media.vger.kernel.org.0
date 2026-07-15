@@ -1,279 +1,347 @@
-Return-Path: <linux-media+bounces-67637-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67638-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7T/QOSZIV2pFIgEAu9opvQ
-	(envelope-from <linux-media+bounces-67637-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:43:18 +0200
+	id wjfLKblHV2oxIgEAu9opvQ
+	(envelope-from <linux-media+bounces-67638-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:41:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4135F75BFDA
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:43:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 234AE75BFB8
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:41:29 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=HvKWGZlr;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67637-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67637-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67638-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67638-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 880BD3086557
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:40:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 28383306E9C1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:40:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FBD03CE49E;
-	Wed, 15 Jul 2026 08:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59F4D3CD8BF;
+	Wed, 15 Jul 2026 08:40:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E4A362130
-	for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 08:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EDE30AAA9;
+	Wed, 15 Jul 2026 08:40:47 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784104818; cv=none; b=CeY8EMX8JGkFO04FnvRNo4Fe9ejndYaL9yUQ+BeaE2qZKGUIRzjZkQONh0qyhyfMa+AJifmZ9wH6SfebLQI65iUMyOQk5tkNfY6J4VEizKNhGlB2IEZZDHnbAhGWISZceOtU6J1YOoECHp6Lpm9g3fSJ5B+tN0IaNJYPWolD6QI=
+	t=1784104850; cv=none; b=UQ1D1nOvjyN3kvZZcNKkOPyd1L0m1WWBT9VXVAKDcgsOTCVch7HJ/qu+tOQ+v3t5HO1B/3DgegFmc07tSQamDntYECiiTJqUctIi/dIbOpyrMdDoz2ic4zhX1KY6D3MDq5fcp8+8a03QyHk6ctGUs/cdbLzBZjo7KKiIK0leZgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784104818; c=relaxed/simple;
-	bh=04alqDAZRlvdzVoCbgR5tQxu79n3jUpnPSCtyAmZfp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zq0xrKqT+Lnj0H9N9lEQbol2ZdjVgpf5DQFrG/ocMGHwBlfyOiB4/bonIYMF88/Js4nEoEzmV/3wZmScCcJKl8D0sgKaE3TeKmXieIlrer+hQqKbHhMSLxj0DQB0nlRljLg8ynAcq4istQYH6xrjf8h5al+zUNz/J8dUcIXW28o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HvKWGZlr; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A00961F000E9;
-	Wed, 15 Jul 2026 08:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784104816;
-	bh=nlO11ynP+LYmmr68oxPYsKPXdknBw8947JPyILhhTT0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=HvKWGZlrnk1DmbvlvbYc3wmkzPyeamogf39TQ/8zcl8l/yLneSdQQaQe2ieoz566d
-	 aeudr5rEt458N83inl4cykwq8E9lBDF0a4kybkvcMUX6bjQF7JJHmgzHSbF8LPjSOB
-	 Vu1/Ow890HSX0RbLjDYWHA2NjXkf5+l3f/8p5lf/5ZFI2FH8WJQz19c7ByKAizFcUd
-	 q5uSAYCScli/L81ZqjgoYUaHTElFzPLOAPlrFy8Q/dgeccPY7JkaVx28vQYEJB68HI
-	 lWH8PWFQHPU578WrVbWBi2N4F68YLhyPuWWJ7CGS2UUb+tbTugxtsJdmcgVIIzSsJZ
-	 n65BiO7roDXSw==
-Date: Wed, 15 Jul 2026 10:40:12 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Derek Barbosa <debarbos@redhat.com>,
- Matthieu Baerts <matttbe@kernel.org>, Konstantin Ryabitsev
- <konstantin@linuxfoundation.org>, Jason Gunthorpe <jgg@ziepe.ca>, Steven
- Rostedt <rostedt@goodmis.org>, users@kernel.org, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Stephen Finucane <stephenfin@redhat.com>
-Subject: Re: Linking Patchwork with Sashiko?
-Message-ID: <20260715104012.7fd5c23a@foz.lan>
-In-Reply-To: <alc3gAJfAkG5DULJ@zed>
-References: <20260715005909.GF1656185@killaraus.ideasonboard.com>
-	<4928C919-7999-4E76-ADCB-F8643FED105B@linux.dev>
-	<alc3gAJfAkG5DULJ@zed>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1784104850; c=relaxed/simple;
+	bh=BKJzznLYfhTchyxf63FxU2j+0aAzXY0+Ug9LbB5nVdM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TNFl0Uo80oVz3obMZEdn3FF2HXzZPl2ntkvgxNjDywjukRAZTSLnrTNJjbsyk2TTA7c0Zog2bX7K5SjIvx8MpmpURP1BJXaTtb6YivpgxNHDSg6Dx5rrDLK0edFmzUmpzjo+k4DtTWhYyOPQpMblG59Za/Y4M5LSToFDsySTrMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-05 (Coremail) with SMTP id zQCowAAXnP+MR1dqoGJHGA--.25443S2;
+	Wed, 15 Jul 2026 16:40:44 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: ttusb-dec: validate command response lengths
+Date: Wed, 15 Jul 2026 16:40:44 +0800
+Message-ID: <20260715084044.35466-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAAXnP+MR1dqoGJHGA--.25443S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Wr45Cw4kXF1fXrW5trWfGrg_yoWfXr47pF
+	4UKayFyr1UAa18JryfCr40vF9xZ3s2yFyxK34rW3sIqF4kWa4UGFyjga4Yvr18CrZrGF15
+	Xrn8Ka45Kr43W3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUyC14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
+	I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04
+	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
+	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUsiSdUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	TAGGED_FROM(0.00)[bounces-67638-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:pengpeng@iscas.ac.cn,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:roman.gushchin@linux.dev,m:laurent.pinchart@ideasonboard.com,m:debarbos@redhat.com,m:matttbe@kernel.org,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,m:stephenfin@redhat.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-67637-lists,linux-media=lfdr.de,huawei];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,foz.lan:mid,ideasonboard.com:email]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,iscas.ac.cn:from_mime,iscas.ac.cn:email,iscas.ac.cn:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4135F75BFDA
+X-Rspamd-Queue-Id: 234AE75BFB8
 
-On Wed, 15 Jul 2026 09:59:57 +0200
-Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+The command helper allocates a 60-byte payload after a four-byte header.
+A successful USB bulk read can still be shorter than that header or
+advertise a payload length not contained in the actual transfer. The
+helper copied that length before callers could inspect it.
 
-> Hi Roman
->=20
-> On Tue, Jul 14, 2026 at 07:00:54PM -0700, Roman Gushchin wrote:
-> > > On Jul 14, 2026, at 5:59=E2=80=AFPM, Laurent Pinchart <laurent.pincha=
-rt@ideasonboard.com> wrote:
-> > >
-> > > =EF=BB=BFOn Tue, Jul 14, 2026 at 10:55:42PM +0000, Roman Gushchin wro=
-te: =20
-> > >> Mauro Carvalho Chehab writes: =20
-> > >>>> On Mon, 13 Jul 2026 12:41:20 +0300 Laurent Pinchart wrote: =20
-> > >>>>>>> Individuals can set their
-> > >>>>>>> spam filters up if they don't want to get these emails, I can't=
- control
-> > >>>>>>> it. Providing individual authors an option "I don't want my pat=
-ches
-> > >>>>>>> to be reviewed" sound strange to me. It's like "I don't want my=
- patches
-> > >>>>>>> to be tested by unit tests". =20
-> > >>>>>>
-> > >>>>>> I agree with you, and, on my head, not sending e-mails to the au=
-thor
-> > >>>>>> is a clear violation to one of the most basic net etiquette rule=
- on
-> > >>>>>> mailing lists: any replies to posts there should reach the autho=
-r. =20
-> > >>>>>
-> > >>>>> I don't know where that one comes from.
-> > >>>>>
-> > >>>>> What happened to this other "most basic rule" that subscription to
-> > >>>>> services that deliver e-mails should be opt-in ? =20
-> > >>>
-> > >>> Replying to an e-mail is not subscribing to a service. It is the
-> > >>> author's right to know if one replies publicly to his e-mails.
-> > >>> Explicitly removing him from the C/C of such replies is a violation
-> > >>> of his rights.
-> > >>>
-> > >>> On other words, it is implicit that, if you post an e-mail, you'll =
-be
-> > >>> expecting actions or answers to it.
-> > >>>
-> > >>> Now, if one really doesn't really want to receive e-mails from a
-> > >>> particular sender, a block list solves it. Alternatively, a way to
-> > >>> opt-out is welcomed.
-> > >>>
-> > >>> See, this is different than adding someone to a mailing list without
-> > >>> his consent: On such case, people receive e-mails unrelated to their
-> > >>> preferences. For those, opt-in is the right net etiquette. =20
-> > >>
-> > >> I agree with this.
-> > >>
-> > >> But also just practically: if someone who opted out from sashiko ema=
-ils
-> > >> posts a patch and sashiko finds say a critical issue, do we expect t=
-he
-> > >> maintainer to go and manually check each time whether the author opt=
-ed
-> > >> out and forward the review? =20
-> > >
-> > > I expect maintainers who want to act on sashiko reviews to triage and
-> > > verify them first before bothering authors, yes. I believe we should
-> > > follow the first two recommendations of the Software Freedom Conserva=
-ncy
-> > > on using LLM-backed generative AI systems for FOSS contributions ([1]=
-).
-> > >
-> > > [1] https://sfconservancy.org/llm-gen-ai/llm-backed-generative-ai-rec=
-ommendations.html =20
-> >
-> > I think it makes the point of sashiko - helping maintainers - unachieva=
-ble. If the point to not use
-> > LLMs in general, let=E2=80=99s discuss this, not how to make each use c=
-ase more complex.
-> > =20
->=20
-> Having been in the discussion within the media group, let me try to
-> re-express here the point I made within that circle already.
->=20
-> The decision to not send Sashiko replies to developers but rather have
-> them sent to a different mailing list, has been suggested because,
-> after a brief interim period where Sashiko reviews has been sent to
-> the main mailing list, it has caused more load for maintainers, not
-> less.
+Pass the destination capacity through the internal frontend callback and
+reject response lengths outside the actual received bytes, the fixed
+payload buffer, or a supplied destination. Reject oversized request
+parameters as well.
 
-At the beginning, any new process generate more load for=20
-maintainers. The question yet to be answered is how this will
-affect our workflow in long term.
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ drivers/media/usb/ttusb-dec/ttusb_dec.c  | 61 +++++++++++++++---------
+ drivers/media/usb/ttusb-dec/ttusbdecfe.c |  9 ++--
+ drivers/media/usb/ttusb-dec/ttusbdecfe.h |  3 +-
+ 3 files changed, 46 insertions(+), 27 deletions(-)
 
-> Far-fetched review comments, very convincing word salads mixed with
-> valuable findings have often been escalated by authors to maintainers
-> to have them distil the good from the bad.
->=20
-> This might have merits: analyzing 3 false reports to find a bug is
-> still worth it, but has so far caused more load for maintainers and
-> reviewers, not less. Considering reviewers are the most scarce
-> resource we have, analyzing Sashiko reports has been made an opt-in
-> feature by sending its review to a dedicated mailing list where
-> maintainers can (optionally) decide if something's worth acting upon.
+diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+index 825a3875989d..70675f742b3b 100644
+--- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
++++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+@@ -314,12 +314,15 @@ static u16 crc16(u16 crc, const u8 *buf, size_t len)
+ 
+ static int ttusb_dec_send_command(struct ttusb_dec *dec, const u8 command,
+ 				  int param_length, const u8 params[],
+-				  int *result_length, u8 cmd_result[])
++				  int *result_length, u8 cmd_result[],
++				  unsigned int cmd_result_size)
+ {
+ 	int result, actual_len;
+ 	u8 *b;
+ 
+ 	dprintk("%s\n", __func__);
++	if (param_length < 0 || param_length > COMMAND_PACKET_SIZE)
++		return -EINVAL;
+ 
+ 	b = kzalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
+ 	if (!b)
+@@ -360,18 +363,28 @@ static int ttusb_dec_send_command(struct ttusb_dec *dec, const u8 command,
+ 		printk("%s: result bulk message failed: error %d\n",
+ 		       __func__, result);
+ 		goto err_mutex_unlock;
+-	} else {
+-		if (debug) {
+-			printk(KERN_DEBUG "%s: result: %*ph\n",
+-			       __func__, actual_len, b);
+-		}
++	}
++
++	dprintk("%s: result: %*ph\n", __func__, actual_len, b);
+ 
+-		if (result_length)
+-			*result_length = b[3];
+-		if (cmd_result && b[3] > 0)
+-			memcpy(cmd_result, &b[4], b[3]);
++	if (actual_len < 4) {
++		pr_warn("%s: short result packet\n", __func__);
++		result = -EPROTO;
++		goto err_mutex_unlock;
+ 	}
+ 
++	if (b[3] > COMMAND_PACKET_SIZE || b[3] > actual_len - 4 ||
++	    (cmd_result && b[3] > cmd_result_size)) {
++		pr_warn("%s: invalid result length %u\n", __func__, b[3]);
++		result = -EPROTO;
++		goto err_mutex_unlock;
++	}
++
++	if (result_length)
++		*result_length = b[3];
++	if (cmd_result && b[3] > 0)
++		memcpy(cmd_result, &b[4], b[3]);
++
+ err_mutex_unlock:
+ 	mutex_unlock(&dec->usb_mutex);
+ err_free:
+@@ -389,7 +402,8 @@ static int ttusb_dec_get_stb_state (struct ttusb_dec *dec, unsigned int *mode,
+ 
+ 	dprintk("%s\n", __func__);
+ 
+-	result = ttusb_dec_send_command(dec, 0x08, 0, NULL, &c_length, c);
++	result = ttusb_dec_send_command(dec, 0x08, 0, NULL,
++					&c_length, c, sizeof(c));
+ 	if (result)
+ 		return result;
+ 
+@@ -448,7 +462,7 @@ static void ttusb_dec_set_pids(struct ttusb_dec *dec)
+ 	memcpy(&b[2], &audio, 2);
+ 	memcpy(&b[4], &video, 2);
+ 
+-	ttusb_dec_send_command(dec, 0x50, sizeof(b), b, NULL, NULL);
++	ttusb_dec_send_command(dec, 0x50, sizeof(b), b, NULL, NULL, 0);
+ 
+ 	dvb_filter_pes2ts_init(&dec->a_pes2ts, dec->pid[DMX_PES_AUDIO],
+ 			       ttusb_dec_audio_pes2ts_cb, dec);
+@@ -902,7 +916,7 @@ static int ttusb_dec_set_interface(struct ttusb_dec *dec,
+ 			break;
+ 		case TTUSB_DEC_INTERFACE_IN:
+ 			result = ttusb_dec_send_command(dec, 0x80, sizeof(b),
+-							b, NULL, NULL);
++							b, NULL, NULL, 0);
+ 			if (result)
+ 				return result;
+ 			result = usb_set_interface(dec->udev, 0, 8);
+@@ -1021,7 +1035,7 @@ static int ttusb_dec_start_ts_feed(struct dvb_demux_feed *dvbdmxfeed)
+ 
+ 	}
+ 
+-	result = ttusb_dec_send_command(dec, 0x80, sizeof(b0), b0, NULL, NULL);
++	result = ttusb_dec_send_command(dec, 0x80, sizeof(b0), b0, NULL, NULL, 0);
+ 	if (result)
+ 		return result;
+ 
+@@ -1056,7 +1070,7 @@ static int ttusb_dec_start_sec_feed(struct dvb_demux_feed *dvbdmxfeed)
+ 	memcpy(&b0[5], &dvbdmxfeed->filter->filter.filter_value[0], 1);
+ 
+ 	result = ttusb_dec_send_command(dec, 0x60, sizeof(b0), b0,
+-					&c_length, c);
++					&c_length, c, sizeof(c));
+ 
+ 	if (!result) {
+ 		if (c_length == 2) {
+@@ -1114,7 +1128,7 @@ static int ttusb_dec_stop_ts_feed(struct dvb_demux_feed *dvbdmxfeed)
+ 	struct ttusb_dec *dec = dvbdmxfeed->demux->priv;
+ 	u8 b0[] = { 0x00 };
+ 
+-	ttusb_dec_send_command(dec, 0x81, sizeof(b0), b0, NULL, NULL);
++	ttusb_dec_send_command(dec, 0x81, sizeof(b0), b0, NULL, NULL, 0);
+ 
+ 	dec->pva_stream_count--;
+ 
+@@ -1135,7 +1149,7 @@ static int ttusb_dec_stop_sec_feed(struct dvb_demux_feed *dvbdmxfeed)
+ 	list_del(&finfo->filter_info_list);
+ 	spin_unlock_irqrestore(&dec->filter_info_list_lock, flags);
+ 	kfree(finfo);
+-	ttusb_dec_send_command(dec, 0x62, sizeof(b0), b0, NULL, NULL);
++	ttusb_dec_send_command(dec, 0x62, sizeof(b0), b0, NULL, NULL, 0);
+ 
+ 	dec->filter_stream_count--;
+ 
+@@ -1238,7 +1252,7 @@ static int ttusb_init_rc( struct ttusb_dec *dec)
+ 	if (usb_submit_urb(dec->irq_urb, GFP_KERNEL))
+ 		printk("%s: usb_submit_urb failed\n",__func__);
+ 	/* enable irq pipe */
+-	ttusb_dec_send_command(dec,0xb0,sizeof(b),b,NULL,NULL);
++	ttusb_dec_send_command(dec, 0xb0, sizeof(b), b, NULL, NULL, 0);
+ 
+ 	return 0;
+ }
+@@ -1354,7 +1368,7 @@ static int ttusb_dec_boot_dsp(struct ttusb_dec *dec)
+ 	firmware_csum_ns = htons(firmware_csum);
+ 	memcpy(&b0[6], &firmware_csum_ns, 2);
+ 
+-	result = ttusb_dec_send_command(dec, 0x41, sizeof(b0), b0, NULL, NULL);
++	result = ttusb_dec_send_command(dec, 0x41, sizeof(b0), b0, NULL, NULL, 0);
+ 
+ 	if (result) {
+ 		release_firmware(fw_entry);
+@@ -1395,7 +1409,7 @@ static int ttusb_dec_boot_dsp(struct ttusb_dec *dec)
+ 		}
+ 	}
+ 
+-	result = ttusb_dec_send_command(dec, 0x43, sizeof(b1), b1, NULL, NULL);
++	result = ttusb_dec_send_command(dec, 0x43, sizeof(b1), b1, NULL, NULL, 0);
+ 
+ 	release_firmware(fw_entry);
+ 	kfree(b);
+@@ -1621,10 +1635,13 @@ static void ttusb_dec_exit_filters(struct ttusb_dec *dec)
+ 
+ static int fe_send_command(struct dvb_frontend* fe, const u8 command,
+ 			   int param_length, const u8 params[],
+-			   int *result_length, u8 cmd_result[])
++			   int *result_length, u8 cmd_result[],
++			   unsigned int cmd_result_size)
+ {
+ 	struct ttusb_dec* dec = fe->dvb->priv;
+-	return ttusb_dec_send_command(dec, command, param_length, params, result_length, cmd_result);
++
++	return ttusb_dec_send_command(dec, command, param_length, params,
++				      result_length, cmd_result, cmd_result_size);
+ }
+ 
+ static const struct ttusbdecfe_config fe_config = {
+diff --git a/drivers/media/usb/ttusb-dec/ttusbdecfe.c b/drivers/media/usb/ttusb-dec/ttusbdecfe.c
+index 215221370c19..b013d6dfcbee 100644
+--- a/drivers/media/usb/ttusb-dec/ttusbdecfe.c
++++ b/drivers/media/usb/ttusb-dec/ttusbdecfe.c
+@@ -44,7 +44,8 @@ static int ttusbdecfe_dvbt_read_status(struct dvb_frontend *fe,
+ 
+ 	*status=0;
+ 
+-	ret=state->config->send_command(fe, 0x73, sizeof(b), b, &len, result);
++	ret = state->config->send_command(fe, 0x73, sizeof(b), b, &len, result,
++					  sizeof(result));
+ 	if(ret)
+ 		return ret;
+ 
+@@ -85,7 +86,7 @@ static int ttusbdecfe_dvbt_set_frontend(struct dvb_frontend *fe)
+ 
+ 	__be32 freq = htonl(p->frequency / 1000);
+ 	memcpy(&b[4], &freq, sizeof (u32));
+-	state->config->send_command(fe, 0x71, sizeof(b), b, NULL, NULL);
++	state->config->send_command(fe, 0x71, sizeof(b), b, NULL, NULL, 0);
+ 
+ 	return 0;
+ }
+@@ -130,7 +131,7 @@ static int ttusbdecfe_dvbs_set_frontend(struct dvb_frontend *fe)
+ 	lnb_voltage = htonl(state->voltage);
+ 	memcpy(&b[28], &lnb_voltage, sizeof(u32));
+ 
+-	state->config->send_command(fe, 0x71, sizeof(b), b, NULL, NULL);
++	state->config->send_command(fe, 0x71, sizeof(b), b, NULL, NULL, 0);
+ 
+ 	return 0;
+ }
+@@ -149,7 +150,7 @@ static int ttusbdecfe_dvbs_diseqc_send_master_cmd(struct dvb_frontend* fe, struc
+ 
+ 	state->config->send_command(fe, 0x72,
+ 				    sizeof(b) - (6 - cmd->msg_len), b,
+-				    NULL, NULL);
++				    NULL, NULL, 0);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/media/usb/ttusb-dec/ttusbdecfe.h b/drivers/media/usb/ttusb-dec/ttusbdecfe.h
+index 73828bb2258c..339711f83ff0 100644
+--- a/drivers/media/usb/ttusb-dec/ttusbdecfe.h
++++ b/drivers/media/usb/ttusb-dec/ttusbdecfe.h
+@@ -14,7 +14,8 @@ struct ttusbdecfe_config
+ {
+ 	int (*send_command)(struct dvb_frontend* fe, const u8 command,
+ 			    int param_length, const u8 params[],
+-			    int *result_length, u8 cmd_result[]);
++			    int *result_length, u8 cmd_result[],
++			    unsigned int cmd_result_size);
+ };
+ 
+ extern struct dvb_frontend* ttusbdecfe_dvbs_attach(const struct ttusbdecfe_config* config);
+-- 
+2.43.0
 
-I'm pretty sure we'll need custom prompts to better adjust reviews,
-and maybe even adjusting temperature parameters. Media is a complex=20
-subsystem which deals with a wide range of hardware, several of them
-with their own specialized processor units (ISPs) and ASICs.
-
-Any no non-specialized static analyzer tools may report more false
-positives on such scenario. Yet, we need authors and maintainers
-feedback to adjust such media-specific LLM prompts.
-
-The long term goal should be clear. We expect that, with Sashiko:
-
-- patch quality will be improved after using Sashiko's reviews;
-- maintainer's overhead will be reduced, as they won't need to
-  restate issues already exposed by CI. They'll only start=20
-  reviewing once the patches are on a better shape.
-
-If, after using it and customizing its prompts, it turns that the
-patch quality decreases or that the maintainers overhead become
-too high with very little benefit, then we should review the decision
-of using it.=20
-
-Not before.
-
-On my personal experience with Sashiko and other LLM-based review
-tools, they're very good to check error paths. By using it, we can
-avoid receiving extra patches later on to fix things that could
-already be solved at the original commit.=20
-
-=46rom my experience as maintainer, sometimes it takes years until
-someone send us patches fixing error check conditions.
-
-Just take for instance a random fix patch send on May, 22:
-	06cb687a5132 ("media: v4l2-fwnode: Fix subdev owner overwritten in v4l2_as=
-ync_register_subdev_sensor()")
-
-It fixed a patch wrote in 2017:
-	Fixes: aef69d54755d ("media: v4l: fwnode: Add a convenience function for r=
-egistering sensors")
-
-It would be great if, on that time, we had a tool that would be
-able to identify such problem and not needing to take ~10 years=20
-to have it fixed.
-
-> This would also give some buffer time to evaluate Sashiko and maybe
-> reconsider later on.
->=20
-> > It seems like [1]  expresses a very anti-LLM position in general, which=
- I can understand and I agree
-> > with some of concerns. But I think it=E2=80=99s up to project leaders t=
-o decide if Linux in general  takes this
-> > position and my take so far is that the answer is not.
-> > =20
->=20
-> All discussions around AI inevitably ends being about principles and
-> good vs bad. I'm surprised Linus and Ted had to weight in to re-state
-> the "we're not against AI!" principle while I would like to discuss
-> signal-to-noise metrics instead.
->=20
-> Maybe you have number I've not seen yet.
->=20
-> Thanks
->    j
->=20
-> > Thanks =20
-
-
-
-Thanks,
-Mauro
 
