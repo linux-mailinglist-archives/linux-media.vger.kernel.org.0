@@ -1,313 +1,283 @@
-Return-Path: <linux-media+bounces-67670-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67671-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id girwA4t0V2rSOQEAu9opvQ
-	(envelope-from <linux-media+bounces-67670-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 13:52:43 +0200
+	id Z0ZMKl92V2psOgEAu9opvQ
+	(envelope-from <linux-media+bounces-67671-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 14:00:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B9275DCB9
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 13:52:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3348275DDCB
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 14:00:29 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=raspberrypi.com header.s=google header.b=jk+nrJwx;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67670-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-67670-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=raspberrypi.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=BQ66qRhr;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67671-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-67671-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 25142305B069
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 11:47:04 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1EB873029A4C
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 11:51:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C95F480959;
-	Wed, 15 Jul 2026 11:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B57944BC8E;
+	Wed, 15 Jul 2026 11:51:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D0A47DFB3
-	for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 11:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E38448D03;
+	Wed, 15 Jul 2026 11:51:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784115873; cv=none; b=D5wwQFaRtaYRgI8vvoh4Of4QmPSsbrb6knR+d3UfS60Gi27Iil4lES+fbJQT3/jSqTGNAqL08DT9hB67WbEnmmff48GKxv2HSn0mRKlcJv3MIKgEN/AAZMx/nNhL777gvgSzv/w0vmBbYxQ71TnJ2nzoMp/9wO3s05H0rCGKoNI=
+	t=1784116267; cv=none; b=Vtpn/qmauKarl2zNjx7Ya2xfo0dU3we5ALV2vZfEugNb6aFwDSz7BGKz+zOLDPjyovEVt2GyIdlWAPOTgJSkgjBPRscHF3i/67zE7P55j7oXlp+QC35Mo0SWPiEf3EraHAb3+pW6lpVldIXfwejbq+TaRK2dgUenYdHGrRCQBBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784115873; c=relaxed/simple;
-	bh=mfwE1jS44P0uqg4CKploF2o77CG8x0RmlqjldJ8mKfI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m+FL2OwkZEsftR8OjC0NKv6rM5EUstpxN1e0nRJPV5kPa89eXuAKHx0X6XdLvwJfMp3sj/2UxIWWCNf4Jmu3fbZ1XY0AYaUiuIBMMqS0Yv5ks/1xi0+3nwoFqDK/A+Dnus6E2VaJWn6QIMxvppIk0vIHr4SS6+NivQ1QTyAH9CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=jk+nrJwx; arc=none smtp.client-ip=209.85.221.51
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47362928f65so4875476f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 04:44:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1784115869; x=1784720669; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xH4qi8mC8sbk2Ii8u4ToEy3cMhSAHSqVasTCYHLS6qA=;
-        b=jk+nrJwxmFOaA1nGei4O/GXhgaMIBfeE7nxK1YKqxPvR/2PMIRlS2IJ2lQ+THnVTdY
-         HrMyb4z3xdoakpJzQZKmdZRDaiNlKLjEIpZXc6UxmhdeZ1TjKvW51gY8qDmEhtLZg9K5
-         w1+e5Ust7deOv/p2WE4xyBL03ad45kLAFo3RXRWvb9wX5ewr6k/Z8dnk0R+GFGCDzNsv
-         vzQBkkpFyoLZ5WniNnr+Q+7MHQfPuAuQK4i6m+cmwNw5Xarfs2FTTy8OXseAQ7ZvSiT3
-         msKDJ7Kpe7icRb4FhO0fblpDQJ11RdSrhyIiF2RMldG7VHPUGjO0cIV1Rog1g+03I70a
-         tC+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784115869; x=1784720669;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xH4qi8mC8sbk2Ii8u4ToEy3cMhSAHSqVasTCYHLS6qA=;
-        b=jvbb+H5paPUbdb+aq9KgoDtIgioSfbGRMAOPtwrwmJj6sYOLoraM1r+l72vF17fAur
-         gM3YcdOIzF5uys4WRgU5srCfxZjhpCMCQHl6lDebZaH/3aWEzb8lLd4SmXeGBCop0mJ3
-         dqJXQ5o2Mhe6+R1FczQCU+x/TSOG9bvBy7pw7x4BxeO+fYLquoQB62w+R7sX7wF9d/Iv
-         6cUyNJFBzuMyKR4bD6TW42UZMsDUqG5Dmdz90Sb1llBQjT557HsinGNu8bM5+3GJvrCQ
-         1WwQjQW7uVAwukyMcqd22uRmAHYP13edeZPZcKjUrP0qs+3pEVTU+tbEwQnA9UxLzcm9
-         mNJA==
-X-Gm-Message-State: AOJu0YzDEb9l4/zuMDcng5qOnpzXQZqadQ6YQc+CD55zwz3WayQrvZTh
-	EaePJpthrSUTvqNJh7Vqi8RGKCBTPXfIf0MBzpHDro6obyR0Zb+ncVyByA9RZjjhPJ8=
-X-Gm-Gg: AfdE7cnAP6qL4dNHDiEnQ+GB9S7Rvu+TLXBVEqL/oW8HRroMX/jzydEHb0veH2kVAOI
-	xaFq+6XSyjsGk1W7BF5+yBa4cdifGgYtrG4YMFtsC3Hr665NzeISUIRNFMP44Q+wvKwqxhr6rhd
-	FfeSlIzLPEQH0D/ScjO2qAZroO/Bxjijh9BDQq3BCggCk2j2gXTfo8hL+6nRQ7+g0f9u/dZopC9
-	Gk1CyU0ceOaNY0+ducEuOGClgx9c+Fir4vprq0tVj+/yMfg6Db43GALqPxsoapYIn2xIIsgD1Od
-	FHnFuH3Hf8KvgngNcNNSRLh4JCMqJc9uuBz3FCbNX7Ma71/C3dhCYpFbeLlDlHULxNMSHfEoYQe
-	GJ1DbiqvoXv3zzM/pMHW9QAkmmt2+BjoekJtMLQNGJvA/hk1WSAU3TgPisS7Q32gKCBJZwL7IX8
-	00L46YmrzJWFoN+IrJamlKLUpOPpIz1525p2Ot+0A3DkYOyCgg2TsEtpPYND1SORRJ
-X-Received: by 2002:adf:e011:0:10b0:47f:53b8:4e70 with SMTP id ffacd0b85a97d-47f53b84e90mr525804f8f.55.1784115868841;
-        Wed, 15 Jul 2026 04:44:28 -0700 (PDT)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47f4829896asm14005425f8f.23.2026.07.15.04.44.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 04:44:28 -0700 (PDT)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 15 Jul 2026 12:43:34 +0100
-Subject: [PATCH v4 21/21] media: imx355: Remove storing cur_mode in the
- state
+	s=arc-20240116; t=1784116267; c=relaxed/simple;
+	bh=gOCHKkzFj8Llq3Xow7fLUehPkDztwpHtiB4IBMTq1Ok=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kLeaTVf6njPOfXbYVpHK4CWgiagGq5wkWsLZwChqu6IZPYX6E1cVvl0Duqwt4Zb4obtX76D/ReER1yyId2aEfI0dkGm4c/Lziu7eqB4pRTgYGzcuR8VdcF5HelGL6vLFiENg601g5XKYcqDTxb9yemc+SyW3lCIrC2DglVQMdic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BQ66qRhr; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5853E1F000E9;
+	Wed, 15 Jul 2026 11:51:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784116265;
+	bh=ZksEdlHG8eYEb4FRJd8G+klMQE6uApl+yisjGGemO8Y=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=BQ66qRhr8Cf7Ao5pin5Mg7ass/PLJZgVVR18pozqglZRQUOgUdlkxX1gXln/er3wF
+	 DAkSH6T/tQvfyL+GC2O23VQOqMpTZTcZ3diNwzwkuC++vNxcSKzV4/i7DWhj7RWSDc
+	 TbQwpnbR6VEGk9pOoAWdirQ/Lin4X+lud4qjUDSFcVmwGrf2KeDpmwZpZ4FC1Tnasc
+	 9yfWFw4z8VO35kZQvIXx9lLN0ELE4SPWJz5PHPePAU0k8zfBJvye/ZhwN3E0/pgIMI
+	 C1aPEz3dirXAOLRaVDuN+bw/0kuNIUlimX/Pv/73joOOjcpjY4Iy2SyBQ8Egtvv0Bj
+	 wKNlx8QqccvbQ==
+Message-ID: <8c7e1294-b906-4636-890c-b64d03b0e1d0@kernel.org>
+Date: Wed, 15 Jul 2026 13:51:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH] media: cx231xx-audio: gate wq_trigger on an audio-local
+ teardown flag
+To: Fan Wu <fanwu01@zju.edu.cn>, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260708141622.3936490-1-fanwu01@zju.edu.cn>
+Content-Language: en-US, nl
+In-Reply-To: <20260708141622.3936490-1-fanwu01@zju.edu.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260715-media-imx355-v4-21-f7f966fb9ffd@raspberrypi.com>
-References: <20260715-media-imx355-v4-0-f7f966fb9ffd@raspberrypi.com>
-In-Reply-To: <20260715-media-imx355-v4-0-f7f966fb9ffd@raspberrypi.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Richard Acayan <mailingradian@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- David Heidelberg <david@ixit.cz>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, devicetree@vger.kernel.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-X-Mailer: b4 0.14.1
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
-	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-67670-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:fanwu01@zju.edu.cn,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mailingradian@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:david@ixit.cz,m:jacopo.mondi@ideasonboard.com,m:devicetree@vger.kernel.org,m:dave.stevenson@raspberrypi.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[raspberrypi.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-67671-lists,linux-media=lfdr.de,cisco];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,raspberrypi.com:from_mime,raspberrypi.com:mid,raspberrypi.com:email,raspberrypi.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 03B9275DCB9
+X-Rspamd-Queue-Id: 3348275DDCB
 
-All the information for the mode is now stored within
-the subdev state, so configure the sensor based on that.
+On 08/07/2026 16:16, Fan Wu wrote:
+> audio_trigger() is deferred work (dev->wq_trigger) armed from
+> snd_cx231xx_capture_trigger() on every PCM START/STOP; it dereferences
+> dev->adev state and may free the URBs via cx231xx_isoc_audio_deinit().
+> cx231xx_audio_fini() tore down that state (snd_card_free_when_closed,
+> alt_max_pkt_size) without draining wq_trigger, so work armed before or
+> racing fini ran against freed state.
+> 
+> Adding cancel_work_sync() alone is insufficient: in capture_trigger() the
+> DEV_DISCONNECTED test and schedule_work() were not atomic, and
+> DEV_DISCONNECTED is only set on USB disconnect, but fini also runs on
+> cx231xx-alsa module unload (cx231xx_unregister_extension()), which never
+> sets it.  A trigger that passed the check could still queue work after
+> fini's cancel returned an empty queue.
+> 
+> Add an audio-local teardown gate (dev->adev.teardown): fini raises it under
+> adev.slock, releases the lock, then calls cancel_work_sync() outside the
+> spinlock.  Both arm sites perform the teardown check and schedule_work()
+> inside one adev.slock section, so once the gate is visible no new work can
+> arm after cancel returns.  Initialize the lock, work and gate at the top of
+> cx231xx_audio_init(), before any fallible allocation, and clear the
+> partially-built audio state on its error path, so fini is safe even if a
+> later step fails.
+> 
+> This issue was found by an in-house static analysis tool.
+> 
+> Fixes: 61b04cb24a12 ("[media] cx231xx-audio: fix some locking issues")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+> ---
+>  drivers/media/usb/cx231xx/cx231xx-audio.c | 42 +++++++++++++++++++----
+>  drivers/media/usb/cx231xx/cx231xx.h       |  1 +
+>  2 files changed, 36 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/usb/cx231xx/cx231xx-audio.c b/drivers/media/usb/cx231xx/cx231xx-audio.c
+> index 9c71b32552df..44ca75b18a5d 100644
+> --- a/drivers/media/usb/cx231xx/cx231xx-audio.c
+> +++ b/drivers/media/usb/cx231xx/cx231xx-audio.c
+> @@ -441,6 +441,7 @@ static int snd_cx231xx_capture_open(struct snd_pcm_substream *substream)
+>  static int snd_cx231xx_pcm_close(struct snd_pcm_substream *substream)
+>  {
+>  	int ret;
+> +	unsigned long flags;
+>  	struct cx231xx *dev = snd_pcm_substream_chip(substream);
+>  
+>  	dev_dbg(dev->dev, "closing device\n");
+> @@ -470,7 +471,11 @@ static int snd_cx231xx_pcm_close(struct snd_pcm_substream *substream)
+>  		dev_dbg(dev->dev, "released lock\n");
+>  		if (atomic_read(&dev->stream_started) > 0) {
+>  			atomic_set(&dev->stream_started, 0);
+> -			schedule_work(&dev->wq_trigger);
+> +
+> +			spin_lock_irqsave(&dev->adev.slock, flags);
+> +			if (!dev->adev.teardown)
+> +				schedule_work(&dev->wq_trigger);
+> +			spin_unlock_irqrestore(&dev->adev.slock, flags);
+>  		}
+>  	}
+>  	return 0;
+> @@ -509,11 +514,14 @@ static int snd_cx231xx_capture_trigger(struct snd_pcm_substream *substream,
+>  {
+>  	struct cx231xx *dev = snd_pcm_substream_chip(substream);
+>  	int retval = 0;
+> +	unsigned long flags;
+>  
+> -	if (dev->state & DEV_DISCONNECTED)
+> +	spin_lock_irqsave(&dev->adev.slock, flags);
+> +	if (dev->adev.teardown || (dev->state & DEV_DISCONNECTED)) {
+> +		spin_unlock_irqrestore(&dev->adev.slock, flags);
+>  		return -ENODEV;
+> +	}
+>  
+> -	spin_lock(&dev->adev.slock);
+>  	switch (cmd) {
+>  	case SNDRV_PCM_TRIGGER_START:
+>  		atomic_set(&dev->stream_started, 1);
+> @@ -525,10 +533,10 @@ static int snd_cx231xx_capture_trigger(struct snd_pcm_substream *substream,
+>  		retval = -EINVAL;
+>  		break;
+>  	}
+> -	spin_unlock(&dev->adev.slock);
+>  
+>  	schedule_work(&dev->wq_trigger);
+>  
+> +	spin_unlock_irqrestore(&dev->adev.slock, flags);
+>  	return retval;
+>  }
+>  
+> @@ -576,12 +584,20 @@ static int cx231xx_audio_init(struct cx231xx *dev)
+>  	dev_dbg(dev->dev,
+>  		"probing for cx231xx non standard usbaudio\n");
+>  
+> +	/*
+> +	 * Extension init errors are ignored by the cx231xx core, so fini()
+> +	 * must be safe even if initialization fails part way through.
+> +	 */
+> +	spin_lock_init(&adev->slock);
+> +	INIT_WORK(&dev->wq_trigger, audio_trigger);
+> +	adev->teardown = false;
+> +	atomic_set(&dev->stream_started, 0);
+> +
+>  	err = snd_card_new(dev->dev, index[devnr], "Cx231xx Audio",
+>  			   THIS_MODULE, 0, &card);
+>  	if (err < 0)
+>  		return err;
+>  
+> -	spin_lock_init(&adev->slock);
+>  	err = snd_pcm_new(card, "Cx231xx Audio", 0, 0, 1, &pcm);
+>  	if (err < 0)
+>  		goto err_free_card;
+> @@ -596,8 +612,6 @@ static int cx231xx_audio_init(struct cx231xx *dev)
+>  	strscpy(card->shortname, "Cx231xx Audio", sizeof(card->shortname));
+>  	strscpy(card->longname, "Conexant cx231xx Audio", sizeof(card->longname));
+>  
+> -	INIT_WORK(&dev->wq_trigger, audio_trigger);
+> -
+>  	err = snd_card_register(card);
+>  	if (err < 0)
+>  		goto err_free_card;
+> @@ -651,14 +665,18 @@ static int cx231xx_audio_init(struct cx231xx *dev)
+>  
+>  err_free_pkt_size:
+>  	kfree(adev->alt_max_pkt_size);
+> +	adev->alt_max_pkt_size = NULL;
+>  err_free_card:
+>  	snd_card_free(card);
+> +	adev->sndcard = NULL;
+>  
+>  	return err;
+>  }
+>  
+>  static int cx231xx_audio_fini(struct cx231xx *dev)
+>  {
+> +	unsigned long flags;
+> +
+>  	if (dev == NULL)
+>  		return 0;
+>  
+> @@ -669,6 +687,16 @@ static int cx231xx_audio_fini(struct cx231xx *dev)
+>  		return 0;
+>  	}
+>  
+> +	/*
+> +	 * Block new trigger work before draining already queued work.
+> +	 * cancel_work_sync() may sleep, so it must run after dropping slock.
+> +	 */
+> +	spin_lock_irqsave(&dev->adev.slock, flags);
+> +	dev->adev.teardown = true;
+> +	spin_unlock_irqrestore(&dev->adev.slock, flags);
+> +
+> +	cancel_work_sync(&dev->wq_trigger);
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/media/i2c/imx355.c | 63 +++++++++++++++++++++-------------------------
- 1 file changed, 29 insertions(+), 34 deletions(-)
+If I am not mistaken, it should be enough to use disable_work_sync() instead of
+cancel_work_sync(): this disables the workqueue as well, preventing new work from
+being queued. That avoids all the fiddly 'teardown' bits.
 
-diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index 97f4594f7ed9..8eb8588cb71b 100644
---- a/drivers/media/i2c/imx355.c
-+++ b/drivers/media/i2c/imx355.c
-@@ -173,9 +173,6 @@ struct imx355 {
- 	struct v4l2_ctrl *vflip;
- 	struct v4l2_ctrl *hflip;
- 
--	/* Current mode */
--	const struct imx355_mode *cur_mode;
--
- 	struct imx355_hwcfg *hwcfg;
- 	const struct imx355_clk_params *clk_params;
- 
-@@ -607,7 +604,7 @@ static int imx355_set_ctrl(struct v4l2_ctrl *ctrl)
- 	switch (ctrl->id) {
- 	case V4L2_CID_VBLANK:
- 		/* Update max exposure while meeting expected vblanking */
--		max = imx355->cur_mode->height + ctrl->val - IMX355_EXPOSURE_OFFSET;
-+		max = format->height + ctrl->val - IMX355_EXPOSURE_OFFSET;
- 		__v4l2_ctrl_modify_range(imx355->exposure,
- 					 imx355->exposure->minimum,
- 					 max, imx355->exposure->step, max);
-@@ -638,7 +635,7 @@ static int imx355_set_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_VBLANK:
- 		/* Update FLL that meets expected vertical blanking */
- 		ret = cci_write(imx355->regmap, IMX355_REG_FLL,
--				imx355->cur_mode->height + ctrl->val, NULL);
-+				format->height + ctrl->val, NULL);
- 		break;
- 	case V4L2_CID_TEST_PATTERN:
- 		ret = cci_write(imx355->regmap, IMX355_REG_TEST_PATTERN,
-@@ -724,9 +721,7 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
- 	const struct imx355_mode *mode;
- 	struct v4l2_mbus_framefmt *framefmt;
- 	struct v4l2_rect *crop;
--	s32 vblank_def;
- 	s64 h_blank;
--	u32 height;
- 
- 	/*
- 	 * Only one bayer order is supported.
-@@ -750,16 +745,14 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
- 	crop->top = mode->crop.top;
- 
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
--		imx355->cur_mode = mode;
- 		/* Update limits and set FPS to default */
--		height = imx355->cur_mode->height;
--		vblank_def = imx355->cur_mode->fll_def - height;
--		height = IMX355_FLL_MAX - height;
- 		__v4l2_ctrl_modify_range(imx355->vblank, IMX355_VBLANK_MIN,
--					 height, 1, vblank_def);
--		__v4l2_ctrl_s_ctrl(imx355->vblank, vblank_def);
-+					 IMX355_FLL_MAX - mode->height, 1,
-+					 mode->fll_def - mode->height);
-+		__v4l2_ctrl_s_ctrl(imx355->vblank, mode->fll_def - mode->height);
-+
-+		h_blank = mode->llp - mode->width;
- 
--		h_blank = mode->llp - imx355->cur_mode->width;
- 		/*
- 		 * Currently hblank is not changeable.
- 		 * So FPS control is done only by vblank.
-@@ -811,9 +804,11 @@ static int imx355_entity_init_state(struct v4l2_subdev *subdev,
- /* Start streaming */
- static int imx355_start_streaming(struct imx355 *imx355)
- {
--	const struct imx355_reg_list *reg_list;
-+	const struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_subdev_state *state;
- 	const struct imx355_mode *mode;
- 	int lane_idx = imx355->hwcfg->num_lanes == 4 ? 0 : 1;
-+	struct v4l2_rect *crop;
- 	u64 link_bitrate;
- 	u8 binning_mode;
- 	int ret = 0;
-@@ -822,25 +817,29 @@ static int imx355_start_streaming(struct imx355 *imx355)
- 	cci_multi_reg_write(imx355->regmap, imx355_global_regs,
- 			    ARRAY_SIZE(imx355_global_regs), &ret);
- 
--	/* Apply default values of current mode */
--	mode = imx355->cur_mode;
--	reg_list = &mode->reg_list;
--	cci_multi_reg_write(imx355->regmap, reg_list->regs,
--			    reg_list->num_of_regs, &ret);
-+	/* Apply values of current mode */
-+	state = v4l2_subdev_get_locked_active_state(&imx355->sd);
-+	fmt = v4l2_subdev_state_get_format(state, 0);
-+	crop = v4l2_subdev_state_get_crop(state, 0);
-+	mode = v4l2_find_nearest_size(supported_modes,
-+				      ARRAY_SIZE(supported_modes),
-+				      width, height, fmt->width, fmt->height);
-+	cci_multi_reg_write(imx355->regmap, mode->reg_list.regs,
-+			    mode->reg_list.num_of_regs, &ret);
- 
- 	/* Set readout crop and size registers  */
--	cci_write(imx355->regmap, IMX355_REG_X_ADD_START, mode->crop.left,
-+	cci_write(imx355->regmap, IMX355_REG_X_ADD_START, crop->left,
- 		  &ret);
--	cci_write(imx355->regmap, IMX355_REG_Y_ADD_START, mode->crop.top, &ret);
-+	cci_write(imx355->regmap, IMX355_REG_Y_ADD_START, crop->top, &ret);
- 	cci_write(imx355->regmap, IMX355_REG_X_ADD_END,
--		  mode->crop.width + mode->crop.left - 1, &ret);
-+		  crop->width + crop->left - 1, &ret);
- 	cci_write(imx355->regmap, IMX355_REG_Y_ADD_END,
--		  mode->crop.height + mode->crop.top - 1, &ret);
--	cci_write(imx355->regmap, IMX355_REG_X_OUT_SIZE, mode->width, &ret);
--	cci_write(imx355->regmap, IMX355_REG_Y_OUT_SIZE, mode->height, &ret);
-+		  crop->height + crop->top - 1, &ret);
-+	cci_write(imx355->regmap, IMX355_REG_X_OUT_SIZE, fmt->width, &ret);
-+	cci_write(imx355->regmap, IMX355_REG_Y_OUT_SIZE, fmt->height, &ret);
- 
--	binning_mode = ((mode->crop.width / mode->width) << 4) |
--			(mode->crop.height / mode->height);
-+	binning_mode = ((crop->width / fmt->width) << 4) |
-+			(crop->height / fmt->height);
- 	cci_write(imx355->regmap, IMX355_REG_BINNING_MODE,
- 		  binning_mode == 0x11 ? 0x00 : 0x01, &ret);
- 	cci_write(imx355->regmap, IMX355_REG_BINNING_TYPE, binning_mode, &ret);
-@@ -871,7 +870,7 @@ static int imx355_start_streaming(struct imx355 *imx355)
- 
- 	/* set line length */
- 	cci_write(imx355->regmap, IMX355_REG_LLP,
--		  imx355->hblank->val + imx355->cur_mode->width, &ret);
-+		  imx355->hblank->val + fmt->width, &ret);
- 
- 	/* Apply customized values from user */
- 	if (!ret)
-@@ -1031,11 +1030,11 @@ static int imx355_init_controls(struct imx355 *imx355)
- {
- 	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	const struct imx355_mode *mode = &supported_modes[0];
- 	s64 exposure_max;
- 	s64 vblank_def;
- 	s64 hblank;
- 	u64 pixel_rate;
--	const struct imx355_mode *mode;
- 	int ret;
- 
- 	ctrl_hdlr = &imx355->ctrl_handler;
-@@ -1057,7 +1056,6 @@ static int imx355_init_controls(struct imx355 *imx355)
- 			  pixel_rate, pixel_rate, 1, pixel_rate);
- 
- 	/* Initialize vblank/hblank/exposure parameters based on current mode */
--	mode = imx355->cur_mode;
- 	vblank_def = mode->fll_def - mode->height;
- 	imx355->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx355_ctrl_ops,
- 					   V4L2_CID_VBLANK, IMX355_VBLANK_MIN,
-@@ -1250,9 +1248,6 @@ static int imx355_probe(struct i2c_client *client)
- 		goto error_power_off;
- 	}
- 
--	/* Set default mode to max resolution */
--	imx355->cur_mode = &supported_modes[0];
--
- 	ret = imx355_init_controls(imx355);
- 	if (ret) {
- 		dev_err(imx355->dev, "failed to init controls: %d", ret);
+Regards,
 
--- 
-2.34.1
+	Hans
+
+> +
+>  	if (dev->adev.sndcard) {
+>  		snd_card_free_when_closed(dev->adev.sndcard);
+>  		kfree(dev->adev.alt_max_pkt_size);
+> diff --git a/drivers/media/usb/cx231xx/cx231xx.h b/drivers/media/usb/cx231xx/cx231xx.h
+> index 19f5036a78d7..99c6a279944f 100644
+> --- a/drivers/media/usb/cx231xx/cx231xx.h
+> +++ b/drivers/media/usb/cx231xx/cx231xx.h
+> @@ -418,6 +418,7 @@ struct cx231xx_audio {
+>  	struct snd_card *sndcard;
+>  
+>  	int users, shutdown;
+> +	bool teardown;		/* audio fini in progress; set under slock */
+>  	/* locks */
+>  	spinlock_t slock;
+>  
 
 
