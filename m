@@ -1,302 +1,189 @@
-Return-Path: <linux-media+bounces-67634-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67635-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +3/OB5FFV2qvIQEAu9opvQ
-	(envelope-from <linux-media+bounces-67634-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:32:17 +0200
+	id cx1eM2NHV2ogIgEAu9opvQ
+	(envelope-from <linux-media+bounces-67635-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:40:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022DC75BE88
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:32:15 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C26475BF74
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 10:40:03 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=hLvqPZif;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67634-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-67634-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67635-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67635-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 252403003BD8
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:32:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 016CC301A16D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 08:39:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6AE23CCFAF;
-	Wed, 15 Jul 2026 08:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EB413C942E;
+	Wed, 15 Jul 2026 08:39:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1013927A91D;
-	Wed, 15 Jul 2026 08:32:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327A742BC31;
+	Wed, 15 Jul 2026 08:39:47 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784104331; cv=none; b=OayLEGB4bhBzAqyxiHfhB2aotCNlbEgw4vh1IXxiiTYXmhtaNh0FGVck6ABo4IvF8QMrBxZUfWKLimzgIQfcMyBNVAqu6BPPyZaFG/K3relbi6ccKkkOUxD12ewtguTRSk1SvNUQrUX/HQihMyw5qUbPxQTH8OzuhcPRYb1+fZw=
+	t=1784104790; cv=none; b=e1doMb9NkN9cxPfo+H03apvICxmPY9Gh7BoCSNZqVN7SV/3p9GUtCxYP7eCDubhdNSV3DEsN+R7UJKkcXGC08myzm3Bz8/5ItIODT97DOM/zficxhTTM876ntRBx0OycTUx8JMixpid+6Aqch55BhEnCvyeD8kl36V1xQRlghfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784104331; c=relaxed/simple;
-	bh=VdgvCK/DEqos+tWO5AzNwxX7DxDwPVMJyr33E1EKcKQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=lFDgwEiFGeKWbZQmOC8Xgjk2U/UHvdBjM7awcnj677GjBU0KXtMOpImtoc7B98jNL4zj9jCyt9pPI6ji7864hLML1SDy52CCBfqDarJ7Ii0KNW9kI3kG51RUNNAuWZCIEPt9nKLHGdg0insdhXxRBdphNPg0lMdZgvPfvPM5bqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hLvqPZif; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C22B1F000E9;
-	Wed, 15 Jul 2026 08:32:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784104329;
-	bh=Rv/WkuhxEmVUjKZPLywY5nPLg9cMq0vAok56zknF3Nk=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=hLvqPZif2ftOlKR0HnL/JKQjlgidV43UKiPa7KUafE+twJqDCgFyjMCt8FKbHjp6k
-	 4STxhrb9q8DfXfozEuMa5rRu9sEWqhBuTZn6tZCjtrk70LsD1DQx7tWim0sF+E8zNa
-	 4Xf03snqC7qW58dn2VhHis9kWhubGvopV1XNqrrFTYJvoALZIJB1TjSX6iy5ni8CLJ
-	 nXrLS3m6lb+0Go0RhrY5DTfCJqgPyfveeR6xB4Ra5YgzCYJoDsfwgubV32YOaO8cUR
-	 r2INB6xTAdn0+riQtT821zjlqjZhey6NresU+MS70P/84oWCZgqkKK8Be8TduV16IF
-	 Gfu78VSC6UFag==
-Message-ID: <1ef14047-f385-4163-ad9d-414702f45695@kernel.org>
-Date: Wed, 15 Jul 2026 10:32:06 +0200
+	s=arc-20240116; t=1784104790; c=relaxed/simple;
+	bh=E5EYzML7R643gT8cXq5HdAwgJAnViqY0BBoJjVXvreo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TFpKlWx/xt6JZTYC7Fbu7nN4MVnUPrJj1IKQQTIBE8n3cWP7M00bb4ndZno8u7f4GIOkQ0nPpjgFqvTnrQ6KoUVBY26WeavQa78HvED+wjpilIm5pKko0YHiEYXpGSCP9vbDmSWbLOvwCh62bs1NefsdAmDTl0RXU2mpA1GBBjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-05 (Coremail) with SMTP id zQCowAB30NNRR1dqzF1HGA--.14562S2;
+	Wed, 15 Jul 2026 16:39:45 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Laura Abbott <labbott@fedoraproject.org>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] media: dvb-frontends: si2168: validate firmware record length
+Date: Wed, 15 Jul 2026 16:39:45 +0800
+Message-ID: <20260715083945.33781-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 2/3] media: v4l2-core: Add support for video encoder
- ROI control
-To: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, kernel test robot <lkp@intel.com>
-References: <20260714-enc_roi_enable-v2-0-63683f9dbcef@oss.qualcomm.com>
- <20260714-enc_roi_enable-v2-2-63683f9dbcef@oss.qualcomm.com>
-Content-Language: en-US, nl
-In-Reply-To: <20260714-enc_roi_enable-v2-2-63683f9dbcef@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAB30NNRR1dqzF1HGA--.14562S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCF43WrWrAr1fKw48Gr17Jrb_yoW5Aw1fpF
+	Z8JF98tF4UWrW3Ca43Gay3Z3WfA393G34UGay7G3ZYgrnI9Fyrtayjg3yj9r1Ykr4Sy3yU
+	XrZ2qry8ZFy3JF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
+	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjnmRU
+	UUUUU==
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.04 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-67634-lists,linux-media=lfdr.de,cisco];
-	FORGED_RECIPIENTS(0.00)[m:deepa.madivalara@oss.qualcomm.com,m:mchehab@kernel.org,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:lkp@intel.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:pengpeng@iscas.ac.cn,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:labbott@fedoraproject.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67635-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,qualcomm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,iscas.ac.cn:from_mime,iscas.ac.cn:email,iscas.ac.cn:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 022DC75BE88
+X-Rspamd-Queue-Id: 4C26475BF74
 
-On 14/07/2026 21:00, Deepa Guthyappa Madivalara wrote:
-> Add necessary support for controls V4L2_CID_MPEG_VIDEO_ROI_MB_DELTA_QP
-> and V4L2_CID_MPEG_VIDEO_ROI_MB_SIZE.
-> 
-> Signed-off-by: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls-api.c  |  1 +
->  drivers/media/v4l2-core/v4l2-ctrls-core.c | 40 +++++++++++++++++++++++++++++--
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 10 ++++++++
->  include/media/v4l2-ctrls.h                |  3 ++-
->  4 files changed, 51 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> index 93d8d4012d0f4fef004e417d0aee2ae44b1b30bd..7d41cfd7378baaa929d4da0266c45f731bb54285 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> @@ -980,6 +980,7 @@ int __v4l2_ctrl_modify_range(struct v4l2_ctrl *ctrl,
->  	case V4L2_CTRL_TYPE_U8:
->  	case V4L2_CTRL_TYPE_U16:
->  	case V4L2_CTRL_TYPE_U32:
-> +	case V4L2_CTRL_TYPE_S8:
->  		if (ctrl->is_array)
->  			return -EINVAL;
->  		ret = check_range(ctrl->type, min, max, step, def);
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index ba047d7d86010bf0cf8f8fbf2dc343883d6bdae0..15b69dce0127e7c8546c2d23ae5458ace10301a0 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -287,6 +287,14 @@ static void __v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
->  			memset(ptr.p_u32 + from_idx, 0, elems * sizeof(u32));
->  		}
->  		break;
-> +	case V4L2_CTRL_TYPE_S8:
-> +		if (value) {
-> +			for (i = from_idx; i < tot_elems; i++)
-> +				ptr.p_s8[i] = value;
-> +		} else {
-> +			memset(ptr.p_s8 + from_idx, 0, elems * sizeof(s8));
-> +		}
-> +		break;
->  	default:
->  		for (i = from_idx; i < tot_elems; i++) {
->  			switch (which) {
-> @@ -367,6 +375,9 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
->  	case V4L2_CTRL_TYPE_U32:
->  		pr_cont("%u", (unsigned)*ptr.p_u32);
->  		break;
-> +	case V4L2_CTRL_TYPE_S8:
-> +		pr_cont("%d", *ptr.p_s8);
-> +		break;
->  	case V4L2_CTRL_TYPE_AREA:
->  		pr_cont("%ux%u", ptr.p_area->width, ptr.p_area->height);
->  		break;
-> @@ -481,6 +492,21 @@ EXPORT_SYMBOL(v4l2_ctrl_type_op_log);
->  	0;							\
->  })
->  
-> +#define ROUND_TO_RANGE_SIGNED(val, offset_type, ctrl)			\
-> +({								\
-> +	offset_type offset;					\
-> +	if ((ctrl)->maximum >= 0 &&				\
-> +	    val >= (ctrl)->maximum - (s32)((ctrl)->step / 2))	\
-> +		val = (ctrl)->maximum;				\
-> +	else							\
-> +		val += (s32)((ctrl)->step / 2);			\
-> +	val = clamp_t(typeof(val), val,				\
-> +		      (ctrl)->minimum, (ctrl)->maximum);	\
-> +	offset = (val) - (ctrl)->minimum;			\
-> +	offset = (ctrl)->step * (offset / (s32)(ctrl)->step);	\
-> +	val = (ctrl)->minimum + offset;				\
-> +})
+The new Si2168 firmware format stores one command in each 17-byte record:
+the first byte is the command length and the remaining 16 bytes are the
+command data.
 
-Why is this new define needed? I think you can just use ROUND_TO_RANGE.
+The existing check only compares the length with SI2168_ARGLEN, which
+protects the destination command array but not the current firmware record.
+A length from 17 through SI2168_ARGLEN makes cmd_init() copy from the next
+record, or past the firmware blob for the final record.  An empty firmware
+file also passes the modulo test before fw->data[0] is read.
 
-Regards,
+Reject empty files and require each new-format command length to fit the
+16-byte payload of its record before copying it.
 
-	Hans
+Fixes: 47810b4341ac ("[media] si2168: Bounds check firmware")
+Cc: stable@vger.kernel.org
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+Changes since v1:
+- Reject empty firmware blobs before reading the first record byte.
+- Name the old and new record sizes while retaining the current-record
+  payload bound.
 
-> +
->  /* Validate a new control */
->  
->  #define zero_padding(s) \
-> @@ -1365,6 +1391,8 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  			return -EINVAL;
->  		break;
->  
-> +	case V4L2_CID_MPEG_VIDEO_ROI_MB_DELTA_QP:
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -1378,6 +1406,7 @@ static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
->  	size_t len;
->  	u64 offset;
->  	s64 val;
-> +	s32 tmp;
->  
->  	switch ((u32)ctrl->type) {
->  	case V4L2_CTRL_TYPE_INTEGER:
-> @@ -1403,7 +1432,11 @@ static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
->  		return ROUND_TO_RANGE(ptr.p_u16[idx], u16, ctrl);
->  	case V4L2_CTRL_TYPE_U32:
->  		return ROUND_TO_RANGE(ptr.p_u32[idx], u32, ctrl);
-> -
-> +	case V4L2_CTRL_TYPE_S8:
-> +		tmp = ptr.p_s8[idx];
-> +		ROUND_TO_RANGE_SIGNED(tmp, s32, ctrl);
-> +		ptr.p_s8[idx] = (s8)tmp;
-> +		return 0;
->  	case V4L2_CTRL_TYPE_BOOLEAN:
->  		ptr.p_s32[idx] = !!ptr.p_s32[idx];
->  		return 0;
-> @@ -1556,6 +1589,7 @@ void cur_to_new(struct v4l2_ctrl *ctrl)
->  		return;
->  	if (ctrl->is_dyn_array)
->  		ctrl->new_elems = ctrl->elems;
-> +
->  	ptr_to_ptr(ctrl, ctrl->p_cur, ctrl->p_new, ctrl->new_elems);
->  }
->  
-> @@ -1998,6 +2032,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	case V4L2_CTRL_TYPE_U32:
->  		elem_size = sizeof(u32);
->  		break;
-> +	case V4L2_CTRL_TYPE_S8:
-> +		elem_size = sizeof(s8);
-> +		break;
->  	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
->  		elem_size = sizeof(struct v4l2_ctrl_mpeg2_sequence);
->  		break;
-> @@ -2215,7 +2252,6 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  
->  	if (flags & V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX) {
->  		void *ptr = ctrl->p_def.p;
-> -
->  		if (p_min.p_const) {
->  			ptr += elem_size;
->  			ctrl->p_min.p = ptr;
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index e062f2088490470c42d6c579ff7675be454a29b0..8f895060799ea13443143edd398dfb97f4ba0085 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -974,6 +974,8 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_AVERAGE_QP:			return "Average QP Value";
->  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
->  	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_ROI_MB_DELTA_QP:		return "Encoder ROI MB Delta QP";
-> +	case V4L2_CID_MPEG_VIDEO_ROI_MB_SIZE:			return "Encoder ROI MB Size";
->  
->  	/* VPX controls */
->  	case V4L2_CID_MPEG_VIDEO_VPX_NUM_PARTITIONS:		return "VPX Number of Partitions";
-> @@ -1622,6 +1624,14 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY:
->  		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_ROI_MB_DELTA_QP:
-> +		*type = V4L2_CTRL_TYPE_S8;
-> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_ROI_MB_SIZE:
-> +		*type = V4L2_CTRL_TYPE_U8;
-> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +		break;
->  	default:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
->  		break;
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index a1806ddbc797efa52e83cd3f685ef70d5b5483d2..9a68a3555e349f1e55aa01af5c10f08201d62bae 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -27,6 +27,7 @@ struct video_device;
->  
->  /**
->   * union v4l2_ctrl_ptr - A pointer to a control value.
-> + * @p_s8:			Pointer to a 8-bit signed value.
->   * @p_s32:			Pointer to a 32-bit signed value.
->   * @p_s64:			Pointer to a 64-bit signed value.
->   * @p_u8:			Pointer to a 8-bit unsigned value.
-> @@ -61,10 +62,10 @@ struct video_device;
->   * @p_const:			Pointer to a constant compound value.
->   */
->  union v4l2_ctrl_ptr {
-> +	s8 *p_s8;
->  	s32 *p_s32;
->  	s64 *p_s64;
->  	u8 *p_u8;
-> -	s8 *p_s8;
->  	u16 *p_u16;
->  	u32 *p_u32;
->  	char *p_char;
-> 
+Link: https://lore.kernel.org/r/20260705084706.62129-1-pengpeng@iscas.ac.cn
+
+ drivers/media/dvb-frontends/si2168.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+index 8bc3b6eb1dd3..182c2b671508 100644
+--- a/drivers/media/dvb-frontends/si2168.c
++++ b/drivers/media/dvb-frontends/si2168.c
+@@ -11,6 +11,9 @@
+ 
+ static const struct dvb_frontend_ops si2168_ops;
+ 
++#define SI2168_NEW_FIRMWARE_RECORD_SIZE 17
++#define SI2168_OLD_FIRMWARE_RECORD_SIZE 8
++
+ static void cmd_init(struct si2168_cmd *cmd, const u8 *buf, int wlen, int rlen)
+ {
+ 	memcpy(cmd->args, buf, wlen);
+@@ -459,11 +462,15 @@ static int si2168_init(struct dvb_frontend *fe)
+ 	dev_info(&client->dev, "downloading firmware from file '%s'\n",
+ 			dev->firmware_name);
+ 
+-	if ((fw->size % 17 == 0) && (fw->data[0] > 5)) {
++	if (fw->size &&
++	    fw->size % SI2168_NEW_FIRMWARE_RECORD_SIZE == 0 &&
++	    fw->data[0] > 5) {
+ 		/* firmware is in the new format */
+-		for (remaining = fw->size; remaining > 0; remaining -= 17) {
++		for (remaining = fw->size; remaining > 0;
++		     remaining -= SI2168_NEW_FIRMWARE_RECORD_SIZE) {
+ 			len = fw->data[fw->size - remaining];
+-			if (len > SI2168_ARGLEN) {
++			if (len > SI2168_ARGLEN ||
++			    len >= SI2168_NEW_FIRMWARE_RECORD_SIZE) {
+ 				ret = -EINVAL;
+ 				break;
+ 			}
+@@ -473,10 +480,13 @@ static int si2168_init(struct dvb_frontend *fe)
+ 			if (ret)
+ 				break;
+ 		}
+-	} else if (fw->size % 8 == 0) {
++	} else if (fw->size &&
++		   fw->size % SI2168_OLD_FIRMWARE_RECORD_SIZE == 0) {
+ 		/* firmware is in the old format */
+-		for (remaining = fw->size; remaining > 0; remaining -= 8) {
+-			cmd_init(&cmd, &fw->data[fw->size - remaining], 8, 1);
++		for (remaining = fw->size; remaining > 0;
++		     remaining -= SI2168_OLD_FIRMWARE_RECORD_SIZE) {
++			cmd_init(&cmd, &fw->data[fw->size - remaining],
++				 SI2168_OLD_FIRMWARE_RECORD_SIZE, 1);
+ 			ret = si2168_cmd_execute(client, &cmd);
+ 			if (ret)
+ 				break;
+-- 
+2.43.0
 
 
