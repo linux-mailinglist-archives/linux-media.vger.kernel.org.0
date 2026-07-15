@@ -1,213 +1,256 @@
-Return-Path: <linux-media+bounces-67603-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-67604-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kcpwFUP5VmpgDwEAu9opvQ
-	(envelope-from <linux-media+bounces-67603-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 05:06:43 +0200
+	id OzZbKp37VmrZDwEAu9opvQ
+	(envelope-from <linux-media+bounces-67604-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 05:16:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAC275A354
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 05:06:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4E775A3E1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 05:16:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linuxfoundation.org header.s=google header.b=YhvNqO8J;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67603-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-67603-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linuxfoundation.org;
+	dkim=none;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-67604-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-67604-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=appspotmail.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2160A300FEF1
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 03:06:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BA44C30338B8
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jul 2026 03:16:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E21B352021;
-	Wed, 15 Jul 2026 03:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D432E363095;
+	Wed, 15 Jul 2026 03:16:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D40D1A3029
-	for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 03:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A4625B0BF
+	for <linux-media@vger.kernel.org>; Wed, 15 Jul 2026 03:16:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784084796; cv=none; b=frpWPK5tntq3XiqZBg4hc77hu2XurT838stCaCmQFxah00SpeORTgD9D5ufCrOH9Em/JjIfck/sYoiaKwcFexcxbYK8qlU64gVZYJViiaIVB9kI8NAHOMidu9+egP5rwuBR6OQvgVbpDq1veH11AkhUh6bFxx4WSvUdvWzjwE5I=
+	t=1784085397; cv=none; b=gtD8KdmzrcRcsWtZsyTnHCNquebGRvhukAz5jSBNDqQjJcg2M3Pun9t+RDgoCTHm4N+OX8VdifTH2Ygk8pcomoDyIo17kE8GLGTtHLbTXAgIxX2elkVOsgIFQdpfG0Trc9XpVoAbEarGo7nft6ctX47dXkfO67PFCbW4im2aoWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784084796; c=relaxed/simple;
-	bh=MHpk1OfhALXQJApxVYkVQIlOkRwb625SY/m0BiEbrWQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HuNp+NmXnB6LFKWogK9AiQ+cqq+FjntwJ7EqCHh3qv5H3OqoIrbriJdRaQb/Ytxovt6TPh0j23VndkGhecj9J0j0IZ6QzUoCT37Va5lMu7cmVNXUZmZmpXJWTBWTxsZBJcRvTW17Y+zSfGXSYrtiG43jxG0hhiqvpE0kFdoCPg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YhvNqO8J; arc=none smtp.client-ip=209.85.208.52
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6986287534eso8995323a12.3
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 20:06:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1784084792; x=1784689592; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5Oah0XDycOtY1xhMJPJ3ymJEXgGFITe2QDZ98tXb9LA=;
-        b=YhvNqO8JaYgkRz+dg94catE56rzZXAWslbgn4Tyn8b3NgpkGEVOAGoT4PttuMDLVNo
-         Peve9CzOjQecc+0l6j1SCVGi2f0o/wbJt/GGuCcEoFFpcjFP65JvE5KHwW7ftnFXKXM8
-         dH3SGcNqlNVJ4I82h7Jt/4EI7f+lJrC40CZwY=
+	s=arc-20240116; t=1784085397; c=relaxed/simple;
+	bh=dGcyDd6iRFZ2PFIHIA0eZ8bDG/AZ44iqdkKOjjHQNkQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ECSM9QJMN4Bibzs6kl7eYZVrVjrKD4v4jINA5ys7jIG14po41BeVyrjkNJT6n5daNOPV2J/xzJutppywUadl+1+trnze38mmvv2kXRuat1h6DKyUz8ZtYpiNvU2/zJ0qM8P+vLlBMaIWnRNwt7HGWOuiS1RAlY6YRpyuvt19ovM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-495b4a78694so8246627b6e.0
+        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 20:16:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784084792; x=1784689592;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1784085395; x=1784690195;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5Oah0XDycOtY1xhMJPJ3ymJEXgGFITe2QDZ98tXb9LA=;
-        b=ME3qHKiZ50Sshi8x7QaZJeLt/hyN/rbv2Pw6nKaXxgH+MQ3st14xf/vj/lHY9hwVmb
-         u7rNsj8Qj2GfvaCDGwJRLIcAVKixNw/eT82+Lh0ThnGPjDVD4LajS/98t6Y3xtlRphq4
-         HY0Na5pB/yX7l9SVkLFWRyjIKVOkXC3rlYtwCqGGw76s7DA3HiBRHUabbdCkhNUlTxKV
-         5IrC2P1+iWmh282KL1FJw7RH4BlJuLSvy08H0aYjLFQzm8fN9OwarOEdnC1dFTFK7CSZ
-         qA3FT5qvllPzKnxO4/lvI2HhgyXzvWwUPpy5e15hZqJ7xRdF/BpKtb2S5Uo1Xqu8Qdml
-         TK4A==
-X-Forwarded-Encrypted: i=1; AHgh+RrHRyJRZXcHzsSEbQvIpE0WN/MKHADDvS3yo5hd4WuhfAwMztwzA5CEnFa5FlC35sdvwHEYfy07APV00g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1Xmn62sCBkb0SEjbh4LGdE0Tdm03F2a9PFTpwMhHRFJKSfR3O
-	CcZ0B0Xp5VJEjv9zSGVULLu2hXNoFME8S11JXqxhA/LyGh2Q6dyqvJvYtfhlYBUR+oaTP8POT8Y
-	PhHrZ+rE=
-X-Gm-Gg: AfdE7ckufzlJKdMypJrAOmIID+GZ/8LQzE6lt8ww31KP7hvt7++j7uqd4G5EXzzk6cr
-	zcOWJ1X6NfIclgrSS0vBc7YqMCy8sMs3x6628DziSLRIGWUAOpZWHTASgm+Pf/tfIakL/6HGIwN
-	bOTGtZg/akppNMF1PEaDHa3w3KesQUZCwNGJUob7oYAPgip9ljgUzH+dIBApqepGK8GcAlfDzaq
-	BJLakaqX8oEMMsMD8qsyrXosdS2vgfo7JTMGu4duZPr8QajXiqS8Btvrfl23LuW+txchDATZU0L
-	zK43G5pUXb5bZsji2PkCD4gDxBH89uaEw0FORWwbEQAN8ivF8LKAG1o25PL2iKZJsZHGyCboCR9
-	DaEdh+MEeedexrz07H/1Wi+Wv2PaAHllhO15qlU1vzZ3o8ypt/MxeLZoMI21ulELSy+YPny7a8K
-	WhKaHikJnyixtcb/1TcumLv9G5dZTcvmq88TtGOBpHD37rbQyg2Fd89ew6Bp0q
-X-Received: by 2002:a05:6402:e05:b0:69c:7798:407c with SMTP id 4fb4d7f45d1cf-69cd29f2000mr3582221a12.6.1784084792131;
-        Tue, 14 Jul 2026 20:06:32 -0700 (PDT)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd2952836sm2295196a12.27.2026.07.14.20.06.31
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2026 20:06:31 -0700 (PDT)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-69c5fda04a8so7524209a12.1
-        for <linux-media@vger.kernel.org>; Tue, 14 Jul 2026 20:06:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rrj3/ONvb0hHdjlUoMpwHwv574uUfBs17uWAZEMGMbICqYva4TQcrgEnGw/6Rs5PQqtTgW7zRhsP0OE1w==@vger.kernel.org
-X-Received: by 2002:a17:907:3f22:b0:c15:9350:dfa6 with SMTP id
- a640c23a62f3a-c16619ad2b0mr326688366b.60.1784084790705; Tue, 14 Jul 2026
- 20:06:30 -0700 (PDT)
+        bh=/Vl2OeRFhCCelhBd3N0eEuVBOIOoMZFFFoFgeC0FBmc=;
+        b=bADuHHH1F4QhdNzkLg36jVnxiWFG4Ic8KD1Akq/BauSqWYONL1tDCsJQiARbMG1mh8
+         ZyMI6pMM4XjX4PEmIR4tRpUflq0R0COp74PsWL27zOHW0i7siFV4DaA7UGZAqQW4xO09
+         QvmN3twxEe74tjTVsi4TfH575rI0vVBaTKRedNxK/uhC1+3lPdOq6hhgJr2yvs2e1JcV
+         YrGzMhyvDwzcGaHRHkO8tZXlaOogj8Rxmzmovy0ojCjFnjAY1CeBq+X2XQW2jHd7m/xV
+         uOqu03oUe6s13Ztw6w+CjbFZJTGtq0HQz+6Rmo4q9uGNI4abqNxh/qExkzxdQAMZlaxZ
+         1BFQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrnpmwz1oXQEQFpMsUQVKyomwzyu74Hufu8M+wjbO7H+NrPEVdU83+0TT64PyWDye6ltuW6ve+Y6r+DSg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnNxBberkvGYl86Q3gGItfLbIz4BNHZc9uaWRqVHfl8zkb91y7
+	LusVA2f+v2ILYvdVNKHwjnKGZyJIUijqdiPPKbaYb8gpUOLR6D2p16h18JFGZgi+Y3WTA6ve7qp
+	UzFj+uRzDEpZB0eGwpERbKQQlhyCOInazaOZiLWLcN+//W+U0xoII66wWPCk=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260715005909.GF1656185@killaraus.ideasonboard.com> <4928C919-7999-4E76-ADCB-F8643FED105B@linux.dev>
-In-Reply-To: <4928C919-7999-4E76-ADCB-F8643FED105B@linux.dev>
-From: Linus Torvalds <torvalds@linuxfoundation.org>
-Date: Tue, 14 Jul 2026 20:06:14 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi4zC+Ze8e+p3tMv8TtG_80KzsZ1syL9anBtmEh5Z40vg@mail.gmail.com>
-X-Gm-Features: AUfX_mx8ZSjXcuPJvd3iUkA0-q7mYf-tl1EE8rFa7q8zX5xY72kSpsyl1CruPtg
-Message-ID: <CAHk-=wi4zC+Ze8e+p3tMv8TtG_80KzsZ1syL9anBtmEh5Z40vg@mail.gmail.com>
-Subject: Re: Linking Patchwork with Sashiko?
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Derek Barbosa <debarbos@redhat.com>, 
-	Matthieu Baerts <matttbe@kernel.org>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Steven Rostedt <rostedt@goodmis.org>, users@kernel.org, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Stephen Finucane <stephenfin@redhat.com>
+X-Received: by 2002:a05:6808:1b25:b0:4a4:d2b:8e7a with SMTP id
+ 5614622812f47-4a49607ea2amr890192b6e.35.1784085394843; Tue, 14 Jul 2026
+ 20:16:34 -0700 (PDT)
+Date: Tue, 14 Jul 2026 20:16:34 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a56fb92.c90005c7.37d349.003c.GAE@google.com>
+Subject: [syzbot] [media?] INFO: trying to register non-static key in __vb2_queue_cancel
+From: syzbot <syzbot+2302c5dc59995fbb8089@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	m.szyprowski@samsung.com, mchehab@kernel.org, syzkaller-bugs@googlegroups.com, 
+	tfiga@chromium.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=2290ccbf984c524f];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-67603-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-67604-lists,linux-media=lfdr.de,2302c5dc59995fbb8089];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:roman.gushchin@linux.dev,m:laurent.pinchart@ideasonboard.com,m:mchehab+huawei@kernel.org,m:debarbos@redhat.com,m:matttbe@kernel.org,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,m:stephenfin@redhat.com,m:mchehab@kernel.org,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,storage.googleapis.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,goo.gl:url,syzkaller.appspot.com:url,appspotmail.com:email];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:m.szyprowski@samsung.com,m:mchehab@kernel.org,m:syzkaller-bugs@googlegroups.com,m:tfiga@chromium.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[torvalds@linuxfoundation.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[torvalds@linuxfoundation.org,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,huawei];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:from_mime,linuxfoundation.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linux.dev:email,mail.gmail.com:mid]
+	REDIRECTOR_URL(0.00)[goo.gl];
+	TAGGED_RCPT(0.00)[linux-media];
+	SUBJECT_HAS_QUESTION(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9FAC275A354
+X-Rspamd-Queue-Id: 1C4E775A3E1
 
-On Tue, 14 Jul 2026 at 19:01, Roman Gushchin <roman.gushchin@linux.dev> wro=
-te:
->
-> I think it makes the point of sashiko - helping maintainers - unachievabl=
-e. If the point to not use
-> LLMs in general, let=E2=80=99s discuss this, not how to make each use cas=
-e more complex.
->
-> It seems like [1]  expresses a very anti-LLM position in general
+Hello,
 
-Yes.
+syzbot found the following issue on:
 
-And no, that's not the position of the Linux kernel.
+HEAD commit:    cc2b5f627e8c Add linux-next specific files for 20260714
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=17fb04b9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2290ccbf984c524f
+dashboard link: https://syzkaller.appspot.com/bug?extid=2302c5dc59995fbb8089
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12d598b9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14500789580000
 
-I realize that some people really dislike AI, but this is an area
-where I'm willing to absolutely put my foot down as the top-level
-maintainer.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/6836f8efb1da/disk-cc2b5f62.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0109d3477cc7/vmlinux-cc2b5f62.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c2e49e350bbf/bzImage-cc2b5f62.xz
 
-Linux is not one of those anti-AI projects, and if somebody has issues
-with that, they can do the open-source thing and fork it.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+2302c5dc59995fbb8089@syzkaller.appspotmail.com
 
-Or just walk away.
+em28xx 1-1:0.132: AC97 chip type couldn't be determined
+em28xx 1-1:0.132: No AC97 audio processor
+usb 1-1: Decoder not found
+em28xx 1-1:0.132: failed to create media graph
+em28xx 1-1:0.132: V4L2 device video103 deregistered
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 1 UID: 0 PID: 5649 Comm: kworker/1:3 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/25/2026
+Workqueue: events request_module_async
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ assign_lock_key+0x133/0x150 kernel/locking/lockdep.c:1000
+ register_lock_class+0xcc/0x2e0 kernel/locking/lockdep.c:1315
+ __lock_acquire+0xaf/0x2e40 kernel/locking/lockdep.c:5128
+ lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5906
+ rt_spin_lock+0x83/0x400 kernel/locking/spinlock_rt.c:56
+ spin_lock include/linux/spinlock_rt.h:45 [inline]
+ __wake_up_common_lock+0x2f/0x1f0 kernel/sched/wait.c:124
+ __vb2_queue_cancel+0x2de/0xdc0 drivers/media/common/videobuf2/videobuf2-core.c:2244
+ vb2_core_queue_release+0x2f/0x150 drivers/media/common/videobuf2/videobuf2-core.c:2677
+ vb2_queue_release drivers/media/common/videobuf2/videobuf2-v4l2.c:956 [inline]
+ vb2_video_unregister_device+0x15b/0x200 drivers/media/common/videobuf2/videobuf2-v4l2.c:1292
+ em28xx_v4l2_init+0x1c60/0x3140 drivers/media/usb/em28xx/em28xx-video.c:3097
+ em28xx_init_extension+0x120/0x1d0 drivers/media/usb/em28xx/em28xx-core.c:1248
+ process_one_work+0xaaf/0x1480 kernel/workqueue.c:3379
+ process_scheduled_works kernel/workqueue.c:3462 [inline]
+ worker_thread+0xb05/0x10d0 kernel/workqueue.c:3543
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 1 UID: 0 PID: 5649 Comm: kworker/1:3 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/25/2026
+Workqueue: events request_module_async
+RIP: 0010:__wake_up_common kernel/sched/wait.c:104 [inline]
+RIP: 0010:__wake_up_common_lock+0xd6/0x1f0 kernel/sched/wait.c:125
+Code: 0f 84 d4 00 00 00 44 8b 7c 24 04 eb 13 48 ba 00 00 00 00 00 fc ff df 4c 39 ed 0f 84 ba 00 00 00 49 89 ee 48 89 e8 48 c1 e8 03 <80> 3c 10 00 74 12 4c 89 f7 e8 1c ce 93 00 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc9000595f908 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: dffffc0000000000 RSI: ffffffff8bcbd060 RDI: 00000000ffffffff
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: fffffbfff1fa1890 R12: ffff88803e181b14
+R13: ffff88803e181c28 R14: 0000000000000000 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff888125af2000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005625301fb660 CR3: 000000003774e000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __vb2_queue_cancel+0x2de/0xdc0 drivers/media/common/videobuf2/videobuf2-core.c:2244
+ vb2_core_queue_release+0x2f/0x150 drivers/media/common/videobuf2/videobuf2-core.c:2677
+ vb2_queue_release drivers/media/common/videobuf2/videobuf2-v4l2.c:956 [inline]
+ vb2_video_unregister_device+0x15b/0x200 drivers/media/common/videobuf2/videobuf2-v4l2.c:1292
+ em28xx_v4l2_init+0x1c60/0x3140 drivers/media/usb/em28xx/em28xx-video.c:3097
+ em28xx_init_extension+0x120/0x1d0 drivers/media/usb/em28xx/em28xx-core.c:1248
+ process_one_work+0xaaf/0x1480 kernel/workqueue.c:3379
+ process_scheduled_works kernel/workqueue.c:3462 [inline]
+ worker_thread+0xb05/0x10d0 kernel/workqueue.c:3543
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__wake_up_common kernel/sched/wait.c:104 [inline]
+RIP: 0010:__wake_up_common_lock+0xd6/0x1f0 kernel/sched/wait.c:125
+Code: 0f 84 d4 00 00 00 44 8b 7c 24 04 eb 13 48 ba 00 00 00 00 00 fc ff df 4c 39 ed 0f 84 ba 00 00 00 49 89 ee 48 89 e8 48 c1 e8 03 <80> 3c 10 00 74 12 4c 89 f7 e8 1c ce 93 00 48 ba 00 00 00 00 00 fc
+RSP: 0018:ffffc9000595f908 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: dffffc0000000000 RSI: ffffffff8bcbd060 RDI: 00000000ffffffff
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: fffffbfff1fa1890 R12: ffff88803e181b14
+R13: ffff88803e181c28 R14: 0000000000000000 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff888125af2000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005625301fb660 CR3: 000000003774e000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	0f 84 d4 00 00 00    	je     0xda
+   6:	44 8b 7c 24 04       	mov    0x4(%rsp),%r15d
+   b:	eb 13                	jmp    0x20
+   d:	48 ba 00 00 00 00 00 	movabs $0xdffffc0000000000,%rdx
+  14:	fc ff df
+  17:	4c 39 ed             	cmp    %r13,%rbp
+  1a:	0f 84 ba 00 00 00    	je     0xda
+  20:	49 89 ee             	mov    %rbp,%r14
+  23:	48 89 e8             	mov    %rbp,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	80 3c 10 00          	cmpb   $0x0,(%rax,%rdx,1) <-- trapping instruction
+  2e:	74 12                	je     0x42
+  30:	4c 89 f7             	mov    %r14,%rdi
+  33:	e8 1c ce 93 00       	call   0x93ce54
+  38:	48                   	rex.W
+  39:	ba 00 00 00 00       	mov    $0x0,%edx
+  3e:	00 fc                	add    %bh,%ah
 
-AI is a tool, just like other tools we use.  And it's clearly a useful one.
 
-It may not have been that "clearly" even just a year ago, but it's no
-longer in question today.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-There are other questions around AI (like what the economy of it will
-actually look like in the end), but "is it useful" is no longer one of
-those questions. Anybody who doubts that clearly hasn't actually used
-it.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Yes, it can also be a somewhat painful tool, both for maintainer
-workloads and just from a "it keeps finding embarrassing bugs"
-standpoint.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-But the solution is not to put your head in the sand and sing "La La
-La, I can't hear you" at the top of your voice like some people seem
-to do.
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-The solution is to make sure those LLM tools _help_ maintainers
-instead of just causing them pain. There's no question on that side.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-We're not forcing anybody to use it, but I will very loudly ignore
-people who try to argue against other people from using it.
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-And no, AI isn't perfect. But Christ, anybody who points to the
-problems at AI had better be looking in the mirror and pointing at
-themselves at the same time.
-
-Because it's not like natural intelligence is always all that great either.
-
-The kernel project has been and will continue to be about the technology.
-
-Sure, the social angle of working on open source is important and
-often a very motivating part of the project, but in the end that's a
-side benefit, not the _point_ of the project.
-
-This is *NOT* some kind of "social warrior" project, never has been,
-and never will be.
-
-In the kernel community we do open source because it results in better
-technology, not because of religious reasons.
-
-And so we make decisions primarily based on technical merit. Not fear
-of new tools.
-
-              Linus
+If you want to undo deduplication, reply with:
+#syz undup
 
